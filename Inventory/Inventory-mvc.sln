@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27004.2008
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Inventory", "Inventory\Inventory.csproj", "{D82C4293-61D1-4274-8B14-A53444CFCA94}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Inventory-mvc", "Inventory-mvc\Inventory-mvc.csproj", "{3A9B3F7C-39B3-4100-AEE0-43291E5F0092}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,10 +11,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{D82C4293-61D1-4274-8B14-A53444CFCA94}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D82C4293-61D1-4274-8B14-A53444CFCA94}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D82C4293-61D1-4274-8B14-A53444CFCA94}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D82C4293-61D1-4274-8B14-A53444CFCA94}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3A9B3F7C-39B3-4100-AEE0-43291E5F0092}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3A9B3F7C-39B3-4100-AEE0-43291E5F0092}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3A9B3F7C-39B3-4100-AEE0-43291E5F0092}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3A9B3F7C-39B3-4100-AEE0-43291E5F0092}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
