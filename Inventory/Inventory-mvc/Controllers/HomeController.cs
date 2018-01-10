@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Inventory_mvc.Function;
 
 namespace Inventory_mvc.Controllers
 {
@@ -15,15 +16,23 @@ namespace Inventory_mvc.Controllers
 
         public ActionResult About()
         {
-            ViewBag.Message = "Your application description page.";
+            ViewBag.Message = "page2";
 
             return View();
         }
 
         public ActionResult Contact()
         {
-            ViewBag.Message = "Your contact page.";
+            ViewBag.Message = "page3";
 
+            return View();
+        }
+
+        public ActionResult Email()
+        {
+            ViewBag.Message = "email have be sent successfully.";
+            sendEmail email = new sendEmail("yellowtown940924@163.com", "nice to meet you", "hello", @"C:\Users\yello\OneDrive\Desktop\like.txt");
+            email.send();
             return View();
         }
     }
