@@ -1,0 +1,200 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="userPermissionTestModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="permissionInfo">
+          <Key>
+            <PropertyRef Name="permissionID" />
+          </Key>
+          <Property Name="permissionID" Type="int" Nullable="false" />
+          <Property Name="controller" Type="nvarchar" MaxLength="50" />
+          <Property Name="action" Type="nvarchar" MaxLength="50" />
+          <Property Name="description" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="roleInfo">
+          <Key>
+            <PropertyRef Name="roleID" />
+          </Key>
+          <Property Name="roleID" Type="int" Nullable="false" />
+          <Property Name="roleName" Type="nvarchar" MaxLength="50" />
+          <Property Name="description" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="rolePermission">
+          <Key>
+            <PropertyRef Name="roleID" />
+            <PropertyRef Name="permissionID" />
+          </Key>
+          <Property Name="roleID" Type="int" Nullable="false" />
+          <Property Name="permissionID" Type="int" Nullable="false" />
+          <Property Name="description" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <Association Name="FK_rolePermission_permissionInfo">
+          <End Role="permissionInfo" Type="Self.permissionInfo" Multiplicity="1" />
+          <End Role="rolePermission" Type="Self.rolePermission" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="permissionInfo">
+              <PropertyRef Name="permissionID" />
+            </Principal>
+            <Dependent Role="rolePermission">
+              <PropertyRef Name="permissionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_rolePermission_roleInfo">
+          <End Role="roleInfo" Type="Self.roleInfo" Multiplicity="1" />
+          <End Role="rolePermission" Type="Self.rolePermission" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="roleInfo">
+              <PropertyRef Name="roleID" />
+            </Principal>
+            <Dependent Role="rolePermission">
+              <PropertyRef Name="roleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="userPermissionTestModelStoreContainer">
+          <EntitySet Name="permissionInfo" EntityType="Self.permissionInfo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="roleInfo" EntityType="Self.roleInfo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="rolePermission" EntityType="Self.rolePermission" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_rolePermission_permissionInfo" Association="Self.FK_rolePermission_permissionInfo">
+            <End Role="permissionInfo" EntitySet="permissionInfo" />
+            <End Role="rolePermission" EntitySet="rolePermission" />
+          </AssociationSet>
+          <AssociationSet Name="FK_rolePermission_roleInfo" Association="Self.FK_rolePermission_roleInfo">
+            <End Role="roleInfo" EntitySet="roleInfo" />
+            <End Role="rolePermission" EntitySet="rolePermission" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="userPermissionTestModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="permissionInfo">
+          <Key>
+            <PropertyRef Name="permissionID" />
+          </Key>
+          <Property Name="permissionID" Type="Int32" Nullable="false" />
+          <Property Name="controller" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="action" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="description" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="rolePermission" Relationship="Self.FK_rolePermission_permissionInfo" FromRole="permissionInfo" ToRole="rolePermission" />
+        </EntityType>
+        <EntityType Name="roleInfo">
+          <Key>
+            <PropertyRef Name="roleID" />
+          </Key>
+          <Property Name="roleID" Type="Int32" Nullable="false" />
+          <Property Name="roleName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="description" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="rolePermission" Relationship="Self.FK_rolePermission_roleInfo" FromRole="roleInfo" ToRole="rolePermission" />
+        </EntityType>
+        <EntityType Name="rolePermission">
+          <Key>
+            <PropertyRef Name="roleID" />
+            <PropertyRef Name="permissionID" />
+          </Key>
+          <Property Name="roleID" Type="Int32" Nullable="false" />
+          <Property Name="permissionID" Type="Int32" Nullable="false" />
+          <Property Name="description" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="permissionInfo" Relationship="Self.FK_rolePermission_permissionInfo" FromRole="rolePermission" ToRole="permissionInfo" />
+          <NavigationProperty Name="roleInfo" Relationship="Self.FK_rolePermission_roleInfo" FromRole="rolePermission" ToRole="roleInfo" />
+        </EntityType>
+        <Association Name="FK_rolePermission_permissionInfo">
+          <End Role="permissionInfo" Type="Self.permissionInfo" Multiplicity="1" />
+          <End Role="rolePermission" Type="Self.rolePermission" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="permissionInfo">
+              <PropertyRef Name="permissionID" />
+            </Principal>
+            <Dependent Role="rolePermission">
+              <PropertyRef Name="permissionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_rolePermission_roleInfo">
+          <End Role="roleInfo" Type="Self.roleInfo" Multiplicity="1" />
+          <End Role="rolePermission" Type="Self.rolePermission" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="roleInfo">
+              <PropertyRef Name="roleID" />
+            </Principal>
+            <Dependent Role="rolePermission">
+              <PropertyRef Name="roleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="userPermissionTestEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="permissionInfo" EntityType="Self.permissionInfo" />
+          <EntitySet Name="roleInfo" EntityType="Self.roleInfo" />
+          <EntitySet Name="rolePermission" EntityType="Self.rolePermission" />
+          <AssociationSet Name="FK_rolePermission_permissionInfo" Association="Self.FK_rolePermission_permissionInfo">
+            <End Role="permissionInfo" EntitySet="permissionInfo" />
+            <End Role="rolePermission" EntitySet="rolePermission" />
+          </AssociationSet>
+          <AssociationSet Name="FK_rolePermission_roleInfo" Association="Self.FK_rolePermission_roleInfo">
+            <End Role="roleInfo" EntitySet="roleInfo" />
+            <End Role="rolePermission" EntitySet="rolePermission" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="userPermissionTestModelStoreContainer" CdmEntityContainer="userPermissionTestEntities">
+          <EntitySetMapping Name="permissionInfo">
+            <EntityTypeMapping TypeName="userPermissionTestModel.permissionInfo">
+              <MappingFragment StoreEntitySet="permissionInfo">
+                <ScalarProperty Name="permissionID" ColumnName="permissionID" />
+                <ScalarProperty Name="controller" ColumnName="controller" />
+                <ScalarProperty Name="action" ColumnName="action" />
+                <ScalarProperty Name="description" ColumnName="description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="roleInfo">
+            <EntityTypeMapping TypeName="userPermissionTestModel.roleInfo">
+              <MappingFragment StoreEntitySet="roleInfo">
+                <ScalarProperty Name="roleID" ColumnName="roleID" />
+                <ScalarProperty Name="roleName" ColumnName="roleName" />
+                <ScalarProperty Name="description" ColumnName="description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="rolePermission">
+            <EntityTypeMapping TypeName="userPermissionTestModel.rolePermission">
+              <MappingFragment StoreEntitySet="rolePermission">
+                <ScalarProperty Name="roleID" ColumnName="roleID" />
+                <ScalarProperty Name="permissionID" ColumnName="permissionID" />
+                <ScalarProperty Name="description" ColumnName="description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
