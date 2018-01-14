@@ -39,7 +39,7 @@ namespace Inventory_mvc.Controllers
 
             return RedirectToAction("Success");
         }
-        private void createPermission(HomeController customController)
+        private void createPermission(Controller customController)
         {
             var roleService = new RoleService();
 
