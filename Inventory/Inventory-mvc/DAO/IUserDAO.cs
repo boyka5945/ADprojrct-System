@@ -9,9 +9,13 @@ namespace Inventory_mvc.DAO
     public interface IUserDAO
     {
         List<User> GetAllUser();
+
         User FindByUserID(string UserID);
+
         Boolean AddNewUser(User user);
+
         int UpdateUserInfo(User user);
+
         Boolean DeleteUser(string UserID);
     }
 }
