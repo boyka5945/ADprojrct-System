@@ -170,7 +170,7 @@
     <Compile Include="Controllers\InventoryCheckController.cs" />
     <Compile Include="Controllers\PurchaseController.cs" />
     <Compile Include="Controllers\RaiseRequisitionController.cs" />
-    <Compile Include="Controllers\ManageRequisitionController.cs" />
+    <Compile Include="Controllers\ManageRequisitionsController.cs" />
     <Compile Include="Controllers\ReportController.cs" />
     <Compile Include="Controllers\StationeryController.cs" />
     <Compile Include="Controllers\SupplierController.cs" />
@@ -288,6 +288,8 @@
     <Content Include="Views\Installer\Success.cshtml" />
     <Content Include="Views\Supplier\Index.cshtml" />
     <Content Include="Views\Supplier\Create.cshtml" />
+    <Content Include="Views\ManageRequisitions\EditRequisition.cshtml" />
+    <Content Include="Views\ManageRequisitions\ListRequisition.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

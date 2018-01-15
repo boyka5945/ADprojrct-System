@@ -8,7 +8,7 @@ using Inventory_mvc.Models;
 
 namespace Inventory_mvc.Controllers
 {
-    public class ManageRequisitionController : Controller
+    public class ManageRequisitionsController : Controller
     {
         // GET: RequisitionRecord
         public ActionResult Index()
