@@ -19,7 +19,7 @@ namespace Inventory_mvc.Models
         [StringLength(50)]
         public string itemCode { get; set; }
 
-        [StringLength(100)]
+        [StringLength(200)]
         public string remarks { get; set; }
 
         public int qty { get; set; }

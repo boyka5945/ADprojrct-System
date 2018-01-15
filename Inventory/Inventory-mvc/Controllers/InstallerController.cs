@@ -29,7 +29,7 @@ namespace Inventory_mvc.Controllers
             {
                 adminPermissions.Add(d);
             }
-            roleService.AddRole(new RoleInfo
+            roleService.AddRole(new RoleInfos
             {
                 RoleId = 1,
                 RoleName = "superAdmin",
