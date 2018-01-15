@@ -150,8 +150,17 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\AdjustmentVoucherRecordController.cs" />
+    <Compile Include="Controllers\CollectionPointController.cs" />
+    <Compile Include="Controllers\DepartmentController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\InstallerController.cs" />
+    <Compile Include="Controllers\PurchaseDetailsController.cs" />
+    <Compile Include="Controllers\RequisitionDetailsController.cs" />
+    <Compile Include="Controllers\RequisitionRecordController.cs" />
+    <Compile Include="Controllers\StationeryController.cs" />
+    <Compile Include="Controllers\SupplierController.cs" />
+    <Compile Include="Controllers\VoucherDetailsController.cs" />
     <Compile Include="DAO\AdjustmentVoucherDAO.cs" />
     <Compile Include="DAO\CollectionPointDAO.cs" />
     <Compile Include="DAO\DepartmentDAO.cs" />
@@ -304,6 +313,15 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\AdjustmentVoucherRecord\" />
+    <Folder Include="Views\CollectionPoint\" />
+    <Folder Include="Views\Department\" />
+    <Folder Include="Views\PurchaseDetails\" />
+    <Folder Include="Views\RequisitionDetails\" />
+    <Folder Include="Views\RequisitionRecord\" />
+    <Folder Include="Views\Stationery\" />
+    <Folder Include="Views\Supplier\" />
+    <Folder Include="Views\VoucherDetails\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
