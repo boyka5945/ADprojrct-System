@@ -8,10 +8,14 @@ namespace Inventory_mvc.DAO
 {
     public interface ISupplierDAO
     {
-        List<SupplierDAO> GetAllSupplier();
-        User FindBySupplierCode(string supplierCode);
-        Boolean AddNewSupplier(SupplierDAO supplier);
-        int UpdateSupplierInfo(SupplierDAO supplier);
-        Boolean DeleteSupplier(string supplierCode);
+        List<Supplier> GetAllSupplier();
+
+        Supplier FindBySupplierCode(string supplierCode);
+
+        bool AddNewSupplier(Supplier supplier);
+
+        int UpdateSupplierInfo(Supplier supplier);
+
+        bool DeleteSupplier(string supplierCode);
     }
 }
