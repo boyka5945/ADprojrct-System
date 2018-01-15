@@ -5,7 +5,8 @@ using System.Web;
 
 namespace Inventory_mvc.DAO
 {
-    public class UserDAO
+    public class UserDAO : IUserDAO
     {
+
     }
 }
