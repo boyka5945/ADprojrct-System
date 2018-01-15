@@ -9,13 +9,13 @@ namespace Inventory_mvc.Function
 {
     public class RoleService
     {
-        public RoleInfo GetById(int id)
+        public RoleInfos GetById(int id)
         { 
             List<rolePermission> rolePermissionList = new List<rolePermission>();
             List<permissionInfo> permissions = new List<permissionInfo>();
             string rolename = "";
             string description = "";
-            using (userPermissionTestEntities context = new userPermissionTestEntities())
+            using (StationeryModel context = new StationeryModel())
             {
                 rolePermissionList = context.rolePermission.Where(x => x.roleID == id).ToList();
                 if (context.roleInfo.Where(x => x.roleID == id).ToList().Count > 0)
@@ -30,7 +30,7 @@ namespace Inventory_mvc.Function
                 }
             
             }
-            return new RoleInfo
+            return new RoleInfos
             {
                 RoleId = id,
                 RoleName = rolename,
@@ -42,7 +42,7 @@ namespace Inventory_mvc.Function
         //saving the permission into DB
         public void CreatePermissions(int permissionID, string controller, string action)
         {
-            using (userPermissionTestEntities context = new userPermissionTestEntities())
+            using (StationeryModel context = new StationeryModel())
             {
                 permissionInfo p = new permissionInfo();
                 p.permissionID = permissionID;
@@ -57,16 +57,16 @@ namespace Inventory_mvc.Function
         //get permission from DB
         public List<permissionInfo> GetDefinedPermissions()
         {
-            using (userPermissionTestEntities context = new userPermissionTestEntities())
+            using (StationeryModel context = new StationeryModel())
             {
                 return context.permissionInfo.ToList();
             }   
         }
 
         //Add role in DB
-        public void AddRole(RoleInfo role)
+        public void AddRole(RoleInfos role)
         {
-            using (userPermissionTestEntities context = new userPermissionTestEntities())
+            using (StationeryModel context = new StationeryModel())
             {
                 roleInfo r = new roleInfo();
                 r.roleID = role.RoleId;

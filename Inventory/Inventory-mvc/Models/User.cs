@@ -36,7 +36,7 @@ namespace Inventory_mvc.Models
         public int contactNo { get; set; }
 
         [Required]
-        [StringLength(50)]
+        [StringLength(200)]
         public string address { get; set; }
 
         [Required]

@@ -23,7 +23,7 @@ namespace Inventory_mvc.Models
 
         public int balanceQty { get; set; }
 
-        [StringLength(100)]
+        [StringLength(200)]
         public string remarks { get; set; }
 
         public virtual Stationery Stationery { get; set; }

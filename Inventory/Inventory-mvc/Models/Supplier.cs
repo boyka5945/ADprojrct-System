@@ -21,7 +21,9 @@ namespace Inventory_mvc.Models
         [StringLength(50)]
         public string supplierCode { get; set; }
 
-        public int GSTNo { get; set; }
+        [Required]
+        [StringLength(50)]
+        public string GSTNo { get; set; }
 
         [Required]
         [StringLength(50)]
@@ -36,7 +38,7 @@ namespace Inventory_mvc.Models
         public int? faxNo { get; set; }
 
         [Required]
-        [StringLength(50)]
+        [StringLength(200)]
         public string address { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

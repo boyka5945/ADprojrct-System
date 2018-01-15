@@ -33,7 +33,7 @@ namespace Inventory_mvc.Models
         [StringLength(50)]
         public string status { get; set; }
 
-        [StringLength(50)]
+        [StringLength(200)]
         public string remarks { get; set; }
 
         [Column(TypeName = "date")]

@@ -21,7 +21,7 @@ namespace Inventory_mvc.Models
 
         public int adjustedQty { get; set; }
 
-        [StringLength(100)]
+        [StringLength(200)]
         public string remarks { get; set; }
 
         public virtual Adjustment_Voucher_Record Adjustment_Voucher_Record { get; set; }

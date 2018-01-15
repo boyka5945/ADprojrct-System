@@ -17,10 +17,13 @@ namespace Inventory_mvc.Models
         public virtual DbSet<Collection_Point> Collection_Point { get; set; }
         public virtual DbSet<Department> Department { get; set; }
         public virtual DbSet<Inventory_Status_Record> Inventory_Status_Record { get; set; }
+        public virtual DbSet<permissionInfo> permissionInfo { get; set; }
         public virtual DbSet<Purchase_Details> Purchase_Details { get; set; }
         public virtual DbSet<Purchase_Order_Record> Purchase_Order_Record { get; set; }
         public virtual DbSet<Requisition_Details> Requisition_Details { get; set; }
         public virtual DbSet<Requisition_Record> Requisition_Record { get; set; }
+        public virtual DbSet<roleInfo> roleInfo { get; set; }
+        public virtual DbSet<rolePermission> rolePermission { get; set; }
         public virtual DbSet<Stationery> Stationery { get; set; }
         public virtual DbSet<Supplier> Supplier { get; set; }
         public virtual DbSet<Transaction_Details> Transaction_Details { get; set; }
@@ -57,6 +60,11 @@ namespace Inventory_mvc.Models
                 .HasForeignKey(e => e.departmentCode)
                 .WillCascadeOnDelete(false);
 
+            modelBuilder.Entity<permissionInfo>()
+                .HasMany(e => e.rolePermission)
+                .WithRequired(e => e.permissionInfo)
+                .WillCascadeOnDelete(false);
+
             modelBuilder.Entity<Purchase_Order_Record>()
                 .HasMany(e => e.Purchase_Details)
                 .WithRequired(e => e.Purchase_Order_Record)
@@ -65,6 +73,11 @@ namespace Inventory_mvc.Models
             modelBuilder.Entity<Requisition_Record>()
                 .HasMany(e => e.Requisition_Details)
                 .WithRequired(e => e.Requisition_Record)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<roleInfo>()
+                .HasMany(e => e.rolePermission)
+                .WithRequired(e => e.roleInfo)
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Stationery>()
