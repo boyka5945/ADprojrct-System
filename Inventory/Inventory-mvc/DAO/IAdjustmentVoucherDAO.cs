@@ -7,7 +7,7 @@ using Inventory_mvc.Models;
 
 namespace Inventory_mvc.DAO
 {
-    interface IAdjustmentVoucher
+    interface IAdjustmentVoucherDAO
     {
         List<Adjustment_Voucher_Record> GetAllAdjustmentVoucher();
 

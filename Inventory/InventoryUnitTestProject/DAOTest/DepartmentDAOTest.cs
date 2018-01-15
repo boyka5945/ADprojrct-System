@@ -18,7 +18,6 @@ namespace InventoryUnitTestProject
             // Act
 
             // Assert
-
         }
 
         /*
