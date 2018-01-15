@@ -5,8 +5,7 @@ using System.Web;
 
 namespace Inventory_mvc.Service
 {
-    public interface IUserService
+    public class RequisitionRecordService : IRequisitionRecordService
     {
-
     }
 }
