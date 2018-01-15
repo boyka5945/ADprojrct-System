@@ -6,9 +6,9 @@ using System.Web.Mvc;
 
 namespace Inventory_mvc.Controllers
 {
-    public class RequisitionRecordController : Controller
+    public class RaiseRequisitionController : Controller
     {
-        // GET: RequisitionRecord
+        // GET: RequisitionDetails
         public ActionResult Index()
         {
             return View();

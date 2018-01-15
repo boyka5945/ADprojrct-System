@@ -6,9 +6,9 @@ using System.Web.Mvc;
 
 namespace Inventory_mvc.Controllers
 {
-    public class RequisitionDetailsController : Controller
+    public class AdjustmentVoucherController : Controller
     {
-        // GET: RequisitionDetails
+        // GET: AdjustmentVoucherRecord
         public ActionResult Index()
         {
             return View();
