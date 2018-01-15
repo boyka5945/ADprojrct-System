@@ -7,5 +7,6 @@ namespace Inventory_mvc.DAO
 {
     public class AdjustmentVoucherDAO : IAdjustmentVoucherDAO
     {
+
     }
 }
