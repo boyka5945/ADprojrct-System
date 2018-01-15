@@ -290,6 +290,7 @@
     <Content Include="Views\Supplier\Create.cshtml" />
     <Content Include="Views\ManageRequisitions\EditRequisition.cshtml" />
     <Content Include="Views\ManageRequisitions\ListRequisition.cshtml" />
+    <Content Include="Views\Purchase\ListPurchaseOrders.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -298,7 +299,6 @@
     <Folder Include="Views\Department\" />
     <Folder Include="Views\Employee\" />
     <Folder Include="Views\InventoryCheck\" />
-    <Folder Include="Views\PurchaseDetails\" />
     <Folder Include="Views\Report\" />
     <Folder Include="Views\RequisitionDetails\" />
     <Folder Include="Views\RequisitionRecord\" />

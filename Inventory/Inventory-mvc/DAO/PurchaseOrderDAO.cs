@@ -58,8 +58,22 @@ namespace Inventory_mvc.DAO
 
         public int UpdatePurchaseOrderInfo(Purchase_Order_Record purchase_order_record)
         {
+            return 10;
 
            
         }
+
+        //return list of purchase details for an orderNo
+        public List<Purchase_Details> GetPurchaseDetailsByOrderNo(int orderNo)
+        {
+            using (StationeryModel Entity = new StationeryModel())
+            {
+                List<Purchase_Details> pd = Entity.Purchase_Details.Where(x => x.orderNo == orderNo).ToList();
+                return pd;
+            }
+
+        }
+
+
     }
 }
