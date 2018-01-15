@@ -284,6 +284,8 @@
     <Content Include="Views\Home\Email.cshtml" />
     <Content Include="Views\Home\Login.cshtml" />
     <Content Include="Views\Installer\Success.cshtml" />
+    <Content Include="Views\ManageRequisition\ListRequisition.cshtml" />
+    <Content Include="Views\ManageRequisition\EditRequisition.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
