@@ -6,7 +6,7 @@ using Inventory_mvc.Models;
 
 namespace Inventory_mvc.DAO
 {
-    public interface IInventoryStatusRecord
+    public interface IInventoryStatusRecordDAO
     {
         
         List<Inventory_Status_Record> GetAllInventoryStatusRecord();
