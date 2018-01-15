@@ -6,12 +6,12 @@ using Inventory_mvc.Models;
 
 namespace Inventory_mvc.DAO
 {
-    public interface ISupplier
+    public interface ISupplierDAO
     {
-        List<Supplier> GetAllSupplier();
+        List<SupplierDAO> GetAllSupplier();
         User FindBySupplierCode(string supplierCode);
-        Boolean AddNewSupplier(Supplier supplier);
-        int UpdateSupplierInfo(Supplier supplier);
+        Boolean AddNewSupplier(SupplierDAO supplier);
+        int UpdateSupplierInfo(SupplierDAO supplier);
         Boolean DeleteSupplier(string supplierCode);
     }
 }

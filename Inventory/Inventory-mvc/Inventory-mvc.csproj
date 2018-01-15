@@ -162,26 +162,35 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\AdjustmentVoucherRecordController.cs" />
+    <Compile Include="Controllers\CollectionPointController.cs" />
+    <Compile Include="Controllers\DepartmentController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\InstallerController.cs" />
+    <Compile Include="Controllers\PurchaseDetailsController.cs" />
+    <Compile Include="Controllers\RequisitionDetailsController.cs" />
+    <Compile Include="Controllers\RequisitionRecordController.cs" />
+    <Compile Include="Controllers\StationeryController.cs" />
+    <Compile Include="Controllers\SupplierController.cs" />
+    <Compile Include="Controllers\VoucherDetailsController.cs" />
     <Compile Include="DAO\AdjustmentVoucherDAO.cs" />
     <Compile Include="DAO\CollectionPointDAO.cs" />
     <Compile Include="DAO\DepartmentDAO.cs" />
     <Compile Include="DAO\IAdjustmentVoucherDAO.cs" />
     <Compile Include="DAO\ICollectionPointDAO.cs" />
     <Compile Include="DAO\IDepartmentDAO.cs" />
-    <Compile Include="DAO\IInventoryStatusRecord.cs" />
-    <Compile Include="DAO\InventoryStatusRecord.cs" />
+    <Compile Include="DAO\IInventoryStatusRecordDAO.cs" />
+    <Compile Include="DAO\InventoryStatusRecordDAO.cs" />
     <Compile Include="DAO\IPurchaseOrderDAO.cs" />
     <Compile Include="DAO\IRequisitionRecordDAO.cs" />
-    <Compile Include="DAO\IStationery.cs" />
-    <Compile Include="DAO\ISupplier.cs" />
+    <Compile Include="DAO\IStationeryDAO.cs" />
+    <Compile Include="DAO\ISupplierDAO.cs" />
     <Compile Include="DAO\ITransactionRecordDAO.cs" />
     <Compile Include="DAO\IUserDAO.cs" />
     <Compile Include="DAO\PurchaseOrderDAO.cs" />
     <Compile Include="DAO\RequisitionRecordDAO.cs" />
-    <Compile Include="DAO\Stationery.cs" />
-    <Compile Include="DAO\Supplier.cs" />
+    <Compile Include="DAO\StationeryDAO.cs" />
+    <Compile Include="DAO\SupplierDAO.cs" />
     <Compile Include="DAO\TransactionRecordDAO.cs" />
     <Compile Include="DAO\UserDAO.cs" />
     <Compile Include="Entity\PermissionInfo.cs" />
@@ -316,6 +325,15 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\AdjustmentVoucherRecord\" />
+    <Folder Include="Views\CollectionPoint\" />
+    <Folder Include="Views\Department\" />
+    <Folder Include="Views\PurchaseDetails\" />
+    <Folder Include="Views\RequisitionDetails\" />
+    <Folder Include="Views\RequisitionRecord\" />
+    <Folder Include="Views\Stationery\" />
+    <Folder Include="Views\Supplier\" />
+    <Folder Include="Views\VoucherDetails\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
