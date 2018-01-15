@@ -176,6 +176,7 @@
     <Compile Include="Controllers\SupplierController.cs" />
     <Compile Include="DAO\AdjustmentVoucherDAO.cs" />
     <Compile Include="DAO\CollectionPointDAO.cs" />
+    <Compile Include="DAO\DAOException.cs" />
     <Compile Include="DAO\DepartmentDAO.cs" />
     <Compile Include="DAO\IAdjustmentVoucherDAO.cs" />
     <Compile Include="DAO\ICollectionPointDAO.cs" />
@@ -251,6 +252,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Images\LogicLogoT3.PNG" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="ApplicationInsights.config">
@@ -284,21 +286,21 @@
     <Content Include="Views\Home\Email.cshtml" />
     <Content Include="Views\Home\Login.cshtml" />
     <Content Include="Views\Installer\Success.cshtml" />
-    <Content Include="Views\ManageRequisition\ListRequisition.cshtml" />
-    <Content Include="Views\ManageRequisition\EditRequisition.cshtml" />
+    <Content Include="Views\Supplier\Index.cshtml" />
+    <Content Include="Views\Supplier\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\AdjustmentVoucherRecord\" />
     <Folder Include="Views\CollectionPoint\" />
     <Folder Include="Views\Department\" />
+    <Folder Include="Views\Employee\" />
     <Folder Include="Views\InventoryCheck\" />
     <Folder Include="Views\PurchaseDetails\" />
     <Folder Include="Views\Report\" />
     <Folder Include="Views\RequisitionDetails\" />
     <Folder Include="Views\RequisitionRecord\" />
     <Folder Include="Views\Stationery\" />
-    <Folder Include="Views\Supplier\" />
     <Folder Include="Views\VoucherDetails\" />
   </ItemGroup>
   <ItemGroup>
