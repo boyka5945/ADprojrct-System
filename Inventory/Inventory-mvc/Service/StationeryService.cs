@@ -45,31 +45,7 @@ namespace Inventory_mvc.Service
             return stationeryVM;
         }
 
-        bool IStationeryService.AddNewStationery(StationeryViewModel stationeryVM)
-        {
-            throw new NotImplementedException();
-        }
-
-        bool IStationeryService.DeleteStationery(string itemCode)
-        {
-            throw new NotImplementedException();
-        }
-
-        StationeryViewModel IStationeryService.FindByItemCode(string itemCode)
-        {
-            throw new NotImplementedException();
-        }
-
-        bool IStationeryService.UpdateStationeryInfo(StationeryViewModel stationeryVM)
-        {
-            throw new NotImplementedException();
-        }
-
-        bool IStationeryService.isExistingCode(string itemCode)
-        {
-            throw new NotImplementedException();
-        }
-
+        
 
         bool IStationeryService.AddNewStationery(StationeryViewModel stationeryVM)
         {
@@ -101,21 +77,22 @@ namespace Inventory_mvc.Service
         }
 
 
-        private StationeryDAO ConvertFromViewModel(StationeryViewModel stationeryVM)
+        private Stationery ConvertFromViewModel(StationeryViewModel stationeryVM)
         {
             Stationery stationery = new Stationery();
+
             stationery.itemCode = stationeryVM.ItemCode;
-            stationery.categoryID = (int)stationeryVM.CategoryID;
+            stationery.categoryID = stationeryVM.CategoryID;
             stationery.description = stationeryVM.Description;
-            stationery.reorderLevel = (int)stationeryVM.ReorderLevel;
-            stationery.reorderQty = (int)stationeryVM.ReorderQty;
+            stationery.reorderLevel = stationeryVM.ReorderLevel;
+            stationery.reorderQty = stationeryVM.ReorderQty;
             stationery.unitOfMeasure = stationeryVM.UnitOfMeasure;
-            stationery.stockQty = (int)stationeryVM.StockQty;
+            stationery.stockQty = stationeryVM.StockQty;
             stationery.location = stationeryVM.Location;
             stationery.firstSupplierCode = stationeryVM.FirstSupplierCode;
             stationery.secondSupplierCode = stationeryVM.SecondSupplierCode;
             stationery.thirdSupplierCode = stationeryVM.ThirdSupplierCode;
-            stationery.price = (decimal)stationeryVM.Price;
+            stationery.price = stationeryVM.Price;
             return stationery;
         }
 
