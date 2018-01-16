@@ -9,5 +9,7 @@ namespace Inventory_mvc.Service
     public interface ISupplierService
     {
         List<Supplier> GetAllSuppliers();
+
+        Supplier GetSupplierByCode(string supplierCode);
     }
 }

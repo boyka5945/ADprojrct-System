@@ -15,5 +15,10 @@ namespace Inventory_mvc.Service
         {
             return supplierDAO.GetAllSupplier();
         }
+
+        Supplier ISupplierService.GetSupplierByCode(string supplierCode)
+        {
+            return supplierDAO.FindBySupplierCode(supplierCode);
+        }
     }
 }

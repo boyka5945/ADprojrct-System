@@ -27,9 +27,13 @@ namespace Inventory_mvc.Controllers
 
         [HttpPost]
         public ActionResult Create(Supplier supplier)
-        {
-            
+        {            
             return View();
+        }
+
+        public ActionResult Details(string id)
+        {
+            return View(supplierService.GetSupplierByCode(id));
         }
 
     }
