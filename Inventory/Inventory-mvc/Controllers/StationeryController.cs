@@ -11,6 +11,7 @@ namespace Inventory_mvc.Controllers
 
        
         // GET: Stationery
+              // GET: Stationery
         public ActionResult Index()
         {
             return View(stationeryService.GetAllStationery());
