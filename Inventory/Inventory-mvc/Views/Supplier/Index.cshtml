@@ -1,63 +1,105 @@
-﻿@model IEnumerable<Inventory_mvc.Models.Supplier>
+﻿@model IEnumerable<Inventory_mvc.ViewModel.SupplierViewModel>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Supplier List";
+
+    var editMessage = TempData["EditMessage"];
+    var editErrorMessage = TempData["EditErrorMessage"];
+
+    var deleteErrorMessage = TempData["DeleteErrorMessage"];
+    var deleteMessage = TempData["DeleteMessage"];
 }
 
-<h2>Index</h2>
+<h2>Supplier List</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
+<div>
+    <p>
+        @if (editMessage != null)
+        {
+            @Html.Label(editMessage.ToString(), new { @class = "alert alert-success" });
+        }
+
+        @if (editErrorMessage != null)
+        {
+            @Html.Label(editErrorMessage.ToString(), new { @class = "alert alert-danger" });
+        }
+
+        @if (deleteErrorMessage != null)
+        {
+            @Html.Label(deleteErrorMessage.ToString(), new { @class = "alert alert-danger" });
+        }
+
+        @if (deleteMessage != null)
+        {
+            @Html.Label(deleteMessage.ToString(), new { @class = "alert alert-success" });
+        }
+    </p>
+</div>
+
+
+
 <table class="table">
     <tr>
         <th>
+            @Html.DisplayNameFor(model => model.SupplierCode)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SupplierName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ContactName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PhoneNo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FaxNo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Address)
+        </th>
+        <th>
             @Html.DisplayNameFor(model => model.GSTNo)
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.supplierName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.contactName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.phoneNo)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.faxNo)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.address)
-        </th>
+
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.GSTNo)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.supplierName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.contactName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.phoneNo)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.faxNo)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.address)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.supplierCode }) |
-            @Html.ActionLink("Details", "Details", new { id=item.supplierCode }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.supplierCode })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.SupplierCode)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SupplierName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ContactName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PhoneNo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FaxNo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Address)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.GSTNo)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.SupplierCode }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.SupplierCode })
+            </td>
+        </tr>
+    }
 
 </table>
+
+<p>
+    @Html.ActionLink("Create New Supplier", "Create")
+</p>
+
+
