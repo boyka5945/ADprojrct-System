@@ -14,6 +14,12 @@ namespace Inventory_mvc
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapRoute(
+                name: "RaiseRequisition",
+                url: "RaiseRequisition/{action}",
+                defaults: new { controller = "RaiseRequisition", action = "BrowseStationeryCatalogue" }
+            );
+
+            routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }

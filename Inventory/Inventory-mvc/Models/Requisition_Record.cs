@@ -16,7 +16,7 @@ namespace Inventory_mvc.Models
         }
 
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int requisitionNo { get; set; }
 
         [Required]

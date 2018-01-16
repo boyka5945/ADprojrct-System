@@ -1,21 +1,21 @@
-﻿using Inventory_mvc.DAO;
-using Inventory_mvc.Models;
-using Inventory_mvc.ViewModel;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using Inventory_mvc.DAO;
+using Inventory_mvc.Models;
+using Inventory_mvc.ViewModel;
 
 namespace Inventory_mvc.Service
 {
     public class StationeryService : IStationeryService
     {
-        //private IStationeryDAO stationeryDAO = new StationeryDAO();
+        private IStationeryDAO stationeryDAO = new StationeryDAO();
 
 
-        List<StationeryViewModel> IStationeryService.GetAllSuppliers()
+        List<StationeryViewModel> IStationeryService.GetAllStationeryViewModel()
         {
-            List<Stationery> stationeryList = stationeryDAO.GetAllSupplier();
+            List<Stationery> stationeryList = stationeryDAO.GetAllStationery();
 
             List<StationeryViewModel> viewModelList = new List<StationeryViewModel>();
             foreach (Stationery s in stationeryList)
@@ -26,63 +26,106 @@ namespace Inventory_mvc.Service
             return viewModelList;
         }
 
-        private StationeryViewModel ConvertToViewModel(Stationery s)
+        bool IStationeryService.isExistingCode(string itemCode)
         {
-            throw new NotImplementedException();
-        }
-        private IStationeryDAO stationeryDAO = new StationeryDAO();
+            string code = itemCode.ToUpper().Trim();
 
-        
+            return stationeryDAO.GetAllItemCode().Contains(code);
+        }
 
         bool IStationeryService.AddNewStationery(StationeryViewModel stationeryVM)
         {
             return stationeryDAO.AddNewStationery(ConvertFromViewModel(stationeryVM));
         }
 
-        private StationeryDAO ConvertFromViewModel(StationeryViewModel stationeryVM)
+        private StationeryViewModel ConvertToViewModel(Stationery s)
         {
-            throw new NotImplementedException();
+            StationeryViewModel stationeryVM = new StationeryViewModel();
 
+            stationeryVM.ItemCode = s.itemCode;
+            stationeryVM.CategoryID = s.categoryID;
+            stationeryVM.Description = s.description;
+            stationeryVM.ReorderLevel = s.reorderLevel;
+            stationeryVM.ReorderQty = s.reorderQty;
+            stationeryVM.UnitOfMeasure = s.unitOfMeasure;
+            stationeryVM.StockQty = s.stockQty;
+            stationeryVM.Location = s.location;
+            stationeryVM.FirstSupplierCode = s.firstSupplierCode;
+            stationeryVM.SecondSupplierCode = s.secondSupplierCode;
+            stationeryVM.ThirdSupplierCode = s.thirdSupplierCode;
+            stationeryVM.Price = s.price;
+            return stationeryVM;
         }
+       
 
-        bool IStationeryService.UpdateStationeryInfo(StationeryViewModel stationeryVM)
+        
+
+        private Stationery ConvertFromViewModel(StationeryViewModel stationeryVM)
         {
-            throw new NotImplementedException();
-
-        }
-
-        StationeryViewModel IStationeryService.FindByItemCode(string itemCode)
-        {
-            throw new NotImplementedException();
-        }
-
-        bool IStationeryService.isExistingCode(string itemCode)
-        {
-            string code = itemCode.ToUpper().Trim();
-
-            return stationeryDAO.GetAllStationeryCode().Contains(code);
-        }
-
             Stationery stationery = new Stationery();
 
             stationery.itemCode = stationeryVM.ItemCode;
-            stationery.categoryID = (int)stationeryVM.CategoryID;
-            stationery.reorderLevel = (int)stationeryVM.ReorderLevel;
-            stationery.reorderQty = (int)stationeryVM.ReorderQty;
             stationery.categoryID = stationeryVM.CategoryID;
             stationery.description = stationeryVM.Description;
             stationery.reorderLevel = stationeryVM.ReorderLevel;
             stationery.reorderQty = stationeryVM.ReorderQty;
             stationery.unitOfMeasure = stationeryVM.UnitOfMeasure;
-            stationery.stockQty = (int)stationeryVM.StockQty;
             stationery.stockQty = stationeryVM.StockQty;
             stationery.location = stationeryVM.Location;
             stationery.firstSupplierCode = stationeryVM.FirstSupplierCode;
-            stationery.price = (decimal)stationeryVM.Price;
             stationery.secondSupplierCode = stationeryVM.SecondSupplierCode;
             stationery.thirdSupplierCode = stationeryVM.ThirdSupplierCode;
             stationery.price = stationeryVM.Price;
             return stationery;
+
+        }
+
+        bool IStationeryService.UpdateStationeryInfo(StationeryViewModel stationeryVM)
+        {
+            Stationery stationery = ConvertFromViewModel(stationeryVM);
+
+            IStationeryDAO stationeryDAO = new StationeryDAO();
+
+            if (stationeryDAO.UpdateStationeryInfo(stationery) == 1)
+            {
+                return true;
+            } else
+            {
+                return false;
+            }
+
+        }
+
+        StationeryViewModel IStationeryService.FindByItemCode(string itemCode)
+        {
+            string code = itemCode.ToUpper().Trim();
+            return ConvertToViewModel(stationeryDAO.FindByItemCode(code));
+        }
+
+        
+
+        bool IStationeryService.DeleteStationery(string itemCode)
+        {
+            string code = itemCode.ToUpper().Trim();
+            Stationery stationery = stationeryDAO.FindByItemCode(code);
+
+            if (stationery.Requisition_Details.Count != 0 || stationery.Purchase_Details.Count != 0 || stationery.Voucher_Details.Count != 0)
+            {
+                return false;
+            }
+
+            return stationeryDAO.DeleteStationery(code);
+        }
+
+        
+        List<Stationery> IStationeryService.GetAllStationery()
+        {
+            return stationeryDAO.GetAllStationery();
+        }
+
+        List<Category> IStationeryService.GetAllCategory()
+        {
+            return stationeryDAO.GetAllCategory();
         }
     }
 }

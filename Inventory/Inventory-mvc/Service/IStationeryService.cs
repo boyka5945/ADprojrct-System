@@ -1,35 +1,27 @@
-﻿using Inventory_mvc.ViewModel;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using Inventory_mvc.Models;
+using Inventory_mvc.ViewModel;
 
 namespace Inventory_mvc.Service
 {
     public interface IStationeryService
     {
-        List<StationeryViewModel> GetAllStationery();
+        List<StationeryViewModel> GetAllStationeryViewModel();
 
-        public static implicit operator IStationeryService(StationeryService v)
-        {
-            throw new NotImplementedException();
-        }
-
-
-        //  SupplierViewModel FindByStationeryCode(string supplierCode);
-
-        //  bool UpdateStationeryInfo(SupplierViewModel supplierVM);
-
-
-        /// <summary>
-        /// Return true if the code has already been used
-        /// </summary>
-        /// <param name="itemCode"></param>
-        /// <returns></returns>
-        //  bool isExistingCode(string itemCode);
         bool AddNewStationery(StationeryViewModel stationeryVM);
 
+        bool DeleteStationery(string itemCode);
+
+        StationeryViewModel FindByItemCode(string itemCode);
+
+        bool UpdateStationeryInfo(StationeryViewModel stationeryVM);
         bool isExistingCode(string itemCode);
-        
+
+        List<Stationery> GetAllStationery();
+
+        List<Category> GetAllCategory();
     }
 }
