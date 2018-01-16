@@ -22,13 +22,13 @@ namespace Inventory_mvc.Service
             Stationery stationery = new Stationery();
 
             stationery.itemCode = stationeryVM.ItemCode;
-            stationery.categoryID = stationeryVM.GSTNo;
-            supplier.supplierName = supplierVM.SupplierName;
-            supplier.contactName = supplierVM.ContactName;
-            supplier.phoneNo = (int)supplierVM.PhoneNo;
-            supplier.faxNo = supplierVM.FaxNo;
-            supplier.address = supplierVM.Address;
-
+            stationery.categoryID = (int)stationeryVM.CategoryID;
+            stationery.reorderLevel = (int)stationeryVM.ReorderLevel;
+            stationery.reorderQty = (int)stationeryVM.ReorderQty;
+            stationery.unitOfMeasure = stationeryVM.UnitOfMeasure;
+            stationery.stockQty = (int)stationeryVM.StockQty;
+            stationery.firstSupplierCode = stationeryVM.FirstSupplierCode;
+            stationery.price = (decimal)stationeryVM.Price;
             return stationery;
         }
     }
