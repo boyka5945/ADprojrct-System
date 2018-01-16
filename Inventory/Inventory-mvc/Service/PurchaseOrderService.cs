@@ -23,6 +23,11 @@ namespace Inventory_mvc.Service
             return dao.FindByOrderID(orderID);
         }
 
+        public bool AddNewPurchaseOrder(Purchase_Order_Record purchase_order_record)
+        {
+            return dao.AddNewPurchaseOrder(purchase_order_record);
+        }
+
         public bool DeletePurchaseOrder(int orderID)
         {
             dao.DeletePurchaseOrder(orderID);
