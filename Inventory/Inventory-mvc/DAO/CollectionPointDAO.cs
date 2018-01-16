@@ -29,5 +29,31 @@ namespace Inventory_mvc.DAO
                 return listAll;
             }
         }
+
+        List<int> ICollectionPointDAO.GetAllCollectionID()
+        {
+            using (StationeryModel context = new StationeryModel())
+            {
+                return (from c in context.Collection_Point
+                        select c.collectionPointID).ToList();
+            }
+        }
+
+        bool ICollectionPointDAO.AddNewCollectionPoint(Collection_Point collectionPoint)
+        {
+            using (StationeryModel context = new StationeryModel())
+            {
+                context.Collection_Point.Add(collectionPoint);
+                int rowAffected = context.SaveChanges();
+
+                if (rowAffected != 1)
+                {
+                    throw new DAOException();
+                }
+
+                return true;
+            }
+        }
+
     }
 }
