@@ -15,8 +15,22 @@
 </head>
 <body>
     <p>
-        @Html.ActionLink("Create New", "Create")
+        @Html.ActionLink("Create New", "RaisePurchaseOrder");
     </p>
+
+    @using (Html.BeginForm("ListPurchaseOrders", "Purchase", FormMethod.Get))
+    { 
+    
+    @*<select name="ddlist">
+        <option>Status</option>
+
+    </select>*@
+    <input type="text" name="search" />
+    <input type="submit" value="search" />
+
+    }
+
+
     <table class="table">
         <tr>
             <th>
@@ -37,7 +51,8 @@
             <th></th>
         </tr>
     
-    @foreach (var item in Model) {
+    @foreach (var item in Model)
+    {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.orderNo)
@@ -55,9 +70,9 @@
                 @Html.DisplayFor(modelItem => item.expectedDeliveryDate)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { id=item.orderNo }) |
-                @Html.ActionLink("Details", "Details", new { id=item.orderNo }) |
-                @Html.ActionLink("Delete", "Delete", new { id=item.orderNo })
+                @Html.ActionLink("Edit", "Edit", new { id = item.orderNo }) |
+                @Html.ActionLink("Details", "Details", new { id = item.orderNo }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.orderNo })
             </td>
         </tr>
     }

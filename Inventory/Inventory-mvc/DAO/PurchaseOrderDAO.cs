@@ -10,7 +10,7 @@ namespace Inventory_mvc.DAO
     {
         public bool AddNewPurchaseOrder(Purchase_Order_Record purchase_order_record)
         {
-            using(StationeryModel Entity = new StationeryModel())
+            using (StationeryModel Entity = new StationeryModel())
             {
                 Entity.Purchase_Order_Record.Add(purchase_order_record);
                 Entity.SaveChanges();
@@ -18,18 +18,19 @@ namespace Inventory_mvc.DAO
 
             }
 
-            
+
         }
 
         public bool DeletePurchaseOrder(int orderID)
         {
-            using (StationeryModel Entity = new StationeryModel()) {
+            using (StationeryModel Entity = new StationeryModel())
+            {
 
                 Purchase_Order_Record por = Entity.Purchase_Order_Record.Where(x => x.orderNo == orderID).First();
                 Entity.Purchase_Order_Record.Remove(por);
                 Entity.SaveChanges();
                 return true;
-                    }
+            }
 
         }
 
@@ -56,14 +57,30 @@ namespace Inventory_mvc.DAO
 
         }
 
-        public int UpdatePurchaseOrderInfo(Purchase_Order_Record purchase_order_record)
+        public int UpdatePurchaseOrderInfo(Purchase_Order_Record record)
         {
-            return 10;
+            using (StationeryModel Entity = new StationeryModel())
+            {
+                Purchase_Order_Record por = (from x in Entity.Purchase_Order_Record
+                                             where x.orderNo == record.orderNo
+                                             select x).FirstOrDefault();
 
-           
+                por.status = record.status;
+                por.expectedDeliveryDate = record.expectedDeliveryDate;
+                por.clerkID = record.clerkID;
+                por.date = record.date;
+
+
+                int rowAffected = Entity.SaveChanges();
+
+                return rowAffected;
+
+            }
         }
 
-        //return list of purchase details for an orderNo
+
+
+        //PURCHASE DETAILS//
         public List<Purchase_Details> GetPurchaseDetailsByOrderNo(int orderNo)
         {
             using (StationeryModel Entity = new StationeryModel())
@@ -75,5 +92,42 @@ namespace Inventory_mvc.DAO
         }
 
 
+
+
+        public void AddPurchaseDetail(int deliveryOrderNo, string itemCode, int qty, string remarks)
+        {
+            using (StationeryModel Entity = new StationeryModel())
+            {
+                int maxOrderNo = 0;
+                //to obtain highest order number
+                List<Purchase_Details> pds = Entity.Purchase_Details.ToList();
+                foreach (Purchase_Details p in pds)
+                {
+                    maxOrderNo = 1;
+                    if (p.orderNo > maxOrderNo)
+                    {
+                        maxOrderNo = p.orderNo;
+                    }
+
+                }
+
+                Purchase_Details pd = new Purchase_Details();
+                pd.orderNo = maxOrderNo + 1;
+                pd.deliveryOrderNo = deliveryOrderNo;
+                pd.itemCode = itemCode;
+                pd.qty = qty;
+                pd.remarks = remarks;
+                Entity.Purchase_Details.Add(pd);
+                Entity.SaveChanges();
+            }
+
+
+
+
+        }
+
+
     }
+
+
 }

@@ -1,0 +1,132 @@
+﻿@model Inventory_mvc.Models.Purchase_Details
+
+
+
+@{
+    ViewBag.Title = "RaisePurchaseOrder";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>RaisePurchaseOrder</h2>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Purchase_Details</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.orderNo, "order No", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.orderNo, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.orderNo, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.itemCode, "item Code", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.itemCode, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.itemCode, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.remarks, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.remarks, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.remarks, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.qty, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.qty, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.qty, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+@Html.Partial("_ListPurchaseDetails", Model)
+
+<!-- table start
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Purchase_Order_Record.supplierCode)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Stationery.description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.remarks)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.qty)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.fulfilledQty)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.price)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.deliveryOrderNo)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Purchase_Order_Record.supplierCode)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Stationery.description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.remarks)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.qty)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.fulfilledQty)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.price)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.deliveryOrderNo)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+            </td>
+        </tr>
+    }
+
+</table>
+
+-->
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

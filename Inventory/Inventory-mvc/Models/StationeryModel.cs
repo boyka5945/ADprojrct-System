@@ -172,6 +172,6 @@ namespace Inventory_mvc.Models
                 .HasForeignKey(e => e.clerkID);
         }
 
-        public System.Data.Entity.DbSet<Inventory_mvc.ViewModel.CollectionPointViewModel> CollectionPointViewModels { get; set; }
+        public System.Data.Entity.DbSet<Inventory_mvc.ViewModel.StationeryViewModel> StationeryViewModels { get; set; }
     }
 }
