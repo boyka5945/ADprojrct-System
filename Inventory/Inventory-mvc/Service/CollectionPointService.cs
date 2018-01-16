@@ -63,6 +63,19 @@ namespace Inventory_mvc.Service
             }
         }
 
+        bool ICollectionPointService.DeleteCollectionPoint(int collectionPointID)
+        {
+            int code = collectionPointID;
+            Collection_Point collectionPoint = collectionPointDAO.FindByCollectionPointID(code);
+
+            //if (collectionPoint.Department.Count != 0)
+            //{
+            //    return false;
+            //}
+
+            return collectionPointDAO.DeleteCollectionPoint(code);
+        }
+
         private CollectionPointViewModel ConvertToViewModel(Collection_Point collectionPoint)
         {
             CollectionPointViewModel cpVM = new CollectionPointViewModel();

@@ -48,7 +48,7 @@ namespace Inventory_mvc.Controllers
                 {
                     collectionPointService.AddNewCollectionPoint(collectionPointVM);
                     TempData["CreateMessage"] = String.Format("Collection Point '{0}' is added.", id);
-                    return RedirectToAction("listCollectionPoint");
+                    return RedirectToAction("Index");
                 }
                 catch (Exception e)
                 {
@@ -86,7 +86,7 @@ namespace Inventory_mvc.Controllers
                         TempData["EditErrorMessage"] = String.Format("There is not change to '{0}'.", id);
                     }
 
-                    return RedirectToAction("listCollectionPoint");
+                    return RedirectToAction("Index");
                 }
                 catch (Exception e)
                 {
@@ -95,6 +95,21 @@ namespace Inventory_mvc.Controllers
             }
 
             return View(cpVM);
+        }
+
+        // GET: Supplier/Delete/{id}
+        public ActionResult Delete(int id)
+        {
+            if (collectionPointService.DeleteCollectionPoint(id))
+            {
+                TempData["DeleteMessage"] = String.Format("Supplier '{0}' has been deleted", id);
+            }
+            else
+            {
+                TempData["DeleteErrorMessage"] = String.Format("Cannot delete supplier '{0}'", id);
+            }
+
+            return RedirectToAction("Index");
         }
 
     }

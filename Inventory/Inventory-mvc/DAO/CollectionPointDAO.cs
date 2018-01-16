@@ -60,17 +60,32 @@ namespace Inventory_mvc.DAO
             using (StationeryModel context = new StationeryModel())
             {
                 Collection_Point c = (from x in context.Collection_Point
-                              where x.collectionPointID == collectionPoint.collectionPointID
-                              select x).FirstOrDefault();
+                                      where x.collectionPointID == collectionPoint.collectionPointID
+                                      select x).FirstOrDefault();
 
                 c.collectionPointName = collectionPoint.collectionPointName;
-               
+
 
                 int rowAffected = context.SaveChanges();
 
                 return rowAffected;
             }
+
+        }
+            bool ICollectionPointDAO.DeleteCollectionPoint(int collectionPointID)
+        {
+                using (StationeryModel context = new StationeryModel())
+                {
+                    Collection_Point collectionPoint = (from s in context.Collection_Point
+                                         where s.collectionPointID == collectionPointID
+                                         select s).FirstOrDefault();
+
+                    context.Collection_Point.Remove(collectionPoint);
+                    context.SaveChanges();
+
+                    return true;
+                }
+            }
         }
 
     }
-}

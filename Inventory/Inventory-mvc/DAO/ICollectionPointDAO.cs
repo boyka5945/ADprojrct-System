@@ -17,6 +17,8 @@ namespace Inventory_mvc.DAO
 
         bool AddNewCollectionPoint(Collection_Point collectionPoint);
 
+        bool DeleteCollectionPoint(int collectionPointID);
+
         int UpdateCollectionPointInfo(Collection_Point collectionPoint);
     }
 }

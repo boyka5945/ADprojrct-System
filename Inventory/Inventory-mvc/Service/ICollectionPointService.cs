@@ -20,5 +20,7 @@ namespace Inventory_mvc.Service
 
         bool UpdateCollectionPointInfo(CollectionPointViewModel cpVM);
 
+        bool DeleteCollectionPoint(int collectionPointID);
+
     }
 }
