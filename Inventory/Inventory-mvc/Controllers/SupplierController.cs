@@ -29,9 +29,11 @@ namespace Inventory_mvc.Controllers
         [HttpPost]
         public ActionResult Create(SupplierViewModel supplierVM)
         {
-            if (supplierService.isExistingCode(supplierVM.SupplierCode))
+            string code = supplierVM.SupplierCode;
+
+            if (supplierService.isExistingCode(code))
             {
-                string errorMessage = String.Format("{0} has been used.", supplierVM.SupplierCode);
+                string errorMessage = String.Format("{0} has been used.", code);
                 ModelState.AddModelError("SupplierCode", errorMessage);
             }
             else if (ModelState.IsValid)
@@ -39,6 +41,7 @@ namespace Inventory_mvc.Controllers
                 try
                 {
                     supplierService.AddNewSupplier(supplierVM);
+                    TempData["CreateMessage"] = String.Format("Supplier '{0}' is added.", code);
                     return RedirectToAction("Index");
                 }
                 catch (Exception e)

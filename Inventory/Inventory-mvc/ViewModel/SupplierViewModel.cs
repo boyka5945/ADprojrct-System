@@ -31,7 +31,7 @@ namespace Inventory_mvc.ViewModel
 
         [Required]
         [Display(Name = "Phone Number")]
-        public int PhoneNo { get; set; }
+        public int? PhoneNo { get; set; }
 
         [Display(Name = "Fax Number")]
         public int? FaxNo { get; set; }
