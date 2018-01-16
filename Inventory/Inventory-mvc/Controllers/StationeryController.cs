@@ -1,16 +1,13 @@
-﻿using Inventory_mvc.ViewModel;
+﻿using Inventory_mvc.Service;
+using Inventory_mvc.ViewModel;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace Inventory_mvc.Controllers
 {
     public class StationeryController : Controller
     {
-        private object stationeryService;
-        private object stationeryVM;
+        IStationeryService stationeryService = new StationeryService();
 
         // GET: Stationery
         public ActionResult Index()
@@ -18,15 +15,15 @@ namespace Inventory_mvc.Controllers
             return View();
         }
 
-        // GET: Stationert/Create
+        // GET: Stationery/Create
         public ActionResult Create()
         {
             return View(new StationeryViewModel());
         }
 
-        // POST: Supplier/Create
+        // POST: Stationery/Create
         [HttpPost]
-        public ActionResult Create(StationeryViewModel supplierVM)
+        public ActionResult Create(StationeryViewModel stationeryVM)
         {
             string code = stationeryVM.ItemCode;
 
@@ -49,7 +46,7 @@ namespace Inventory_mvc.Controllers
                 }
             }
 
-            return View(supplierVM);
+            return View(stationeryVM);
         }
     }
 }

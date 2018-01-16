@@ -8,7 +8,7 @@ using System.Web;
 
 namespace Inventory_mvc.Service
 {
-    public class StationeryService
+    public class StationeryService : IStationeryService
     {
         private IStationeryDAO stationeryDAO = new StationeryDAO();
 

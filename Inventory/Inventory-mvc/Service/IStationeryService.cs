@@ -6,9 +6,12 @@ using System.Web;
 
 namespace Inventory_mvc.Service
 {
-    public class IStationeryService
+    public interface IStationeryService
     {
 
         bool AddNewStationery(StationeryViewModel stationeryVM);
+
+        bool isExistingCode(string itemCode);
+        
     }
 }
