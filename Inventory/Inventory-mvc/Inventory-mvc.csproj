@@ -291,13 +291,13 @@
     <Content Include="Views\ManageRequisitions\EditRequisition.cshtml" />
     <Content Include="Views\ManageRequisitions\ListRequisition.cshtml" />
     <Content Include="Views\Purchase\ListPurchaseOrders.cshtml" />
+    <Content Include="Views\Department\ListDepartment.cshtml" />
     <Content Include="Views\Supplier\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\AdjustmentVoucherRecord\" />
     <Folder Include="Views\CollectionPoint\" />
-    <Folder Include="Views\Department\" />
     <Folder Include="Views\Employee\" />
     <Folder Include="Views\InventoryCheck\" />
     <Folder Include="Views\Report\" />
