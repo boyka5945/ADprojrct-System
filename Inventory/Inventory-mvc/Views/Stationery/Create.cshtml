@@ -1,7 +1,8 @@
 ﻿@model Inventory_mvc.ViewModel.StationeryViewModel
 
 @{
-    ViewBag.Title = "Create";
+    ViewBag.Title = "Create New Stationery";
+    var exceptionMessage = TempData["ExceptionMessage"];
 }
 
 <h2>View</h2>
@@ -10,7 +11,11 @@
 @using (Html.BeginForm()) 
 {
     @Html.AntiForgeryToken()
-    
+    if (exceptionMessage != null)
+    {
+        @Html.Label(exceptionMessage.ToString(), new { @class = "alert alert-danger" });
+    }
+
     <div class="form-horizontal">
         <h4>StationeryViewModel</h4>
         <hr />
