@@ -13,7 +13,7 @@ namespace Inventory_mvc.Service
         private IStationeryDAO stationeryDAO = new StationeryDAO();
 
 
-        List<StationeryViewModel> IStationeryService.GetAllStationery()
+        List<StationeryViewModel> IStationeryService.GetAllStationeryViewModel()
         {
             List<Stationery> stationeryList = stationeryDAO.GetAllStationery();
 
@@ -118,7 +118,6 @@ namespace Inventory_mvc.Service
         }
 
         
-
         List<Stationery> IStationeryService.GetAllStationery()
         {
             return stationeryDAO.GetAllStationery();
