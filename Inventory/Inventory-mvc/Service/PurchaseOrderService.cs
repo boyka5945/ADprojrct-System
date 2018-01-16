@@ -18,10 +18,22 @@ namespace Inventory_mvc.Service
 
         }
 
+        public Purchase_Order_Record FindByOrderID(int orderID)
+        {
+            return dao.FindByOrderID(orderID);
+        }
+
         public List<Purchase_Details> GetPurchaseDetailsByOrderNo(int orderNo)
         {
             return dao.GetPurchaseDetailsByOrderNo(orderNo);
             
         }
+
+        //public void AddPurchaseDetail(int deliveryOrderNo, string itemCode, int qty, string remarks)
+        //{
+        //    dao.AddPurchaseDetail(deliveryOrderNo, itemCode, qty, remarks);
+
+            
+        //}
     }
 }

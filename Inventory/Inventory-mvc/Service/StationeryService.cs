@@ -10,6 +10,26 @@ namespace Inventory_mvc.Service
 {
     public class StationeryService : IStationeryService
     {
+        //private IStationeryDAO stationeryDAO = new StationeryDAO();
+
+
+        List<StationeryViewModel> IStationeryService.GetAllSuppliers()
+        {
+            List<Stationery> stationeryList = stationeryDAO.GetAllSupplier();
+
+            List<StationeryViewModel> viewModelList = new List<StationeryViewModel>();
+            foreach (Stationery s in stationeryList)
+            {
+                viewModelList.Add(ConvertToViewModel(s));
+            }
+
+            return viewModelList;
+        }
+
+        private StationeryViewModel ConvertToViewModel(Stationery s)
+        {
+            throw new NotImplementedException();
+        }
         private IStationeryDAO stationeryDAO = new StationeryDAO();
 
         bool IStationeryService.AddNewStationery(StationeryViewModel stationeryVM)
