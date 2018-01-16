@@ -11,7 +11,7 @@ namespace Inventory_mvc.Service
     {
         public List<Department> GetAllDepartment()
         {
-            DepartmentDAO dDAO= new DepartmentDAO();
+            DepartmentDAO dDAO = new DepartmentDAO();
             return dDAO.GetAllDepartments();
         }
 
@@ -19,6 +19,18 @@ namespace Inventory_mvc.Service
         {
             DepartmentDAO dDAO = new DepartmentDAO();
             return dDAO.FindByDepartmentCode(deptCode);
+        }
+
+        public int UpdateDepartmentByCode(Department dept)
+        {
+            DepartmentDAO dDAO = new DepartmentDAO();
+            return dDAO.UpdateDepartmentInfo(dept);
+        }
+
+        public Boolean CreateDepartment(Department dept)
+        {
+            DepartmentDAO dDAO = new DepartmentDAO();
+            return dDAO.AddNewDepartment(dept);
         }
     }
 }
