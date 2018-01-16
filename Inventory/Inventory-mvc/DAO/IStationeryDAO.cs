@@ -10,6 +10,7 @@ namespace Inventory_mvc.DAO
     {
         List<Stationery> GetAllStationery();
         User FindByItemCode(string itemCode);
+        List<string> GetAllStationeryCode();
         Boolean AddNewStationery(Stationery stationery);
         int UpdateStationeryInfo(Stationery stationery);
         Boolean DeleteStationery(string itemCode);

@@ -42,25 +42,53 @@ namespace Inventory_mvc.Service
         }
 
 
-        //bool IStationeryService.AddNewStationery(StationeryViewModel stationeryVM)
-        //{
-        //    return stationeryDAO.AddNewStationery(ConvertFromViewModel(stationeryVM));
-        //}
+        bool IStationeryService.AddNewStationery(StationeryViewModel stationeryVM)
+        {
+            return stationeryDAO.AddNewStationery(ConvertFromViewModel(stationeryVM));
+        }
 
-        //private StationeryDAO ConvertFromViewModel(StationeryViewModel stationeryVM)
-        //{
-        //    Stationery stationery = new Stationery();
+        bool IStationeryService.DeleteStationery(string itemCode)
+        {
+            throw new NotImplementedException();
 
-        //    stationery.itemCode = stationeryVM.ItemCode;
-        //    stationery.categoryID = (int)stationeryVM.CategoryID;
-        //    stationery.reorderLevel = (int)stationeryVM.ReorderLevel;
-        //    stationery.reorderQty = (int)stationeryVM.ReorderQty;
-        //    stationery.unitOfMeasure = stationeryVM.UnitOfMeasure;
-        //    stationery.stockQty = (int)stationeryVM.StockQty;
-        //    stationery.firstSupplierCode = stationeryVM.FirstSupplierCode;
-        //    stationery.price = (decimal)stationeryVM.Price;
-        //    return stationery;
-        //}
+        }
+
+        bool IStationeryService.UpdateStationeryInfo(StationeryViewModel stationeryVM)
+        {
+            throw new NotImplementedException();
+
+        }
+
+        StationeryViewModel IStationeryService.FindByItemCode(string itemCode)
+        {
+            throw new NotImplementedException();
+        }
+
+        bool IStationeryService.isExistingCode(string itemCode)
+        {
+            string code = itemCode.ToUpper().Trim();
+
+            return stationeryDAO.GetAllStationeryCode().Contains(code);
+        }
+
+
+        private StationeryDAO ConvertFromViewModel(StationeryViewModel stationeryVM)
+        {
+            Stationery stationery = new Stationery();
+            stationery.itemCode = stationeryVM.ItemCode;
+            stationery.categoryID = (int)stationeryVM.CategoryID;
+            stationery.description = stationeryVM.Description;
+            stationery.reorderLevel = (int)stationeryVM.ReorderLevel;
+            stationery.reorderQty = (int)stationeryVM.ReorderQty;
+            stationery.unitOfMeasure = stationeryVM.UnitOfMeasure;
+            stationery.stockQty = (int)stationeryVM.StockQty;
+            stationery.location = stationeryVM.Location;
+            stationery.firstSupplierCode = stationeryVM.FirstSupplierCode;
+            stationery.secondSupplierCode = stationeryVM.SecondSupplierCode;
+            stationery.thirdSupplierCode = stationeryVM.ThirdSupplierCode;
+            stationery.price = (decimal)stationeryVM.Price;
+            return stationery;
+        }
 
 
     }
