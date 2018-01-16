@@ -27,7 +27,17 @@ namespace Inventory_mvc.DAO
 
         public bool DeleteStationery(string itemCode)
         {
-            throw new NotImplementedException();
+            using (StationeryModel context = new StationeryModel())
+            {
+                Stationery stationery = (from s in context.Stationery
+                                     where s.itemCode == itemCode
+                                     select s).FirstOrDefault();
+
+                context.Stationery.Remove(stationery);
+                context.SaveChanges();
+
+                return true;
+            }
         }
 
         Stationery IStationeryDAO.FindByItemCode(string itemCode)

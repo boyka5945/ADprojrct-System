@@ -88,5 +88,23 @@ namespace Inventory_mvc.Controllers
 
             return View(stationeryVM);
         }
+
+
+
+        // GET: Stationery/Delete/{id}
+        public ActionResult Delete(string id)
+        {
+            if (stationeryService.DeleteStationery(id))
+            {
+                TempData["DeleteMessage"] = String.Format("Stationery '{0}' has been deleted", id);
+            }
+            else
+            {
+                TempData["DeleteErrorMessage"] = String.Format("Cannot delete stationery '{0}'", id);
+            }
+
+            return RedirectToAction("Index");
+        }
+
     }
 }

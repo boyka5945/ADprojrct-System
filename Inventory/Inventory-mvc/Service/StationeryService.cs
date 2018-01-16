@@ -106,7 +106,15 @@ namespace Inventory_mvc.Service
 
         bool IStationeryService.DeleteStationery(string itemCode)
         {
-            throw new NotImplementedException();
+            string code = itemCode.ToUpper().Trim();
+            Stationery stationery = stationeryDAO.FindByItemCode(code);
+
+            if (stationery.Requisition_Details.Count != 0 || stationery.Purchase_Details.Count != 0 || stationery.Voucher_Details.Count != 0)
+            {
+                return false;
+            }
+
+            return stationeryDAO.DeleteStationery(code);
         }
 
     }
