@@ -9,8 +9,7 @@ namespace Inventory_mvc.Controllers
     {
         IStationeryService stationeryService = new StationeryService();
 
-        IStationeryService stationeryService = new StationeryService();
-        // GET: Stationery
+              // GET: Stationery
         public ActionResult Index()
         {
             return View(stationeryService.GetAllStationery());
