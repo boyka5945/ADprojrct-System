@@ -63,8 +63,11 @@ namespace Inventory_mvc.Controllers
             
         }
 
-        public ActionResult DeleteOrder()
+        public ActionResult DeleteOrder(string id)
         {
+
+            pos.DeletePurchaseOrder(Int32.Parse(id));
+            return View("ListPurchaseOrders");
 
         }
     }

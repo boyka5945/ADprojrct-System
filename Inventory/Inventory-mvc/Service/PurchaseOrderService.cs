@@ -23,17 +23,34 @@ namespace Inventory_mvc.Service
             return dao.FindByOrderID(orderID);
         }
 
+        public bool DeletePurchaseOrder(int orderID)
+        {
+            dao.DeletePurchaseOrder(orderID);
+            return true;
+        }
+
+        public int UpdatePurchaseOrderInfo(Purchase_Order_Record purchase_order_record)
+        {
+            return dao.UpdatePurchaseOrderInfo(purchase_order_record);
+            
+
+        }
+
         public List<Purchase_Details> GetPurchaseDetailsByOrderNo(int orderNo)
         {
             return dao.GetPurchaseDetailsByOrderNo(orderNo);
             
         }
 
+
+
+
+
         //public void AddPurchaseDetail(int deliveryOrderNo, string itemCode, int qty, string remarks)
         //{
         //    dao.AddPurchaseDetail(deliveryOrderNo, itemCode, qty, remarks);
 
-            
+
         //}
     }
 }
