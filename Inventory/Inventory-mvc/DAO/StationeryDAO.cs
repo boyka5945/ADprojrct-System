@@ -28,6 +28,15 @@ namespace Inventory_mvc.DAO
             }
         }
 
+        List<string> IStationeryDAO.GetAllStationeryCode()
+        {
+            using (StationeryModel context = new StationeryModel())
+            {
+                return (from s in context.Stationery
+                        select s.itemCode).ToList();
+            }
+        }
+
         int IStationeryDAO.UpdateStationeryInfo(Stationery stationery)
         {
             throw new NotImplementedException();
