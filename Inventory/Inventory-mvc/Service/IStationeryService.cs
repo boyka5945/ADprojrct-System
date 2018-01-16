@@ -14,7 +14,6 @@ namespace Inventory_mvc.Service
         bool DeleteStationery(string itemCode);
 
         StationeryViewModel FindByItemCode(string itemCode);
-
         bool UpdateStationeryInfo(StationeryViewModel stationeryVM);
         bool isExistingCode(string itemCode);
     }
