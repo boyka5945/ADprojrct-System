@@ -245,6 +245,7 @@
     <Compile Include="Service\SupplierService.cs" />
     <Compile Include="Service\TransactionRecordService.cs" />
     <Compile Include="Service\UserService.cs" />
+    <Compile Include="ViewModel\CollectionPointViewModel.cs" />
     <Compile Include="ViewModel\StationeryViewModel.cs" />
     <Compile Include="ViewModel\SupplierViewModel.cs" />
   </ItemGroup>
@@ -360,18 +361,20 @@
     <Content Include="Views\User\UserList.cshtml" />
     <Content Include="Views\Stationery\Index.cshtml" />
     <Content Include="Views\Stationery\Create.cshtml" />
+    <Content Include="Views\CollectionPoint\Create.cshtml" />
+    <Content Include="Views\CollectionPoint\listCollectionPoint.cshtml" />
     <Content Include="Views\Stationery\Delete.cshtml" />
     <Content Include="Views\Stationery\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\AdjustmentVoucherRecord\" />
-    <Folder Include="Views\CollectionPoint\" />
     <Folder Include="Views\Employee\" />
     <Folder Include="Views\InventoryCheck\" />
     <Folder Include="Views\Report\" />
     <Folder Include="Views\RequisitionDetails\" />
     <Folder Include="Views\RequisitionRecord\" />
+    <Folder Include="Views\Stationery\" />
     <Folder Include="Views\VoucherDetails\" />
   </ItemGroup>
   <ItemGroup>
