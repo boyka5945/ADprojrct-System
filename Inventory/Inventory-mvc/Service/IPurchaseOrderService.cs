@@ -12,5 +12,9 @@ namespace Inventory_mvc.Service
 
         List<Purchase_Details> GetPurchaseDetailsByOrderNo(int orderNo);
 
+        Purchase_Order_Record FindByOrderID(int orderID);
+
+        //void AddPurchaseDetail(int deliveryOrderNo, string itemCode, int qty, string remarks);
+
     }
 }

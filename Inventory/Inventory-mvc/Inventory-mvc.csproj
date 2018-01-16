@@ -291,6 +291,7 @@
     <Content Include="Views\ManageRequisitions\EditRequisition.cshtml" />
     <Content Include="Views\ManageRequisitions\ListRequisition.cshtml" />
     <Content Include="Views\Purchase\ListPurchaseOrders.cshtml" />
+    <Content Include="Views\Purchase\RaisePurchaseOrder.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
