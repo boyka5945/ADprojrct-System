@@ -172,6 +172,7 @@
     <Compile Include="Controllers\RaiseRequisitionController.cs" />
     <Compile Include="Controllers\ManageRequisitionsController.cs" />
     <Compile Include="Controllers\ReportController.cs" />
+    <Compile Include="Controllers\StationeryController.cs" />
     <Compile Include="Controllers\SupplierController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="DAO\AdjustmentVoucherDAO.cs" />
@@ -185,11 +186,13 @@
     <Compile Include="DAO\InventoryStatusRecordDAO.cs" />
     <Compile Include="DAO\IPurchaseOrderDAO.cs" />
     <Compile Include="DAO\IRequisitionRecordDAO.cs" />
+    <Compile Include="DAO\IStationeryDAO.cs" />
     <Compile Include="DAO\ISupplierDAO.cs" />
     <Compile Include="DAO\ITransactionRecordDAO.cs" />
     <Compile Include="DAO\IUserDAO.cs" />
     <Compile Include="DAO\PurchaseOrderDAO.cs" />
     <Compile Include="DAO\RequisitionRecordDAO.cs" />
+    <Compile Include="DAO\StationeryDAO.cs" />
     <Compile Include="DAO\SupplierDAO.cs" />
     <Compile Include="DAO\TransactionRecordDAO.cs" />
     <Compile Include="DAO\UserDAO.cs" />
@@ -232,14 +235,17 @@
     <Compile Include="Service\InventoryStatusRecordService.cs" />
     <Compile Include="Service\IPurchaseOrderService.cs" />
     <Compile Include="Service\IRequisitionRecordService.cs" />
+    <Compile Include="Service\IStationeryService.cs" />
     <Compile Include="Service\ISupplierService.cs" />
     <Compile Include="Service\ITransactionRecordService.cs" />
     <Compile Include="Service\IUserService.cs" />
     <Compile Include="Service\PurchaseOrderService.cs" />
     <Compile Include="Service\RequisitionRecordService.cs" />
+    <Compile Include="Service\StationeryService.cs" />
     <Compile Include="Service\SupplierService.cs" />
     <Compile Include="Service\TransactionRecordService.cs" />
     <Compile Include="Service\UserService.cs" />
+    <Compile Include="ViewModel\CollectionPointViewModel.cs" />
     <Compile Include="ViewModel\StationeryViewModel.cs" />
     <Compile Include="ViewModel\SupplierViewModel.cs" />
   </ItemGroup>
@@ -355,18 +361,20 @@
     <Content Include="Views\User\UserList.cshtml" />
     <Content Include="Views\Stationery\Index.cshtml" />
     <Content Include="Views\Stationery\Create.cshtml" />
-    <Content Include="Views\Department\EditDepartment.cshtml" />
-    <Content Include="Views\Department\CreateDepartment.cshtml" />
+    <Content Include="Views\CollectionPoint\Create.cshtml" />
+    <Content Include="Views\CollectionPoint\listCollectionPoint.cshtml" />
+    <Content Include="Views\Stationery\Delete.cshtml" />
+    <Content Include="Views\Stationery\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\AdjustmentVoucherRecord\" />
-    <Folder Include="Views\CollectionPoint\" />
     <Folder Include="Views\Employee\" />
     <Folder Include="Views\InventoryCheck\" />
     <Folder Include="Views\Report\" />
     <Folder Include="Views\RequisitionDetails\" />
     <Folder Include="Views\RequisitionRecord\" />
+    <Folder Include="Views\Stationery\" />
     <Folder Include="Views\VoucherDetails\" />
   </ItemGroup>
   <ItemGroup>

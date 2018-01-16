@@ -8,31 +8,6 @@ namespace Inventory_mvc.DAO
 {
     public class StationeryDAO : IStationeryDAO
     {
-        public bool AddNewStationery(StationeryDAO stationery)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool DeleteStationery(string itemCode)
-        {
-            throw new NotImplementedException();
-        }
-
-        public User FindByItemCode(string itemCode)
-        {
-            throw new NotImplementedException();
-        }
-
-        public List<StationeryDAO> GetAllStationery()
-        {
-            throw new NotImplementedException();
-        }
-
-        public int UpdateStationeryInfo(StationeryDAO stationery)
-        {
-            throw new NotImplementedException();
-        }
-
         bool IStationeryDAO.AddNewStationery(Stationery stationery)
         {
             using (StationeryModel context = new StationeryModel())
@@ -48,5 +23,67 @@ namespace Inventory_mvc.DAO
                 return true;
             }
         }
+
+
+        public bool DeleteStationery(string itemCode)
+        {
+            throw new NotImplementedException();
+        }
+
+        Stationery IStationeryDAO.FindByItemCode(string itemCode)
+        {
+            StationeryModel context = new StationeryModel();
+
+            return (from s in context.Stationery
+                    where s.itemCode == itemCode
+                    select s).FirstOrDefault();
+        }
+
+        List<Stationery> IStationeryDAO.GetAllStationery()
+        {
+            using (StationeryModel context = new StationeryModel())
+            {
+                return (from s in context.Stationery
+                        select s).ToList();
+            }
+        }
+
+         int IStationeryDAO.UpdateStationeryInfo(Stationery stationery)
+        {
+            using (StationeryModel context = new StationeryModel())
+            {
+                Stationery s = (from x in context.Stationery
+                              where x.itemCode == stationery.itemCode
+                              select x).FirstOrDefault();
+
+                s.categoryID = stationery.categoryID;
+                s.description = stationery.description;
+                s.reorderLevel = stationery.reorderLevel;
+                s.reorderQty = stationery.reorderQty;
+                s.unitOfMeasure = stationery.unitOfMeasure;
+                s.stockQty = stationery.stockQty;
+                s.location = stationery.location;
+                s.firstSupplierCode = stationery.firstSupplierCode;
+                s.secondSupplierCode = stationery.secondSupplierCode;
+                s.thirdSupplierCode = stationery.thirdSupplierCode;
+                s.price = stationery.price;
+                int rowAffected = context.SaveChanges();
+
+                return rowAffected;
+            }
+        }
+   
+
+        List<string> IStationeryDAO.GetAllItemCode()
+        {
+
+            using (StationeryModel context = new StationeryModel())
+            {
+                return (from s in context.Stationery
+                        select s.itemCode).ToList();
+            }
+        }
+        
+
     }
 }
