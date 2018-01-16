@@ -36,5 +36,20 @@ namespace Inventory_mvc.Service
         {
             return stationeryDAO.AddNewStationery(ConvertFromViewModel(stationeryVM));
         }
+
+        private StationeryDAO ConvertFromViewModel(StationeryViewModel stationeryVM)
+        {
+            Stationery stationery = new Stationery();
+
+            stationery.itemCode = stationeryVM.ItemCode;
+            stationery.categoryID = (int)stationeryVM.CategoryID;
+            stationery.reorderLevel = (int)stationeryVM.ReorderLevel;
+            stationery.reorderQty = (int)stationeryVM.ReorderQty;
+            stationery.unitOfMeasure = stationeryVM.UnitOfMeasure;
+            stationery.stockQty = (int)stationeryVM.StockQty;
+            stationery.firstSupplierCode = stationeryVM.FirstSupplierCode;
+            stationery.price = (decimal)stationeryVM.Price;
+            return stationery;
+        }
     }
 }

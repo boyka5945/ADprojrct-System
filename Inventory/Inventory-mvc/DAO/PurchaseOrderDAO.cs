@@ -74,6 +74,39 @@ namespace Inventory_mvc.DAO
 
         }
 
+        
+        public void AddPurchaseDetail(int deliveryOrderNo, string itemCode, int qty, string remarks)
+        {
+            using (StationeryModel Entity = new StationeryModel())
+            {
+                int maxOrderNo = 0;
+                //to obtain highest order number
+                List<Purchase_Details> pds = Entity.Purchase_Details.ToList();
+                foreach (Purchase_Details p in pds)
+                {
+                    maxOrderNo = 1;
+                    if(p.orderNo > maxOrderNo)
+                    {
+                        maxOrderNo = p.orderNo;
+                    }
+
+                }
+
+                Purchase_Details pd = new Purchase_Details();
+                pd.orderNo = maxOrderNo + 1;
+                pd.deliveryOrderNo = deliveryOrderNo;
+                pd.itemCode = itemCode;
+                pd.qty = qty;
+                pd.remarks = remarks;
+                Entity.Purchase_Details.Add(pd);
+                Entity.SaveChanges();
+            }
+
+            
+
+
+        }
+
 
     }
 }
