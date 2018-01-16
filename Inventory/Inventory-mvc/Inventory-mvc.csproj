@@ -352,6 +352,7 @@
     <Content Include="Views\ManageRequisitions\EditRequisition.cshtml" />
     <Content Include="Views\ManageRequisitions\ListRequisition.cshtml" />
     <Content Include="Views\Purchase\ListPurchaseOrders.cshtml" />
+    <Content Include="Views\Department\ListDepartment.cshtml" />
     <Content Include="Views\Supplier\Delete.cshtml" />
     <Content Include="Views\Supplier\Edit.cshtml" />
   </ItemGroup>
@@ -367,6 +368,15 @@
     <Folder Include="Views\RequisitionRecord\" />
     <Folder Include="Views\Stationery\" />
     <Folder Include="Views\VoucherDetails\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

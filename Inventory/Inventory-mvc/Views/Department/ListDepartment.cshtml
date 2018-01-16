@@ -1,0 +1,70 @@
+﻿@model IEnumerable<Inventory_mvc.Models.Department>
+
+@{
+    ViewBag.Title = "View";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Department List</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Collection_Point.collectionPointName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.User.password)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.User1.password)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.departmentName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.contactName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.phoneNo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.faxNo)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Collection_Point.collectionPointName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.User.password)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.User1.password)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.departmentName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.contactName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.phoneNo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.faxNo)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.departmentCode }) |
+            @Html.ActionLink("Details", "Details", new { id=item.departmentCode }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.departmentCode })
+        </td>
+    </tr>
+}
+
+</table>

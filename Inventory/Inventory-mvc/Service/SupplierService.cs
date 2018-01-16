@@ -102,5 +102,10 @@ namespace Inventory_mvc.Service
                 return false;
             }
         }
+
+        Supplier ISupplierService.GetSupplierByCode(string supplierCode)
+        {
+            return supplierDAO.FindBySupplierCode(supplierCode);
+        }
     }
 }
