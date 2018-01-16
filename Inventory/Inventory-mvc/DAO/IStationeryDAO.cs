@@ -9,7 +9,7 @@ namespace Inventory_mvc.DAO
     public interface IStationeryDAO
     {
         List<Stationery> GetAllStationery();
-        User FindByItemCode(string itemCode);
+        Stationery FindByItemCode(string itemCode);
         List<string> GetAllStationeryCode();
         Boolean AddNewStationery(Stationery stationery);
         int UpdateStationeryInfo(Stationery stationery);

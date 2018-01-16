@@ -14,9 +14,12 @@ namespace Inventory_mvc.DAO
             throw new NotImplementedException();
         }
 
-        User IStationeryDAO.FindByItemCode(string itemCode)
+        Stationery IStationeryDAO.FindByItemCode(string itemCode)
         {
-            throw new NotImplementedException();
+            StationeryModel context = new StationeryModel();
+            return (from s in context.Stationery
+                    where s.itemCode == itemCode
+                    select s).FirstOrDefault();
         }
 
        List<Stationery> IStationeryDAO.GetAllStationery()
@@ -39,7 +42,27 @@ namespace Inventory_mvc.DAO
 
         int IStationeryDAO.UpdateStationeryInfo(Stationery stationery)
         {
-            throw new NotImplementedException();
+            using (StationeryModel context = new StationeryModel())
+            {
+                Stationery s = (from x in context.Stationery
+                              where x.itemCode == stationery.itemCode
+                              select x).FirstOrDefault();
+
+                s.categoryID = stationery.categoryID;
+                s.description = stationery.description;
+                s.reorderLevel = stationery.reorderLevel;
+                s.reorderQty = stationery.reorderQty;
+                s.unitOfMeasure = stationery.unitOfMeasure;
+                s.stockQty = stationery.stockQty;
+                s.location = stationery.location;
+                s.firstSupplierCode = stationery.firstSupplierCode;
+                s.secondSupplierCode = stationery.secondSupplierCode;
+                s.thirdSupplierCode = stationery.thirdSupplierCode;
+                s.price = stationery.price;
+                int rowAffected = context.SaveChanges();
+
+                return rowAffected;
+            }
         }
 
         bool IStationeryDAO.AddNewStationery(Stationery stationery)
