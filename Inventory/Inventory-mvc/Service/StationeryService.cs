@@ -28,29 +28,39 @@ namespace Inventory_mvc.Service
 
         private StationeryViewModel ConvertToViewModel(Stationery s)
         {
-            throw new NotImplementedException();
-        }
-       
+            StationeryViewModel stationeryVM = new StationeryViewModel();
 
-        bool IStationeryService.AddNewStationery(StationeryViewModel stationeryVM)
-        {
-            return stationeryDAO.AddNewStationery(ConvertFromViewModel(stationeryVM));
+            stationeryVM.ItemCode = s.itemCode;
+            stationeryVM.CategoryID = s.categoryID;
+            stationeryVM.ReorderLevel = s.reorderLevel;
+            stationeryVM.ReorderQty = s.reorderQty;
+            stationeryVM.UnitOfMeasure = s.unitOfMeasure;
+            stationeryVM.StockQty = s.stockQty;
+            stationeryVM.FirstSupplierCode = s.firstSupplierCode;
+            stationeryVM.Price =  s.price;
+            return stationeryVM;
         }
 
-        private StationeryDAO ConvertFromViewModel(StationeryViewModel stationeryVM)
-        {
-            Stationery stationery = new Stationery();
 
-            stationery.itemCode = stationeryVM.ItemCode;
-            stationery.categoryID = (int)stationeryVM.CategoryID;
-            stationery.reorderLevel = (int)stationeryVM.ReorderLevel;
-            stationery.reorderQty = (int)stationeryVM.ReorderQty;
-            stationery.unitOfMeasure = stationeryVM.UnitOfMeasure;
-            stationery.stockQty = (int)stationeryVM.StockQty;
-            stationery.firstSupplierCode = stationeryVM.FirstSupplierCode;
-            stationery.price = (decimal)stationeryVM.Price;
-            return stationery;
-        }
+        //bool IStationeryService.AddNewStationery(StationeryViewModel stationeryVM)
+        //{
+        //    return stationeryDAO.AddNewStationery(ConvertFromViewModel(stationeryVM));
+        //}
+
+        //private StationeryDAO ConvertFromViewModel(StationeryViewModel stationeryVM)
+        //{
+        //    Stationery stationery = new Stationery();
+
+        //    stationery.itemCode = stationeryVM.ItemCode;
+        //    stationery.categoryID = (int)stationeryVM.CategoryID;
+        //    stationery.reorderLevel = (int)stationeryVM.ReorderLevel;
+        //    stationery.reorderQty = (int)stationeryVM.ReorderQty;
+        //    stationery.unitOfMeasure = stationeryVM.UnitOfMeasure;
+        //    stationery.stockQty = (int)stationeryVM.StockQty;
+        //    stationery.firstSupplierCode = stationeryVM.FirstSupplierCode;
+        //    stationery.price = (decimal)stationeryVM.Price;
+        //    return stationery;
+        //}
 
 
     }

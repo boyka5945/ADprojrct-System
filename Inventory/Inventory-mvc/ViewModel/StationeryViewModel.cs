@@ -19,6 +19,11 @@ namespace Inventory_mvc.ViewModel
         public int CategoryID { get; set; }
 
         [Required]
+        [StringLength(50)]
+        [Display(Name = "Description")]
+        public string Description { get; set; }
+
+        [Required]
         [Display(Name = "Reorder Level")]
         public int ReorderLevel { get; set; }
 
@@ -35,13 +40,22 @@ namespace Inventory_mvc.ViewModel
         [Display(Name = "Stock Quantity")]
         public int StockQty { get; set; }
 
+        [Display(Name = "Location")]
+        public string Location { get; set; }
+
         [Required]
         [StringLength(50)]
         [Display(Name = "First Supplier Code")]
         public string FirstSupplierCode { get; set; }
 
+        [Display(Name = "Second Supplier Code")]
+        public string SecondSupplierCode { get; set; }
+
+        [Display(Name = "Third Supplier Code")]
+        public string ThirdSupplierCode { get; set; }
+
         [Required]
         [Display(Name = "Price")]
-        public double Price { get; set; }
+        public decimal Price { get; set; }
     }
 }

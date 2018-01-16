@@ -53,6 +53,9 @@
             @Html.DisplayNameFor(model => model.CategoryID)
         </th>
         <th>
+            @Html.DisplayNameFor(model => model.Description)
+        </th>
+        <th>
             @Html.DisplayNameFor(model => model.ReorderLevel)
         </th>
         <th>
@@ -65,7 +68,16 @@
             @Html.DisplayNameFor(model => model.StockQty)
         </th>
         <th>
+            @Html.DisplayNameFor(model => model.Location)
+        </th>
+        <th>
             @Html.DisplayNameFor(model => model.FirstSupplierCode)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SecondSupplierCode)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ThirdSupplierCode)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Price)
@@ -82,6 +94,9 @@
             @Html.DisplayFor(modelItem => item.CategoryID)
         </td>
         <td>
+            @Html.DisplayFor(modelItem => item.Description)
+        </td>
+        <td>
             @Html.DisplayFor(modelItem => item.ReorderLevel)
         </td>
         <td>
@@ -94,7 +109,16 @@
             @Html.DisplayFor(modelItem => item.StockQty)
         </td>
         <td>
+            @Html.DisplayFor(modelItem => item.Location)
+        </td>
+        <td>
             @Html.DisplayFor(modelItem => item.FirstSupplierCode)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SecondSupplierCode)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ThirdSupplierCode)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Price)

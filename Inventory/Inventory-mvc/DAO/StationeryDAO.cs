@@ -8,20 +8,35 @@ namespace Inventory_mvc.DAO
 {
     public class StationeryDAO : IStationeryDAO
     {
-        public bool AddNewStationery(StationeryDAO stationery)
+        bool IStationeryDAO.AddNewStationery(Stationery stationery)
         {
             throw new NotImplementedException();
         }
 
-        public bool DeleteStationery(string itemCode)
+        bool IStationeryDAO.DeleteStationery(string itemCode)
         {
             throw new NotImplementedException();
         }
 
-        public User FindByItemCode(string itemCode)
+        User IStationeryDAO.FindByItemCode(string itemCode)
         {
             throw new NotImplementedException();
         }
+
+        //public bool AddNewStationery(StationeryDAO stationery)
+        //{
+        //    throw new NotImplementedException();
+        //}
+
+        //public bool DeleteStationery(string itemCode)
+        //{
+        //    throw new NotImplementedException();
+        //}
+
+        //public User FindByItemCode(string itemCode)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
         List<Stationery> IStationeryDAO.GetAllStationery()
         {
@@ -32,25 +47,30 @@ namespace Inventory_mvc.DAO
             }
         }
 
-        public int UpdateStationeryInfo(StationeryDAO stationery)
+        int IStationeryDAO.UpdateStationeryInfo(Stationery stationery)
         {
             throw new NotImplementedException();
         }
 
-        bool IStationeryDAO.AddNewStationery(Stationery stationery)
-        {
-            using (StationeryModel context = new StationeryModel())
-            {
-                context.Stationery.Add(stationery);
-                int rowAffected = context.SaveChanges();
+        //public int UpdateStationeryInfo(StationeryDAO stationery)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
-                if (rowAffected != 1)
-                {
-                    throw new DAOException();
-                }
+        //bool IStationeryDAO.AddNewStationery(Stationery stationery)
+        //{
+        //    using (StationeryModel context = new StationeryModel())
+        //    {
+        //        context.Stationery.Add(stationery);
+        //        int rowAffected = context.SaveChanges();
 
-                return true;
-            }
-        }
+        //        if (rowAffected != 1)
+        //        {
+        //            throw new DAOException();
+        //        }
+
+        //        return true;
+        //    }
+        //}
     }
 }
