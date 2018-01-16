@@ -55,40 +55,13 @@ namespace Inventory_mvc.Service
             throw new NotImplementedException();
         }
 
-        StationeryViewModel IStationeryService.FindByItemCode(string itemCode)
-        {
-            throw new NotImplementedException();
-        }
 
         bool IStationeryService.UpdateStationeryInfo(StationeryViewModel stationeryVM)
         {
             throw new NotImplementedException();
         }
 
-        bool IStationeryService.isExistingCode(string itemCode)
-        {
-            throw new NotImplementedException();
-        }
-
-
-        bool IStationeryService.AddNewStationery(StationeryViewModel stationeryVM)
-        {
-            return stationeryDAO.AddNewStationery(ConvertFromViewModel(stationeryVM));
-        }
-
-        bool IStationeryService.DeleteStationery(string itemCode)
-        {
-            throw new NotImplementedException();
-
-        }
-
-        bool IStationeryService.UpdateStationeryInfo(StationeryViewModel stationeryVM)
-        {
-            throw new NotImplementedException();
-
-        }
-
-        StationeryViewModel IStationeryService.FindByItemCode(string itemCode)
+          StationeryViewModel IStationeryService.FindByItemCode(string itemCode)
         {
             throw new NotImplementedException();
         }
@@ -101,7 +74,7 @@ namespace Inventory_mvc.Service
         }
 
 
-        private StationeryDAO ConvertFromViewModel(StationeryViewModel stationeryVM)
+        private Stationery ConvertFromViewModel(StationeryViewModel stationeryVM)
         {
             Stationery stationery = new Stationery();
             stationery.itemCode = stationeryVM.ItemCode;
