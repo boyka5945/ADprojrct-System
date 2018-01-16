@@ -1,17 +1,117 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using Inventory_mvc.Service;
+using Inventory_mvc.ViewModel;
+using System;
 using System.Web.Mvc;
 
 namespace Inventory_mvc.Controllers
 {
     public class StationeryController : Controller
     {
+        
+        IStationeryService stationeryService = new StationeryService();
         // GET: Stationery
         public ActionResult Index()
         {
-            return View();
+            return View(stationeryService.GetAllStationery());
         }
+
+
+
+        // GET: Supplier/Edit/{id}
+        public ActionResult Edit(string id)
+        {
+            StationeryViewModel stationeryVM = stationeryService.FindByItemCode(id);
+            return View(stationeryVM);
+        }
+
+
+        // POST: Supplier/Edit/{id}
+        [HttpPost]
+        public ActionResult Edit(StationeryViewModel stationeryVM)
+        {
+            string code = stationeryVM.ItemCode;
+        
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    if (stationeryService.UpdateStationeryInfo(stationeryVM))
+                    {
+                        TempData["EditMessage"] = String.Format("'{0}' has been updated", code);
+                    }
+                    else
+                    {
+                        TempData["EditErrorMessage"] = String.Format("There is not change to '{0}'.", code);
+                    }
+            
+                    return RedirectToAction("Index");
+                }
+                catch (Exception e)
+                {
+                    ViewBag.ExceptionMessage = e.Message;
+                }
+            }
+            return View(stationeryVM);
+        }
+
+        // GET: Stationery/Create
+        public ActionResult Create()
+        {
+            return View(new StationeryViewModel());
+        }
+
+        // POST: Stationery/Create
+        [HttpPost]
+        public ActionResult Create(StationeryViewModel stationeryVM)
+        {
+            string code = stationeryVM.ItemCode;
+
+            if (stationeryService.isExistingCode(code))
+            {
+                string errorMessage = String.Format("{0} has been used.", code);
+                ModelState.AddModelError("ItemCode", errorMessage);
+            }
+            else if (ModelState.IsValid)
+            {
+                try
+                {
+                    stationeryService.AddNewStationery(stationeryVM);
+                    TempData["CreateMessage"] = String.Format("Stationery '{0}' is added.", code);
+                    return RedirectToAction("Index");
+                }
+                catch (Exception e)
+                {
+                    TempData["ExceptionMessage"] = e.Message;
+                }
+            }
+
+            return View(stationeryVM);
+        }
+
+
+
+        // GET: Stationery/Delete/{id}
+        public ActionResult Delete(string id)
+        {
+            if (stationeryService.DeleteStationery(id))
+            {
+                TempData["DeleteMessage"] = String.Format("Stationery '{0}' has been deleted", id);
+            }
+            else
+            {
+                TempData["DeleteErrorMessage"] = String.Format("Cannot delete stationery '{0}'", id);
+            }
+
+            return RedirectToAction("Index");
+        }
+
+
+        // GET: Stationery/Details
+        public ActionResult ViewStockCard(string id)
+        {
+            return View(stationeryService.FindByItemCode(id));
+        }
+
     }
 }

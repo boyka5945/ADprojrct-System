@@ -8,8 +8,6 @@ namespace Inventory_mvc.DAO
 {
     public interface IStationeryDAO
     {
-        List<Stationery> GetAllStationery();
-
         Stationery FindByItemCode(string itemCode);
 
         bool AddNewStationery(Stationery stationery);
@@ -22,5 +20,9 @@ namespace Inventory_mvc.DAO
 
         List<Category> GetAllCategory();
      
+        List<Stationery> GetAllStationery();
+
+        List<string> GetAllItemCode();
+       
     }
 }

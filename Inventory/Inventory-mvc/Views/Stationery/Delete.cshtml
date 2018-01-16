@@ -1,0 +1,115 @@
+﻿@model IEnumerable <Inventory_mvc.ViewModel.StationeryViewModel>
+
+@{
+    ViewBag.Title = "Stationery List";
+
+    var deleteErrorMessage = TempData["DeleteErrorMessage"];
+    var deleteMessage = TempData["DeleteMessage"];
+}
+
+<h2>@ViewBag.Title</h2>
+
+<<p>
+    @Html.ActionLink("Create New Supplier", "Create")
+</p>
+
+<p>
+    @if (deleteErrorMessage != null)
+    {
+        @Html.Label(deleteErrorMessage.ToString(), new { @class = "alert alert-danger" });
+    }
+
+    @if (deleteMessage != null)
+    {
+        @Html.Label(deleteMessage.ToString(), new { @class = "alert alert-success" });
+    }
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.ItemCode)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CategoryID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ReorderLevel)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ReorderQty)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UnitOfMeasure)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.StockQty)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Location)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstSupplierCode)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SecondSupplierCode)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ThirdSupplierCode)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Price)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ItemCode)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CategoryID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ReorderLevel)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ReorderQty)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UnitOfMeasure)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StockQty)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Location)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FirstSupplierCode)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SecondSupplierCode)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ThirdSupplierCode)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Price)
+            </td>
+            <td>
+               @Html.ActionLink("Edit", "Edit", new { id = item.ItemCode }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.ItemCode })
+            </td>
+        </tr>
+    }
+
+</table>
+        

@@ -7,10 +7,14 @@ using Inventory_mvc.Models;
 
 namespace Inventory_mvc.DAO
 {
-    interface ICollectionPoint
+    interface ICollectionPointDAO
     {
         List<Collection_Point> GetAllCollectionPoints();
 
         Collection_Point FindByCollectionPointID(int id);
+
+        List<int> GetAllCollectionID();
+
+        bool AddNewCollectionPoint(Collection_Point collectionPoint);
     }
 }
