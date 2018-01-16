@@ -106,5 +106,12 @@ namespace Inventory_mvc.Controllers
             return RedirectToAction("Index");
         }
 
+
+        // GET: Stationery/Details
+        public ActionResult ViewStockCard(string id)
+        {
+            return View(stationeryService.FindByItemCode(id));
+        }
+
     }
 }

@@ -365,6 +365,7 @@
     <Content Include="Views\CollectionPoint\listCollectionPoint.cshtml" />
     <Content Include="Views\Stationery\Delete.cshtml" />
     <Content Include="Views\Stationery\Edit.cshtml" />
+    <Content Include="Views\Stationery\ViewStockCard.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -374,7 +375,6 @@
     <Folder Include="Views\Report\" />
     <Folder Include="Views\RequisitionDetails\" />
     <Folder Include="Views\RequisitionRecord\" />
-    <Folder Include="Views\Stationery\" />
     <Folder Include="Views\VoucherDetails\" />
   </ItemGroup>
   <ItemGroup>
