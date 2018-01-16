@@ -7,8 +7,7 @@ namespace Inventory_mvc.Controllers
 {
     public class StationeryController : Controller
     {
-        IStationeryService stationeryService = new StationeryService();
-
+        
         IStationeryService stationeryService = new StationeryService();
         // GET: Stationery
         public ActionResult Index()
@@ -31,11 +30,7 @@ namespace Inventory_mvc.Controllers
         public ActionResult Edit(StationeryViewModel stationeryVM)
         {
             string code = stationeryVM.ItemCode;
-        // POST: Supplier/Edit/{id}
-        [HttpPost]
-        public ActionResult Edit(SupplierViewModel supplierVM)
-        {
-            string code = supplierVM.SupplierCode;
+        
 
             if (ModelState.IsValid)
             {
@@ -49,19 +44,7 @@ namespace Inventory_mvc.Controllers
                     {
                         TempData["EditErrorMessage"] = String.Format("There is not change to '{0}'.", code);
                     }
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    if (supplierService.UpdateSupplierInfo(supplierVM))
-                    {
-                        TempData["EditMessage"] = String.Format("'{0}' has been updated", code);
-                    }
-                    else
-                    {
-                        TempData["EditErrorMessage"] = String.Format("There is not change to '{0}'.", code);
-                    }
-
+            
                     return RedirectToAction("Index");
                 }
                 catch (Exception e)
@@ -69,10 +52,7 @@ namespace Inventory_mvc.Controllers
                     ViewBag.ExceptionMessage = e.Message;
                 }
             }
-
             return View(stationeryVM);
-        }
-            return View(supplierVM);
         }
 
         // GET: Stationery/Create
