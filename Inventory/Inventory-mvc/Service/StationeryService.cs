@@ -32,13 +32,42 @@ namespace Inventory_mvc.Service
 
             stationeryVM.ItemCode = s.itemCode;
             stationeryVM.CategoryID = s.categoryID;
+            stationeryVM.Description = s.description;
             stationeryVM.ReorderLevel = s.reorderLevel;
             stationeryVM.ReorderQty = s.reorderQty;
             stationeryVM.UnitOfMeasure = s.unitOfMeasure;
             stationeryVM.StockQty = s.stockQty;
+            stationeryVM.Location = s.location;
             stationeryVM.FirstSupplierCode = s.firstSupplierCode;
+            stationeryVM.SecondSupplierCode = s.secondSupplierCode;
+            stationeryVM.ThirdSupplierCode = s.thirdSupplierCode;
             stationeryVM.Price =  s.price;
             return stationeryVM;
+        }
+
+        bool IStationeryService.AddNewStationery(StationeryViewModel stationeryVM)
+        {
+            throw new NotImplementedException();
+        }
+
+        bool IStationeryService.DeleteStationery(string itemCode)
+        {
+            throw new NotImplementedException();
+        }
+
+        StationeryViewModel IStationeryService.FindByItemCode(string itemCode)
+        {
+            throw new NotImplementedException();
+        }
+
+        bool IStationeryService.UpdateStationeryInfo(StationeryViewModel stationeryVM)
+        {
+            throw new NotImplementedException();
+        }
+
+        bool IStationeryService.isExistingCode(string itemCode)
+        {
+            throw new NotImplementedException();
         }
 
 
