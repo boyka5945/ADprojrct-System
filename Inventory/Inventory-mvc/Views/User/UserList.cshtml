@@ -46,10 +46,13 @@
         <td>
             @Html.DisplayFor(modelItem => item.delegationEnd)
         </td>
+
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.userID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.userID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.userID })
+            @Html.ActionLink("Create", "Create", new { id = item.userID }) |
+            @Html.ActionLink("Edit", "Edit", new { id = item.userID }) |
+            @Html.ActionLink("Delegate", "Delegate", new { id = item.userID }) |
+            @Html.ActionLink("Assign Rep", "Assign_Rep", new { id = item.userID }) |
+            @Html.ActionLink("Remove Delegate", "Remove_Delegate", new { id = item.userID }) 
         </td>
     </tr>
 }
