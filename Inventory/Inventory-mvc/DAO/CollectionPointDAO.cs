@@ -6,7 +6,7 @@ using Inventory_mvc.Models;
 
 namespace Inventory_mvc.DAO
 {
-    public class CollectionPoint : ICollectionPoint
+    public class CollectionPointDAO : ICollectionPointDAO
     {
         public Collection_Point FindByCollectionPointID(int id)
         {
