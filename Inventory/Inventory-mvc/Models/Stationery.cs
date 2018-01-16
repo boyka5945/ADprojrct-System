@@ -27,6 +27,7 @@ namespace Inventory_mvc.Models
 
         [Required]
         [StringLength(50)]
+        [Display(Name = "Description")]
         public string description { get; set; }
 
         public int reorderLevel { get; set; }
@@ -35,6 +36,7 @@ namespace Inventory_mvc.Models
 
         [Required]
         [StringLength(50)]
+        [Display(Name = "UOM")]
         public string unitOfMeasure { get; set; }
 
         public int stockQty { get; set; }

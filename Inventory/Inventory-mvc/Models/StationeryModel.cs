@@ -171,5 +171,6 @@ namespace Inventory_mvc.Models
                 .WithOptional(e => e.User)
                 .HasForeignKey(e => e.clerkID);
         }
+
     }
 }

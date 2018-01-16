@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using Inventory_mvc.Models;
+using System.Data.Entity;
 
 namespace Inventory_mvc.DAO
 {
@@ -41,16 +42,16 @@ namespace Inventory_mvc.DAO
 
         Supplier ISupplierDAO.FindBySupplierCode(string supplierCode)
         {
-            // TODO: FIX THIS
-            //using (StationeryModel context = new StationeryModel())
-            //{
-
-            StationeryModel context = new StationeryModel();
-
+            using (StationeryModel context = new StationeryModel())
+            {
                 return (from s in context.Supplier
                         where s.supplierCode == supplierCode
-                        select s).FirstOrDefault();
-            //}
+                        select s)
+                        .Include(s => s.Stationery)
+                        .Include(s => s.Stationery1)
+                        .Include(s => s.Stationery2)
+                        .FirstOrDefault();
+            }
         }
 
         List<Supplier> ISupplierDAO.GetAllSupplier()

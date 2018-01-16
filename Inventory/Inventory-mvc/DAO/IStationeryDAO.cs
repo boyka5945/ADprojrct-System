@@ -8,11 +8,19 @@ namespace Inventory_mvc.DAO
 {
     public interface IStationeryDAO
     {
-        List<StationeryDAO> GetAllStationery();
-        User FindByItemCode(string itemCode);
-        Boolean AddNewStationery(StationeryDAO stationery);
-        int UpdateStationeryInfo(StationeryDAO stationery);
-        Boolean DeleteStationery(string itemCode);
+        List<Stationery> GetAllStationery();
+
+        Stationery FindByItemCode(string itemCode);
+
+        bool AddNewStationery(Stationery stationery);
+
+        int UpdateStationeryInfo(Stationery stationery);
+
+        bool DeleteStationery(string itemCode);
+
+        List<string> GetUOMList();
+
+        List<Category> GetAllCategory();
      
     }
 }
