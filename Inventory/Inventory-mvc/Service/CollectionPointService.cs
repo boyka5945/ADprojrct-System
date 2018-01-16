@@ -4,7 +4,6 @@ using System.Linq;
 using System.Web;
 using Inventory_mvc.DAO;
 using Inventory_mvc.Models;
-using Inventory_mvc.Service;
 using Inventory_mvc.ViewModel;
 
 namespace Inventory_mvc.Service
@@ -13,16 +12,29 @@ namespace Inventory_mvc.Service
     {
         private ICollectionPointDAO collectionPointDAO = new CollectionPointDAO();
 
-        public List<Collection_Point> GetAllCollectionPoint()
+        //public List<Collection_Point> GetAllCollectionPoint()
+        //{
+        //    CollectionPointDAO cDAO = new CollectionPointDAO();
+        //    return cDAO.GetAllCollectionPoints();
+        //}
+
+        List<CollectionPointViewModel> ICollectionPointService.GetAllCollectionPoints()
         {
-            CollectionPointDAO cDAO = new CollectionPointDAO();
-            return cDAO.GetAllCollectionPoints();
+            List<Collection_Point> collectionPointList = collectionPointDAO.GetAllCollectionPoint();
+
+            List<CollectionPointViewModel> viewModelList = new List<CollectionPointViewModel>();
+            foreach (Collection_Point s in collectionPointList)
+            {
+                viewModelList.Add(ConvertToViewModel(s));
+            }
+
+            return viewModelList;
         }
 
-        public Collection_Point GetCollectionPointByID(int collectionPointID)
+        public CollectionPointViewModel GetCollectionPointByID(int collectionPointID)
         {
-            CollectionPointDAO cDAO = new CollectionPointDAO();
-            return cDAO.FindByCollectionPointID(collectionPointID);
+            int id = collectionPointID;
+            return ConvertToViewModel(collectionPointDAO.FindByCollectionPointID(id));
         }
 
         bool ICollectionPointService.isExistingCode(int collectionPointID)
@@ -35,6 +47,20 @@ namespace Inventory_mvc.Service
         bool ICollectionPointService.AddNewCollectionPoint(CollectionPointViewModel cpVM)
         {
             return collectionPointDAO.AddNewCollectionPoint(ConvertFromViewModel(cpVM));
+        }
+
+        bool ICollectionPointService.UpdateCollectionPointInfo(CollectionPointViewModel cpVM)
+        {
+            Collection_Point collectionPoint = ConvertFromViewModel(cpVM);
+
+            if (collectionPointDAO.UpdateCollectionPointInfo(collectionPoint) == 1)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         private CollectionPointViewModel ConvertToViewModel(Collection_Point collectionPoint)

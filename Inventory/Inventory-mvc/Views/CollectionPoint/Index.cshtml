@@ -1,0 +1,85 @@
+﻿@model IEnumerable<Inventory_mvc.ViewModel.CollectionPointViewModel>
+
+@{
+    ViewBag.Title = "Collection Point List";
+    var createMessage = TempData["CreateMessage"];
+
+    var editMessage = TempData["EditMessage"];
+    var editErrorMessage = TempData["EditErrorMessage"];
+
+    var deleteErrorMessage = TempData["DeleteErrorMessage"];
+    var deleteMessage = TempData["DeleteMessage"];
+
+}
+
+<h2>Index</h2>
+
+<br />
+
+<div>
+    <p>
+        @if (createMessage != null)
+        {
+            <div class="alert alert-success">
+                @createMessage.ToString()
+            </div>
+        }
+
+        @if (editMessage != null)
+        {
+            <div class="alert alert-success">
+                @editMessage.ToString()
+            </div>
+        }
+
+        @if (editErrorMessage != null)
+        {
+            <div class="alert alert-danger">
+                @editErrorMessage.ToString()
+            </div>
+        }
+
+        @if (deleteMessage != null)
+        {
+            <div class="alert alert-success">
+                @deleteMessage.ToString()
+            </div>
+        }
+
+        @if (deleteErrorMessage != null)
+        {
+            <div class="alert alert-danger">
+                @deleteErrorMessage.ToString()
+            </div>
+        }
+
+
+    </p>
+</div>
+
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.collectionPointName)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.collectionPointName)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.collectionPointID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.collectionPointID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.collectionPointID })
+        </td>
+    </tr>
+}
+
+</table>

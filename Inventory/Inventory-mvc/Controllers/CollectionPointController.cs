@@ -15,15 +15,15 @@ namespace Inventory_mvc.Controllers
         // GET: CollectionPoint
         public ActionResult Index()
         {
-            return View();
+            return View(collectionPointService.GetAllCollectionPoints());
         }
 
-        public ActionResult ListCollectionPoint()
-        {
-            CollectionPointService ds = new CollectionPointService();
-            List<Collection_Point> model = ds.GetAllCollectionPoint();
-            return View(model);
-        }
+        //public ActionResult ListCollectionPoint()
+        //{
+        //    CollectionPointService ds = new CollectionPointService();
+        //    List<Collection_Point> model = ds.GetAllCollectionPoint();
+        //    return View(model);
+        //}
 
         // GET: Supplier/Create
         public ActionResult Create()
@@ -48,7 +48,7 @@ namespace Inventory_mvc.Controllers
                 {
                     collectionPointService.AddNewCollectionPoint(collectionPointVM);
                     TempData["CreateMessage"] = String.Format("Collection Point '{0}' is added.", id);
-                    return RedirectToAction("ListCollectionPoint");
+                    return RedirectToAction("listCollectionPoint");
                 }
                 catch (Exception e)
                 {
@@ -58,5 +58,46 @@ namespace Inventory_mvc.Controllers
 
             return View(collectionPointVM);
         }
+
+        // GET: CollectionPoint/Edit/{id}
+        public ActionResult Edit(int id)
+        {
+            CollectionPointViewModel cpVM = collectionPointService.GetCollectionPointByID(id);
+            return View(cpVM);
+        }
+
+
+        // POST: Supplier/Edit/{id}
+        [HttpPost]
+        public ActionResult Edit(CollectionPointViewModel cpVM)
+        {
+            int id = cpVM.collectionPointID;
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    if (collectionPointService.UpdateCollectionPointInfo(cpVM))
+                    {
+                        TempData["EditMessage"] = String.Format("'{0}' has been updated", id);
+                    }
+                    else
+                    {
+                        TempData["EditErrorMessage"] = String.Format("There is not change to '{0}'.", id);
+                    }
+
+                    return RedirectToAction("listCollectionPoint");
+                }
+                catch (Exception e)
+                {
+                    ViewBag.ExceptionMessage = e.Message;
+                }
+            }
+
+            return View(cpVM);
+        }
+
     }
+
+
 }

@@ -12,11 +12,13 @@ namespace Inventory_mvc.Service
     {
         bool isExistingCode(int collectionPointID);
 
-        List<Collection_Point> GetAllCollectionPoint();
+        List<CollectionPointViewModel> GetAllCollectionPoints();
 
-        Collection_Point GetCollectionPointByID(int collectionPointID);
+        CollectionPointViewModel GetCollectionPointByID(int collectionPointID);
 
        bool AddNewCollectionPoint(CollectionPointViewModel cpVM);
+
+        bool UpdateCollectionPointInfo(CollectionPointViewModel cpVM);
 
     }
 }
