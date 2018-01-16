@@ -14,6 +14,10 @@ namespace Inventory_mvc.Service
 
         Purchase_Order_Record FindByOrderID(int orderID);
 
+        bool DeletePurchaseOrder(int orderID);
+
+        int UpdatePurchaseOrderInfo(Purchase_Order_Record purchase_order_record);
+
         //void AddPurchaseDetail(int deliveryOrderNo, string itemCode, int qty, string remarks);
 
     }
