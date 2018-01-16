@@ -23,9 +23,13 @@ namespace Inventory_mvc.DAO
             throw new NotImplementedException();
         }
 
-        public List<StationeryDAO> GetAllStationery()
+        List<Stationery> IStationeryDAO.GetAllStationery()
         {
-            throw new NotImplementedException();
+            using (StationeryModel context = new StationeryModel())
+            {
+                return (from s in context.Stationery
+                        select s).ToList();
+            }
         }
 
         public int UpdateStationeryInfo(StationeryDAO stationery)

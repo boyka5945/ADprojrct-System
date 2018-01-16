@@ -8,14 +8,14 @@ using System.Web;
 
 namespace Inventory_mvc.Service
 {
-    public class StationeryService
+    public class StationeryService : IStationeryService
     {
-        //private IStationeryDAO stationeryDAO = new StationeryDAO();
+        private IStationeryDAO stationeryDAO = new StationeryDAO();
 
 
-        List<StationeryViewModel> IStationeryService.GetAllSuppliers()
+        List<StationeryViewModel> IStationeryService.GetAllStationery()
         {
-            List<Stationery> stationeryList = stationeryDAO.GetAllSupplier();
+            List<Stationery> stationeryList = stationeryDAO.GetAllStationery();
 
             List<StationeryViewModel> viewModelList = new List<StationeryViewModel>();
             foreach (Stationery s in stationeryList)
@@ -30,7 +30,7 @@ namespace Inventory_mvc.Service
         {
             throw new NotImplementedException();
         }
-        private IStationeryDAO stationeryDAO = new StationeryDAO();
+       
 
         bool IStationeryService.AddNewStationery(StationeryViewModel stationeryVM)
         {
@@ -51,5 +51,7 @@ namespace Inventory_mvc.Service
             stationery.price = (decimal)stationeryVM.Price;
             return stationery;
         }
+
+
     }
 }
