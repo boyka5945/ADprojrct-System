@@ -26,38 +26,6 @@ namespace Inventory_mvc.Service
             return viewModelList;
         }
 
-
-
-        private SupplierViewModel ConvertToViewModel(Supplier supplier)
-        {
-            SupplierViewModel supplierVM = new SupplierViewModel();
-
-            supplierVM.SupplierCode = supplier.supplierCode;
-            supplierVM.GSTNo = supplier.GSTNo;
-            supplierVM.SupplierName = supplier.supplierName;
-            supplierVM.ContactName = supplier.contactName;
-            supplierVM.PhoneNo = supplier.phoneNo;
-            supplierVM.FaxNo = supplier.faxNo;
-            supplierVM.Address = supplier.address;
-
-            return supplierVM;
-        }
-
-        private Supplier ConvertFromViewModel(SupplierViewModel supplierVM)
-        {
-            Supplier supplier = new Supplier();
-
-            supplier.supplierCode = supplierVM.SupplierCode;
-            supplier.GSTNo = supplierVM.GSTNo;
-            supplier.supplierName = supplierVM.SupplierName;
-            supplier.contactName = supplierVM.ContactName;
-            supplier.phoneNo = supplierVM.PhoneNo;
-            supplier.faxNo = supplierVM.FaxNo;
-            supplier.address = supplierVM.Address;
-
-            return supplier;
-        }
-
         bool ISupplierService.isExistingCode(string supplierCode)
         {
             string code = supplierCode.ToUpper().Trim();
@@ -102,5 +70,36 @@ namespace Inventory_mvc.Service
                 return false;
             }
         }
+
+        private SupplierViewModel ConvertToViewModel(Supplier supplier)
+        {
+            SupplierViewModel supplierVM = new SupplierViewModel();
+
+            supplierVM.SupplierCode = supplier.supplierCode;
+            supplierVM.GSTNo = supplier.GSTNo;
+            supplierVM.SupplierName = supplier.supplierName;
+            supplierVM.ContactName = supplier.contactName;
+            supplierVM.PhoneNo = supplier.phoneNo;
+            supplierVM.FaxNo = supplier.faxNo;
+            supplierVM.Address = supplier.address;
+
+            return supplierVM;
+        }
+
+        private Supplier ConvertFromViewModel(SupplierViewModel supplierVM)
+        {
+            Supplier supplier = new Supplier();
+
+            supplier.supplierCode = supplierVM.SupplierCode;
+            supplier.GSTNo = supplierVM.GSTNo;
+            supplier.supplierName = supplierVM.SupplierName;
+            supplier.contactName = supplierVM.ContactName;
+            supplier.phoneNo = (int)supplierVM.PhoneNo;
+            supplier.faxNo = supplierVM.FaxNo;
+            supplier.address = supplierVM.Address;
+
+            return supplier;
+        }
+
     }
 }

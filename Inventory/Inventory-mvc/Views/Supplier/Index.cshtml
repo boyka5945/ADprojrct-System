@@ -3,6 +3,8 @@
 @{
     ViewBag.Title = "Supplier List";
 
+    var createMessage = TempData["CreateMessage"];
+
     var editMessage = TempData["EditMessage"];
     var editErrorMessage = TempData["EditErrorMessage"];
 
@@ -14,6 +16,11 @@
 
 <div>
     <p>
+        @if (createMessage != null)
+        {
+            @Html.Label(createMessage.ToString(), new { @class = "alert alert-success" });
+        }
+
         @if (editMessage != null)
         {
             @Html.Label(editMessage.ToString(), new { @class = "alert alert-success" });
