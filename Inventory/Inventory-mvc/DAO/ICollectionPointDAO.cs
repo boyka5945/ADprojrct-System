@@ -7,7 +7,7 @@ using Inventory_mvc.Models;
 
 namespace Inventory_mvc.DAO
 {
-    interface ICollectionPoint
+    interface ICollectionPointDAO
     {
         List<Collection_Point> GetAllCollectionPoints();
 

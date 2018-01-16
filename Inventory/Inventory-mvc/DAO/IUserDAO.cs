@@ -16,6 +16,6 @@ namespace Inventory_mvc.DAO
 
         int UpdateUserInfo(User user);
 
-        bool DeleteUser(string userID);
+      //  bool DeleteUser(string userID);
     }
 }

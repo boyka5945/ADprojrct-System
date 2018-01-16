@@ -13,6 +13,6 @@ namespace Inventory_mvc.DAO
         Boolean AddNewStationery(StationeryDAO stationery);
         int UpdateStationeryInfo(StationeryDAO stationery);
         Boolean DeleteStationery(string itemCode);
-     
+        bool AddNewStationery(Stationery stationery);
     }
 }

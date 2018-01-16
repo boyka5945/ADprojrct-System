@@ -56,5 +56,39 @@ namespace Inventory_mvc.Controllers
 
             return View(supplierVM);
         }
+
+        // GET: Stationert/Create
+        public ActionResult Create()
+        {
+            return View(new StationeryViewModel());
+        }
+
+        // POST: Supplier/Create
+        [HttpPost]
+        public ActionResult Create(StationeryViewModel supplierVM)
+        {
+            string code = stationeryVM.ItemCode;
+
+            if (stationeryService.isExistingCode(code))
+            {
+                string errorMessage = String.Format("{0} has been used.", code);
+                ModelState.AddModelError("ItemCode", errorMessage);
+            }
+            else if (ModelState.IsValid)
+            {
+                try
+                {
+                    stationeryService.AddNewStationery(stationeryVM);
+                    TempData["CreateMessage"] = String.Format("Stationery '{0}' is added.", code);
+                    return RedirectToAction("Index");
+                }
+                catch (Exception e)
+                {
+                    TempData["ExceptionMessage"] = e.Message;
+                }
+            }
+
+            return View(supplierVM);
+        }
     }
 }

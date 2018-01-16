@@ -30,5 +30,11 @@ namespace Inventory_mvc.Service
         {
             throw new NotImplementedException();
         }
+        private IStationeryDAO stationeryDAO = new StationeryDAO();
+
+        bool IStationeryService.AddNewStationery(StationeryViewModel stationeryVM)
+        {
+            return stationeryDAO.AddNewStationery(ConvertFromViewModel(stationeryVM));
+        }
     }
 }

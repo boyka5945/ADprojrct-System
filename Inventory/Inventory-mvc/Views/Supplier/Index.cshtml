@@ -14,32 +14,46 @@
 
 <h2>Supplier List</h2>
 
+<br />
+
 <div>
     <p>
         @if (createMessage != null)
         {
-            @Html.Label(createMessage.ToString(), new { @class = "alert alert-success" });
+            <div class="alert alert-success">
+                @createMessage.ToString()
+            </div>
         }
 
         @if (editMessage != null)
         {
-            @Html.Label(editMessage.ToString(), new { @class = "alert alert-success" });
+            <div class="alert alert-success">
+                @editMessage.ToString()
+            </div>
         }
 
         @if (editErrorMessage != null)
         {
-            @Html.Label(editErrorMessage.ToString(), new { @class = "alert alert-danger" });
-        }
-
-        @if (deleteErrorMessage != null)
-        {
-            @Html.Label(deleteErrorMessage.ToString(), new { @class = "alert alert-danger" });
+            <div class="alert alert-danger">
+                @editErrorMessage.ToString()
+            </div>
         }
 
         @if (deleteMessage != null)
         {
-            @Html.Label(deleteMessage.ToString(), new { @class = "alert alert-success" });
+            <div class="alert alert-success">
+                @deleteMessage.ToString()
+            </div>
         }
+
+        @if (deleteErrorMessage != null)
+        {
+            <div class="alert alert-danger">
+                @deleteErrorMessage.ToString()
+            </div>
+        }
+
+
     </p>
 </div>
 
