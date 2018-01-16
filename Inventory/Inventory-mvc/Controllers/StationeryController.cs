@@ -9,7 +9,7 @@ namespace Inventory_mvc.Controllers
     {
         IStationeryService stationeryService = new StationeryService();
 
-       
+        IStationeryService stationeryService = new StationeryService();
         // GET: Stationery
         public ActionResult Index()
         {
@@ -31,12 +31,29 @@ namespace Inventory_mvc.Controllers
         public ActionResult Edit(StationeryViewModel stationeryVM)
         {
             string code = stationeryVM.ItemCode;
+        // POST: Supplier/Edit/{id}
+        [HttpPost]
+        public ActionResult Edit(SupplierViewModel supplierVM)
+        {
+            string code = supplierVM.SupplierCode;
 
             if (ModelState.IsValid)
             {
                 try
                 {
                     if (stationeryService.UpdateStationeryInfo(stationeryVM))
+                    {
+                        TempData["EditMessage"] = String.Format("'{0}' has been updated", code);
+                    }
+                    else
+                    {
+                        TempData["EditErrorMessage"] = String.Format("There is not change to '{0}'.", code);
+                    }
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    if (supplierService.UpdateSupplierInfo(supplierVM))
                     {
                         TempData["EditMessage"] = String.Format("'{0}' has been updated", code);
                     }
@@ -55,15 +72,17 @@ namespace Inventory_mvc.Controllers
 
             return View(stationeryVM);
         }
+            return View(supplierVM);
+        }
 
-        //GET: Stationery/Create
+        // GET: Stationery/Create
         public ActionResult Create()
         {
             return View(new StationeryViewModel());
         }
 
-        //POST: Stationery/Create
-       [HttpPost]
+        // POST: Stationery/Create
+        [HttpPost]
         public ActionResult Create(StationeryViewModel stationeryVM)
         {
             string code = stationeryVM.ItemCode;

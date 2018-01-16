@@ -8,13 +8,13 @@ namespace Inventory_mvc.DAO
 {
     public class StationeryDAO : IStationeryDAO
     {
-
-        bool IStationeryDAO.DeleteStationery(string itemCode)
+        public bool AddNewStationery(StationeryDAO stationery)
         {
             throw new NotImplementedException();
         }
 
         Stationery IStationeryDAO.FindByItemCode(string itemCode)
+        public bool DeleteStationery(string itemCode)
         {
             StationeryModel context = new StationeryModel();
             return (from s in context.Stationery
@@ -22,25 +22,17 @@ namespace Inventory_mvc.DAO
                     select s).FirstOrDefault();
         }
 
-       List<Stationery> IStationeryDAO.GetAllStationery()
+        public User FindByItemCode(string itemCode)
         {
-            using (StationeryModel context = new StationeryModel())
-            {
-                return (from s in context.Stationery
-                        select s).ToList();
-            }
+            throw new NotImplementedException();
         }
 
-        List<string> IStationeryDAO.GetAllStationeryCode()
+        public List<StationeryDAO> GetAllStationery()
         {
-            using (StationeryModel context = new StationeryModel())
-            {
-                return (from s in context.Stationery
-                        select s.itemCode).ToList();
-            }
+            throw new NotImplementedException();
         }
 
-        int IStationeryDAO.UpdateStationeryInfo(Stationery stationery)
+        public int UpdateStationeryInfo(StationeryDAO stationery)
         {
             using (StationeryModel context = new StationeryModel())
             {

@@ -45,8 +45,21 @@ namespace Inventory_mvc.Controllers
         [HttpGet]
         public ActionResult RaisePurchaseOrder()
         {
-            return View();
+
+            //PurchaseOrderDAO dao = new PurchaseOrderDAO();
+
+            //dao.GetPurchaseDetailsByOrderNo()
+            List<Purchase_Details> model = new List<Purchase_Details>();
+      
+            return View(model);
+
         }
+
+        //[HttpPost]
+        //public ActionResult RaisePurchaseOrder()
+        //{
+
+        //}
 
         [HttpPost]
         public ActionResult RaisePurchaseOrder([Bind(Include = "orderNo, itemCode, qty, remarks")]Purchase_Details pd)
@@ -63,7 +76,8 @@ namespace Inventory_mvc.Controllers
             
         }
 
-        public ActionResult DeleteOrder(string id)
+        [HttpGet]
+        public ActionResult Delete(string id)
         {
 
             pos.DeletePurchaseOrder(Int32.Parse(id));

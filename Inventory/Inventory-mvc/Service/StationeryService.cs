@@ -10,12 +10,12 @@ namespace Inventory_mvc.Service
 {
     public class StationeryService : IStationeryService
     {
-        private IStationeryDAO stationeryDAO = new StationeryDAO();
+        //private IStationeryDAO stationeryDAO = new StationeryDAO();
 
 
-        List<StationeryViewModel> IStationeryService.GetAllStationery()
+        List<StationeryViewModel> IStationeryService.GetAllSuppliers()
         {
-            List<Stationery> stationeryList = stationeryDAO.GetAllStationery();
+            List<Stationery> stationeryList = stationeryDAO.GetAllSupplier();
 
             List<StationeryViewModel> viewModelList = new List<StationeryViewModel>();
             foreach (Stationery s in stationeryList)
@@ -28,22 +28,9 @@ namespace Inventory_mvc.Service
 
         private StationeryViewModel ConvertToViewModel(Stationery s)
         {
-            StationeryViewModel stationeryVM = new StationeryViewModel();
-
-            stationeryVM.ItemCode = s.itemCode;
-            stationeryVM.CategoryID = s.categoryID;
-            stationeryVM.Description = s.description;
-            stationeryVM.ReorderLevel = s.reorderLevel;
-            stationeryVM.ReorderQty = s.reorderQty;
-            stationeryVM.UnitOfMeasure = s.unitOfMeasure;
-            stationeryVM.StockQty = s.stockQty;
-            stationeryVM.Location = s.location;
-            stationeryVM.FirstSupplierCode = s.firstSupplierCode;
-            stationeryVM.SecondSupplierCode = s.secondSupplierCode;
-            stationeryVM.ThirdSupplierCode = s.thirdSupplierCode;
-            stationeryVM.Price =  s.price;
-            return stationeryVM;
+            throw new NotImplementedException();
         }
+        private IStationeryDAO stationeryDAO = new StationeryDAO();
 
         
 
@@ -52,7 +39,7 @@ namespace Inventory_mvc.Service
             return stationeryDAO.AddNewStationery(ConvertFromViewModel(stationeryVM));
         }
 
-        bool IStationeryService.DeleteStationery(string itemCode)
+        private StationeryDAO ConvertFromViewModel(StationeryViewModel stationeryVM)
         {
             throw new NotImplementedException();
 
@@ -76,26 +63,26 @@ namespace Inventory_mvc.Service
             return stationeryDAO.GetAllStationeryCode().Contains(code);
         }
 
-
-        private Stationery ConvertFromViewModel(StationeryViewModel stationeryVM)
-        {
             Stationery stationery = new Stationery();
 
             stationery.itemCode = stationeryVM.ItemCode;
+            stationery.categoryID = (int)stationeryVM.CategoryID;
+            stationery.reorderLevel = (int)stationeryVM.ReorderLevel;
+            stationery.reorderQty = (int)stationeryVM.ReorderQty;
             stationery.categoryID = stationeryVM.CategoryID;
             stationery.description = stationeryVM.Description;
             stationery.reorderLevel = stationeryVM.ReorderLevel;
             stationery.reorderQty = stationeryVM.ReorderQty;
             stationery.unitOfMeasure = stationeryVM.UnitOfMeasure;
+            stationery.stockQty = (int)stationeryVM.StockQty;
             stationery.stockQty = stationeryVM.StockQty;
             stationery.location = stationeryVM.Location;
             stationery.firstSupplierCode = stationeryVM.FirstSupplierCode;
+            stationery.price = (decimal)stationeryVM.Price;
             stationery.secondSupplierCode = stationeryVM.SecondSupplierCode;
             stationery.thirdSupplierCode = stationeryVM.ThirdSupplierCode;
             stationery.price = stationeryVM.Price;
             return stationery;
         }
-
-
     }
 }
