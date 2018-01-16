@@ -356,6 +356,7 @@
     <Content Include="Views\Department\ListDepartment.cshtml" />
     <Content Include="Views\Supplier\Delete.cshtml" />
     <Content Include="Views\Supplier\Edit.cshtml" />
+    <Content Include="Views\Stationery\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -366,7 +367,6 @@
     <Folder Include="Views\Report\" />
     <Folder Include="Views\RequisitionDetails\" />
     <Folder Include="Views\RequisitionRecord\" />
-    <Folder Include="Views\Stationery\" />
     <Folder Include="Views\VoucherDetails\" />
   </ItemGroup>
   <ItemGroup>
