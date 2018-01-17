@@ -9,19 +9,32 @@ namespace Inventory_mvc.Service
 {
     public interface IStationeryService
     {
-        List<StationeryViewModel> GetAllStationeryViewModel();
+        // FOR STATIONERY
+        List<Stationery> GetAllStationery();
 
         bool AddNewStationery(StationeryViewModel stationeryVM);
 
+        bool UpdateStationeryInfo(StationeryViewModel stationeryVM);
+
         bool DeleteStationery(string itemCode);
 
-        StationeryViewModel FindByItemCode(string itemCode);
+        Stationery FindStationeryByItemCode(string itemCode);
 
-        bool UpdateStationeryInfo(StationeryViewModel stationeryVM);
+
+        // HELPER METHOD
         bool isExistingCode(string itemCode);
 
-        List<Stationery> GetAllStationery();
+        bool isPositiveLevel(int reorderLevel);
+
+        bool isPositiveQty(int reorderQty);
 
         List<Category> GetAllCategory();
+
+
+        // FOR VIEW MODEL
+        List<StationeryViewModel> GetAllStationeryViewModel();
+
+        StationeryViewModel FindStationeryViewModelByItemCode(string itemCode);
+
     }
 }

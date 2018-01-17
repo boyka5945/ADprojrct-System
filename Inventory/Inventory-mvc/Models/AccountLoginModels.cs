@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 
@@ -19,5 +20,8 @@ namespace Inventory_mvc.Models
 
         [Display(Name = "remember me?")]
         public bool RememberMe { get; set; }
+
+
+        
     }
 }

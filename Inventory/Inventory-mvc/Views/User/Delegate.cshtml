@@ -1,0 +1,106 @@
+﻿@model Inventory_mvc.Models.User
+
+@{
+    ViewBag.Title = "Delegate";
+}
+
+<h2>Delegate</h2>
+<script>
+  $( function() {
+      var dateFormat = "mm/dd/yy",
+        from = $("#from")
+          .datepicker({
+              defaultDate: "+1w",
+              changeMonth: true,
+              numberOfMonths: 3
+          })
+          .on("change", function () {
+              to.datepicker("option", "minDate", getDate(this));
+          });
+     
+
+    function getDate( element ) {
+      var date;
+      try {
+        date = $.datepicker.parseDate( dateFormat, element.value );
+      } catch( error ) {
+        date = null;
+      }
+
+      document.getElementById("delstart").value = date;
+        
+
+
+    }
+  })
+  $(function () {
+      var dateFormat = "mm/dd/yy",
+        to = $("#to").datepicker({
+            defaultDate: "+1w",
+            changeMonth: true,
+            numberOfMonths: 3
+        })
+   .on("change", function () {
+       from.datepicker("option", "maxDate", getDate(this));
+   });
+
+
+      function getDate(element) {
+          var date;
+          try {
+              date = $.datepicker.parseDate(dateFormat, element.value);
+          } catch (error) {
+              date = null;
+          }
+
+          document.getElementById("delend").value = date;
+
+
+
+      }
+  });
+</script>
+<div>
+    <h4>User</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        
+        <dt>
+            @Html.DisplayNameFor(model => model.name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.role)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.role)
+        </dd>
+
+
+    </dl>
+</div>
+@using (Html.BeginForm("Delegate", "User", FormMethod.Post))
+{
+    <div>
+        @Html.HiddenFor(model => model.delegationStart, new { id = "delstart" });
+        @Html.HiddenFor(model => model.delegationEnd, new { id = "delend" });
+        <label for="from">From</label>
+        <input type="text" id="from" name="from">
+        <label for="to">to</label>
+        <input type="text" id="to" name="to">
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Confirm" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<p>
+    @Html.ActionLink("Back to List", "UserList")
+</p>

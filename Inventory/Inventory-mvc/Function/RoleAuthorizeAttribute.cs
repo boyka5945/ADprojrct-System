@@ -17,6 +17,7 @@ namespace Inventory_mvc.Function
             if (!filterContext.HttpContext.User.Identity.IsAuthenticated)
             {
                 isAuth = false;
+                
             }
             else
             {
