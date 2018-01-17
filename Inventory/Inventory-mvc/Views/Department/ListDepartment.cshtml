@@ -1,0 +1,76 @@
+﻿@model IEnumerable<Inventory_mvc.Models.Department>
+
+@{
+    ViewBag.Title = "View";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Department List</h2>
+
+<p>
+    @Html.ActionLink("Create New", "CreateDepartment")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.departmentCode)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.departmentName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.contactName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.phoneNo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.faxNo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.departmentHeadID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.collectionPointID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.representativeID)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.departmentCode)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.departmentName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.contactName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.phoneNo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.faxNo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.departmentHeadID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.collectionPointID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.representativeID)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "EditDepartment", new { deptCode = item.departmentCode }) |
+            @Html.ActionLink("Details", "Details", new { id=item.departmentCode }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.departmentCode })
+        </td>
+    </tr>
+}
+
+</table>

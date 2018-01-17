@@ -1,0 +1,82 @@
+﻿@model IEnumerable<Inventory_mvc.Models.Purchase_Order_Record>
+
+@{
+    ViewBag.Title = "Purchase Orders";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>ListPurchaseOrders</title>
+</head>
+<body>
+    <p>
+        @Html.ActionLink("Create New", "RaisePurchaseOrder");
+    </p>
+
+    @using (Html.BeginForm("ListPurchaseOrders", "Purchase", FormMethod.Get))
+    { 
+    
+    @*<select name="ddlist">
+        <option>Status</option>
+
+    </select>*@
+    <input type="text" name="search" />
+    <input type="submit" value="search" />
+
+    }
+
+
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.orderNo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.supplierCode)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.date)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.status)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.expectedDeliveryDate)
+            </th>
+            <th></th>
+        </tr>
+    
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.orderNo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.supplierCode)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.date)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.status)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.expectedDeliveryDate)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.orderNo }) |
+                @Html.ActionLink("Details", "Details", new { id = item.orderNo }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.orderNo })
+            </td>
+        </tr>
+    }
+    
+    </table>
+</body>
+</html>

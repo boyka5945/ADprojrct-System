@@ -12,6 +12,8 @@ namespace Inventory_mvc.DAO
 
         Supplier FindBySupplierCode(string supplierCode);
 
+        List<string> GetAllSupplierCode();
+
         bool AddNewSupplier(Supplier supplier);
 
         int UpdateSupplierInfo(Supplier supplier);

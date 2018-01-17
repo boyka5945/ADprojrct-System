@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using Inventory_mvc.Models;
+using System.Data.Entity;
 
 namespace Inventory_mvc.DAO
 {
@@ -15,53 +16,41 @@ namespace Inventory_mvc.DAO
                 context.Supplier.Add(supplier);
                 int rowAffected = context.SaveChanges();
 
-                if (rowAffected == 1)
+                if (rowAffected != 1)
                 {
-                    return true;
+                    throw new DAOException();
                 }
-                else
-                {
-                    return false;
-                }
+
+                return true;
             }
         }
 
         bool ISupplierDAO.DeleteSupplier(string supplierCode)
         {
-            string code = supplierCode.ToUpper().Trim();
-
             using (StationeryModel context = new StationeryModel())
             {
-                try
-                {
-                    Supplier supplier = (from s in context.Supplier where s.supplierCode == code select s).FirstOrDefault();
+                Supplier supplier = (from s in context.Supplier
+                                     where s.supplierCode == supplierCode
+                                     select s).FirstOrDefault();
 
-                    context.Supplier.Remove(supplier);
-                    int rowAffected = context.SaveChanges();
+                context.Supplier.Remove(supplier);
+                context.SaveChanges();
 
-                    if (rowAffected == 1)
-                    {
-                        return true;
-                    }
-                    else
-                    {
-                        return false;
-                    }
-                }
-                catch (Exception)
-                {
-                    throw new DAOException("Incorrect Supplier Code");
-                }
+                return true;
             }
         }
 
         Supplier ISupplierDAO.FindBySupplierCode(string supplierCode)
         {
-            string code = supplierCode.ToUpper().Trim();
-
             using (StationeryModel context = new StationeryModel())
             {
-                return (from s in context.Supplier where s.supplierCode == code select s).FirstOrDefault();
+                return (from s in context.Supplier
+                        where s.supplierCode == supplierCode
+                        select s)
+                        .Include(s => s.Stationery)
+                        .Include(s => s.Stationery1)
+                        .Include(s => s.Stationery2)
+                        .FirstOrDefault();
             }
         }
 
@@ -69,7 +58,17 @@ namespace Inventory_mvc.DAO
         {
             using (StationeryModel context = new StationeryModel())
             {
-                return (from s in context.Supplier select s).ToList();
+                return (from s in context.Supplier
+                        select s).ToList();
+            }
+        }
+
+        List<string> ISupplierDAO.GetAllSupplierCode()
+        {
+            using (StationeryModel context = new StationeryModel())
+            {
+                return (from s in context.Supplier
+                        select s.supplierCode).ToList();
             }
         }
 
@@ -77,20 +76,20 @@ namespace Inventory_mvc.DAO
         {
             using (StationeryModel context = new StationeryModel())
             {
-                try
-                {
-                    Supplier s = (from x in context.Supplier where x.supplierCode == supplier.supplierCode select x).FirstOrDefault();
+                Supplier s = (from x in context.Supplier
+                              where x.supplierCode == supplier.supplierCode
+                              select x).FirstOrDefault();
 
-                    s = supplier;
+                s.GSTNo = supplier.GSTNo;
+                s.supplierName = supplier.supplierName;
+                s.contactName = supplier.contactName;
+                s.phoneNo = supplier.phoneNo;
+                s.faxNo = supplier.faxNo;
+                s.address = supplier.address;
 
-                    int rowAffected = context.SaveChanges();
+                int rowAffected = context.SaveChanges();
 
-                    return rowAffected;
-                }
-                catch (Exception)
-                {
-                    throw new DAOException("Incorrect Supplier Code");
-                }
+                return rowAffected;
             }
         }
     }
