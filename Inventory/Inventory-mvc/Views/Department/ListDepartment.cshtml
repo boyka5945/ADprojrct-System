@@ -66,9 +66,8 @@
             @Html.DisplayFor(modelItem => item.representativeID)
         </td>
         <td>
-            @Html.ActionLink("Edit", "EditDepartment", new { deptCode = item.departmentCode }) |
-            @Html.ActionLink("Details", "Details", new { id=item.departmentCode }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.departmentCode })
+            @Html.ActionLink("Edit", "EditDepartment", new { deptCode = item.departmentCode }) 
+            
         </td>
     </tr>
 }

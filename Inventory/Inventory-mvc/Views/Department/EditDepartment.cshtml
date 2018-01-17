@@ -5,7 +5,7 @@
 }
 
 <h2>EditDepartment</h2>
-
+<h2></h2>
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
@@ -15,11 +15,21 @@
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.departmentCode)
-
+        
         <div class="form-group">
             @Html.LabelFor(model => model.departmentCode, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DisplayFor(model => model.departmentCode, new { htmlAttributes = new { @class = "form-control" } })
+                @*@Html.EditorFor(model => model.departmentCode, new { htmlAttributes = new { @class = "form-control" } })*@
+                @{
+                    if (TempData["sss"] == null)
+                    {
+                        @Html.DisplayFor(model => model.departmentCode, new { htmlAttributes = new { @class = "form-control" } })
+                    }else
+                    {
+                        @TempData["sss"];
+                    }
+                }
+                
                 @Html.ValidationMessageFor(model => model.departmentCode, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -60,6 +70,7 @@
             @Html.LabelFor(model => model.departmentHeadID, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.departmentHeadID, new { htmlAttributes = new { @class = "form-control" } })
+                @*@Html.DropDownListFor(model => model.departmentHeadID, new SelectList(Model.User,"Value","Text"),HtmlAttributes : new { @class = "form-control", id = "User" })*@
                 @Html.ValidationMessageFor(model => model.departmentHeadID, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -90,5 +101,5 @@
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Back to List", "ListDepartment")
 </div>

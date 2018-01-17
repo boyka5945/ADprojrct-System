@@ -4,6 +4,8 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Inventory_mvc.Service;
+using Inventory_mvc.Models;
+using Inventory_mvc.ViewModel;
 
 namespace Inventory_mvc.Controllers
 {
@@ -13,7 +15,91 @@ namespace Inventory_mvc.Controllers
         // GET: User
         public ActionResult UserList()
         {
-            return View(userService.GetAllUser());
+            string name = HttpContext.User.Identity.Name;
+            UserViewModel user = userService.FindByUserID("S1002");
+            var model = userService.GetUserByDept(user);
+            return View(model);
+        }
+        [HttpGet]
+        public ActionResult Delegate(string id)
+        {
+            UserViewModel u = userService.FindByUserID("S1002");
+            return View(u);
+        }
+        [HttpPost]
+        public ActionResult Delegate(string id, DateTime from, DateTime to)
+        {
+          //  DateTime fromd = DateTime.Parse(from);
+            //DateTime tod = DateTime.Parse(to);
+            userService.DelegateEmp(id, from, to);
+            return RedirectToAction("UserList");
+        }
+
+        public ActionResult Edit(string id)
+        {
+            UserViewModel userVM = userService.FindByUserID("S1002");
+            return View(userVM);
+        }
+
+        [HttpPost]
+        public ActionResult Edit(UserViewModel userVM)
+        {
+            string uid = userVM.UserID;
+
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    if (userService.UpdateUserInfo(userVM))
+                    {
+                        TempData["EditMessage"] = String.Format("'{0}' has been updated", uid);
+                    }
+                    else
+                    {
+                        TempData["EditErrorMessage"] = String.Format("There is not change to '{0}'.", uid);
+                    }
+
+                    return RedirectToAction("UserList");
+                }
+                catch (Exception e)
+                {
+                    ViewBag.ExceptionMessage = e.Message;
+                }
+            }
+            return View(userVM);
+        }
+
+        public ActionResult Create()
+        {
+            return View(new UserViewModel());
+        }
+
+        [HttpPost]
+        public ActionResult Create(UserViewModel userVM)
+        {
+            string id = userVM.UserID;
+
+            if (userService.isExistingID(id))
+            {
+                string errorMessage = String.Format("{0} has been used.", id);
+                ModelState.AddModelError("UserID", errorMessage);
+            }
+            else if (ModelState.IsValid)
+            {
+                try
+                {
+                    userService.AddNewUser(userVM);
+                    TempData["CreateMessage"] = String.Format("User '{0}' is added.", id);
+                    return RedirectToAction("UserList");
+                }
+                catch (Exception e)
+                {
+                    TempData["ExceptionMessage"] = e.Message;
+                }
+            }
+
+            return View(userVM);
         }
     }
 }

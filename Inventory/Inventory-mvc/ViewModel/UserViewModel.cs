@@ -1,58 +1,58 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
-using System.ComponentModel.DataAnnotations;
 
 namespace Inventory_mvc.ViewModel
 {
     public class UserViewModel
     {
-
         [Key]
         [Required]
         [StringLength(50)]
-        [Display(Name = "User ID")]
-        public string userID { get; set; }
-
-
+        [Display(Name = "UserID")]
+        public string UserID { get; set; }
 
         [Required]
-        [Display(Name = "Password")]
-        public string password { get; set; }
+        [StringLength(50)]
+        public string Password { get; set; }
 
         [Required]
-        [Display(Name = "Password")]
-        public string name { get; set; }
+        [StringLength(50)]
+        [Display(Name = "Name")]
+        public string Name { get; set; }
 
         [Required]
-        [Display(Name = "Contact Number")]
-        public int contactNo { get; set; }
+        [Display(Name = "Contact No")]
+        public int ContactNo { get; set; }
 
         [Required]
+        [StringLength(200)]
         [Display(Name = "Address")]
-        public string address { get; set; }
+        public string Address { get; set; }
 
         [Required]
+        [StringLength(50)]
         [Display(Name = "Role")]
-        public string role { get; set; }
+        public string Role { get; set; }
 
         [Required]
+        [StringLength(50)]
         [Display(Name = "Department Code")]
-        public string departmentCode { get; set; }
+        public string DepartmentCode { get; set; }
 
         [Required]
-        [Display(Name = "User Email")]
-        public string userEmail { get; set; }
+        [StringLength(50)]
+        [Display(Name = "Email")]
+        public string UserEmail { get; set; }
 
         [Required]
-        [Display(Name = "Delegation Start Date")]
-        public DateTime delegatioStart { get; set; }
+        [Display(Name = "Start Date")]
+        public DateTime? DelegationStart { get; set; }
 
         [Required]
-        [Display(Name = "Delegation End Date")]
-        public DateTime delegationEnd { get; set; }
-
-
+        [Display(Name = "End date")]
+        public DateTime? DelegationEnd { get; set; }
     }
 }

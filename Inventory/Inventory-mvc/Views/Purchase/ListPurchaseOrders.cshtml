@@ -70,8 +70,8 @@
                 @Html.DisplayFor(modelItem => item.expectedDeliveryDate)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.orderNo }) |
-                @Html.ActionLink("Details", "Details", new { id = item.orderNo }) |
+                
+                @Html.ActionLink("Details", "View Purchase Order", new { id = item.orderNo }) |
                 @Html.ActionLink("Delete", "Delete", new { id = item.orderNo })
             </td>
         </tr>
@@ -80,3 +80,6 @@
     </table>
 </body>
 </html>
+
+
+
