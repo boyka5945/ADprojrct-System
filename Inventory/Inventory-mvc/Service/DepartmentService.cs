@@ -9,6 +9,7 @@ namespace Inventory_mvc.Service
 {
     public class DepartmentService : IDepartmentService
     {
+        private IDepartmentDAO departmentDAO = new DepartmentDAO();
         public List<Department> GetAllDepartment()
         {
             DepartmentDAO dDAO = new DepartmentDAO();
@@ -31,6 +32,14 @@ namespace Inventory_mvc.Service
         {
             DepartmentDAO dDAO = new DepartmentDAO();
             return dDAO.AddNewDepartment(dept);
+        }
+
+        bool IDepartmentService.isExistingCode(string departmentCode)
+        {
+            string code = departmentCode.ToUpper().Trim();
+            //string code = departmentCode.Trim();
+
+            return departmentDAO.GetAllDepartmentCode().Contains(code);
         }
     }
 }

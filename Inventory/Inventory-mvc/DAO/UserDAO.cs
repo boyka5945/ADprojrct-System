@@ -16,6 +16,14 @@ namespace Inventory_mvc.DAO
             }
         }
 
+        List<User> IUserDAO.GetUserByDept(User user)
+        {
+            using (StationeryModel entity = new StationeryModel())
+            {
+                return (from u in entity.User where u.departmentCode == user.departmentCode select u).ToList();
+            }
+        }
+
         User IUserDAO.FindByUserID(string userID)
         {
             string userid = userID.ToUpper().Trim();
@@ -50,7 +58,16 @@ namespace Inventory_mvc.DAO
                 try
                 {
                     User u = (from a in entity.User where a.userID == user.userID select a).LastOrDefault();
-                    u = user;
+                    u.userID = user.userID;
+                    u.password = user.password;
+                    u.address = user.address;
+                    u.role = user.role;
+                    u.userEmail = user.userEmail;
+                    u.name = user.name;
+                    u.contactNo = user.contactNo;
+                    u.delegationStart = user.delegationStart;
+                    u.delegationEnd = user.delegationEnd;
+                    u.departmentCode = user.departmentCode;
                     int rowAffected = entity.SaveChanges();
                     return rowAffected;
                 }
@@ -68,6 +85,30 @@ namespace Inventory_mvc.DAO
 
         //    }
         //}
+
+        void IUserDAO.DelegateEmp(string userid, DateTime from, DateTime to)
+        {
+            using (StationeryModel entity = new StationeryModel())
+            {
+                User u = (from user in entity.User where user.userID == userid select user).FirstOrDefault();
+                u.delegationStart = from;
+                u.delegationEnd = to;
+                u.role = "ActingDeptHead";
+
+                entity.SaveChanges();
+
+            }
+        }
+
+        List<string> IUserDAO.GetAllUserID()
+        {
+
+            using (StationeryModel context = new StationeryModel())
+            {
+                return (from s in context.User
+                        select s.userID).ToList();
+            }
+        }
 
     }
 }

@@ -33,6 +33,45 @@ namespace Inventory_mvc.Service
             return stationeryDAO.GetAllItemCode().Contains(code);
         }
 
+        bool IStationeryService.isPositiveLevel(int reorderLevel)
+        {
+            int level = reorderLevel;
+            if (level < 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        bool IStationeryService.isPositivePrice(decimal price)
+        {
+            decimal p = price;
+            if (p < 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        bool IStationeryService.isPositiveQty(int reorderQty)
+        {
+            int qty = reorderQty;
+            if (qty < 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
         bool IStationeryService.AddNewStationery(StationeryViewModel stationeryVM)
         {
             return stationeryDAO.AddNewStationery(ConvertFromViewModel(stationeryVM));
@@ -55,8 +94,7 @@ namespace Inventory_mvc.Service
             stationeryVM.ThirdSupplierCode = s.thirdSupplierCode;
             stationeryVM.Price = s.price;
             return stationeryVM;
-        }
-       
+        }    
 
         
 
@@ -96,13 +134,19 @@ namespace Inventory_mvc.Service
 
         }
 
-        StationeryViewModel IStationeryService.FindByItemCode(string itemCode)
+        StationeryViewModel IStationeryService.FindStationeryViewModelByItemCode(string itemCode)
         {
             string code = itemCode.ToUpper().Trim();
             return ConvertToViewModel(stationeryDAO.FindByItemCode(code));
         }
 
-        
+        Stationery IStationeryService.FindStationeryByItemCode(string itemCode)
+        {
+            string code = itemCode.ToUpper().Trim();
+            return stationeryDAO.FindByItemCode(code);
+        }
+
+
 
         bool IStationeryService.DeleteStationery(string itemCode)
         {
