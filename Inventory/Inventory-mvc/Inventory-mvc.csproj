@@ -386,6 +386,9 @@
     <Content Include="Views\ManageRequisitions\ClerkRequisition.cshtml" />
     <Content Include="Views\ManageRequisitions\ManagerRequisition.cshtml" />
     <Content Include="Views\ManageRequisitions\RequisitionDetails.cshtml" />
+    <Content Include="Views\RaiseRequisition\BrowseStationeryCatalogue.cshtml" />
+    <Content Include="Views\Department\EditDepartment.cshtml" />
+    <Content Include="Views\Department\CreateDepartment.cshtml" />
     <Content Include="Views\User\Create.cshtml" />
     <Content Include="Views\User\Delegate.cshtml" />
     <Content Include="Views\User\Edit.cshtml" />
