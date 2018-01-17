@@ -2,7 +2,8 @@
 using Inventory_mvc.Service;
 using Inventory_mvc.ViewModel;
 using System;
-
+using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
 
 namespace Inventory_mvc.Controllers
@@ -12,9 +13,39 @@ namespace Inventory_mvc.Controllers
         
         IStationeryService stationeryService = new StationeryService();
         // GET: Stationery
-        public ActionResult Index()
+        public ActionResult Index(string searchString, string categoryID = "All")
         {
-            return View(stationeryService.GetAllStationeryViewModel());
+            List<StationeryViewModel> stationeries = stationeryService.GetAllStationeryViewModel();
+            
+            ViewBag.CategoryList = stationeryService.GetAllCategory();
+
+
+            if (categoryID == "All")
+            {
+                ViewBag.CategoryID = "All";
+            }
+            else
+            {
+                ViewBag.CategoryID = categoryID;
+
+                stationeries = (from s in stationeries
+                                where s.CategoryID.ToString() == categoryID
+                                select s).ToList();
+            }
+
+            ViewBag.SearchString = searchString;
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                string search = searchString.ToLower().Trim();
+
+                stationeries = (from s in stationeries
+                                where s.Description.ToLower().Contains(search)
+                                select s).ToList();
+            }
+           
+            // return View(stationeryService.GetAllStationeryViewModel());
+            return View(stationeries);
         }
 
 
@@ -152,8 +183,19 @@ namespace Inventory_mvc.Controllers
         }
 
 
+        public ActionResult ResetCatalogue()
+        {
+            return RedirectToAction("Index", new { searchString = "", categoryID = "All" });
+        }
+
+        // GET: Stationery/Browse
+        //public ActionResult Browse()
+        //{            
+        //    ViewBag.CategoryList = stationeryService.GetAllCategory();
+
+        //    return View();
+        //}
 
 
-       
     }
 }
