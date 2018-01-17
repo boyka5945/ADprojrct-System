@@ -86,6 +86,20 @@ namespace Inventory_mvc.DAO
                     return true;
                 }
             }
+        public User FindByUserID(string id)
+        {
+            using (StationeryModel entity = new StationeryModel())
+            {
+                User u = entity.User.Where(x => x.userID == id).First();
+                return u;
+
+
+            }
+
+
         }
+    }
+
+
 
     }

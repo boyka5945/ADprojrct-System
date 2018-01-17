@@ -22,5 +22,7 @@ namespace Inventory_mvc.Service
 
         bool DeleteCollectionPoint(int collectionPointID);
 
+        UserViewModel FindByUserID(string userID);
+
     }
 }
