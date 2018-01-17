@@ -87,6 +87,8 @@ namespace Inventory_mvc.Service
             return cpVM;
         }
 
+
+
         private Collection_Point ConvertFromViewModel(CollectionPointViewModel cpVM)
         {
             Collection_Point collectionPoint = new Collection_Point();
@@ -96,6 +98,33 @@ namespace Inventory_mvc.Service
             
 
             return collectionPoint;
+        }
+
+        public UserViewModel FindByUserID(string userID)
+        {
+            string id = userID;
+            return ConvertToViewModel2(collectionPointDAO.FindByUserID(id));
+        }
+
+        private UserViewModel ConvertToViewModel2(User user)
+        {
+            UserViewModel uVM = new UserViewModel();
+
+            uVM.DepartmentName = user.Department2.departmentName;
+
+            uVM.UserID = user.userID;
+            uVM.Password = user.password;
+            uVM.Name = user.name;
+            uVM.Address = user.address;
+            uVM.ContactNo = user.contactNo;
+            uVM.UserEmail = user.userEmail;
+            uVM.DepartmentCode = user.departmentCode;
+            uVM.Role = user.role;
+            uVM.DelegationStart =(DateTime?)user.delegationStart;
+            uVM.DelegationEnd = (DateTime?)user.delegationEnd;
+
+
+            return uVM;
         }
     }
 }

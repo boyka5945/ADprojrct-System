@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Inventory_mvc.Models.User>
+﻿@model IEnumerable<Inventory_mvc.ViewModel.UserViewModel>
 
 @{
     ViewBag.Title = "UserList";
@@ -13,18 +13,18 @@
     <tr>
         
         <th>
-            @Html.DisplayNameFor(model => model.name)
+            @Html.DisplayNameFor(model => model.Name)
         </th>
         
         <th>
-            @Html.DisplayNameFor(model => model.role)
+            @Html.DisplayNameFor(model => model.Role)
         </th>
        
         <th>
-            @Html.DisplayNameFor(model => model.delegationStart)
+            @Html.DisplayNameFor(model => model.DelegationStart)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.delegationEnd)
+            @Html.DisplayNameFor(model => model.DelegationEnd)
         </th>
         <th></th>
     </tr>
@@ -33,23 +33,25 @@
     <tr>
         
         <td>
-            @Html.DisplayFor(modelItem => item.name)
+            @Html.DisplayFor(modelItem => item.Name)
         </td>
         
         <td>
-            @Html.DisplayFor(modelItem => item.role)
+            @Html.DisplayFor(modelItem => item.Role)
         </td>
                
         <td>
-            @Html.DisplayFor(modelItem => item.delegationStart)
+            @Html.DisplayFor(modelItem => item.DelegationStart)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.delegationEnd)
+            @Html.DisplayFor(modelItem => item.DelegationEnd)
         </td>
+
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.userID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.userID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.userID })
+            @Html.ActionLink("Edit", "Edit", new { id = item.UserID }) |
+            @Html.ActionLink("Delegate", "Delegate", new { id = item.UserID }) |
+            @Html.ActionLink("Assign Rep", "Assign_Rep", new { id = item.UserID }) |
+            @Html.ActionLink("Remove Delegate", "Remove_Delegate", new { id = item.UserID }) 
         </td>
     </tr>
 }

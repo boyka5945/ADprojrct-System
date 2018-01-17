@@ -67,5 +67,14 @@ namespace Inventory_mvc.DAO
         {
             return true;
         }
+
+        List<string> IDepartmentDAO.GetAllDepartmentCode()
+        {
+            using (StationeryModel context = new StationeryModel())
+            {
+                return (from d in context.Department
+                        select d.departmentCode).ToList();
+            }
+        }
     }
 }

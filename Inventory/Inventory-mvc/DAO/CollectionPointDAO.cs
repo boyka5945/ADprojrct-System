@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using Inventory_mvc.Models;
+using System.Data.Entity;
 
 namespace Inventory_mvc.DAO
 {
@@ -86,6 +87,20 @@ namespace Inventory_mvc.DAO
                     return true;
                 }
             }
+        public User FindByUserID(string id)
+        {
+            using (StationeryModel entity = new StationeryModel())
+            {
+                User u = entity.User.Where(x => x.userID == id).Include(x => x.Department2).First();
+                return u;
+
+
+            }
+
+
         }
+    }
+
+
 
     }

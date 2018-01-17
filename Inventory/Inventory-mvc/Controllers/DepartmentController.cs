@@ -10,6 +10,9 @@ namespace Inventory_mvc.Controllers
 {
     public class DepartmentController : Controller
     {
+
+        IDepartmentService departmentService = new DepartmentService();
+        ICollectionPointService collectionPointService = new CollectionPointService();
         // GET: Department
         public ActionResult Index()
         {
@@ -28,6 +31,7 @@ namespace Inventory_mvc.Controllers
         {
             DepartmentService ds = new DepartmentService();
             Department model = new Department();
+
             model = ds.GetDepartmentByCode(deptCode);
             return View(model);
         }
@@ -35,29 +39,69 @@ namespace Inventory_mvc.Controllers
         [HttpPost]
         public ActionResult EditDepartment(Department dept)
         {
+            TempData["sss"] = dept.departmentCode.ToString();
+            string departmentCode = dept.departmentCode;
             DepartmentService ds = new DepartmentService();
-            int row = ds.UpdateDepartmentByCode(dept);
-
-
-            return RedirectToAction("ListDepartment");
+            
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    int row = ds.UpdateDepartmentByCode(dept);
+                    
+                    return RedirectToAction("ListDepartment");
+                   
+                }
+                catch (Exception e)
+                {
+                    TempData["ExceptionMessage"] = e.Message;
+                }
+            }
+            return View();
+            
         }
 
         [HttpGet]
         public ActionResult CreateDepartment()
         {
-            DepartmentService ds = new DepartmentService();
-            Department model = new Department();
+            //DepartmentService ds = new DepartmentService();
+            //Department model = new Department();
 
-            return View(model);
+            TempData["CollectionPointList"] = collectionPointService.GetAllCollectionPoints();
+            
+            return View();
         }
 
         [HttpPost]
         public ActionResult CreateDepartment(Department dept)
         {
+            var PointID = Convert.ToInt32( Request["collectionPointID"]);
             DepartmentService ds = new DepartmentService();
-            Boolean b = ds.CreateDepartment(dept);
-            List<Department> model = ds.GetAllDepartment();
+            dept.collectionPointID = PointID;
+            string deptCode = dept.departmentCode;
+
+            if (departmentService.isExistingCode(deptCode))
+            {
+                string errorMessage = String.Format("{0} has been used.", deptCode);
+                ModelState.AddModelError("departmentCode", errorMessage);
+            }
+            else 
+            {
+                try
+                {
+                    Boolean b = ds.CreateDepartment(dept);
+                    List<Department> model = ds.GetAllDepartment();
+                    return RedirectToAction("ListDepartment");
+                }
+                catch (Exception e)
+                {
+                    TempData["ExceptionMessage"] = e.Message;
+                }
+            }
+
             return RedirectToAction("ListDepartment");
+
+
         }
     }
 }

@@ -1,0 +1,61 @@
+﻿@model Inventory_mvc.ViewModel.UserViewModel
+
+@{
+    ViewBag.Title = "Delegate";
+}
+
+<h2>Delegate</h2>
+<script>
+  $( function() {
+    $( "#delstart" ).datepicker({
+      showButtonPanel: true
+    });
+  });
+  $(function () {
+      $("#delend").datepicker({
+          showButtonPanel: true
+      });
+  });
+</script>
+<div>
+    <h4>User</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Role)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Role)
+        </dd>
+
+
+    </dl>
+</div>
+@using (Html.BeginForm("Delegate", "User", FormMethod.Post))
+{
+    <div>
+        
+        <input type="hidden" name="userID" value = "@Model.UserID"/>
+        <p>From: <input type="text" id="delstart" name="from"> |
+           To: <input type="text" id="delend" name="to"></p>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Confirm" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<p>
+    @Html.ActionLink("Back to List", "UserList")
+</p>

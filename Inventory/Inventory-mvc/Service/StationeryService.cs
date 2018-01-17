@@ -33,6 +33,45 @@ namespace Inventory_mvc.Service
             return stationeryDAO.GetAllItemCode().Contains(code);
         }
 
+        bool IStationeryService.isPositiveLevel(int reorderLevel)
+        {
+            int level = reorderLevel;
+            if (level < 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        bool IStationeryService.isPositivePrice(decimal price)
+        {
+            decimal p = price;
+            if (p < 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        bool IStationeryService.isPositiveQty(int reorderQty)
+        {
+            int qty = reorderQty;
+            if (qty < 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
         bool IStationeryService.AddNewStationery(StationeryViewModel stationeryVM)
         {
             return stationeryDAO.AddNewStationery(ConvertFromViewModel(stationeryVM));
@@ -55,8 +94,7 @@ namespace Inventory_mvc.Service
             stationeryVM.ThirdSupplierCode = s.thirdSupplierCode;
             stationeryVM.Price = s.price;
             return stationeryVM;
-        }
-       
+        }    
 
         
 
@@ -132,6 +170,12 @@ namespace Inventory_mvc.Service
         List<Category> IStationeryService.GetAllCategory()
         {
             return stationeryDAO.GetAllCategory();
+        }
+
+
+        List<string> IStationeryService.GetAllUOMList()
+        {
+            return stationeryDAO.GetAllUOMList();
         }
     }
 }
