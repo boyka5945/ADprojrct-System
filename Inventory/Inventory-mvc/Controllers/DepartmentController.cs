@@ -12,6 +12,7 @@ namespace Inventory_mvc.Controllers
     {
 
         IDepartmentService departmentService = new DepartmentService();
+        ICollectionPointService collectionPointService = new CollectionPointService();
         // GET: Department
         public ActionResult Index()
         {
@@ -63,16 +64,20 @@ namespace Inventory_mvc.Controllers
         [HttpGet]
         public ActionResult CreateDepartment()
         {
-            DepartmentService ds = new DepartmentService();
-            Department model = new Department();
+            //DepartmentService ds = new DepartmentService();
+            //Department model = new Department();
 
-            return View(model);
+            TempData["CollectionPointList"] = collectionPointService.GetAllCollectionPoints();
+            
+            return View();
         }
 
         [HttpPost]
         public ActionResult CreateDepartment(Department dept)
         {
+            var PointID = Convert.ToInt32( Request["collectionPointID"]);
             DepartmentService ds = new DepartmentService();
+            dept.collectionPointID = PointID;
             string deptCode = dept.departmentCode;
 
             if (departmentService.isExistingCode(deptCode))
@@ -80,7 +85,7 @@ namespace Inventory_mvc.Controllers
                 string errorMessage = String.Format("{0} has been used.", deptCode);
                 ModelState.AddModelError("departmentCode", errorMessage);
             }
-            else if (ModelState.IsValid)
+            else 
             {
                 try
                 {
@@ -94,9 +99,9 @@ namespace Inventory_mvc.Controllers
                 }
             }
 
-            return View(dept);
+            return RedirectToAction("ListDepartment");
 
-            
+
         }
     }
 }

@@ -384,6 +384,9 @@
     <Content Include="Views\RaiseRequisition\BrowseCatalogue.cshtml" />
     <Content Include="Views\RaiseRequisition\RequestPartial.cshtml" />
     <Content Include="Views\CollectionPoint\Delete.cshtml" />
+      <Content Include="Views\RaiseRequisition\BrowseStationeryCatalogue.cshtml" />
+    <Content Include="Views\Department\EditDepartment.cshtml" />
+    <Content Include="Views\Department\CreateDepartment.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
