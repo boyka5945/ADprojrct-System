@@ -148,6 +148,8 @@ namespace Inventory_mvc.DAO
                 }
                 else
                     user.role = "Employee";
+                user.delegationStart = null;
+                user.delegationEnd = null;
 
 
                 int rowAffected = entity.SaveChanges();
