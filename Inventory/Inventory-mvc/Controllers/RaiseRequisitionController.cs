@@ -43,7 +43,7 @@ namespace Inventory_mvc.Controllers
                 stationeries = (from s in stationeries
                                 where s.description.ToLower().Contains(search)
                                 select s).ToList();
-            }           
+            }
 
             int pageSize = 4;
             int pageNumber = (page ?? 1);
@@ -56,18 +56,110 @@ namespace Inventory_mvc.Controllers
         }
 
         [HttpGet]
-        public ActionResult AddNewRequest(string itemCode)
+        public ActionResult AddNewRequestItem(string itemCode = null)
         {
-            RaiseRequisitionViewModel vm = new RaiseRequisitionViewModel();
-            Stationery stationery = stationeryService.FindStationeryByItemCode(itemCode);
+            //TODO: Fix modal-backdrop, Fix validation
 
-            vm.ItemCode = stationery.itemCode;
-            vm.Description = stationery.description;
-            vm.Quantity = 0;
-            vm.UOM = stationery.unitOfMeasure;         
+            List<SelectListItem> stationerySelectItemList = new List<SelectListItem>();
+            List<Stationery> stationeries = stationeryService.GetAllStationery();
+
+            foreach(var stationery in stationeries)
+            {
+                stationerySelectItemList.Add(new SelectListItem()
+                {
+                    Text = stationery.description,
+                    Value = stationery.itemCode,
+                    Selected = false
+                });
+            }
+
+            ViewBag.StationerySelectItemList = stationerySelectItemList;
+
+            RaiseRequisitionViewModel vm = new RaiseRequisitionViewModel();
+
+            if(itemCode != null)
+            {
+                Stationery stationery = stationeryService.FindStationeryByItemCode(itemCode);
+
+                vm.ItemCode = stationery.itemCode;
+                vm.Description = stationery.description;
+                vm.Quantity = 1;
+                vm.UOM = stationery.unitOfMeasure;
+            }
 
             return PartialView("RequestPartial", vm);
         }
+
+
+
+        [HttpPost]
+        public string AddNewRequestItem(RaiseRequisitionViewModel vm)
+        {
+            List<RaiseRequisitionViewModel> requestList = Session["RequestList"] as List<RaiseRequisitionViewModel>;
+
+            bool contain = false;
+
+            foreach(var request in requestList)
+            {
+                if(request.ItemCode == vm.ItemCode)
+                {
+                    request.Quantity += vm.Quantity;
+                    contain = true;
+                    break;
+                }
+            }
+
+            if(!contain)
+            {
+                requestList.Add(vm);
+            }
+                
+            Session["RequestList"] = requestList;
+
+            return "OK";
+        }
+
+        public ActionResult NewRequisition()
+        {
+            List<RaiseRequisitionViewModel> requestList = Session["RequestList"] as List<RaiseRequisitionViewModel>;
+            return View(requestList);
+        }
+
+        public ActionResult RemoveRequestItem(int position)
+        {
+            List<RaiseRequisitionViewModel> requestList = Session["RequestList"] as List<RaiseRequisitionViewModel>;
+
+            string itemDescription = requestList.ElementAt(position).Description;
+            
+            requestList.RemoveAt(position);
+            Session["RequestList"] = requestList;
+
+            TempData["RemoveItemMessage"] = String.Format("{0} was removed.", itemDescription);
+
+            return RedirectToAction("NewRequisition");
+        }
+
+        public ActionResult SubmitRequisition()
+        {
+            // TODO: Send email notification
+
+            return View();
+        }
+
+
+        public ActionResult ClearAllRequestItem()
+        {
+            List<RaiseRequisitionViewModel> requestList = Session["RequestList"] as List<RaiseRequisitionViewModel>;
+            requestList.Clear();
+
+            Session["RequestList"] = requestList;
+
+            TempData["RemoveItemMessage"] = String.Format("All items were removed.");
+
+            return RedirectToAction("NewRequisition");
+        }
+
+
 
     }
 }

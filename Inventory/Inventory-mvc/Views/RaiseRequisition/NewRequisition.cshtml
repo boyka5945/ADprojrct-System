@@ -1,0 +1,121 @@
+﻿<script>
+    function showDialog(data) {
+
+        $("#addRequestDialog").html(data);
+        $("#addRequestDialog form").removeData("validator");
+        $("#addRequestDialog form").removeData("unobtrusiveValidation");
+        $.validator.unobtrusive.parse("#addRequestDialog form");
+
+    }
+
+    function reLoad(data) {
+        if (data == "OK") {
+            $("#addRequestDialog").modal("hide");
+            $("#addRequestDialog").hide();
+        }
+    }
+</script>
+
+
+@model IEnumerable<Inventory_mvc.ViewModel.RaiseRequisitionViewModel>
+
+
+@{
+    var removeItemMessage = TempData["RemoveItemMessage"];
+    var addItemMessage = TempData["AddItemMessage"];
+
+    int count = Model.Count();
+
+    string disabled = "";
+    if(count == 0)
+    {
+        disabled = "disabled";
+    }
+}
+
+<h2>New Requisition Form</h2>
+
+<br />
+
+@Ajax.ActionLink("Add Item", "AddNewRequestItem", null,
+                      new AjaxOptions { OnSuccess = "showDialog", HttpMethod = "GET" },
+                      new { @class = "btn btn-success", data_toggle = "modal", data_target = "#addRequestDialog" })
+
+
+<!-- The below code is for the modal dialog -->
+<div class="modal fade" id="addRequestDialog" data-backdrop="false"></div>
+
+<br />
+<br />
+
+@if (removeItemMessage != null)
+{
+    <div class="alert alert-success">
+        @removeItemMessage.ToString()
+    </div>
+}
+
+@if (addItemMessage != null)
+{
+    <div class="alert alert-success">
+        @addItemMessage.ToString()
+    </div>
+}
+
+
+<br />
+
+@using (Html.BeginForm("SubmitRequisition", "RaiseRequisition", FormMethod.Post, new { @class = "form" }))
+{
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Quantity)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UOM)
+            </th>
+            <th></th>
+        </tr>
+
+        @for (int i = 0; i < Model.Count(); i++)
+        {
+            var item = Model.ElementAt(i);
+
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Quantity)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UOM)
+                </td>
+                <td>
+                    @Html.ActionLink("Remove", "RemoveRequestItem", "RaiseRequisition", new { position = i }, new { @class = "btn btn-outline-danger" })
+                </td>
+            </tr>
+        }
+
+        <tr>
+            <td colspan="3">
+                        <input type="submit" value="Submit" class="btn btn-primary @disabled" />
+
+                    <a href="@Url.Action("ClearAllRequestItem", "RaiseRequisition")">
+                        <input type="button" value="Clear All" class="btn btn-danger" @disabled />
+                    </a>
+            </td>
+
+        </tr>
+
+    </table>
+}
+
+
+
+
+

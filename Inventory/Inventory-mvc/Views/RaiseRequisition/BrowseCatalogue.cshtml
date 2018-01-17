@@ -1,6 +1,20 @@
-﻿<script type="text/javascript">
+﻿<script>
+    function showDialog(data) {
 
+        $("#addRequestDialog").html(data);
+        $("#addRequestDialog form").removeData("validator");
+        $("#addRequestDialog form").removeData("unobtrusiveValidation");
+        $.validator.unobtrusive.parse("#addRequestDialog form");
 
+    }
+
+    function reLoad(data) {
+        if (data == "OK") {
+            $("#addRequestDialog").modal("hide");
+            $("#addRequestDialog").hide();
+            $(".form-group form").submit();
+        }
+    }
 
 </script>
 
@@ -47,9 +61,8 @@
             </td>
             <td>
                 <input type="submit" class="btn btn-primary" value="Search" />
-                <a href="@Url.Action("ResetCatalogue")">
-                    <input type="button" class="btn btn-primary" value="Reset" />
-                </a>
+
+                @Html.ActionLink("Reset", "ResetCatalogue", "RaiseRequisition", null, new { @class = "btn btn-danger" })
             </td>
         </tr>
     </table>
@@ -83,10 +96,9 @@
                 @Html.DisplayFor(modelItem => item.unitOfMeasure)
             </td>
             <td>
-                @Ajax.ActionLink("Add To List", "AddNewRequest", new { itemCode = item.itemCode },
-                                 new AjaxOptions { OnSuccess = "showDialog", HttpMethod = "GET" },
-                                 new { @class = "btn btn-outline-primary" })
-
+                @Ajax.ActionLink("Add Request", "AddNewRequestItem", new { itemCode = item.itemCode },
+                      new AjaxOptions { OnSuccess = "showDialog", HttpMethod = "GET" },
+                      new { @class = "btn btn-outline-success", data_toggle = "modal", data_target = "#addRequestDialog" })
             </td>
         </tr>
     }
@@ -96,6 +108,12 @@ Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.Page
 @Html.PagedListPager(Model, page => Url.Action("BrowseCatalogue",
                      new { searchString = ViewBag.SearchString, categoryID = ViewBag.CategoryID, page }))
 
-<input type="button" class="btn btn-primary" value="Go To Request List" />
+
+@Html.ActionLink("Go To Requisition Form", "NewRequisition", "RaiseRequisition", null, new { @class = "btn btn-primary"})
 
 
+
+
+
+<!-- The below code is for the modal dialog -->
+<div class="modal fade" id="addRequestDialog" data-backdrop="false"></div>

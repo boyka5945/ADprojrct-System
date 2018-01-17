@@ -17,6 +17,7 @@ namespace Inventory_mvc.ViewModel
         public string UOM { get; set; }
 
         [Required]
+        [Range(1,9999)]
         public int Quantity { get; set; }
 
 
