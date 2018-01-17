@@ -110,16 +110,16 @@ namespace Inventory_mvc.Service
         {
             UserViewModel uVM = new UserViewModel();
 
-            uVM.userID = user.userID;
-            uVM.password = user.password;
-            uVM.name = user.name;
-            uVM.address = user.address;
-            uVM.contactNo = user.contactNo;
-            uVM.userEmail = user.userEmail;
-            uVM.departmentCode = user.departmentCode;
-            uVM.role = user.role;
-            uVM.delegatioStart =(DateTime) user.delegationStart;
-            uVM.delegationEnd = (DateTime)user.delegationEnd;
+            uVM.UserID = user.userID;
+            uVM.Password = user.password;
+            uVM.Name = user.name;
+            uVM.Address = user.address;
+            uVM.ContactNo = user.contactNo;
+            uVM.UserEmail = user.userEmail;
+            uVM.DepartmentCode = user.departmentCode;
+            uVM.Role = user.role;
+            uVM.DelegationStart =(DateTime)user.delegationStart;
+            uVM.DelegationEnd = (DateTime)user.delegationEnd;
 
 
             return uVM;
