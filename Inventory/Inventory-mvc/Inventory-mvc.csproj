@@ -392,6 +392,7 @@
     <Content Include="Views\User\Create.cshtml" />
     <Content Include="Views\User\Delegate.cshtml" />
     <Content Include="Views\User\Edit.cshtml" />
+    <Content Include="Views\CollectionPoint\UpdateCollectionPoint.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
