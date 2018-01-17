@@ -51,7 +51,7 @@ namespace Inventory_mvc.Controllers
                     bigModel = new BigModelView();
                     if (i < 1)
                     {
-                        bigModel.description = ss.FindByItemCode(itemCode).Description;
+                        bigModel.description = ss.FindStationeryByItemCode(itemCode).description;
                         bigModel.itemCode = itemCode;
                         bigModel.retrievedQuantity = "100";
                     }
