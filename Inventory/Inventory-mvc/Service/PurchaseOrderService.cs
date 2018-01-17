@@ -47,7 +47,16 @@ namespace Inventory_mvc.Service
             
         }
 
+        public bool AddPurchaseDetail(int deliveryOrderNo, string itemCode, int qty, string remarks, decimal price)
+        {
+            return dao.AddPurchaseDetail(deliveryOrderNo, itemCode, qty, remarks, price);
 
+        }
+
+        public bool AddPurchaseDetail(Purchase_Details pd)
+        {
+            return dao.AddPurchaseDetail(pd);
+        }
 
 
 
