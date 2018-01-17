@@ -18,5 +18,7 @@ namespace Inventory_mvc.DAO
         int UpdateDepartmentInfo(Department dept);
 
         bool DeleteDepartment(string deptCode);
+
+        List<string> GetAllDepartmentCode();
     }
 }
