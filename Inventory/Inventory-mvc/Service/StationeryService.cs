@@ -96,13 +96,19 @@ namespace Inventory_mvc.Service
 
         }
 
-        StationeryViewModel IStationeryService.FindByItemCode(string itemCode)
+        StationeryViewModel IStationeryService.FindStationeryViewModelByItemCode(string itemCode)
         {
             string code = itemCode.ToUpper().Trim();
             return ConvertToViewModel(stationeryDAO.FindByItemCode(code));
         }
 
-        
+        Stationery IStationeryService.FindStationeryByItemCode(string itemCode)
+        {
+            string code = itemCode.ToUpper().Trim();
+            return stationeryDAO.FindByItemCode(code);
+        }
+
+
 
         bool IStationeryService.DeleteStationery(string itemCode)
         {

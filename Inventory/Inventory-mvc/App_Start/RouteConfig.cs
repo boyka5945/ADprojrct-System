@@ -15,8 +15,8 @@ namespace Inventory_mvc
 
             routes.MapRoute(
                 name: "RaiseRequisition",
-                url: "RaiseRequisition/{action}",
-                defaults: new { controller = "RaiseRequisition", action = "BrowseStationeryCatalogue" }
+                url: "RaiseRequisition/{action}/{id}",
+                defaults: new { controller = "RaiseRequisition", action = "BrowseCatalogue", id = UrlParameter.Optional }
             );
 
             routes.MapRoute(

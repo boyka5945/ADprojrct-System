@@ -20,7 +20,7 @@ namespace Inventory_mvc.Controllers
         // GET: Supplier/Edit/{id}
         public ActionResult Edit(string id)
         {
-            StationeryViewModel stationeryVM = stationeryService.FindByItemCode(id);
+            StationeryViewModel stationeryVM = stationeryService.FindStationeryViewModelByItemCode(id);
             return View(stationeryVM);
         }
 
@@ -110,7 +110,7 @@ namespace Inventory_mvc.Controllers
         // GET: Stationery/Details
         public ActionResult ViewStockCard(string id)
         {
-            return View(stationeryService.FindByItemCode(id));
+            return View(stationeryService.FindStationeryViewModelByItemCode(id));
         }
 
     }
