@@ -386,6 +386,9 @@
     <Content Include="Views\ManageRequisitions\ClerkRequisition.cshtml" />
     <Content Include="Views\ManageRequisitions\ManagerRequisition.cshtml" />
     <Content Include="Views\ManageRequisitions\RequisitionDetails.cshtml" />
+    <Content Include="Views\User\Create.cshtml" />
+    <Content Include="Views\User\Delegate.cshtml" />
+    <Content Include="Views\User\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
