@@ -119,7 +119,7 @@ namespace Inventory_mvc.Service
 
         bool IUserService.Remove_Delegate(string userid)
         {
-            return;
+            throw new NotImplementedException();
         }
     }
 }

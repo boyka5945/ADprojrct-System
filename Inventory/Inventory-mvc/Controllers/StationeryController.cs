@@ -109,13 +109,17 @@ namespace Inventory_mvc.Controllers
         // GET: Stationery/Create
         public ActionResult Create()
         {
-            return View(new StationeryViewModel());
+            ViewBag.unitOfMeasure = stationeryService.GetAllUOMList();
+            // return View(new StationeryViewModel());
+            return View();
         }
 
         // POST: Stationery/Create
         [HttpPost]
         public ActionResult Create(StationeryViewModel stationeryVM)
         {
+            ViewBag.unitOfMeasure = stationeryService.GetAllUOMList();
+
             string code = stationeryVM.ItemCode;
             int level = stationeryVM.ReorderLevel;
             int qty = stationeryVM.ReorderQty;
