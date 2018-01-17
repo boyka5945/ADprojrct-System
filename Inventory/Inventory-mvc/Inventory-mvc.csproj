@@ -258,6 +258,7 @@
     <Compile Include="ViewModel\RaiseRequisitionViewModel.cs" />
     <Compile Include="ViewModel\StationeryViewModel.cs" />
     <Compile Include="ViewModel\SupplierViewModel.cs" />
+    <Compile Include="ViewModel\UserViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-theme.css" />
@@ -387,13 +388,11 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\AdjustmentVoucherRecord\" />
-    <Folder Include="Views\CollectionPoint\" />
     <Folder Include="Views\Employee\" />
     <Folder Include="Views\InventoryCheck\" />
     <Folder Include="Views\Report\" />
     <Folder Include="Views\RequisitionDetails\" />
     <Folder Include="Views\RequisitionRecord\" />
-    <Folder Include="Views\Stationery\" />
     <Folder Include="Views\VoucherDetails\" />
   </ItemGroup>
   <ItemGroup>
