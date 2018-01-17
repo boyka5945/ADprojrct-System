@@ -24,6 +24,12 @@ namespace Inventory_mvc.Service
         // HELPER METHOD
         bool isExistingCode(string itemCode);
 
+        bool isPositiveLevel(int reorderLevel);
+
+        bool isPositiveQty(int reorderQty);
+
+        bool isPositivePrice(decimal price);
+
         List<Category> GetAllCategory();
 
 

@@ -25,13 +25,13 @@ namespace Inventory_mvc.Controllers
         //    return View(model);
         //}
 
-        // GET: Supplier/Create
+        // GET: CollectionPoint/Create
         public ActionResult Create()
         {
             return View(new CollectionPointViewModel());
         }
 
-        // POST: Supplier/Create
+        // POST: CollectionPoint/Create
         [HttpPost]
         public ActionResult Create(CollectionPointViewModel collectionPointVM)
         {
@@ -67,7 +67,7 @@ namespace Inventory_mvc.Controllers
         }
 
 
-        // POST: Supplier/Edit/{id}
+        // POST: CollectionPoint/Edit/{id}
         [HttpPost]
         public ActionResult Edit(CollectionPointViewModel cpVM)
         {
@@ -97,7 +97,7 @@ namespace Inventory_mvc.Controllers
             return View(cpVM);
         }
 
-        // GET: Supplier/Delete/{id}
+        // GET: CollectionPoint/Delete/{id}
         public ActionResult Delete(int id)
         {
             if (collectionPointService.DeleteCollectionPoint(id))
@@ -112,7 +112,18 @@ namespace Inventory_mvc.Controllers
             return RedirectToAction("Index");
         }
 
+
+
+        //    GET: CollectionPoint/UpdateCollectionPoint/{department
+
+        public ActionResult UpdateCollectionPoint(string userID)
+        {
+            //hardcoded value before login being implemented
+            userID = "S1000";
+            UserViewModel uVM = collectionPointService.FindByUserID(userID);
+            return View(uVM);
+            
+        }
     }
-
-
 }
+

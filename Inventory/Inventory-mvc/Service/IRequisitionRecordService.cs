@@ -10,5 +10,22 @@ namespace Inventory_mvc.Service
     public interface IRequisitionRecordService
     {
         List<Requisition_Record> GetAllRequisition();
+
+        List<Requisition_Details> GetDetailsByNo(int No=0);
+
+        Requisition_Record GetRequisitionByID(int id);
+
+        void UpdateRequisition(Requisition_Record rr, string status);
+
+        List<string> GetItemCodeList();
+
+        List<Requisition_Record> GetRecordByItemCode(string itemCode);
+
+        int FindUnfulfilledQtyBy2Key(string itemCode, int requisitionNo);
+
+        Requisition_Details FindDetailsBy2Key(string itemCode, int requisitionNo);
+
+
+        void UpdateDetails(string itemcode, int requisitionNo, int allocateQty);
     }
 }

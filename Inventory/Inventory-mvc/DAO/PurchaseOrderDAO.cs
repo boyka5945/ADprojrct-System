@@ -83,25 +83,34 @@ namespace Inventory_mvc.DAO
         //PURCHASE DETAILS//
         public List<Purchase_Details> GetPurchaseDetailsByOrderNo(int orderNo)
         {
-            using (StationeryModel Entity = new StationeryModel())
-            {
+            StationeryModel Entity = new StationeryModel();
+
                 List<Purchase_Details> pd = Entity.Purchase_Details.Where(x => x.orderNo == orderNo).ToList();
                 return pd;
-            }
+            
 
         }
 
 
 
+        public bool AddPurchaseDetail(Purchase_Details pd)
+        {
+            using(StationeryModel Entity = new StationeryModel())
+            {
+                Entity.Purchase_Details.Add(pd);
+                Entity.SaveChanges();
+                return true;
+            }
+        }
 
-        public void AddPurchaseDetail(int deliveryOrderNo, string itemCode, int qty, string remarks)
+        public bool AddPurchaseDetail(int deliveryOrderNo, string itemCode, int qty, string remarks, decimal price)
         {
             using (StationeryModel Entity = new StationeryModel())
             {
                 int maxOrderNo = 0;
                 //to obtain highest order number
-                List<Purchase_Details> pds = Entity.Purchase_Details.ToList();
-                foreach (Purchase_Details p in pds)
+                List<Purchase_Order_Record> pds = Entity.Purchase_Order_Record.ToList();
+                foreach (Purchase_Order_Record p in pds)
                 {
                     maxOrderNo = 1;
                     if (p.orderNo > maxOrderNo)
@@ -117,8 +126,11 @@ namespace Inventory_mvc.DAO
                 pd.itemCode = itemCode;
                 pd.qty = qty;
                 pd.remarks = remarks;
+                pd.price = price;
+               
                 Entity.Purchase_Details.Add(pd);
                 Entity.SaveChanges();
+                return true;
             }
 
 
