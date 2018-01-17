@@ -18,10 +18,12 @@ namespace Inventory_mvc.Models
 
         [Key]
         [StringLength(50)]
+        [Required]
         public string departmentCode { get; set; }
 
         [Required]
-        [StringLength(50)]
+        //[Required(AllowEmptyStrings = false, ErrorMessage = "Department Name cannot be empty.")]
+        [StringLength(50)]        
         public string departmentName { get; set; }
 
         [Required]
