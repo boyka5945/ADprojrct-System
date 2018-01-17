@@ -383,29 +383,27 @@
     <Content Include="Views\Stationery\Edit.cshtml" />
     <Content Include="Views\Stationery\ViewStockCard.cshtml" />
     <Content Include="Views\RaiseRequisition\BrowseCatalogue.cshtml" />
-    <Content Include="Views\RaiseRequisition\RequestPartial.cshtml" />
     <Content Include="Views\CollectionPoint\Delete.cshtml" />
     <Content Include="Views\ManageRequisitions\ClerkRequisition.cshtml" />
     <Content Include="Views\ManageRequisitions\ManagerRequisition.cshtml" />
     <Content Include="Views\ManageRequisitions\RequisitionDetails.cshtml" />
-    <Content Include="Views\RaiseRequisition\BrowseStationeryCatalogue.cshtml" />
     <Content Include="Views\Department\EditDepartment.cshtml" />
     <Content Include="Views\Department\CreateDepartment.cshtml" />
     <Content Include="Views\User\Create.cshtml" />
     <Content Include="Views\User\Delegate.cshtml" />
     <Content Include="Views\User\Edit.cshtml" />
     <Content Include="Views\CollectionPoint\UpdateCollectionPoint.cshtml" />
+    <Content Include="Views\RaiseRequisition\_CreateEditPartial.cshtml" />
+    <Content Include="Views\RaiseRequisition\NewRequisition.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\AdjustmentVoucherRecord\" />
-    <Folder Include="Views\CollectionPoint\" />
     <Folder Include="Views\Employee\" />
     <Folder Include="Views\InventoryCheck\" />
     <Folder Include="Views\Report\" />
     <Folder Include="Views\RequisitionDetails\" />
     <Folder Include="Views\RequisitionRecord\" />
-    <Folder Include="Views\Stationery\" />
     <Folder Include="Views\VoucherDetails\" />
   </ItemGroup>
   <ItemGroup>

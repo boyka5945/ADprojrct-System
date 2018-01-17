@@ -40,11 +40,11 @@ namespace Inventory_mvc.Controllers
             {
                 string[] searchStringArray = searchString.Split();
 
-                foreach(string s in searchStringArray)
+                foreach (string s in searchStringArray)
                 {
                     string search = s.ToLower().Trim();
 
-                    if(!String.IsNullOrEmpty(search))
+                    if (!String.IsNullOrEmpty(search))
                     {
                         stationeries = (from x in stationeries
                                         where x.description.ToLower().Contains(search)
@@ -69,6 +69,7 @@ namespace Inventory_mvc.Controllers
         [HttpPost]
         public ActionResult AddNewRequestItem(string itemCode, int quantity, string searchString, int? page, string categoryID)
         {
+            // TODO: Quantity check
             Stationery stationery = stationeryService.FindStationeryByItemCode(itemCode);
             RaiseRequisitionViewModel vm = new RaiseRequisitionViewModel();
 
@@ -81,9 +82,9 @@ namespace Inventory_mvc.Controllers
 
             bool contain = false;
 
-            foreach(var request in requestList)
+            foreach (var request in requestList)
             {
-                if(request.ItemCode == vm.ItemCode)
+                if (request.ItemCode == vm.ItemCode)
                 {
                     request.Quantity += vm.Quantity;
                     contain = true;
@@ -91,36 +92,46 @@ namespace Inventory_mvc.Controllers
                 }
             }
 
-            if(!contain)
+            if (!contain)
             {
                 requestList.Add(vm);
             }
-                
+
             Session["RequestList"] = requestList;
 
             ViewBag.SearchString = searchString;
             ViewBag.CategoryID = categoryID;
             ViewBag.Page = page;
 
-            TempData["AddItemMessage"] = String.Format("{0} was added into requisition form.", vm.Description);
+            string addItemMessage = String.Format("{0} x {1} was added into requisition form.", vm.Quantity, vm.Description);
+            TempData["AddItemMessage"] = addItemMessage;
 
-            return RedirectToAction("BrowseCatalogue", 
+            string path = Request.UrlReferrer.ToString();
+
+            if(path.Contains("NewRequisition"))
+            {
+                return RedirectToAction("NewRequisition");
+            }
+
+            return RedirectToAction("BrowseCatalogue",
                                     new { searchString = searchString, categoryID = categoryID, page = page });
         }
 
         public ActionResult NewRequisition()
         {
             List<RaiseRequisitionViewModel> requestList = Session["RequestList"] as List<RaiseRequisitionViewModel>;
+
             return View(requestList);
         }
 
-        public ActionResult RemoveRequestItem(int position)
+        public ActionResult RemoveRequestItem(string itemCode)
         {
             List<RaiseRequisitionViewModel> requestList = Session["RequestList"] as List<RaiseRequisitionViewModel>;
 
-            string itemDescription = requestList.ElementAt(position).Description;
-            
-            requestList.RemoveAt(position);
+            RaiseRequisitionViewModel vm = requestList.Find(x => x.ItemCode == itemCode);
+            string itemDescription = vm.Description;
+
+            requestList.Remove(vm);
             Session["RequestList"] = requestList;
 
             TempData["RemoveItemMessage"] = String.Format("{0} was removed.", itemDescription);
@@ -148,7 +159,29 @@ namespace Inventory_mvc.Controllers
             return RedirectToAction("NewRequisition");
         }
 
+        [HttpGet]
+        public ActionResult CreateEditRequestItem(string itemCode)
+        {
+            List<Stationery> stationeries = stationeryService.GetAllStationery();
+            ViewBag.SelectList = new SelectList(stationeries, "ItemCode", "Description");
+
+            List<RaiseRequisitionViewModel> requestList = Session["RequestList"] as List<RaiseRequisitionViewModel>;
+            RaiseRequisitionViewModel viewModel = new RaiseRequisitionViewModel();
+
+            if (!String.IsNullOrEmpty(itemCode))
+            {
+                viewModel = requestList.Find(x => x.ItemCode == itemCode);
+            }
+
+            return PartialView("_CreateEditPartial", viewModel);
+        }
 
 
+        [HttpPost]
+        public ActionResult CreateEditRequestItem(RaiseRequisitionViewModel vm)
+        {
+
+            return PartialView("_CreateEditPartial", new RaiseRequisitionViewModel());
+        }
     }
 }

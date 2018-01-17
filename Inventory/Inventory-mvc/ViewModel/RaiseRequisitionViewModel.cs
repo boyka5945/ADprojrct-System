@@ -9,6 +9,7 @@ namespace Inventory_mvc.ViewModel
 {
     public class RaiseRequisitionViewModel
     {
+        [Key]
         [Required]
         public string ItemCode { get; set; }
 
