@@ -20,5 +20,7 @@ namespace Inventory_mvc.DAO
         bool DeleteCollectionPoint(int collectionPointID);
 
         int UpdateCollectionPointInfo(Collection_Point collectionPoint);
+
+        User FindByUserID(string id);
     }
 }

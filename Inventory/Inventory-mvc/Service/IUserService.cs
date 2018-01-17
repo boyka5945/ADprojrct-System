@@ -14,12 +14,16 @@ namespace Inventory_mvc.Service
 
         UserViewModel FindByUserID(string userid);
 
-        void DelegateEmp(string userid, DateTime from, DateTime to);
+         void DelegateEmp(string userid, DateTime from, DateTime to);
 
         bool UpdateUserInfo(UserViewModel userVM);
 
         bool isExistingID(string id);
 
         bool AddNewUser(UserViewModel userVM);
+
+        bool AssignRep(string userid);
+
+        bool Remove_Delegate(string userid);
     }
 }

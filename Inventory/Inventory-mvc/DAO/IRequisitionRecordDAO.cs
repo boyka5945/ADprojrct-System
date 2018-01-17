@@ -14,8 +14,20 @@ namespace Inventory_mvc.DAO
 
         Boolean AddNewRequisition(Requisition_Record purchase_order_record);
 
-        int UpdateRequisition(Requisition_Record purchase_order_record);
+        int UpdateRequisition(Requisition_Record purchase_order_record, string status);
 
         Boolean DeleteRequisition(int requisitionNo);
+
+        List<Requisition_Record> GetRecordByItemCode(string itemCode);
+
+        List<string> GetDetailsByGroup();
+
+        int UpdateRequisitionDetails(string itemcode, int requisitionNo, int allocateQty);
+
+        List<Requisition_Details> GetDetailsByNO(int No=0);
+
+        int FindUnfulfilledQtyBy2Key(string itemcode, int requisionNo);
+
+        Requisition_Details FindDetailsBy2Key(string itemCode, int requisitionNo);
     }
 }
