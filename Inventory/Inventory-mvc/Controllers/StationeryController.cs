@@ -1,6 +1,8 @@
-﻿using Inventory_mvc.Service;
+﻿using Inventory_mvc.Models;
+using Inventory_mvc.Service;
 using Inventory_mvc.ViewModel;
 using System;
+
 using System.Web.Mvc;
 
 namespace Inventory_mvc.Controllers
@@ -113,5 +115,9 @@ namespace Inventory_mvc.Controllers
             return View(stationeryService.FindStationeryViewModelByItemCode(id));
         }
 
+
+
+
+       
     }
 }
