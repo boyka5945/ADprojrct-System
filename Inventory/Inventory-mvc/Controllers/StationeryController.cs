@@ -70,6 +70,7 @@ namespace Inventory_mvc.Controllers
             string code = stationeryVM.ItemCode;
             int level = stationeryVM.ReorderLevel;
             int qty = stationeryVM.ReorderQty;
+            decimal price = stationeryVM.Price;
 
             if (stationeryService.isExistingCode(code) )
                 {
@@ -85,7 +86,13 @@ namespace Inventory_mvc.Controllers
             {
                 string errorMessage = String.Format("{0}  must be positive.", qty);
                 ModelState.AddModelError("ReorderQty", errorMessage);
-            }else if (ModelState.IsValid)
+            }
+            if (stationeryService.isPositivePrice(price))
+            {
+                string errorMessage = String.Format("{0}  must be positive.", price);
+                ModelState.AddModelError("Price", errorMessage);
+            }
+            else if (ModelState.IsValid)
             { 
                 {
                     try

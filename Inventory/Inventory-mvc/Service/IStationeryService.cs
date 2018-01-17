@@ -28,6 +28,8 @@ namespace Inventory_mvc.Service
 
         bool isPositiveQty(int reorderQty);
 
+        bool isPositivePrice(decimal price);
+
         List<Category> GetAllCategory();
 
 
