@@ -14,13 +14,8 @@ namespace Inventory_mvc.Controllers
     {
         IStationeryService stationeryService = new StationeryService();
 
-        public ActionResult ResetCatalogue()
-        {
-            return RedirectToAction("BrowseStationeryCatalogue", new { searchString = "",  categoryID = "All" });
-        }
-
-        // GET: RequisitionDetails
-        public ActionResult BrowseStationeryCatalogue(string searchString, int? page, string categoryID = "All")
+        // GET: RaiseRequisition/BrowseCatalogue
+        public ActionResult BrowseCatalogue(string searchString, int? page, string categoryID = "All")
         {
             List<Stationery> stationeries = stationeryService.GetAllStationery();
             ViewBag.CategoryList = stationeryService.GetAllCategory();
@@ -53,6 +48,25 @@ namespace Inventory_mvc.Controllers
             int pageSize = 4;
             int pageNumber = (page ?? 1);
             return View(stationeries.ToPagedList(pageNumber, pageSize));
+        }
+
+        public ActionResult ResetCatalogue()
+        {
+            return RedirectToAction("BrowseCatalogue", new { searchString = "", categoryID = "All" });
+        }
+
+        [HttpGet]
+        public ActionResult AddNewRequest(string itemCode)
+        {
+            RaiseRequisitionViewModel vm = new RaiseRequisitionViewModel();
+            Stationery stationery = stationeryService.FindStationeryByItemCode(itemCode);
+
+            vm.ItemCode = stationery.itemCode;
+            vm.Description = stationery.description;
+            vm.Quantity = 0;
+            vm.UOM = stationery.unitOfMeasure;         
+
+            return PartialView("RequestPartial", vm);
         }
 
     }

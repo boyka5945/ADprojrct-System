@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using Inventory_mvc.Function;
 using Inventory_mvc.Models;
 
+
 namespace Inventory_mvc.Controllers
 {
     public class HomeController : Controller

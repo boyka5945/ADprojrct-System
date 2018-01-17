@@ -255,9 +255,9 @@
     <Compile Include="Service\UserService.cs" />
     <Compile Include="ViewModel\BrowseStationeryCatalogueViewModel.cs" />
     <Compile Include="ViewModel\CollectionPointViewModel.cs" />
+    <Compile Include="ViewModel\RaiseRequisitionViewModel.cs" />
     <Compile Include="ViewModel\StationeryViewModel.cs" />
     <Compile Include="ViewModel\SupplierViewModel.cs" />
-    <Compile Include="ViewModel\UserViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-theme.css" />
@@ -337,6 +337,8 @@
     <Content Include="Scripts\jquery-ui-1.12.1.js" />
     <Content Include="Scripts\jquery-ui-1.12.1.min.js" />
     <Content Include="Scripts\jquery.combobox.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
@@ -373,23 +375,25 @@
     <Content Include="Views\Stationery\Index.cshtml" />
     <Content Include="Views\Stationery\Create.cshtml" />
     <Content Include="Views\CollectionPoint\Create.cshtml" />
-    <Content Include="Views\CollectionPoint\listCollectionPoint.cshtml" />
+    <Content Include="Views\CollectionPoint\Edit.cshtml" />
+    <Content Include="Views\CollectionPoint\Index.cshtml" />
     <Content Include="Views\Stationery\Delete.cshtml" />
     <Content Include="Views\Stationery\Edit.cshtml" />
     <Content Include="Views\Stationery\ViewStockCard.cshtml" />
-    <Content Include="Views\RaiseRequisition\BrowseStationeryCatalogue.cshtml" />
-    <Content Include="Views\User\Delegate.cshtml" />
-    <Content Include="Views\User\Edit.cshtml" />
-    <Content Include="Views\User\Create.cshtml" />
+    <Content Include="Views\RaiseRequisition\BrowseCatalogue.cshtml" />
+    <Content Include="Views\RaiseRequisition\RequestPartial.cshtml" />
+    <Content Include="Views\CollectionPoint\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\AdjustmentVoucherRecord\" />
+    <Folder Include="Views\CollectionPoint\" />
     <Folder Include="Views\Employee\" />
     <Folder Include="Views\InventoryCheck\" />
     <Folder Include="Views\Report\" />
     <Folder Include="Views\RequisitionDetails\" />
     <Folder Include="Views\RequisitionRecord\" />
+    <Folder Include="Views\Stationery\" />
     <Folder Include="Views\VoucherDetails\" />
   </ItemGroup>
   <ItemGroup>
