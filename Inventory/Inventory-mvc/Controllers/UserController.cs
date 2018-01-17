@@ -16,28 +16,28 @@ namespace Inventory_mvc.Controllers
         public ActionResult UserList()
         {
             string name = HttpContext.User.Identity.Name;
-            UserViewModel user = userService.FindByUserID("S1002");
+            UserViewModel user = userService.FindByUserID("S1000");
             var model = userService.GetUserByDept(user);
             return View(model);
         }
         [HttpGet]
         public ActionResult Delegate(string id)
         {
-            UserViewModel u = userService.FindByUserID("S1002");
+            UserViewModel u = userService.FindByUserID(id);
             return View(u);
         }
         [HttpPost]
-        public ActionResult Delegate(string id, DateTime from, DateTime to)
-        {
-          //  DateTime fromd = DateTime.Parse(from);
-            //DateTime tod = DateTime.Parse(to);
-            userService.DelegateEmp(id, from, to);
+        public ActionResult Delegate()
+        {            
+            userService.DelegateEmp(Request["userID"].ToString(), Convert.ToDateTime(Request["from"]), Convert.ToDateTime(Request["to"]));
+            
             return RedirectToAction("UserList");
         }
+        
 
         public ActionResult Edit(string id)
         {
-            UserViewModel userVM = userService.FindByUserID("S1002");
+            UserViewModel userVM = userService.FindByUserID(id);
             return View(userVM);
         }
 
@@ -82,7 +82,7 @@ namespace Inventory_mvc.Controllers
 
             if (userService.isExistingID(id))
             {
-                string errorMessage = String.Format("{0} has been used.", id);
+                string errorMessage = String.Format("{0} alrdady existed.", id);
                 ModelState.AddModelError("UserID", errorMessage);
             }
             else if (ModelState.IsValid)
@@ -100,6 +100,28 @@ namespace Inventory_mvc.Controllers
             }
 
             return View(userVM);
+        }
+        [HttpGet]
+        public ActionResult Assign_Rep(string id)
+        {
+            //string uid = Request["userID"].ToString();
+            if (userService.AssignRep(id))
+            {
+                TempData["EditMessage"] = String.Format("'{0}' has been updated", id);
+            }
+            else
+            {
+                TempData["EditErrorMessage"] = String.Format("There is not change to '{0}'.", id);
+            }
+            return RedirectToAction("UserList");
+        }
+
+        [HttpGet]
+        public ActionResult Remove_Delegate(string id)
+        {
+
+            return RedirectToAction("UserList");
+
         }
     }
 }
