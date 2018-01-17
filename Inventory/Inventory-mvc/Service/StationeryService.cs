@@ -46,6 +46,19 @@ namespace Inventory_mvc.Service
             }
         }
 
+        bool IStationeryService.isPositivePrice(decimal price)
+        {
+            decimal p = price;
+            if (p < 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
         bool IStationeryService.isPositiveQty(int reorderQty)
         {
             int qty = reorderQty;

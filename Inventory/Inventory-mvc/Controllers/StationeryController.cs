@@ -2,7 +2,8 @@
 using Inventory_mvc.Service;
 using Inventory_mvc.ViewModel;
 using System;
-
+using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
 
 namespace Inventory_mvc.Controllers
@@ -12,9 +13,39 @@ namespace Inventory_mvc.Controllers
         
         IStationeryService stationeryService = new StationeryService();
         // GET: Stationery
-        public ActionResult Index()
+        public ActionResult Index(string searchString, string categoryID = "All")
         {
-            return View(stationeryService.GetAllStationeryViewModel());
+            List<StationeryViewModel> stationeries = stationeryService.GetAllStationeryViewModel();
+            
+            ViewBag.CategoryList = stationeryService.GetAllCategory();
+
+
+            if (categoryID == "All")
+            {
+                ViewBag.CategoryID = "All";
+            }
+            else
+            {
+                ViewBag.CategoryID = categoryID;
+
+                stationeries = (from s in stationeries
+                                where s.CategoryID.ToString() == categoryID
+                                select s).ToList();
+            }
+
+            ViewBag.SearchString = searchString;
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                string search = searchString.ToLower().Trim();
+
+                stationeries = (from s in stationeries
+                                where s.Description.ToLower().Contains(search)
+                                select s).ToList();
+            }
+           
+            // return View(stationeryService.GetAllStationeryViewModel());
+            return View(stationeries);
         }
 
 
@@ -32,9 +63,27 @@ namespace Inventory_mvc.Controllers
         public ActionResult Edit(StationeryViewModel stationeryVM)
         {
             string code = stationeryVM.ItemCode;
-        
+            int level = stationeryVM.ReorderLevel;
+            int qty = stationeryVM.ReorderQty;
+            decimal price = stationeryVM.Price;
 
-            if (ModelState.IsValid)
+            if (stationeryService.isPositiveLevel(level))
+            {
+                string errorMessage = String.Format("{0}  must be positive.", level);
+                ModelState.AddModelError("ReorderLevel", errorMessage);
+            }
+            if (stationeryService.isPositiveQty(qty))
+            {
+                string errorMessage = String.Format("{0}  must be positive.", qty);
+                ModelState.AddModelError("ReorderQty", errorMessage);
+            }
+            if (stationeryService.isPositivePrice(price))
+            {
+                string errorMessage = String.Format("{0}  must be positive.", price);
+                ModelState.AddModelError("Price", errorMessage);
+            }
+
+            else if (ModelState.IsValid)
             {
                 try
                 {
@@ -70,6 +119,7 @@ namespace Inventory_mvc.Controllers
             string code = stationeryVM.ItemCode;
             int level = stationeryVM.ReorderLevel;
             int qty = stationeryVM.ReorderQty;
+            decimal price = stationeryVM.Price;
 
             if (stationeryService.isExistingCode(code) )
                 {
@@ -85,7 +135,13 @@ namespace Inventory_mvc.Controllers
             {
                 string errorMessage = String.Format("{0}  must be positive.", qty);
                 ModelState.AddModelError("ReorderQty", errorMessage);
-            }else if (ModelState.IsValid)
+            }
+            if (stationeryService.isPositivePrice(price))
+            {
+                string errorMessage = String.Format("{0}  must be positive.", price);
+                ModelState.AddModelError("Price", errorMessage);
+            }
+            else if (ModelState.IsValid)
             { 
                 {
                     try
@@ -127,8 +183,19 @@ namespace Inventory_mvc.Controllers
         }
 
 
+        public ActionResult ResetCatalogue()
+        {
+            return RedirectToAction("Index", new { searchString = "", categoryID = "All" });
+        }
+
+        // GET: Stationery/Browse
+        //public ActionResult Browse()
+        //{            
+        //    ViewBag.CategoryList = stationeryService.GetAllCategory();
+
+        //    return View();
+        //}
 
 
-       
     }
 }
