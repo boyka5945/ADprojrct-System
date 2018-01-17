@@ -10,12 +10,16 @@ namespace Inventory_mvc.Service
     {
         List<UserViewModel> GetAllUserViewModel();
 
-        List<User> GetUserByDept(UserViewModel user);
+        List<UserViewModel> GetUserByDept(UserViewModel user);
 
         UserViewModel FindByUserID(string userid);
 
         void DelegateEmp(string userid, DateTime from, DateTime to);
 
         bool UpdateUserInfo(UserViewModel userVM);
+
+        bool isExistingID(string id);
+
+        bool AddNewUser(UserViewModel userVM);
     }
 }

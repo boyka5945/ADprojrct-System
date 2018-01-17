@@ -100,5 +100,15 @@ namespace Inventory_mvc.DAO
             }
         }
 
+        List<string> IUserDAO.GetAllUserID()
+        {
+
+            using (StationeryModel context = new StationeryModel())
+            {
+                return (from s in context.User
+                        select s.userID).ToList();
+            }
+        }
+
     }
 }

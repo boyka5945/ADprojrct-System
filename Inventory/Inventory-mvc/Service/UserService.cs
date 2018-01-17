@@ -25,10 +25,17 @@ namespace Inventory_mvc.Service
             return viewModelList;
         }
 
-        List<User> IUserService.GetUserByDept(UserViewModel user)
+        List<UserViewModel> IUserService.GetUserByDept(UserViewModel user)
         {
+            List<User> userList=userDAO.GetUserByDept(ConvertFromViewModel(user));
+            List<UserViewModel> viewModelList = new List<UserViewModel>();
 
-            return userDAO.GetUserByDept(ConvertFromViewModel(user));
+            foreach (User s in userList)
+            {
+                if (s.userID != user.UserID)
+                    viewModelList.Add(ConvertToViewModel(s));
+            }
+            return viewModelList;
         }
 
         UserViewModel IUserService.FindByUserID(string userid)
@@ -90,6 +97,18 @@ namespace Inventory_mvc.Service
         //    userVM.DelegationStart = (DateTime) u.delegationStart;
         //    userVM.DelegationEnd = (DateTime) u.delegationEnd;
             return userVM ;
+        }
+
+        bool IUserService.isExistingID(string userid)
+        {
+            string id = userid.ToUpper().Trim();
+
+            return userDAO.GetAllUserID().Contains(id);
+        }
+
+        bool IUserService.AddNewUser(UserViewModel userVM)
+        {
+            return userDAO.AddNewUser(ConvertFromViewModel(userVM));
         }
     }
 }

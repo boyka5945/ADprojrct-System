@@ -20,6 +20,8 @@ namespace Inventory_mvc.DAO
 
         void DelegateEmp(string userid, DateTime from, DateTime to);
 
+        List<string> GetAllUserID();
+
         //  bool DeleteUser(string userID);
     }
 }
