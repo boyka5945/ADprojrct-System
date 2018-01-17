@@ -9,8 +9,16 @@ namespace Inventory_mvc.DAO
 {
     interface ICollectionPointDAO
     {
-        List<Collection_Point> GetAllCollectionPoints();
+        List<Collection_Point> GetAllCollectionPoint();
 
         Collection_Point FindByCollectionPointID(int id);
+
+        List<int> GetAllCollectionID();
+
+        bool AddNewCollectionPoint(Collection_Point collectionPoint);
+
+        bool DeleteCollectionPoint(int collectionPointID);
+
+        int UpdateCollectionPointInfo(Collection_Point collectionPoint);
     }
 }

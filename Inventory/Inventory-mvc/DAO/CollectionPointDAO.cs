@@ -21,13 +21,71 @@ namespace Inventory_mvc.DAO
 
         }
 
-        public List<Collection_Point> GetAllCollectionPoints()
+        List<Collection_Point> ICollectionPointDAO.GetAllCollectionPoint()
         {
-            using (StationeryModel entity = new StationeryModel())
+            using (StationeryModel context = new StationeryModel())
             {
-                List<Collection_Point> listAll = entity.Collection_Point.ToList<Collection_Point>();
-                return listAll;
+                return (from s in context.Collection_Point
+                        select s).ToList();
             }
         }
+
+        List<int> ICollectionPointDAO.GetAllCollectionID()
+        {
+            using (StationeryModel context = new StationeryModel())
+            {
+                return (from c in context.Collection_Point
+                        select c.collectionPointID).ToList();
+            }
+        }
+
+        bool ICollectionPointDAO.AddNewCollectionPoint(Collection_Point collectionPoint)
+        {
+            using (StationeryModel context = new StationeryModel())
+            {
+                context.Collection_Point.Add(collectionPoint);
+                int rowAffected = context.SaveChanges();
+
+                if (rowAffected != 1)
+                {
+                    throw new DAOException();
+                }
+
+                return true;
+            }
+        }
+
+        int ICollectionPointDAO.UpdateCollectionPointInfo(Collection_Point collectionPoint)
+        {
+            using (StationeryModel context = new StationeryModel())
+            {
+                Collection_Point c = (from x in context.Collection_Point
+                                      where x.collectionPointID == collectionPoint.collectionPointID
+                                      select x).FirstOrDefault();
+
+                c.collectionPointName = collectionPoint.collectionPointName;
+
+
+                int rowAffected = context.SaveChanges();
+
+                return rowAffected;
+            }
+
+        }
+            bool ICollectionPointDAO.DeleteCollectionPoint(int collectionPointID)
+        {
+                using (StationeryModel context = new StationeryModel())
+                {
+                    Collection_Point collectionPoint = (from s in context.Collection_Point
+                                         where s.collectionPointID == collectionPointID
+                                         select s).FirstOrDefault();
+
+                    context.Collection_Point.Remove(collectionPoint);
+                    context.SaveChanges();
+
+                    return true;
+                }
+            }
+        }
+
     }
-}

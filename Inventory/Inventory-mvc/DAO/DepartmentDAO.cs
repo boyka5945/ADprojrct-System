@@ -47,8 +47,20 @@ namespace Inventory_mvc.DAO
 
         public int UpdateDepartmentInfo(Department dept)
         {
+
             StationeryModel entity = new StationeryModel();
-            return 10;
+            Department dt = entity.Department.Where(x => x.departmentCode == dept.departmentCode).First();
+            dt.departmentName = dept.departmentName;
+            dt.contactName = dept.contactName;
+            dt.phoneNo = dept.phoneNo;
+            dt.faxNo = dept.faxNo;
+            dt.departmentHeadID = dept.departmentHeadID;
+            dt.collectionPointID = dept.collectionPointID;
+            dt.representativeID = dept.representativeID;
+            //dt = dept;
+            int row = entity.SaveChanges();
+
+            return row;
         }
 
         public Boolean DeleteDepartment(string deptCode)

@@ -22,5 +22,42 @@ namespace Inventory_mvc.Controllers
             List<Department> model = ds.GetAllDepartment();
             return View(model);
         }
+
+        [HttpGet]
+        public ActionResult EditDepartment(string deptCode)
+        {
+            DepartmentService ds = new DepartmentService();
+            Department model = new Department();
+            model = ds.GetDepartmentByCode(deptCode);
+            return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult EditDepartment(Department dept)
+        {
+            DepartmentService ds = new DepartmentService();
+            int row = ds.UpdateDepartmentByCode(dept);
+
+
+            return RedirectToAction("ListDepartment");
+        }
+
+        [HttpGet]
+        public ActionResult CreateDepartment()
+        {
+            DepartmentService ds = new DepartmentService();
+            Department model = new Department();
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult CreateDepartment(Department dept)
+        {
+            DepartmentService ds = new DepartmentService();
+            Boolean b = ds.CreateDepartment(dept);
+            List<Department> model = ds.GetAllDepartment();
+            return RedirectToAction("ListDepartment");
+        }
     }
 }
