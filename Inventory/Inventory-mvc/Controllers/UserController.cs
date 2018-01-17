@@ -116,31 +116,16 @@ namespace Inventory_mvc.Controllers
         [HttpGet]
         public ActionResult Assign_Rep(string id)
         {
-            int i = 0;
-            List<string> roles = userService.FindAllRole();
-            foreach(string r in roles)
-            {
-                if(r== "UserRepresentative")
-                {
-                    i++;
-                }
-
-            }
-            if(i<1)
-            {
-                TempData["CannotAssignMessage"] = String.Format("Cannot assign two representative");
-            }
-             else
-                {
+           
                 if (userService.AssignRep(id))
                 {
                     TempData["AssignMessage"] = String.Format("'{0}' has been updated", id);
                 }
                 else
                 {
-                    TempData["AssignErrorMessage"] = String.Format("There is not change to '{0}'.", id);
+                    TempData["AssignErrorMessage"] = String.Format("Cannot assign two representative");
                 }
-            }
+           
             //string uid = Request["userID"].ToString();
 
             return RedirectToAction("UserList");

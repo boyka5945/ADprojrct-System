@@ -109,11 +109,15 @@ namespace Inventory_mvc.DAO
                 User rep = (from r in entity.User where r.role == "UserRepresentative" select r).First();
                 rep.role = "Employee";
                 User user = (from u in entity.User where u.userID == userID select u).First();
-                user.role = "UserRepresentative";
+                if(user.role!= "ActingDeptHead")
+                {
+                    user.role = "UserRepresentative";
+                }
+                
 
                 int rowAffected = entity.SaveChanges();
 
-                if (rowAffected == 2)
+                if (rowAffected <= 2)
                 {
                     return true;
                 }
