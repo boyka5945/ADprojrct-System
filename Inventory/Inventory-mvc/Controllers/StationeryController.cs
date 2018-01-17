@@ -32,9 +32,27 @@ namespace Inventory_mvc.Controllers
         public ActionResult Edit(StationeryViewModel stationeryVM)
         {
             string code = stationeryVM.ItemCode;
-        
+            int level = stationeryVM.ReorderLevel;
+            int qty = stationeryVM.ReorderQty;
+            decimal price = stationeryVM.Price;
 
-            if (ModelState.IsValid)
+            if (stationeryService.isPositiveLevel(level))
+            {
+                string errorMessage = String.Format("{0}  must be positive.", level);
+                ModelState.AddModelError("ReorderLevel", errorMessage);
+            }
+            if (stationeryService.isPositiveQty(qty))
+            {
+                string errorMessage = String.Format("{0}  must be positive.", qty);
+                ModelState.AddModelError("ReorderQty", errorMessage);
+            }
+            if (stationeryService.isPositivePrice(price))
+            {
+                string errorMessage = String.Format("{0}  must be positive.", price);
+                ModelState.AddModelError("Price", errorMessage);
+            }
+
+            else if (ModelState.IsValid)
             {
                 try
                 {
