@@ -1,28 +1,8 @@
-﻿<script>
-    function showDialog(data) {
-
-        $("#addRequestDialog").html(data);
-        $("#addRequestDialog form").removeData("validator");
-        $("#addRequestDialog form").removeData("unobtrusiveValidation");
-        $.validator.unobtrusive.parse("#addRequestDialog form");
-
-    }
-
-    function reLoad(data) {
-        if (data == "OK") {
-            $("#addRequestDialog").modal("hide");
-            $("#addRequestDialog").hide();
-        }
-    }
-</script>
-
-
-@model IEnumerable<Inventory_mvc.ViewModel.RaiseRequisitionViewModel>
+﻿@model IEnumerable<Inventory_mvc.ViewModel.RaiseRequisitionViewModel>
 
 
 @{
     var removeItemMessage = TempData["RemoveItemMessage"];
-    var addItemMessage = TempData["AddItemMessage"];
 
     int count = Model.Count();
 
@@ -33,17 +13,11 @@
     }
 }
 
-<h2>New Requisition Form</h2>
+<h2>Requisition Form</h2>
 
 <br />
 
-@Ajax.ActionLink("Add Item", "AddNewRequestItem", null,
-                      new AjaxOptions { OnSuccess = "showDialog", HttpMethod = "GET" },
-                      new { @class = "btn btn-success", data_toggle = "modal", data_target = "#addRequestDialog" })
-
-
-<!-- The below code is for the modal dialog -->
-<div class="modal fade" id="addRequestDialog" data-backdrop="false"></div>
+@Html.ActionLink("Go To Catalogue", "BrowseCatalogue", null, new { @class = "btn btn-success"})
 
 <br />
 <br />
@@ -54,14 +28,6 @@
         @removeItemMessage.ToString()
     </div>
 }
-
-@if (addItemMessage != null)
-{
-    <div class="alert alert-success">
-        @addItemMessage.ToString()
-    </div>
-}
-
 
 <br />
 

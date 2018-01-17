@@ -17,9 +17,9 @@ namespace Inventory_mvc.Controllers
         // GET: RaiseRequisition/BrowseCatalogue
         public ActionResult BrowseCatalogue(string searchString, int? page, string categoryID = "All")
         {
-            List<Stationery> stationeries = stationeryService.GetAllStationery();
             ViewBag.CategoryList = stationeryService.GetAllCategory();
 
+            List<Stationery> stationeries = stationeryService.GetAllStationery();
 
             if (categoryID == "All")
             {
@@ -38,12 +38,22 @@ namespace Inventory_mvc.Controllers
 
             if (!String.IsNullOrEmpty(searchString))
             {
-                string search = searchString.ToLower().Trim();
+                string[] searchStringArray = searchString.Split();
 
-                stationeries = (from s in stationeries
-                                where s.description.ToLower().Contains(search)
-                                select s).ToList();
+                foreach(string s in searchStringArray)
+                {
+                    string search = s.ToLower().Trim();
+
+                    if(!String.IsNullOrEmpty(search))
+                    {
+                        stationeries = (from x in stationeries
+                                        where x.description.ToLower().Contains(search)
+                                        select x).ToList();
+                    }
+                }
             }
+
+            ViewBag.Page = page;
 
             int pageSize = 4;
             int pageNumber = (page ?? 1);
@@ -55,46 +65,18 @@ namespace Inventory_mvc.Controllers
             return RedirectToAction("BrowseCatalogue", new { searchString = "", categoryID = "All" });
         }
 
-        [HttpGet]
-        public ActionResult AddNewRequestItem(string itemCode = null)
-        {
-            //TODO: Fix modal-backdrop, Fix validation
-
-            List<SelectListItem> stationerySelectItemList = new List<SelectListItem>();
-            List<Stationery> stationeries = stationeryService.GetAllStationery();
-
-            foreach(var stationery in stationeries)
-            {
-                stationerySelectItemList.Add(new SelectListItem()
-                {
-                    Text = stationery.description,
-                    Value = stationery.itemCode,
-                    Selected = false
-                });
-            }
-
-            ViewBag.StationerySelectItemList = stationerySelectItemList;
-
-            RaiseRequisitionViewModel vm = new RaiseRequisitionViewModel();
-
-            if(itemCode != null)
-            {
-                Stationery stationery = stationeryService.FindStationeryByItemCode(itemCode);
-
-                vm.ItemCode = stationery.itemCode;
-                vm.Description = stationery.description;
-                vm.Quantity = 1;
-                vm.UOM = stationery.unitOfMeasure;
-            }
-
-            return PartialView("RequestPartial", vm);
-        }
-
-
 
         [HttpPost]
-        public string AddNewRequestItem(RaiseRequisitionViewModel vm)
+        public ActionResult AddNewRequestItem(string itemCode, int quantity, string searchString, int? page, string categoryID)
         {
+            Stationery stationery = stationeryService.FindStationeryByItemCode(itemCode);
+            RaiseRequisitionViewModel vm = new RaiseRequisitionViewModel();
+
+            vm.Description = stationery.description;
+            vm.ItemCode = stationery.itemCode;
+            vm.Quantity = quantity;
+            vm.UOM = stationery.unitOfMeasure;
+
             List<RaiseRequisitionViewModel> requestList = Session["RequestList"] as List<RaiseRequisitionViewModel>;
 
             bool contain = false;
@@ -116,7 +98,14 @@ namespace Inventory_mvc.Controllers
                 
             Session["RequestList"] = requestList;
 
-            return "OK";
+            ViewBag.SearchString = searchString;
+            ViewBag.CategoryID = categoryID;
+            ViewBag.Page = page;
+
+            TempData["AddItemMessage"] = String.Format("{0} was added into requisition form.", vm.Description);
+
+            return RedirectToAction("BrowseCatalogue", 
+                                    new { searchString = searchString, categoryID = categoryID, page = page });
         }
 
         public ActionResult NewRequisition()

@@ -1,25 +1,5 @@
-﻿<script>
-    function showDialog(data) {
+﻿@model PagedList.IPagedList<Inventory_mvc.Models.Stationery>
 
-        $("#addRequestDialog").html(data);
-        $("#addRequestDialog form").removeData("validator");
-        $("#addRequestDialog form").removeData("unobtrusiveValidation");
-        $.validator.unobtrusive.parse("#addRequestDialog form");
-
-    }
-
-    function reLoad(data) {
-        if (data == "OK") {
-            $("#addRequestDialog").modal("hide");
-            $("#addRequestDialog").hide();
-            $(".form-group form").submit();
-        }
-    }
-
-</script>
-
-
-@model PagedList.IPagedList<Inventory_mvc.Models.Stationery>
 @using PagedList.Mvc;
 <link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 
@@ -27,19 +7,25 @@
     ViewBag.Title = "Browse Stationery Catalogue";
 
     List<Inventory_mvc.Models.Category> categoryList = ViewBag.CategoryList;
+
+    var addItemMessage = TempData["AddItemMessage"];
 }
 
-<h3>Browse Stationery Catalogue</h3>
 
-@using (Html.BeginForm("BrowseCatalogue", "RaiseRequisition", FormMethod.Get, new { @class = "form-group" }))
+<h3>Stationery Catalogue</h3>
+
+
+
+@using (Html.BeginForm("BrowseCatalogue", "RaiseRequisition", FormMethod.Get, new { @class = "form-inline" }))
 {
+
     <table class="table pagination">
         <tr>
             <td>
                 @Html.Label("Description", new { @class = "col-sm-2 col-form-label" })
             </td>
             <td>
-                @Html.TextBox("searchString", ViewBag.SearchString as string, new { @class = "form-control" })
+                @Html.TextBox("searchString", ViewBag.SearchString as string, new { @class = "form-control mx-sm-3" })
             </td>
             <td>
                 @Html.Label("Category", new { @class = "col-sm-2 col-form-label" })
@@ -68,6 +54,15 @@
     </table>
 }
 
+
+@if (addItemMessage != null)
+{
+    <div class="alert alert-success">
+        @addItemMessage.ToString()
+    </div>
+}
+
+
 <table class="table">
     <tr>
         <th>
@@ -79,41 +74,47 @@
         <th>
             @Html.Label("UOM")
         </th>
-        <th></th>
+        <th>
+            @Html.Label("Action")
+        </th>
     </tr>
 
     @foreach (var item in Model)
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Category.categoryName)
-            </td>
-            <td>
-                @Html.HiddenFor(modelItem => item.itemCode)
-                @Html.DisplayFor(modelItem => item.description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.unitOfMeasure)
-            </td>
-            <td>
-                @Ajax.ActionLink("Add Request", "AddNewRequestItem", new { itemCode = item.itemCode },
-                      new AjaxOptions { OnSuccess = "showDialog", HttpMethod = "GET" },
-                      new { @class = "btn btn-outline-success", data_toggle = "modal", data_target = "#addRequestDialog" })
-            </td>
-        </tr>
+            {
+                using (Html.BeginForm("AddNewRequestItem", "RaiseRequisition", new { itemCode = item.itemCode, searchString = ViewBag.SearchString, categoryID = ViewBag.CategoryID, page = ViewBag.Page }, FormMethod.Post, new { @class = "form" }))
+                {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Category.categoryName)
+                </td>
+                <td>
+                    @Html.HiddenFor(modelItem => item.itemCode)
+                    @Html.DisplayFor(modelItem => item.description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.unitOfMeasure)
+                </td>
+                <td>
+                    <div class="form-inline">
+                        <input type="number" name="quantity" min="1" class="form-control" placeholder="Quantity" />
+                        <input type="submit" value="Add Request" class="btn btn-outline-success" />
+                    </div>
+                </td>
+            </tr>
+        }
     }
 </table>
-Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+        Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
 
-@Html.PagedListPager(Model, page => Url.Action("BrowseCatalogue",
+        @Html.PagedListPager(Model, page => Url.Action("BrowseCatalogue",
                      new { searchString = ViewBag.SearchString, categoryID = ViewBag.CategoryID, page }))
 
 
-@Html.ActionLink("Go To Requisition Form", "NewRequisition", "RaiseRequisition", null, new { @class = "btn btn-primary"})
+        @Html.ActionLink("Go To Requisition Form", "NewRequisition", "RaiseRequisition", null, new { @class = "btn btn-primary" })
 
 
 
 
 
-<!-- The below code is for the modal dialog -->
-<div class="modal fade" id="addRequestDialog" data-backdrop="false"></div>
+        <!-- The below code is for the modal dialog -->
+        <div class="modal fade" id="addRequestDialog" data-backdrop="false"></div>
