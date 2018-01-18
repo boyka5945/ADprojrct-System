@@ -57,13 +57,13 @@
         <table class="table pagination">
             <tr>
                 <td>
-                    @Html.Label("Description", new { @class = "col-sm-2 col-form-label" })
+                    @Html.Label("Description", new { @class = "col-sm-2 col-form-label font-weight-bold" })
                 </td>
                 <td>
                     @Html.TextBox("searchString", ViewBag.SearchString as string, new { @class = "form-control" })
                 </td>
                 <td>
-                    @Html.Label("Category", new { @class = "col-sm-2 col-form-label" })
+                    @Html.Label("Category", new { @class = "col-sm-2 col-form-label font-weight-bold" })
                 </td>
                 <td>
                     <select name="categoryID" class="custom-select my-1 mr-sm-2">
@@ -99,17 +99,17 @@
                 @Html.DisplayNameFor(model => model.ItemCode)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.CategoryID)
+                @Html.Label("Category")
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Description)
             </th>
-            <th>
+            @*<th>
                 @Html.DisplayNameFor(model => model.ReorderLevel)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.ReorderQty)
-            </th>
+            </th>*@
             <th>
                 @Html.DisplayNameFor(model => model.UnitOfMeasure)
             </th>
@@ -141,17 +141,17 @@
                     @Html.DisplayFor(modelItem => item.ItemCode)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.CategoryID)
+                    @Html.DisplayFor(modelItem => item.Category.categoryName)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Description)
                 </td>
-                <td>
+                @*<td>
                     @Html.DisplayFor(modelItem => item.ReorderLevel)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.ReorderQty)
-                </td>
+                </td>*@
                 <td>
                     @Html.DisplayFor(modelItem => item.UnitOfMeasure)
                 </td>

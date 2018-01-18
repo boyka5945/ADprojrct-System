@@ -33,13 +33,7 @@
             @Html.Label("Fax No:")
         </th>
         <th>
-            @Html.Label("Department Head ID")
-        </th>
-        <th>
-            @Html.Label("Collection Point ID")
-        </th>
-        <th>
-            @Html.Label("Representative ID")
+            @Html.Label("Collection Point Name")
         </th>
         <th></th>
     </tr>
@@ -61,15 +55,9 @@
         <td>
             @Html.DisplayFor(modelItem => item.faxNo)
         </td>
-        @*<td>
-            @Html.DisplayFor(modelItem => item.departmentHeadID)
-        </td>*@
         <td>
-            @Html.DisplayFor(modelItem => item.collectionPointID)
+            @Html.DisplayFor(modelItem => item.Collection_Point.collectionPointName)
         </td>
-        @*<td>
-            @Html.DisplayFor(modelItem => item.representativeID)
-        </td>*@
         <td>
             @Html.ActionLink("Edit", "EditDepartment", new { deptCode = item.departmentCode }) 
             
