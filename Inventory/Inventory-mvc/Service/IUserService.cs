@@ -8,29 +8,29 @@ namespace Inventory_mvc.Service
 {
     public interface IUserService
     {
-        List<UserViewModel> GetAllUserViewModel();
+        List<User> GetAllUserViewModel();
 
-        List<UserViewModel> GetUserByDept(UserViewModel user);
+        List<User> GetUserByDept(User user);
 
-        UserViewModel FindByUserID(string userid);
+        User FindByUserID(string userid);
 
          void DelegateEmp(string userid, DateTime? from, DateTime? to);
 
-        bool UpdateUserInfo(UserViewModel userVM);
+        bool UpdateUserInfo(User userVM);
 
         bool isExistingID(string id);
 
-        bool AddNewUser(UserViewModel userVM);
+        bool AddNewUser(User userVM);
 
         bool AssignRep(string userid);
 
         bool Remove_Delegate(string userid);
 
-        List<string> FindAllRole(string id);
+        List<int> FindAllRole(string id);
 
-        bool FindRole(string dept);
+        bool FindRole(int role);
 
-        List<string> RoleForEditAndCreate(string userid);
+        List<int> RoleForEditAndCreate(string userid);
 
         bool AlrDelegated(string id);
     }

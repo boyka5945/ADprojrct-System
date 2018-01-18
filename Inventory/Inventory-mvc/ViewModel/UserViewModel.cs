@@ -35,7 +35,7 @@ namespace Inventory_mvc.ViewModel
         [Required]
         [StringLength(50)]
         [Display(Name = "Role")]
-        public string Role { get; set; }
+        public int Role { get; set; }
 
         [Required]
         [StringLength(50)]

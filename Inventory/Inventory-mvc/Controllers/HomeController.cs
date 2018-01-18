@@ -4,15 +4,17 @@ using System.Linq;
 using System.Reflection;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
 using Inventory_mvc.Function;
 using Inventory_mvc.Models;
+using Inventory_mvc.Service;
 
 
 namespace Inventory_mvc.Controllers
 {
     public class HomeController : Controller
     {
-
+        IUserService UserService = new UserService();
         [AllowAnonymous]
         public ActionResult Login()
         {
@@ -23,21 +25,18 @@ namespace Inventory_mvc.Controllers
         [AllowAnonymous]
         public ActionResult Login(AccountLoginModels model, string returnUrl)
         {
-
-            if (ModelState.IsValid)
+            if (!UserService.isExistingID(model.UserName))
             {
-                if (model.UserName == "boyka")
+                ViewBag.errorMessage = "UserName or PassWord is not correct.";
+            }
+            else if (ModelState.IsValid)
+            {
+                if (UserService.FindByUserID(model.UserName).password == model.Password)
                 {
                     int roleID = 1;
                     string identity = model.UserName;
                     AuthorizationManager.SetTicket(Response, model.RememberMe, identity, roleID);
-                }
-                else if (model.UserName == "cyt")
-                {
-                    int roleID = 2;
-                    string identity = model.UserName;
-                    AuthorizationManager.SetTicket(Response, model.RememberMe, identity, roleID);
-                }
+                }  
 
                 if (!string.IsNullOrEmpty(returnUrl))
                 {
@@ -51,34 +50,25 @@ namespace Inventory_mvc.Controllers
             return View(model);
         }
 
+        [RoleAuthorize]
+        public ActionResult Contact()
+        {
+            ViewBag.UserID = HttpContext.User.Identity.Name;
+            return View();
+        }
+
+
         [AllowAnonymous]
         public ActionResult Index()
         {
             return View();
         }
 
-        [RoleAuthorize]
-        public ActionResult About()
+        [AllowAnonymous]
+        public ActionResult Logout()
         {
-            ViewBag.Message = "page2";
-
-            return View();
-        }
-
-        [RoleAuthorize]
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "page3";
-
-            return View();
-        }
-
-        public ActionResult Email()
-        {
-            ViewBag.Message = "email have be sent successfully.";
-            sendEmail email = new sendEmail("yellowtown940924@163.com", "nice to meet you", "hello");
-            email.send();
-            return View();
+            FormsAuthentication.SignOut();
+            return RedirectToAction("Login", "Home");
         }
     }
 }

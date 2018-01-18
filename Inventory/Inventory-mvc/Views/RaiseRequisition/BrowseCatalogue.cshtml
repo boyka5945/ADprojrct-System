@@ -9,6 +9,7 @@
     List<Inventory_mvc.Models.Category> categoryList = ViewBag.CategoryList;
 
     var addItemMessage = TempData["AddItemMessage"];
+    var addItemErrorMessage = TempData["AddItemErrorMessage"];    
 }
 
 
@@ -62,6 +63,14 @@
     </div>
 }
 
+@if (addItemErrorMessage != null)
+{
+    <div class="alert alert-danger">
+        @addItemErrorMessage.ToString()
+    </div>
+}
+
+
 
 <table class="table">
     <tr>
@@ -75,7 +84,7 @@
             @Html.Label("UOM")
         </th>
         <th>
-            @Html.Label("Action")
+            @Html.Label("Add Request Quantity")
         </th>
     </tr>
 
@@ -97,7 +106,7 @@
                 <td>
                     <div class="form-inline">
                         <input type="number" name="quantity" value="0" min="1" class="form-control" placeholder="Quantity" />
-                        <input type="submit" value="Add Request" class="btn btn-outline-success" />
+                        <input type="submit" value="Add" class="btn btn-outline-primary" />
                     </div>
                 </td>
             </tr>
@@ -111,10 +120,3 @@
 
 
         @Html.ActionLink("Go To Requisition Form", "NewRequisition", "RaiseRequisition", null, new { @class = "btn btn-primary" })
-
-
-
-
-
-        <!-- The below code is for the modal dialog -->
-        <div class="modal fade" id="addRequestDialog" data-backdrop="false"></div>

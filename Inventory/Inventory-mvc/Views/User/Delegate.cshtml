@@ -1,4 +1,4 @@
-﻿@model Inventory_mvc.ViewModel.UserViewModel
+﻿@model Inventory_mvc.Models.User
 
 @{
     ViewBag.Title = "Delegate";
@@ -6,16 +6,30 @@
 
 <h2>Delegate</h2>
 <script>
+    //$(function () {
+    //    $("#delstart").datepicker();
+    //});
+    //$(function () {
+    //    $("#delend").datepicker();
+    //});
+    
+
   $( function() {
-    $( "#delstart" ).datepicker({
-      showButtonPanel: true
-    });
+        $("#delstart").datepicker(
+        { minDate: 0 }
+    );
   });
   
   $(function () {
-      $("#delend").datepicker({
-          showButtonPanel: true
-      });
+        $("#delend").datepicker(
+          {
+              defaultDate: "+1w",
+              beforeShow: function () {
+                    $(this).datepicker('option', 'minDate', $('#delstart').val());
+                    if ($('#delstart').val() === '') $(this).datepicker('option', 'minDate', 0);
+              }
+          }
+       );
   });
 </script>
 <div>
@@ -24,19 +38,19 @@
     <dl class="dl-horizontal">
         
         <dt>
-            @Html.DisplayNameFor(model => model.Name)
+            @Html.DisplayNameFor(model => model.name)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Name)
+            @Html.DisplayFor(model => model.name)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Role)
+            @Html.DisplayNameFor(model => model.roleInfo.roleName)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Role)
+            @Html.DisplayFor(model => model.roleInfo.roleName)
         </dd>
 
 
@@ -46,10 +60,12 @@
 {
     <div>
         
-        <input type="hidden" name="userID" value = "@Model.UserID"/>
-        <p>From: <input type="text" id="delstart" name="from"> |
+        <input type="hidden" name="userID" value = "@Model.userID"/>
+        @*<p>From: <input type="text" id="delstart" name="from"> |
            To:   <input type="text" id="delend" name="toto">
-        </p>
+        </p>*@
+        <p>From: <input type="text" id="delstart" name="from">  
+           To: <input type="text" id="delend" name="toto"></p>
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Confirm" class="btn btn-default" />

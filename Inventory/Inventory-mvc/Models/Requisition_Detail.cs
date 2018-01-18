@@ -7,7 +7,7 @@ namespace Inventory_mvc.Models
     using System.Data.Entity.Spatial;
 
     [Table("Requisition Details")]
-    public partial class Requisition_Details
+    public partial class Requisition_Detail
     {
         [Key]
         [Column(Order = 0)]
@@ -22,7 +22,7 @@ namespace Inventory_mvc.Models
         [StringLength(200)]
         public string remarks { get; set; }
 
-        public int qty { get; set; }
+        public int? qty { get; set; }
 
         public int? fulfilledQty { get; set; }
 

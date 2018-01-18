@@ -13,7 +13,7 @@ namespace Inventory_mvc.DAO
         {
             using (StationeryModel entity = new StationeryModel())
             {
-                Collection_Point cp = entity.Collection_Point.Where(x => x.collectionPointID == id).First();
+                Collection_Point cp = entity.Collection_Points.Where(x => x.collectionPointID == id).First();
                 return cp;
                 
 
@@ -26,7 +26,7 @@ namespace Inventory_mvc.DAO
         {
             using (StationeryModel context = new StationeryModel())
             {
-                return (from s in context.Collection_Point
+                return (from s in context.Collection_Points
                         select s).ToList();
             }
         }
@@ -35,7 +35,7 @@ namespace Inventory_mvc.DAO
         {
             using (StationeryModel context = new StationeryModel())
             {
-                return (from c in context.Collection_Point
+                return (from c in context.Collection_Points
                         select c.collectionPointID).ToList();
             }
         }
@@ -44,7 +44,7 @@ namespace Inventory_mvc.DAO
         {
             using (StationeryModel context = new StationeryModel())
             {
-                context.Collection_Point.Add(collectionPoint);
+                context.Collection_Points.Add(collectionPoint);
                 int rowAffected = context.SaveChanges();
 
                 if (rowAffected != 1)
@@ -60,7 +60,7 @@ namespace Inventory_mvc.DAO
         {
             using (StationeryModel context = new StationeryModel())
             {
-                Collection_Point c = (from x in context.Collection_Point
+                Collection_Point c = (from x in context.Collection_Points
                                       where x.collectionPointID == collectionPoint.collectionPointID
                                       select x).FirstOrDefault();
 
@@ -77,11 +77,11 @@ namespace Inventory_mvc.DAO
         {
                 using (StationeryModel context = new StationeryModel())
                 {
-                    Collection_Point collectionPoint = (from s in context.Collection_Point
+                    Collection_Point collectionPoint = (from s in context.Collection_Points
                                          where s.collectionPointID == collectionPointID
                                          select s).FirstOrDefault();
 
-                    context.Collection_Point.Remove(collectionPoint);
+                    context.Collection_Points.Remove(collectionPoint);
                     context.SaveChanges();
 
                     return true;
@@ -91,7 +91,7 @@ namespace Inventory_mvc.DAO
         {
             using (StationeryModel entity = new StationeryModel())
             {
-                User u = entity.User.Where(x => x.userID == id).Include(x => x.Department2).First();
+                User u = entity.Users.Where(x => x.userID == id).Include(x => x.Department).First();
                 return u;
 
 

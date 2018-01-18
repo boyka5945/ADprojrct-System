@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using Inventory_mvc.Service;
 using Inventory_mvc.Models;
+using Inventory_mvc.ViewModel;
 
 namespace Inventory_mvc.Controllers
 {
@@ -12,6 +13,8 @@ namespace Inventory_mvc.Controllers
     {
         IStationeryService ss = new StationeryService();
         IRequisitionRecordService rs = new RequisitionRecordService();
+        IDepartmentService ds = new DepartmentService();
+        IUserService us = new UserService();
         // GET: RequisitionRecord
         public ActionResult Index()
         {
@@ -63,7 +66,7 @@ namespace Inventory_mvc.Controllers
                     }
                     bigModel.requisitionRecord = list[i];
                     bigModel.unfulfilledQty = rs.FindUnfulfilledQtyBy2Key(itemCode, list[i].requisitionNo);
-                    bigModel.allocateQty = (int)rs.FindDetailsBy2Key(itemCode, list[i].requisitionNo).allocatedQty;
+                    bigModel.allocateQty = rs.FindDetailsBy2Key(itemCode, list[i].requisitionNo).allocatedQty;
                     blist.Add(bigModel);
                 }
                 TempData["BigModel"] = blist;
@@ -128,7 +131,7 @@ namespace Inventory_mvc.Controllers
         public ActionResult RequisitionDetails(int id)
         {
             RequisitionRecordService rs = new RequisitionRecordService();
-            List<Requisition_Details> model = new List<Requisition_Details>();
+            List<Requisition_Detail> model = new List<Requisition_Detail>();
             model = rs.GetDetailsByNo(id);
             return View(model);
         }
@@ -140,6 +143,60 @@ namespace Inventory_mvc.Controllers
             model = rs.GetRequisitionByID(id);
             rs.UpdateRequisition(model, "Rejected");
             return RedirectToAction("ManagerRequisition");
+        }
+
+        [HttpGet]
+        public ActionResult DisbursementList()
+        {
+
+            var list = rs.GetRequisitionByDept("ZOOL");
+            StationeryModel entity = new StationeryModel();
+            var user = entity.Users.Where(x => x.departmentCode == "ZOOL").First();
+            foreach (var a in ds.GetAllDepartment().ToList())
+            {
+                if (a.departmentCode == "ZOOL")
+                {
+                    ViewBag.Point = a.Collection_Point.collectionPointName;
+                    ViewBag.rp = user.name;
+                    break;
+                }
+            }
+            List<SelectListItem> departmentlist = new List<SelectListItem>();
+            var departments = ds.GetAllDepartment();
+            foreach (var b in departments) {
+                departmentlist.Add(new SelectListItem{Value = b.departmentCode.ToString(),Text = b.departmentName.ToString()});
+            }
+
+            ViewData["list"] = departmentlist;
+
+            return View(list);
+        }
+
+        [HttpPost]
+        public ActionResult DisbursementList(FormCollection form)
+        {
+            var deptCode = form["ID"].ToString();
+            StationeryModel entity = new StationeryModel();
+            var user = entity.Users.Where(x => x.departmentCode == deptCode).First();
+            foreach (var a in ds.GetAllDepartment().ToList())
+            {
+                if (a.departmentCode == deptCode)
+                {
+                    ViewBag.Select = a.departmentName;
+                    ViewBag.Point = a.Collection_Point.collectionPointName;
+                    ViewBag.rp = user.name;
+                    break;
+                }
+            }
+            List<SelectListItem> departmentlist = new List<SelectListItem>();
+            var departments = ds.GetAllDepartment();
+            foreach (var b in departments)
+            {
+                departmentlist.Add(new SelectListItem { Value = b.departmentCode.ToString(), Text = b.departmentName.ToString() });
+            }
+            ViewData["list"] = departmentlist;
+            var list = rs.GetRequisitionByDept(deptCode);
+            return View(list);
         }
     }
 }

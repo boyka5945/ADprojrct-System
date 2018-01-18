@@ -16,8 +16,8 @@ namespace Inventory_mvc.Controllers
         public ActionResult UserList()
         {
             string name = HttpContext.User.Identity.Name;
-            UserViewModel user = userService.FindByUserID("S1000");
-            var model = userService.GetUserByDept(user);
+            User user = userService.FindByUserID("S1000");
+            List<User> model = userService.GetUserByDept(user);
           //  ViewBag.Roles = userService.FindAllRole(user.UserID);
             //ViewBag.alrDelegated = userService.AlrDelegated(id);
             return View(model);
@@ -25,33 +25,43 @@ namespace Inventory_mvc.Controllers
         [HttpGet]
         public ActionResult Delegate(string id)
         {
-            List<string> roles = userService.FindAllRole(id);
-            foreach(string r in roles)
+            List<int> roles = userService.FindAllRole(id);
+            foreach(int r in roles)
             {
-                if (r=="ActingDeptHead")
+                if (r==8)
                 {
                     TempData["DelegateMessage"] = String.Format("Not allowed to delegate two employees");
                     return RedirectToAction("UserList");
                 }
             }
             
-            UserViewModel u = userService.FindByUserID(id);
+            User u = userService.FindByUserID(id);
             return View(u);
         }
         [HttpPost]
-        public ActionResult Delegate()
+        public ActionResult Delegate(string userID, DateTime? from, DateTime? toto )
         {
-            DateTime start = Convert.ToDateTime(Request["from"]);
-            DateTime end = Convert.ToDateTime(Request["toto"]);
-            if(end.CompareTo(start)<1)
-            {
-                TempData["InvalidDateMessage"] = String.Format("Invalid end date");
-                return View();
-            }
-            userService.DelegateEmp(Request["userID"].ToString(), start.Date , end.Date);
-
+            //try
+            //{
+                DateTime start = Convert.ToDateTime(Request["from"]);
+                DateTime end = Convert.ToDateTime(Request["toto"]);
+                userService.DelegateEmp(Request["userID"].ToString(), start.Date, end.Date);
+            //}
+            //catch(Exception e)
+            //{
+            //    TempData["DelegateMessage"] = String.Format("Employee is not delegated");
+            //    //return View();
+            //}
            
+            //if(end.CompareTo(start)<1)
+            //{
+            //    TempData["InvalidDateMessage"] = String.Format("Invalid end date");
+            //    return View();
+            //}
+            
             return RedirectToAction("UserList");
+           
+            
         }
 
         [HttpGet]
@@ -73,15 +83,15 @@ namespace Inventory_mvc.Controllers
 
         public ActionResult Edit(string id)
         {
-            UserViewModel userVM = userService.FindByUserID(id);
+            User userVM = userService.FindByUserID(id);
             ViewBag.RoleList = userService.RoleForEditAndCreate(id);
             return View(userVM);
         }
 
         [HttpPost]
-        public ActionResult Edit(UserViewModel userVM)
+        public ActionResult Edit(User userVM)
         {
-            string uid = userVM.UserID;
+            string uid = userVM.userID;
 
 
             if (ModelState.IsValid)
@@ -145,11 +155,11 @@ namespace Inventory_mvc.Controllers
            
                 if (userService.AssignRep(id))
                 {
-                    TempData["AssignMessage"] = String.Format("'{0}' has been updated", id);
+                    TempData["AssignRepMessage"] = String.Format("'{0}' has been updated", id);
                 }
                 else
                 {
-                    TempData["AssignErrorMessage"] = String.Format("Cannot assign two representative");
+                    TempData["AssignRepErrorMessage"] = String.Format("Cannot assign two representative");
                 }
            
             //string uid = Request["userID"].ToString();

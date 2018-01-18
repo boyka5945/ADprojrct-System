@@ -57,11 +57,11 @@ namespace Inventory_mvc.Controllers
 
             ViewBag.orderNo = orderNo;
 
-            List<Purchase_Details> model = new List<Purchase_Details>();
+            List<Purchase_Detail> model = new List<Purchase_Detail>();
 
             if (Session["purchaseOrder"] != null)
             {
-                model = (List<Purchase_Details>)Session["purchaseOrder"];
+                model = (List<Purchase_Detail>)Session["purchaseOrder"];
             }
 
 
@@ -74,17 +74,17 @@ namespace Inventory_mvc.Controllers
 
         //[Bind(Include = "")] Purchase_Order_Record por, 
         [HttpPost]
-        public ActionResult RaisePurchaseOrder([Bind(Include = "orderNo, itemCode, qty, remarks, price")]Purchase_Details pd)
+        public ActionResult RaisePurchaseOrder([Bind(Include = "orderNo, itemCode, qty, remarks, price")]Purchase_Detail pd)
         {
 
             int orderNo = findNextOrderNo();
 
             ViewBag.orderNo = orderNo;
 
-            List<Purchase_Details> model = new List<Purchase_Details>();
+            List<Purchase_Detail> model = new List<Purchase_Detail>();
 
             if (Session["purchaseOrder"] != null) {
-                model = (List<Purchase_Details>)Session["purchaseOrder"];
+                model = (List<Purchase_Detail>)Session["purchaseOrder"];
             }
             
             model.Add(pd);
@@ -103,7 +103,7 @@ namespace Inventory_mvc.Controllers
 
             int orderNo = findNextOrderNo();
 
-            List<Purchase_Details> po = (List<Purchase_Details>) Session["purchaseOrder"];
+            List<Purchase_Detail> po = (List<Purchase_Detail>) Session["purchaseOrder"];
 
             Purchase_Order_Record por = new Purchase_Order_Record();
             por.clerkID = "S1017"; // supposed to be currently logged in guy
@@ -114,7 +114,7 @@ namespace Inventory_mvc.Controllers
             por.expectedDeliveryDate = DateTime.Now.AddDays(14); //hard coded currently
             pos.AddNewPurchaseOrder(por);
 
-            foreach (Purchase_Details pd in po)
+            foreach (Purchase_Detail pd in po)
             {
                 pos.AddPurchaseDetail(pd);
 
@@ -142,8 +142,8 @@ namespace Inventory_mvc.Controllers
         [HttpGet]
         public ActionResult DeletePD(string id)
         {
-            List<Purchase_Details> model = (List<Purchase_Details>)Session["purchaseOrder"];
-            Purchase_Details pd = model.Where(x => x.itemCode == id).First();
+            List<Purchase_Detail> model = (List<Purchase_Detail>)Session["purchaseOrder"];
+            Purchase_Detail pd = model.Where(x => x.itemCode == id).First();
             model.Remove(pd);
 
             return View("RaisePurchaseOrder", model );
@@ -154,7 +154,7 @@ namespace Inventory_mvc.Controllers
         public ActionResult ClearSession()
         {
             Session["purchaseOrder"] = null;
-            List<Purchase_Details> model = (List<Purchase_Details>)Session["purchaseOrder"];
+            List<Purchase_Detail> model = (List<Purchase_Detail>)Session["purchaseOrder"];
 
             return View("RaisePurchaseOrder", model);
         }
@@ -166,7 +166,7 @@ namespace Inventory_mvc.Controllers
             {
                 int maxOrderNo = 0;
                 //to obtain highest order number
-                List<Purchase_Order_Record> pds = Entity.Purchase_Order_Record.ToList();
+                List<Purchase_Order_Record> pds = Entity.Purchase_Order_Records.ToList();
                 foreach (Purchase_Order_Record p in pds)
                 {
                     maxOrderNo = 1;

@@ -110,7 +110,7 @@ namespace Inventory_mvc.Service
         {
             UserViewModel uVM = new UserViewModel();
 
-            uVM.DepartmentName = user.Department2.departmentName;
+            uVM.DepartmentName = user.Department.departmentName;
 
             uVM.UserID = user.userID;
             uVM.Password = user.password;

@@ -12,35 +12,35 @@ namespace Inventory_mvc.Service
     {
         private IUserDAO userDAO = new UserDAO();
 
-        List<UserViewModel> IUserService.GetAllUserViewModel()
+        List<User> IUserService.GetAllUserViewModel()
         {
             List<User> userList = userDAO.GetAllUser();
 
-            List<UserViewModel> viewModelList = new List<UserViewModel>();
+            List<User> viewModelList = new List<User>();
             foreach (User u in userList)
             {
-                viewModelList.Add(ConvertToViewModel(u));
+                viewModelList.Add(u);
             }
 
             return viewModelList;
         }
 
-        List<UserViewModel> IUserService.GetUserByDept(UserViewModel user)
+        List<User> IUserService.GetUserByDept(User user)
         {
-            List<User> userList=userDAO.GetUserByDept(ConvertFromViewModel(user));
-            List<UserViewModel> viewModelList = new List<UserViewModel>();
+            List<User> userList=userDAO.GetUserByDept(user);
+            List<User> viewModelList = new List<User>();
 
             foreach (User s in userList)
             {
-                if (s.userID != user.UserID)
-                    viewModelList.Add(ConvertToViewModel(s));
+                if (s.userID != user.userID)
+                    viewModelList.Add(s);
             }
             return viewModelList;
         }
 
-        UserViewModel IUserService.FindByUserID(string userid)
+        User IUserService.FindByUserID(string userid)
         {
-            return ConvertToViewModel(userDAO.FindByUserID(userid));
+            return userDAO.FindByUserID(userid);
         }
 
         void IUserService.DelegateEmp(string userid, DateTime? from, DateTime? to)
@@ -48,13 +48,13 @@ namespace Inventory_mvc.Service
             userDAO.DelegateEmp(userid, from, to);
         }
 
-        bool IUserService.UpdateUserInfo(UserViewModel userVM)
+        bool IUserService.UpdateUserInfo(User userVM)
         {
-            User user = ConvertFromViewModel(userVM);
+           // User user = ConvertFromViewModel(userVM);
 
             IUserDAO userDAO = new UserDAO();
 
-            if (userDAO.UpdateUserInfo(user) == 1)
+            if (userDAO.UpdateUserInfo(userVM) == 1)
             {
                 return true;
             }
@@ -107,9 +107,9 @@ namespace Inventory_mvc.Service
             return userDAO.GetAllUserID().Contains(id);
         }
 
-        bool IUserService.AddNewUser(UserViewModel userVM)
+        bool IUserService.AddNewUser(User userVM)
         {
-            return userDAO.AddNewUser(ConvertFromViewModel(userVM));
+            return userDAO.AddNewUser(userVM);
         }
 
         bool IUserService.AssignRep(string userid)
@@ -122,17 +122,17 @@ namespace Inventory_mvc.Service
             return userDAO.Remove_Delegate(userid);
         }
 
-        List<string> IUserService.FindAllRole(string id)
+        List<int> IUserService.FindAllRole(string id)
         {
             return userDAO.FindAllRole(id);
         }
 
-        bool IUserService.FindRole(string dept)
+        bool IUserService.FindRole(int role)
         {
-            return userDAO.FindRole(dept);
+            return userDAO.FindRole(role);
         }
 
-        List<string> IUserService.RoleForEditAndCreate(string userid)
+        List<int> IUserService.RoleForEditAndCreate(string userid)
         {
             return userDAO.RoleForEditAndCreate(userid);
         }

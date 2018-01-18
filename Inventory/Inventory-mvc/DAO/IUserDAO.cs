@@ -26,14 +26,14 @@ namespace Inventory_mvc.DAO
 
         bool Remove_Delegate(string userID);
 
-        List<string> FindAllRole(string id);
+        List<int> FindAllRole(string id);
         
-        bool FindRole(string dept);
+        bool FindRole(int role);
 
-        List<string> RoleForEditAndCreate(string userID);
-
+        List<int> RoleForEditAndCreate(string userID);
 
         bool AlrDelegated(string id);
+
         //  bool DeleteUser(string userID);
     }
 }

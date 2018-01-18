@@ -2,6 +2,8 @@
 
 @{
     ViewBag.Title = "EditDepartment";
+
+    List<Inventory_mvc.ViewModel.CollectionPointViewModel> collectionPointLists = ViewBag.CollectionPointList;
 }
 
 <h2>EditDepartment</h2>
@@ -67,26 +69,38 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.departmentHeadID, htmlAttributes: new { @class = "control-label col-md-2" })
+            @*@Html.LabelFor(model => model.departmentHeadID, htmlAttributes: new { @class = "control-label col-md-2" })*@
             <div class="col-md-10">
-                @Html.EditorFor(model => model.departmentHeadID, new { htmlAttributes = new { @class = "form-control" } })
-                @*@Html.DropDownListFor(model => model.departmentHeadID, new SelectList(Model.User,"Value","Text"),HtmlAttributes : new { @class = "form-control", id = "User" })*@
+                @Html.HiddenFor(model => model.departmentHeadID, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.departmentHeadID, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.collectionPointID, htmlAttributes: new { @class = "control-label col-md-2" })
+            @*@Html.HiddenFor(model => model.collectionPointID, htmlAttributes: new { @class = "control-label col-md-2" })*@
             <div class="col-md-10">
-                @Html.EditorFor(model => model.collectionPointID, new { htmlAttributes = new { @class = "form-control" } })
+                @*<select name="collectionPointID" class="custom-select my-1 mr-sm-2">
+                    <option value="SelectOne" selected="selected">--Select--</option>
+                    @foreach (var collectionPoint in collectionPointLists)
+                    {
+                        string selected = "";
+                        
+                        if (ViewBag.CollectionPointID == collectionPoint.collectionPointID.ToString())
+                        {
+                            selected = "selected";
+                        }
+                        <option value="@collectionPoint.collectionPointID" @selected> @collectionPoint.collectionPointName </option>
+                    }
+                </select>*@
+                @Html.HiddenFor(model => model.collectionPointID, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.collectionPointID, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.representativeID, htmlAttributes: new { @class = "control-label col-md-2" })
+            @*@Html.LabelFor(model => model.representativeID, htmlAttributes: new { @class = "control-label col-md-2" })*@
             <div class="col-md-10">
-                @Html.EditorFor(model => model.representativeID, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.HiddenFor(model => model.representativeID, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.representativeID, "", new { @class = "text-danger" })
             </div>
         </div>
