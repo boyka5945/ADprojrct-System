@@ -22,6 +22,13 @@ namespace Inventory_mvc.DAO
 
         List<string> GetAllUserID();
 
+        bool AssignRep(string userID);
+
+        bool Remove_Delegate(string userID);
+
+        List<string> FindAllRole();
+        
+        bool FindRole(string dept);
         //  bool DeleteUser(string userID);
     }
 }

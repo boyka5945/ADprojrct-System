@@ -99,6 +99,7 @@ namespace Inventory_mvc.Service
             return userVM ;
         }
 
+        
         bool IUserService.isExistingID(string userid)
         {
             string id = userid.ToUpper().Trim();
@@ -109,6 +110,26 @@ namespace Inventory_mvc.Service
         bool IUserService.AddNewUser(UserViewModel userVM)
         {
             return userDAO.AddNewUser(ConvertFromViewModel(userVM));
+        }
+
+        bool IUserService.AssignRep(string userid)
+        {
+            return userDAO.AssignRep(userid);
+        }
+
+        bool IUserService.Remove_Delegate(string userid)
+        {
+            return userDAO.Remove_Delegate(userid);
+        }
+
+        List<string> IUserService.FindAllRole()
+        {
+            return userDAO.FindAllRole();
+        }
+
+        bool IUserService.FindRole(string dept)
+        {
+            return userDAO.FindRole(dept);
         }
     }
 }

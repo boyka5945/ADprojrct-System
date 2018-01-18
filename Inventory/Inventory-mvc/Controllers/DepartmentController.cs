@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using Inventory_mvc.Service;
 using Inventory_mvc.Models;
+using PagedList;
 
 namespace Inventory_mvc.Controllers
 {
@@ -12,17 +13,23 @@ namespace Inventory_mvc.Controllers
     {
 
         IDepartmentService departmentService = new DepartmentService();
+        ICollectionPointService collectionPointService = new CollectionPointService();
         // GET: Department
         public ActionResult Index()
         {
             return View();
         }
 
-        public ActionResult ListDepartment()
+        public ActionResult ListDepartment(int? page)
         {
             DepartmentService ds = new DepartmentService();
             List<Department> model = ds.GetAllDepartment();
-            return View(model);
+            
+
+            int pageSize = 4;
+            int pageNumber = (page ?? 1);
+            return View(model.ToPagedList(pageNumber, pageSize));
+
         }
 
         [HttpGet]
@@ -32,6 +39,8 @@ namespace Inventory_mvc.Controllers
             Department model = new Department();
 
             model = ds.GetDepartmentByCode(deptCode);
+            
+            ViewBag.CollectionPointList = collectionPointService.GetAllCollectionPoints();
             return View(model);
         }
 
@@ -56,23 +65,30 @@ namespace Inventory_mvc.Controllers
                     TempData["ExceptionMessage"] = e.Message;
                 }
             }
+            ViewBag.CollectionPointList = collectionPointService.GetAllCollectionPoints();
             return View();
+
             
         }
 
         [HttpGet]
         public ActionResult CreateDepartment()
         {
-            DepartmentService ds = new DepartmentService();
-            Department model = new Department();
+            //DepartmentService ds = new DepartmentService();
+            //Department model = new Department();
 
-            return View(model);
+            ViewBag.CollectionPointList = collectionPointService.GetAllCollectionPoints();
+            
+            return View();
         }
 
         [HttpPost]
         public ActionResult CreateDepartment(Department dept)
         {
+            var PointID = Convert.ToInt32( Request["collectionPointID"]);
             DepartmentService ds = new DepartmentService();
+            dept.collectionPointID = PointID;
+
             string deptCode = dept.departmentCode;
 
             if (departmentService.isExistingCode(deptCode))
@@ -80,7 +96,7 @@ namespace Inventory_mvc.Controllers
                 string errorMessage = String.Format("{0} has been used.", deptCode);
                 ModelState.AddModelError("departmentCode", errorMessage);
             }
-            else if (ModelState.IsValid)
+            else 
             {
                 try
                 {
@@ -94,9 +110,12 @@ namespace Inventory_mvc.Controllers
                 }
             }
 
-            return View(dept);
+            ViewBag.CollectionPointList = collectionPointService.GetAllCollectionPoints();
 
-            
+
+            return View();
+
+
         }
     }
 }

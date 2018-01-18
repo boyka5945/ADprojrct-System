@@ -57,7 +57,7 @@ namespace Inventory_mvc.DAO
             {
                 try
                 {
-                    User u = (from a in entity.User where a.userID == user.userID select a).LastOrDefault();
+                    User u = (from a in entity.User where a.userID == user.userID select a).First();
                     u.userID = user.userID;
                     u.password = user.password;
                     u.address = user.address;
@@ -65,9 +65,9 @@ namespace Inventory_mvc.DAO
                     u.userEmail = user.userEmail;
                     u.name = user.name;
                     u.contactNo = user.contactNo;
-                    u.delegationStart = user.delegationStart;
-                    u.delegationEnd = user.delegationEnd;
-                    u.departmentCode = user.departmentCode;
+                    //u.delegationStart = user.delegationStart;
+                    //u.delegationEnd = user.delegationEnd;
+                    //u.departmentCode = user.departmentCode;
                     int rowAffected = entity.SaveChanges();
                     return rowAffected;
                 }
@@ -77,14 +77,6 @@ namespace Inventory_mvc.DAO
                 }
             }
         }
-
-        //bool IUserDAO.DeleteUser(string userID)
-        //{
-        //    using (StationeryModel entity = new StationeryModel())
-        //    {
-
-        //    }
-        //}
 
         void IUserDAO.DelegateEmp(string userid, DateTime from, DateTime to)
         {
@@ -107,6 +99,89 @@ namespace Inventory_mvc.DAO
             {
                 return (from s in context.User
                         select s.userID).ToList();
+            }
+        }
+
+        bool IUserDAO.AssignRep(string userID)
+        {
+            using (StationeryModel entity = new StationeryModel())
+            {
+                User rep = (from r in entity.User where r.role == "UserRepresentative" select r).First();
+                rep.role = "Employee";
+                User user = (from u in entity.User where u.userID == userID select u).First();
+                if(user.role!= "ActingDeptHead")
+                {
+                    user.role = "UserRepresentative";
+                }
+                
+
+                int rowAffected = entity.SaveChanges();
+
+                if (rowAffected <= 2)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
+
+        bool IUserDAO.Remove_Delegate(string userID)
+        {
+            using (StationeryModel entity = new StationeryModel())
+            {
+                int i = 0;
+                User user = (from u in entity.User where u.userID == userID select u).First();
+                List<User> emplist = (from emps in entity.User where (emps.userID != userID && emps.departmentCode==user.departmentCode) select emps).ToList<User>();
+                foreach (User u in emplist)
+                {
+                    if (u.role == "UserRepresentative")
+                    {
+                        i++;
+                    }
+                }
+                if (i < 1)
+                {
+                    user.role = "UserRepresentative";
+                }
+                else
+                    user.role = "Employee";
+                user.delegationStart = null;
+                user.delegationEnd = null;
+
+
+                int rowAffected = entity.SaveChanges();
+                if (rowAffected == 1)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+
+        }
+
+        List<string> IUserDAO.FindAllRole()
+        {
+            using (StationeryModel entity = new StationeryModel())
+            {
+                return (from u in entity.User select u.role).ToList<string>();
+            }
+
+        }
+
+        bool IUserDAO.FindRole(string dept)
+        {
+            using (StationeryModel entity = new StationeryModel())
+            {
+                User u = (from d in entity.User where d.role == dept select d).First();
+                if (u == null)
+                    return false;
+                return true;
             }
         }
 

@@ -124,5 +124,17 @@ namespace Inventory_mvc.DAO
 
         }
 
+
+
+
+        List<String> IStationeryDAO.GetAllUOMList()
+        {
+            using (StationeryModel context = new StationeryModel())
+            {
+                return (from s in context.Stationery
+                        select s.unitOfMeasure).Distinct().ToList();
+            }
+        }
+
     }
 }

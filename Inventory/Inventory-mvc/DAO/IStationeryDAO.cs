@@ -23,6 +23,8 @@ namespace Inventory_mvc.DAO
         List<Stationery> GetAllStationery();
 
         List<string> GetAllItemCode();
-       
+
+        List<String> GetAllUOMList();
+
     }
 }

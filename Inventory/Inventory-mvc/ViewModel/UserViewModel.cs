@@ -54,5 +54,9 @@ namespace Inventory_mvc.ViewModel
         [Required]
         [Display(Name = "End date")]
         public DateTime? DelegationEnd { get; set; }
+
+        [Required]
+        [Display(Name = "Department Name")]
+        public string DepartmentName { get; set; }
     }
 }
