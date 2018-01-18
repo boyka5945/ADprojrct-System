@@ -1,0 +1,151 @@
+﻿
+@{
+    ViewBag.Title = "Login";
+    string errormessage = ViewBag.errorMessage;
+}
+
+<h3>@if (errormessage != null)
+{
+    @errormessage
+}</h3>
+@model Inventory_mvc.Models.AccountLoginModels
+
+<style>
+    .bs-login {
+        position: relative;
+        width: auto;
+        max-width: 835px;
+        margin: 20px auto;
+        padding: 20px 0;
+        border-radius: 6px;
+        margin-top: 55px;
+        margin-bottom: 55px;
+        border: 1px solid #eee;
+        border: 1px solid rgba(0,0,0,.1);
+        background-color: #fff;
+        -webkit-box-shadow: 0 0 225px rgba(255,255,255,.55);
+        box-shadow: 0 0 225px rgba(255,255,255,.55);
+    }
+
+    .bs-signin {
+        width: auto;
+        max-width: 585px;
+        margin: 0 auto 10px;
+        padding: 0 10px;
+    }
+
+        .bs-signin h1 {
+            font-size: 24px;
+            font-weight: bold;
+            line-height: 1;
+            margin: 0;
+            padding: 20px 0;
+        }
+</style>
+
+<div id="login1">
+    <div class="bs-login">
+        <div class="bs-signin">
+            @Html.ValidationSummary(false, "", new { @class = "alert alert-danger" })
+            @using (Html.BeginForm("Login", "Home", FormMethod.Post, new { @class = "form-horizontal" }))
+            {
+                <div class="form-group">
+                    <div class="col-sm-9">
+                        @Html.TextBoxFor(x => x.UserName, new { placeholder = "Username", @class = "form-control", })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-9">
+                        @Html.PasswordFor(x => x.Password, new { type = "password", placeholder = "Password", @class = "form-control", })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-9">
+                        <div class="checkbox">
+                            <label>
+                                @Html.CheckBoxFor(m => m.RememberMe, new { })
+                                @Html.LabelFor(x => x.RememberMe, new { })
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <canvas width="100" height="40" style="border:1px solid black;" id="myCanvas" onclick="change()">your browser does not support the canvas tag </canvas>
+                    <input id="first" type="text">
+                    <input name="checkV" id="check" hidden="hidden" value = "AAA"></input>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-10">
+                        <button type="submit" class="btn btn-info" onclick="validation()">
+                            Login
+                        </button>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+<body>
+    <script>
+        var canvas = document.getElementById('myCanvas');
+        var ctx = canvas.getContext('2d');
+        var img = new Image();
+        var random1;
+        var random2;
+        var random3;
+        var random4;
+        var allText;
+        img.src = "http://localhost:54956/images/test1.jpg";
+        function gen() {
+            var rawFile = new XMLHttpRequest();
+            rawFile.open("GET", "http://localhost:54956/images/pinyin.txt", false);
+            rawFile.onreadystatechange = function () {
+                if (rawFile.readyState === 4) {
+                    allText = rawFile.responseText;
+                }
+            }
+            rawFile.send();
+
+            ctx.drawImage(img, 0, 0);
+            ctx.font = "20pt Calibri";
+            ctx.fillStyle = "#FFFFFF";
+            random1 = allText[Math.ceil(Math.random() * 61)];
+            random2 = allText[Math.ceil(Math.random() * 61)];
+            random3 = allText[Math.ceil(Math.random() * 61)];
+            random4 = allText[Math.ceil(Math.random() * 61)];
+            ctx.fillText(random1, 5, 20);
+            ctx.fillText(random2, 30, 20);
+            ctx.fillText(random3, 65, 20);
+            ctx.fillText(random4, 85, 20);
+        }
+
+        function validation() {
+            if (document.getElementById("first").value === random1 + random2 + random3 + random4) {
+                document.getElementById("check").value = "BBB";
+            } else {
+                alert("validationCode is not correct.");
+            }
+        }
+
+        function change() {
+            img.src = "http://localhost:54956/images/test" + Math.ceil(Math.random() * 2 + 1) + ".jpg";
+            ctx.drawImage(img, 0, 0);
+            ctx.font = "20pt Calibri";
+            ctx.fillStyle = "#FFFFFF";
+            random1 = allText[Math.ceil(Math.random() * 61)];
+            random2 = allText[Math.ceil(Math.random() * 61)];
+            random3 = allText[Math.ceil(Math.random() * 61)];
+            random4 = allText[Math.ceil(Math.random() * 61)];
+            ctx.fillText(random1, 10, 20);
+            ctx.fillText(random2, 40, 20);
+            ctx.fillText(random3, 70, 20);
+            ctx.fillText(random4, 100, 20);
+        }
+
+        img.onload = function () {
+            gen();
+        }
+
+    </script>
+</body>
+</html>
