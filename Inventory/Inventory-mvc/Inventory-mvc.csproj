@@ -264,6 +264,7 @@
     <Compile Include="ViewModel\CollectionPointViewModel.cs" />
     <Compile Include="ViewModel\Disbursement.cs" />
     <Compile Include="ViewModel\RaiseRequisitionViewModel.cs" />
+    <Compile Include="ViewModel\RetrieveForm.cs" />
     <Compile Include="ViewModel\StationeryViewModel.cs" />
     <Compile Include="ViewModel\SupplierViewModel.cs" />
     <Compile Include="ViewModel\UserViewModel.cs" />
@@ -408,6 +409,7 @@
     <Content Include="Views\RaiseRequisition\NewRequisition.cshtml" />
     <Content Include="Views\ListRequisitions\Index.cshtml" />
     <Content Include="Views\ReceiveStock\StockReceive.cshtml" />
+    <Content Include="Views\ManageRequisitions\GenerateRetrieveForm.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

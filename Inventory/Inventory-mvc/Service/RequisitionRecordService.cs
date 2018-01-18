@@ -91,5 +91,11 @@ namespace Inventory_mvc.Service
             RequisitionRecordDAO rDAO = new RequisitionRecordDAO();
             return rDAO.GetRequisitionByDept(deptCode);
         }
+
+        public List<RetrieveForm> GetRetrieveFormByDateTime(DateTime? time)
+        {
+            RequisitionRecordDAO rDAO = new RequisitionRecordDAO();
+            return rDAO.GetRetrieveFormByDateTime(time);
+        }
     }
 }

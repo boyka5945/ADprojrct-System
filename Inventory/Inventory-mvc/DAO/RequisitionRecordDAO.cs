@@ -208,5 +208,48 @@ namespace Inventory_mvc.DAO
                         select r).Include(r => r.Requisition_Detail).ToList();
             }
         }
+
+        public List<RetrieveForm> GetRetrieveFormByDateTime(DateTime? time)
+        {
+            
+            StationeryModel entity = new StationeryModel();
+            List<Requisition_Record> rr = entity.Requisition_Records.Where(x => x.approveDate < time).ToList();
+            List<RetrieveForm> retrieveList = new List<RetrieveForm>();
+            List<string> ItemCodes = new List<string>();
+            List<int?> Qty = new List<int?>();
+            foreach (var item in rr)
+            {
+                var list = item.Requisition_Detail.ToList();
+                foreach(var l in list)
+                {
+                    if (!ItemCodes.Contains(l.itemCode))
+                    {
+                        ItemCodes.Add(l.itemCode);
+                    }
+                }
+            }
+            for (int i = 0; i < ItemCodes.Count; i++)
+            {
+                Qty.Add((int?)0);
+            }
+            for (int i = 0; i < ItemCodes.Count; i++)
+            {
+                foreach (var b in rr)
+                {
+                    if ((b.Requisition_Detail.Where(x => x.itemCode == ItemCodes[i]).Count()) > 0)
+                    {
+                        Qty[i] = Qty[i] + b.Requisition_Detail.Where(x => x.itemCode == ItemCodes[i]).First().allocatedQty;
+                    }
+                }
+            }
+            for (int i = 0; i < ItemCodes.Count; i++)
+            {
+                RetrieveForm rf = new RetrieveForm();
+                rf.description = ItemCodes[i];
+                rf.Qty = Qty[i];
+                retrieveList.Add(rf);
+            }
+            return retrieveList;
+        }
     }
 }
