@@ -1,0 +1,126 @@
+﻿@model IEnumerable<Inventory_mvc.ViewModel.RaiseRequisitionViewModel>
+
+
+    @{
+        var removeItemMessage = TempData["RemoveItemMessage"];
+
+        int count = Model.Count();
+
+        string disabled = "";
+        if(count == 0)
+        {
+            disabled = "disabled";
+        }
+
+        var addItemMessage = TempData["AddItemMessage"];
+
+    }
+
+    <h2>Requisition Form</h2>
+
+    <br />
+    <button type="button" class="btn btn-success" onclick="AddRequestItem()">Add New Item</button>
+    @Html.ActionLink("Go To Catalogue", "BrowseCatalogue", null, new { @class = "btn btn-primary" })
+    <br />
+    <br />
+
+    <!-- Below is for modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Stationery Request</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="myModalBodyDiv">
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    @if (removeItemMessage != null)
+    {
+        <div class="alert alert-success">
+            @removeItemMessage.ToString()
+        </div>
+    }
+
+    @if (addItemMessage != null)
+    {
+        <div class="alert alert-success">
+            @addItemMessage.ToString()
+        </div>
+}
+
+
+    <br />
+
+    @using (Html.BeginForm("SubmitRequisition", "RaiseRequisition", FormMethod.Post, new { @class = "form" }))
+    {
+        <table class="table">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Description)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Quantity)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.UOM)
+                </th>
+                <th></th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Quantity)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UOM)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Remove", "RemoveRequestItem", "RaiseRequisition", new { itemCode = item.ItemCode }, new { @class = "btn btn-outline-danger" })
+                    </td>
+                </tr>
+            }
+
+            <tr>
+                <td colspan="3">
+                    <input type="submit" value="Submit" class="btn btn-primary @disabled" />
+
+                    <a href="@Url.Action("ClearAllRequestItem", "RaiseRequisition" )">
+                        <input type="button" value="Clear All" class="btn btn-danger" @disabled />
+                    </a>
+                </td>
+
+            </tr>
+
+        </table>
+    }
+
+    <script>
+
+
+    function AddRequestItem(){
+
+        var url = "/RaiseRequisition/CreateEditRequestItem";
+
+        $("#myModalBodyDiv").load(url,function(){
+            $("#myModal").modal("show");
+
+        })
+
+    }
+    </script>
+
+
+

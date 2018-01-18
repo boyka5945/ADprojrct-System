@@ -1,0 +1,36 @@
+﻿@model Inventory_mvc.ViewModel.UserViewModel
+
+
+@{
+    ViewBag.Title = "UpdateCollectionPoint";
+}
+
+<h2>Update Collection Point</h2>
+
+
+<table class="body-content">
+    
+    <tr>
+    <td>
+        @Html.DisplayNameFor(model => model.Name): </ t>
+        @Html.DisplayFor(model => model.Name)
+        </tr>
+    <tr>
+    <td>
+        Department: </ t>
+        
+        @Html.DisplayFor(model => model.DepartmentName)
+    </td>
+</tr>
+
+</table>
+
+
+        
+
+    
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
