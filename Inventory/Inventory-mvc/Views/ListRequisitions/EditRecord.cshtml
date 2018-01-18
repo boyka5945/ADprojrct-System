@@ -53,35 +53,40 @@
 
         @foreach (var item in Model)
         {
-            var formID = "form-" + item.Item.itemCode;
+            var formID = "form-" + item.ItemCode;
 
             using (Html.BeginForm("EditRecord", "ListRequisitions", null, FormMethod.Post, new { @class = "form", id = formID }))
             {
-                @Html.HiddenFor(modelItem => item.Item.itemCode)
-                @Html.HiddenFor(modelItem => item.Record.requisitionNo)
+
+                @Html.HiddenFor(modelItem => item.ItemCode, new { htmlAttributes = new { name = "itemCode" } })
+                @Html.HiddenFor(modelItem => item.RequisitionNo, new { htmlAttributes = new { name = "id" } })
 
                 <tr>
+
                     <td>
-                        @Html.DisplayFor(modelItem => item.Item.description)
+                        <input type="hidden" name="id" value="@item.RequisitionNo" />
+                        <input type="hidden" name="itemCode" value="@item.ItemCode" />
+                        <input type="hidden" name="description" value="@item.Description" />
+                        @Html.DisplayFor(modelItem => item.Description)
                     </td>
                     <td>
-                        <span class="" id="displayQty-@item.Item.itemCode">
+                        <span class="" id="displayQty-@item.ItemCode">
                             @Html.DisplayFor(modelItem => item.RequestQty, new { htmlAttributes = new { @class = "" } })
                         </span>
-                        <span class="d-none" id="editQty-@item.Item.itemCode">
-                            @Html.EditorFor(modelItem => item.RequestQty, new { htmlAttributes = new { @class = "form-control", min="1", type="number" } })
+                        <span class="d-none" id="editQty-@item.ItemCode">
+                            <input type="number" name="quantity" value="@item.RequestQty" min="1" class="form-control" placeholder="Quantity" />
                         </span>
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Item.unitOfMeasure)
+                        @Html.DisplayFor(modelItem => item.UOM)
                     </td>
                     <td>
-                        <span class="" id="editBtn-@item.Item.itemCode">
-                            <a href="#" onclick="editBtnClick('@item.Item.itemCode')">Edit</a>
+                        <span class="" id="editBtn-@item.ItemCode">
+                            <a href="#" onclick="editBtnClick('@item.ItemCode')">Edit</a>
                         </span>
-                        <span class="d-none" id="showBtnIfEdit-@item.Item.itemCode">
-                            <a href="#" onclick="submitBtnClick('@item.Item.itemCode')">Save Change</a> |
-                            <a href="#" onclick="cancelBtnClick('@item.Item.itemCode')">Cancel</a>
+                        <span class="d-none" id="showBtnIfEdit-@item.ItemCode">
+                            <a href="#" onclick="submitBtnClick('@item.ItemCode')">Save Change</a> |
+                            <a href="#" onclick="cancelBtnClick('@item.ItemCode')">Cancel</a>
                         </span>
                     </td>
                 </tr>

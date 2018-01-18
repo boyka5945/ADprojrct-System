@@ -12,14 +12,13 @@ namespace Inventory_mvc.ViewModel
 
         public string Description { get; set; }
 
+        public string UOM { get; set; }
+
         public int RequisitionNo { get; set; }
-
-        public Stationery Item { get; set; }
-
-        public Requisition_Record Record { get; set; }
 
         public int RequestQty { get; set; }
 
         public int ReceivedQty { get; set; }
+
     }
 }

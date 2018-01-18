@@ -110,10 +110,12 @@ namespace Inventory_mvc.Controllers
             {
                 RequisitionDetailViewModel vm = new RequisitionDetailViewModel();
 
-                vm.Item = item.Stationery;
+                vm.ItemCode = item.itemCode;
                 vm.RequestQty = (item.qty == null) ? 0 : (int)item.qty;
-                vm.Record = record;
-                vm.ReceivedQty = (item.fulfilledQty == null) ? 0 : (int)item.fulfilledQty;
+                vm.RequisitionNo = record.requisitionNo;
+                vm.ReceivedQty = (item.fulfilledQty == null) ? 0 : (int) item.fulfilledQty;
+                vm.UOM = item.Stationery.unitOfMeasure;
+                vm.Description = item.Stationery.description;
 
                 vmList.Add(vm);
             }
@@ -128,19 +130,21 @@ namespace Inventory_mvc.Controllers
 
 
         [HttpPost]
-        public ActionResult EditRecord(RequisitionDetailViewModel model)
+        public ActionResult EditRecord(int id, string itemCode, string description, int quantity)
         {
-            Requisition_Detail requisitionDetail = requisitionService.FindDetailsBy2Key(model.Item.itemCode, model.Record.requisitionNo);
+            Requisition_Detail requisitionDetail = requisitionService.FindDetailsBy2Key(itemCode, id);
 
-            if(model.RequestQty < 1)
+            if(quantity < 1)
             {
                 TempData["ErrorMessage"] = String.Format("Quantity must be greater than or equal to 1.");
             }
             else
             {
+                requisitionDetail.qty = quantity;
+
                 if (requisitionService.UpdateDetails(requisitionDetail))
                 {
-                    TempData["EditMessage"] = String.Format("Quantity of {0} was updated.", model.Item.description);
+                    TempData["EditMessage"] = String.Format("Quantity of {0} was updated.", description);
                 }
                 else
                 {
@@ -148,7 +152,7 @@ namespace Inventory_mvc.Controllers
                 }
             }
 
-            return RedirectToAction("EditRecord", new { requisitionNo = model.Record.requisitionNo });
+            return RedirectToAction("EditRecord", new { id = id });
         }
 
         public ActionResult ShowDetail(int? id)
@@ -178,10 +182,12 @@ namespace Inventory_mvc.Controllers
             {
                 RequisitionDetailViewModel vm = new RequisitionDetailViewModel();
 
-                vm.Item = item.Stationery;
+                vm.ItemCode = item.itemCode;
                 vm.RequestQty = (item.qty == null) ? 0 : (int)item.qty;
-                vm.Record = record;
+                vm.RequisitionNo = record.requisitionNo;
                 vm.ReceivedQty = (item.fulfilledQty == null) ? 0 : (int) item.fulfilledQty;
+                vm.UOM = item.Stationery.unitOfMeasure;
+                vm.Description = item.Stationery.description;
 
                 vmList.Add(vm);
             }
