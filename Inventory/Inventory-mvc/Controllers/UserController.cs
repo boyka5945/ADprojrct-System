@@ -29,11 +29,23 @@ namespace Inventory_mvc.Controllers
         [HttpPost]
         public ActionResult Delegate()
         {            
-            userService.DelegateEmp(Request["userID"].ToString(), Convert.ToDateTime(Request["from"]), Convert.ToDateTime(Request["to"]));
             
+            
+                userService.DelegateEmp(Request["userID"].ToString(), Convert.ToDateTime(Request["from"]), Convert.ToDateTime(Request["toto"]));
+            
+            
+
             return RedirectToAction("UserList");
         }
-        
+
+        [HttpGet]
+        public ActionResult Remove_Delegate(string id)
+        {
+            userService.Remove_Delegate(id);
+            return RedirectToAction("UserList");
+
+        }
+
 
         public ActionResult Edit(string id)
         {
@@ -104,24 +116,21 @@ namespace Inventory_mvc.Controllers
         [HttpGet]
         public ActionResult Assign_Rep(string id)
         {
+           
+                if (userService.AssignRep(id))
+                {
+                    TempData["AssignMessage"] = String.Format("'{0}' has been updated", id);
+                }
+                else
+                {
+                    TempData["AssignErrorMessage"] = String.Format("Cannot assign two representative");
+                }
+           
             //string uid = Request["userID"].ToString();
-            if (userService.AssignRep(id))
-            {
-                TempData["EditMessage"] = String.Format("'{0}' has been updated", id);
-            }
-            else
-            {
-                TempData["EditErrorMessage"] = String.Format("There is not change to '{0}'.", id);
-            }
+
             return RedirectToAction("UserList");
         }
 
-        [HttpGet]
-        public ActionResult Remove_Delegate(string id)
-        {
-
-            return RedirectToAction("UserList");
-
-        }
+        
     }
 }

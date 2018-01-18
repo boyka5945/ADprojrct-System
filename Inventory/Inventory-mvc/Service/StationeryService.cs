@@ -154,7 +154,7 @@ namespace Inventory_mvc.Service
             string code = itemCode.ToUpper().Trim();
             Stationery stationery = stationeryDAO.FindByItemCode(code);
 
-            if (stationery.Requisition_Details.Count != 0 || stationery.Purchase_Details.Count != 0 || stationery.Voucher_Details.Count != 0)
+            if (stationery.Requisition_Detail.Count != 0 || stationery.Purchase_Detail.Count != 0 || stationery.Voucher_Details.Count != 0)
             {
                 return false;
             }

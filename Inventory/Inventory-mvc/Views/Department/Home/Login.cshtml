@@ -1,9 +1,13 @@
 ﻿
 @{
     ViewBag.Title = "Login";
+    string errormessage = ViewBag.errorMessage;
 }
 
-<h3>@ViewBag.Message</h3>
+<h3>@if (errormessage != null)
+{
+    @errormessage
+}</h3>
 @model Inventory_mvc.Models.AccountLoginModels
 
 <style>
@@ -38,6 +42,7 @@
             padding: 20px 0;
         }
 </style>
+
 <div id="login1">
     <div class="bs-login">
         <div class="bs-signin">

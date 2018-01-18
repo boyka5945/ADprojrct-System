@@ -1,0 +1,53 @@
+﻿@model IEnumerable<Inventory_mvc.ViewModel.Disbursement>
+
+@{
+    ViewBag.Title = "View";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@ViewBag.Message</h2>
+<div>
+    
+    @using (Html.BeginForm())
+    {
+        @Html.Label("DepartmentName : ")
+        if (ViewBag.Select != null)
+        {
+            @Html.DropDownList("ID", (List<SelectListItem>)ViewData["list"], (string)ViewBag.Select, new { onchange = "form.submit();" })
+        }
+        else
+        {
+            @Html.DropDownList("ID", (List<SelectListItem>)ViewData["list"], "Zoology Dept", new { onchange = "form.submit();" })
+        }
+        <br/>
+        @Html.Label("CollectionPoint:")
+        @Html.Label((string)ViewBag.Point)
+    }
+</div>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.itemDescription)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.quantity)
+        </th>
+        <th></th>
+    </tr>
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.itemDescription)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.quantity)
+        </td>
+        @*<td>
+            @Html.ActionLink("Approve", "ApproveRequisition", new { id = item.requisitionNo });
+        </td>*@
+    </tr>
+}
+
+</table>
+        @Html.Label("Representative :")
+        @Html.Label((string)ViewBag.rp)

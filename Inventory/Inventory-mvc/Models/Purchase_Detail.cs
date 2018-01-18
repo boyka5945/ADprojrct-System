@@ -7,7 +7,7 @@ namespace Inventory_mvc.Models
     using System.Data.Entity.Spatial;
 
     [Table("Purchase Details")]
-    public partial class Purchase_Details
+    public partial class Purchase_Detail
     {
         [Key]
         [Column(Order = 0)]

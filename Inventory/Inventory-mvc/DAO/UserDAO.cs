@@ -12,7 +12,7 @@ namespace Inventory_mvc.DAO
         {
             using (StationeryModel entity = new StationeryModel())
             {
-                return (from u in entity.User select u).ToList<User>();
+                return (from u in entity.Users select u).ToList<User>();
             }
         }
 
@@ -20,7 +20,7 @@ namespace Inventory_mvc.DAO
         {
             using (StationeryModel entity = new StationeryModel())
             {
-                return (from u in entity.User where u.departmentCode == user.departmentCode select u).ToList();
+                return (from u in entity.Users where u.departmentCode == user.departmentCode select u).ToList();
             }
         }
 
@@ -29,7 +29,7 @@ namespace Inventory_mvc.DAO
             string userid = userID.ToUpper().Trim();
             using (StationeryModel entity = new StationeryModel())
             {
-                return (from user in entity.User where user.userID == userid select user).FirstOrDefault();
+                return (from user in entity.Users where user.userID == userid select user).FirstOrDefault();
             }
         }
 
@@ -37,7 +37,7 @@ namespace Inventory_mvc.DAO
         {
             using (StationeryModel entity = new StationeryModel())
             {
-                entity.User.Add(user);
+                entity.Users.Add(user);
                 int rowAffected = entity.SaveChanges();
 
                 if (rowAffected == 1)
@@ -57,7 +57,7 @@ namespace Inventory_mvc.DAO
             {
                 try
                 {
-                    User u = (from a in entity.User where a.userID == user.userID select a).First();
+                    User u = (from a in entity.Users where a.userID == user.userID select a).First();
                     u.userID = user.userID;
                     u.password = user.password;
                     u.address = user.address;
@@ -77,27 +77,27 @@ namespace Inventory_mvc.DAO
                 }
             }
         }
-        
+
         void IUserDAO.DelegateEmp(string userid, DateTime from, DateTime to)
         {
             using (StationeryModel entity = new StationeryModel())
             {
-                User u = (from user in entity.User where user.userID == userid select user).FirstOrDefault();
+                User u = (from user in entity.Users where user.userID == userid select user).FirstOrDefault();
                 u.delegationStart = from;
                 u.delegationEnd = to;
-                u.role = "ActingDeptHead";
+                u.role = 8;
 
                 entity.SaveChanges();
 
             }
         }
-               
+
         List<string> IUserDAO.GetAllUserID()
         {
 
             using (StationeryModel context = new StationeryModel())
             {
-                return (from s in context.User
+                return (from s in context.Users
                         select s.userID).ToList();
             }
         }
@@ -106,14 +106,18 @@ namespace Inventory_mvc.DAO
         {
             using (StationeryModel entity = new StationeryModel())
             {
-                User rep = (from r in entity.User where r.role == "UserRepresentative" select r).First();
-                rep.role = "Employee";
-                User user = (from u in entity.User where u.userID == userID select u).First();
-                user.role = "UserRepresentative";
+                User rep = (from r in entity.Users where r.role == 4 select r).First();
+                rep.role = 3;
+                User user = (from u in entity.Users where u.userID == userID select u).First();
+                if(user.role!= 8)
+                {
+                    user.role = 4;
+                }
                 
+
                 int rowAffected = entity.SaveChanges();
 
-                if (rowAffected == 2)
+                if (rowAffected <= 2)
                 {
                     return true;
                 }
@@ -129,20 +133,24 @@ namespace Inventory_mvc.DAO
             using (StationeryModel entity = new StationeryModel())
             {
                 int i = 0;
-                User user = (from u in entity.User where u.userID == userID select u).First();
-                List<User> emplist = (from emps in entity.User where emps.userID != userID select emps).ToList<User>();
-                foreach(User u in emplist)
+                User user = (from u in entity.Users where u.userID == userID select u).First();
+                List<User> emplist = (from emps in entity.Users where (emps.userID != userID && emps.departmentCode==user.departmentCode) select emps).ToList<User>();
+                foreach (User u in emplist)
                 {
-                    if (u.role == "UserRepresentative")
+                    if (u.role == 4)
                     {
                         i++;
-                    }                   
+                    }
                 }
-                if (i > 0)
+                if (i < 1)
                 {
-                    user.role = "UserRepresentative";
+                    user.role = 4;
                 }
-                
+                else
+                    user.role = 3;
+                user.delegationStart = null;
+                user.delegationEnd = null;
+
 
                 int rowAffected = entity.SaveChanges();
                 if (rowAffected == 1)
@@ -154,8 +162,49 @@ namespace Inventory_mvc.DAO
                     return false;
                 }
             }
-                
+
         }
+
+        List<int> IUserDAO.FindAllRole()
+        {
+            using (StationeryModel entity = new StationeryModel())
+            {
+                return (from u in entity.Users select u.role).ToList<int>();
+            }
+
+        }
+
+        bool IUserDAO.FindRole(int role)
+        {
+            using (StationeryModel entity = new StationeryModel())
+            {
+                User u = (from d in entity.Users where d.role == role select d).First();
+                if (u == null)
+                    return false;
+                return true;
+            }
+        }
+
+        string[] IUserDAO.FindApprovingStaffsEmailByRequesterID(string requesterID)
+        {
+            using (StationeryModel context = new StationeryModel())
+            {
+                string deptCode = (from u in context.Users
+                                   where u.userID == requesterID
+                                   select u.departmentCode).First();
+
+                // DeptHead = 2, ActingDeptHead = 8
+                // TODO: Update this method after database update
+
+                string[] deptHeadEmail = (from u in context.Users
+                                          where u.departmentCode == deptCode &
+                                          (u.role == 2 || u.role == 8)                                         
+                                          select u.userEmail).ToArray();
+
+                return deptHeadEmail;
+            }
+        }
+
 
     }
 }

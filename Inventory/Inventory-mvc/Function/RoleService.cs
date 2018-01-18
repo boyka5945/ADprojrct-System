@@ -17,15 +17,15 @@ namespace Inventory_mvc.Function
             string description = "";
             using (StationeryModel context = new StationeryModel())
             {
-                rolePermissionList = context.rolePermission.Where(x => x.roleID == id).ToList();
-                if (context.roleInfo.Where(x => x.roleID == id).ToList().Count > 0)
+                rolePermissionList = context.rolePermissions.Where(x => x.roleID == id).ToList();
+                if (context.roleInfoes.Where(x => x.roleID == id).ToList().Count > 0)
                 {
-                    rolename = context.roleInfo.Where(x => x.roleID == id).First().roleName.ToString();
-                    description = context.roleInfo.Where(x => x.roleID == id).First().description.ToString();
+                    rolename = context.roleInfoes.Where(x => x.roleID == id).First().roleName.ToString();
+                    description = context.roleInfoes.Where(x => x.roleID == id).First().description.ToString();
 
                     foreach (var p in rolePermissionList)
                     {
-                        permissions.Add(context.permissionInfo.Where(x => x.permissionID == p.permissionID).First());
+                        permissions.Add(context.permissionInfoes.Where(x => x.permissionID == p.permissionID).First());
                     }
                 }
             
@@ -49,7 +49,7 @@ namespace Inventory_mvc.Function
                 p.action = action;
                 p.controller = controller;
                 p.description = "";
-                context.permissionInfo.Add(p);
+                context.permissionInfoes.Add(p);
                 context.SaveChanges();
             }
         }
@@ -59,7 +59,7 @@ namespace Inventory_mvc.Function
         {
             using (StationeryModel context = new StationeryModel())
             {
-                return context.permissionInfo.ToList();
+                return context.permissionInfoes.ToList();
             }   
         }
 
@@ -72,14 +72,14 @@ namespace Inventory_mvc.Function
                 r.roleID = role.RoleId;
                 r.roleName = role.RoleName;
                 r.description = role.Description;
-                context.roleInfo.Add(r);
+                context.roleInfoes.Add(r);
                 foreach (var ps in role.Permissions)
                 {
                     rolePermission rp = new rolePermission();
                     rp.roleID = role.RoleId;
                     rp.permissionID = ps.permissionID;
 
-                    context.rolePermission.Add(rp);
+                    context.rolePermissions.Add(rp);
                 }
                 context.SaveChanges();
             }

@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using Inventory_mvc.Service;
 using Inventory_mvc.Models;
+using PagedList;
 
 namespace Inventory_mvc.Controllers
 {
@@ -19,11 +20,16 @@ namespace Inventory_mvc.Controllers
             return View();
         }
 
-        public ActionResult ListDepartment()
+        public ActionResult ListDepartment(int? page)
         {
             DepartmentService ds = new DepartmentService();
             List<Department> model = ds.GetAllDepartment();
-            return View(model);
+            
+
+            int pageSize = 4;
+            int pageNumber = (page ?? 1);
+            return View(model.ToPagedList(pageNumber, pageSize));
+
         }
 
         [HttpGet]
@@ -33,6 +39,8 @@ namespace Inventory_mvc.Controllers
             Department model = new Department();
 
             model = ds.GetDepartmentByCode(deptCode);
+            
+            ViewBag.CollectionPointList = collectionPointService.GetAllCollectionPoints();
             return View(model);
         }
 
@@ -57,7 +65,9 @@ namespace Inventory_mvc.Controllers
                     TempData["ExceptionMessage"] = e.Message;
                 }
             }
+            ViewBag.CollectionPointList = collectionPointService.GetAllCollectionPoints();
             return View();
+
             
         }
 
@@ -67,7 +77,7 @@ namespace Inventory_mvc.Controllers
             //DepartmentService ds = new DepartmentService();
             //Department model = new Department();
 
-            TempData["CollectionPointList"] = collectionPointService.GetAllCollectionPoints();
+            ViewBag.CollectionPointList = collectionPointService.GetAllCollectionPoints();
             
             return View();
         }
@@ -78,6 +88,7 @@ namespace Inventory_mvc.Controllers
             var PointID = Convert.ToInt32( Request["collectionPointID"]);
             DepartmentService ds = new DepartmentService();
             dept.collectionPointID = PointID;
+
             string deptCode = dept.departmentCode;
 
             if (departmentService.isExistingCode(deptCode))
@@ -99,7 +110,10 @@ namespace Inventory_mvc.Controllers
                 }
             }
 
-            return RedirectToAction("ListDepartment");
+            ViewBag.CollectionPointList = collectionPointService.GetAllCollectionPoints();
+
+
+            return View();
 
 
         }

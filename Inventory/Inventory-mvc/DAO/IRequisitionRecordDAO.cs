@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using Inventory_mvc.Models;
+using Inventory_mvc.ViewModel;
 
 namespace Inventory_mvc.DAO
 {
@@ -22,12 +23,18 @@ namespace Inventory_mvc.DAO
 
         List<string> GetDetailsByGroup();
 
-        int UpdateRequisitionDetails(string itemcode, int requisitionNo, int allocateQty);
+        int UpdateRequisitionDetails(string itemcode, int requisitionNo, int? allocateQty);
 
-        List<Requisition_Details> GetDetailsByNO(int No=0);
+        List<Requisition_Detail> GetDetailsByNO(int No=0);
 
-        int FindUnfulfilledQtyBy2Key(string itemcode, int requisionNo);
+        int? FindUnfulfilledQtyBy2Key(string itemcode, int requisionNo);
 
-        Requisition_Details FindDetailsBy2Key(string itemCode, int requisitionNo);
+        Requisition_Detail FindDetailsBy2Key(string itemCode, int requisitionNo);
+
+        List<Disbursement> GetRequisitionByDept(string deptCode);
+
+        bool SubmitNewRequisition(Requisition_Record requisition);
+
+        List<Requisition_Record> GetRecordsByRequesterID(string requesterID);
     }
 }

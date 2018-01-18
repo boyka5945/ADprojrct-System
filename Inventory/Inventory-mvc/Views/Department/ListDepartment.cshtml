@@ -1,4 +1,9 @@
-﻿@model IEnumerable<Inventory_mvc.Models.Department>
+﻿@*@model IEnumerable<Inventory_mvc.Models.Department>*@
+@model PagedList.IPagedList<Inventory_mvc.Models.Department>
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+
 
 @{
     ViewBag.Title = "View";
@@ -13,28 +18,22 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.departmentCode)
+            @Html.Label("Department Code")
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.departmentName)
+            @Html.Label("Department Name")
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.contactName)
+            @Html.Label("Contact Name")
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.phoneNo)
+            @Html.Label("Phone No:")
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.faxNo)
+            @Html.Label("Fax No:")
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.departmentHeadID)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.collectionPointID)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.representativeID)
+            @Html.Label("Collection Point Name")
         </th>
         <th></th>
     </tr>
@@ -57,13 +56,7 @@
             @Html.DisplayFor(modelItem => item.faxNo)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.departmentHeadID)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.collectionPointID)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.representativeID)
+            @Html.DisplayFor(modelItem => item.Collection_Point.collectionPointName)
         </td>
         <td>
             @Html.ActionLink("Edit", "EditDepartment", new { deptCode = item.departmentCode }) 
@@ -73,3 +66,8 @@
 }
 
 </table>
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("ListDepartment",
+                     new {page }))
+

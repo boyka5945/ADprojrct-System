@@ -1,34 +1,59 @@
-﻿@model Inventory_mvc.ViewModel.UserViewModel
+﻿@model Inventory_mvc.Models.Department
 
 
 @{
     ViewBag.Title = "UpdateCollectionPoint";
+    var exceptionMessage = TempData["ExceptionMessage"];
+
+    List<Inventory_mvc.ViewModel.CollectionPointViewModel> collectionPointLists = (List<Inventory_mvc.ViewModel.CollectionPointViewModel>)TempData["CollectionPointList"];
+
 }
 
 <h2>Update Collection Point</h2>
+<div class="text-center">
+    @Html.Label("Department:")
+
+    @Html.DisplayFor(model => model.departmentName)
+</div>
+@using (Html.BeginForm())
+{
+    @Html.Hidden("departmentCode", Model.departmentCode)
+    @Html.AntiForgeryToken()
+
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @*@Html.HiddenFor(model => model.UserID)*@
+
+    <div class="form-group">
+        <div>
+            Collection Point
+        </div>
+        <div class="col-md-10">
+            <label>
+                <select name="collectionPointID" class="custom-select my-1 mr-sm-2">
+                    @*<option value="All" selected="selected">All</option>*@
+                    @foreach (var collectionPoint in collectionPointLists)
+                {
+                    string selected = "";
+
+                    if (ViewBag.CollectionPointID == collectionPoint.collectionPointID.ToString())
+                    {
+                        selected = "selected";
+                    }
+                    <option value="@collectionPoint.collectionPointID" @selected> @collectionPoint.collectionPointName </option>
+                    }
+                </select>
+            </label>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Save" class="btn btn-default" />
+        </div>
+    </div>
+}
 
 
-<table class="body-content">
-    
-    <tr>
-    <td>
-        @Html.DisplayNameFor(model => model.Name): </ t>
-        @Html.DisplayFor(model => model.Name)
-        </tr>
-    <tr>
-    <td>
-        Department: </ t>
-        
-        @Html.DisplayFor(model => model.DepartmentName)
-    </td>
-</tr>
 
-</table>
-
-
-        
-
-    
 
 
 @section Scripts {

@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using Inventory_mvc.ViewModel;
 
 namespace Inventory_mvc
 {
@@ -16,6 +17,12 @@ namespace Inventory_mvc
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+        }
+
+        public void Session_Start()
+        {
+            List<RaiseRequisitionViewModel> requestList = new List<RaiseRequisitionViewModel>();
+            Session["RequestList"] = requestList;
         }
     }
 }
