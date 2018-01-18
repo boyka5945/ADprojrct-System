@@ -195,12 +195,14 @@
     <Compile Include="DAO\IInventoryStatusRecordDAO.cs" />
     <Compile Include="DAO\InventoryStatusRecordDAO.cs" />
     <Compile Include="DAO\IPurchaseOrderDAO.cs" />
+    <Compile Include="DAO\IReceiveStockDAO.cs" />
     <Compile Include="DAO\IRequisitionRecordDAO.cs" />
     <Compile Include="DAO\IStationeryDAO.cs" />
     <Compile Include="DAO\ISupplierDAO.cs" />
     <Compile Include="DAO\ITransactionRecordDAO.cs" />
     <Compile Include="DAO\IUserDAO.cs" />
     <Compile Include="DAO\PurchaseOrderDAO.cs" />
+    <Compile Include="DAO\ReceiveStockDAO.cs" />
     <Compile Include="DAO\RequisitionRecordDAO.cs" />
     <Compile Include="DAO\StationeryDAO.cs" />
     <Compile Include="DAO\SupplierDAO.cs" />
@@ -245,12 +247,14 @@
     <Compile Include="Service\IInventoryStatusRecordService.cs" />
     <Compile Include="Service\InventoryStatusRecordService.cs" />
     <Compile Include="Service\IPurchaseOrderService.cs" />
+    <Compile Include="Service\IReceiveStockService.cs" />
     <Compile Include="Service\IRequisitionRecordService.cs" />
     <Compile Include="Service\IStationeryService.cs" />
     <Compile Include="Service\ISupplierService.cs" />
     <Compile Include="Service\ITransactionRecordService.cs" />
     <Compile Include="Service\IUserService.cs" />
     <Compile Include="Service\PurchaseOrderService.cs" />
+    <Compile Include="Service\ReceiveStockService.cs" />
     <Compile Include="Service\RequisitionRecordService.cs" />
     <Compile Include="Service\StationeryService.cs" />
     <Compile Include="Service\SupplierService.cs" />
@@ -266,6 +270,10 @@
     <Compile Include="ViewModel\UserViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Images\pinyin.txt" />
+    <Content Include="Images\test1.jpg" />
+    <Content Include="Images\test2.jpg" />
+    <Content Include="Images\test3.jpg" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -363,11 +371,8 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Department\Home\About.cshtml" />
-    <Content Include="Views\Department\Home\Contact.cshtml" />
-    <Content Include="Views\Department\Home\Index.cshtml" />
-    <Content Include="Views\Department\Home\Email.cshtml" />
-    <Content Include="Views\Department\Home\Login.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Home\Login.cshtml" />
     <Content Include="Views\Installer\Success.cshtml" />
     <Content Include="Views\Supplier\Index.cshtml" />
     <Content Include="Views\Supplier\Create.cshtml" />
@@ -388,7 +393,7 @@
     <Content Include="Views\Stationery\Edit.cshtml" />
     <Content Include="Views\Stationery\ViewStockCard.cshtml" />
     <Content Include="Views\ManageRequisitions\DisbursementList.cshtml" />
-    <Content Include="Views\Department\Home\Contact.cshtml" />
+    <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\RaiseRequisition\BrowseCatalogue.cshtml" />
     <Content Include="Views\CollectionPoint\Delete.cshtml" />
     <Content Include="Views\ManageRequisitions\ClerkRequisition.cshtml" />
