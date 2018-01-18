@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using Inventory_mvc.Models;
+using Inventory_mvc.DAO;
 
 namespace Inventory_mvc.Service
 {
@@ -11,7 +12,7 @@ namespace Inventory_mvc.Service
 
         List<Purchase_Detail> IReceiveStockService.GetAllPurchaseDetail()
         {
-            return stationeryDAO.GetAllStationery();
+            throw new NotImplementedException();
         }
     }
 }

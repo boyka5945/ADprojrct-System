@@ -5,7 +5,7 @@ using System.Web;
 using Inventory_mvc.Models;
 namespace Inventory_mvc.Service
 {
-    public class IReceiveStockService
+    public interface IReceiveStockService
     {
         List<Purchase_Detail> GetAllPurchaseDetail();
     }

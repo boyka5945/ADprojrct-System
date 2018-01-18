@@ -140,7 +140,7 @@ namespace Inventory_mvc.DAO
         {
             using (StationeryModel context = new StationeryModel())
             {
-                return (from s in context.Stationery
+                return (from s in context.Stationeries
                         select s.firstSupplierCode).Distinct().ToList();
             }
         }
@@ -149,7 +149,7 @@ namespace Inventory_mvc.DAO
         {
             using (StationeryModel context = new StationeryModel())
             {
-                return (from s in context.Stationery
+                return (from s in context.Stationeries
                         select s.secondSupplierCode).Distinct().ToList();
             }
         }
@@ -158,7 +158,7 @@ namespace Inventory_mvc.DAO
         {
             using (StationeryModel context = new StationeryModel())
             {
-                return (from s in context.Stationery
+                return (from s in context.Stationeries
                         select s.thirdSupplierCode).Distinct().ToList();
             }
         }
@@ -167,7 +167,7 @@ namespace Inventory_mvc.DAO
         {
             using (StationeryModel context = new StationeryModel())
             {
-                return (from s in context.Stationery
+                return (from s in context.Stationeries
                         select s.categoryID).Distinct().ToList();
             }
         }
