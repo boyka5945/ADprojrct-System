@@ -118,52 +118,52 @@ namespace Inventory_mvc.Controllers
 
         //    GET: CollectionPoint/UpdateCollectionPoint/{department}
 
-        //public ActionResult UpdateCollectionPoint()
-        //{
-        //    //hardcoded value before login being implemented
-        //    string userID = "S1000";
-        //    DepartmentService ds = new DepartmentService();
-        //    TempData["CollectionPointList"] = collectionPointService.GetAllCollectionPoints();
+        public ActionResult UpdateCollectionPoint()
+        {
+            //hardcoded value before login being implemented
+            string userID = "S1000";
+            DepartmentService ds = new DepartmentService();
+            TempData["CollectionPointList"] = collectionPointService.GetAllCollectionPoints();
+            Department uVM = ds.GetDepartmentByCode(us.FindByUserID(userID).DepartmentCode);
+            //string FindDeptCode = uVM.DepartmentCode;
+            //DepartmentService ds = new DepartmentService();
+            //Department d = ds.GetDepartmentByCode(FindDeptCode);
+            return View(uVM);
+
+        }
+
+
+        [HttpPost]
+        public ActionResult UpdateCollectionPoint(FormCollection form)
+        {
+
+            DepartmentService ds = new DepartmentService();
+            var collectionPoint = Convert.ToInt32(form["collectionPointID"]);
+            var departmentCode = form["departmentCode"].ToString();
+            Department d = new Department();
+            d = ds.GetDepartmentByCode(departmentCode);
+            d.collectionPointID = collectionPoint;
+
             
-        //    Department uVM = ds.GetDepartmentByCode();
-        //    //string FindDeptCode = uVM.DepartmentCode;
-        //    //DepartmentService ds = new DepartmentService();
-        //    //Department d = ds.GetDepartmentByCode(FindDeptCode);
-        //    return View(uVM);
-            
-        //}
+
+            if (ModelState.IsValid)
+                try
+                {
+                    int row = ds.UpdateDepartmentByCode(d);
+
+                    return RedirectToAction("UpdateCollectionPoint");
+
+                }
+                catch (Exception e)
+                {
+                    TempData["ExceptionMessage"] = e.Message;
+                }
+
+            TempData["CollectionPointList"] = collectionPointService.GetAllCollectionPoints();
+            return RedirectToAction("UpdateCollectionPoint");
 
 
-        //[HttpPost]
-        //public ActionResult UpdateCollectionPoint([Bind(Include = "collectionPointID")] Collection_Point cp, [Bind(Include = "deptCode")] Department dp)
-        //{
-
-
-
-        //    Department d = new Department();
-           
-        //    d.departmentCode = dp.departmentCode;
-
-        //    DepartmentService ds = new DepartmentService();
-
-        //    if (ModelState.IsValid)
-        //    try
-        //    {
-        //        int row = ds.UpdateDepartmentByCode(d);
-
-        //        return RedirectToAction("UpdateCollectionPoint");
-
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        TempData["ExceptionMessage"] = e.Message;
-        //    }
-        
-         
-        //    return View();
-
-
-        //}
+        }
     }
 }
 
