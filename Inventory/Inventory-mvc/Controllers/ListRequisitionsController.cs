@@ -42,36 +42,19 @@ namespace Inventory_mvc.Controllers
                 return RedirectToAction("Index");
             }
 
-
-            Requisition_Record record = null;
-
-            try
-            {
-                record = requisitionService.GetRequisitionByID(recordNo);
-            }
-            catch (Exception e)
-            {
-                TempData["ErrorMessage"] = String.Format("Opps. Some error has happened.");
-                return RedirectToAction("Index");
-            }
-
-            if (record == null)
-            {
-                TempData["ErrorMessage"] = String.Format("Non-existing requisition.");
-                return RedirectToAction("Index");
-            }
-
             // TODO: REMOVE HARD CODED REQUESTER ID
             //string requesterID = HttpContext.User.Identity.Name;
 
             string requesterID = "S1013";
+            string errorMessage;
+            Requisition_Record record = requisitionService.IsUserAuthorizedForRequisition(recordNo, requesterID, out errorMessage);
 
-            // validate if current user is requester
-            if (!requisitionService.ValidateUser(recordNo, requesterID))
+            if (!String.IsNullOrEmpty(errorMessage))
             {
-                TempData["ErrorMessage"] = String.Format("You have not right to access.");
+                TempData["ErrorMessage"] = errorMessage;
                 return RedirectToAction("Index");
             }
+
 
             if (record.status != "Pending Approval")
             {
@@ -95,8 +78,6 @@ namespace Inventory_mvc.Controllers
         [HttpGet]
         public ActionResult EditRecord(int? id)
         {
-            // TODO: Get request_detail list of particular requisitionNo, Server side validation for status
-
             int recordNo = (id == null) ? -1 : (int)id;
 
             if (recordNo == -1)
@@ -104,36 +85,18 @@ namespace Inventory_mvc.Controllers
                 return RedirectToAction("Index");
             }
 
-            Requisition_Record record = null;
-
-            try
-            {
-                record = requisitionService.GetRequisitionByID(recordNo);
-            }
-            catch (Exception e)
-            {
-                TempData["ErrorMessage"] = String.Format("Opps. Some error has happened.");
-                return RedirectToAction("Index");
-            }
-
-            if (record == null)
-            {
-                TempData["ErrorMessage"] = String.Format("Non-existing requisition.");
-                return RedirectToAction("Index");
-            }
-
             // TODO: REMOVE HARD CODED REQUESTER ID
             //string requesterID = HttpContext.User.Identity.Name;
 
             string requesterID = "S1013";
+            string errorMessage;
+            Requisition_Record record = requisitionService.IsUserAuthorizedForRequisition(recordNo, requesterID, out errorMessage);
 
-            // validate if current user is requester
-            if (!requisitionService.ValidateUser(recordNo, requesterID))
+            if (!String.IsNullOrEmpty(errorMessage))
             {
-                TempData["ErrorMessage"] = String.Format("You have not right to access.");
+                TempData["ErrorMessage"] = errorMessage;
                 return RedirectToAction("Index");
             }
-
 
             if (record.status != "Pending Approval")
             {
@@ -188,22 +151,6 @@ namespace Inventory_mvc.Controllers
             return RedirectToAction("EditRecord", new { requisitionNo = model.Record.requisitionNo });
         }
 
-        public ActionResult EditDetail(int id, string code)
-        {
-            // NEW OR EDIT
-            RequisitionDetailViewModel viewModel = new RequisitionDetailViewModel();
-
-            if (!String.IsNullOrEmpty(code))
-            {
-                Requisition_Detail rd = requisitionService.FindDetailsBy2Key(code, id);
-                viewModel.Item = rd.Stationery;
-                viewModel.RequestQty = (rd.qty == null)? 0 : (int) rd.qty;
-                viewModel.Record = rd.Requisition_Record;
-            }
-
-            return PartialView("_EditPartial", viewModel);
-        }
-
         public ActionResult ShowDetail(int? id)
         {
             int recordNo = (id == null) ? -1 : (int) id;
@@ -213,33 +160,16 @@ namespace Inventory_mvc.Controllers
                 return RedirectToAction("Index");
             }
 
-            Requisition_Record record = null;
-
-            try
-            {
-                record = requisitionService.GetRequisitionByID(recordNo);
-            }
-            catch (Exception e)
-            {
-                TempData["ErrorMessage"] = String.Format("Opps. Some error has happened.");
-                return RedirectToAction("Index");
-            }
-
-            if(record == null)
-            {
-                TempData["ErrorMessage"] = String.Format("Non-existing requisition.");
-                return RedirectToAction("Index");
-            }
-
             // TODO: REMOVE HARD CODED REQUESTER ID
             //string requesterID = HttpContext.User.Identity.Name;
 
             string requesterID = "S1013";
+            string errorMessage;
+            Requisition_Record record = requisitionService.IsUserAuthorizedForRequisition(recordNo, requesterID, out errorMessage);
 
-            // validate if current user is requester
-            if (!requisitionService.ValidateUser(recordNo, requesterID))
+            if (!String.IsNullOrEmpty(errorMessage))
             {
-                TempData["ErrorMessage"] = String.Format("You have not right to access.");
+                TempData["ErrorMessage"] = errorMessage;
                 return RedirectToAction("Index");
             }
 

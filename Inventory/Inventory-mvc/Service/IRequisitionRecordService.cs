@@ -40,6 +40,6 @@ namespace Inventory_mvc.Service
 
         bool UpdateDetails(Requisition_Detail requisitionDetail);
 
-        bool ValidateUser(int requisitionNo, string requesterID);
+        Requisition_Record IsUserAuthorizedForRequisition(int requisitionNo, string requesterID, out string errorMessage);
     }
 }

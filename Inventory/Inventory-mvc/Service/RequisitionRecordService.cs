@@ -108,5 +108,24 @@ namespace Inventory_mvc.Service
 
             return (record.requesterID == requesterID);
         }
+
+        public Requisition_Record IsUserAuthorizedForRequisition(int requisitionNo, string requesterID, out string errorMessage)
+        {
+            Requisition_Record record = null;
+            errorMessage = null;
+
+            record = GetRequisitionByID(requisitionNo);
+
+            if (record == null)
+            {
+                errorMessage = String.Format("Non-existing requisition.");
+            }
+            else if (record.requesterID != requesterID)
+            {
+                errorMessage = String.Format("You have not right to access.");
+            }
+
+            return record;  
+        }
     }
 }
