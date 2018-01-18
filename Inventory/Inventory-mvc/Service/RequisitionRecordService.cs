@@ -70,12 +70,12 @@ namespace Inventory_mvc.Service
 
         public bool ValidateRequisition(Requisition_Record requisition)
         {
-            if(String.IsNullOrEmpty(requisition.requesterID) || requisition.Requisition_Details.Count == 0)
+            if(String.IsNullOrEmpty(requisition.requesterID) || requisition.Requisition_Detail.Count == 0)
             {
                 return false;
             }
 
-            foreach (Requisition_Details requestItem in requisition.Requisition_Details)
+            foreach (Requisition_Detail requestItem in requisition.Requisition_Detail)
             {
                 if (requestItem.qty < 1 || String.IsNullOrEmpty(requestItem.itemCode))
                 {

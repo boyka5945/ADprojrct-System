@@ -189,16 +189,16 @@ namespace Inventory_mvc.DAO
         {
             using (StationeryModel context = new StationeryModel())
             {
-                string deptCode = (from u in context.User
+                string deptCode = (from u in context.Users
                                    where u.userID == requesterID
                                    select u.departmentCode).First();
 
                 // DeptHead = 2, ActingDeptHead = 8
                 // TODO: Update this method after database update
 
-                string[] deptHeadEmail = (from u in context.User
-                                          where u.departmentCode == deptCode
-                                          & u.role.Contains("DeptHead")
+                string[] deptHeadEmail = (from u in context.Users
+                                          where u.departmentCode == deptCode &
+                                          (u.role == 2 || u.role == 8)                                         
                                           select u.userEmail).ToArray();
 
                 return deptHeadEmail;

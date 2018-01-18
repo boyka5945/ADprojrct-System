@@ -188,7 +188,7 @@ namespace Inventory_mvc.DAO
             {
                 try
                 {
-                    context.Requisition_Record.Add(requisition);
+                    context.Requisition_Records.Add(requisition);
                     context.SaveChanges();
                     return true;
                 }
@@ -203,9 +203,9 @@ namespace Inventory_mvc.DAO
         {
             using (StationeryModel context = new StationeryModel())
             {
-                return (from r in context.Requisition_Record
+                return (from r in context.Requisition_Records
                         where r.requesterID == requesterID
-                        select r).Include(r => r.Requisition_Details).ToList();
+                        select r).Include(r => r.Requisition_Detail).ToList();
             }
         }
     }

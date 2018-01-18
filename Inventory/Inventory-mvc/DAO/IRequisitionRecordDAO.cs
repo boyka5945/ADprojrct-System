@@ -33,10 +33,6 @@ namespace Inventory_mvc.DAO
 
         List<Disbursement> GetRequisitionByDept(string deptCode);
 
-        int FindUnfulfilledQtyBy2Key(string itemcode, int requisionNo);
-
-        Requisition_Details FindDetailsBy2Key(string itemCode, int requisitionNo);
-
         bool SubmitNewRequisition(Requisition_Record requisition);
 
         List<Requisition_Record> GetRecordsByRequesterID(string requesterID);

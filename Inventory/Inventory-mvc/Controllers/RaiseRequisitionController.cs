@@ -227,11 +227,11 @@ namespace Inventory_mvc.Controllers
             
             foreach(RaiseRequisitionViewModel request in requestList)
             {
-                Requisition_Details rd = new Requisition_Details();
+                Requisition_Detail rd = new Requisition_Detail();
                 rd.itemCode = request.ItemCode;
                 rd.qty = request.Quantity;
 
-                requisition.Requisition_Details.Add(rd);
+                requisition.Requisition_Detail.Add(rd);
             }
 
 
