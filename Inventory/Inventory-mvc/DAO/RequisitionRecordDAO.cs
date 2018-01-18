@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using Inventory_mvc.Models;
 using Inventory_mvc.ViewModel;
+using System.Data.Entity;
 
 namespace Inventory_mvc.DAO
 {
@@ -178,6 +179,34 @@ namespace Inventory_mvc.DAO
             }
             return disbursementList;
 
+                       
+        }
+
+        public bool SubmitNewRequisition(Requisition_Record requisition)
+        {
+            using (StationeryModel context = new StationeryModel())
+            {
+                try
+                {
+                    context.Requisition_Records.Add(requisition);
+                    context.SaveChanges();
+                    return true;
+                }
+                catch (Exception e)
+                {
+                    return false;
+                }
+            }
+        }
+
+        public List<Requisition_Record> GetRecordsByRequesterID(string requesterID)
+        {
+            using (StationeryModel context = new StationeryModel())
+            {
+                return (from r in context.Requisition_Records
+                        where r.requesterID == requesterID
+                        select r).Include(r => r.Requisition_Detail).ToList();
+            }
         }
     }
 }

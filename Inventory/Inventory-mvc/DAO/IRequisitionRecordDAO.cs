@@ -33,6 +33,8 @@ namespace Inventory_mvc.DAO
 
         List<Disbursement> GetRequisitionByDept(string deptCode);
 
+        bool SubmitNewRequisition(Requisition_Record requisition);
 
+        List<Requisition_Record> GetRecordsByRequesterID(string requesterID);
     }
 }

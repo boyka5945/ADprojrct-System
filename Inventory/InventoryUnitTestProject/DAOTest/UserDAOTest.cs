@@ -1,23 +1,26 @@
 ﻿using System;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-
 using Inventory_mvc.DAO;
 using Inventory_mvc.Models;
 
 namespace InventoryUnitTestProject
 {
     [TestClass]
-    public class DepartmentDAOTest
+    public class UserDAOTest
     {
         [TestMethod]
         public void TestMethod1()
         {
             // Arrange
+            IUserDAO dao = new UserDAO();
+            string requesterID = "S1013";
 
             // Act
+            var result = dao.FindApprovingStaffsEmailByRequesterID(requesterID);
 
             // Assert
+            Assert.AreEqual(result[0], "barryallen@logic.sg");
         }
 
         /*

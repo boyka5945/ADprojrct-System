@@ -15,6 +15,7 @@
     var addItemMessage = TempData["AddItemMessage"];
     var addItemErrorMessage = TempData["AddItemErrorMessage"];
     var editItemMessage = TempData["EditItemMessage"];
+    var submitErrorMessage = TempData["SubmitErrorMessage"];
 }
 
 <h2>Requisition Form</h2>
@@ -53,6 +54,12 @@
     </div>
 }
 
+@if (submitErrorMessage != null)
+{
+    <div class="alert alert-danger">
+        @submitErrorMessage.ToString()
+    </div>
+}
 
 
 <br />
@@ -86,9 +93,9 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.UOM)
                 </td>
-                <td>
-                    <button type="button" class="btn btn-outline-primary" onclick="EditRequestItem()">Edit</button>
-                    @Html.ActionLink("Remove", "RemoveRequestItem", "RaiseRequisition", new { itemCode = item.ItemCode }, new { @class = "btn btn-outline-danger" })
+                <td> 
+                    <a href="#" onclick="EditRequestItem('@item.ItemCode')">Edit</a> |
+                    @Html.ActionLink("Remove", "RemoveRequestItem", "RaiseRequisition", new { itemCode = item.ItemCode }, new {})
                 </td>
             </tr>
         }
@@ -125,9 +132,9 @@
         })
     }
 
-    function EditRequestItem() {
+    function EditRequestItem(code) {
 
-        var itemCode = $('#itemCode').val();
+        var itemCode = code;
 
         var url = "/RaiseRequisition/CreateEditRequestItem?itemCode=" + itemCode;
 
