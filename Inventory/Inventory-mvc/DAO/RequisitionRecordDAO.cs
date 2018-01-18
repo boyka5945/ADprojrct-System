@@ -20,7 +20,7 @@ namespace Inventory_mvc.DAO
         public Requisition_Record FindByRequisitionNo(int requisitionNo)
         {
             StationeryModel entity = new StationeryModel();
-            return entity.Requisition_Records.Where(x => x.requisitionNo == requisitionNo).First();
+            return entity.Requisition_Records.Where(x => x.requisitionNo == requisitionNo).FirstOrDefault();
         }
 
         public Boolean AddNewRequisition(Requisition_Record requisitionRecord)
@@ -70,7 +70,25 @@ namespace Inventory_mvc.DAO
 
         public Boolean DeleteRequisition(int requisitionNo)
         {
-            return true;
+            using (StationeryModel context = new StationeryModel())
+            {
+                try
+                {
+                    Requisition_Record record = (from r in context.Requisition_Records
+                                                 where r.requisitionNo == requisitionNo
+                                                 select r).FirstOrDefault();
+
+                    context.Requisition_Detail.RemoveRange(record.Requisition_Detail);                    
+                    context.Requisition_Records.Remove(record);
+                    context.SaveChanges();
+
+                    return true;
+                }
+                catch (Exception e)
+                {
+                    return false;
+                }
+            }
         }
 
         public List<Requisition_Detail> GetDetailsByNO(int No=0)
@@ -206,6 +224,28 @@ namespace Inventory_mvc.DAO
                 return (from r in context.Requisition_Records
                         where r.requesterID == requesterID
                         select r).Include(r => r.Requisition_Detail).ToList();
+            }
+        }
+
+        public bool UpdateRequisitionDetails(Requisition_Detail requisitionDetail)
+        {
+            using (StationeryModel context = new StationeryModel())
+            {
+                try
+                {
+                    Requisition_Detail rd = (from r in context.Requisition_Detail
+                                             where r.requisitionNo == requisitionDetail.requisitionNo
+                                             & r.itemCode == requisitionDetail.itemCode
+                                             select r).FirstOrDefault();
+
+                    rd.qty = requisitionDetail.qty;
+                    context.SaveChanges();
+                    return true;
+                }
+                catch (Exception e)
+                {
+                    return false;
+                }
             }
         }
     }

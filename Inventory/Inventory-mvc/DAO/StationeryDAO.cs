@@ -136,5 +136,41 @@ namespace Inventory_mvc.DAO
             }
         }
 
+        List<string> IStationeryDAO.GetAllFirstSupplierList()
+        {
+            using (StationeryModel context = new StationeryModel())
+            {
+                return (from s in context.Stationeries
+                        select s.firstSupplierCode).Distinct().ToList();
+            }
+        }
+
+        List<string> IStationeryDAO.GetAllSecondSupplierList()
+        {
+            using (StationeryModel context = new StationeryModel())
+            {
+                return (from s in context.Stationeries
+                        select s.secondSupplierCode).Distinct().ToList();
+            }
+        }
+
+        List<string> IStationeryDAO.GetAllThirdSupplierList()
+        {
+            using (StationeryModel context = new StationeryModel())
+            {
+                return (from s in context.Stationeries
+                        select s.thirdSupplierCode).Distinct().ToList();
+            }
+        }
+
+        List<int> IStationeryDAO.GetAllCategoryIDList()
+        {
+            using (StationeryModel context = new StationeryModel())
+            {
+                return (from s in context.Stationeries
+                        select s.categoryID).Distinct().ToList();
+            }
+        }
+
     }
 }
