@@ -119,7 +119,17 @@ namespace Inventory_mvc.Service
 
         bool IUserService.Remove_Delegate(string userid)
         {
-            throw new NotImplementedException();
+            return userDAO.Remove_Delegate(userid);
+        }
+
+        List<string> IUserService.FindAllRole()
+        {
+            return userDAO.FindAllRole();
+        }
+
+        bool IUserService.FindRole(string dept)
+        {
+            return userDAO.FindRole(dept);
         }
     }
 }

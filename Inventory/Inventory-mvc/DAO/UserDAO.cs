@@ -77,7 +77,7 @@ namespace Inventory_mvc.DAO
                 }
             }
         }
-        
+
         void IUserDAO.DelegateEmp(string userid, DateTime from, DateTime to)
         {
             using (StationeryModel entity = new StationeryModel())
@@ -91,7 +91,7 @@ namespace Inventory_mvc.DAO
 
             }
         }
-               
+
         List<string> IUserDAO.GetAllUserID()
         {
 
@@ -109,11 +109,15 @@ namespace Inventory_mvc.DAO
                 User rep = (from r in entity.User where r.role == "UserRepresentative" select r).First();
                 rep.role = "Employee";
                 User user = (from u in entity.User where u.userID == userID select u).First();
-                user.role = "UserRepresentative";
+                if(user.role!= "ActingDeptHead")
+                {
+                    user.role = "UserRepresentative";
+                }
                 
+
                 int rowAffected = entity.SaveChanges();
 
-                if (rowAffected == 2)
+                if (rowAffected <= 2)
                 {
                     return true;
                 }
@@ -130,19 +134,23 @@ namespace Inventory_mvc.DAO
             {
                 int i = 0;
                 User user = (from u in entity.User where u.userID == userID select u).First();
-                List<User> emplist = (from emps in entity.User where emps.userID != userID select emps).ToList<User>();
-                foreach(User u in emplist)
+                List<User> emplist = (from emps in entity.User where (emps.userID != userID && emps.departmentCode==user.departmentCode) select emps).ToList<User>();
+                foreach (User u in emplist)
                 {
                     if (u.role == "UserRepresentative")
                     {
                         i++;
-                    }                   
+                    }
                 }
-                if (i > 0)
+                if (i < 1)
                 {
                     user.role = "UserRepresentative";
                 }
-                
+                else
+                    user.role = "Employee";
+                user.delegationStart = null;
+                user.delegationEnd = null;
+
 
                 int rowAffected = entity.SaveChanges();
                 if (rowAffected == 1)
@@ -154,7 +162,27 @@ namespace Inventory_mvc.DAO
                     return false;
                 }
             }
-                
+
+        }
+
+        List<string> IUserDAO.FindAllRole()
+        {
+            using (StationeryModel entity = new StationeryModel())
+            {
+                return (from u in entity.User select u.role).ToList<string>();
+            }
+
+        }
+
+        bool IUserDAO.FindRole(string dept)
+        {
+            using (StationeryModel entity = new StationeryModel())
+            {
+                User u = (from d in entity.User where d.role == dept select d).First();
+                if (u == null)
+                    return false;
+                return true;
+            }
         }
 
     }
