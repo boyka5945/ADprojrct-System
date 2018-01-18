@@ -264,7 +264,7 @@
     <Compile Include="ViewModel\CollectionPointViewModel.cs" />
     <Compile Include="ViewModel\Disbursement.cs" />
     <Compile Include="ViewModel\RaiseRequisitionViewModel.cs" />
-    <Compile Include="ViewModel\RetrieveForm.cs" />
+    <Compile Include="ViewModel\RequisitionDetailViewModel.cs" />
     <Compile Include="ViewModel\StationeryViewModel.cs" />
     <Compile Include="ViewModel\SupplierViewModel.cs" />
     <Compile Include="ViewModel\UserViewModel.cs" />
@@ -278,7 +278,6 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
-    <Content Include="Content\combobox.css" />
     <Content Include="Content\PagedList.css" />
     <Content Include="Content\themes\base\accordion.css" />
     <Content Include="Content\themes\base\all.css" />
@@ -409,7 +408,8 @@
     <Content Include="Views\RaiseRequisition\NewRequisition.cshtml" />
     <Content Include="Views\ListRequisitions\Index.cshtml" />
     <Content Include="Views\ReceiveStock\StockReceive.cshtml" />
-    <Content Include="Views\ManageRequisitions\GenerateRetrieveForm.cshtml" />
+    <Content Include="Views\ListRequisitions\ShowDetail.cshtml" />
+    <Content Include="Views\ListRequisitions\EditRecord.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

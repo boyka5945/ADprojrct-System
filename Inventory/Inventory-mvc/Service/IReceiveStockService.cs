@@ -7,6 +7,6 @@ namespace Inventory_mvc.Service
 {
     public interface IReceiveStockService
     {
-        List<Purchase_Detail> GetAllPurchaseDetail();
+
     }
 }

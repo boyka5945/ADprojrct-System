@@ -194,7 +194,6 @@ namespace Inventory_mvc.DAO
                                    select u.departmentCode).First();
 
                 // DeptHead = 2, ActingDeptHead = 8
-                // TODO: Update this method after database update
 
                 string[] deptHeadEmail = (from u in context.Users
                                           where u.departmentCode == deptCode &

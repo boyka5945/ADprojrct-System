@@ -263,16 +263,14 @@ namespace Inventory_mvc.Controllers
                 else
                 {
                     // error when write to database
-                    TempData["SubmitErrorMessage"] = "Error Writing to database";
+                    TempData["SubmitErrorMessage"] = "Error Writing to Database";
                 }
             }
             else
             {
                 // Invalid request
                 TempData["SubmitErrorMessage"] = "Invalid request";
-
             }
-
 
             //return to new requisition form if submit unsuccessful
             return RedirectToAction("NewRequisition");

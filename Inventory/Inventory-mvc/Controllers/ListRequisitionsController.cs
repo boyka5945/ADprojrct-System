@@ -33,22 +33,171 @@ namespace Inventory_mvc.Controllers
             return View(records.ToPagedList(pageNumber, pageSize));
         }
 
-        public ActionResult RemoveRecord(string requisitionNo)
+        public ActionResult RemoveRecord(int? id)
         {
-            // TODO: Return to index after remove, Server side validation
-            return View();
+            int recordNo = (id == null) ? -1 : (int)id;
+
+            if (recordNo == -1)
+            {
+                return RedirectToAction("Index");
+            }
+
+            // TODO: REMOVE HARD CODED REQUESTER ID
+            //string requesterID = HttpContext.User.Identity.Name;
+
+            string requesterID = "S1013";
+            string errorMessage;
+            Requisition_Record record = requisitionService.IsUserAuthorizedForRequisition(recordNo, requesterID, out errorMessage);
+
+            if (!String.IsNullOrEmpty(errorMessage))
+            {
+                TempData["ErrorMessage"] = errorMessage;
+                return RedirectToAction("Index");
+            }
+
+
+            if (record.status != "Pending Approval")
+            {
+                TempData["ErrorMessage"] = String.Format("Cannot remove requisition no. {0}", record.requisitionNo);
+            }
+            else
+            {
+                if (requisitionService.DeleteRequisition(recordNo))
+                {
+                    TempData["RemoveMessage"] = String.Format("Requisition no. {0} was removed.", record.requisitionNo);
+                }
+                else
+                {
+                    TempData["ErrorMessage"] = String.Format("Error Writing to Database");
+                }
+            }
+
+            return RedirectToAction("Index");
         }
 
-        public ActionResult EditRecord(string requisitionNo)
+        [HttpGet]
+        public ActionResult EditRecord(int? id)
         {
-            // TODO: Get request_detail list of particular requisitionNo, Server side validation
-            return View();
+            int recordNo = (id == null) ? -1 : (int)id;
+
+            if (recordNo == -1)
+            {
+                return RedirectToAction("Index");
+            }
+
+            // TODO: REMOVE HARD CODED REQUESTER ID
+            //string requesterID = HttpContext.User.Identity.Name;
+
+            string requesterID = "S1013";
+            string errorMessage;
+            Requisition_Record record = requisitionService.IsUserAuthorizedForRequisition(recordNo, requesterID, out errorMessage);
+
+            if (!String.IsNullOrEmpty(errorMessage))
+            {
+                TempData["ErrorMessage"] = errorMessage;
+                return RedirectToAction("Index");
+            }
+
+            if (record.status != "Pending Approval")
+            {
+                TempData["ErrorMessage"] = String.Format("Requisition has been approved and cannot be edited.");
+                return RedirectToAction("Index");
+            }
+
+
+            List<RequisitionDetailViewModel> vmList = new List<RequisitionDetailViewModel>();
+            foreach (var item in record.Requisition_Detail)
+            {
+                RequisitionDetailViewModel vm = new RequisitionDetailViewModel();
+
+                vm.ItemCode = item.itemCode;
+                vm.RequestQty = (item.qty == null) ? 0 : (int)item.qty;
+                vm.RequisitionNo = record.requisitionNo;
+                vm.ReceivedQty = (item.fulfilledQty == null) ? 0 : (int) item.fulfilledQty;
+                vm.UOM = item.Stationery.unitOfMeasure;
+                vm.Description = item.Stationery.description;
+
+                vmList.Add(vm);
+            }
+
+            string approvalStatus = (record.status == "Pending Approval") ? "Pending Approval" : "Approved";
+
+            ViewBag.RequisitionFormNo = record.requisitionNo;
+            ViewBag.ApprovalStatus = approvalStatus;
+
+            return View(vmList);
         }
 
-        public ActionResult ShowDetail(string requisitionNo)
+
+        [HttpPost]
+        public ActionResult EditRecord(int id, string itemCode, string description, int quantity)
         {
-            // TODO: Get request_detail list of particular requisitionNo
-            return View();
+            Requisition_Detail requisitionDetail = requisitionService.FindDetailsBy2Key(itemCode, id);
+
+            if(quantity < 1)
+            {
+                TempData["ErrorMessage"] = String.Format("Quantity must be greater than or equal to 1.");
+            }
+            else
+            {
+                requisitionDetail.qty = quantity;
+
+                if (requisitionService.UpdateDetails(requisitionDetail))
+                {
+                    TempData["EditMessage"] = String.Format("Quantity of {0} was updated.", description);
+                }
+                else
+                {
+                    TempData["ErrorMessage"] = String.Format("Error Writing to Database");
+                }
+            }
+
+            return RedirectToAction("EditRecord", new { id = id });
+        }
+
+        public ActionResult ShowDetail(int? id)
+        {
+            int recordNo = (id == null) ? -1 : (int) id;
+
+            if(recordNo == -1)
+            {
+                return RedirectToAction("Index");
+            }
+
+            // TODO: REMOVE HARD CODED REQUESTER ID
+            //string requesterID = HttpContext.User.Identity.Name;
+
+            string requesterID = "S1013";
+            string errorMessage;
+            Requisition_Record record = requisitionService.IsUserAuthorizedForRequisition(recordNo, requesterID, out errorMessage);
+
+            if (!String.IsNullOrEmpty(errorMessage))
+            {
+                TempData["ErrorMessage"] = errorMessage;
+                return RedirectToAction("Index");
+            }
+
+            List<RequisitionDetailViewModel> vmList = new List<RequisitionDetailViewModel>();
+            foreach (var item in record.Requisition_Detail)
+            {
+                RequisitionDetailViewModel vm = new RequisitionDetailViewModel();
+
+                vm.ItemCode = item.itemCode;
+                vm.RequestQty = (item.qty == null) ? 0 : (int)item.qty;
+                vm.RequisitionNo = record.requisitionNo;
+                vm.ReceivedQty = (item.fulfilledQty == null) ? 0 : (int) item.fulfilledQty;
+                vm.UOM = item.Stationery.unitOfMeasure;
+                vm.Description = item.Stationery.description;
+
+                vmList.Add(vm);
+            }
+
+            string approvalStatus = (record.status == "Pending Approval") ? "Pending Approval" : "Approved";
+
+            ViewBag.RequisitionFormNo = record.requisitionNo;
+            ViewBag.ApprovalStatus = approvalStatus;
+
+            return View(vmList);
         }
 
 
