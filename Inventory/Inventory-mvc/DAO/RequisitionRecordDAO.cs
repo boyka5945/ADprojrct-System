@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using Inventory_mvc.Models;
+using System.Data.Entity;
 
 namespace Inventory_mvc.DAO
 {
@@ -28,6 +29,7 @@ namespace Inventory_mvc.DAO
             {
                 StationeryModel entity = new StationeryModel();
                 Requisition_Record requisition = new Requisition_Record();
+
                 requisition.requisitionNo = requisitionRecord.requisitionNo;
                 requisition.requestDate = requisitionRecord.requestDate;
                 requisition.approveDate = requisitionRecord.approveDate;
@@ -35,6 +37,7 @@ namespace Inventory_mvc.DAO
                 requisition.deptCode = requisitionRecord.deptCode;
                 requisition.status = requisitionRecord.status;
                 requisition.requesterID = requisitionRecord.requesterID;
+
                 entity.Requisition_Record.Add(requisition);
                 entity.SaveChanges();
             }
@@ -133,6 +136,33 @@ namespace Inventory_mvc.DAO
             StationeryModel entity = new StationeryModel();
             return entity.Requisition_Details.Where(x=>x.itemCode == itemcode && x.requisitionNo == requisitionNo).First();
             
+        }
+
+        public bool SubmitNewRequisition(Requisition_Record requisition)
+        {
+            using (StationeryModel context = new StationeryModel())
+            {
+                try
+                {
+                    context.Requisition_Record.Add(requisition);
+                    context.SaveChanges();
+                    return true;
+                }
+                catch (Exception e)
+                {
+                    return false;
+                }
+            }
+        }
+
+        public List<Requisition_Record> GetRecordsByRequesterID(string requesterID)
+        {
+            using (StationeryModel context = new StationeryModel())
+            {
+                return (from r in context.Requisition_Record
+                        where r.requesterID == requesterID
+                        select r).Include(r => r.Requisition_Details).ToList();
+            }
         }
     }
 }

@@ -131,5 +131,21 @@ namespace Inventory_mvc.Service
         {
             return userDAO.FindRole(dept);
         }
+
+        string[] IUserService.FindApprovingStaffsEmailByRequesterID(string requesterID)
+        {
+            return userDAO.FindApprovingStaffsEmailByRequesterID(requesterID);
+        }
+
+        string IUserService.FindDeptCodeByID(string userid)
+        {
+            return userDAO.FindByUserID(userid).departmentCode;
+        }
+
+        string IUserService.FindNameByID(string userid)
+        {
+            return userDAO.FindByUserID(userid).name;
+        }
+
     }
 }

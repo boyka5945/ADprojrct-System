@@ -25,7 +25,12 @@ namespace Inventory_mvc.Service
 
         Requisition_Details FindDetailsBy2Key(string itemCode, int requisitionNo);
 
-
         void UpdateDetails(string itemcode, int requisitionNo, int allocateQty);
+
+        bool SubmitNewRequisition(Requisition_Record requisition);
+
+        List<Requisition_Record> GetRecordsByRequesterID(string requesterID);
+
+        bool ValidateRequisition(Requisition_Record requisition);
     }
 }

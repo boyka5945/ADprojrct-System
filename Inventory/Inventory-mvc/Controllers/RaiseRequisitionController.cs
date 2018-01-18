@@ -7,12 +7,15 @@ using Inventory_mvc.Models;
 using Inventory_mvc.ViewModel;
 using Inventory_mvc.Service;
 using PagedList;
+using Inventory_mvc.Function;
 
 namespace Inventory_mvc.Controllers
 {
     public class RaiseRequisitionController : Controller
     {
         IStationeryService stationeryService = new StationeryService();
+        IRequisitionRecordService requisitionService = new RequisitionRecordService();
+        IUserService userService = new UserService();
 
         // GET: RaiseRequisition/BrowseCatalogue
         public ActionResult BrowseCatalogue(string searchString, int? page, string categoryID = "All")
@@ -69,7 +72,6 @@ namespace Inventory_mvc.Controllers
         [HttpGet]
         public ActionResult CreateEditRequestItem(string itemCode)
         {
-
             // NEW OR EDIT
             List<RaiseRequisitionViewModel> requestList = Session["RequestList"] as List<RaiseRequisitionViewModel>;
             RaiseRequisitionViewModel viewModel = new RaiseRequisitionViewModel();
@@ -205,18 +207,75 @@ namespace Inventory_mvc.Controllers
         [HttpPost]
         public ActionResult SubmitRequisition()
         {
-            // TODO: Check email notification
+            // TODO: REMOVE HARD CODED REQUESTER ID
+            // string requesterID = HttpContext.User.Identity.Name;
+
+            string requesterID = "S1013";
+
+            string requesterName = userService.FindNameByID(requesterID);
+            string deptCode = userService.FindDeptCodeByID(requesterID);
+            string status = "Pending Approval";
+            DateTime requestDate = DateTime.Today;
+
+            Requisition_Record requisition = new Requisition_Record();
+            requisition.requesterID = requesterID;
+            requisition.deptCode = deptCode;
+            requisition.status = status;
+            requisition.requestDate = requestDate;
 
             List<RaiseRequisitionViewModel> requestList = Session["RequestList"] as List<RaiseRequisitionViewModel>;
+            
+            foreach(RaiseRequisitionViewModel request in requestList)
+            {
+                Requisition_Details rd = new Requisition_Details();
+                rd.itemCode = request.ItemCode;
+                rd.qty = request.Quantity;
+
+                requisition.Requisition_Details.Add(rd);
+            }
 
 
-            string requesterID = HttpContext.User.Identity.Name;
+            if(requisitionService.ValidateRequisition(requisition))
+            {
+                // Valid request, submit to database
+                if (requisitionService.SubmitNewRequisition(requisition))
+                {
+                    // TODO: TEST EMAIL NOTIFICATION
+                    // send email notification
+                    string content = String.Format("There is a new requisition from {0} pending your approval.", requesterName);                 
+                    string[] emailReciever = userService.FindApprovingStaffsEmailByRequesterID(requesterID);
+                               
+                    foreach(var emailaddress in emailReciever)
+                    {
+                        sendEmail email = new sendEmail(emailaddress, "New Stationery Requisition", content);
+                        //email.send();
+                    }
 
 
+                    // clear requestlist
+                    Session["RequestList"] = new List<RaiseRequisitionViewModel>();
 
-            string managerID = null;
+                    TempData["SubmitMessage"] = "New stationery requisition has been submitted";
 
-            return View();
+                    // go to user requisition list
+                    return RedirectToAction("Index", "ListRequisitions");
+                }
+                else
+                {
+                    // error when write to database
+                    TempData["SubmitErrorMessage"] = "Error Writing to database";
+                }
+            }
+            else
+            {
+                // Invalid request
+                TempData["SubmitErrorMessage"] = "Invalid request";
+
+            }
+
+
+            //return to new requisition form if submit unsuccessful
+            return RedirectToAction("NewRequisition");
         }
 
 

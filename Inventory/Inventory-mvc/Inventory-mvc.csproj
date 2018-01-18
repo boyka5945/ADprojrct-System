@@ -176,6 +176,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\InstallerController.cs" />
     <Compile Include="Controllers\InventoryCheckController.cs" />
+    <Compile Include="Controllers\ListRequisitionsController.cs" />
     <Compile Include="Controllers\PurchaseController.cs" />
     <Compile Include="Controllers\RaiseRequisitionController.cs" />
     <Compile Include="Controllers\ManageRequisitionsController.cs" />
@@ -395,6 +396,7 @@
     <Content Include="Views\CollectionPoint\UpdateCollectionPoint.cshtml" />
     <Content Include="Views\RaiseRequisition\_CreateEditPartial.cshtml" />
     <Content Include="Views\RaiseRequisition\NewRequisition.cshtml" />
+    <Content Include="Views\ListRequisitions\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
