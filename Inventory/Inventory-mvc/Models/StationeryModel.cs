@@ -18,9 +18,9 @@ namespace Inventory_mvc.Models
         public virtual DbSet<Department> Departments { get; set; }
         public virtual DbSet<Inventory_Status_Record> Inventory_Status_Records { get; set; }
         public virtual DbSet<permissionInfo> permissionInfoes { get; set; }
-        public virtual DbSet<Purchase_Detail> Purchase_Details { get; set; }
+        public virtual DbSet<Purchase_Detail> Purchase_Detail { get; set; }
         public virtual DbSet<Purchase_Order_Record> Purchase_Order_Records { get; set; }
-        public virtual DbSet<Requisition_Detail> Requisition_Details { get; set; }
+        public virtual DbSet<Requisition_Detail> Requisition_Detail { get; set; }
         public virtual DbSet<Requisition_Record> Requisition_Records { get; set; }
         public virtual DbSet<roleInfo> roleInfoes { get; set; }
         public virtual DbSet<rolePermission> rolePermissions { get; set; }
@@ -65,12 +65,12 @@ namespace Inventory_mvc.Models
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Purchase_Order_Record>()
-                .HasMany(e => e.Purchase_Details)
+                .HasMany(e => e.Purchase_Detail)
                 .WithRequired(e => e.Purchase_Order_Record)
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Requisition_Record>()
-                .HasMany(e => e.Requisition_Details)
+                .HasMany(e => e.Requisition_Detail)
                 .WithRequired(e => e.Requisition_Record)
                 .WillCascadeOnDelete(false);
 
@@ -91,12 +91,12 @@ namespace Inventory_mvc.Models
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Stationery>()
-                .HasMany(e => e.Purchase_Details)
+                .HasMany(e => e.Purchase_Detail)
                 .WithRequired(e => e.Stationery)
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Stationery>()
-                .HasMany(e => e.Requisition_Details)
+                .HasMany(e => e.Requisition_Detail)
                 .WithRequired(e => e.Stationery)
                 .WillCascadeOnDelete(false);
 

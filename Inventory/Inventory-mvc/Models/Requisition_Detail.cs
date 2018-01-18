@@ -22,7 +22,7 @@ namespace Inventory_mvc.Models
         [StringLength(200)]
         public string remarks { get; set; }
 
-        public int qty { get; set; }
+        public int? qty { get; set; }
 
         public int? fulfilledQty { get; set; }
 

@@ -12,7 +12,7 @@ namespace Inventory_mvc.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Requisition_Record()
         {
-            Requisition_Details = new HashSet<Requisition_Detail>();
+            Requisition_Detail = new HashSet<Requisition_Detail>();
         }
 
         [Key]
@@ -37,12 +37,12 @@ namespace Inventory_mvc.Models
         public string status { get; set; }
 
         [Column(TypeName = "date")]
-        public DateTime requestDate { get; set; }
+        public DateTime? requestDate { get; set; }
 
         public virtual Department Department { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Requisition_Detail> Requisition_Details { get; set; }
+        public virtual ICollection<Requisition_Detail> Requisition_Detail { get; set; }
 
         public virtual User User { get; set; }
 

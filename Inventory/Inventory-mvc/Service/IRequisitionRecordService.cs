@@ -12,7 +12,7 @@ namespace Inventory_mvc.Service
     {
         List<Requisition_Record> GetAllRequisition();
 
-        List<Requisition_Details> GetDetailsByNo(int No=0);
+        List<Requisition_Detail> GetDetailsByNo(int No=0);
 
         Requisition_Record GetRequisitionByID(int id);
 
@@ -22,12 +22,12 @@ namespace Inventory_mvc.Service
 
         List<Requisition_Record> GetRecordByItemCode(string itemCode);
 
-        int FindUnfulfilledQtyBy2Key(string itemCode, int requisitionNo);
+        int? FindUnfulfilledQtyBy2Key(string itemCode, int requisitionNo);
 
-        Requisition_Details FindDetailsBy2Key(string itemCode, int requisitionNo);
+        Requisition_Detail FindDetailsBy2Key(string itemCode, int requisitionNo);
 
         List<Disbursement> GetRequisitionByDept(string deptCode);
 
-        void UpdateDetails(string itemcode, int requisitionNo, int allocateQty);
+        void UpdateDetails(string itemcode, int requisitionNo, int? allocateQty);
     }
 }

@@ -13,13 +13,13 @@ namespace Inventory_mvc.DAO
         public List<Requisition_Record> GetAllRequisition()
         {
             StationeryModel entity = new StationeryModel();
-            return entity.Requisition_Record.ToList();
+            return entity.Requisition_Records.ToList();
         }
 
         public Requisition_Record FindByRequisitionNo(int requisitionNo)
         {
             StationeryModel entity = new StationeryModel();
-            return entity.Requisition_Record.Where(x => x.requisitionNo == requisitionNo).First();
+            return entity.Requisition_Records.Where(x => x.requisitionNo == requisitionNo).First();
         }
 
         public Boolean AddNewRequisition(Requisition_Record requisitionRecord)
@@ -36,7 +36,7 @@ namespace Inventory_mvc.DAO
                     requisition.deptCode = requisitionRecord.deptCode;
                     requisition.status = requisitionRecord.status;
                     requisition.requesterID = requisitionRecord.requesterID;
-                    entity.Requisition_Record.Add(requisition);
+                    entity.Requisition_Records.Add(requisition);
                     entity.SaveChanges();
                 }
                 catch
@@ -51,17 +51,17 @@ namespace Inventory_mvc.DAO
         {
             Requisition_Record rr = new Requisition_Record();
             StationeryModel entity = new StationeryModel();
-            rr = entity.Requisition_Record.Where(x => x.requisitionNo == requisition_Record.requisitionNo).First();
+            rr = entity.Requisition_Records.Where(x => x.requisitionNo == requisition_Record.requisitionNo).First();
             rr.status = status;
             entity.SaveChanges();
             return 0;
         }
 
-        public int UpdateRequisitionDetails(string itemcode, int requisitionNo, int allocateQty)
+        public int UpdateRequisitionDetails(string itemcode, int requisitionNo, int? allocateQty)
         {
             StationeryModel entity = new StationeryModel();
-            Requisition_Details rd = new Requisition_Details();
-            rd = entity.Requisition_Details.Where(x => x.itemCode == itemcode && x.requisitionNo == requisitionNo).First();
+            Requisition_Detail rd = new Requisition_Detail();
+            rd = entity.Requisition_Detail.Where(x => x.itemCode == itemcode && x.requisitionNo == requisitionNo).First();
             rd.allocatedQty = allocateQty;
             entity.SaveChanges();
             return 0;
@@ -72,27 +72,27 @@ namespace Inventory_mvc.DAO
             return true;
         }
 
-        public List<Requisition_Details> GetDetailsByNO(int No=0)
+        public List<Requisition_Detail> GetDetailsByNO(int No=0)
         {
             StationeryModel entity = new StationeryModel();
             if (No == 0)
             {
-                return entity.Requisition_Details.ToList();
+                return entity.Requisition_Detail.ToList();
             }
             else
             {
                 
-                return entity.Requisition_Record.Where(x => x.requisitionNo == No).First().Requisition_Details.ToList();
+                return entity.Requisition_Records.Where(x => x.requisitionNo == No).First().Requisition_Detail.ToList();
             }
         }
 
         public  List<string> GetDetailsByGroup()
         {
             StationeryModel entity = new StationeryModel();
-            List<Requisition_Details> list = new List<Requisition_Details>();
+            List<Requisition_Detail> list = new List<Requisition_Detail>();
             List<string> list2 = new List<string>();
           
-            var groups = entity.Requisition_Details.Select(x => new
+            var groups = entity.Requisition_Detail.Select(x => new
             {
                 itemcode = x.itemCode
             }).ToList();
@@ -108,7 +108,7 @@ namespace Inventory_mvc.DAO
         {
             StationeryModel entity = new StationeryModel();
             List<Requisition_Record> returnList = new List<Requisition_Record>();
-            List<Requisition_Details> list = entity.Requisition_Details.Where(x => x.itemCode == itemCode).ToList();
+            List<Requisition_Detail> list = entity.Requisition_Detail.Where(x => x.itemCode == itemCode).ToList();
             foreach(var l in list)
             {
                 returnList.Add(FindByRequisitionNo(l.requisitionNo));
@@ -116,13 +116,13 @@ namespace Inventory_mvc.DAO
             return returnList;
         }
 
-        public int FindUnfulfilledQtyBy2Key(string itemcode, int requisionNo)
+        public int? FindUnfulfilledQtyBy2Key(string itemcode, int requisionNo)
         {
             StationeryModel entity = new StationeryModel();
-            Requisition_Details rd = entity.Requisition_Details.Where(x => x.itemCode == itemcode && x.requisitionNo == requisionNo).First();
+            Requisition_Detail rd = entity.Requisition_Detail.Where(x => x.itemCode == itemcode && x.requisitionNo == requisionNo).First();
             if (rd.fulfilledQty != null)
             {
-                return (int)rd.qty - (int)rd.fulfilledQty;
+                return rd.qty - rd.fulfilledQty;
             }
             else
             {
@@ -130,10 +130,10 @@ namespace Inventory_mvc.DAO
             }
         }
 
-        public Requisition_Details FindDetailsBy2Key(string itemcode, int requisitionNo)
+        public Requisition_Detail FindDetailsBy2Key(string itemcode, int requisitionNo)
         {
             StationeryModel entity = new StationeryModel();
-            return entity.Requisition_Details.Where(x=>x.itemCode == itemcode && x.requisitionNo == requisitionNo).First();
+            return entity.Requisition_Detail.Where(x=>x.itemCode == itemcode && x.requisitionNo == requisitionNo).First();
             
         }
 
@@ -141,12 +141,12 @@ namespace Inventory_mvc.DAO
         {
             List<Disbursement> disbursementList = new List<Disbursement>();
             StationeryModel entity = new StationeryModel();
-            List<Requisition_Record> list = entity.Requisition_Record.Where(x => x.deptCode == deptCode).ToList();
+            List<Requisition_Record> list = entity.Requisition_Records.Where(x => x.deptCode == deptCode).ToList();
             List<string> itemCodes = new List<string>();
-            List<int> Qty = new List<int>();
+            List<int?> Qty = new List<int?>();
             foreach (var item in list)
             {
-                List<Requisition_Details> rd = item.Requisition_Details.ToList();
+                List<Requisition_Detail> rd = item.Requisition_Detail.ToList();
                 foreach (var a in rd)
                 {
                     if (!itemCodes.Contains(a.itemCode))
@@ -157,15 +157,15 @@ namespace Inventory_mvc.DAO
             }
             for (int i = 0; i < itemCodes.Count; i++)
             {
-                Qty.Add(0);
+                Qty.Add((int?)0);
             }
             for (int i = 0; i<itemCodes.Count; i++)
             {
                 foreach (var b in list)
                 {
-                    if ((b.Requisition_Details.Where(x => x.itemCode == itemCodes[i]).Count()) > 0)
+                    if ((b.Requisition_Detail.Where(x => x.itemCode == itemCodes[i]).Count()) > 0)
                     {
-                        Qty[i] = Qty[i] + (int)b.Requisition_Details.Where(x => x.itemCode == itemCodes[i]).First().allocatedQty;
+                        Qty[i] = Qty[i] + b.Requisition_Detail.Where(x => x.itemCode == itemCodes[i]).First().allocatedQty;
                     }
                 }
             }

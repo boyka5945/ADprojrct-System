@@ -13,8 +13,8 @@ namespace Inventory_mvc.Models
         public string itemCode { get; set; }
         public string description { get; set; }
         public string retrievedQuantity { get; set; }
-        public int unfulfilledQty { get; set; }
-        public int allocateQty { get; set; }
+        public int? unfulfilledQty { get; set; }
+        public int? allocateQty { get; set; }
         public Requisition_Record requisitionRecord{ get; set; }
 
     }

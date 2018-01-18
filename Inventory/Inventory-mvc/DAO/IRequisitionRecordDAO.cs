@@ -23,13 +23,13 @@ namespace Inventory_mvc.DAO
 
         List<string> GetDetailsByGroup();
 
-        int UpdateRequisitionDetails(string itemcode, int requisitionNo, int allocateQty);
+        int UpdateRequisitionDetails(string itemcode, int requisitionNo, int? allocateQty);
 
-        List<Requisition_Details> GetDetailsByNO(int No=0);
+        List<Requisition_Detail> GetDetailsByNO(int No=0);
 
-        int FindUnfulfilledQtyBy2Key(string itemcode, int requisionNo);
+        int? FindUnfulfilledQtyBy2Key(string itemcode, int requisionNo);
 
-        Requisition_Details FindDetailsBy2Key(string itemCode, int requisitionNo);
+        Requisition_Detail FindDetailsBy2Key(string itemCode, int requisitionNo);
 
         List<Disbursement> GetRequisitionByDept(string deptCode);
 

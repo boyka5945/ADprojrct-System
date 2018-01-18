@@ -257,6 +257,7 @@
     <Compile Include="Service\UserService.cs" />
     <Compile Include="ViewModel\BrowseStationeryCatalogueViewModel.cs" />
     <Compile Include="ViewModel\CollectionPointViewModel.cs" />
+    <Compile Include="ViewModel\Disbursement.cs" />
     <Compile Include="ViewModel\RaiseRequisitionViewModel.cs" />
     <Compile Include="ViewModel\StationeryViewModel.cs" />
     <Compile Include="ViewModel\SupplierViewModel.cs" />
@@ -360,11 +361,11 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Home\Email.cshtml" />
-    <Content Include="Views\Home\Login.cshtml" />
+    <Content Include="Views\Department\Home\About.cshtml" />
+    <Content Include="Views\Department\Home\Contact.cshtml" />
+    <Content Include="Views\Department\Home\Index.cshtml" />
+    <Content Include="Views\Department\Home\Email.cshtml" />
+    <Content Include="Views\Department\Home\Login.cshtml" />
     <Content Include="Views\Installer\Success.cshtml" />
     <Content Include="Views\Supplier\Index.cshtml" />
     <Content Include="Views\Supplier\Create.cshtml" />
@@ -380,9 +381,12 @@
     <Content Include="Views\CollectionPoint\Create.cshtml" />
     <Content Include="Views\CollectionPoint\Edit.cshtml" />
     <Content Include="Views\CollectionPoint\Index.cshtml" />
+    <Content Include="Views\RaiseRequisition\RequestPartial.cshtml" />
     <Content Include="Views\Stationery\Delete.cshtml" />
     <Content Include="Views\Stationery\Edit.cshtml" />
     <Content Include="Views\Stationery\ViewStockCard.cshtml" />
+    <Content Include="Views\ManageRequisitions\DisbursementList.cshtml" />
+    <Content Include="Views\Department\Home\Contact.cshtml" />
     <Content Include="Views\RaiseRequisition\BrowseCatalogue.cshtml" />
     <Content Include="Views\CollectionPoint\Delete.cshtml" />
     <Content Include="Views\ManageRequisitions\ClerkRequisition.cshtml" />

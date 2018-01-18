@@ -26,8 +26,8 @@ namespace Inventory_mvc.Service
 
         bool Remove_Delegate(string userid);
 
-        List<string> FindAllRole();
+        List<int> FindAllRole();
 
-        bool FindRole(string dept);
+        bool FindRole(int role);
     }
 }

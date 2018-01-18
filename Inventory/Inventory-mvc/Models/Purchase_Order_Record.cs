@@ -12,7 +12,7 @@ namespace Inventory_mvc.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Purchase_Order_Record()
         {
-            Purchase_Details = new HashSet<Purchase_Detail>();
+            Purchase_Detail = new HashSet<Purchase_Detail>();
         }
 
         [Key]
@@ -37,7 +37,7 @@ namespace Inventory_mvc.Models
         public DateTime expectedDeliveryDate { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Purchase_Detail> Purchase_Details { get; set; }
+        public virtual ICollection<Purchase_Detail> Purchase_Detail { get; set; }
 
         public virtual User User { get; set; }
     }

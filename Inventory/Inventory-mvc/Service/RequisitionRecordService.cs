@@ -22,7 +22,7 @@ namespace Inventory_mvc.Service
             return rDAO.FindByRequisitionNo(id);
         }
 
-        public List<Requisition_Details> GetDetailsByNo(int No=0)
+        public List<Requisition_Detail> GetDetailsByNo(int No=0)
         {
             RequisitionRecordDAO rDAO = new RequisitionRecordDAO();
             return rDAO.GetDetailsByNO(No);  
@@ -47,19 +47,19 @@ namespace Inventory_mvc.Service
             return rDAO.GetRecordByItemCode(itemCode);
         }
 
-        public int FindUnfulfilledQtyBy2Key(string itemCode, int requisitionNo) 
+        public int? FindUnfulfilledQtyBy2Key(string itemCode, int requisitionNo) 
         {
             RequisitionRecordDAO rDAO = new RequisitionRecordDAO();
             return rDAO.FindUnfulfilledQtyBy2Key(itemCode, requisitionNo);
         }
 
-        public Requisition_Details FindDetailsBy2Key(string itemCode, int requisitionNo)
+        public Requisition_Detail FindDetailsBy2Key(string itemCode, int requisitionNo)
         {
             RequisitionRecordDAO rDAO = new RequisitionRecordDAO();
             return rDAO.FindDetailsBy2Key(itemCode, requisitionNo);
         }
 
-        public void UpdateDetails(string itemcode, int requisitionNo, int allocateQty)
+        public void UpdateDetails(string itemcode, int requisitionNo, int? allocateQty)
         {
             RequisitionRecordDAO rDAO = new RequisitionRecordDAO();
             rDAO.UpdateRequisitionDetails(itemcode, requisitionNo, allocateQty);

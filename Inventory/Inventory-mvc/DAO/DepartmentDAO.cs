@@ -11,13 +11,13 @@ namespace Inventory_mvc.DAO
         public List<Department> GetAllDepartments()
         {
             StationeryModel entity = new StationeryModel();
-            return entity.Department.ToList();
+            return entity.Departments.ToList();
         }
 
         public Department FindByDepartmentCode(string deptCode)
         {
             StationeryModel entity = new StationeryModel();
-            return entity.Department.Where(x => x.departmentCode == deptCode).First();
+            return entity.Departments.Where(x => x.departmentCode == deptCode).First();
         }
 
         public Boolean AddNewDepartment(Department dept)
@@ -32,10 +32,10 @@ namespace Inventory_mvc.DAO
                 department.contactName = dept.contactName;
                 department.phoneNo = dept.phoneNo;
                 department.faxNo = dept.faxNo;
-                department.departmentHeadID = dept.departmentHeadID;
+                //department.departmentHeadID = dept.departmentHeadID;
                 department.collectionPointID = dept.collectionPointID;
-                department.representativeID = dept.representativeID;
-                entity.Department.Add(department);
+                //department.representativeID = dept.representativeID;
+                entity.Departments.Add(department);
                 entity.SaveChanges();
             }
             catch
@@ -49,14 +49,14 @@ namespace Inventory_mvc.DAO
         {
 
             StationeryModel entity = new StationeryModel();
-            Department dt = entity.Department.Where(x => x.departmentCode == dept.departmentCode).First();
+            Department dt = entity.Departments.Where(x => x.departmentCode == dept.departmentCode).First();
             dt.departmentName = dept.departmentName;
             dt.contactName = dept.contactName;
             dt.phoneNo = dept.phoneNo;
             dt.faxNo = dept.faxNo;
-            dt.departmentHeadID = dept.departmentHeadID;
+            //dt.departmentHeadID = dept.departmentHeadID;
             dt.collectionPointID = dept.collectionPointID;
-            dt.representativeID = dept.representativeID;
+            //dt.representativeID = dept.representativeID;
             //dt = dept;
             int row = entity.SaveChanges();
 
@@ -72,7 +72,7 @@ namespace Inventory_mvc.DAO
         {
             using (StationeryModel context = new StationeryModel())
             {
-                return (from d in context.Department
+                return (from d in context.Departments
                         select d.departmentCode).ToList();
             }
         }
