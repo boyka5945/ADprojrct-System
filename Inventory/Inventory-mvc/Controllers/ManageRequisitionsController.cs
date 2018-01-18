@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using Inventory_mvc.Service;
 using Inventory_mvc.Models;
+using Inventory_mvc.ViewModel;
 
 namespace Inventory_mvc.Controllers
 {
@@ -12,6 +13,8 @@ namespace Inventory_mvc.Controllers
     {
         IStationeryService ss = new StationeryService();
         IRequisitionRecordService rs = new RequisitionRecordService();
+        IDepartmentService ds = new DepartmentService();
+        IUserService us = new UserService();
         // GET: RequisitionRecord
         public ActionResult Index()
         {
@@ -140,6 +143,56 @@ namespace Inventory_mvc.Controllers
             model = rs.GetRequisitionByID(id);
             rs.UpdateRequisition(model, "Rejected");
             return RedirectToAction("ManagerRequisition");
+        }
+
+        [HttpGet]
+        public ActionResult DisbursementList()
+        {
+
+            var list = rs.GetRequisitionByDept("ZOOL");
+            foreach (var a in ds.GetAllDepartment().ToList())
+            {
+                if (a.departmentCode == "ZOOL")
+                {
+                    ViewBag.Point = a.Collection_Point.collectionPointName;
+                    ViewBag.rp = us.FindByUserID(a.representativeID).Name;
+                    break;
+                }
+            }
+            List<SelectListItem> departmentlist = new List<SelectListItem>();
+            var departments = ds.GetAllDepartment();
+            foreach (var b in departments) {
+                departmentlist.Add(new SelectListItem{Value = b.departmentCode.ToString(),Text = b.departmentName.ToString()});
+            }
+
+            ViewData["list"] = departmentlist;
+
+            return View(list);
+        }
+
+        [HttpPost]
+        public ActionResult DisbursementList(FormCollection form)
+        {
+            var deptCode = form["ID"].ToString();
+            foreach(var a in ds.GetAllDepartment().ToList())
+            {
+                if (a.departmentCode == deptCode)
+                {
+                    ViewBag.Select = a.departmentName;
+                    ViewBag.Point = a.Collection_Point.collectionPointName;
+                    ViewBag.rp = us.FindByUserID(a.representativeID).Name;
+                    break;
+                }
+            }
+            List<SelectListItem> departmentlist = new List<SelectListItem>();
+            var departments = ds.GetAllDepartment();
+            foreach (var b in departments)
+            {
+                departmentlist.Add(new SelectListItem { Value = b.departmentCode.ToString(), Text = b.departmentName.ToString() });
+            }
+            ViewData["list"] = departmentlist;
+            var list = rs.GetRequisitionByDept(deptCode);
+            return View(list);
         }
     }
 }

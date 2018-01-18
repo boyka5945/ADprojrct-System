@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using Inventory_mvc.Models;
+using Inventory_mvc.ViewModel;
 
 namespace Inventory_mvc.DAO
 {
@@ -29,5 +30,9 @@ namespace Inventory_mvc.DAO
         int FindUnfulfilledQtyBy2Key(string itemcode, int requisionNo);
 
         Requisition_Details FindDetailsBy2Key(string itemCode, int requisitionNo);
+
+        List<Disbursement> GetRequisitionByDept(string deptCode);
+
+
     }
 }
