@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using Inventory_mvc.Models;
 using Inventory_mvc.DAO;
+using Inventory_mvc.ViewModel;
 
 namespace Inventory_mvc.Service
 {
@@ -63,6 +64,12 @@ namespace Inventory_mvc.Service
             RequisitionRecordDAO rDAO = new RequisitionRecordDAO();
             rDAO.UpdateRequisitionDetails(itemcode, requisitionNo, allocateQty);
 
+        }
+
+        public List<Disbursement> GetRequisitionByDept(string deptCode)
+        {
+            RequisitionRecordDAO rDAO = new RequisitionRecordDAO();
+            return rDAO.GetRequisitionByDept(deptCode);
         }
     }
 }

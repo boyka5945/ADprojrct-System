@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using Inventory_mvc.DAO;
 using Inventory_mvc.Models;
+using Inventory_mvc.ViewModel;
 
 namespace Inventory_mvc.Service
 {
@@ -25,6 +26,7 @@ namespace Inventory_mvc.Service
 
         Requisition_Details FindDetailsBy2Key(string itemCode, int requisitionNo);
 
+        List<Disbursement> GetRequisitionByDept(string deptCode);
 
         void UpdateDetails(string itemcode, int requisitionNo, int allocateQty);
     }

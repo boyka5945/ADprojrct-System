@@ -12,7 +12,7 @@ namespace Inventory_mvc.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Collection_Point()
         {
-            Department = new HashSet<Department>();
+            Departments = new HashSet<Department>();
         }
 
         [Key]
@@ -24,6 +24,6 @@ namespace Inventory_mvc.Models
         public string collectionPointName { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Department> Department { get; set; }
+        public virtual ICollection<Department> Departments { get; set; }
     }
 }

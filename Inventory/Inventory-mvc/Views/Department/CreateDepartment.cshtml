@@ -5,7 +5,7 @@
 
     var exceptionMessage = TempData["ExceptionMessage"];
 
-    List<Inventory_mvc.ViewModel.CollectionPointViewModel> collectionPointLists = (List<Inventory_mvc.ViewModel.CollectionPointViewModel>)TempData["CollectionPointList"];
+    List<Inventory_mvc.ViewModel.CollectionPointViewModel> collectionPointLists = ViewBag.CollectionPointList;
 }
 
 <h2>Create Department</h2>
@@ -80,7 +80,7 @@
                 @*@Html.HiddenFor(model => model.collectionPointID, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.DropDownListFor(x => Model.collectionPointID, new SelectList(Model.CollPointID, "Value", "Text"), htmlAttributes: new { @class = "form-control", id = "collectionPointID" })*@
                 <select name="collectionPointID" class="custom-select my-1 mr-sm-2">
-                    <option value="All" selected="selected">All</option>
+                    <option value="SelectOne" selected="selected">--Select--</option>
                     @foreach (var collectionPoint in collectionPointLists)
                     {
                         string selected = "";

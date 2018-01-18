@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using Inventory_mvc.Models;
+using Inventory_mvc.ViewModel;
 
 namespace Inventory_mvc.DAO
 {
@@ -24,23 +25,24 @@ namespace Inventory_mvc.DAO
         public Boolean AddNewRequisition(Requisition_Record requisitionRecord)
         {
 
-            try
-            {
-                StationeryModel entity = new StationeryModel();
-                Requisition_Record requisition = new Requisition_Record();
-                requisition.requisitionNo = requisitionRecord.requisitionNo;
-                requisition.requestDate = requisitionRecord.requestDate;
-                requisition.approveDate = requisitionRecord.approveDate;
-                requisition.approvingStaffID = requisitionRecord.approvingStaffID;
-                requisition.deptCode = requisitionRecord.deptCode;
-                requisition.status = requisitionRecord.status;
-                requisition.requesterID = requisitionRecord.requesterID;
-                entity.Requisition_Record.Add(requisition);
-                entity.SaveChanges();
-            }
-            catch
-            {
-                return false;
+            using (StationeryModel entity = new StationeryModel()) {
+                try
+                {
+                    Requisition_Record requisition = new Requisition_Record();
+                    requisition.requisitionNo = requisitionRecord.requisitionNo;
+                    requisition.requestDate = requisitionRecord.requestDate;
+                    requisition.approveDate = requisitionRecord.approveDate;
+                    requisition.approvingStaffID = requisitionRecord.approvingStaffID;
+                    requisition.deptCode = requisitionRecord.deptCode;
+                    requisition.status = requisitionRecord.status;
+                    requisition.requesterID = requisitionRecord.requesterID;
+                    entity.Requisition_Record.Add(requisition);
+                    entity.SaveChanges();
+                }
+                catch
+                {
+                    return false;
+                }
             }
             return true;
         }
@@ -133,6 +135,49 @@ namespace Inventory_mvc.DAO
             StationeryModel entity = new StationeryModel();
             return entity.Requisition_Details.Where(x=>x.itemCode == itemcode && x.requisitionNo == requisitionNo).First();
             
+        }
+
+        public List<Disbursement> GetRequisitionByDept(string deptCode)
+        {
+            List<Disbursement> disbursementList = new List<Disbursement>();
+            StationeryModel entity = new StationeryModel();
+            List<Requisition_Record> list = entity.Requisition_Record.Where(x => x.deptCode == deptCode).ToList();
+            List<string> itemCodes = new List<string>();
+            List<int> Qty = new List<int>();
+            foreach (var item in list)
+            {
+                List<Requisition_Details> rd = item.Requisition_Details.ToList();
+                foreach (var a in rd)
+                {
+                    if (!itemCodes.Contains(a.itemCode))
+                    {
+                        itemCodes.Add(a.itemCode);
+                    }
+                }
+            }
+            for (int i = 0; i < itemCodes.Count; i++)
+            {
+                Qty.Add(0);
+            }
+            for (int i = 0; i<itemCodes.Count; i++)
+            {
+                foreach (var b in list)
+                {
+                    if ((b.Requisition_Details.Where(x => x.itemCode == itemCodes[i]).Count()) > 0)
+                    {
+                        Qty[i] = Qty[i] + (int)b.Requisition_Details.Where(x => x.itemCode == itemCodes[i]).First().allocatedQty;
+                    }
+                }
+            }
+            for (int i = 0; i < itemCodes.Count; i++)
+            {
+                Disbursement disbursement = new Disbursement();
+                disbursement.itemDescription = itemCodes[i];
+                disbursement.quantity = Qty[i];
+                disbursementList.Add(disbursement);
+            }
+            return disbursementList;
+
         }
     }
 }
