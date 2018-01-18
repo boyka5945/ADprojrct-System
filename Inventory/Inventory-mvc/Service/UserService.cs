@@ -43,7 +43,7 @@ namespace Inventory_mvc.Service
             return ConvertToViewModel(userDAO.FindByUserID(userid));
         }
 
-        void IUserService.DelegateEmp(string userid, DateTime from, DateTime to)
+        void IUserService.DelegateEmp(string userid, DateTime? from, DateTime? to)
         {
             userDAO.DelegateEmp(userid, from, to);
         }
@@ -94,8 +94,8 @@ namespace Inventory_mvc.Service
             userVM.DepartmentCode = u.departmentCode;
             userVM.Address = u.address;
             userVM.ContactNo = u.contactNo;
-        //    userVM.DelegationStart = (DateTime) u.delegationStart;
-        //    userVM.DelegationEnd = (DateTime) u.delegationEnd;
+            userVM.DelegationStart = (DateTime?)u.delegationStart;
+            userVM.DelegationEnd = (DateTime?)u.delegationEnd;
             return userVM ;
         }
 
@@ -122,14 +122,25 @@ namespace Inventory_mvc.Service
             return userDAO.Remove_Delegate(userid);
         }
 
-        List<string> IUserService.FindAllRole()
+        List<string> IUserService.FindAllRole(string id)
         {
-            return userDAO.FindAllRole();
+            return userDAO.FindAllRole(id);
         }
 
         bool IUserService.FindRole(string dept)
         {
             return userDAO.FindRole(dept);
+        }
+
+        List<string> IUserService.RoleForEditAndCreate(string userid)
+        {
+            return userDAO.RoleForEditAndCreate(userid);
+        }
+
+
+        bool IUserService.AlrDelegated(string userid)
+        {
+            return userDAO.AlrDelegated(userid);
         }
     }
 }

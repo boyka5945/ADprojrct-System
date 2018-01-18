@@ -18,7 +18,7 @@ namespace Inventory_mvc.DAO
 
         int UpdateUserInfo(User user);
 
-        void DelegateEmp(string userid, DateTime from, DateTime to);
+        void DelegateEmp(string userid, DateTime? from, DateTime? to);
 
         List<string> GetAllUserID();
 
@@ -26,9 +26,14 @@ namespace Inventory_mvc.DAO
 
         bool Remove_Delegate(string userID);
 
-        List<string> FindAllRole();
+        List<string> FindAllRole(string id);
         
         bool FindRole(string dept);
+
+        List<string> RoleForEditAndCreate(string userID);
+
+
+        bool AlrDelegated(string id);
         //  bool DeleteUser(string userID);
     }
 }

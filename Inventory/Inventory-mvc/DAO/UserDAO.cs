@@ -78,13 +78,15 @@ namespace Inventory_mvc.DAO
             }
         }
 
-        void IUserDAO.DelegateEmp(string userid, DateTime from, DateTime to)
+        void IUserDAO.DelegateEmp(string userid, DateTime? from, DateTime? to)
         {
             using (StationeryModel entity = new StationeryModel())
             {
+                DateTime start = (DateTime) from;
+                DateTime end = (DateTime) to;
                 User u = (from user in entity.User where user.userID == userid select user).FirstOrDefault();
-                u.delegationStart = from;
-                u.delegationEnd = to;
+                u.delegationStart = start.Date;
+                u.delegationEnd = end.Date;
                 u.role = "ActingDeptHead";
 
                 entity.SaveChanges();
@@ -165,23 +167,50 @@ namespace Inventory_mvc.DAO
 
         }
 
-        List<string> IUserDAO.FindAllRole()
+        List<string> IUserDAO.FindAllRole(string id)
         {
             using (StationeryModel entity = new StationeryModel())
             {
-                return (from u in entity.User select u.role).ToList<string>();
+                User user = (from u in entity.User where u.userID == id select u).First();
+
+                return (from a in entity.User where a.departmentCode==user.departmentCode select a.role).ToList<string>();
             }
 
         }
 
-        bool IUserDAO.FindRole(string dept)
+        bool IUserDAO.FindRole(string role)
         {
             using (StationeryModel entity = new StationeryModel())
             {
-                User u = (from d in entity.User where d.role == dept select d).First();
+                User u = (from d in entity.User where d.role == role select d).First();
                 if (u == null)
                     return false;
                 return true;
+            }
+        }
+
+
+        List<string> IUserDAO.RoleForEditAndCreate(string userID)
+        {
+            using (StationeryModel entity = new StationeryModel())
+            {
+                User u = (from a in entity.User where a.userID == userID select a).First();
+                List<string> roles = (from user in entity.User where (user.departmentCode == u.departmentCode && user.role != "DeptHead" && user.role != "ActingDeptHead") select user.role).ToList<string>();
+                return roles;
+            }
+        }
+
+
+        bool IUserDAO.AlrDelegated(string id)
+        {
+            using (StationeryModel entity = new StationeryModel())
+            {
+                User user = (from u in entity.User where u.userID==id select u).First();
+                if (user.role=="ActingDeptHead")
+                {
+                    return true;
+                }
+                return false;
             }
         }
 

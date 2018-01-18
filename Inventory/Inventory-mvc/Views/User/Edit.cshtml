@@ -2,6 +2,7 @@
 
 @{
     ViewBag.Title = "Edit";
+    List<string> roleList = ViewBag.RoleList;
 }
 
 <h2>Edit</h2>
@@ -29,7 +30,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.ContactNo, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.ContactNo, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.TextBoxFor(model => model.ContactNo, new { placeholder = "", htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.ContactNo, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -45,15 +46,22 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Role, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Role, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Role, "", new { @class = "text-danger" })
+                <select name="role" class="custom-select my-1 mr-sm-2">
+                    @foreach (var role in roleList)
+                    {
+                        <option value="@role"> @role </option>
+                    }
+                </select>
+                
+                @*@Html.EditorFor(model => model.Role, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Role, "", new { @class = "text-danger" })*@
             </div>
         </div>
 
         <div class="form-group">
             @Html.LabelFor(model => model.DepartmentCode, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.DepartmentCode, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.TextBoxFor(model => model.DepartmentCode, new {@readonly="readonly", htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.DepartmentCode, "", new { @class = "text-danger" })
             </div>
         </div>

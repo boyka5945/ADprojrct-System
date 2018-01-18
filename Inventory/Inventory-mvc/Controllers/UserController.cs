@@ -18,30 +18,54 @@ namespace Inventory_mvc.Controllers
             string name = HttpContext.User.Identity.Name;
             UserViewModel user = userService.FindByUserID("S1000");
             var model = userService.GetUserByDept(user);
+          //  ViewBag.Roles = userService.FindAllRole(user.UserID);
+            //ViewBag.alrDelegated = userService.AlrDelegated(id);
             return View(model);
         }
         [HttpGet]
         public ActionResult Delegate(string id)
         {
+            List<string> roles = userService.FindAllRole(id);
+            foreach(string r in roles)
+            {
+                if (r=="ActingDeptHead")
+                {
+                    TempData["DelegateMessage"] = String.Format("Not allowed to delegate two employees");
+                    return RedirectToAction("UserList");
+                }
+            }
+            
             UserViewModel u = userService.FindByUserID(id);
             return View(u);
         }
         [HttpPost]
         public ActionResult Delegate()
-        {            
-            
-            
-                userService.DelegateEmp(Request["userID"].ToString(), Convert.ToDateTime(Request["from"]), Convert.ToDateTime(Request["toto"]));
-            
-            
+        {
+            DateTime start = Convert.ToDateTime(Request["from"]);
+            DateTime end = Convert.ToDateTime(Request["toto"]);
+            if(end.CompareTo(start)<1)
+            {
+                TempData["InvalidDateMessage"] = String.Format("Invalid end date");
+                return View();
+            }
+            userService.DelegateEmp(Request["userID"].ToString(), start.Date , end.Date);
 
+           
             return RedirectToAction("UserList");
         }
 
         [HttpGet]
         public ActionResult Remove_Delegate(string id)
         {
-            userService.Remove_Delegate(id);
+            if(userService.AlrDelegated(id))
+            {
+                userService.Remove_Delegate(id);
+            }
+            else
+            {
+                TempData["RmvDelMessage"] = String.Format("Employee is not delegated");
+            }
+           
             return RedirectToAction("UserList");
 
         }
@@ -50,6 +74,7 @@ namespace Inventory_mvc.Controllers
         public ActionResult Edit(string id)
         {
             UserViewModel userVM = userService.FindByUserID(id);
+            ViewBag.RoleList = userService.RoleForEditAndCreate(id);
             return View(userVM);
         }
 
@@ -82,37 +107,38 @@ namespace Inventory_mvc.Controllers
             return View(userVM);
         }
 
-        public ActionResult Create()
-        {
-            return View(new UserViewModel());
-        }
+        //public ActionResult Create()
+        //{
+            
+        //    return View();
+        //}
 
-        [HttpPost]
-        public ActionResult Create(UserViewModel userVM)
-        {
-            string id = userVM.UserID;
+        //[HttpPost]
+        //public ActionResult Create(UserViewModel userVM)
+        //{
+        //    string id = userVM.UserID;
 
-            if (userService.isExistingID(id))
-            {
-                string errorMessage = String.Format("{0} alrdady existed.", id);
-                ModelState.AddModelError("UserID", errorMessage);
-            }
-            else if (ModelState.IsValid)
-            {
-                try
-                {
-                    userService.AddNewUser(userVM);
-                    TempData["CreateMessage"] = String.Format("User '{0}' is added.", id);
-                    return RedirectToAction("UserList");
-                }
-                catch (Exception e)
-                {
-                    TempData["ExceptionMessage"] = e.Message;
-                }
-            }
+        //    if (userService.isExistingID(id))
+        //    {
+        //        string errorMessage = String.Format("{0} alrdady existed.", id);
+        //        ModelState.AddModelError("UserID", errorMessage);
+        //    }
+        //    else if (ModelState.IsValid)
+        //    {
+        //        try
+        //        {
+        //            userService.AddNewUser(userVM);
+        //            TempData["CreateMessage"] = String.Format("User '{0}' is added.", id);
+        //            return RedirectToAction("UserList");
+        //        }
+        //        catch (Exception e)
+        //        {
+        //            TempData["ExceptionMessage"] = e.Message;
+        //        }
+        //    }
 
-            return View(userVM);
-        }
+        //    return View(userVM);
+        //}
         [HttpGet]
         public ActionResult Assign_Rep(string id)
         {

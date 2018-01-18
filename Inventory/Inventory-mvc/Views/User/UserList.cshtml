@@ -2,12 +2,20 @@
 
 @{
     ViewBag.Title = "UserList";
+    //List<string> roles = ViewBag.Roles;
+    //bool delegated = ViewBag.alrDelegated;
 }
 
 <h2>UserList</h2>
-
+<script>
+    $(function(){
+        $(".linkdisabled").click(function () {
+            return false;
+        });
+    });
+</script>
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @*@Html.ActionLink("Create New", "Create")*@
 </p>
 <table class="table">
     <tr>

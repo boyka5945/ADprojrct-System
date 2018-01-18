@@ -14,7 +14,7 @@ namespace Inventory_mvc.Service
 
         UserViewModel FindByUserID(string userid);
 
-         void DelegateEmp(string userid, DateTime from, DateTime to);
+         void DelegateEmp(string userid, DateTime? from, DateTime? to);
 
         bool UpdateUserInfo(UserViewModel userVM);
 
@@ -26,8 +26,12 @@ namespace Inventory_mvc.Service
 
         bool Remove_Delegate(string userid);
 
-        List<string> FindAllRole();
+        List<string> FindAllRole(string id);
 
         bool FindRole(string dept);
+
+        List<string> RoleForEditAndCreate(string userid);
+
+        bool AlrDelegated(string id);
     }
 }
