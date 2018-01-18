@@ -1,11 +1,5 @@
-﻿<script type="text/javascript">
+﻿@model PagedList.IPagedList<Inventory_mvc.Models.Stationery>
 
-
-
-</script>
-
-
-@model PagedList.IPagedList<Inventory_mvc.Models.Stationery>
 @using PagedList.Mvc;
 <link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 
@@ -13,19 +7,26 @@
     ViewBag.Title = "Browse Stationery Catalogue";
 
     List<Inventory_mvc.Models.Category> categoryList = ViewBag.CategoryList;
+
+    var addItemMessage = TempData["AddItemMessage"];
+    var addItemErrorMessage = TempData["AddItemErrorMessage"];    
 }
 
-<h3>Browse Stationery Catalogue</h3>
 
-@using (Html.BeginForm("BrowseCatalogue", "RaiseRequisition", FormMethod.Get, new { @class = "form-group" }))
+<h3>Stationery Catalogue</h3>
+
+
+
+@using (Html.BeginForm("BrowseCatalogue", "RaiseRequisition", FormMethod.Get, new { @class = "form-inline" }))
 {
+
     <table class="table pagination">
         <tr>
             <td>
                 @Html.Label("Description", new { @class = "col-sm-2 col-form-label" })
             </td>
             <td>
-                @Html.TextBox("searchString", ViewBag.SearchString as string, new { @class = "form-control" })
+                @Html.TextBox("searchString", ViewBag.SearchString as string, new { @class = "form-control mx-sm-3" })
             </td>
             <td>
                 @Html.Label("Category", new { @class = "col-sm-2 col-form-label" })
@@ -47,13 +48,29 @@
             </td>
             <td>
                 <input type="submit" class="btn btn-primary" value="Search" />
-                <a href="@Url.Action("ResetCatalogue")">
-                    <input type="button" class="btn btn-primary" value="Reset" />
-                </a>
+
+                @Html.ActionLink("Reset", "ResetCatalogue", "RaiseRequisition", null, new { @class = "btn btn-danger" })
             </td>
         </tr>
     </table>
 }
+
+
+@if (addItemMessage != null)
+{
+    <div class="alert alert-success">
+        @addItemMessage.ToString()
+    </div>
+}
+
+@if (addItemErrorMessage != null)
+{
+    <div class="alert alert-danger">
+        @addItemErrorMessage.ToString()
+    </div>
+}
+
+
 
 <table class="table">
     <tr>
@@ -66,36 +83,40 @@
         <th>
             @Html.Label("UOM")
         </th>
-        <th></th>
+        <th>
+            @Html.Label("Add Request Quantity")
+        </th>
     </tr>
 
     @foreach (var item in Model)
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Category.categoryName)
-            </td>
-            <td>
-                @Html.HiddenFor(modelItem => item.itemCode)
-                @Html.DisplayFor(modelItem => item.description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.unitOfMeasure)
-            </td>
-            <td>
-                @Ajax.ActionLink("Add To List", "AddNewRequest", new { itemCode = item.itemCode },
-                                 new AjaxOptions { OnSuccess = "showDialog", HttpMethod = "GET" },
-                                 new { @class = "btn btn-outline-primary" })
-
-            </td>
-        </tr>
+            {
+                using (Html.BeginForm("AddNewRequestItem", "RaiseRequisition", new { itemCode = item.itemCode, searchString = ViewBag.SearchString, categoryID = ViewBag.CategoryID, page = ViewBag.Page }, FormMethod.Post, new { @class = "form" }))
+                {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Category.categoryName)
+                </td>
+                <td>
+                    @Html.HiddenFor(modelItem => item.itemCode)
+                    @Html.DisplayFor(modelItem => item.description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.unitOfMeasure)
+                </td>
+                <td>
+                    <div class="form-inline">
+                        <input type="number" name="quantity" value="0" min="1" class="form-control" placeholder="Quantity" />
+                        <input type="submit" value="Add" class="btn btn-outline-primary" />
+                    </div>
+                </td>
+            </tr>
+        }
     }
 </table>
-Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+        Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
 
-@Html.PagedListPager(Model, page => Url.Action("BrowseCatalogue",
+        @Html.PagedListPager(Model, page => Url.Action("BrowseCatalogue",
                      new { searchString = ViewBag.SearchString, categoryID = ViewBag.CategoryID, page }))
 
-<input type="button" class="btn btn-primary" value="Go To Request List" />
 
-
+        @Html.ActionLink("Go To Requisition Form", "NewRequisition", "RaiseRequisition", null, new { @class = "btn btn-primary" })

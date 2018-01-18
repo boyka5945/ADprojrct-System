@@ -29,7 +29,8 @@ namespace Inventory_mvc.Controllers
         [HttpPost]
         public ActionResult Create(SupplierViewModel supplierVM)
         {
-            string code = supplierVM.SupplierCode;
+            string code = supplierVM.SupplierCode.ToUpper().Trim();
+            supplierVM.SupplierCode = code;
 
             if (supplierService.isExistingCode(code))
             {

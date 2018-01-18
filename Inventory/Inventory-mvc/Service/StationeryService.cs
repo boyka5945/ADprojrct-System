@@ -171,5 +171,11 @@ namespace Inventory_mvc.Service
         {
             return stationeryDAO.GetAllCategory();
         }
+
+
+        List<string> IStationeryService.GetAllUOMList()
+        {
+            return stationeryDAO.GetAllUOMList();
+        }
     }
 }
