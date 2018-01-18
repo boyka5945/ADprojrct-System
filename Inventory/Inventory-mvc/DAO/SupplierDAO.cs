@@ -13,7 +13,7 @@ namespace Inventory_mvc.DAO
         {
             using (StationeryModel context = new StationeryModel())
             {
-                context.Supplier.Add(supplier);
+                context.Suppliers.Add(supplier);
                 int rowAffected = context.SaveChanges();
 
                 if (rowAffected != 1)
@@ -29,11 +29,11 @@ namespace Inventory_mvc.DAO
         {
             using (StationeryModel context = new StationeryModel())
             {
-                Supplier supplier = (from s in context.Supplier
+                Supplier supplier = (from s in context.Suppliers
                                      where s.supplierCode == supplierCode
                                      select s).FirstOrDefault();
 
-                context.Supplier.Remove(supplier);
+                context.Suppliers.Remove(supplier);
                 context.SaveChanges();
 
                 return true;
@@ -44,12 +44,12 @@ namespace Inventory_mvc.DAO
         {
             using (StationeryModel context = new StationeryModel())
             {
-                return (from s in context.Supplier
+                return (from s in context.Suppliers
                         where s.supplierCode == supplierCode
                         select s)
-                        .Include(s => s.Stationery)
-                        .Include(s => s.Stationery1)
-                        .Include(s => s.Stationery2)
+                        .Include(s => s.Stationeries)
+                        .Include(s => s.Stationeries1)
+                        .Include(s => s.Stationeries2)
                         .FirstOrDefault();
             }
         }
@@ -58,7 +58,7 @@ namespace Inventory_mvc.DAO
         {
             using (StationeryModel context = new StationeryModel())
             {
-                return (from s in context.Supplier
+                return (from s in context.Suppliers
                         select s).ToList();
             }
         }
@@ -67,7 +67,7 @@ namespace Inventory_mvc.DAO
         {
             using (StationeryModel context = new StationeryModel())
             {
-                return (from s in context.Supplier
+                return (from s in context.Suppliers
                         select s.supplierCode).ToList();
             }
         }
@@ -76,7 +76,7 @@ namespace Inventory_mvc.DAO
         {
             using (StationeryModel context = new StationeryModel())
             {
-                Supplier s = (from x in context.Supplier
+                Supplier s = (from x in context.Suppliers
                               where x.supplierCode == supplier.supplierCode
                               select x).FirstOrDefault();
 

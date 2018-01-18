@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using Inventory_mvc.Models;
 using Inventory_mvc.DAO;
+using Inventory_mvc.ViewModel;
 
 namespace Inventory_mvc.Service
 {
@@ -21,7 +22,7 @@ namespace Inventory_mvc.Service
             return rDAO.FindByRequisitionNo(id);
         }
 
-        public List<Requisition_Details> GetDetailsByNo(int No=0)
+        public List<Requisition_Detail> GetDetailsByNo(int No=0)
         {
             return rDAO.GetDetailsByNO(No);  
         }
@@ -42,17 +43,17 @@ namespace Inventory_mvc.Service
             return rDAO.GetRecordByItemCode(itemCode);
         }
 
-        public int FindUnfulfilledQtyBy2Key(string itemCode, int requisitionNo) 
+        public int? FindUnfulfilledQtyBy2Key(string itemCode, int requisitionNo) 
         {
             return rDAO.FindUnfulfilledQtyBy2Key(itemCode, requisitionNo);
         }
 
-        public Requisition_Details FindDetailsBy2Key(string itemCode, int requisitionNo)
+        public Requisition_Detail FindDetailsBy2Key(string itemCode, int requisitionNo)
         {
             return rDAO.FindDetailsBy2Key(itemCode, requisitionNo);
         }
 
-        public void UpdateDetails(string itemcode, int requisitionNo, int allocateQty)
+        public void UpdateDetails(string itemcode, int requisitionNo, int? allocateQty)
         {
             rDAO.UpdateRequisitionDetails(itemcode, requisitionNo, allocateQty);
         }
@@ -83,6 +84,12 @@ namespace Inventory_mvc.Service
             }
           
             return true;
+        }
+
+        public List<Disbursement> GetRequisitionByDept(string deptCode)
+        {
+            RequisitionRecordDAO rDAO = new RequisitionRecordDAO();
+            return rDAO.GetRequisitionByDept(deptCode);
         }
     }
 }

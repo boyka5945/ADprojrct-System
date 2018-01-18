@@ -122,14 +122,14 @@ namespace Inventory_mvc.Service
             return userDAO.Remove_Delegate(userid);
         }
 
-        List<string> IUserService.FindAllRole()
+        List<int> IUserService.FindAllRole()
         {
             return userDAO.FindAllRole();
         }
 
-        bool IUserService.FindRole(string dept)
+        bool IUserService.FindRole(int role)
         {
-            return userDAO.FindRole(dept);
+            return userDAO.FindRole(role);
         }
 
         string[] IUserService.FindApprovingStaffsEmailByRequesterID(string requesterID)

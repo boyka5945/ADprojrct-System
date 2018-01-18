@@ -14,8 +14,6 @@ namespace Inventory_mvc.Models
         {
             Adjustment_Voucher_Record = new HashSet<Adjustment_Voucher_Record>();
             Adjustment_Voucher_Record1 = new HashSet<Adjustment_Voucher_Record>();
-            Department = new HashSet<Department>();
-            Department1 = new HashSet<Department>();
             Purchase_Order_Record = new HashSet<Purchase_Order_Record>();
             Requisition_Record = new HashSet<Requisition_Record>();
             Requisition_Record1 = new HashSet<Requisition_Record>();
@@ -39,9 +37,7 @@ namespace Inventory_mvc.Models
         [StringLength(200)]
         public string address { get; set; }
 
-        [Required]
-        [StringLength(50)]
-        public string role { get; set; }
+        public int role { get; set; }
 
         [Required]
         [StringLength(50)]
@@ -63,13 +59,7 @@ namespace Inventory_mvc.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Adjustment_Voucher_Record> Adjustment_Voucher_Record1 { get; set; }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Department> Department { get; set; }
-
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Department> Department1 { get; set; }
-
-        public virtual Department Department2 { get; set; }
+        public virtual Department Department { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Purchase_Order_Record> Purchase_Order_Record { get; set; }
@@ -79,6 +69,8 @@ namespace Inventory_mvc.Models
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Requisition_Record> Requisition_Record1 { get; set; }
+
+        public virtual roleInfo roleInfo { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Transaction_Record> Transaction_Record { get; set; }

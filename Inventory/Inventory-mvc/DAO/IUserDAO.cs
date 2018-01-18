@@ -26,9 +26,9 @@ namespace Inventory_mvc.DAO
 
         bool Remove_Delegate(string userID);
 
-        List<string> FindAllRole();
+        List<int> FindAllRole();
         
-        bool FindRole(string dept);
+        bool FindRole(int role);
         //  bool DeleteUser(string userID);
 
         string[] FindApprovingStaffsEmailByRequesterID(string requesterID);

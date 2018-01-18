@@ -13,7 +13,7 @@ namespace Inventory_mvc.DAO
         {
             using (StationeryModel context = new StationeryModel())
             {
-                context.Stationery.Add(stationery);
+                context.Stationeries.Add(stationery);
                 int rowAffected = context.SaveChanges();
 
                 if (rowAffected != 1)
@@ -30,11 +30,11 @@ namespace Inventory_mvc.DAO
         {
             using (StationeryModel context = new StationeryModel())
             {
-                Stationery stationery = (from s in context.Stationery
+                Stationery stationery = (from s in context.Stationeries
                                      where s.itemCode == itemCode
                                      select s).FirstOrDefault();
 
-                context.Stationery.Remove(stationery);
+                context.Stationeries.Remove(stationery);
                 context.SaveChanges();
 
                 return true;
@@ -45,7 +45,7 @@ namespace Inventory_mvc.DAO
         {
             StationeryModel context = new StationeryModel();
 
-            return (from s in context.Stationery
+            return (from s in context.Stationeries
                     where s.itemCode == itemCode
                     select s).FirstOrDefault();
         }
@@ -56,7 +56,7 @@ namespace Inventory_mvc.DAO
         {
             using (StationeryModel context = new StationeryModel())
             {
-                Stationery s = (from x in context.Stationery
+                Stationery s = (from x in context.Stationeries
                               where x.itemCode == stationery.itemCode
                               select x).FirstOrDefault();
 
@@ -83,7 +83,7 @@ namespace Inventory_mvc.DAO
 
             using (StationeryModel context = new StationeryModel())
             {
-                return (from s in context.Stationery
+                return (from s in context.Stationeries
                         select s.itemCode).ToList();
             }
         }
@@ -94,7 +94,7 @@ namespace Inventory_mvc.DAO
         {
             using (StationeryModel context = new StationeryModel())
             {
-                return (from s in context.Stationery
+                return (from s in context.Stationeries
                         select s)
                         .Include(s => s.Category)
                         .ToList();
@@ -108,7 +108,7 @@ namespace Inventory_mvc.DAO
         {
             using (StationeryModel context = new StationeryModel())
             {
-                return (from s in context.Stationery
+                return (from s in context.Stationeries
                         select s.unitOfMeasure).Distinct().ToList();
             }
         }
@@ -118,7 +118,7 @@ namespace Inventory_mvc.DAO
         {
             using (StationeryModel context = new StationeryModel())
             {
-                return (from c in context.Category
+                return (from c in context.Categories
                         select c).ToList();
             }
 
@@ -131,7 +131,7 @@ namespace Inventory_mvc.DAO
         {
             using (StationeryModel context = new StationeryModel())
             {
-                return (from s in context.Stationery
+                return (from s in context.Stationeries
                         select s.unitOfMeasure).Distinct().ToList();
             }
         }

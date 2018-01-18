@@ -180,6 +180,7 @@
     <Compile Include="Controllers\PurchaseController.cs" />
     <Compile Include="Controllers\RaiseRequisitionController.cs" />
     <Compile Include="Controllers\ManageRequisitionsController.cs" />
+    <Compile Include="Controllers\ReceiveStockController.cs" />
     <Compile Include="Controllers\ReportController.cs" />
     <Compile Include="Controllers\StationeryController.cs" />
     <Compile Include="Controllers\SupplierController.cs" />
@@ -205,7 +206,19 @@
     <Compile Include="DAO\SupplierDAO.cs" />
     <Compile Include="DAO\TransactionRecordDAO.cs" />
     <Compile Include="DAO\UserDAO.cs" />
+    <Compile Include="Models\Adjustment_Voucher_Record.cs" />
     <Compile Include="Models\BigModelView.cs" />
+    <Compile Include="Models\Category.cs" />
+    <Compile Include="Models\Collection_Point.cs" />
+    <Compile Include="Models\Department.cs" />
+    <Compile Include="Models\Inventory_Status_Record.cs" />
+    <Compile Include="Models\StationeryModel.cs" />
+    <Compile Include="Models\permissionInfo.cs" />
+    <Compile Include="Models\Purchase_Detail.cs" />
+    <Compile Include="Models\Purchase_Order_Record.cs" />
+    <Compile Include="Models\Requisition_Detail.cs" />
+    <Compile Include="Models\Requisition_Record.cs" />
+    <Compile Include="Models\roleInfo.cs" />
     <Compile Include="Models\RoleInfos.cs" />
     <Compile Include="Function\RoleAuthorizeAttribute.cs" />
     <Compile Include="Function\AuthorizationManager.cs" />
@@ -215,25 +228,13 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountLoginModels.cs" />
-    <Compile Include="Models\Adjustment_Voucher_Record.cs" />
-    <Compile Include="Models\Category.cs" />
-    <Compile Include="Models\Collection_Point.cs" />
-    <Compile Include="Models\Department.cs" />
-    <Compile Include="Models\Inventory_Status_Record.cs" />
-    <Compile Include="Models\StationeryModel.cs" />
-    <Compile Include="Models\permissionInfo.cs" />
-    <Compile Include="Models\Purchase_Details.cs" />
-    <Compile Include="Models\Purchase_Order_Record.cs" />
-    <Compile Include="Models\Requisition_Details.cs" />
-    <Compile Include="Models\Requisition_Record.cs" />
-    <Compile Include="Models\roleInfo.cs" />
     <Compile Include="Models\rolePermission.cs" />
     <Compile Include="Models\Stationery.cs" />
     <Compile Include="Models\Supplier.cs" />
-    <Compile Include="Models\Transaction_Details.cs" />
+    <Compile Include="Models\Transaction_Detail.cs" />
     <Compile Include="Models\Transaction_Record.cs" />
     <Compile Include="Models\User.cs" />
-    <Compile Include="Models\Voucher_Details.cs" />
+    <Compile Include="Models\Voucher_Detail.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service\AdjustmentVoucherService.cs" />
     <Compile Include="Service\CollectionPointService.cs" />
@@ -257,6 +258,7 @@
     <Compile Include="Service\UserService.cs" />
     <Compile Include="ViewModel\BrowseStationeryCatalogueViewModel.cs" />
     <Compile Include="ViewModel\CollectionPointViewModel.cs" />
+    <Compile Include="ViewModel\Disbursement.cs" />
     <Compile Include="ViewModel\RaiseRequisitionViewModel.cs" />
     <Compile Include="ViewModel\StationeryViewModel.cs" />
     <Compile Include="ViewModel\SupplierViewModel.cs" />
@@ -360,11 +362,11 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Home\Email.cshtml" />
-    <Content Include="Views\Home\Login.cshtml" />
+    <Content Include="Views\Department\Home\About.cshtml" />
+    <Content Include="Views\Department\Home\Contact.cshtml" />
+    <Content Include="Views\Department\Home\Index.cshtml" />
+    <Content Include="Views\Department\Home\Email.cshtml" />
+    <Content Include="Views\Department\Home\Login.cshtml" />
     <Content Include="Views\Installer\Success.cshtml" />
     <Content Include="Views\Supplier\Index.cshtml" />
     <Content Include="Views\Supplier\Create.cshtml" />
@@ -380,9 +382,12 @@
     <Content Include="Views\CollectionPoint\Create.cshtml" />
     <Content Include="Views\CollectionPoint\Edit.cshtml" />
     <Content Include="Views\CollectionPoint\Index.cshtml" />
+    <Content Include="Views\RaiseRequisition\RequestPartial.cshtml" />
     <Content Include="Views\Stationery\Delete.cshtml" />
     <Content Include="Views\Stationery\Edit.cshtml" />
     <Content Include="Views\Stationery\ViewStockCard.cshtml" />
+    <Content Include="Views\ManageRequisitions\DisbursementList.cshtml" />
+    <Content Include="Views\Department\Home\Contact.cshtml" />
     <Content Include="Views\RaiseRequisition\BrowseCatalogue.cshtml" />
     <Content Include="Views\CollectionPoint\Delete.cshtml" />
     <Content Include="Views\ManageRequisitions\ClerkRequisition.cshtml" />
@@ -397,6 +402,7 @@
     <Content Include="Views\RaiseRequisition\_CreateEditPartial.cshtml" />
     <Content Include="Views\RaiseRequisition\NewRequisition.cshtml" />
     <Content Include="Views\ListRequisitions\Index.cshtml" />
+    <Content Include="Views\ReceiveStock\StockReceive.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
