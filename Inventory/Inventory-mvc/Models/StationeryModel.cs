@@ -175,5 +175,9 @@ namespace Inventory_mvc.Models
         public System.Data.Entity.DbSet<Inventory_mvc.ViewModel.StationeryViewModel> StationeryViewModels { get; set; }
 
         public System.Data.Entity.DbSet<Inventory_mvc.ViewModel.CollectionPointViewModel> CollectionPointViewModels { get; set; }
+
+        public System.Data.Entity.DbSet<Inventory_mvc.ViewModel.UserViewModel> UserViewModels { get; set; }
+
+        public System.Data.Entity.DbSet<Inventory_mvc.ViewModel.RaiseRequisitionViewModel> RaiseRequisitionViewModels { get; set; }
     }
 }

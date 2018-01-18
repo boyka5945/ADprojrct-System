@@ -367,6 +367,8 @@
     <Content Include="Views\Installer\Success.cshtml" />
     <Content Include="Views\Supplier\Index.cshtml" />
     <Content Include="Views\Supplier\Create.cshtml" />
+    <Content Include="Views\ManageRequisitions\EditRequisition.cshtml" />
+    <Content Include="Views\ManageRequisitions\ListRequisition.cshtml" />
     <Content Include="Views\Purchase\ListPurchaseOrders.cshtml" />
     <Content Include="Views\Department\ListDepartment.cshtml" />
     <Content Include="Views\Supplier\Delete.cshtml" />
@@ -381,14 +383,18 @@
     <Content Include="Views\Stationery\Edit.cshtml" />
     <Content Include="Views\Stationery\ViewStockCard.cshtml" />
     <Content Include="Views\RaiseRequisition\BrowseCatalogue.cshtml" />
-    <Content Include="Views\RaiseRequisition\RequestPartial.cshtml" />
     <Content Include="Views\CollectionPoint\Delete.cshtml" />
     <Content Include="Views\ManageRequisitions\ClerkRequisition.cshtml" />
     <Content Include="Views\ManageRequisitions\ManagerRequisition.cshtml" />
     <Content Include="Views\ManageRequisitions\RequisitionDetails.cshtml" />
+    <Content Include="Views\Department\EditDepartment.cshtml" />
+    <Content Include="Views\Department\CreateDepartment.cshtml" />
     <Content Include="Views\User\Create.cshtml" />
     <Content Include="Views\User\Delegate.cshtml" />
     <Content Include="Views\User\Edit.cshtml" />
+    <Content Include="Views\CollectionPoint\UpdateCollectionPoint.cshtml" />
+    <Content Include="Views\RaiseRequisition\_CreateEditPartial.cshtml" />
+    <Content Include="Views\RaiseRequisition\NewRequisition.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

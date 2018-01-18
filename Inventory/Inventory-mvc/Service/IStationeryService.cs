@@ -38,5 +38,8 @@ namespace Inventory_mvc.Service
 
         StationeryViewModel FindStationeryViewModelByItemCode(string itemCode);
 
+
+        List<string> GetAllUOMList();
+
     }
 }
