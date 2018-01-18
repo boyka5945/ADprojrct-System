@@ -30,7 +30,7 @@
         @if (action == "AddNewRequestItem")
         {
             <div class="form-group">
-                @Html.Label("Select a stationery")
+                @Html.Label("Stationery")
                 @Html.DropDownListFor(model => model.ItemCode, ViewBag.SelectList as List<SelectListItem>, htmlAttributes: new { @class = "form-control", id = "ddl" })
                 @Html.ValidationMessageFor(model => model.ItemCode, "", new { @class = "text-danger" })
             </div>

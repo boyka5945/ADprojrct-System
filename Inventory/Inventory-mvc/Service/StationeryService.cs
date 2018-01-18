@@ -93,6 +93,7 @@ namespace Inventory_mvc.Service
             stationeryVM.SecondSupplierCode = s.secondSupplierCode;
             stationeryVM.ThirdSupplierCode = s.thirdSupplierCode;
             stationeryVM.Price = s.price;
+            stationeryVM.Category = s.Category;
             return stationeryVM;
         }    
 
@@ -177,5 +178,36 @@ namespace Inventory_mvc.Service
         {
             return stationeryDAO.GetAllUOMList();
         }
+
+        List<string> IStationeryService.GetAllFirstSupplierList()
+        {
+            return stationeryDAO.GetAllFirstSupplierList();
+        }
+
+        List<string> IStationeryService.GetAllSecondSupplierList()
+        {
+            return stationeryDAO.GetAllSecondSupplierList();
+        }
+
+        List<string> IStationeryService.GetAllThirdSupplierList()
+        {
+            return stationeryDAO.GetAllThirdSupplierList();
+        }
+
+        List<int> IStationeryService.GetAllCategoryIDList()
+        {
+            return stationeryDAO.GetAllCategoryIDList();
+        }
+
+        bool IStationeryService.isExistingSupplierCode(string supplier1, string supplier2)
+        {
+            string code1 = supplier1.ToUpper().Trim();
+            string code2 = supplier2.ToUpper().Trim();
+           // string code3 = supplier3.ToUpper().Trim();
+            if (code1 == code2 )
+            { return true; }
+            else { return false; }
+        }
+
     }
 }

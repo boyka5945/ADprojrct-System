@@ -8,6 +8,8 @@
     ViewBag.Title = "Index";
 
     var submitMessage = TempData["SubmitMessage"];
+    var removeMessage = TempData["RemoveMessage"];
+    var errorMessage = TempData["ErrorMessage"];
 }
 
 <h2>Requisition List</h2>
@@ -22,6 +24,21 @@
 {
     <div class="alert alert-success">
         @submitMessage.ToString()
+    </div>
+}
+
+@if (removeMessage != null)
+{
+    <div class="alert alert-danger">
+        @removeMessage.ToString()
+    </div>
+}
+
+
+@if (errorMessage != null)
+{
+    <div class="alert alert-danger">
+        @errorMessage.ToString()
     </div>
 }
 
@@ -40,11 +57,11 @@
                 <td>@Html.DisplayFor(modelItem => item.requisitionNo)</td>
                 <td>@Html.DisplayFor(modelItem => item.status)</td>
                 <td>
-                    @Html.ActionLink("Details", "ShowDetail", "ListRequisitions", new { requisitionNo = item.requisitionNo }, new { }) 
+                    @Html.ActionLink("Details", "ShowDetail", "ListRequisitions", new { id = item.requisitionNo }, new { }) 
                     @if (item.status == "Pending Approval")
                     {
-                        @:| @Html.ActionLink("Edit", "EditRecord", "ListRequisitions", new { requisitionNo = item.requisitionNo }, new { })
-                        @:| @Html.ActionLink("Remove", "RemoveRecord", "ListRequisitions", new { requisitionNo = item.requisitionNo }, new { })
+                        @:| @Html.ActionLink("Edit", "EditRecord", "ListRequisitions", new { id = item.requisitionNo }, new { })
+                        @:| @Html.ActionLink("Remove", "RemoveRecord", "ListRequisitions", new { id = item.requisitionNo }, new { })
                     }
                 </td>
             </tr>

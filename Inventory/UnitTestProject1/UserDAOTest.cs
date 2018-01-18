@@ -9,7 +9,7 @@ using Inventory_mvc.DAO;
 namespace UnitTestProject1
 {
     [TestClass]
-    class UserDAOTest
+    public class UserDAOTest
     {
         [TestMethod]
         public void TestMethod1()

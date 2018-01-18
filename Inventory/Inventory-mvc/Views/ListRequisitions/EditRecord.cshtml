@@ -1,0 +1,74 @@
+﻿@model IEnumerable<Inventory_mvc.ViewModel.RequisitionDetailViewModel>
+
+@{
+    ViewBag.Title = "EditRecord";
+}
+
+<h2>Requisition Details</h2>
+<br />
+
+
+<div class="form-group row">
+    <label class="col-sm-2 col-form-label font-weight-bold">Requisition Form No.</label>
+    <div class="col-sm-10">
+        <input type="text" id="formNo" readonly class="form-control-plaintext" value="@ViewBag.RequisitionFormNo">
+    </div>
+</div>
+<div class="form-group row">
+    <label class="col-sm-2 col-form-label font-weight-bold">Approval Status</label>
+    <div class="col-sm-10">
+        <input type="text" readonly class="form-control-plaintext" value="@ViewBag.ApprovalStatus">
+    </div>
+</div>
+
+
+<br />
+<table class="table">
+    <thead>
+        <tr>
+            <th>@Html.Label("Description")</th>
+            <th>@Html.Label("Request Quantity")</th>
+            <th>@Html.Label("UOM")</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.Item.description)</td>
+                <td>@Html.DisplayFor(modelItem => item.RequestQty)</td>
+                <td>@Html.DisplayFor(modelItem => item.Item.unitOfMeasure)</td>
+                <td><a href="#" onclick="EditRequestItem('@item.Item.itemCode')">Edit</a> </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<br />
+@Html.ActionLink("Back to List", "Index")
+
+<!-- The below code is for the modal dialog -->
+<div class="modal fade" id="editItemModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content" id="editItemModalBodyDiv">
+        </div>
+    </div>
+</div>
+
+
+<script>
+    function EditRequestItem(code) {
+
+        var formNo = $('#formNo').val();
+
+        var url = '/ListRequisitionsController/EditDetail/' + formNo + '/' + code;
+
+        $('#editItemModalBodyDiv').load(url, function () {
+            $('#editItemModal').modal('show');
+        })
+    }
+
+</script>
+

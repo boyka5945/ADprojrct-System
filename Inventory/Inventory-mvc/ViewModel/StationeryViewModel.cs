@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Inventory_mvc.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -63,5 +64,8 @@ namespace Inventory_mvc.ViewModel
         [Required]
         [Display(Name = "Price")]
         public decimal Price { get; set; }
+
+
+        public virtual Category Category { get; set; }
     }
 }
