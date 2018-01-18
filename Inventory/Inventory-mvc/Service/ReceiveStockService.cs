@@ -9,10 +9,6 @@ namespace Inventory_mvc.Service
 {
     public class ReceiveStockService : IReceiveStockService
     {
-
-        List<Purchase_Detail> IReceiveStockService.GetAllPurchaseDetail()
-        {
-            throw new NotImplementedException();
-        }
+       
     }
 }

@@ -2,6 +2,9 @@
 
 @{
     ViewBag.Title = "EditRecord";
+
+    var editMessage = TempData["EditMessage"];
+    var errorMessage = TempData["ErrorMessage"];
 }
 
 <h2>Requisition Details</h2>
@@ -21,6 +24,20 @@
     </div>
 </div>
 
+<br />
+@if (editMessage != null)
+{
+    <div class="alert alert-success">
+        @editMessage.ToString()
+    </div>
+}
+
+@if (errorMessage != null)
+{
+    <div class="alert alert-danger">
+        @errorMessage.ToString()
+    </div>
+}
 
 <br />
 <table class="table">
@@ -36,12 +53,44 @@
 
         @foreach (var item in Model)
         {
-            <tr>
-                <td>@Html.DisplayFor(modelItem => item.Item.description)</td>
-                <td>@Html.DisplayFor(modelItem => item.RequestQty)</td>
-                <td>@Html.DisplayFor(modelItem => item.Item.unitOfMeasure)</td>
-                <td><a href="#" onclick="EditRequestItem('@item.Item.itemCode')">Edit</a> </td>
-            </tr>
+            var formID = "form-" + item.ItemCode;
+
+            using (Html.BeginForm("EditRecord", "ListRequisitions", null, FormMethod.Post, new { @class = "form", id = formID }))
+            {
+
+                @Html.HiddenFor(modelItem => item.ItemCode, new { htmlAttributes = new { name = "itemCode" } })
+                @Html.HiddenFor(modelItem => item.RequisitionNo, new { htmlAttributes = new { name = "id" } })
+
+                <tr>
+
+                    <td>
+                        <input type="hidden" name="id" value="@item.RequisitionNo" />
+                        <input type="hidden" name="itemCode" value="@item.ItemCode" />
+                        <input type="hidden" name="description" value="@item.Description" />
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </td>
+                    <td>
+                        <span class="" id="displayQty-@item.ItemCode">
+                            @Html.DisplayFor(modelItem => item.RequestQty, new { htmlAttributes = new { @class = "" } })
+                        </span>
+                        <span class="d-none" id="editQty-@item.ItemCode">
+                            <input type="number" name="quantity" value="@item.RequestQty" min="1" class="form-control" placeholder="Quantity" />
+                        </span>
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UOM)
+                    </td>
+                    <td>
+                        <span class="" id="editBtn-@item.ItemCode">
+                            <a href="#" onclick="editBtnClick('@item.ItemCode')">Edit</a>
+                        </span>
+                        <span class="d-none" id="showBtnIfEdit-@item.ItemCode">
+                            <a href="#" onclick="submitBtnClick('@item.ItemCode')">Save Change</a> |
+                            <a href="#" onclick="cancelBtnClick('@item.ItemCode')">Cancel</a>
+                        </span>
+                    </td>
+                </tr>
+            }
         }
     </tbody>
 </table>
@@ -57,18 +106,43 @@
     </div>
 </div>
 
-
 <script>
-    function EditRequestItem(code) {
 
-        var formNo = $('#formNo').val();
+    function editBtnClick(itemCode) {
 
-        var url = '/ListRequisitionsController/EditDetail/' + formNo + '/' + code;
+        var d1 = document.getElementById("editBtn-" + itemCode);
+        d1.className += " d-none";
 
-        $('#editItemModalBodyDiv').load(url, function () {
-            $('#editItemModal').modal('show');
-        })
-    }
+        var d2 = document.getElementById("showBtnIfEdit-" + itemCode);
+        d2.className -= " d-none";
+
+        var d3 = document.getElementById("displayQty-" + itemCode);
+        d3.className += " d-none";
+
+        var d4 = document.getElementById("editQty-" + itemCode);
+        d4.className -= " d-none";
+    };
+
+
+    function cancelBtnClick(itemCode) {
+
+        var d1 = document.getElementById("editBtn-" + itemCode);
+        d1.className -= " d-none";
+
+        var d2 = document.getElementById("showBtnIfEdit-" + itemCode);
+        d2.className += " d-none";
+
+        var d3 = document.getElementById("displayQty-" + itemCode);
+        d3.className -= " d-none";
+
+        var d4 = document.getElementById("editQty-" + itemCode);
+        d4.className += " d-none";
+    };
+
+    function submitBtnClick(itemCode) {
+        var form = document.getElementById("form-" + itemCode);
+        form.submit();
+    };
+
 
 </script>
-

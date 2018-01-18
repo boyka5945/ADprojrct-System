@@ -10,15 +10,22 @@ namespace Inventory_mvc.Controllers
 {
     public class ReceiveStockController : Controller
     {
+        IReceiveStockService receiveStockService = new ReceiveStockService();
         // GET: ReceiveStock
         public ActionResult Index()
         {
             return View();
         }
 
-        //public ActionResult StockReceive(string searchString, int? page)
-        //{
+        public ActionResult StockReceive(string searchString, int? page)
+        {
             
-        //}
+
+
+            return View();
+            
+            
+           
+        }
     }
 }

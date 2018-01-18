@@ -42,36 +42,19 @@ namespace Inventory_mvc.Controllers
                 return RedirectToAction("Index");
             }
 
-
-            Requisition_Record record = null;
-
-            try
-            {
-                record = requisitionService.GetRequisitionByID(recordNo);
-            }
-            catch (Exception e)
-            {
-                TempData["ErrorMessage"] = String.Format("Opps. Some error has happened.");
-                return RedirectToAction("Index");
-            }
-
-            if (record == null)
-            {
-                TempData["ErrorMessage"] = String.Format("Non-existing requisition.");
-                return RedirectToAction("Index");
-            }
-
             // TODO: REMOVE HARD CODED REQUESTER ID
             //string requesterID = HttpContext.User.Identity.Name;
 
             string requesterID = "S1013";
+            string errorMessage;
+            Requisition_Record record = requisitionService.IsUserAuthorizedForRequisition(recordNo, requesterID, out errorMessage);
 
-            // validate if current user is requester
-            if (!requisitionService.ValidateUser(recordNo, requesterID))
+            if (!String.IsNullOrEmpty(errorMessage))
             {
-                TempData["ErrorMessage"] = String.Format("You have not right to access.");
+                TempData["ErrorMessage"] = errorMessage;
                 return RedirectToAction("Index");
             }
+
 
             if (record.status != "Pending Approval")
             {
@@ -95,8 +78,6 @@ namespace Inventory_mvc.Controllers
         [HttpGet]
         public ActionResult EditRecord(int? id)
         {
-            // TODO: Get request_detail list of particular requisitionNo, Server side validation for status
-
             int recordNo = (id == null) ? -1 : (int)id;
 
             if (recordNo == -1)
@@ -104,36 +85,18 @@ namespace Inventory_mvc.Controllers
                 return RedirectToAction("Index");
             }
 
-            Requisition_Record record = null;
-
-            try
-            {
-                record = requisitionService.GetRequisitionByID(recordNo);
-            }
-            catch (Exception e)
-            {
-                TempData["ErrorMessage"] = String.Format("Opps. Some error has happened.");
-                return RedirectToAction("Index");
-            }
-
-            if (record == null)
-            {
-                TempData["ErrorMessage"] = String.Format("Non-existing requisition.");
-                return RedirectToAction("Index");
-            }
-
             // TODO: REMOVE HARD CODED REQUESTER ID
             //string requesterID = HttpContext.User.Identity.Name;
 
             string requesterID = "S1013";
+            string errorMessage;
+            Requisition_Record record = requisitionService.IsUserAuthorizedForRequisition(recordNo, requesterID, out errorMessage);
 
-            // validate if current user is requester
-            if (!requisitionService.ValidateUser(recordNo, requesterID))
+            if (!String.IsNullOrEmpty(errorMessage))
             {
-                TempData["ErrorMessage"] = String.Format("You have not right to access.");
+                TempData["ErrorMessage"] = errorMessage;
                 return RedirectToAction("Index");
             }
-
 
             if (record.status != "Pending Approval")
             {
@@ -147,10 +110,12 @@ namespace Inventory_mvc.Controllers
             {
                 RequisitionDetailViewModel vm = new RequisitionDetailViewModel();
 
-                vm.Item = item.Stationery;
+                vm.ItemCode = item.itemCode;
                 vm.RequestQty = (item.qty == null) ? 0 : (int)item.qty;
-                vm.Record = record;
-                vm.ReceivedQty = (item.fulfilledQty == null) ? 0 : (int)item.fulfilledQty;
+                vm.RequisitionNo = record.requisitionNo;
+                vm.ReceivedQty = (item.fulfilledQty == null) ? 0 : (int) item.fulfilledQty;
+                vm.UOM = item.Stationery.unitOfMeasure;
+                vm.Description = item.Stationery.description;
 
                 vmList.Add(vm);
             }
@@ -165,19 +130,21 @@ namespace Inventory_mvc.Controllers
 
 
         [HttpPost]
-        public ActionResult EditRecord(RequisitionDetailViewModel model)
+        public ActionResult EditRecord(int id, string itemCode, string description, int quantity)
         {
-            Requisition_Detail requisitionDetail = requisitionService.FindDetailsBy2Key(model.Item.itemCode, model.Record.requisitionNo);
+            Requisition_Detail requisitionDetail = requisitionService.FindDetailsBy2Key(itemCode, id);
 
-            if(model.RequestQty < 1)
+            if(quantity < 1)
             {
                 TempData["ErrorMessage"] = String.Format("Quantity must be greater than or equal to 1.");
             }
             else
             {
+                requisitionDetail.qty = quantity;
+
                 if (requisitionService.UpdateDetails(requisitionDetail))
                 {
-                    TempData["EditMessage"] = String.Format("Quantity of {0} was updated.", model.Item.description);
+                    TempData["EditMessage"] = String.Format("Quantity of {0} was updated.", description);
                 }
                 else
                 {
@@ -185,23 +152,7 @@ namespace Inventory_mvc.Controllers
                 }
             }
 
-            return RedirectToAction("EditRecord", new { requisitionNo = model.Record.requisitionNo });
-        }
-
-        public ActionResult EditDetail(int id, string code)
-        {
-            // NEW OR EDIT
-            RequisitionDetailViewModel viewModel = new RequisitionDetailViewModel();
-
-            if (!String.IsNullOrEmpty(code))
-            {
-                Requisition_Detail rd = requisitionService.FindDetailsBy2Key(code, id);
-                viewModel.Item = rd.Stationery;
-                viewModel.RequestQty = (rd.qty == null)? 0 : (int) rd.qty;
-                viewModel.Record = rd.Requisition_Record;
-            }
-
-            return PartialView("_EditPartial", viewModel);
+            return RedirectToAction("EditRecord", new { id = id });
         }
 
         public ActionResult ShowDetail(int? id)
@@ -213,33 +164,16 @@ namespace Inventory_mvc.Controllers
                 return RedirectToAction("Index");
             }
 
-            Requisition_Record record = null;
-
-            try
-            {
-                record = requisitionService.GetRequisitionByID(recordNo);
-            }
-            catch (Exception e)
-            {
-                TempData["ErrorMessage"] = String.Format("Opps. Some error has happened.");
-                return RedirectToAction("Index");
-            }
-
-            if(record == null)
-            {
-                TempData["ErrorMessage"] = String.Format("Non-existing requisition.");
-                return RedirectToAction("Index");
-            }
-
             // TODO: REMOVE HARD CODED REQUESTER ID
             //string requesterID = HttpContext.User.Identity.Name;
 
             string requesterID = "S1013";
+            string errorMessage;
+            Requisition_Record record = requisitionService.IsUserAuthorizedForRequisition(recordNo, requesterID, out errorMessage);
 
-            // validate if current user is requester
-            if (!requisitionService.ValidateUser(recordNo, requesterID))
+            if (!String.IsNullOrEmpty(errorMessage))
             {
-                TempData["ErrorMessage"] = String.Format("You have not right to access.");
+                TempData["ErrorMessage"] = errorMessage;
                 return RedirectToAction("Index");
             }
 
@@ -248,10 +182,12 @@ namespace Inventory_mvc.Controllers
             {
                 RequisitionDetailViewModel vm = new RequisitionDetailViewModel();
 
-                vm.Item = item.Stationery;
+                vm.ItemCode = item.itemCode;
                 vm.RequestQty = (item.qty == null) ? 0 : (int)item.qty;
-                vm.Record = record;
+                vm.RequisitionNo = record.requisitionNo;
                 vm.ReceivedQty = (item.fulfilledQty == null) ? 0 : (int) item.fulfilledQty;
+                vm.UOM = item.Stationery.unitOfMeasure;
+                vm.Description = item.Stationery.description;
 
                 vmList.Add(vm);
             }

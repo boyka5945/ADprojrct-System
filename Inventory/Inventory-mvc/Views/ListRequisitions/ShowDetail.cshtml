@@ -38,10 +38,10 @@
         @foreach (var item in Model)
         {
             <tr>
-                <td>@Html.DisplayFor(modelItem => item.Item.description)</td>
+                <td>@Html.DisplayFor(modelItem => item.Description)</td>
                 <td>@Html.DisplayFor(modelItem => item.RequestQty)</td>
                 <td>@Html.DisplayFor(modelItem => item.ReceivedQty)</td>
-                <td>@Html.DisplayFor(modelItem => item.Item.unitOfMeasure)</td>
+                <td>@Html.DisplayFor(modelItem => item.UOM)</td>
             </tr>
         }
     </tbody>

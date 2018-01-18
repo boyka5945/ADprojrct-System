@@ -8,12 +8,17 @@ namespace Inventory_mvc.ViewModel
 {
     public class RequisitionDetailViewModel
     {
-        public Stationery Item { get; set; }
+        public string ItemCode { get; set; }
 
-        public Requisition_Record Record { get; set; }
+        public string Description { get; set; }
+
+        public string UOM { get; set; }
+
+        public int RequisitionNo { get; set; }
 
         public int RequestQty { get; set; }
 
         public int ReceivedQty { get; set; }
+
     }
 }
