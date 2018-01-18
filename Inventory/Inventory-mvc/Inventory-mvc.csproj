@@ -179,6 +179,7 @@
     <Compile Include="Controllers\PurchaseController.cs" />
     <Compile Include="Controllers\RaiseRequisitionController.cs" />
     <Compile Include="Controllers\ManageRequisitionsController.cs" />
+    <Compile Include="Controllers\ReceiveStockController.cs" />
     <Compile Include="Controllers\ReportController.cs" />
     <Compile Include="Controllers\StationeryController.cs" />
     <Compile Include="Controllers\SupplierController.cs" />
@@ -205,6 +206,7 @@
     <Compile Include="DAO\TransactionRecordDAO.cs" />
     <Compile Include="DAO\UserDAO.cs" />
     <Compile Include="Models\BigModelView.cs" />
+    <Compile Include="Models\Department.cs" />
     <Compile Include="Models\RoleInfos.cs" />
     <Compile Include="Function\RoleAuthorizeAttribute.cs" />
     <Compile Include="Function\AuthorizationManager.cs" />
@@ -217,7 +219,6 @@
     <Compile Include="Models\Adjustment_Voucher_Record.cs" />
     <Compile Include="Models\Category.cs" />
     <Compile Include="Models\Collection_Point.cs" />
-    <Compile Include="Models\Department.cs" />
     <Compile Include="Models\Inventory_Status_Record.cs" />
     <Compile Include="Models\StationeryModel.cs" />
     <Compile Include="Models\permissionInfo.cs" />
@@ -395,6 +396,7 @@
     <Content Include="Views\CollectionPoint\UpdateCollectionPoint.cshtml" />
     <Content Include="Views\RaiseRequisition\_CreateEditPartial.cshtml" />
     <Content Include="Views\RaiseRequisition\NewRequisition.cshtml" />
+    <Content Include="Views\ReceiveStock\StockReceive.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
