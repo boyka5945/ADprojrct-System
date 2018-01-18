@@ -91,5 +91,22 @@ namespace Inventory_mvc.Service
             RequisitionRecordDAO rDAO = new RequisitionRecordDAO();
             return rDAO.GetRequisitionByDept(deptCode);
         }
+
+        public bool DeleteRequisition(int recordNo)
+        {
+            return rDAO.DeleteRequisition(recordNo);
+        }
+
+        public bool UpdateDetails(Requisition_Detail requisitionDetail)
+        {
+            return rDAO.UpdateRequisitionDetails(requisitionDetail);
+        }
+
+        public bool ValidateUser(int requisitionNo, string requesterID)
+        {
+            Requisition_Record record = rDAO.FindByRequisitionNo(requisitionNo);
+
+            return (record.requesterID == requesterID);
+        }
     }
 }
