@@ -41,5 +41,15 @@ namespace Inventory_mvc.Service
 
         List<string> GetAllUOMList();
 
+        List<string> GetAllFirstSupplierList();
+
+        List<string> GetAllSecondSupplierList();
+
+        List<string> GetAllThirdSupplierList();
+
+        List<int> GetAllCategoryIDList();
+
+        bool isExistingSupplierCode(string supplier1, string supplier2);
+
     }
 }
