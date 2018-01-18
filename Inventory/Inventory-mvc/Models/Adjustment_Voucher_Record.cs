@@ -12,11 +12,10 @@ namespace Inventory_mvc.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Adjustment_Voucher_Record()
         {
-            Voucher_Details = new HashSet<Voucher_Details>();
+            Voucher_Details = new HashSet<Voucher_Detail>();
         }
 
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int voucherID { get; set; }
 
         [Column(TypeName = "date")]
@@ -44,6 +43,6 @@ namespace Inventory_mvc.Models
         public virtual User User1 { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Voucher_Details> Voucher_Details { get; set; }
+        public virtual ICollection<Voucher_Detail> Voucher_Details { get; set; }
     }
 }

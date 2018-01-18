@@ -6,13 +6,13 @@ namespace Inventory_mvc.Models
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    [Table("Transaction Details")]
-    public partial class Transaction_Details
+    [Table("Voucher Details")]
+    public partial class Voucher_Detail
     {
         [Key]
         [Column(Order = 0)]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public int transactionNo { get; set; }
+        public int voucherID { get; set; }
 
         [Key]
         [Column(Order = 1)]
@@ -21,13 +21,11 @@ namespace Inventory_mvc.Models
 
         public int adjustedQty { get; set; }
 
-        public int balanceQty { get; set; }
-
         [StringLength(200)]
         public string remarks { get; set; }
 
-        public virtual Stationery Stationery { get; set; }
+        public virtual Adjustment_Voucher_Record Adjustment_Voucher_Record { get; set; }
 
-        public virtual Transaction_Record Transaction_Record { get; set; }
+        public virtual Stationery Stationery { get; set; }
     }
 }

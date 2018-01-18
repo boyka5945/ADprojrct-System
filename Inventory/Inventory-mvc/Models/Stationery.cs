@@ -13,10 +13,10 @@ namespace Inventory_mvc.Models
         public Stationery()
         {
             Inventory_Status_Record = new HashSet<Inventory_Status_Record>();
-            Purchase_Details = new HashSet<Purchase_Details>();
-            Requisition_Details = new HashSet<Requisition_Details>();
-            Transaction_Details = new HashSet<Transaction_Details>();
-            Voucher_Details = new HashSet<Voucher_Details>();
+            Purchase_Details = new HashSet<Purchase_Detail>();
+            Requisition_Details = new HashSet<Requisition_Detail>();
+            Transaction_Details = new HashSet<Transaction_Detail>();
+            Voucher_Details = new HashSet<Voucher_Detail>();
         }
 
         [Key]
@@ -61,10 +61,10 @@ namespace Inventory_mvc.Models
         public virtual ICollection<Inventory_Status_Record> Inventory_Status_Record { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Purchase_Details> Purchase_Details { get; set; }
+        public virtual ICollection<Purchase_Detail> Purchase_Details { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Requisition_Details> Requisition_Details { get; set; }
+        public virtual ICollection<Requisition_Detail> Requisition_Details { get; set; }
 
         public virtual Supplier Supplier { get; set; }
 
@@ -73,9 +73,9 @@ namespace Inventory_mvc.Models
         public virtual Supplier Supplier2 { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Transaction_Details> Transaction_Details { get; set; }
+        public virtual ICollection<Transaction_Detail> Transaction_Details { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Voucher_Details> Voucher_Details { get; set; }
+        public virtual ICollection<Voucher_Detail> Voucher_Details { get; set; }
     }
 }

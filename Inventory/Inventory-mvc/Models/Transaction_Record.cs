@@ -12,11 +12,10 @@ namespace Inventory_mvc.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Transaction_Record()
         {
-            Transaction_Details = new HashSet<Transaction_Details>();
+            Transaction_Details = new HashSet<Transaction_Detail>();
         }
 
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int transactionNo { get; set; }
 
         [StringLength(50)]
@@ -29,7 +28,7 @@ namespace Inventory_mvc.Models
         public string type { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Transaction_Details> Transaction_Details { get; set; }
+        public virtual ICollection<Transaction_Detail> Transaction_Details { get; set; }
 
         public virtual User User { get; set; }
     }

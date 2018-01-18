@@ -12,9 +12,9 @@ namespace Inventory_mvc.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Supplier()
         {
-            Stationery = new HashSet<Stationery>();
-            Stationery1 = new HashSet<Stationery>();
-            Stationery2 = new HashSet<Stationery>();
+            Stationeries = new HashSet<Stationery>();
+            Stationeries1 = new HashSet<Stationery>();
+            Stationeries2 = new HashSet<Stationery>();
         }
 
         [Key]
@@ -42,12 +42,12 @@ namespace Inventory_mvc.Models
         public string address { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Stationery> Stationery { get; set; }
+        public virtual ICollection<Stationery> Stationeries { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Stationery> Stationery1 { get; set; }
+        public virtual ICollection<Stationery> Stationeries1 { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Stationery> Stationery2 { get; set; }
+        public virtual ICollection<Stationery> Stationeries2 { get; set; }
     }
 }
