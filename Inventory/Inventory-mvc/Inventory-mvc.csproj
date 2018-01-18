@@ -268,6 +268,7 @@
     <Compile Include="ViewModel\StationeryViewModel.cs" />
     <Compile Include="ViewModel\SupplierViewModel.cs" />
     <Compile Include="ViewModel\UserViewModel.cs" />
+  <Compile Include="ViewModel\RetrieveForm.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Images\pinyin.txt" />
