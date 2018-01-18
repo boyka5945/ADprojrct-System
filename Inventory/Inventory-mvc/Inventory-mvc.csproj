@@ -256,6 +256,7 @@
     <Compile Include="Service\UserService.cs" />
     <Compile Include="ViewModel\BrowseStationeryCatalogueViewModel.cs" />
     <Compile Include="ViewModel\CollectionPointViewModel.cs" />
+    <Compile Include="ViewModel\Disbursement.cs" />
     <Compile Include="ViewModel\RaiseRequisitionViewModel.cs" />
     <Compile Include="ViewModel\StationeryViewModel.cs" />
     <Compile Include="ViewModel\SupplierViewModel.cs" />
@@ -359,10 +360,7 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Home\Email.cshtml" />
     <Content Include="Views\Home\Login.cshtml" />
     <Content Include="Views\Installer\Success.cshtml" />
     <Content Include="Views\Supplier\Index.cshtml" />
@@ -386,6 +384,8 @@
     <Content Include="Views\ManageRequisitions\ClerkRequisition.cshtml" />
     <Content Include="Views\ManageRequisitions\ManagerRequisition.cshtml" />
     <Content Include="Views\ManageRequisitions\RequisitionDetails.cshtml" />
+    <Content Include="Views\ManageRequisitions\DisbursementList.cshtml" />
+    <Content Include="Views\Home\Contact.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

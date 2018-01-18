@@ -36,7 +36,10 @@
                 <a class="nav-link" href="#">Link</a>
             </li>
             <li class="nav-item navbar-dark">
-                <a class="nav-link" href="#">Link</a>
+                @Html.ActionLink("Contact", "Contact", "Home")<br/>
+            </li>
+            <li>
+                @Html.ActionLink("logout","Logout","Home")
             </li>
         </ul>
     </nav>
