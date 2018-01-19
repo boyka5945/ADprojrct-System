@@ -270,14 +270,13 @@
     <Compile Include="ViewModel\SupplierViewModel.cs" />
     <Compile Include="ViewModel\UserViewModel.cs" />
     <Compile Include="ViewModel\Purchase_Order_RecordViewModel.cs" />
-  <Compile Include="ViewModel\RetrieveForm.cs" />
+    <Compile Include="ViewModel\RetrieveForm.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Images\pinyin.txt" />
     <Content Include="Images\test1.jpg" />
     <Content Include="Images\test2.jpg" />
     <Content Include="Images\test3.jpg" />
-
     <Content Include="Content\combobox.css" />
     <Content Include="Content\OrderCSS\style.css" />
     <Content Include="Content\bootstrap-theme.css" />
@@ -420,6 +419,7 @@
     <Content Include="Views\ReceiveStock\StockReceive.cshtml" />
     <Content Include="Views\ListRequisitions\ShowDetail.cshtml" />
     <Content Include="Views\ListRequisitions\EditRecord.cshtml" />
+    <Content Include="Views\ManageRequisitions\GenerateRetrieveForm.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
