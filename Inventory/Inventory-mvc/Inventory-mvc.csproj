@@ -268,7 +268,7 @@
     <Compile Include="ViewModel\StationeryViewModel.cs" />
     <Compile Include="ViewModel\SupplierViewModel.cs" />
     <Compile Include="ViewModel\UserViewModel.cs" />
-  <Compile Include="ViewModel\RetrieveForm.cs" />
+    <Compile Include="ViewModel\RetrieveForm.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Images\pinyin.txt" />
@@ -412,6 +412,8 @@
     <Content Include="Views\ReceiveStock\StockReceive.cshtml" />
     <Content Include="Views\ListRequisitions\ShowDetail.cshtml" />
     <Content Include="Views\ListRequisitions\EditRecord.cshtml" />
+    <Content Include="Views\ManageRequisitions\GenerateRetrieveForm.cshtml" />
+    <Content Include="Views\Purchase\RaisePurchaseOrder.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
