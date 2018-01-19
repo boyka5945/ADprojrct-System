@@ -212,11 +212,27 @@ namespace Inventory_mvc.DAO
                                    where u.userID == requesterID
                                    select u.departmentCode).First();
 
-                // DeptHead = 2, ActingDeptHead = 8
+                int requesterRole = (from u in context.Users
+                                        where u.userID == requesterID
+                                        select u.role).First();
+
+                int[] approvingRoleID = { -1, -1 };
+
+                // Employee = 3 ==> DeptHead = 2, ActingDeptHead = 8
+                // StoreClerk = 7 ==> Manager = 5, Supervisor = 6
+
+                if (requesterRole == 3)
+                {
+                    approvingRoleID = new int[] { 2, 8 };
+                }
+                else if(requesterRole == 7)
+                {
+                    approvingRoleID = new int[] { 5, 6 };
+                }
 
                 string[] deptHeadEmail = (from u in context.Users
                                           where u.departmentCode == deptCode &
-                                          (u.role == 2 || u.role == 8)
+                                          (approvingRoleID.Contains(u.role))
                                           select u.userEmail).ToArray();
 
                 return deptHeadEmail;

@@ -275,11 +275,11 @@
     <Compile Include="ViewModel\Purchase_Order_RecordViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\bootstrap-combobox.css" />
     <Content Include="Images\pinyin.txt" />
     <Content Include="Images\test1.jpg" />
     <Content Include="Images\test2.jpg" />
     <Content Include="Images\test3.jpg" />
-    <Content Include="Content\combobox.css" />
     <Content Include="Content\OrderCSS\style.css" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
@@ -333,6 +333,7 @@
     <Content Include="Content\Site.css" />
     <Content Include="Images\LogicLogoT3.PNG" />
     <Content Include="Images\TopLogo.jpg" />
+    <Content Include="Scripts\bootstrap-combobox.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="ApplicationInsights.config">
@@ -424,6 +425,7 @@
     <Content Include="Views\ListRequisitions\EditRecord.cshtml" />
     <Content Include="Views\Stationery\_ViewTransaction.cshtml" />
     <Content Include="Views\ManageRequisitions\GenerateRetrieveForm.cshtml" />
+    <Content Include="Views\AdjustmentVoucher\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

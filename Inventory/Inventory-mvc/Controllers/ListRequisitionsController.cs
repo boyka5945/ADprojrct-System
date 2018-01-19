@@ -26,10 +26,15 @@ namespace Inventory_mvc.Controllers
 
             string requesterID = "S1013";
 
+            if(String.IsNullOrEmpty(sortOrder))
+            {
+                ViewBag.DateSortParm = "date_desc";
+            }
+
             ViewBag.CurrentSort = sortOrder;
-            ViewBag.DateSortParm = String.IsNullOrEmpty(sortOrder) ? "" : "Request Date";
-            ViewBag.NumberSortParm = sortOrder == "Requisition Form No." ? "number_desc" : "Requisition Form Number";
-            ViewBag.StatusSortParm = sortOrder == "Status" ? "status_desc" : "Status";
+            ViewBag.DateSortParm = (sortOrder == "Request Date") ? "date_desc" : "Request Date";
+            ViewBag.NumberSortParm = (sortOrder == "Requisition Form Number") ? "number_desc" : "Requisition Form Number";
+            ViewBag.StatusSortParm = (sortOrder == "Status") ? "status_desc" : "Status";
 
             List<Requisition_Record> records = requisitionService.GetSortedRecordsByRequesterID(requesterID, sortOrder);
 
