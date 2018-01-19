@@ -14,47 +14,46 @@
     <title>ListPurchaseOrders</title>
 </head>
 <body>
-    <p>
-        @Html.ActionLink("Create New", "RaisePurchaseOrder");
-    </p>
+    <h1 style="">Purchase Order Record</h1>
+    <br />
+
+    <div class=" form-group">
+  
+        @Html.ActionLink("Create New", "RaisePurchaseOrder", "Purchase", new { @class = "btn btn-default col-md-2" })
+ 
+
+
+    <br />
+
 
 
     <div>
         @using (Html.BeginForm("ListPurchaseOrders", "Purchase", FormMethod.Get))
         {
 
-            @Html.Label("Search By")
-            @Html.DropDownList("searchBy", new List<SelectListItem> {
+
+            <div style= "float: left;">
+                @Html.DropDownList("searchBy", new List<SelectListItem> {
             new SelectListItem{Text = "PO Number", Value="orderNo",},
             new SelectListItem{ Text= "Status", Value="status"},
             new SelectListItem{ Text= "Supplier", Value= "supplier"} }, "Select")
 
-            <br />
-     
-            <input type="text" name="search" />
 
 
 
 
-            <br />
+                <input type="text" name="search" />
 
-            @*<br />
-            @Html.Label("Status")
-            @Html.DropDownList("status", new List<SelectListItem> {
-            new SelectListItem{Text = "Incomplete", Value="incomplete",},
-            new SelectListItem{ Text= "Partially Delivered", Value="partially delivered"},
-            new SelectListItem{ Text= "Delivered", Value= "delivered"} }, "Select");
 
-            <br />
-            @Html.Label("Supplier")
-            @Html.DropDownList("supplier", new List<SelectListItem> {
-            new SelectListItem{Text = "ALPHA Office Supplies", Value="ALPA",Selected=true },
-            new SelectListItem{Text = "BANES Shop", Value="BANE"},
-            new SelectListItem{Text = "Cheap Stationer", Value="CHEP" },
-            new SelectListItem{Text="OMEGA Stationery Supplier", Value="OMEG" } }, "Select");
 
-            <br />*@
-            <input type="submit" value="search" />
+
+
+
+
+
+                <input type="submit" value="search" />
+
+            </div>
 
 
         }
@@ -86,36 +85,34 @@
             </th>
             <th></th>
         </tr>
-    
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.orderNo)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.supplierCode)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.date)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.status)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.expectedDeliveryDate)
-            </td>
-            <td>
-                
-                @Html.ActionLink("Details", "gen", "POGenerator", new { id = item.orderNo }, null) |
-                @Html.ActionLink("Delete", "Delete", "Purchase", new { id = item.orderNo }, null)
-            </td>
-        </tr>
-    }
-    
+
+        @foreach (var item in Model)
+            {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.orderNo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.supplierCode)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.date)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.status)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.expectedDeliveryDate)
+                </td>
+                <td>
+
+                    @Html.ActionLink("Details", "gen", "POGenerator", new { id = item.orderNo }, null)
+                    @*@Html.ActionLink("Delete", "Delete", "Purchase", new { id = item.orderNo }, null)*@
+                </td>
+            </tr>
+        }
+
     </table>
 </body>
 </html>
-
-
 
