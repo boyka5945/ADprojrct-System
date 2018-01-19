@@ -33,6 +33,13 @@ namespace Inventory_mvc.DAO
 
         List<Disbursement> GetRequisitionByDept(string deptCode);
 
+        bool SubmitNewRequisition(Requisition_Record requisition);
 
+        List<Requisition_Record> GetRecordsByRequesterID(string requesterID);
+
+        List<RetrieveForm> GetRetrieveFormByDateTime(DateTime? time);
+
+        bool UpdateRequisitionDetails(Requisition_Detail requisitionDetail);
+        List<Requisition_Record> GetSortedRecordsByRequesterID(string requesterID, string sortOrder);
     }
 }

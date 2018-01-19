@@ -1,4 +1,4 @@
-﻿@model Inventory_mvc.Models.Purchase_Detail
+﻿@model IEnumerable<Inventory_mvc.Models.Purchase_Detail>
 
 @{
     ViewBag.Title = "StockReceive";
@@ -6,3 +6,93 @@
 
 <h2>StockReceive</h2>
 
+@using (Html.BeginForm())
+{
+
+    <div class="form-group">
+        @Html.Label("PO Number", new { @class = "control-label col-md-2" })
+        @Html.TextBox("searchPONumber", ViewBag.SearchString as string, new { @class = "control-textbox col-md-2" })
+        <input type="submit" value="Search" class="btn btn-default" />
+    </div>
+
+    <div class="form-group">
+        @Html.Label("Supplier", new { @class = "control-label col-md-2" })
+        @Html.TextBox("showSupplier", ViewBag.SearchString as string, new { @class = "control-textbox col-md-2" })
+        
+    </div>
+
+    <div class="form-group">
+        @Html.Label("DO Number", new { @class = "control-label col-md-2" })
+        @Html.TextBox("searchDONumber", ViewBag.SearchString as string, new { @class = "control-textbox col-md-2" })
+    </div>
+
+    <div class="form-group">
+        @Html.Label("Received Date", new { @class = "control-label col-md-2" })
+        @Html.TextBox("ReceivedDate", ViewBag.SearchString as string, new { @class = "control-textbox col-md-2" })
+    </div>
+
+}
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.Label("Item Code")
+        </th>
+        <th>
+            @Html.Label("Description")
+        </th>
+        <th>
+            @Html.Label("Ordered")
+        </th>
+        <th>
+            @Html.Label("Unreceived")
+        </th>
+        <th>
+            @Html.Label("Received")
+        </th>
+        <th>
+            @Html.Label("UOM")
+        </th>
+        <th>
+            @Html.Label("Remarks")
+        </th>
+    </tr>
+    
+    @*@foreach (var item in Model)
+    {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.itemCode)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Stationery.description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.qty)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.qty)
+                </td>
+                <td>
+                    <div class="form-inline">
+                        <input type="number" name="fulfilledQty" value="0" min="1" class="form-control" placeholder="FulfilledQty" />
+                        <input type="submit" value="Add" class="btn btn-outline-primary" />
+                    </div>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Stationery.unitOfMeasure)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.remarks)
+                </td>
+            </tr>
+        }*@
+
+
+</table>
+<div class="form-group">
+    <div class="col-md-offset-2 col-md-10">
+        <input type="submit" value="Fill in all unreceived quantity" class="btn btn-default" />
+        <input type="submit" value="Submit" class="btn btn-default" />
+    </div>
+</div>

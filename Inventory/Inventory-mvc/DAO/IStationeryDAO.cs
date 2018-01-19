@@ -26,5 +26,13 @@ namespace Inventory_mvc.DAO
 
         List<String> GetAllUOMList();
 
+        List<string> GetAllFirstSupplierList();
+
+        List<string> GetAllSecondSupplierList();
+
+        List<string> GetAllThirdSupplierList();
+
+        List<int> GetAllCategoryIDList();
+        List<Stationery> GetStationeriesBasedOnCriteria(string searchString, string categoryID);
     }
 }

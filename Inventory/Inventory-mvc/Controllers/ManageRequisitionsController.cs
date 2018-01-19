@@ -198,5 +198,19 @@ namespace Inventory_mvc.Controllers
             var list = rs.GetRequisitionByDept(deptCode);
             return View(list);
         }
+        [HttpGet]
+        public ActionResult GenerateRetrieveForm()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult GenerateRetrieveForm(FormCollection form)
+        {
+            DateTime? from = Convert.ToDateTime(form["from"]);
+            RetrieveForm rf = new RetrieveForm();
+            List<RetrieveForm> model = rs.GetRetrieveFormByDateTime(from);
+            return View(model);
+        }
     }
 }

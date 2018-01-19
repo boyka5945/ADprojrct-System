@@ -32,7 +32,7 @@
                 @Html.Label("Category", new { @class = "col-sm-2 col-form-label" })
             </td>
             <td>
-                <select name="categoryID" class="custom-select my-1 mr-sm-2">
+                <select name="categoryID" class="form-control">
                     <option value="All" selected="selected">All</option>
                     @foreach (var category in categoryList)
                     {
@@ -84,7 +84,7 @@
             @Html.Label("UOM")
         </th>
         <th>
-            @Html.Label("Add Request Quantity")
+            @Html.Label("Add Request")
         </th>
     </tr>
 
@@ -106,7 +106,7 @@
                 <td>
                     <div class="form-inline">
                         <input type="number" name="quantity" value="0" min="1" class="form-control" placeholder="Quantity" />
-                        <input type="submit" value="Add" class="btn btn-outline-primary" />
+                        <input type="submit" value="Add" class="btn btn-success" />
                     </div>
                 </td>
             </tr>

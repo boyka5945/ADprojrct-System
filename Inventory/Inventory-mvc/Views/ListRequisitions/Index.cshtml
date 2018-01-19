@@ -1,0 +1,88 @@
+﻿@model PagedList.IPagedList<Inventory_mvc.Models.Requisition_Record>
+
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+
+@{
+    ViewBag.Title = "Index";
+
+    var submitMessage = TempData["SubmitMessage"];
+    var removeMessage = TempData["RemoveMessage"];
+    var errorMessage = TempData["ErrorMessage"];
+}
+
+<h2>Requisition List</h2>
+
+<br />
+@Html.ActionLink("Make New Requisition", "NewRequisition", "RaiseRequisition", null, new { @class = "btn btn-success" })
+<br />
+<br />
+
+
+@if (submitMessage != null)
+{
+    <div class="alert alert-success">
+        @submitMessage.ToString()
+    </div>
+}
+
+@if (removeMessage != null)
+{
+    <div class="alert alert-danger">
+        @removeMessage.ToString()
+    </div>
+}
+
+
+@if (errorMessage != null)
+{
+    <div class="alert alert-danger">
+        @errorMessage.ToString()
+    </div>
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.ActionLink("Requisition Form No.", "Index", new { sortOrder = ViewBag.NumberSortParm })            
+            </th>
+            <th>
+                @Html.ActionLink("Request Date", "Index", new { sortOrder = ViewBag.DateSortParm })
+            </th>
+            <th>
+                @Html.ActionLink("Status", "Index", new { sortOrder = ViewBag.StatusSortParm })   
+            </th>
+            <th>@Html.Label("Action")</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(var item in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.requisitionNo)</td>
+                <td>@Html.DisplayFor(modelItem => item.requestDate)</td>
+                <td>@Html.DisplayFor(modelItem => item.status)</td>
+                <td>
+                    @Html.ActionLink("Details", "ShowDetail", "ListRequisitions", new { id = item.requisitionNo }, new { }) 
+                    @if (item.status == "Pending Approval")
+                    {
+                        @:| @Html.ActionLink("Edit", "EditRecord", "ListRequisitions", new { id = item.requisitionNo }, new { })
+                        @:| @Html.ActionLink("Remove", "RemoveRecord", "ListRequisitions", new { id = item.requisitionNo }, new { })
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+    @Html.PagedListPager(Model, page => Url.Action("Index",
+                new { page, sortOrder = ViewBag.CurrentSort }))
+
+
+
+

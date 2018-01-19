@@ -28,6 +28,13 @@ namespace Inventory_mvc.Service
 
         List<int> FindAllRole(string id);
 
+        
+
+        string[] FindApprovingStaffsEmailByRequesterID(string requesterID);
+
+        string FindDeptCodeByID(string userid);
+
+        string FindNameByID(string userid);
         bool FindRole(int role);
 
         List<int> RoleForEditAndCreate(string userid);

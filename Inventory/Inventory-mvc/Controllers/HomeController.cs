@@ -25,26 +25,30 @@ namespace Inventory_mvc.Controllers
         [AllowAnonymous]
         public ActionResult Login(AccountLoginModels model, string returnUrl)
         {
-            if (!UserService.isExistingID(model.UserName))
+            var check = Request["checkV"].ToString();
+            if (check == "BBB")
             {
-                ViewBag.errorMessage = "UserName or PassWord is not correct.";
-            }
-            else if (ModelState.IsValid)
-            {
-                if (UserService.FindByUserID(model.UserName).password == model.Password)
+                if (!UserService.isExistingID(model.UserName))
                 {
-                    int roleID = 1;
-                    string identity = model.UserName;
-                    AuthorizationManager.SetTicket(Response, model.RememberMe, identity, roleID);
-                }  
-
-                if (!string.IsNullOrEmpty(returnUrl))
-                {
-                    return Redirect(returnUrl);
+                    ViewBag.errorMessage = "UserName or PassWord is not correct.";
                 }
-                else//null
+                else if (ModelState.IsValid)
                 {
-                    return RedirectToAction("Index", "Home");
+                    if (UserService.FindByUserID(model.UserName).Password == model.Password)
+                    {
+                        int roleID = 1;
+                        string identity = model.UserName;
+                        AuthorizationManager.SetTicket(Response, model.RememberMe, identity, roleID);
+                    }
+
+                    if (!string.IsNullOrEmpty(returnUrl))
+                    {
+                        return Redirect(returnUrl);
+                    }
+                    else//null
+                    {
+                        return RedirectToAction("Index", "Home");
+                    }
                 }
             }
             return View(model);

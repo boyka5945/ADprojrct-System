@@ -1,0 +1,123 @@
+﻿@model IEnumerable<Inventory_mvc.Models.Purchase_Detail>
+
+@{
+    ViewBag.Title = "Purchase Order";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!DOCTYPE html>
+
+
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>ListPurchaseOrders</title>
+
+
+    <link rel="stylesheet" type="text/css" href="~/Content/OrderCSS/style.css">
+</head>
+<body>
+    <div id="container">
+
+        
+            <h2 style="text-align: center">Logic University</h2>
+            <h2 style="text-align: center">Stationery Purchase Order</h2>
+            <hr />
+        <div id="form-header">
+            <p>PO Number: @ViewBag.orderNo</p>
+            <p>Supplier: @ViewBag.supplier</p>
+
+            <p>Deliver to: Logic University</p>
+            <p>Attn: @ViewBag.clerkName</p>
+            <p><i>Please supply the following items by: @ViewBag.delivery</i></p>
+
+        </div>
+
+        <table class="table">
+            <tr>
+                @*<th>
+                        @Html.DisplayNameFor(model => model.Purchase_Order_Record.supplierCode)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Stationery.description)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.remarks)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.qty)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.fulfilledQty)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.price)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.deliveryOrderNo)
+                    </th>*@
+
+                <th>@Html.Label("Item Code")</th>
+                <th>@Html.Label("Description")</th>
+                <th>@Html.Label("Quantity")</th>
+                <th>@Html.Label("Unit of Measure")</th>
+                <th>@Html.Label("Price")</th>
+                <th>@Html.Label("Total Amount")</th>
+                <th></th>
+            </tr>
+
+            @*
+
+
+                    item code
+                description
+                    qty
+                    uom
+                    unit price
+                    amount
+
+
+            *@
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.itemCode)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Stationery.description)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.qty)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Stationery.unitOfMeasure)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.price)
+                    </td>
+                    <td>
+                        @{
+                            int totalPrice = (int)item.price * item.qty;
+                        }
+                        @Html.Label(totalPrice.ToString())
+                        @*@Html.DisplayFor(modelItem => item.qty)*@
+                    </td>
+
+                    @*<td>
+                            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                        </td>*@
+                </tr>
+                            }
+
+        </table>
+
+    </div>
+
+    @Html.ActionLink("Back", "ListPurchaseOrders", "Purchase")
+
+</body>
+</html>

@@ -204,6 +204,24 @@ namespace Inventory_mvc.DAO
             }
         }
 
+        string[] IUserDAO.FindApprovingStaffsEmailByRequesterID(string requesterID)
+        {
+            using (StationeryModel context = new StationeryModel())
+            {
+                string deptCode = (from u in context.Users
+                                   where u.userID == requesterID
+                                   select u.departmentCode).First();
+
+                // DeptHead = 2, ActingDeptHead = 8
+
+                string[] deptHeadEmail = (from u in context.Users
+                                          where u.departmentCode == deptCode &
+                                          (u.role == 2 || u.role == 8)                                         
+                                          select u.userEmail).ToArray();
+
+                return deptHeadEmail;
+            }
+        }
 
 
     }
