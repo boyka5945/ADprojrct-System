@@ -37,5 +37,7 @@ namespace Inventory_mvc.DAO
         //  bool DeleteUser(string userID);
 
         string[] FindApprovingStaffsEmailByRequesterID(string requesterID);
+
+        int GetRoleByID(string userID);
     }
 }
