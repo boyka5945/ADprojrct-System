@@ -57,8 +57,8 @@
                         Collection
                     </a>
                     <ul class="dropdown-menu">
-                        <li>@Html.ActionLink("Item to Pick Up", "")</li>
-                        <li>@Html.ActionLink("Pending Item", "")</li>
+                        <li>@Html.ActionLink("Item to Pick Up", "","")</li>
+                        <li>@Html.ActionLink("Pending Item", "","")</li>
                         <li>@Html.ActionLink("Change Collection Point", "UpdateCollectionPoint", "CollectionPoint")</li>
                     </ul>
                 </li>
@@ -111,7 +111,7 @@
                             <a class="test" href="#">Inventory Adjustment Voucher<span class="caret"></span></a>
                             <ul class="dropdown-menu" style="top:20%;left:100%;margin-top:1px">
                                 <li>@Html.ActionLink("Submit Voucher", "", "")</li>
-                                <li>@Html.ActionLink("Approve Voucher", "", "")</li>
+                                <li>@Html.ActionLink("Approve Voucher", "Index", "AdjustmentVoucher")</li>
                             </ul>
                         </li>
                         </ul>
@@ -120,7 +120,7 @@
                 <li class="dropdown">
                     <a class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" href="#">Reports</a>
                     <ul class="dropdown-menu">
-                        <li>@Html.ActionLink("Reorder Report", "ListPurchaseOrders", "Purchase")</li>
+                        <li>@Html.ActionLink("Reorder Report", "", "")</li>
                         <li>@Html.ActionLink("Inventory Status Report", "", "")</li>
                         <li>@Html.ActionLink("Trend Analysis Report", "", "")</li>
                     </ul>
@@ -130,7 +130,7 @@
                     <ul class="dropdown-menu">
                         <li>@Html.ActionLink("View Stock Card", "Index", "Stationery")</li>
                         <li>@Html.ActionLink("View Shortfall List", "List", "CheckShortfall")</li>
-                        <li>@Html.ActionLink("Generate Purchase Order", "GeneratePO", "Purchase")</li>
+                        <li>@Html.ActionLink("Generate Purchase Order", "ListPurchaseOrders", "Purchase")</li>
                         <li>@Html.ActionLink("Receive Stock", "StockReceive", "ReceiveStock")</li>
                     </ul>
                 </li>
