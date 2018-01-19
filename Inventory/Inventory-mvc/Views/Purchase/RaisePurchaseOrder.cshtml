@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Inventory_mvc.Models.Purchase_Details>
+﻿@model IEnumerable<Inventory_mvc.Models.Purchase_Detail>
 
 
 
@@ -201,7 +201,7 @@
                     @{
                         Inventory_mvc.Models.StationeryModel Entity = new Inventory_mvc.Models.StationeryModel();
 
-                        Inventory_mvc.Models.Stationery s = Entity.Stationery.Where(x => x.itemCode == item.itemCode).First();
+                        Inventory_mvc.Models.Stationery s = Entity.Stationeries.Where(x => x.itemCode == item.itemCode).First();
 
                         String description = s.description;
 

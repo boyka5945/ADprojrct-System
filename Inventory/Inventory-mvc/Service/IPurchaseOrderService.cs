@@ -10,7 +10,7 @@ namespace Inventory_mvc.Service
     {
         List<Purchase_Order_Record> GetAllPurchaseOrder();
 
-        List<Purchase_Details> GetPurchaseDetailsByOrderNo(int orderNo);
+        List<Purchase_Detail> GetPurchaseDetailsByOrderNo(int orderNo);
 
         Purchase_Order_Record FindByOrderID(int orderID);
 
@@ -24,7 +24,7 @@ namespace Inventory_mvc.Service
 
         bool AddPurchaseDetail(int deliveryOrderNo, string itemCode, int qty, string remarks, decimal price);
 
-        bool AddPurchaseDetail(Purchase_Details pd);
+        bool AddPurchaseDetail(Purchase_Detail pd);
 
         List<Purchase_Order_Record> FindByStatus(string status);
         List<Purchase_Order_Record> FindBySupplier(string supplier);

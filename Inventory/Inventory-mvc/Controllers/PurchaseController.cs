@@ -17,7 +17,7 @@ namespace Inventory_mvc.Controllers
         IPurchaseOrderService pos = new PurchaseOrderService();
         Purchase_Order_Record por = new Purchase_Order_Record();
         IStationeryService ss = new StationeryService();
-        Dictionary<Purchase_Details, string> details = new Dictionary<Purchase_Details, string>();
+        Dictionary<Purchase_Detail, string> details = new Dictionary<Purchase_Detail, string>();
         StationeryModel ctx = new StationeryModel();
 
         public ActionResult Index()
@@ -72,13 +72,13 @@ namespace Inventory_mvc.Controllers
 
             ViewBag.orderNo = orderNo;
 
-            List<Purchase_Details> model = new List<Purchase_Details>();
+            List<Purchase_Detail> model = new List<Purchase_Detail>();
 
             if (Session["detailsBundle"] != null)
             {
-                //model = (List<Purchase_Details>)Session["purchaseOrder"];
-                details = (Dictionary<Purchase_Details, string>)Session["detailsBundle"];
-                model = details.Keys.ToList<Purchase_Details>();
+                //model = (List<Purchase_Detail>)Session["purchaseOrder"];
+                details = (Dictionary<Purchase_Detail, string>)Session["detailsBundle"];
+                model = details.Keys.ToList<Purchase_Detail>();
 
             }
 
@@ -89,19 +89,19 @@ namespace Inventory_mvc.Controllers
 
 
         [HttpPost]
-        public ActionResult RaisePurchaseOrder([Bind(Include = "orderNo, itemCode, qty, remarks, price")]Purchase_Details pd, string supplierCode)
+        public ActionResult RaisePurchaseOrder([Bind(Include = "orderNo, itemCode, qty, remarks, price")]Purchase_Detail pd, string supplierCode)
         {
 
             int orderNo = findNextOrderNo();
             ViewBag.orderNo = orderNo;
-            List<Purchase_Details> model = new List<Purchase_Details>();
-            Dictionary<Purchase_Details, string> details = new Dictionary<Purchase_Details, string>();
+            List<Purchase_Detail> model = new List<Purchase_Detail>();
+            Dictionary<Purchase_Detail, string> details = new Dictionary<Purchase_Detail, string>();
 
             if (Session["detailsBundle"] != null)
             {
-                //model = (List<Purchase_Details>)Session["purchaseOrder"];
-                details = (Dictionary<Purchase_Details, string>)Session["detailsBundle"];
-                model = details.Keys.ToList<Purchase_Details>();
+                //model = (List<Purchase_Detail>)Session["purchaseOrder"];
+                details = (Dictionary<Purchase_Detail, string>)Session["detailsBundle"];
+                model = details.Keys.ToList<Purchase_Detail>();
 
             }
 
@@ -121,8 +121,8 @@ namespace Inventory_mvc.Controllers
         {
 
             int orderNo = findNextOrderNo();
-            List<Purchase_Details> po = details.Keys.ToList<Purchase_Details>();
-            details = (Dictionary<Purchase_Details, string>)Session["detailsBundle"];
+            List<Purchase_Detail> po = details.Keys.ToList<Purchase_Detail>();
+            details = (Dictionary<Purchase_Detail, string>)Session["detailsBundle"];
 
             List<string> suppliers = details.Values.Distinct().ToList();
             
@@ -138,9 +138,9 @@ namespace Inventory_mvc.Controllers
                 pos.AddNewPurchaseOrder(p);
 
 
-                foreach (KeyValuePair<Purchase_Details, string> entry in details)
+                foreach (KeyValuePair<Purchase_Detail, string> entry in details)
                 {
-                    Purchase_Details pd = entry.Key;
+                    Purchase_Detail pd = entry.Key;
 
                     string supplierCode = entry.Value;
                     //find the orderNo matching supplier and create the purchase detail 
@@ -172,9 +172,9 @@ namespace Inventory_mvc.Controllers
         [HttpGet]
         public ActionResult DeletePD(string id)
         {
-            Dictionary<Purchase_Details, string> details = (Dictionary<Purchase_Details, string>)Session["detailsBundle"];
-            List<Purchase_Details> model = details.Keys.ToList<Purchase_Details>();
-            Purchase_Details pd = model.Where(x => x.itemCode == id).First();
+            Dictionary<Purchase_Detail, string> details = (Dictionary<Purchase_Detail, string>)Session["detailsBundle"];
+            List<Purchase_Detail> model = details.Keys.ToList<Purchase_Detail>();
+            Purchase_Detail pd = model.Where(x => x.itemCode == id).First();
             model.Remove(pd);
 
             return View("RaisePurchaseOrder", model);
@@ -186,7 +186,7 @@ namespace Inventory_mvc.Controllers
         {
             Session["detailsBundle"] = null;
 
-            List<Purchase_Details> model = new List<Purchase_Details>();
+            List<Purchase_Detail> model = new List<Purchase_Detail>();
 
             return View("RaisePurchaseOrder", model);
         }
@@ -198,7 +198,7 @@ namespace Inventory_mvc.Controllers
             {
                 int maxOrderNo = 0;
                 //to obtain highest order number
-                List<Purchase_Order_Record> pds = Entity.Purchase_Order_Record.ToList();
+                List<Purchase_Order_Record> pds = Entity.Purchase_Order_Records.ToList();
                 foreach (Purchase_Order_Record p in pds)
                 {
                     maxOrderNo = 1;

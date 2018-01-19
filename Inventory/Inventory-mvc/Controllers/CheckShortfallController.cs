@@ -20,7 +20,7 @@ namespace Inventory_mvc.Controllers
 
         IPurchaseOrderService pos = new PurchaseOrderService();
 
-        Dictionary<Purchase_Details, string> details = new Dictionary<Purchase_Details, string>();
+        Dictionary<Purchase_Detail, string> details = new Dictionary<Purchase_Detail, string>();
 
         public ActionResult Index()
         {
@@ -44,7 +44,7 @@ namespace Inventory_mvc.Controllers
         {
 
             List<string> itemCodes = new List<string>();
-            List<Purchase_Details> model = new List<Purchase_Details>();
+            List<Purchase_Detail> model = new List<Purchase_Detail>();
 
             if (checker == "addAll") //add all
             {
@@ -62,15 +62,15 @@ namespace Inventory_mvc.Controllers
             //might need to remove
             if (Session["detailsBundle"] != null)
             {
-                details = (Dictionary<Purchase_Details, string>)Session["detailsBundle"];
-                model = details.Keys.ToList<Purchase_Details>();
+                details = (Dictionary<Purchase_Detail, string>)Session["detailsBundle"];
+                model = details.Keys.ToList<Purchase_Detail>();
 
             }
 
             foreach (string i in itemCodes)
             {
                 //takes the price of the first/default supplier
-                Stationery s = ctx.Stationery.Where(x => x.itemCode == i).First();
+                Stationery s = ctx.Stationeries.Where(x => x.itemCode == i).First();
                 decimal price = s.price;
                 //find qty to reorder
                 int qtyToReorder = 0;
@@ -83,7 +83,7 @@ namespace Inventory_mvc.Controllers
                     qtyToReorder = s.reorderQty;
                 }
 
-                Purchase_Details pd = new Purchase_Details();
+                Purchase_Detail pd = new Purchase_Detail();
                 pd.orderNo = findNextOrderNo();
                 pd.itemCode = i;
                 pd.qty = qtyToReorder;
@@ -92,7 +92,7 @@ namespace Inventory_mvc.Controllers
                 model.Add(pd);
                 //find the default supplier
 
-                string defaultSupplier = ctx.Stationery.Where(x => x.itemCode == i).First().firstSupplierCode;
+                string defaultSupplier = ctx.Stationeries.Where(x => x.itemCode == i).First().firstSupplierCode;
 
                 details.Add(pd, defaultSupplier);
                 
@@ -117,7 +117,7 @@ namespace Inventory_mvc.Controllers
             {
                 int maxOrderNo = 0;
                 //to obtain highest order number
-                List<Purchase_Order_Record> pds = Entity.Purchase_Order_Record.ToList();
+                List<Purchase_Order_Record> pds = Entity.Purchase_Order_Records.ToList();
                 foreach (Purchase_Order_Record p in pds)
                 {
                     maxOrderNo = 1;
