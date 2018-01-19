@@ -30,7 +30,7 @@ namespace Inventory_mvc.DAO
         
         bool FindRole(int role);
 
-        List<int> RoleForEditAndCreate(string userID);
+        //List<string> RoleForEditAndCreate(string userID);
 
         bool AlrDelegated(string id);
 
@@ -39,5 +39,7 @@ namespace Inventory_mvc.DAO
         string[] FindApprovingStaffsEmailByRequesterID(string requesterID);
 
         int GetRoleByID(string userID);
+
+        void AutoRomove();
     }
 }

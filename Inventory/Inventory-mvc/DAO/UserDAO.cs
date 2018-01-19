@@ -12,7 +12,7 @@ namespace Inventory_mvc.DAO
         {
             StationeryModel entity = new StationeryModel();
             return (from u in entity.Users select u).ToList<User>();
-            
+
         }
 
         List<User> IUserDAO.GetUserByDept(User user)
@@ -35,19 +35,19 @@ namespace Inventory_mvc.DAO
         bool IUserDAO.AddNewUser(User user)
         {
             StationeryModel entity = new StationeryModel();
-            
-                entity.Users.Add(user);
-                int rowAffected = entity.SaveChanges();
 
-                if (rowAffected == 1)
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-            
+            entity.Users.Add(user);
+            int rowAffected = entity.SaveChanges();
+
+            if (rowAffected == 1)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+
         }
 
         int IUserDAO.UpdateUserInfo(User user)
@@ -63,9 +63,9 @@ namespace Inventory_mvc.DAO
                 u.userEmail = user.userEmail;
                 u.name = user.name;
                 u.contactNo = user.contactNo;
-                    //u.delegationStart = user.delegationStart;
-                    //u.delegationEnd = user.delegationEnd;
-                    //u.departmentCode = user.departmentCode;
+                //u.delegationStart = user.delegationStart;
+                //u.delegationEnd = user.delegationEnd;
+                //u.departmentCode = user.departmentCode;
                 int rowAffected = entity.SaveChanges();
                 return rowAffected;
             }
@@ -73,7 +73,7 @@ namespace Inventory_mvc.DAO
             {
                 throw new Exception("incorrect userid");
             }
-            
+
         }
 
         void IUserDAO.DelegateEmp(string userid, DateTime? from, DateTime? to)
@@ -97,7 +97,7 @@ namespace Inventory_mvc.DAO
 
             StationeryModel context = new StationeryModel();
             return (from s in context.Users select s.userID).ToList();
-            
+
         }
 
         bool IUserDAO.AssignRep(string userID)
@@ -168,7 +168,7 @@ namespace Inventory_mvc.DAO
             StationeryModel entity = new StationeryModel();
             User user = (from u in entity.Users where u.userID == id select u).First();
             return (from a in entity.Users where a.departmentCode == user.departmentCode select a.role).ToList<int>();
-            
+
 
         }
 
@@ -183,13 +183,21 @@ namespace Inventory_mvc.DAO
             }
         }
 
-        List<int> IUserDAO.RoleForEditAndCreate(string userID)
-        {
-            StationeryModel entity = new StationeryModel();
-            User u = (from a in entity.Users where a.userID == userID select a).First();
-            List<int> roles = (from user in entity.Users where (user.departmentCode == u.departmentCode && user.role != 2 && user.role != 8) select user.role).ToList<int>();
-            return roles;
-        }
+        //List<string> IUserDAO.RoleForEditAndCreate(string userID)
+        //{
+        //    StationeryModel entity = new StationeryModel();
+        //    List<string> roles;
+        //    User u = (from a in entity.Users where a.userID == userID select a).First();
+        //    //List<int> temp = (from user in entity.Users where (user.departmentCode == u.departmentCode && user.role != 2 && user.role != 8) select user.role).ToList<int>();
+        //   // List<int> roleids = (from user in entity.Users where (user.departmentCode == u.departmentCode && user.role != 2 && user.role != 8) select user).ToList<int>()
+        //    if (u.departmentCode== "STORE")
+        //    {
+        //        roles=(from role in entity.roleInfoes where (role.roleID!=1 && role.roleID!=2 && role.roleID!=3 && role.roleID!=8)
+        //    }
+
+
+        //    return roles;
+        //}
 
         bool IUserDAO.AlrDelegated(string id)
         {
@@ -230,6 +238,35 @@ namespace Inventory_mvc.DAO
                 return (from u in context.Users
                         where u.userID == userID
                         select u.role).FirstOrDefault();
+            }
+        }
+
+        void IUserDAO.AutoRomove()
+        {
+
+            using (StationeryModel entity = new StationeryModel())
+            {
+                int i = 0;
+                List<User> users = (from u in entity.Users select u).ToList<User>();
+                foreach (User u in users)
+                {
+                    if (u.role == 4)
+                    {
+                        i++;
+                    }
+                }
+                foreach (User user in users)
+                {
+                    user.delegationStart = null;
+                    user.delegationEnd = null;
+                    if (i < 1)
+                    {
+                        user.role = 4;
+                    }
+                    else
+                        user.role = 3;
+
+                }
             }
         }
     }

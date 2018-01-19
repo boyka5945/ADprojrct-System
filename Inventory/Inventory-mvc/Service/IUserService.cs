@@ -37,8 +37,10 @@ namespace Inventory_mvc.Service
         string FindNameByID(string userid);
         bool FindRole(int role);
 
-        List<int> RoleForEditAndCreate(string userid);
+        //List<string> RoleForEditAndCreate(string userid);
 
         bool AlrDelegated(string id);
+
+        void AutoRemove();
     }
 }

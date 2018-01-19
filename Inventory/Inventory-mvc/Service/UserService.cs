@@ -148,10 +148,10 @@ namespace Inventory_mvc.Service
         }
 
 
-        List<int> IUserService.RoleForEditAndCreate(string userid)
-        {
-            return userDAO.RoleForEditAndCreate(userid);
-        }
+        //List<string> IUserService.RoleForEditAndCreate(string userid)
+        //{
+        //    return userDAO.RoleForEditAndCreate(userid);
+        //}
 
 
         bool IUserService.AlrDelegated(string userid)
@@ -161,6 +161,11 @@ namespace Inventory_mvc.Service
         int IUserService.GetRoleByID(string userID)
         {
             return userDAO.GetRoleByID(userID);
+        }
+
+        void IUserService.AutoRemove()
+        {
+            userDAO.AutoRomove();
         }
     }
 }

@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using Inventory_mvc.Service;
 using Inventory_mvc.Models;
 using Inventory_mvc.ViewModel;
+using System.Globalization;
 
 namespace Inventory_mvc.Controllers
 {
@@ -22,8 +23,16 @@ namespace Inventory_mvc.Controllers
             //}
             User user = userService.FindByUserID("S1000");
             List<User> model = userService.GetUserByDept(user);
-          //  ViewBag.Roles = userService.FindAllRole(user.UserID);
-            //ViewBag.alrDelegated = userService.AlrDelegated(id);
+            if(HttpContext.Application["EndDate"]!=null)
+            {
+                DateTime endDate = (DateTime)HttpContext.Application["EndDate"];
+                DateTime tdy = DateTime.Now;
+                if (tdy.CompareTo(endDate) > 1)
+                {
+                    userService.AutoRemove();
+                }
+            }
+            
             return View(model);
         }
         [HttpGet]
@@ -48,9 +57,11 @@ namespace Inventory_mvc.Controllers
             
             //try
             //{
-                DateTime start = DateTime.Parse(from);
-                DateTime end = DateTime.Parse(toto);
+                DateTime start = DateTime.ParseExact(from, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                DateTime end = DateTime.ParseExact(toto, "dd-MM-yyyy", CultureInfo.InvariantCulture);
                 userService.DelegateEmp(Request["userID"].ToString(), start.Date, end.Date);
+
+            HttpContext.Application["EndDate"] = end;
             //}
             //catch(Exception e)
             //{
@@ -89,7 +100,8 @@ namespace Inventory_mvc.Controllers
         public ActionResult Edit(string id)
         {
             User userVM = userService.FindByUserID(id);
-            ViewBag.RoleList = userService.RoleForEditAndCreate(id);
+            //ViewBag.RoleList = userService.RoleForEditAndCreate(id);
+           
             return View(userVM);
         }
 
