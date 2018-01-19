@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Inventory_mvc.Models.Purchase_Details>
+﻿@model IEnumerable<Inventory_mvc.Models.Purchase_Detail>
 
 
 
@@ -7,181 +7,319 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Raise Purchase Order</h2>
+
+<!DOCTYPE html>
+
+<html>
+<head>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.6/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"></script>
+    <meta name="viewport" content="width=device-width" />
+    <title>ListPurchaseOrders</title>
+    <style>
+
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1; /* Sit on top */
+            padding-top: 100px; /* Location of the box */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgb(0,0,0); /* Fallback color */
+            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+        }
+
+        /* Modal Content */
+        .modal-content {
+            background-color: #fefefe;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+        }
+
+        /* The Close Button */
+        .close {
+            color: #aaaaaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+            .close:hover,
+            .close:focus {
+                color: #000;
+                text-decoration: none;
+                cursor: pointer;
+            }
+
+    </style>
+
+</head>
+<body>
 
 
-@using (Html.BeginForm("RaisePurchaseOrder", "Purchase", FormMethod.Post))
-{
-    @Html.AntiForgeryToken()
-
-    <div class="form-horizontal">
-
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-
-            @Html.Label("Order Number")
-            <div class="col-md-10">
-                <input type="text" name="orderNo" value="@ViewBag.orderNo" readonly>
-
-            </div>
-        </div>
-
-        <div class="form-group">
+    <h2>Raise Purchase Order</h2>
 
 
-            @Html.Label("Item Code")
-            <div class="col-md-10">
-                @Html.Editor("itemCode")
-                @Html.ValidationMessage("itemCode")
-            </div>
-        </div>
-
-
-        <div class="form-group">
-            @Html.Label("Item Description")
-            <div class="col-md-10">
-
-                @Html.Label("description")
-                @*@Html.ValidationMessage("description")*@
-            </div>
-        </div>
-
-        <div class="form-group">
-
-            @Html.Label("Quantity")
-            <div class="col-md-10">
-                @Html.Editor("qty")
-                @Html.ValidationMessage("qty")
-            </div>
-        </div>
-
-        <div class="form-group">
-
-            @Html.Label("Price")
-            <div class="col-md-10">
-                @Html.Editor("price")
-                @Html.ValidationMessage("price")
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.Label("Supplier")
-            <div>
-
-
-                <select name="supplierCode">
-                    <option value="ALPA">ALPHA Office Supplies</option>
-                    <option value="BANE">BANES Shop</option>
-                    <option value="CHEP">Cheap Stationery</option>
-                    <option value="OMEG">OMEGA Stationery Supplier</option>
-                </select>
-
-                @Html.ValidationMessage("supplierCode")
-            </div>
-        </div>
-
-
-        <div class="form-group">
-
-
-            @Html.Label("Remarks")
-            <div class="col-md-10">
-                @Html.Editor("remarks")
-                @Html.ValidationMessage("remarks")
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Add" class="btn btn-default" />
-            </div>
-        </div>
-    </div>
-}
-
-<table class="table">
-    <tr>
-        <th>
-            @Html.Label("Item Code")
-        </th>
-        <th>
-            @Html.Label("Description")
-        </th>
-
-        <th>
-            @Html.Label("Price")
-        </th>
-
-        <th>
-            @Html.Label("Quantity")
-        </th>
-
-        <th>
-            @Html.Label("Total Price")
-        </th>
-
-        <th>
-            @Html.Label("Remarks")
-        </th>
-
-    </tr>
-
-    @foreach (var item in Model)
+    @using (Html.BeginForm("RaisePurchaseOrder", "Purchase", FormMethod.Post))
     {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group">
+
+                @Html.Label("Order Number")
+                <div class="col-md-10">
+                    <input type="text" name="orderNo" value="@ViewBag.orderNo" readonly>
+
+                </div>
+            </div>
+
+            <div class="form-group">
+
+
+                @Html.Label("Item Code")
+                <div class="col-md-10">
+                    @Html.Editor("itemCode")
+                    @Html.ValidationMessage("itemCode")
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                @Html.Label("Item Description")
+                <div class="col-md-10">
+
+                    @Html.Editor("description")
+                    @*@Html.ValidationMessage("description")*@
+                </div>
+            </div>
+
+            <div class="form-group">
+
+                @Html.Label("Quantity")
+                <div class="col-md-10">
+                    @Html.Editor("qty")
+                    @Html.ValidationMessage("qty")
+                </div>
+            </div>
+
+            <div class="form-group">
+
+                @Html.Label("Price")
+                <div class="col-md-10">
+                    @Html.Editor("price")
+                    @Html.ValidationMessage("price")
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.Label("Supplier")
+                <div>
+
+                    @*@Html.DropDownList("supplier", new List<SelectListItem> {
+                        new SelectListItem{Text = "ALPHA Office Supplies", Value="ALPA",Selected=true },
+                        new SelectListItem{ },
+                        new SelectListItem{ },
+                        new SelectListItem{ } }, "Select One")*@
+
+
+
+                    <select name="supplierCode">
+                        <option value="ALPA">ALPHA Office Supplies</option>
+                        <option value="BANE">BANES Shop</option>
+                        <option value="CHEP">Cheap Stationery</option>
+                        <option value="OMEG">OMEGA Stationery Supplier</option>
+                    </select>
+
+                    @Html.ValidationMessage("supplierCode")
+                </div>
+            </div>
+
+
+            <div class="form-group">
+
+
+                @Html.Label("Remarks")
+                <div class="col-md-10">
+                    @Html.Editor("remarks")
+                    @Html.ValidationMessage("remarks")
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Add" class="btn btn-default" />
+                </div>
+            </div>
+        </div>
+    }
+
+    <table class="table">
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.itemCode)
-            </td>
-            <td>
-                @{
-                    Inventory_mvc.Models.StationeryModel Entity = new Inventory_mvc.Models.StationeryModel();
+            <th>
+                @Html.Label("Item Code")
+            </th>
+            <th>
+                @Html.Label("Description")
+            </th>
 
-                    Inventory_mvc.Models.Stationery s = Entity.Stationery.Where(x => x.itemCode == item.itemCode).First();
+            <th>
+                @Html.Label("Price")
+            </th>
 
-                    String description = s.description;
+            <th>
+                @Html.Label("Quantity")
+            </th>
 
-                }
-                @Html.Label(description)
-            </td>
+            <th>
+                @Html.Label("Total Price")
+            </th>
 
-            <td>
-                @Html.DisplayFor(modelItem => item.price)
-            </td>
+            <th>
+                @Html.Label("Remarks")
+            </th>
 
-            <td>
-                @Html.DisplayFor(modelItem => item.qty)
-            </td>
-
-            <td>
-                @{
-                    int totalPrice = (int)item.price * item.qty;
-                }
-                @Html.Label(totalPrice.ToString())
-            </td>
-
-
-            <td>
-                @Html.DisplayFor(modelItem => item.remarks)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-
-                @Html.ActionLink("Delete", "Delete", new {  id=item.itemCode  })
-            </td>
         </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.itemCode)
+                </td>
+                <td>
+                    @{
+                        Inventory_mvc.Models.StationeryModel Entity = new Inventory_mvc.Models.StationeryModel();
+
+                        Inventory_mvc.Models.Stationery s = Entity.Stationeries.Where(x => x.itemCode == item.itemCode).First();
+
+                        String description = s.description;
+
                     }
+                    @Html.Label(description)
+                </td>
 
-</table>
+                <td>
+                    @Html.DisplayFor(modelItem => item.price)
+                </td>
 
-@Html.ActionLink("Clear", "ClearSession", "Purchase")
-@Html.ActionLink("Generate Purchase Order", "GeneratePO", "Purchase")
+                <td>
+                    @Html.DisplayFor(modelItem => item.qty)
+                </td>
 
-<div>
+                <td>
+                    @{
+                        int totalPrice = (int)item.price * item.qty;
+                    }
+                    @Html.Label(totalPrice.ToString())
+                </td>
 
-    @Html.ActionLink("Back to List", "ListPurchaseOrders")
-</div>
 
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}
+                <td>
+                    @Html.DisplayFor(modelItem => item.remarks)
+                </td>
+                <td>
+                    @*@Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |*@
+                    <button class="myBtn" name="@item.itemCode">Edit</button>
+
+                    @Html.ActionLink("Delete", "DeletePD", new { id = item.itemCode })
+                </td>
+            </tr>
+                        }
+
+    </table>
+
+    @Html.ActionLink("Clear", "ClearSession", "Purchase")
+    @Html.ActionLink("Generate Purchase Order", "GeneratePO", "Purchase")
+
+    <div>
+
+        @Html.ActionLink("Back to List", "ListPurchaseOrders", "Purchase")
+    </div>
+
+
+    <!-- The Modal Box -->
+    <div id="myModal" class="modal">
+
+        <!-- Modal content -->
+        <div class="modal-content">
+
+            <p>Item Code</p> 
+            <input type="text" id="icode" name="itemCode"/>
+            <p>Description</p>
+            <p>Price</p>
+            <input type="text" name="itemCode" />
+            <p>Quantity</p>
+            <input type="text" name="itemCode" />
+            <p>Remarks</p>
+            <input type="text" name="itemCode" />
+
+            <span class="close">&times;</span>
+
+        </div>
+
+    </div>
+
+
+
+
+    <script type="text/javascript">
+        // Get the modal
+        var modal = document.getElementById('myModal');
+
+        // Get the button that opens the modal
+        var btn = document.getElementsByClassName("myBtn");
+
+
+        // Get the <span> element that closes the modal
+        var span = document.getElementsByClassName("close")[0];
+
+        var icodeLabel = document.getElementById("icode");
+
+        // When the user clicks the button, open the modal
+        //btn.onclick = function () {
+        //    modal.style.display = "block";
+        //    var itemCode = $(this).prop.name;
+        //    icodeLabel = itemCode;
+
+        //}
+        $(document).ready(function () {
+
+            $(".myBtn").onclick(function () {
+                modal.style.display = "block";
+                icodeLabel = $(this).prop.name;
+
+            })
+
+        });
+   
+
+
+        // When the user clicks on <span> (x), close the modal
+        span.onclick = function () {
+            modal.style.display = "none";
+        }
+
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function (event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+    </script>
+
+    </body>
+    @section Scripts {
+        @Scripts.Render("~/bundles/jqueryval")
+    }
+</html>

@@ -10,33 +10,32 @@ namespace Inventory_mvc.DAO
     {
         List<User> IUserDAO.GetAllUser()
         {
-            using (StationeryModel entity = new StationeryModel())
-            {
-                return (from u in entity.Users select u).ToList<User>();
-            }
+            StationeryModel entity = new StationeryModel();
+            return (from u in entity.Users select u).ToList<User>();
+            
         }
 
         List<User> IUserDAO.GetUserByDept(User user)
         {
-            using (StationeryModel entity = new StationeryModel())
-            {
-                return (from u in entity.Users where u.departmentCode == user.departmentCode select u).ToList();
-            }
+            StationeryModel entity = new StationeryModel();
+
+            return (from u in entity.Users where u.departmentCode == user.departmentCode select u).ToList();
+
         }
 
         User IUserDAO.FindByUserID(string userID)
         {
-            string userid = userID.ToUpper().Trim();
-            using (StationeryModel entity = new StationeryModel())
-            {
-                return (from user in entity.Users where user.userID == userid select user).FirstOrDefault();
-            }
+            string userid = userID;
+            StationeryModel entity = new StationeryModel();
+            var a = (from user in entity.Users where user.userID == userid select user).First();
+
+            return a;
         }
 
         bool IUserDAO.AddNewUser(User user)
         {
-            using (StationeryModel entity = new StationeryModel())
-            {
+            StationeryModel entity = new StationeryModel();
+            
                 entity.Users.Add(user);
                 int rowAffected = entity.SaveChanges();
 
@@ -48,43 +47,44 @@ namespace Inventory_mvc.DAO
                 {
                     return false;
                 }
-            }
+            
         }
 
         int IUserDAO.UpdateUserInfo(User user)
         {
-            using (StationeryModel entity = new StationeryModel())
+            StationeryModel entity = new StationeryModel();
+            try
             {
-                try
-                {
-                    User u = (from a in entity.Users where a.userID == user.userID select a).First();
-                    u.userID = user.userID;
-                    u.password = user.password;
-                    u.address = user.address;
-                    u.role = user.role;
-                    u.userEmail = user.userEmail;
-                    u.name = user.name;
-                    u.contactNo = user.contactNo;
+                User u = (from a in entity.Users where a.userID == user.userID select a).First();
+                u.userID = user.userID;
+                u.password = user.password;
+                u.address = user.address;
+                u.role = user.role;
+                u.userEmail = user.userEmail;
+                u.name = user.name;
+                u.contactNo = user.contactNo;
                     //u.delegationStart = user.delegationStart;
                     //u.delegationEnd = user.delegationEnd;
                     //u.departmentCode = user.departmentCode;
-                    int rowAffected = entity.SaveChanges();
-                    return rowAffected;
-                }
-                catch (Exception)
-                {
-                    throw new Exception("incorrect userid");
-                }
+                int rowAffected = entity.SaveChanges();
+                return rowAffected;
             }
+            catch (Exception)
+            {
+                throw new Exception("incorrect userid");
+            }
+            
         }
 
-        void IUserDAO.DelegateEmp(string userid, DateTime from, DateTime to)
+        void IUserDAO.DelegateEmp(string userid, DateTime? from, DateTime? to)
         {
             using (StationeryModel entity = new StationeryModel())
             {
+                DateTime start = (DateTime)from;
+                DateTime end = (DateTime)to;
                 User u = (from user in entity.Users where user.userID == userid select user).FirstOrDefault();
-                u.delegationStart = from;
-                u.delegationEnd = to;
+                u.delegationStart = start.Date;
+                u.delegationEnd = end.Date;
                 u.role = 8;
 
                 entity.SaveChanges();
@@ -95,11 +95,9 @@ namespace Inventory_mvc.DAO
         List<string> IUserDAO.GetAllUserID()
         {
 
-            using (StationeryModel context = new StationeryModel())
-            {
-                return (from s in context.Users
-                        select s.userID).ToList();
-            }
+            StationeryModel context = new StationeryModel();
+            return (from s in context.Users select s.userID).ToList();
+            
         }
 
         bool IUserDAO.AssignRep(string userID)
@@ -165,12 +163,12 @@ namespace Inventory_mvc.DAO
 
         }
 
-        List<int> IUserDAO.FindAllRole()
+        List<int> IUserDAO.FindAllRole(string id)
         {
-            using (StationeryModel entity = new StationeryModel())
-            {
-                return (from u in entity.Users select u.role).ToList<int>();
-            }
+            StationeryModel entity = new StationeryModel();
+            User user = (from u in entity.Users where u.userID == id select u).First();
+            return (from a in entity.Users where a.departmentCode == user.departmentCode select a.role).ToList<int>();
+            
 
         }
 
@@ -182,6 +180,27 @@ namespace Inventory_mvc.DAO
                 if (u == null)
                     return false;
                 return true;
+            }
+        }
+
+        List<int> IUserDAO.RoleForEditAndCreate(string userID)
+        {
+            StationeryModel entity = new StationeryModel();
+            User u = (from a in entity.Users where a.userID == userID select a).First();
+            List<int> roles = (from user in entity.Users where (user.departmentCode == u.departmentCode && user.role != 2 && user.role != 8) select user.role).ToList<int>();
+            return roles;
+        }
+
+        bool IUserDAO.AlrDelegated(string id)
+        {
+            using (StationeryModel entity = new StationeryModel())
+            {
+                User user = (from u in entity.Users where u.userID == id select u).First();
+                if (user.role == 8)
+                {
+                    return true;
+                }
+                return false;
             }
         }
 

@@ -1,30 +1,37 @@
-﻿@model IEnumerable<Inventory_mvc.ViewModel.UserViewModel>
+﻿@model IEnumerable<Inventory_mvc.Models.User>
 
 @{
     ViewBag.Title = "UserList";
+    var delegateMessage = TempData["DelegateMessage"];
+    var removeDelegateMessage = TempData["RmvDelMessage"];
+    var editMessage = TempData["EditMessage"];
+    var editErrorMessage = TempData["EditErrorMessage"];
+    var assignRepMessage = TempData["AssignRepMessage"];
+    var assignRepErrorMessage = TempData["AssignRepErrorMessage"];
+
 }
 
 <h2>UserList</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @*@Html.ActionLink("Create New", "Create")*@
 </p>
 <table class="table">
     <tr>
         
         <th>
-            @Html.DisplayNameFor(model => model.Name)
+            @Html.DisplayNameFor(model => model.name)
         </th>
         
         <th>
-            @Html.DisplayNameFor(model => model.Role)
+            @Html.DisplayNameFor(model => model.roleInfo.roleName)
         </th>
        
         <th>
-            @Html.DisplayNameFor(model => model.DelegationStart)
+            @Html.DisplayNameFor(model => model.delegationStart)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.DelegationEnd)
+            @Html.DisplayNameFor(model => model.delegationEnd)
         </th>
         <th></th>
     </tr>
@@ -33,30 +40,77 @@
     <tr>
         
         <td>
-            @Html.DisplayFor(modelItem => item.Name)
+            @Html.DisplayFor(modelItem => item.name)
         </td>
         
         <td>
-            @Html.DisplayFor(modelItem => item.Role)
+            @Html.DisplayFor(modelItem => item.roleInfo.roleName)
         </td>
                
         <td>
-            @Html.DisplayFor(modelItem => item.DelegationStart)
+            @Html.DisplayFor(modelItem => item.delegationStart)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.DelegationEnd)
+            @Html.DisplayFor(modelItem => item.delegationEnd)
         </td>
 
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id = item.UserID }) |
-            @Html.ActionLink("Delegate", "Delegate", new { id = item.UserID }) |
-            @Html.ActionLink("Assign Rep", "Assign_Rep", new { id = item.UserID }) |
-            @Html.ActionLink("Remove Delegate", "Remove_Delegate", new { id = item.UserID }) 
+            @Html.ActionLink("Edit", "Edit", new { id = item.userID }) |
+            @Html.ActionLink("Delegate", "Delegate", new { id = item.userID }) |
+            @Html.ActionLink("Assign Rep", "Assign_Rep", new { id = item.userID }) |
+            @Html.ActionLink("Remove Delegate", "Remove_Delegate", new { id = item.userID }) 
         </td>
     </tr>
 }
 
 </table>
+<div>
+    <p>
+        @if (delegateMessage != null)
+        {
+            <div class="alert alert-success">
+                @delegateMessage.ToString()
+            </div>
+        }
+
+        @if (removeDelegateMessage != null)
+        {
+            <div class="alert alert-success">
+                @removeDelegateMessage.ToString()
+            </div>
+        }
+
+        @if (editMessage != null)
+        {
+            <div class="alert alert-danger">
+                @editMessage.ToString()
+            </div>
+        }
+
+        @if (editErrorMessage != null)
+        {
+            <div class="alert alert-success">
+                @editErrorMessage.ToString()
+            </div>
+        }
+
+        @if (assignRepMessage != null)
+        {
+            <div class="alert alert-danger">
+                @assignRepMessage.ToString()
+            </div>
+        }
+
+        @if (assignRepErrorMessage != null)
+        {
+            <div class="alert alert-danger">
+                @assignRepErrorMessage.ToString()
+            </div>
+        }
+
+
+    </p>
+</div>
 
 
 

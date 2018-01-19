@@ -1,0 +1,165 @@
+﻿@model PagedList.IPagedList<Inventory_mvc.ViewModel.StationeryViewModel>
+
+@{
+    ViewBag.Title = "Shortfall List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using PagedList.Mvc;
+@using PagedList;
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Shortfall List</title>
+
+    <link href="/Content/PagedList.css" rel="stylesheet" type="text/css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $("#selectAll").click(function () {
+
+                $("[type=checkbox]").prop("checked", true)
+
+            });
+        });
+
+
+
+    </script>
+</head>
+
+<body>
+    <h2>Shortfall List</h2>
+
+    @Html.BeginForm("AddSelected", "CheckShortfall", FormMethod.Get){
+    <table class="table">
+        <tr>
+            <th>
+                @*@Html.DisplayNameFor(model => model.CategoryID)*@
+                @Html.Label("Category ID")
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.Description)*@
+                @Html.Label("Description")
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.ReorderLevel)*@
+                @Html.Label("Reorder Level")
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.ReorderQty)*@
+                @Html.Label("Reorder Qty")
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.UnitOfMeasure)*@
+                @Html.Label("UoM")
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.StockQty)*@
+                @Html.Label("Stock Qty")
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.Location)*@
+                @Html.Label("Location")
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.FirstSupplierCode)*@
+                @Html.Label("First Supplier Code")
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.SecondSupplierCode)*@
+                @Html.Label("Second Supplier Code")
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.ThirdSupplierCode)*@
+                @Html.Label("Third Supplier Code")
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.Price)*@
+                @Html.Label("Price")
+            </th>
+
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CategoryID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ReorderLevel)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ReorderQty)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UnitOfMeasure)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StockQty)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Location)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FirstSupplierCode)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SecondSupplierCode)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ThirdSupplierCode)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    @{
+                        int qtyToOrder;
+                        if (@item.ReorderQty < (@item.ReorderLevel - @item.ReorderQty))
+                        {
+                            qtyToOrder = @item.ReorderLevel - @item.ReorderQty;
+
+                        }
+                        else
+                        {
+                            qtyToOrder = @item.ReorderQty;
+                        }
+                    }
+
+
+                    <input type="checkbox" value="@qtyToOrder" name="@item.ItemCode" />
+                </td>
+
+            </tr>
+                        }
+
+
+
+    </table>
+
+    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+    @Html.PagedListPager(Model, page => Url.Action("List",
+                     new { searchString = ViewBag.SearchString, categoryID = ViewBag.CategoryID, page }))
+
+
+
+
+    <input type="submit" value="Generate PO" />
+    @Html.ActionLink("Generate PO for All Items", "AddSelected", "CheckShortfall", new { checker= "addAll"}, null)
+    @*<input type="submit" value="Submit all for PO Generation " id="selectAll" />*@
+    
+
+
+</body>
+
+</html>
