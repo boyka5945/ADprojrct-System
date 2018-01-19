@@ -1,0 +1,43 @@
+﻿@model IEnumerable<Inventory_mvc.Models.Requisition_Detail>
+
+@{
+    ViewBag.Title = "RequisitionDetails";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<table class="table">
+    <tr>
+        <th>
+            Name
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.remarks)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.qty)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.clerkID)
+        </th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Stationery.description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.remarks)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.qty)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.clerkID)
+        </td>
+        <td>
+
+        </td>
+    </tr>
+}
+
+</table>

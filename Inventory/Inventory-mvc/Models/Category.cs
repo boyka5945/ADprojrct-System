@@ -12,7 +12,7 @@ namespace Inventory_mvc.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Category()
         {
-            Stationery = new HashSet<Stationery>();
+            Stationeries = new HashSet<Stationery>();
         }
 
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
@@ -23,6 +23,6 @@ namespace Inventory_mvc.Models
         public string categoryName { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Stationery> Stationery { get; set; }
+        public virtual ICollection<Stationery> Stationeries { get; set; }
     }
 }

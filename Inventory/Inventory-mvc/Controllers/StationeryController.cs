@@ -2,19 +2,52 @@
 using Inventory_mvc.Service;
 using Inventory_mvc.ViewModel;
 using System;
-
+using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
 
 namespace Inventory_mvc.Controllers
 {
     public class StationeryController : Controller
     {
-        
+
         IStationeryService stationeryService = new StationeryService();
+        ISupplierService supplierService = new SupplierService();
+
         // GET: Stationery
-        public ActionResult Index()
+        public ActionResult Index(string searchString, string categoryID = "All")
         {
-            return View(stationeryService.GetAllStationeryViewModel());
+            List<StationeryViewModel> stationeries = stationeryService.GetAllStationeryViewModel();
+
+            ViewBag.CategoryList = stationeryService.GetAllCategory();
+
+
+            if (categoryID == "All")
+            {
+                ViewBag.CategoryID = "All";
+            }
+            else
+            {
+                ViewBag.CategoryID = categoryID;
+
+                stationeries = (from s in stationeries
+                                where s.CategoryID.ToString() == categoryID
+                                select s).ToList();
+            }
+
+            ViewBag.SearchString = searchString;
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                string search = searchString.ToLower().Trim();
+
+                stationeries = (from s in stationeries
+                                where s.Description.ToLower().Contains(search)
+                                select s).ToList();
+            }
+
+            // return View(stationeryService.GetAllStationeryViewModel());
+            return View(stationeries);
         }
 
 
@@ -22,6 +55,18 @@ namespace Inventory_mvc.Controllers
         // GET: Supplier/Edit/{id}
         public ActionResult Edit(string id)
         {
+            // Get select list for supplier
+            List<SupplierViewModel> supplierList = supplierService.GetAllSuppliers();
+            SelectList selectList = new SelectList(supplierList, "SupplierCode", "SupplierName");
+            ViewBag.selectList = selectList;
+
+            ViewBag.unitOfMeasure = stationeryService.GetAllUOMList();
+
+            //Get selectedID list for category
+            List<Category> categories = stationeryService.GetAllCategory();
+            SelectList selectListID = new SelectList(categories, "categoryID", "categoryName");
+            ViewBag.selectListofCategory = selectListID;
+
             StationeryViewModel stationeryVM = stationeryService.FindStationeryViewModelByItemCode(id);
             return View(stationeryVM);
         }
@@ -31,10 +76,62 @@ namespace Inventory_mvc.Controllers
         [HttpPost]
         public ActionResult Edit(StationeryViewModel stationeryVM)
         {
-            string code = stationeryVM.ItemCode;
-        
+            ViewBag.unitOfMeasure = stationeryService.GetAllUOMList();
 
-            if (ModelState.IsValid)
+            // Get select list for supplier
+            List<SupplierViewModel> supplierList = supplierService.GetAllSuppliers();
+            SelectList selectList = new SelectList(supplierList, "SupplierCode", "SupplierName");
+            ViewBag.selectList = selectList;
+
+            //Get selectedID list for category
+            List<Category> categories = stationeryService.GetAllCategory();
+            SelectList selectListID = new SelectList(categories, "categoryID", "categoryName");
+            ViewBag.selectListofCategory = selectListID;
+
+            string code = stationeryVM.ItemCode;
+            int level = stationeryVM.ReorderLevel;
+            int qty = stationeryVM.ReorderQty;
+            decimal price = stationeryVM.Price;
+
+            //for supplier validate
+            string supplier1 = stationeryVM.FirstSupplierCode;
+            string supplier2 = stationeryVM.SecondSupplierCode;
+            string supplier3 = stationeryVM.ThirdSupplierCode;
+            if (stationeryService.isExistingSupplierCode(supplier1, supplier2))
+            {
+                string errorMessage = String.Format("{0} has been used in First Supplier.", supplier1);
+                ModelState.AddModelError("SecondSupplierCode", errorMessage);
+            }
+
+            if (stationeryService.isExistingSupplierCode(supplier1, supplier3))
+            {
+                string errorMessage = String.Format("{0} has been used in First Supplier.", supplier1);
+                ModelState.AddModelError("ThirdSupplierCode", errorMessage);
+            }
+
+            if (stationeryService.isExistingSupplierCode(supplier2, supplier3))
+            {
+                string errorMessage = String.Format("{0} has been used in Second Supplier.", supplier2);
+                ModelState.AddModelError("ThirdSupplierCode", errorMessage);
+            }
+
+            if (stationeryService.isPositiveLevel(level))
+            {
+                string errorMessage = String.Format("{0}  must be positive.", level);
+                ModelState.AddModelError("ReorderLevel", errorMessage);
+            }
+            if (stationeryService.isPositiveQty(qty))
+            {
+                string errorMessage = String.Format("{0}  must be positive.", qty);
+                ModelState.AddModelError("ReorderQty", errorMessage);
+            }
+            if (stationeryService.isPositivePrice(price))
+            {
+                string errorMessage = String.Format("{0}  must be positive.", price);
+                ModelState.AddModelError("Price", errorMessage);
+            }
+
+            else if (ModelState.IsValid)
             {
                 try
                 {
@@ -46,7 +143,7 @@ namespace Inventory_mvc.Controllers
                     {
                         TempData["EditErrorMessage"] = String.Format("There is not change to '{0}'.", code);
                     }
-            
+
                     return RedirectToAction("Index");
                 }
                 catch (Exception e)
@@ -60,33 +157,87 @@ namespace Inventory_mvc.Controllers
         // GET: Stationery/Create
         public ActionResult Create()
         {
-            return View(new StationeryViewModel());
+            ViewBag.unitOfMeasure = stationeryService.GetAllUOMList();
+
+            // Get select list for supplier
+            List<SupplierViewModel> supplierList = supplierService.GetAllSuppliers();
+            SelectList selectList = new SelectList(supplierList, "SupplierCode", "SupplierName");
+            ViewBag.selectList = selectList;
+
+            //Get selectedID list for category
+            List<Category> categories = stationeryService.GetAllCategory();
+            SelectList selectListID = new SelectList(categories, "categoryID", "categoryName");
+            ViewBag.selectListofCategory = selectListID;
+
+            // return View(new StationeryViewModel());
+            return View();
         }
 
         // POST: Stationery/Create
         [HttpPost]
         public ActionResult Create(StationeryViewModel stationeryVM)
         {
+            ViewBag.unitOfMeasure = stationeryService.GetAllUOMList();
+
+            // Get select list for supplier
+            List<SupplierViewModel> supplierList = supplierService.GetAllSuppliers();
+            SelectList selectList = new SelectList(supplierList, "SupplierCode", "SupplierName");
+            ViewBag.selectList = selectList;
+
+            //Get selectedID list for category
+            List<Category> categories = stationeryService.GetAllCategory();
+            SelectList selectListID = new SelectList(categories, "categoryID", "categoryName");
+            ViewBag.selectListofCategory = selectListID;
+
             string code = stationeryVM.ItemCode;
             int level = stationeryVM.ReorderLevel;
             int qty = stationeryVM.ReorderQty;
+            decimal price = stationeryVM.Price;
 
-            if (stationeryService.isExistingCode(code) )
-                {
+            //for supplier validate
+            string supplier1 = stationeryVM.FirstSupplierCode;
+            string supplier2 = stationeryVM.SecondSupplierCode;
+            string supplier3 = stationeryVM.ThirdSupplierCode;
+            if (stationeryService.isExistingSupplierCode(supplier1,supplier2))
+            {
+                string errorMessage = String.Format("{0} has been used in First Supplier.",supplier1);
+                ModelState.AddModelError("SecondSupplierCode", errorMessage);
+            }
+
+            if (stationeryService.isExistingSupplierCode(supplier1, supplier3))
+            {
+                string errorMessage = String.Format("{0} has been used in First Supplier.", supplier1);
+                ModelState.AddModelError("ThirdSupplierCode", errorMessage);
+            }
+
+            if (stationeryService.isExistingSupplierCode(supplier2, supplier3))
+            {
+                string errorMessage = String.Format("{0} has been used in Second Supplier.", supplier2);
+                ModelState.AddModelError("ThirdSupplierCode", errorMessage);
+            }
+
+            if (stationeryService.isExistingCode(code))
+            {
                 string errorMessage = String.Format("{0} has been used.", code);
-                    ModelState.AddModelError("ItemCode", errorMessage);
-                }
+                ModelState.AddModelError("ItemCode", errorMessage);
+            }
             if (stationeryService.isPositiveLevel(level))
-                {
-                    string errorMessage = String.Format("{0}  must be positive.", level);
-                    ModelState.AddModelError("ReorderLevel", errorMessage);
-                }
+            {
+                string errorMessage = String.Format("{0}  must be positive.", level);
+                ModelState.AddModelError("ReorderLevel", errorMessage);
+            }
             if (stationeryService.isPositiveQty(qty))
             {
                 string errorMessage = String.Format("{0}  must be positive.", qty);
                 ModelState.AddModelError("ReorderQty", errorMessage);
-            }else if (ModelState.IsValid)
-            { 
+            }
+            if (stationeryService.isPositivePrice(price))
+            {
+                string errorMessage = String.Format("{0}  must be positive.", price);
+                ModelState.AddModelError("Price", errorMessage);
+            }
+            else if (ModelState.IsValid)
+            {
                 {
                     try
                     {
@@ -98,10 +249,10 @@ namespace Inventory_mvc.Controllers
                     {
                         TempData["ExceptionMessage"] = e.Message;
                     }
-                }                       
+                }
             }
-                     
-             return View(stationeryVM);
+
+            return View(stationeryVM);
         }
 
         // GET: Stationery/Delete/{id}
@@ -127,8 +278,19 @@ namespace Inventory_mvc.Controllers
         }
 
 
+        public ActionResult ResetCatalogue()
+        {
+            return RedirectToAction("Index", new { searchString = "", categoryID = "All" });
+        }
+
+        // GET: Stationery/Browse
+        //public ActionResult Browse()
+        //{            
+        //    ViewBag.CategoryList = stationeryService.GetAllCategory();
+
+        //    return View();
+        //}
 
 
-       
     }
 }

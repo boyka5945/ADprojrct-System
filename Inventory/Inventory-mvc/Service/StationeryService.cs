@@ -46,6 +46,19 @@ namespace Inventory_mvc.Service
             }
         }
 
+        bool IStationeryService.isPositivePrice(decimal price)
+        {
+            decimal p = price;
+            if (p < 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
         bool IStationeryService.isPositiveQty(int reorderQty)
         {
             int qty = reorderQty;
@@ -80,6 +93,7 @@ namespace Inventory_mvc.Service
             stationeryVM.SecondSupplierCode = s.secondSupplierCode;
             stationeryVM.ThirdSupplierCode = s.thirdSupplierCode;
             stationeryVM.Price = s.price;
+            stationeryVM.Category = s.Category;
             return stationeryVM;
         }    
 
@@ -140,7 +154,7 @@ namespace Inventory_mvc.Service
             string code = itemCode.ToUpper().Trim();
             Stationery stationery = stationeryDAO.FindByItemCode(code);
 
-            if (stationery.Requisition_Details.Count != 0 || stationery.Purchase_Details.Count != 0 || stationery.Voucher_Details.Count != 0)
+            if (stationery.Requisition_Detail.Count != 0 || stationery.Purchase_Detail.Count != 0 || stationery.Voucher_Details.Count != 0)
             {
                 return false;
             }
@@ -158,5 +172,42 @@ namespace Inventory_mvc.Service
         {
             return stationeryDAO.GetAllCategory();
         }
+
+
+        List<string> IStationeryService.GetAllUOMList()
+        {
+            return stationeryDAO.GetAllUOMList();
+        }
+
+        List<string> IStationeryService.GetAllFirstSupplierList()
+        {
+            return stationeryDAO.GetAllFirstSupplierList();
+        }
+
+        List<string> IStationeryService.GetAllSecondSupplierList()
+        {
+            return stationeryDAO.GetAllSecondSupplierList();
+        }
+
+        List<string> IStationeryService.GetAllThirdSupplierList()
+        {
+            return stationeryDAO.GetAllThirdSupplierList();
+        }
+
+        List<int> IStationeryService.GetAllCategoryIDList()
+        {
+            return stationeryDAO.GetAllCategoryIDList();
+        }
+
+        bool IStationeryService.isExistingSupplierCode(string supplier1, string supplier2)
+        {
+            string code1 = supplier1.ToUpper().Trim();
+            string code2 = supplier2.ToUpper().Trim();
+           // string code3 = supplier3.ToUpper().Trim();
+            if (code1 == code2 )
+            { return true; }
+            else { return false; }
+        }
+
     }
 }

@@ -43,7 +43,7 @@ namespace Inventory_mvc.Service
             string code = supplierCode.ToUpper().Trim();
             Supplier supplier = supplierDAO.FindBySupplierCode(code);
 
-            if(supplier.Stationery.Count != 0 || supplier.Stationery1.Count != 0 || supplier.Stationery2.Count != 0)
+            if(supplier.Stationeries.Count != 0 || supplier.Stationeries1.Count != 0 || supplier.Stationeries2.Count != 0)
             {
                 return false;
             }

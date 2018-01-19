@@ -10,5 +10,9 @@ namespace Inventory_mvc.Service
     interface IDepartmentService
     {
         List<Department> GetAllDepartment();
+        Department GetDepartmentByCode(string deptCode);
+        int UpdateDepartmentByCode(Department dept);
+        Boolean CreateDepartment(Department dept);
+        bool isExistingCode(string departmentCode);
     }
 }

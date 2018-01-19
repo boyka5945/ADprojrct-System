@@ -12,7 +12,8 @@ namespace Inventory_mvc.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public roleInfo()
         {
-            rolePermission = new HashSet<rolePermission>();
+            rolePermissions = new HashSet<rolePermission>();
+            Users = new HashSet<User>();
         }
 
         [Key]
@@ -26,6 +27,9 @@ namespace Inventory_mvc.Models
         public string description { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<rolePermission> rolePermission { get; set; }
+        public virtual ICollection<rolePermission> rolePermissions { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<User> Users { get; set; }
     }
 }

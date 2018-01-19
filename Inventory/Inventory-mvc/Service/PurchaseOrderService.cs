@@ -41,7 +41,7 @@ namespace Inventory_mvc.Service
 
         }
 
-        public List<Purchase_Details> GetPurchaseDetailsByOrderNo(int orderNo)
+        public List<Purchase_Detail> GetPurchaseDetailsByOrderNo(int orderNo)
         {
             return dao.GetPurchaseDetailsByOrderNo(orderNo);
             
@@ -53,7 +53,7 @@ namespace Inventory_mvc.Service
 
         }
 
-        public bool AddPurchaseDetail(Purchase_Details pd)
+        public bool AddPurchaseDetail(Purchase_Detail pd)
         {
             return dao.AddPurchaseDetail(pd);
         }

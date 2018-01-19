@@ -21,5 +21,20 @@ namespace Inventory_mvc.Service
         bool isExistingID(string id);
 
         bool AddNewUser(UserViewModel userVM);
+
+        bool AssignRep(string userid);
+
+        bool Remove_Delegate(string userid);
+
+        List<int> FindAllRole();
+
+        
+
+        string[] FindApprovingStaffsEmailByRequesterID(string requesterID);
+
+        string FindDeptCodeByID(string userid);
+
+        string FindNameByID(string userid);
+        bool FindRole(int role);
     }
 }

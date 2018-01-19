@@ -12,6 +12,8 @@ namespace Inventory_mvc.Controllers
     public class CollectionPointController : Controller
     {
         ICollectionPointService collectionPointService = new CollectionPointService();
+        IDepartmentService departmentService = new DepartmentService();
+        IUserService us = new UserService();
         // GET: CollectionPoint
         public ActionResult Index()
         {
@@ -25,13 +27,13 @@ namespace Inventory_mvc.Controllers
         //    return View(model);
         //}
 
-        // GET: Supplier/Create
+        // GET: CollectionPoint/Create
         public ActionResult Create()
         {
             return View(new CollectionPointViewModel());
         }
 
-        // POST: Supplier/Create
+        // POST: CollectionPoint/Create
         [HttpPost]
         public ActionResult Create(CollectionPointViewModel collectionPointVM)
         {
@@ -67,7 +69,7 @@ namespace Inventory_mvc.Controllers
         }
 
 
-        // POST: Supplier/Edit/{id}
+        // POST: CollectionPoint/Edit/{id}
         [HttpPost]
         public ActionResult Edit(CollectionPointViewModel cpVM)
         {
@@ -97,7 +99,7 @@ namespace Inventory_mvc.Controllers
             return View(cpVM);
         }
 
-        // GET: Supplier/Delete/{id}
+        // GET: CollectionPoint/Delete/{id}
         public ActionResult Delete(int id)
         {
             if (collectionPointService.DeleteCollectionPoint(id))
@@ -112,7 +114,56 @@ namespace Inventory_mvc.Controllers
             return RedirectToAction("Index");
         }
 
+
+
+        //    GET: CollectionPoint/UpdateCollectionPoint/{department}
+
+        public ActionResult UpdateCollectionPoint()
+        {
+            //hardcoded value before login being implemented
+            string userID = "S1000";
+            DepartmentService ds = new DepartmentService();
+            TempData["CollectionPointList"] = collectionPointService.GetAllCollectionPoints();
+            Department uVM = ds.GetDepartmentByCode(us.FindByUserID(userID).DepartmentCode);
+            //string FindDeptCode = uVM.DepartmentCode;
+            //DepartmentService ds = new DepartmentService();
+            //Department d = ds.GetDepartmentByCode(FindDeptCode);
+            return View(uVM);
+
+        }
+
+
+        [HttpPost]
+        public ActionResult UpdateCollectionPoint(FormCollection form)
+        {
+
+            DepartmentService ds = new DepartmentService();
+            var collectionPoint = Convert.ToInt32(form["collectionPointID"]);
+            var departmentCode = form["departmentCode"].ToString();
+            Department d = new Department();
+            d = ds.GetDepartmentByCode(departmentCode);
+            d.collectionPointID = collectionPoint;
+
+            
+
+            if (ModelState.IsValid)
+                try
+                {
+                    int row = ds.UpdateDepartmentByCode(d);
+
+                    return RedirectToAction("UpdateCollectionPoint");
+
+                }
+                catch (Exception e)
+                {
+                    TempData["ExceptionMessage"] = e.Message;
+                }
+
+            TempData["CollectionPointList"] = collectionPointService.GetAllCollectionPoints();
+            return RedirectToAction("UpdateCollectionPoint");
+
+
+        }
     }
-
-
 }
+

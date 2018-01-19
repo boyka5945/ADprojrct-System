@@ -28,6 +28,8 @@ namespace Inventory_mvc.Service
 
         bool isPositiveQty(int reorderQty);
 
+        bool isPositivePrice(decimal price);
+
         List<Category> GetAllCategory();
 
 
@@ -35,6 +37,19 @@ namespace Inventory_mvc.Service
         List<StationeryViewModel> GetAllStationeryViewModel();
 
         StationeryViewModel FindStationeryViewModelByItemCode(string itemCode);
+
+
+        List<string> GetAllUOMList();
+
+        List<string> GetAllFirstSupplierList();
+
+        List<string> GetAllSecondSupplierList();
+
+        List<string> GetAllThirdSupplierList();
+
+        List<int> GetAllCategoryIDList();
+
+        bool isExistingSupplierCode(string supplier1, string supplier2);
 
     }
 }

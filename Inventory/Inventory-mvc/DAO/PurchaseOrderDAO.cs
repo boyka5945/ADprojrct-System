@@ -12,7 +12,7 @@ namespace Inventory_mvc.DAO
         {
             using (StationeryModel Entity = new StationeryModel())
             {
-                Entity.Purchase_Order_Record.Add(purchase_order_record);
+                Entity.Purchase_Order_Records.Add(purchase_order_record);
                 Entity.SaveChanges();
                 return true;
 
@@ -26,8 +26,8 @@ namespace Inventory_mvc.DAO
             using (StationeryModel Entity = new StationeryModel())
             {
 
-                Purchase_Order_Record por = Entity.Purchase_Order_Record.Where(x => x.orderNo == orderID).First();
-                Entity.Purchase_Order_Record.Remove(por);
+                Purchase_Order_Record por = Entity.Purchase_Order_Records.Where(x => x.orderNo == orderID).First();
+                Entity.Purchase_Order_Records.Remove(por);
                 Entity.SaveChanges();
                 return true;
             }
@@ -38,7 +38,7 @@ namespace Inventory_mvc.DAO
         {
             using (StationeryModel Entity = new StationeryModel())
             {
-                Purchase_Order_Record por = Entity.Purchase_Order_Record.Where(x => x.orderNo == orderID).First();
+                Purchase_Order_Record por = Entity.Purchase_Order_Records.Where(x => x.orderNo == orderID).First();
                 return por;
 
 
@@ -74,7 +74,7 @@ namespace Inventory_mvc.DAO
         {
             using (StationeryModel Entity = new StationeryModel())
             {
-                List<Purchase_Order_Record> por = Entity.Purchase_Order_Record.ToList();
+                List<Purchase_Order_Record> por = Entity.Purchase_Order_Records.ToList();
                 return por;
 
             }
@@ -85,7 +85,7 @@ namespace Inventory_mvc.DAO
         {
             using (StationeryModel Entity = new StationeryModel())
             {
-                Purchase_Order_Record por = (from x in Entity.Purchase_Order_Record
+                Purchase_Order_Record por = (from x in Entity.Purchase_Order_Records
                                              where x.orderNo == record.orderNo
                                              select x).FirstOrDefault();
 
@@ -105,11 +105,11 @@ namespace Inventory_mvc.DAO
 
 
         //PURCHASE DETAILS//
-        public List<Purchase_Details> GetPurchaseDetailsByOrderNo(int orderNo)
+        public List<Purchase_Detail> GetPurchaseDetailsByOrderNo(int orderNo)
         {
             StationeryModel Entity = new StationeryModel();
 
-                List<Purchase_Details> pd = Entity.Purchase_Details.Where(x => x.orderNo == orderNo).ToList();
+                List<Purchase_Detail> pd = Entity.Purchase_Detail.Where(x => x.orderNo == orderNo).ToList();
                 return pd;
             
 
@@ -117,11 +117,11 @@ namespace Inventory_mvc.DAO
 
 
 
-        public bool AddPurchaseDetail(Purchase_Details pd)
+        public bool AddPurchaseDetail(Purchase_Detail pd)
         {
             using(StationeryModel Entity = new StationeryModel())
             {
-                Entity.Purchase_Details.Add(pd);
+                Entity.Purchase_Detail.Add(pd);
                 Entity.SaveChanges();
                 return true;
             }
@@ -133,7 +133,7 @@ namespace Inventory_mvc.DAO
             {
                 int maxOrderNo = 0;
                 //to obtain highest order number
-                List<Purchase_Order_Record> pds = Entity.Purchase_Order_Record.ToList();
+                List<Purchase_Order_Record> pds = Entity.Purchase_Order_Records.ToList();
                 foreach (Purchase_Order_Record p in pds)
                 {
                     maxOrderNo = 1;
@@ -144,7 +144,7 @@ namespace Inventory_mvc.DAO
 
                 }
 
-                Purchase_Details pd = new Purchase_Details();
+                Purchase_Detail pd = new Purchase_Detail();
                 pd.orderNo = maxOrderNo + 1;
                 pd.deliveryOrderNo = deliveryOrderNo;
                 pd.itemCode = itemCode;
@@ -152,7 +152,7 @@ namespace Inventory_mvc.DAO
                 pd.remarks = remarks;
                 pd.price = price;
                
-                Entity.Purchase_Details.Add(pd);
+                Entity.Purchase_Detail.Add(pd);
                 Entity.SaveChanges();
                 return true;
             }
