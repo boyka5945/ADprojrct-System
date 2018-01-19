@@ -37,6 +37,8 @@ namespace Inventory_mvc.DAO
 
         List<Requisition_Record> GetRecordsByRequesterID(string requesterID);
 
+        List<RetrieveForm> GetRetrieveFormByDateTime(DateTime? time);
+
         bool UpdateRequisitionDetails(Requisition_Detail requisitionDetail);
         List<Requisition_Record> GetSortedRecordsByRequesterID(string requesterID, string sortOrder);
     }

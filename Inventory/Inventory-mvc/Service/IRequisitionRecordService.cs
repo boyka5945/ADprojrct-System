@@ -35,6 +35,7 @@ namespace Inventory_mvc.Service
 
         bool ValidateRequisition(Requisition_Record requisition);
         void UpdateDetails(string itemcode, int requisitionNo, int? allocateQty);
+        List<RetrieveForm> GetRetrieveFormByDateTime(DateTime? time);
 
         bool DeleteRequisition(int recordNo);
         List<Requisition_Record> GetSortedRecordsByRequesterID(string requesterID, string sortOrder);

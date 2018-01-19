@@ -92,6 +92,11 @@ namespace Inventory_mvc.Service
             return rDAO.GetRequisitionByDept(deptCode);
         }
 
+        public List<RetrieveForm> GetRetrieveFormByDateTime(DateTime? time)
+        {
+            RequisitionRecordDAO rDAO = new RequisitionRecordDAO();
+            return rDAO.GetRetrieveFormByDateTime(time);
+        }
         public bool DeleteRequisition(int recordNo)
         {
             return rDAO.DeleteRequisition(recordNo);
@@ -121,6 +126,7 @@ namespace Inventory_mvc.Service
             }
 
             return record;  
+
         }
 
         public bool UpdateRequisitionDetails(List<RequisitionDetailViewModel> vmList, out string errorMessage)
