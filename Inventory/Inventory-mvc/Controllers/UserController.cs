@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using Inventory_mvc.Service;
 using Inventory_mvc.Models;
 using Inventory_mvc.ViewModel;
+using System.Globalization;
 
 namespace Inventory_mvc.Controllers
 {
@@ -44,8 +45,8 @@ namespace Inventory_mvc.Controllers
             
             //try
             //{
-                DateTime start = DateTime.Parse(from);
-                DateTime end = DateTime.Parse(toto);
+                DateTime start = DateTime.ParseExact(from, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                DateTime end = DateTime.ParseExact(toto, "dd-MM-yyyy", CultureInfo.InvariantCulture);
                 userService.DelegateEmp(Request["userID"].ToString(), start.Date, end.Date);
             //}
             //catch(Exception e)

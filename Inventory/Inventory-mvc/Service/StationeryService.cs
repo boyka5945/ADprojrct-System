@@ -227,5 +227,6 @@ namespace Inventory_mvc.Service
 
             return vmList;
         }
+
     }
 }

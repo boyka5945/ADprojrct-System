@@ -12,10 +12,20 @@ namespace Inventory_mvc.Controllers
     public class SupplierController : Controller
     {
         ISupplierService supplierService = new SupplierService();
+        IUserService userService = new UserService();
 
         // GET: Supplier
         public ActionResult Index()
         {
+            // TODO: REMOVE HARD CODED REQUESTER ID
+            //string requesterID = HttpContext.User.Identity.Name;
+            string userID = "S1017"; // clerk
+            //string userID = "S1016"; // supervisor
+
+            // Store clerk roleID == 7
+            int roleID = userService.GetRoleByID(userID);
+            ViewBag.Role = (roleID.ToString() == "7") ? "StoreClerk" : "";
+
             return View(supplierService.GetAllSuppliers());
         }
 

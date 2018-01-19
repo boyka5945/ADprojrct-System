@@ -64,53 +64,60 @@
 
 <br />
 
-@using (Html.BeginForm("SubmitRequisition", "RaiseRequisition", FormMethod.Post, new { @class = "form" }))
+@if (Model.Count() == 0)
 {
-    <table class="table">
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.UOM)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Quantity)
-            </th>
-            <th></th>
-        </tr>
-
-        @foreach (var item in Model)
-        {               
+    <h3><i>Your requistion form is empty.</i></h3>
+}
+else
+{
+    using (Html.BeginForm("SubmitRequisition", "RaiseRequisition", FormMethod.Post, new { @class = "form" }))
+    {
+        <table class="table">
             <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Description)
-                    @Html.HiddenFor(modelItem => item.ItemCode, new { id="itemCode"})
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.UOM)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Quantity)
-                </td>
-                <td> 
-                    <a href="#" onclick="EditRequestItem('@item.ItemCode')">Edit</a> |
-                    @Html.ActionLink("Remove", "RemoveRequestItem", "RaiseRequisition", new { itemCode = item.ItemCode }, new {})
-                </td>
+                <th>
+                    @Html.DisplayNameFor(model => model.Description)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.UOM)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Quantity)
+                </th>
+                <th></th>
             </tr>
-        }
-    </table>
 
-    <br />
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Description)
+                        @Html.HiddenFor(modelItem => item.ItemCode, new { id = "itemCode" })
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UOM)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Quantity)
+                    </td>
+                    <td>
+                        <a href="#" onclick="EditRequestItem('@item.ItemCode')">Edit</a> |
+                        @Html.ActionLink("Remove", "RemoveRequestItem", "RaiseRequisition", new { itemCode = item.ItemCode }, new { })
+                    </td>
+                </tr>
+            }
+        </table>
+
+        <br />
 
         <input type="submit" value="Submit Requisition" class="btn btn-success @disabled" />
         <a href="@Url.Action("ClearAllRequestItem", "RaiseRequisition" )">
             <input type="button" value="Clear All" class="btn btn-danger" @disabled />
         </a>
 
-    <br />
-
+        <br />
+    }
 }
+
 
 <!-- The below code is for the modal dialog -->
 <div class="modal fade" id="addItemModal" tabindex="-1" role="dialog">

@@ -10,6 +10,9 @@
 
     var deleteErrorMessage = TempData["DeleteErrorMessage"];
     var deleteMessage = TempData["DeleteMessage"];
+
+    string role = ViewBag.Role;
+
 }
 
 <h2>Supplier List</h2>
@@ -58,6 +61,13 @@
 </div>
 
 
+@if (role != "StoreClerk")
+{
+    <p>
+        @Html.ActionLink("Create New Supplier", "Create")
+    </p>
+}
+
 
 <table class="table">
     <tr>
@@ -82,8 +92,10 @@
         <th>
             @Html.DisplayNameFor(model => model.GSTNo)
         </th>
-
-        <th></th>
+        @if (role != "StoreClerk")
+        {
+            <th></th>
+        }
     </tr>
 
     @foreach (var item in Model)
@@ -110,17 +122,17 @@
             <td>
                 @Html.DisplayFor(modelItem => item.GSTNo)
             </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.SupplierCode }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.SupplierCode })
-            </td>
+            @if (role != "StoreClerk")
+            {
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.SupplierCode }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.SupplierCode })
+                </td>
+            }
         </tr>
     }
 
 </table>
 
-<p>
-    @Html.ActionLink("Create New Supplier", "Create")
-</p>
 
 

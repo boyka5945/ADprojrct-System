@@ -116,7 +116,7 @@
     </p>
 </div>
 
-@if(role != "Clerk")
+@if (role != "StoreClerk")
 {
     <p>
         @Html.ActionLink("Create New Stationery", "Create")
@@ -209,8 +209,8 @@
             </td>
             <td>
                 @Html.ActionLink("View StockCard", "ViewStockCard", new { id = item.ItemCode })
-                
-                @if (role != "Clerk")
+
+                @if (role != "StoreClerk")
                 {
                     @:| @Html.ActionLink("Edit", "Edit", new { id = item.ItemCode })
                     @:| @Html.ActionLink("Delete", "Delete", new { id = item.ItemCode })
