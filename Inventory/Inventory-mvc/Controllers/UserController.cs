@@ -39,12 +39,13 @@ namespace Inventory_mvc.Controllers
             return View(u);
         }
         [HttpPost]
-        public ActionResult Delegate(string userID, DateTime? from, DateTime? toto )
+        public ActionResult Delegate(string userID,string from, string toto )
         {
+            
             //try
             //{
-                DateTime start = Convert.ToDateTime(Request["from"]);
-                DateTime end = Convert.ToDateTime(Request["toto"]);
+                DateTime start = DateTime.Parse(from);
+                DateTime end = DateTime.Parse(toto);
                 userService.DelegateEmp(Request["userID"].ToString(), start.Date, end.Date);
             //}
             //catch(Exception e)

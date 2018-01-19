@@ -12,25 +12,43 @@
     //$(function () {
     //    $("#delend").datepicker();
     //});
-    
+    $(document).ready(function(){
+$("#delend").attr("disabled", "disable");// add end date to disable
+
+    });
 
   $( function() {
         $("#delstart").datepicker(
-        { minDate: 0 }
+        {
+            minDate: 0, dateFormat: 'dd-mm-yy', 
+            beforeShowDay: $.datepicker.noWeekends ,
+            onSelect: function (date) {
+
+                $("#delend").removeAttr("disabled");// remove disable after select startdate
+
+            
+            }
+        }
     );
   });
-  
+
   $(function () {
-        $("#delend").datepicker(
-          {
-              defaultDate: "+1w",
-              beforeShow: function () {
-                    $(this).datepicker('option', 'minDate', $('#delstart').val());
-                    if ($('#delstart').val() === '') $(this).datepicker('option', 'minDate', 0);
-              }
-          }
-       );
+      
+      $("#delend").datepicker(
+      {
+          beforeShowDay: $.datepicker.noWeekends,
+        //  changeMonth:true,
+        //  maxDate: "+2W",
+        defaultDate: "+1w",
+        beforeShow: function () {
+            $(this).datepicker('option', 'minDate', $('#delstart').val());
+          //  if ($('#delstart').val() === '') $(this).datepicker('option', 'minDate', 0 , 'maxDate' , '+10D');
+        },
+        dateFormat: 'dd-mm-yy'
+    });
   });
+ 
+  
 </script>
 <div>
     <h4>User</h4>
