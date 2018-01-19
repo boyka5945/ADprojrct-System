@@ -120,8 +120,8 @@ namespace Inventory_mvc.Service
             uVM.UserEmail = user.userEmail;
             uVM.DepartmentCode = user.departmentCode;
             uVM.Role = user.role;
-            uVM.DelegationStart =(DateTime?)user.delegationStart;
-            uVM.DelegationEnd = (DateTime?)user.delegationEnd;
+            uVM.DelegationStart =(DateTime)user.delegationStart;
+            uVM.DelegationEnd = (DateTime)user.delegationEnd;
 
 
             return uVM;

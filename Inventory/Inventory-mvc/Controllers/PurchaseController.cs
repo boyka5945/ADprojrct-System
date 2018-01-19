@@ -191,6 +191,32 @@ namespace Inventory_mvc.Controllers
             return View("RaisePurchaseOrder", model);
         }
 
+        [HttpPost]
+        public ActionResult UpdatePD()
+        {
+            Dictionary<Purchase_Detail, string> details = (Dictionary<Purchase_Detail, string>)Session["detailsBundle"];
+            List<Purchase_Detail> model = details.Keys.ToList<Purchase_Detail>();
+
+            string itemCode = Request.Params.Get("ditemCode");
+            var index = model.FindIndex(c => c.itemCode == itemCode);
+
+            model[index].qty = Int32.Parse(Request.Params.Get("dqty"));
+            model[index].price = Int32.Parse(Request.Params.Get("dprice"));
+
+
+            string supplier = details[model[index]];
+
+            //save changes to the dictionary and to session state
+            details.Remove(model[index]);
+            details.Add(model[index], supplier);
+
+            Session["detailsBundle"] = details;
+
+
+            return View("RaisePurchaseOrder", model);
+
+        }
+
         //helper method
         public int findNextOrderNo()
         {

@@ -281,6 +281,8 @@ namespace Inventory_mvc.DAO
                                              select r).FirstOrDefault();
 
                     rd.qty = requisitionDetail.qty;
+                    rd.Requisition_Record.requestDate = DateTime.Today;
+
                     context.SaveChanges();
                     return true;
                 }
@@ -288,6 +290,42 @@ namespace Inventory_mvc.DAO
                 {
                     return false;
                 }
+            }
+
+        }
+
+        public List<Requisition_Record> GetSortedRecordsByRequesterID(string requesterID, string sortOrder)
+        {
+            using (StationeryModel context = new StationeryModel())
+            {
+                var records = from r in context.Requisition_Records where r.requesterID == requesterID select r;
+
+                switch (sortOrder)
+                {
+                    case "number_desc":
+                        records = records.OrderByDescending(r => r.requisitionNo);
+                        break;
+                    case "Requisition Form Number":
+                        records = records.OrderBy(r => r.requisitionNo);
+                        break;
+                    case "Request Date":
+                        records = records.OrderBy(r => r.requestDate);
+                        break;
+                    case "date_desc":
+                        records = records.OrderByDescending(r => r.requestDate);
+                        break;
+                    case "Status":
+                        records = records.OrderBy(r => r.status);
+                        break;
+                    case "status_desc":
+                        records = records.OrderByDescending(r => r.status);
+                        break;
+                    default:
+                        records = records.OrderByDescending(r => r.requestDate);
+                        break;
+                }
+
+                return records.ToList();
             }
 
         }

@@ -172,5 +172,34 @@ namespace Inventory_mvc.DAO
             }
         }
 
+
+        List<Stationery> IStationeryDAO.GetStationeriesBasedOnCriteria(string searchString, string categoryID)
+        {
+            using (StationeryModel context = new StationeryModel())
+            {
+                var stationeries = from s in context.Stationeries select s;
+
+                if(categoryID != "All")
+                {
+                    stationeries = stationeries.Where(s => s.categoryID.ToString() == categoryID);
+                }
+
+                if (!String.IsNullOrEmpty(searchString))
+                {
+                    string[] searchStringArray = searchString.Split();
+                    foreach (string s in searchStringArray)
+                    {
+                        string search = s.ToLower().Trim();
+                        if (!String.IsNullOrEmpty(search))
+                        {
+                            stationeries = stationeries.Where(x => x.description.ToLower().Contains(search));
+                        }
+                    }
+                }
+
+                return stationeries.Include(s => s.Category).ToList();
+            }
+
+        }
     }
 }

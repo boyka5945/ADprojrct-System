@@ -33,6 +33,6 @@ namespace Inventory_mvc.DAO
         List<string> GetAllThirdSupplierList();
 
         List<int> GetAllCategoryIDList();
-
+        List<Stationery> GetStationeriesBasedOnCriteria(string searchString, string categoryID);
     }
 }

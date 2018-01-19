@@ -1,5 +1,7 @@
-﻿@model IEnumerable<Inventory_mvc.Models.BigModelView>
-
+﻿@*@model IEnumerable<Inventory_mvc.Models.BigModelView>*@
+@model PagedList.IPagedList<Inventory_mvc.Models.BigModelView>
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 @{
     ViewBag.Title = "ClerkRequisition";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -11,13 +13,13 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.itemCode)
+            @Html.Label("Item Code")
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.description)
+            @Html.Label("Description")
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.retrievedQuantity)
+            @Html.Label("Retrieved Quantity")
         </th>
         <th>
             requisitionNo
@@ -29,7 +31,7 @@
             requestDate
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.unfulfilledQty)
+            @Html.Label("Unfulfilled Quantity")
         </th>
         <th>
             allocateQty
@@ -66,8 +68,16 @@
     </tr>
 }
 
+
 </table>
-    <div class="col-md-offset-2 col-md-10">
-        <input type="submit" value="Allocate" class="btn btn-default" />
-    </div>
+<div class="col-md-offset-2 col-md-10">
+    <input type="submit" value="Allocate" class="btn btn-default" />
+</div>
 }
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("ClerkRequisition",
+                     new { page }))
+
+
+
