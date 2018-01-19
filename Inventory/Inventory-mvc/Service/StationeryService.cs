@@ -209,9 +209,23 @@ namespace Inventory_mvc.Service
             else { return false; }
         }
 
-        List<Stationery> IStationeryService.GetStationeriesBasedOnCriteria(string searchString, string categoryID)
+        public List<Stationery> GetStationeriesBasedOnCriteria(string searchString, string categoryID)
         {
             return stationeryDAO.GetStationeriesBasedOnCriteria(searchString, categoryID);
+        }
+
+        public List<StationeryViewModel> GetStationeriesVMBasedOnCriteria(string searchString, string categoryID)
+        {
+            List<Stationery> stationeries = GetStationeriesBasedOnCriteria(searchString, categoryID);
+
+            List<StationeryViewModel> vmList = new List<StationeryViewModel>();
+
+            foreach(var s in stationeries)
+            {
+                vmList.Add(ConvertToViewModel(s));
+            }
+
+            return vmList;
         }
     }
 }

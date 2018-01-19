@@ -1,185 +1,231 @@
-﻿@model IEnumerable<Inventory_mvc.ViewModel.StationeryViewModel>  
+﻿@model PagedList.IPagedList<Inventory_mvc.ViewModel.StationeryViewModel>
+
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 
 
 
-    @{
-        ViewBag.Title = "Stationery List";
+@{
+    ViewBag.Title = "Stationery List";
 
-        var createMessage = TempData["CreateMessage"];
+    var createMessage = TempData["CreateMessage"];
 
-        var editMessage = TempData["EditMessage"];
-        var editErrorMessage = TempData["EditErrorMessage"];
+    var editMessage = TempData["EditMessage"];
+    var editErrorMessage = TempData["EditErrorMessage"];
 
-        var deleteErrorMessage = TempData["DeleteErrorMessage"];
-        var deleteMessage = TempData["DeleteMessage"];
+    var deleteErrorMessage = TempData["DeleteErrorMessage"];
+    var deleteMessage = TempData["DeleteMessage"];
 
-        List<Inventory_mvc.Models.Category> categoryList = ViewBag.CategoryList;
-    }
+    List<Inventory_mvc.Models.Category> categoryList = ViewBag.CategoryList;
 
+    string role = ViewBag.Role;
+}
 
-    <h2>Stationery List</h2>
-
-    <div>
-        <p>
-            @if (createMessage != null)
-            {
-                @Html.Label(createMessage.ToString(), new { @class = "alert alert-success" });
-            }
-
-            @if (editMessage != null)
-            {
-                @Html.Label(editMessage.ToString(), new { @class = "alert alert-success" });
-            }
-
-            @if (editErrorMessage != null)
-            {
-                @Html.Label(editErrorMessage.ToString(), new { @class = "alert alert-danger" });
-            }
-
-            @if (deleteErrorMessage != null)
-            {
-                @Html.Label(deleteErrorMessage.ToString(), new { @class = "alert alert-danger" });
-            }
-
-            @if (deleteMessage != null)
-            {
-                @Html.Label(deleteMessage.ToString(), new { @class = "alert alert-success" });
-            }
-        </p>
-    </div>
+<h2>Stationery List</h2>
 
 
+@using (Html.BeginForm("Index", "Stationery", FormMethod.Get, new { @class = "form-group" }))
+{
+    <table class="table pagination">
+        <tr>
+            <td>
+                @Html.Label("Description", new { @class = "col-sm-2 col-form-label font-weight-bold" })
+            </td>
+            <td>
+                @Html.TextBox("searchString", ViewBag.SearchString as string, new { @class = "form-control" })
+            </td>
+            <td>
+                @Html.Label("Category", new { @class = "col-sm-2 col-form-label font-weight-bold" })
+            </td>
+            <td>
+                <select name="categoryID" class="form-control">
+                    <option value="All" selected="selected">All</option>
+                    @foreach (var category in categoryList)
+                    {
+                        string selected = "";
 
-   
-
-    @using (Html.BeginForm("Index", "Stationery", FormMethod.Get, new { @class = "form-group" }))
-    {
-        <table class="table pagination">
-            <tr>
-                <td>
-                    @Html.Label("Description", new { @class = "col-sm-2 col-form-label font-weight-bold" })
-                </td>
-                <td>
-                    @Html.TextBox("searchString", ViewBag.SearchString as string, new { @class = "form-control" })
-                </td>
-                <td>
-                    @Html.Label("Category", new { @class = "col-sm-2 col-form-label font-weight-bold" })
-                </td>
-                <td>
-                    <select name="categoryID" class="custom-select my-1 mr-sm-2">
-                        <option value="All" selected="selected">All</option>
-                        @foreach (var category in categoryList)
+                        if (ViewBag.CategoryID == category.categoryID.ToString())
                         {
-                            string selected = "";
-
-                            if (ViewBag.CategoryID == category.categoryID.ToString())
-                            {
-                                selected = "selected";
-                            }
-                            <option value="@category.categoryID" @selected> @category.categoryName </option>
+                            selected = "selected";
                         }
-                    </select>
-                </td>
-                <td>
-                    <input type="submit" class="btn btn-primary" value="Search" />
-                    <a href="@Url.Action("ResetCatalogue")">
-                        <input type="button" class="btn btn-primary" value="Reset" />
-                    </a>
-                </td>
-            </tr>
-        </table>
-    }
+                        <option value="@category.categoryID" @selected> @category.categoryName </option>
+                    }
+                </select>
+            </td>
+            <td>
+                <input type="submit" class="btn btn-primary" value="Search" />
+                <a href="@Url.Action("ResetCatalogue")">
+                    <input type="button" class="btn btn-danger" value="Reset" />
+                </a>
+            </td>
+        </tr>
+    </table>
+}
 
+<div>
+    <p>
+        @if (editMessage != null)
+        {
+            <div class="alert alert-success">
+                @editMessage.ToString()
+            </div>
+        }
+
+        @if (editErrorMessage != null)
+        {
+            <div class="alert alert-danger">
+                @editErrorMessage.ToString()
+            </div>
+        }
+
+
+        @if (createMessage != null)
+        {
+            <div class="alert alert-success">
+                @createMessage.ToString()
+            </div>
+        }
+
+        @if (editMessage != null)
+        {
+            <div class="alert alert-success">
+                @editMessage.ToString()
+            </div>
+        }
+
+        @if (editErrorMessage != null)
+        {
+            <div class="alert alert-danger">
+                @editErrorMessage.ToString()
+            </div>
+        }
+
+        @if (deleteErrorMessage != null)
+        {
+            <div class="alert alert-danger">
+                @deleteErrorMessage.ToString()
+            </div>
+        }
+
+        @if (deleteMessage != null)
+        {
+            <div class="alert alert-success">
+                @deleteMessage.ToString()
+            </div>
+        }
+    </p>
+</div>
+
+@if(role != "Clerk")
+{
     <p>
         @Html.ActionLink("Create New Stationery", "Create")
     </p>
-    <table class="table">
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.ItemCode)
-            </th>
-            <th>
-                @Html.Label("Category")
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
-            @*<th>
+}
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.Label("Category")
+        </th>
+        <th>
+            @Html.Label("Code")
+        </th>
+        <th>
+            @Html.Label("Description")
+        </th>
+        @*<th>
                 @Html.DisplayNameFor(model => model.ReorderLevel)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.ReorderQty)
             </th>*@
-            <th>
-                @Html.DisplayNameFor(model => model.UnitOfMeasure)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.StockQty)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Location)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FirstSupplierCode)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.SecondSupplierCode)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ThirdSupplierCode)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Price)
-            </th>
-            <th></th>
-        </tr>
+        <th>
+            @Html.Label("UOM")
+        </th>
 
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ItemCode)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Category.categoryName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Description)
-                </td>
-                @*<td>
+        <th>
+            @Html.Label("Stock Quantity")
+        </th>
+        <th>
+            @Html.Label("Location")
+        </th>
+        <th>
+            @Html.Label("1st Supplier")
+        </th>
+        <th>
+            @Html.Label("2nd Supplier")
+        </th>
+        <th>
+            @Html.Label("3rd Supplier")
+        </th>
+        <th>
+            @Html.Label("Price")
+        </th>
+        <th>
+            @Html.Label("Action")
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Category.categoryName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ItemCode)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            @*<td>
                     @Html.DisplayFor(modelItem => item.ReorderLevel)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.ReorderQty)
                 </td>*@
-                <td>
-                    @Html.DisplayFor(modelItem => item.UnitOfMeasure)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.StockQty)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Location)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.FirstSupplierCode)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.SecondSupplierCode)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ThirdSupplierCode)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Price)
-                </td>
-                <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.ItemCode }) |
-                    @Html.ActionLink("View StockCard", "ViewStockCard", new { id = item.ItemCode }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.ItemCode })
-                </td>
-            </tr>
-        }
+            <td>
+                @Html.DisplayFor(modelItem => item.UnitOfMeasure)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StockQty)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Location)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FirstSupplierCode)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SecondSupplierCode)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ThirdSupplierCode)
+            </td>
+            <td>
+                $ @Html.DisplayFor(modelItem => item.Price)
+            </td>
+            <td>
+                @Html.ActionLink("View StockCard", "ViewStockCard", new { id = item.ItemCode })
+                
+                @if (role != "Clerk")
+                {
+                    @:| @Html.ActionLink("Edit", "Edit", new { id = item.ItemCode })
+                    @:| @Html.ActionLink("Delete", "Delete", new { id = item.ItemCode })
+                }
+            </td>
+        </tr>
+    }
 
-    </table>
+</table>
+
+        Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+        @Html.PagedListPager(Model, page => Url.Action("Index",
+                     new { searchString = ViewBag.SearchString, categoryID = ViewBag.CategoryID, page }))
+
+
+
 

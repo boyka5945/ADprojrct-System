@@ -6,12 +6,13 @@
 
 }
 
+<h2>Edit Stationery</h2>
+
 @using (Html.BeginForm("Edit", "Stationery", FormMethod.Post, new { @class = "form-group" }))
 {
     @Html.AntiForgeryToken()
     
     <div class="form-horizontal">
-        <h4>Stationery</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.ItemCode)
@@ -87,7 +88,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.SecondSupplierCode, htmlAttributes: new { @class = "control-label col-md-3 font-weight-bold" })
+            @Html.LabelFor(model => model.SecondSupplierCode, htmlAttributes: new { @class = "control-label col-md-2 font-weight-bold" })
             <div class="col-md-5">
                 @*@Html.EditorFor(model => model.SecondSupplierCode, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.SecondSupplierCode, "", new { @class = "text-danger" })*@

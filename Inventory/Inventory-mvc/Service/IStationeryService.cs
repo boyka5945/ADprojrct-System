@@ -38,7 +38,7 @@ namespace Inventory_mvc.Service
         List<StationeryViewModel> GetAllStationeryViewModel();
 
         StationeryViewModel FindStationeryViewModelByItemCode(string itemCode);
-
+        List<StationeryViewModel> GetStationeriesVMBasedOnCriteria(string searchString, string categoryID);
 
         List<string> GetAllUOMList();
 

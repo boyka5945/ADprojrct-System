@@ -31,7 +31,7 @@ namespace Inventory_mvc.Service
         
 
         string[] FindApprovingStaffsEmailByRequesterID(string requesterID);
-
+        int GetRoleByID(string userID);
         string FindDeptCodeByID(string userid);
 
         string FindNameByID(string userid);

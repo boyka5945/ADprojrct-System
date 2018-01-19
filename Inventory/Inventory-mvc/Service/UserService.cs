@@ -147,5 +147,9 @@ namespace Inventory_mvc.Service
             return userDAO.FindByUserID(userid).name;
         }
 
+        int IUserService.GetRoleByID(string userID)
+        {
+            return userDAO.GetRoleByID(userID);
+        }
     }
 }
