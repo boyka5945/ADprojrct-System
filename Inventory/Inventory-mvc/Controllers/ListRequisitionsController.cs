@@ -13,7 +13,6 @@ namespace Inventory_mvc.Controllers
 {
     public class ListRequisitionsController : Controller
     {
-        // TODO: SORTING FOR INDEX
         IStationeryService stationeryService = new StationeryService();
         IRequisitionRecordService requisitionService = new RequisitionRecordService();
         IUserService userService = new UserService();
@@ -29,7 +28,7 @@ namespace Inventory_mvc.Controllers
 
             ViewBag.CurrentSort = sortOrder;
             ViewBag.DateSortParm = String.IsNullOrEmpty(sortOrder) ? "" : "Request Date";
-            ViewBag.NumberSortParm = sortOrder == "Requisition Form Number" ? "number_desc" : "Requisition Form Number";
+            ViewBag.NumberSortParm = sortOrder == "Requisition Form No." ? "number_desc" : "Requisition Form Number";
             ViewBag.StatusSortParm = sortOrder == "Status" ? "status_desc" : "Status";
 
             List<Requisition_Record> records = requisitionService.GetSortedRecordsByRequesterID(requesterID, sortOrder);
