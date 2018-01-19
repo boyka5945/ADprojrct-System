@@ -25,5 +25,8 @@ namespace Inventory_mvc.Service
         bool AddPurchaseDetail(int deliveryOrderNo, string itemCode, int qty, string remarks, decimal price);
 
         bool AddPurchaseDetail(Purchase_Details pd);
+
+        List<Purchase_Order_Record> FindByStatus(string status);
+        List<Purchase_Order_Record> FindBySupplier(string supplier);
     }
 }

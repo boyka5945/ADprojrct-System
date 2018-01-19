@@ -171,6 +171,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AdjustmentVoucherController.cs" />
+    <Compile Include="Controllers\CheckShortfallController.cs" />
     <Compile Include="Controllers\CollectionPointController.cs" />
     <Compile Include="Controllers\DepartmentController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -182,7 +183,6 @@
     <Compile Include="Controllers\ReportController.cs" />
     <Compile Include="Controllers\StationeryController.cs" />
     <Compile Include="Controllers\SupplierController.cs" />
-    <Compile Include="Controllers\UserController.cs" />
     <Compile Include="DAO\AdjustmentVoucherDAO.cs" />
     <Compile Include="DAO\CollectionPointDAO.cs" />
     <Compile Include="DAO\DAOException.cs" />
@@ -197,13 +197,13 @@
     <Compile Include="DAO\IStationeryDAO.cs" />
     <Compile Include="DAO\ISupplierDAO.cs" />
     <Compile Include="DAO\ITransactionRecordDAO.cs" />
-    <Compile Include="DAO\IUserDAO.cs" />
     <Compile Include="DAO\PurchaseOrderDAO.cs" />
     <Compile Include="DAO\RequisitionRecordDAO.cs" />
     <Compile Include="DAO\StationeryDAO.cs" />
     <Compile Include="DAO\SupplierDAO.cs" />
     <Compile Include="DAO\TransactionRecordDAO.cs" />
-    <Compile Include="DAO\UserDAO.cs" />
+    <Compile Include="Models\Department.cs" />
+    <Compile Include="Models\Requisition_Record.cs" />
     <Compile Include="Models\RoleInfos.cs" />
     <Compile Include="Function\RoleAuthorizeAttribute.cs" />
     <Compile Include="Function\AuthorizationManager.cs" />
@@ -216,17 +216,17 @@
     <Compile Include="Models\Adjustment_Voucher_Record.cs" />
     <Compile Include="Models\Category.cs" />
     <Compile Include="Models\Collection_Point.cs" />
-    <Compile Include="Models\Department.cs" />
     <Compile Include="Models\Inventory_Status_Record.cs" />
-    <Compile Include="Models\StationeryModel.cs" />
     <Compile Include="Models\permissionInfo.cs" />
     <Compile Include="Models\Purchase_Details.cs" />
     <Compile Include="Models\Purchase_Order_Record.cs" />
     <Compile Include="Models\Requisition_Details.cs" />
-    <Compile Include="Models\Requisition_Record.cs" />
     <Compile Include="Models\roleInfo.cs" />
     <Compile Include="Models\rolePermission.cs" />
+    <Compile Include="Service\StationerySelectService.cs" />
+    <Compile Include="ViewModel\SelectStationeryEditorViewModel.cs" />
     <Compile Include="Models\Stationery.cs" />
+    <Compile Include="Models\StationeryModel.cs" />
     <Compile Include="Models\Supplier.cs" />
     <Compile Include="Models\Transaction_Details.cs" />
     <Compile Include="Models\Transaction_Record.cs" />
@@ -246,15 +246,15 @@
     <Compile Include="Service\IStationeryService.cs" />
     <Compile Include="Service\ISupplierService.cs" />
     <Compile Include="Service\ITransactionRecordService.cs" />
-    <Compile Include="Service\IUserService.cs" />
+    <Compile Include="Service\POGeneratorController.cs" />
     <Compile Include="Service\PurchaseOrderService.cs" />
     <Compile Include="Service\RequisitionRecordService.cs" />
     <Compile Include="Service\StationeryService.cs" />
     <Compile Include="Service\SupplierService.cs" />
     <Compile Include="Service\TransactionRecordService.cs" />
-    <Compile Include="Service\UserService.cs" />
     <Compile Include="ViewModel\BrowseStationeryCatalogueViewModel.cs" />
     <Compile Include="ViewModel\CollectionPointViewModel.cs" />
+    <Compile Include="ViewModel\Purchase_Order_RecordViewModel.cs" />
     <Compile Include="ViewModel\RaiseRequisitionViewModel.cs" />
     <Compile Include="ViewModel\StationeryViewModel.cs" />
     <Compile Include="ViewModel\SupplierViewModel.cs" />
@@ -265,6 +265,7 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\combobox.css" />
+    <Content Include="Content\OrderCSS\style.css" />
     <Content Include="Content\PagedList.css" />
     <Content Include="Content\themes\base\accordion.css" />
     <Content Include="Content\themes\base\all.css" />
@@ -383,17 +384,18 @@
     <Content Include="Views\RaiseRequisition\BrowseCatalogue.cshtml" />
     <Content Include="Views\RaiseRequisition\RequestPartial.cshtml" />
     <Content Include="Views\CollectionPoint\Delete.cshtml" />
+    <Content Include="Views\POGenerator\gen.cshtml" />
+    <Content Include="Views\Purchase\RaisePurchaseOrder.cshtml" />
+    <Content Include="Views\CheckShortfall\List.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\AdjustmentVoucherRecord\" />
-    <Folder Include="Views\CollectionPoint\" />
     <Folder Include="Views\Employee\" />
     <Folder Include="Views\InventoryCheck\" />
     <Folder Include="Views\Report\" />
     <Folder Include="Views\RequisitionDetails\" />
     <Folder Include="Views\RequisitionRecord\" />
-    <Folder Include="Views\Stationery\" />
     <Folder Include="Views\VoucherDetails\" />
   </ItemGroup>
   <ItemGroup>

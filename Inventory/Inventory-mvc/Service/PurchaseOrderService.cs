@@ -58,7 +58,15 @@ namespace Inventory_mvc.Service
             return dao.AddPurchaseDetail(pd);
         }
 
+        public List<Purchase_Order_Record> FindByStatus(string status)
+        {
+            return dao.FindByStatus(status);
 
+        }
+        public List<Purchase_Order_Record> FindBySupplier(string supplier)
+        {
+            return dao.FindBySupplier(supplier);
+        }
 
         //public void AddPurchaseDetail(int deliveryOrderNo, string itemCode, int qty, string remarks)
         //{

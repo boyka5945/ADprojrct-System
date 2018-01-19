@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using Inventory_mvc.Service;
 using Inventory_mvc.Models;
 using Inventory_mvc.DAO;
+using Inventory_mvc.ViewModel;
 
 namespace Inventory_mvc.Controllers
 {
@@ -13,7 +14,11 @@ namespace Inventory_mvc.Controllers
     {
         // GET: PurchaseDetails
 
-        PurchaseOrderService pos = new PurchaseOrderService();
+        IPurchaseOrderService pos = new PurchaseOrderService();
+        Purchase_Order_Record por = new Purchase_Order_Record();
+        IStationeryService ss = new StationeryService();
+        Dictionary<Purchase_Details, string> details = new Dictionary<Purchase_Details, string>();
+        StationeryModel ctx = new StationeryModel();
 
         public ActionResult Index()
         {
@@ -21,24 +26,34 @@ namespace Inventory_mvc.Controllers
         }
 
         [HttpGet]
-        public ActionResult ListPurchaseOrders(string search)
+        //FormCollection form
+        public ActionResult ListPurchaseOrders(string search, string searchBy)
         {
+
             List<Purchase_Order_Record> model = new List<Purchase_Order_Record>();
-
-            if (search!=null)
+            List<Purchase_Order_Record> searchResults = new List<Purchase_Order_Record>();
+            switch (searchBy)
             {
+                case ("orderNo"):
+                    por = pos.FindByOrderID(Int32.Parse(search));
+                    model.Add(por);
+                    break;
 
-               Purchase_Order_Record por = pos.FindByOrderID(Int32.Parse(search));
+                case ("status"):
+                    searchResults = pos.FindByStatus(search);
+                    model.AddRange(searchResults);
+                    break;
 
-                model.Add(por);
+                case ("supplier"):
+                    searchResults = pos.FindBySupplier(search);
+                    model.AddRange(searchResults);
+                    break;
+
+                default:
+                    model = pos.GetAllPurchaseOrder();
+                    break;
+
             }
-
-            else
-            {
-
-                model = pos.GetAllPurchaseOrder();
-            }
-
             return View(model);
         }
 
@@ -59,9 +74,12 @@ namespace Inventory_mvc.Controllers
 
             List<Purchase_Details> model = new List<Purchase_Details>();
 
-            if (Session["purchaseOrder"] != null)
+            if (Session["detailsBundle"] != null)
             {
-                model = (List<Purchase_Details>)Session["purchaseOrder"];
+                //model = (List<Purchase_Details>)Session["purchaseOrder"];
+                details = (Dictionary<Purchase_Details, string>)Session["detailsBundle"];
+                model = details.Keys.ToList<Purchase_Details>();
+
             }
 
 
@@ -70,97 +88,111 @@ namespace Inventory_mvc.Controllers
         }
 
 
-        //adds a new purchase detail for the current order number
-
-        //[Bind(Include = "")] Purchase_Order_Record por, 
         [HttpPost]
-        public ActionResult RaisePurchaseOrder([Bind(Include = "orderNo, itemCode, qty, remarks, price")]Purchase_Details pd)
+        public ActionResult RaisePurchaseOrder([Bind(Include = "orderNo, itemCode, qty, remarks, price")]Purchase_Details pd, string supplierCode)
         {
 
             int orderNo = findNextOrderNo();
-
             ViewBag.orderNo = orderNo;
-
             List<Purchase_Details> model = new List<Purchase_Details>();
+            Dictionary<Purchase_Details, string> details = new Dictionary<Purchase_Details, string>();
 
-            if (Session["purchaseOrder"] != null) {
-                model = (List<Purchase_Details>)Session["purchaseOrder"];
+            if (Session["detailsBundle"] != null)
+            {
+                //model = (List<Purchase_Details>)Session["purchaseOrder"];
+                details = (Dictionary<Purchase_Details, string>)Session["detailsBundle"];
+                model = details.Keys.ToList<Purchase_Details>();
+
             }
-            
+
+
+            details.Add(pd, supplierCode);
             model.Add(pd);
-           
-
-            Session["purchaseOrder"] = model;
-
+            Session["detailsBundle"] = details;
             return View("RaisePurchaseOrder", model);
 
-            
+
         }
 
+        //gets the purchase details and supplier to order from - which are bundled together as key-value pairs, then creates a new purchase order for each supplier
+        //then creates purchase detail with order num matching the supplier which user has chosen
         [HttpGet]
         public ActionResult GeneratePO()
         {
 
             int orderNo = findNextOrderNo();
+            List<Purchase_Details> po = details.Keys.ToList<Purchase_Details>();
+            details = (Dictionary<Purchase_Details, string>)Session["detailsBundle"];
 
-            List<Purchase_Details> po = (List<Purchase_Details>) Session["purchaseOrder"];
-
-            Purchase_Order_Record por = new Purchase_Order_Record();
-            por.clerkID = "S1017"; // supposed to be currently logged in guy
-            por.date = DateTime.Now;
-            por.orderNo = orderNo;
-            por.status = "incomplete"; //the default starting status
-            por.supplierCode = "ALPA";
-            por.expectedDeliveryDate = DateTime.Now.AddDays(14); //hard coded currently
-            pos.AddNewPurchaseOrder(por);
-
-            foreach (Purchase_Details pd in po)
+            List<string> suppliers = details.Values.Distinct().ToList();
+            
+            for (int i = 0; i < suppliers.Count; i++)
             {
-                pos.AddPurchaseDetail(pd);
+                Purchase_Order_Record p = new Purchase_Order_Record();
+                p.clerkID = "S1017"; // HARD CODED supposed to be currently logged in guy
+                p.date = DateTime.Now;
+                p.orderNo = orderNo + i;
+                p.status = "incomplete"; //the default starting status
+                p.supplierCode = suppliers[i];
+                p.expectedDeliveryDate = DateTime.Now.AddDays(14); //HARD CODED currently
+                pos.AddNewPurchaseOrder(p);
+
+
+                foreach (KeyValuePair<Purchase_Details, string> entry in details)
+                {
+                    Purchase_Details pd = entry.Key;
+
+                    string supplierCode = entry.Value;
+                    //find the orderNo matching supplier and create the purchase detail 
+                    if (supplierCode == suppliers[i])
+                    {
+                        pd.orderNo = orderNo + i;
+                        pos.AddPurchaseDetail(pd);
+                    }
 
             }
+            }
 
-            Session["purchaseOrder"] = null;
-
-
+            Session["detailsBundle"] = null; //clear the orderCart
             List<Purchase_Order_Record> model = pos.GetAllPurchaseOrder();
-
             return View("ListPurchaseOrders", model);
         }
 
-        //delete purchase order
+        //delete purchase order record
         [HttpGet]
         public ActionResult Delete(string id)
         {
-
+        
             pos.DeletePurchaseOrder(Int32.Parse(id));
             return View("ListPurchaseOrders");
 
         }
 
-        //delete purchase detail
+        //delete purchase detail record
         [HttpGet]
         public ActionResult DeletePD(string id)
         {
-            List<Purchase_Details> model = (List<Purchase_Details>)Session["purchaseOrder"];
+            Dictionary<Purchase_Details, string> details = (Dictionary<Purchase_Details, string>)Session["detailsBundle"];
+            List<Purchase_Details> model = details.Keys.ToList<Purchase_Details>();
             Purchase_Details pd = model.Where(x => x.itemCode == id).First();
             model.Remove(pd);
 
-            return View("RaisePurchaseOrder", model );
+            return View("RaisePurchaseOrder", model);
 
         }
 
         [HttpGet]
         public ActionResult ClearSession()
         {
-            Session["purchaseOrder"] = null;
-            List<Purchase_Details> model = (List<Purchase_Details>)Session["purchaseOrder"];
+            Session["detailsBundle"] = null;
+
+            List<Purchase_Details> model = new List<Purchase_Details>();
 
             return View("RaisePurchaseOrder", model);
         }
 
-       //helper method
-       public int findNextOrderNo()
+        //helper method
+        public int findNextOrderNo()
         {
             using (StationeryModel Entity = new StationeryModel())
             {
@@ -180,10 +212,16 @@ namespace Inventory_mvc.Controllers
                 return maxOrderNo + 1;
             }
 
-            
-
         }
 
-       
+        ////helper method to refactor into service
+        //public String ConvertSupplierNameToCode(string name)
+        //{
+        //    String s = ctx.Supplier.Where(x=>x.supplierName == name).First().supplierCode;
+
+        //    return s;
+        //}
+
     }
+
 }
