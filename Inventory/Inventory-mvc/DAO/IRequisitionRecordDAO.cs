@@ -36,10 +36,5 @@ namespace Inventory_mvc.DAO
         bool SubmitNewRequisition(Requisition_Record requisition);
 
         List<Requisition_Record> GetRecordsByRequesterID(string requesterID);
-
-        List<RetrieveForm> GetRetrieveFormByDateTime(DateTime? time);
-
-        bool UpdateRequisitionDetails(Requisition_Detail requisitionDetail);
-
     }
 }
