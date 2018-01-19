@@ -186,6 +186,7 @@
     <Compile Include="Controllers\SupplierController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\CheckShortfallController.cs" />
+    <Compile Include="Controllers\POGeneratorController.cs" />
     <Compile Include="DAO\AdjustmentVoucherDAO.cs" />
     <Compile Include="DAO\CollectionPointDAO.cs" />
     <Compile Include="DAO\DAOException.cs" />
