@@ -209,5 +209,9 @@ namespace Inventory_mvc.Service
             else { return false; }
         }
 
+        List<Stationery> IStationeryService.GetStationeriesBasedOnCriteria(string searchString, string categoryID)
+        {
+            return stationeryDAO.GetStationeriesBasedOnCriteria(searchString, categoryID);
+        }
     }
 }

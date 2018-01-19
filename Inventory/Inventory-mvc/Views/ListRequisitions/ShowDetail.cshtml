@@ -3,6 +3,9 @@
 
 @{
     ViewBag.Title = "ShowDetail";
+
+    var editMessage = TempData["EditMessage"];
+
 }
 
 <h2>Requisition Details</h2>
@@ -22,15 +25,21 @@
     </div>
 </div>
 
-
+<br/>
+@if (editMessage != null)
+{
+    <div class="alert alert-success">
+        @editMessage.ToString()
+    </div>
+}
 <br />
 <table class="table">
     <thead>
         <tr>
             <th>@Html.Label("Description")</th>
+            <th>@Html.Label("UOM")</th>
             <th>@Html.Label("Request Quantity")</th>
             <th>@Html.Label("Received Quantity")</th>
-            <th>@Html.Label("UOM")</th>
 
         </tr>
     </thead>
@@ -39,14 +48,20 @@
         {
             <tr>
                 <td>@Html.DisplayFor(modelItem => item.Description)</td>
+                <td>@Html.DisplayFor(modelItem => item.UOM)</td>
                 <td>@Html.DisplayFor(modelItem => item.RequestQty)</td>
                 <td>@Html.DisplayFor(modelItem => item.ReceivedQty)</td>
-                <td>@Html.DisplayFor(modelItem => item.UOM)</td>
             </tr>
         }
     </tbody>
 </table>
 
 <br />
+@if (ViewBag.ApprovalStatus == "Pending Approval")
+{
+    @Html.ActionLink("Edit", "EditRecord", "ListRequisitions", new { id = ViewBag.RequisitionFormNo }, new { })
+    @:| @Html.ActionLink("Remove", "RemoveRecord", "ListRequisitions", new { id = ViewBag.RequisitionFormNo }, new { }) |
+}
+
 @Html.ActionLink("Back to List", "Index")
 

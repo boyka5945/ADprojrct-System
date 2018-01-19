@@ -31,6 +31,7 @@ namespace Inventory_mvc.Service
         bool isPositivePrice(decimal price);
 
         List<Category> GetAllCategory();
+        List<Stationery> GetStationeriesBasedOnCriteria(string searchString, string categoryID);
 
 
         // FOR VIEW MODEL

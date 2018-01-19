@@ -38,6 +38,6 @@ namespace Inventory_mvc.DAO
         List<Requisition_Record> GetRecordsByRequesterID(string requesterID);
 
         bool UpdateRequisitionDetails(Requisition_Detail requisitionDetail);
-
+        List<Requisition_Record> GetSortedRecordsByRequesterID(string requesterID, string sortOrder);
     }
 }

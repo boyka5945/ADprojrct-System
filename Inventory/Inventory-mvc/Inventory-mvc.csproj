@@ -409,6 +409,7 @@
     <Content Include="Views\ListRequisitions\Index.cshtml" />
     <Content Include="Views\ReceiveStock\StockReceive.cshtml" />
     <Content Include="Views\ListRequisitions\ShowDetail.cshtml" />
+    <Content Include="Views\ListRequisitions\_EditRecord.cshtml" />
     <Content Include="Views\ListRequisitions\EditRecord.cshtml" />
   </ItemGroup>
   <ItemGroup>

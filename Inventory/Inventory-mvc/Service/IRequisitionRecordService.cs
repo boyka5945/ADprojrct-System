@@ -37,9 +37,9 @@ namespace Inventory_mvc.Service
         void UpdateDetails(string itemcode, int requisitionNo, int? allocateQty);
 
         bool DeleteRequisition(int recordNo);
-
-        bool UpdateDetails(Requisition_Detail requisitionDetail);
-
+        List<Requisition_Record> GetSortedRecordsByRequesterID(string requesterID, string sortOrder);
         Requisition_Record IsUserAuthorizedForRequisition(int requisitionNo, string requesterID, out string errorMessage);
+
+        bool UpdateRequisitionDetails(List<RequisitionDetailViewModel> vmList, out string errorMessage);
     }
 }

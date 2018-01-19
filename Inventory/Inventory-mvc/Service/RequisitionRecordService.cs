@@ -97,11 +97,6 @@ namespace Inventory_mvc.Service
             return rDAO.DeleteRequisition(recordNo);
         }
 
-        public bool UpdateDetails(Requisition_Detail requisitionDetail)
-        {
-            return rDAO.UpdateRequisitionDetails(requisitionDetail);
-        }
-
         public bool ValidateUser(int requisitionNo, string requesterID)
         {
             Requisition_Record record = rDAO.FindByRequisitionNo(requisitionNo);
@@ -126,6 +121,32 @@ namespace Inventory_mvc.Service
             }
 
             return record;  
+        }
+
+        public bool UpdateRequisitionDetails(List<RequisitionDetailViewModel> vmList, out string errorMessage)
+        {
+            errorMessage = null;
+
+            foreach (var vm in vmList)
+            {
+                Requisition_Detail rd = new Requisition_Detail();
+                rd.itemCode = vm.ItemCode;
+                rd.requisitionNo = vm.RequisitionNo;
+                rd.qty = vm.RequestQty;
+
+                if (!rDAO.UpdateRequisitionDetails(rd))
+                {
+                    errorMessage = String.Format("Error occured when updating the quantity of {0}", vm.Description);
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        public List<Requisition_Record> GetSortedRecordsByRequesterID(string requesterID, string sortOrder)
+        {
+            return rDAO.GetSortedRecordsByRequesterID(requesterID, sortOrder);
         }
     }
 }
