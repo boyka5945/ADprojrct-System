@@ -8,6 +8,8 @@
     ViewBag.Title = "Index";
 
     var submitMessage = TempData["SubmitMessage"];
+    var removeMessage = TempData["RemoveMessage"];
+    var errorMessage = TempData["ErrorMessage"];
 }
 
 <h2>Requisition List</h2>
@@ -25,11 +27,33 @@
     </div>
 }
 
+@if (removeMessage != null)
+{
+    <div class="alert alert-danger">
+        @removeMessage.ToString()
+    </div>
+}
+
+
+@if (errorMessage != null)
+{
+    <div class="alert alert-danger">
+        @errorMessage.ToString()
+    </div>
+}
+
 <table class="table">
     <thead>
         <tr>
-            <th>@Html.Label("Requisition Form Number")</th>
-            <th>@Html.Label("Status")</th>
+            <th>
+                @Html.ActionLink("Requisition Form No.", "Index", new { sortOrder = ViewBag.NumberSortParm })            
+            </th>
+            <th>
+                @Html.ActionLink("Request Date", "Index", new { sortOrder = ViewBag.DateSortParm })
+            </th>
+            <th>
+                @Html.ActionLink("Status", "Index", new { sortOrder = ViewBag.StatusSortParm })   
+            </th>
             <th>@Html.Label("Action")</th>
         </tr>
     </thead>
@@ -38,13 +62,14 @@
         {
             <tr>
                 <td>@Html.DisplayFor(modelItem => item.requisitionNo)</td>
+                <td>@Html.DisplayFor(modelItem => item.requestDate)</td>
                 <td>@Html.DisplayFor(modelItem => item.status)</td>
                 <td>
-                    @Html.ActionLink("Details", "ShowDetail", "ListRequisitions", new { requisitionNo = item.requisitionNo }, new { }) 
+                    @Html.ActionLink("Details", "ShowDetail", "ListRequisitions", new { id = item.requisitionNo }, new { }) 
                     @if (item.status == "Pending Approval")
                     {
-                        @:| @Html.ActionLink("Edit", "EditRecord", "ListRequisitions", new { requisitionNo = item.requisitionNo }, new { })
-                        @:| @Html.ActionLink("Remove", "RemoveRecord", "ListRequisitions", new { requisitionNo = item.requisitionNo }, new { })
+                        @:| @Html.ActionLink("Edit", "EditRecord", "ListRequisitions", new { id = item.requisitionNo }, new { })
+                        @:| @Html.ActionLink("Remove", "RemoveRecord", "ListRequisitions", new { id = item.requisitionNo }, new { })
                     }
                 </td>
             </tr>
@@ -56,7 +81,7 @@
     Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
 
     @Html.PagedListPager(Model, page => Url.Action("Index",
-                new { page }))
+                new { page, sortOrder = ViewBag.CurrentSort }))
 
 
 

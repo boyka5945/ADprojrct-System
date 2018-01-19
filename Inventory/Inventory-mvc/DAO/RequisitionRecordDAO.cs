@@ -20,7 +20,7 @@ namespace Inventory_mvc.DAO
         public Requisition_Record FindByRequisitionNo(int requisitionNo)
         {
             StationeryModel entity = new StationeryModel();
-            return entity.Requisition_Records.Where(x => x.requisitionNo == requisitionNo).First();
+            return entity.Requisition_Records.Where(x => x.requisitionNo == requisitionNo).FirstOrDefault();
         }
 
         public Boolean AddNewRequisition(Requisition_Record requisitionRecord)
@@ -70,7 +70,25 @@ namespace Inventory_mvc.DAO
 
         public Boolean DeleteRequisition(int requisitionNo)
         {
-            return true;
+            using (StationeryModel context = new StationeryModel())
+            {
+                try
+                {
+                    Requisition_Record record = (from r in context.Requisition_Records
+                                                 where r.requisitionNo == requisitionNo
+                                                 select r).FirstOrDefault();
+
+                    context.Requisition_Detail.RemoveRange(record.Requisition_Detail);                    
+                    context.Requisition_Records.Remove(record);
+                    context.SaveChanges();
+
+                    return true;
+                }
+                catch (Exception e)
+                {
+                    return false;
+                }
+            }
         }
 
         public List<Requisition_Detail> GetDetailsByNO(int No=0)
@@ -207,6 +225,106 @@ namespace Inventory_mvc.DAO
                         where r.requesterID == requesterID
                         select r).Include(r => r.Requisition_Detail).ToList();
             }
+        }
+
+        public List<RetrieveForm> GetRetrieveFormByDateTime(DateTime? time)
+        {
+
+            StationeryModel entity = new StationeryModel();
+            List<Requisition_Record> rr = entity.Requisition_Records.Where(x => x.approveDate < time).ToList();
+            List<RetrieveForm> retrieveList = new List<RetrieveForm>();
+            List<string> ItemCodes = new List<string>();
+            List<int?> Qty = new List<int?>();
+            foreach (var item in rr)
+            {
+                var list = item.Requisition_Detail.ToList();
+                foreach (var l in list)
+                {
+                    if (!ItemCodes.Contains(l.itemCode))
+                    {
+                        ItemCodes.Add(l.itemCode);
+                    }
+                }
+            }
+            for (int i = 0; i < ItemCodes.Count; i++)
+            {
+                Qty.Add((int?)0);
+            }
+            for (int i = 0; i < ItemCodes.Count; i++)
+            {
+                foreach (var b in rr)
+                {
+                    if ((b.Requisition_Detail.Where(x => x.itemCode == ItemCodes[i]).Count()) > 0)
+                    {
+                        Qty[i] = Qty[i] + b.Requisition_Detail.Where(x => x.itemCode == ItemCodes[i]).First().allocatedQty;
+                    }
+                }
+            }
+            for (int i = 0; i < ItemCodes.Count; i++)
+            {
+                RetrieveForm rf = new RetrieveForm();
+                rf.description = ItemCodes[i];
+                rf.Qty = Qty[i];
+                retrieveList.Add(rf);
+            }
+            return retrieveList;
+        }
+        public bool UpdateRequisitionDetails(Requisition_Detail requisitionDetail)
+        {
+            using (StationeryModel context = new StationeryModel())
+            {
+                try
+                {
+                    Requisition_Detail rd = (from r in context.Requisition_Detail
+                                             where r.requisitionNo == requisitionDetail.requisitionNo
+                                             & r.itemCode == requisitionDetail.itemCode
+                                             select r).FirstOrDefault();
+
+                    rd.qty = requisitionDetail.qty;
+                    rd.Requisition_Record.requestDate = DateTime.Today;
+
+                    context.SaveChanges();
+                    return true;
+                }
+                catch (Exception e)
+                {
+                    return false;
+                }
+            }
+
+        }
+
+        public List<Requisition_Record> GetSortedRecordsByRequesterID(string requesterID, string sortOrder)
+        {
+            using (StationeryModel context = new StationeryModel())
+            {
+                var records = from r in context.Requisition_Records where r.requesterID == requesterID select r;
+
+                switch (sortOrder)
+                {
+                    case "number_desc":
+                        records = records.OrderByDescending(r => r.requisitionNo);
+                        break;
+                    case "Requisition Form Number":
+                        records = records.OrderBy(r => r.requisitionNo);
+                        break;
+                    case "Request Date":
+                        records = records.OrderBy(r => r.requestDate);
+                        break;
+                    case "Status":
+                        records = records.OrderBy(r => r.status);
+                        break;
+                    case "status_desc":
+                        records = records.OrderByDescending(r => r.status);
+                        break;
+                    default:
+                        records = records.OrderByDescending(r => r.requestDate);
+                        break;
+                }
+
+                return records.ToList();
+            }
+
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Inventory_mvc.Models;
 using Inventory_mvc.Service;
 using Inventory_mvc.ViewModel;
+using PagedList;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,41 +14,31 @@ namespace Inventory_mvc.Controllers
 
         IStationeryService stationeryService = new StationeryService();
         ISupplierService supplierService = new SupplierService();
+        IUserService userService = new UserService();
 
         // GET: Stationery
-        public ActionResult Index(string searchString, string categoryID = "All")
+        public ActionResult Index(string searchString, int? page, string categoryID = "All")
         {
-            List<StationeryViewModel> stationeries = stationeryService.GetAllStationeryViewModel();
+            // TODO: REMOVE HARD CODED REQUESTER ID
+            //string requesterID = HttpContext.User.Identity.Name;
+            string userID = "S1017"; // clerk
+            //string userID = "S1016"; // supervisor
+
+            // Store clerk roleID == 7
+            int roleID = userService.GetRoleByID(userID);
+            ViewBag.Role = (roleID.ToString() == "7") ? "Clerk" : "";
+
+
+            List<StationeryViewModel> stationeries = stationeryService.GetStationeriesVMBasedOnCriteria(searchString, categoryID);
 
             ViewBag.CategoryList = stationeryService.GetAllCategory();
-
-
-            if (categoryID == "All")
-            {
-                ViewBag.CategoryID = "All";
-            }
-            else
-            {
-                ViewBag.CategoryID = categoryID;
-
-                stationeries = (from s in stationeries
-                                where s.CategoryID.ToString() == categoryID
-                                select s).ToList();
-            }
-
+            ViewBag.CategoryID = (categoryID == "All") ? "All" : categoryID;
             ViewBag.SearchString = searchString;
+            ViewBag.Page = page;
 
-            if (!String.IsNullOrEmpty(searchString))
-            {
-                string search = searchString.ToLower().Trim();
-
-                stationeries = (from s in stationeries
-                                where s.Description.ToLower().Contains(search)
-                                select s).ToList();
-            }
-
-            // return View(stationeryService.GetAllStationeryViewModel());
-            return View(stationeries);
+            int pageSize = 8;
+            int pageNumber = (page ?? 1);
+            return View(stationeries.ToPagedList(pageNumber, pageSize));
         }
 
 
@@ -55,6 +46,11 @@ namespace Inventory_mvc.Controllers
         // GET: Supplier/Edit/{id}
         public ActionResult Edit(string id)
         {
+            if(id == null)
+            {
+                return RedirectToAction("Index");
+            }
+
             // Get select list for supplier
             List<SupplierViewModel> supplierList = supplierService.GetAllSuppliers();
             SelectList selectList = new SelectList(supplierList, "SupplierCode", "SupplierName");
@@ -258,6 +254,11 @@ namespace Inventory_mvc.Controllers
         // GET: Stationery/Delete/{id}
         public ActionResult Delete(string id)
         {
+            if (id == null)
+            {
+                return RedirectToAction("Index");
+            }
+
             if (stationeryService.DeleteStationery(id))
             {
                 TempData["DeleteMessage"] = String.Format("Stationery '{0}' has been deleted", id);
@@ -274,6 +275,19 @@ namespace Inventory_mvc.Controllers
         // GET: Stationery/Details
         public ActionResult ViewStockCard(string id)
         {
+            if (id == null)
+            {
+                return RedirectToAction("Index");
+            }
+
+            // TODO: REMOVE HARD CODED REQUESTER ID
+            //string requesterID = HttpContext.User.Identity.Name;
+            string userID = "S1017";
+
+            // Store clerk roleID == 7
+            int roleID = userService.GetRoleByID(userID);
+            ViewBag.Role = (roleID.ToString() == "7") ? "Clerk" : "";
+
             return View(stationeryService.FindStationeryViewModelByItemCode(id));
         }
 

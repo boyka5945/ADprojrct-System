@@ -35,5 +35,12 @@ namespace Inventory_mvc.Service
 
         bool ValidateRequisition(Requisition_Record requisition);
         void UpdateDetails(string itemcode, int requisitionNo, int? allocateQty);
+        List<RetrieveForm> GetRetrieveFormByDateTime(DateTime? time);
+
+        bool DeleteRequisition(int recordNo);
+        List<Requisition_Record> GetSortedRecordsByRequesterID(string requesterID, string sortOrder);
+        Requisition_Record IsUserAuthorizedForRequisition(int requisitionNo, string requesterID, out string errorMessage);
+
+        bool UpdateRequisitionDetails(List<RequisitionDetailViewModel> vmList, out string errorMessage);
     }
 }

@@ -20,37 +20,11 @@ namespace Inventory_mvc.Controllers
         // GET: RaiseRequisition/BrowseCatalogue
         public ActionResult BrowseCatalogue(string searchString, int? page, string categoryID = "All")
         {
-            List<Stationery> stationeries = stationeryService.GetAllStationery();
+            List<Stationery> stationeries = stationeryService.GetStationeriesBasedOnCriteria(searchString, categoryID);
+
             ViewBag.CategoryList = stationeryService.GetAllCategory();
-
-            if (categoryID == "All")
-            {
-                ViewBag.CategoryID = "All";
-            }
-            else
-            {
-                ViewBag.CategoryID = categoryID;
-                stationeries = (from s in stationeries
-                                where s.categoryID.ToString() == categoryID
-                                select s).ToList();
-            }
-
+            ViewBag.CategoryID = (categoryID == "All") ? "All" : categoryID;
             ViewBag.SearchString = searchString;
-            if (!String.IsNullOrEmpty(searchString))
-            {
-                string[] searchStringArray = searchString.Split();
-                foreach (string s in searchStringArray)
-                {
-                    string search = s.ToLower().Trim();
-                    if (!String.IsNullOrEmpty(search))
-                    {
-                        stationeries = (from x in stationeries
-                                        where x.description.ToLower().Contains(search)
-                                        select x).ToList();
-                    }
-                }
-            }
-
             ViewBag.Page = page;
 
             int pageSize = 4;
@@ -263,16 +237,14 @@ namespace Inventory_mvc.Controllers
                 else
                 {
                     // error when write to database
-                    TempData["SubmitErrorMessage"] = "Error Writing to database";
+                    TempData["SubmitErrorMessage"] = "Error Writing to Database";
                 }
             }
             else
             {
                 // Invalid request
                 TempData["SubmitErrorMessage"] = "Invalid request";
-
             }
-
 
             //return to new requisition form if submit unsuccessful
             return RedirectToAction("NewRequisition");

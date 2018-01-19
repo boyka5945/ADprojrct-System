@@ -18,35 +18,71 @@
         @Html.ActionLink("Create New", "RaisePurchaseOrder");
     </p>
 
-    @using (Html.BeginForm("ListPurchaseOrders", "Purchase", FormMethod.Get))
-    { 
-    
-    @*<select name="ddlist">
-        <option>Status</option>
 
-    </select>*@
-    <input type="text" name="search" />
-    <input type="submit" value="search" />
+    <div>
+        @using (Html.BeginForm("ListPurchaseOrders", "Purchase", FormMethod.Get))
+        {
 
-    }
+            @Html.Label("Search By")
+            @Html.DropDownList("searchBy", new List<SelectListItem> {
+            new SelectListItem{Text = "PO Number", Value="orderNo",},
+            new SelectListItem{ Text= "Status", Value="status"},
+            new SelectListItem{ Text= "Supplier", Value= "supplier"} }, "Select")
+
+            <br />
+     
+            <input type="text" name="search" />
+
+
+
+
+            <br />
+
+            @*<br />
+            @Html.Label("Status")
+            @Html.DropDownList("status", new List<SelectListItem> {
+            new SelectListItem{Text = "Incomplete", Value="incomplete",},
+            new SelectListItem{ Text= "Partially Delivered", Value="partially delivered"},
+            new SelectListItem{ Text= "Delivered", Value= "delivered"} }, "Select");
+
+            <br />
+            @Html.Label("Supplier")
+            @Html.DropDownList("supplier", new List<SelectListItem> {
+            new SelectListItem{Text = "ALPHA Office Supplies", Value="ALPA",Selected=true },
+            new SelectListItem{Text = "BANES Shop", Value="BANE"},
+            new SelectListItem{Text = "Cheap Stationer", Value="CHEP" },
+            new SelectListItem{Text="OMEGA Stationery Supplier", Value="OMEG" } }, "Select");
+
+            <br />*@
+            <input type="submit" value="search" />
+
+
+        }
+
+    </div>
 
 
     <table class="table">
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.orderNo)
+                @*@Html.DisplayNameFor(model => model.orderNo)*@
+                @Html.Label("Order Number")
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.supplierCode)
+                @*@Html.DisplayNameFor(model => model.supplierCode)*@
+                @Html.Label("Supplier Code")
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.date)
+                @*@Html.DisplayNameFor(model => model.date)*@
+                @Html.Label("Date Ordered")
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.status)
+                @*@Html.DisplayNameFor(model => model.status)*@
+                @Html.Label("Status")
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.expectedDeliveryDate)
+                @*@Html.DisplayNameFor(model => model.expectedDeliveryDate)*@
+                @Html.Label("Expected Delivery")
             </th>
             <th></th>
         </tr>
@@ -71,8 +107,8 @@
             </td>
             <td>
                 
-                @Html.ActionLink("Details", "View Purchase Order", new { id = item.orderNo }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.orderNo })
+                @Html.ActionLink("Details", "gen", "POGenerator", new { id = item.orderNo }, null) |
+                @Html.ActionLink("Delete", "Delete", "Purchase", new { id = item.orderNo }, null)
             </td>
         </tr>
     }

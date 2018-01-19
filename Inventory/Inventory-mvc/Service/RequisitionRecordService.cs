@@ -91,5 +91,68 @@ namespace Inventory_mvc.Service
             RequisitionRecordDAO rDAO = new RequisitionRecordDAO();
             return rDAO.GetRequisitionByDept(deptCode);
         }
+
+        public List<RetrieveForm> GetRetrieveFormByDateTime(DateTime? time)
+        {
+            RequisitionRecordDAO rDAO = new RequisitionRecordDAO();
+            return rDAO.GetRetrieveFormByDateTime(time);
+        }
+        public bool DeleteRequisition(int recordNo)
+        {
+            return rDAO.DeleteRequisition(recordNo);
+        }
+
+        public bool ValidateUser(int requisitionNo, string requesterID)
+        {
+            Requisition_Record record = rDAO.FindByRequisitionNo(requisitionNo);
+
+            return (record.requesterID == requesterID);
+        }
+
+        public Requisition_Record IsUserAuthorizedForRequisition(int requisitionNo, string requesterID, out string errorMessage)
+        {
+            Requisition_Record record = null;
+            errorMessage = null;
+
+            record = GetRequisitionByID(requisitionNo);
+
+            if (record == null)
+            {
+                errorMessage = String.Format("Non-existing requisition.");
+            }
+            else if (record.requesterID != requesterID)
+            {
+                errorMessage = String.Format("You have not right to access.");
+            }
+
+            return record;  
+
+        }
+
+        public bool UpdateRequisitionDetails(List<RequisitionDetailViewModel> vmList, out string errorMessage)
+        {
+            errorMessage = null;
+
+            foreach (var vm in vmList)
+            {
+                Requisition_Detail rd = new Requisition_Detail();
+                rd.itemCode = vm.ItemCode;
+                rd.requisitionNo = vm.RequisitionNo;
+                rd.qty = vm.RequestQty;
+
+                if (!rDAO.UpdateRequisitionDetails(rd))
+                {
+                    errorMessage = String.Format("Error occured when updating the quantity of {0}", vm.Description);
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        public List<Requisition_Record> GetSortedRecordsByRequesterID(string requesterID, string sortOrder)
+        {
+            return rDAO.GetSortedRecordsByRequesterID(requesterID, sortOrder);
+        }
     }
 }

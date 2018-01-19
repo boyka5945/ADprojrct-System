@@ -1,0 +1,177 @@
+﻿@model IEnumerable<Inventory_mvc.ViewModel.RequisitionDetailViewModel>
+
+@{
+    ViewBag.Title = "EditRecord";
+
+
+#line default
+#line hidden
+
+#line 3 "C:\Users\CK Tan\Source\Repos\ADprojrct-System\Inventory\Inventory-mvc\Views\ListRequisitions\EditRecord.cshtml"
+
+    ViewBag.Title = "EditRecord";
+
+    var editMessage = TempData["EditMessage"];
+}
+
+<h2>Requisition Details</h2>
+<br />
+
+
+<div class="form-group row">
+    <label class="col-sm-2 col-form-label font-weight-bold">Requisition Form No.</label>
+    <div class="col-sm-10">
+        <input type="text" id="formNo" readonly class="form-control-plaintext" value="@ViewBag.RequisitionFormNo">
+    </div>
+</div>
+<div class="form-group row">
+    <label class="col-sm-2 col-form-label font-weight-bold">Approval Status</label>
+    <div class="col-sm-10">
+        <input type="text" readonly class="form-control-plaintext" value="@ViewBag.ApprovalStatus">
+    </div>
+</div>
+
+<br />
+@if (editMessage != null)
+{
+    <div class="alert alert-success">
+        @editMessage.ToString()
+    </div>
+}
+
+@if (editMessage != null)
+{
+
+
+#line default
+#line hidden
+
+#line 7 "C:\Users\CK Tan\Source\Repos\ADprojrct-System\Inventory\Inventory-mvc\Views\ListRequisitions\EditRecord.cshtml"
+    __o = editMessage.ToString();
+
+
+#line default
+#line hidden
+
+#line 8 "C:\Users\CK Tan\Source\Repos\ADprojrct-System\Inventory\Inventory-mvc\Views\ListRequisitions\EditRecord.cshtml"
+
+}
+
+#line default
+#line hidden
+
+#line 9 "C:\Users\CK Tan\Source\Repos\ADprojrct-System\Inventory\Inventory-mvc\Views\ListRequisitions\EditRecord.cshtml"
+if (errorMessage != null)
+{
+    <div class="alert alert-danger">
+        @errorMessage.ToString()
+    </div>
+}
+
+<br />
+<table class="table">
+    <thead>
+        <tr>
+            <th>@Html.Label("Description")</th>
+            <th>@Html.Label("Request Quantity")</th>
+            <th>@Html.Label("UOM")</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (var item in Model)
+        {
+            var formID = "form-" + item.ItemCode;
+
+            using (Html.BeginForm("EditRecord", "ListRequisitions", null, FormMethod.Post, new { @class = "form", id = formID }))
+            {
+
+                @Html.HiddenFor(modelItem => item.ItemCode, new { htmlAttributes = new { name = "itemCode" } })
+                @Html.HiddenFor(modelItem => item.RequisitionNo, new { htmlAttributes = new { name = "id" } })
+
+                <tr>
+
+                    <td>
+                        <input type="hidden" name="id" value="@item.RequisitionNo" />
+                        <input type="hidden" name="itemCode" value="@item.ItemCode" />
+                        <input type="hidden" name="description" value="@item.Description" />
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </td>
+                    <td>
+                        <span class="" id="displayQty-@item.ItemCode">
+                            @Html.DisplayFor(modelItem => item.RequestQty, new { htmlAttributes = new { @class = "" } })
+                        </span>
+                        <span class="d-none" id="editQty-@item.ItemCode">
+                            <input type="number" name="quantity" value="@item.RequestQty" min="1" class="form-control" placeholder="Quantity" />
+                        </span>
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UOM)
+                    </td>
+                    <td>
+                        <span class="" id="editBtn-@item.ItemCode">
+                            <a href="#" onclick="editBtnClick('@item.ItemCode')">Edit</a>
+                        </span>
+                        <span class="d-none" id="showBtnIfEdit-@item.ItemCode">
+                            <a href="#" onclick="submitBtnClick('@item.ItemCode')">Save Change</a> |
+                            <a href="#" onclick="cancelBtnClick('@item.ItemCode')">Cancel</a>
+                        </span>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+
+<br />
+@Html.ActionLink("Back to List", "Index")
+
+<!-- The below code is for the modal dialog -->
+<div class="modal fade" id="editItemModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content" id="editItemModalBodyDiv">
+        </div>
+    </div>
+</div>
+
+<script>
+
+    function editBtnClick(itemCode) {
+
+        var d1 = document.getElementById("editBtn-" + itemCode);
+        d1.className += " d-none";
+
+        var d2 = document.getElementById("showBtnIfEdit-" + itemCode);
+        d2.className -= " d-none";
+
+        var d3 = document.getElementById("displayQty-" + itemCode);
+        d3.className += " d-none";
+
+        var d4 = document.getElementById("editQty-" + itemCode);
+        d4.className -= " d-none";
+    };
+
+
+    function cancelBtnClick(itemCode) {
+
+        var d1 = document.getElementById("editBtn-" + itemCode);
+        d1.className -= " d-none";
+
+        var d2 = document.getElementById("showBtnIfEdit-" + itemCode);
+        d2.className += " d-none";
+
+        var d3 = document.getElementById("displayQty-" + itemCode);
+        d3.className -= " d-none";
+
+        var d4 = document.getElementById("editQty-" + itemCode);
+        d4.className += " d-none";
+    };
+
+    function submitBtnClick(itemCode) {
+        var form = document.getElementById("form-" + itemCode);
+        form.submit();
+    };
+
+
+</script>

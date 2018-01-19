@@ -46,6 +46,30 @@ namespace Inventory_mvc.DAO
 
         }
 
+        public List<Purchase_Order_Record> FindByStatus(string status)
+        {
+            using (StationeryModel Entity = new StationeryModel())
+            {
+                List<Purchase_Order_Record> por = Entity.Purchase_Order_Records.Where(x => x.status == status).ToList();
+                return por;
+
+            }
+
+        }
+
+        public List<Purchase_Order_Record> FindBySupplier(string supplier)
+        {
+            using (StationeryModel Entity = new StationeryModel())
+            {
+                Supplier s = Entity.Suppliers.Where(x => x.supplierName == supplier).First();
+
+                List<Purchase_Order_Record> por = Entity.Purchase_Order_Records.Where(x => x.supplierCode == s.supplierCode).ToList();
+                return por;
+
+            }
+
+        }
+
         public List<Purchase_Order_Record> GetAllPurchaseOrder()
         {
             using (StationeryModel Entity = new StationeryModel())

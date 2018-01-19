@@ -17,5 +17,8 @@ namespace Inventory_mvc.DAO
         int UpdatePurchaseOrderInfo(Purchase_Order_Record purchase_order_record);
 
         Boolean DeletePurchaseOrder(int  orderID);
+
+        List<Purchase_Order_Record> FindByStatus(string status);
+        List<Purchase_Order_Record> FindBySupplier(string supplier);
     }
 }
