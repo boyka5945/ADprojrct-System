@@ -12,10 +12,8 @@ namespace Inventory_mvc.ViewModel
         [Key]
         [Required]
         [StringLength(50)]
-        [Display(Name = "Item Code")]
+        [Display(Name = "Code")]
         public string ItemCode { get; set; }
-
-     
 
         [Required]
         [Display(Name = "Category ID")]
@@ -35,7 +33,7 @@ namespace Inventory_mvc.ViewModel
 
         [Required]
         [StringLength(50)]
-        [Display(Name = "Unit Of Measure")]
+        [Display(Name = "UOM")]
         public string UnitOfMeasure { get; set; }
 
         [Required]
@@ -48,23 +46,22 @@ namespace Inventory_mvc.ViewModel
 
         [Required]
         [StringLength(50)]
-        [Display(Name = "First Supplier Code")]
+        [Display(Name = "1st Supplier")]
         public string FirstSupplierCode { get; set; }
 
        
         [StringLength(50)]
-        [Display(Name = "Second Supplier Code")]
+        [Display(Name = "2nd Supplier")]
         public string SecondSupplierCode { get; set; }
 
         
         [StringLength(50)]
-        [Display(Name = "Third Supplier Code")]
+        [Display(Name = "3rd Supplier")]
         public string ThirdSupplierCode { get; set; }
 
         [Required]
         [Display(Name = "Price")]
         public decimal Price { get; set; }
-
 
         public virtual Category Category { get; set; }
     }

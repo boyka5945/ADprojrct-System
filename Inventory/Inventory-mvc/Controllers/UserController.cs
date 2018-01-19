@@ -16,32 +16,71 @@ namespace Inventory_mvc.Controllers
         public ActionResult UserList()
         {
             string name = HttpContext.User.Identity.Name;
-            UserViewModel user = userService.FindByUserID("S1000");
-            var model = userService.GetUserByDept(user);
+            //if(name=="")
+            //{
+            //    return RedirectToAction("Login", "Home");
+            //}
+            User user = userService.FindByUserID("S1000");
+            List<User> model = userService.GetUserByDept(user);
+          //  ViewBag.Roles = userService.FindAllRole(user.UserID);
+            //ViewBag.alrDelegated = userService.AlrDelegated(id);
             return View(model);
         }
         [HttpGet]
         public ActionResult Delegate(string id)
         {
-            UserViewModel u = userService.FindByUserID(id);
+            List<int> roles = userService.FindAllRole(id);
+            foreach(int r in roles)
+            {
+                if (r==8)
+                {
+                    TempData["DelegateMessage"] = String.Format("Not allowed to delegate two employees");
+                    return RedirectToAction("UserList");
+                }
+            }
+            
+            User u = userService.FindByUserID(id);
             return View(u);
         }
         [HttpPost]
-        public ActionResult Delegate()
-        {            
+        public ActionResult Delegate(string userID,string from, string toto )
+        {
             
+            //try
+            //{
+                DateTime start = DateTime.Parse(from);
+                DateTime end = DateTime.Parse(toto);
+                userService.DelegateEmp(Request["userID"].ToString(), start.Date, end.Date);
+            //}
+            //catch(Exception e)
+            //{
+            //    TempData["DelegateMessage"] = String.Format("Employee is not delegated");
+            //    //return View();
+            //}
+           
+            //if(end.CompareTo(start)<1)
+            //{
+            //    TempData["InvalidDateMessage"] = String.Format("Invalid end date");
+            //    return View();
+            //}
             
-                userService.DelegateEmp(Request["userID"].ToString(), Convert.ToDateTime(Request["from"]), Convert.ToDateTime(Request["toto"]));
-            
-            
-
             return RedirectToAction("UserList");
+           
+            
         }
 
         [HttpGet]
         public ActionResult Remove_Delegate(string id)
         {
-            userService.Remove_Delegate(id);
+            if(userService.AlrDelegated(id))
+            {
+                userService.Remove_Delegate(id);
+            }
+            else
+            {
+                TempData["RmvDelMessage"] = String.Format("Employee is not delegated");
+            }
+           
             return RedirectToAction("UserList");
 
         }
@@ -49,14 +88,15 @@ namespace Inventory_mvc.Controllers
 
         public ActionResult Edit(string id)
         {
-            UserViewModel userVM = userService.FindByUserID(id);
+            User userVM = userService.FindByUserID(id);
+            ViewBag.RoleList = userService.RoleForEditAndCreate(id);
             return View(userVM);
         }
 
         [HttpPost]
-        public ActionResult Edit(UserViewModel userVM)
+        public ActionResult Edit(User userVM)
         {
-            string uid = userVM.UserID;
+            string uid = userVM.userID;
 
 
             if (ModelState.IsValid)
@@ -82,48 +122,49 @@ namespace Inventory_mvc.Controllers
             return View(userVM);
         }
 
-        public ActionResult Create()
-        {
-            return View(new UserViewModel());
-        }
+        //public ActionResult Create()
+        //{
+            
+        //    return View();
+        //}
 
-        [HttpPost]
-        public ActionResult Create(UserViewModel userVM)
-        {
-            string id = userVM.UserID;
+        //[HttpPost]
+        //public ActionResult Create(UserViewModel userVM)
+        //{
+        //    string id = userVM.UserID;
 
-            if (userService.isExistingID(id))
-            {
-                string errorMessage = String.Format("{0} alrdady existed.", id);
-                ModelState.AddModelError("UserID", errorMessage);
-            }
-            else if (ModelState.IsValid)
-            {
-                try
-                {
-                    userService.AddNewUser(userVM);
-                    TempData["CreateMessage"] = String.Format("User '{0}' is added.", id);
-                    return RedirectToAction("UserList");
-                }
-                catch (Exception e)
-                {
-                    TempData["ExceptionMessage"] = e.Message;
-                }
-            }
+        //    if (userService.isExistingID(id))
+        //    {
+        //        string errorMessage = String.Format("{0} alrdady existed.", id);
+        //        ModelState.AddModelError("UserID", errorMessage);
+        //    }
+        //    else if (ModelState.IsValid)
+        //    {
+        //        try
+        //        {
+        //            userService.AddNewUser(userVM);
+        //            TempData["CreateMessage"] = String.Format("User '{0}' is added.", id);
+        //            return RedirectToAction("UserList");
+        //        }
+        //        catch (Exception e)
+        //        {
+        //            TempData["ExceptionMessage"] = e.Message;
+        //        }
+        //    }
 
-            return View(userVM);
-        }
+        //    return View(userVM);
+        //}
         [HttpGet]
         public ActionResult Assign_Rep(string id)
         {
            
                 if (userService.AssignRep(id))
                 {
-                    TempData["AssignMessage"] = String.Format("'{0}' has been updated", id);
+                    TempData["AssignRepMessage"] = String.Format("'{0}' has been updated", id);
                 }
                 else
                 {
-                    TempData["AssignErrorMessage"] = String.Format("Cannot assign two representative");
+                    TempData["AssignRepErrorMessage"] = String.Format("Cannot assign two representative");
                 }
            
             //string uid = Request["userID"].ToString();

@@ -2,6 +2,8 @@
 
 @{
     ViewBag.Title = "View";
+
+    string role = ViewBag.Role;
 }
 
 
@@ -95,13 +97,18 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Price)
+            $ @Html.DisplayFor(model => model.Price)
         </dd>
 
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.ItemCode }) |
+@if (role != "Clerk")
+{
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ItemCode }) 
+    @:|
+}
+
  
     @Html.ActionLink("Back to List", "Index")
 </p>

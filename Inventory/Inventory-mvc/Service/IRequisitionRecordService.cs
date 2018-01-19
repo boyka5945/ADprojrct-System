@@ -38,9 +38,9 @@ namespace Inventory_mvc.Service
         List<RetrieveForm> GetRetrieveFormByDateTime(DateTime? time);
 
         bool DeleteRequisition(int recordNo);
-
-        bool UpdateDetails(Requisition_Detail requisitionDetail);
-
+        List<Requisition_Record> GetSortedRecordsByRequesterID(string requesterID, string sortOrder);
         Requisition_Record IsUserAuthorizedForRequisition(int requisitionNo, string requesterID, out string errorMessage);
+
+        bool UpdateRequisitionDetails(List<RequisitionDetailViewModel> vmList, out string errorMessage);
     }
 }

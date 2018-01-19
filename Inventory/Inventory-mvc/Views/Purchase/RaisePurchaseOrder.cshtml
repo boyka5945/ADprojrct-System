@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Inventory_mvc.Models.Purchase_Details>
+﻿@model IEnumerable<Inventory_mvc.Models.Purchase_Detail>
 
 
 
@@ -7,99 +7,161 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Raise Purchase Order</h2>
+
+<!DOCTYPE html>
+
+<html>
+<head>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.6/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"></script>
+    <meta name="viewport" content="width=device-width" />
+    <title>ListPurchaseOrders</title>
+    <style>
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1; /* Sit on top */
+            padding-top: 100px; /* Location of the box */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgb(0,0,0); /* Fallback color */
+            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+        }
+
+        /* Modal Content */
+        .modal-content {
+            background-color: #fefefe;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+        }
+
+        /* The Close Button */
+        .close {
+            color: #aaaaaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+            .close:hover,
+            .close:focus {
+                color: #000;
+                text-decoration: none;
+                cursor: pointer;
+            }
+    </style>
+
+</head>
+<body>
 
 
-@using (Html.BeginForm("RaisePurchaseOrder", "Purchase", FormMethod.Post))
-{
-    @Html.AntiForgeryToken()
+    <h2>Purchase Order Generation List</h2>
 
-    <div class="form-horizontal">
 
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
+    @using (Html.BeginForm("RaisePurchaseOrder", "Purchase", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+        
+        <div class="form-horizontal">
 
-            @Html.Label("Order Number")
-            <div class="col-md-10">
-                <input type="text" name="orderNo" value="@ViewBag.orderNo" readonly>
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group" style="display: none; ">
 
+                @Html.Label("Order Number", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                   
+                    <input type="text" name="orderNo" value="@ViewBag.orderNo" readonly>
+
+                </div>
+            </div>
+
+            <div class="form-group">
+
+
+                @Html.Label("Item Code", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                  
+                    @Html.Editor("itemCode")
+                    @Html.ValidationMessage("itemCode")
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                @Html.Label("Item Description", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+      
+                    @Html.Editor("description")
+                    @*@Html.ValidationMessage("description")*@
+                </div>
+            </div>
+
+            <div class="form-group">
+
+                @Html.Label("Quantity", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                 
+                    @Html.Editor("qty")
+                    @Html.ValidationMessage("qty")
+                </div>
+            </div>
+
+            <div class="form-group">
+
+                @Html.Label("Price", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                
+                    @Html.Editor("price")
+                    @Html.ValidationMessage("price")
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.Label("Supplier", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+
+                    <select name="supplierCode">
+                        <option value="ALPA">ALPHA Office Supplies</option>
+                        <option value="BANE">BANES Shop</option>
+                        <option value="CHEP">Cheap Stationery</option>
+                        @*<option value="OMEG">OMEGA Stationery Supplier</option>*@
+                    </select>
+
+                    @Html.ValidationMessage("supplierCode")
+                </div>
+            </div>
+
+
+            <div class="form-group">
+
+
+                @Html.Label("Remarks", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+          
+                    @Html.Editor("remarks")
+                    @Html.ValidationMessage("remarks")
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Add" class="btn btn-default" />
+                </div>
             </div>
         </div>
+    }
+  
 
-        <div class="form-group">
-
-
-            @Html.Label("Item Code")
-            <div class="col-md-10">
-                @Html.Editor("itemCode")
-                @Html.ValidationMessage("itemCode")
-            </div>
-        </div>
-
-
-        <div class="form-group">
-            @Html.Label("Item Description")
-            <div class="col-md-10">
-
-                @Html.Label("description")
-                @*@Html.ValidationMessage("description")*@
-            </div>
-        </div>
-
-        <div class="form-group">
-
-            @Html.Label("Quantity")
-            <div class="col-md-10">
-                @Html.Editor("qty")
-                @Html.ValidationMessage("qty")
-            </div>
-        </div>
-
-        <div class="form-group">
-
-            @Html.Label("Price")
-            <div class="col-md-10">
-                @Html.Editor("price")
-                @Html.ValidationMessage("price")
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.Label("Supplier")
-            <div>
-
-
-                <select name="supplierCode">
-                    <option value="ALPA">ALPHA Office Supplies</option>
-                    <option value="BANE">BANES Shop</option>
-                    <option value="CHEP">Cheap Stationery</option>
-                    <option value="OMEG">OMEGA Stationery Supplier</option>
-                </select>
-
-                @Html.ValidationMessage("supplierCode")
-            </div>
-        </div>
-
-
-        <div class="form-group">
-
-
-            @Html.Label("Remarks")
-            <div class="col-md-10">
-                @Html.Editor("remarks")
-                @Html.ValidationMessage("remarks")
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Add" class="btn btn-default" />
-            </div>
-        </div>
-    </div>
-}
-
+ 
+    <h4>Item List</h4>
 <table class="table">
     <tr>
         <th>
@@ -137,7 +199,7 @@
                 @{
                     Inventory_mvc.Models.StationeryModel Entity = new Inventory_mvc.Models.StationeryModel();
 
-                    Inventory_mvc.Models.Stationery s = Entity.Stationery.Where(x => x.itemCode == item.itemCode).First();
+                    Inventory_mvc.Models.Stationery s = Entity.Stationeries.Where(x => x.itemCode == item.itemCode).First();
 
                     String description = s.description;
 
@@ -165,23 +227,120 @@
                 @Html.DisplayFor(modelItem => item.remarks)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                @*@Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |*@
+                <button name="@item.itemCode" onclick="showModal(self)" class="btn btn-primary">Edit</button>
 
-                @Html.ActionLink("Delete", "Delete", new {  id=item.itemCode  })
+                @Html.ActionLink("Delete", "DeletePD", new { id = item.itemCode })
             </td>
         </tr>
                     }
 
 </table>
 
-@Html.ActionLink("Clear", "ClearSession", "Purchase")
-@Html.ActionLink("Generate Purchase Order", "GeneratePO", "Purchase")
+@Html.ActionLink("Clear", "ClearSession", "Purchase", new { @class = "btn btn-default", style="float: right"}) 
+@Html.ActionLink("Generate Purchase Order", "GeneratePO", "Purchase", new { @class = "btn btn-primary", style="float: left" })
 
 <div>
-
-    @Html.ActionLink("Back to List", "ListPurchaseOrders")
+    <br />
+    <br />
+    @Html.ActionLink("Back to PO List", "ListPurchaseOrders", "Purchase", new {style = "float: left" })
 </div>
 
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
+
+<!-- The Modal Box -->
+<div id="myModal" class="modal">
+
+    <!-- Modal content -->
+    <div class="modal-content">
+@using (Html.BeginForm("UpdatePD", "Purchase", FormMethod.Post))
+{
+        <p>Item Code</p>
+        <input type="text" name="ditemCode" />
+        <p>Price</p>
+        <input type="text" name="dprice" />
+        <p>Quantity</p>
+        <input type="text" name="dqty" />
+        <p>Remarks</p>
+        <input type="text" name="dremarks" />
+        <br />
+        <input type="submit" value="Update" />
+        <br />
+        <span class="close" onclick="close">&times;</span>
 }
+    </div>
+
+</div>
+
+
+
+
+<script>
+
+    //window.onload = function () {
+    //    if (window.jQuery) {
+    //        // jQuery is loaded  
+    //        alert("Yeah!");
+    //    } else {
+    //        // jQuery is not loaded
+    //        alert("Doesn't Work");
+    //    }
+    //}
+
+    // Get the modal
+    var modal = document.getElementById('myModal');
+
+    // Get the <span> element that closes the modal
+    var span = document.getElementsByClassName("close")[0];
+
+
+
+
+    $('button').click(function () {
+
+        modal.style.display = "block";
+        alert($(this).attr('name'));
+        $("[name='ditemCode']").val($(this).attr('name'));
+
+    });
+
+    //function showModal(obj) {
+
+    //    modal.style.display = "block";
+    //    var source = obj;
+
+    //   alert(source)
+
+
+    //}
+
+    //btn.onclick(function () {
+    //    alert("beee");
+    //        modal.style.display = "block";
+    //        icodeLabel = $(this).prop.name;
+
+    //    })
+
+    function close() {
+        modal.style.display = "none";
+    }
+
+
+
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function () {
+        modal.style.display = "none";
+    }
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function (event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+</script>
+
+</body>
+@*@section Scripts {
+        @Scripts.Render("~/bundles/jqueryval")
+    }*@
+</html>

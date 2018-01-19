@@ -37,6 +37,7 @@ namespace Inventory_mvc.Models
         public string status { get; set; }
 
         [Column(TypeName = "date")]
+        [DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         public DateTime? requestDate { get; set; }
 
         public virtual Department Department { get; set; }

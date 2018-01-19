@@ -1,0 +1,19 @@
+﻿@model Inventory_mvc.Models.SelectStationeryEditorViewModel
+
+
+
+
+<tr>
+    <td style="text-align:center">
+        @Html.CheckBoxFor(model => model.Selected)
+    </td>
+    <td>
+        @Html.DisplayFor(model => model.itemCode)
+    </td>
+
+    <td>
+        @Html.ActionLink("Edit", "Edit", new { id = Model.itemCode }) |
+        @Html.ActionLink("Details", "Details", new { id = Model.itemCode }) |
+        @Html.ActionLink("Delete", "Delete", new { id = Model.itemCode })
+    </td>
+</tr>

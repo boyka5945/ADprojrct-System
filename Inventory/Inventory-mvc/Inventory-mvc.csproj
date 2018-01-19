@@ -185,6 +185,8 @@
     <Compile Include="Controllers\StationeryController.cs" />
     <Compile Include="Controllers\SupplierController.cs" />
     <Compile Include="Controllers\UserController.cs" />
+    <Compile Include="Controllers\CheckShortfallController.cs" />
+    <Compile Include="Controllers\POGeneratorController.cs" />
     <Compile Include="DAO\AdjustmentVoucherDAO.cs" />
     <Compile Include="DAO\CollectionPointDAO.cs" />
     <Compile Include="DAO\DAOException.cs" />
@@ -265,16 +267,19 @@
     <Compile Include="ViewModel\Disbursement.cs" />
     <Compile Include="ViewModel\RaiseRequisitionViewModel.cs" />
     <Compile Include="ViewModel\RequisitionDetailViewModel.cs" />
+    <Compile Include="ViewModel\RetrieveForm.cs" />
     <Compile Include="ViewModel\StationeryViewModel.cs" />
     <Compile Include="ViewModel\SupplierViewModel.cs" />
     <Compile Include="ViewModel\UserViewModel.cs" />
-    <Compile Include="ViewModel\RetrieveForm.cs" />
+    <Compile Include="ViewModel\Purchase_Order_RecordViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Images\pinyin.txt" />
     <Content Include="Images\test1.jpg" />
     <Content Include="Images\test2.jpg" />
     <Content Include="Images\test3.jpg" />
+    <Content Include="Content\combobox.css" />
+    <Content Include="Content\OrderCSS\style.css" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -380,6 +385,9 @@
     <Content Include="Views\ManageRequisitions\EditRequisition.cshtml" />
     <Content Include="Views\ManageRequisitions\ListRequisition.cshtml" />
     <Content Include="Views\Purchase\ListPurchaseOrders.cshtml" />
+    <Content Include="Views\POGenerator\gen.cshtml" />
+    <Content Include="Views\Purchase\RaisePurchaseOrder.cshtml" />
+    <Content Include="Views\CheckShortfall\List.cshtml" />
     <Content Include="Views\Department\ListDepartment.cshtml" />
     <Content Include="Views\Supplier\Delete.cshtml" />
     <Content Include="Views\Supplier\Edit.cshtml" />
@@ -411,9 +419,9 @@
     <Content Include="Views\ListRequisitions\Index.cshtml" />
     <Content Include="Views\ReceiveStock\StockReceive.cshtml" />
     <Content Include="Views\ListRequisitions\ShowDetail.cshtml" />
+    <Content Include="Views\ListRequisitions\_EditRecord.cshtml" />
     <Content Include="Views\ListRequisitions\EditRecord.cshtml" />
     <Content Include="Views\ManageRequisitions\GenerateRetrieveForm.cshtml" />
-    <Content Include="Views\Purchase\RaisePurchaseOrder.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -439,6 +447,9 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
