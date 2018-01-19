@@ -1,5 +1,4 @@
 ﻿
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"></script>
 
 @model Inventory_mvc.ViewModel.RaiseRequisitionViewModel
@@ -18,10 +17,7 @@
 @using (Html.BeginForm(action.ToString(), "RaiseRequisition", FormMethod.Post, new { @class = "form", id = "requestForm" }))
 {
     <div class="modal-header">
-        <h5 class="modal-title">Stationery Request</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
+        <h3 class="modal-title">Stationery Request</h3>
     </div>
 
     <div class="modal-body">
@@ -30,7 +26,7 @@
         @if (action == "AddNewRequestItem")
         {
             <div class="form-group">
-                @Html.Label("Stationery")
+                @Html.Label("Select a stationery")
                 @Html.DropDownListFor(model => model.ItemCode, ViewBag.SelectList as List<SelectListItem>, htmlAttributes: new { @class = "form-control", id = "ddl" })
                 @Html.ValidationMessageFor(model => model.ItemCode, "", new { @class = "text-danger" })
             </div>
@@ -38,7 +34,7 @@
         else
         {
             <div class="form-group">
-                @Html.Label("Select a stationery")
+                @Html.Label("Stationery")
                 <input class="form-control" type="text" value="@Model.Description" readonly/>
                 @Html.HiddenFor(model => model.ItemCode)
             </div>
@@ -52,7 +48,7 @@
     </div>
 
     <div class="modal-footer">
-        <input type="submit" value="@buttonName" class="btn btn-primary" />
+        <input type="submit" value="@buttonName" class="btn btn-success" />
         <input type="button" value="Cancel" class="btn btn-secondary" data-dismiss="modal" />
     </div>
 }

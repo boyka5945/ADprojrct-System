@@ -34,7 +34,7 @@ namespace Inventory_mvc.Controllers
                 }
                 else if (ModelState.IsValid)
                 {
-                    if (UserService.FindByUserID(model.UserName).Password == model.Password)
+                    if (UserService.FindByUserID(model.UserName).password == model.Password)
                     {
                         int roleID = 1;
                         string identity = model.UserName;

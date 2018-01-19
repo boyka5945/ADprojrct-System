@@ -124,7 +124,7 @@ namespace Inventory_mvc.Controllers
             string userID = "S1000";
             DepartmentService ds = new DepartmentService();
             TempData["CollectionPointList"] = collectionPointService.GetAllCollectionPoints();
-            Department uVM = ds.GetDepartmentByCode(us.FindByUserID(userID).DepartmentCode);
+            Department uVM = ds.GetDepartmentByCode(us.FindByUserID(userID).departmentCode);
             //string FindDeptCode = uVM.DepartmentCode;
             //DepartmentService ds = new DepartmentService();
             //Department d = ds.GetDepartmentByCode(FindDeptCode);

@@ -72,10 +72,10 @@
                 @Html.DisplayNameFor(model => model.Description)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Quantity)
+                @Html.DisplayNameFor(model => model.UOM)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.UOM)
+                @Html.DisplayNameFor(model => model.Quantity)
             </th>
             <th></th>
         </tr>
@@ -88,10 +88,10 @@
                     @Html.HiddenFor(modelItem => item.ItemCode, new { id="itemCode"})
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Quantity)
+                    @Html.DisplayFor(modelItem => item.UOM)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.UOM)
+                    @Html.DisplayFor(modelItem => item.Quantity)
                 </td>
                 <td> 
                     <a href="#" onclick="EditRequestItem('@item.ItemCode')">Edit</a> |
@@ -103,7 +103,7 @@
 
     <br />
 
-        <input type="submit" value="Submit" class="btn btn-primary @disabled" />
+        <input type="submit" value="Submit Requisition" class="btn btn-success @disabled" />
         <a href="@Url.Action("ClearAllRequestItem", "RaiseRequisition" )">
             <input type="button" value="Clear All" class="btn btn-danger" @disabled />
         </a>
