@@ -63,7 +63,6 @@ namespace Inventory_mvc.ViewModel
         [Display(Name = "Price")]
         public decimal Price { get; set; }
 
-
         public virtual Category Category { get; set; }
     }
 }

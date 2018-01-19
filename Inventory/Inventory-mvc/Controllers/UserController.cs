@@ -17,6 +17,10 @@ namespace Inventory_mvc.Controllers
         public ActionResult UserList()
         {
             string name = HttpContext.User.Identity.Name;
+            //if(name=="")
+            //{
+            //    return RedirectToAction("Login", "Home");
+            //}
             User user = userService.FindByUserID("S1000");
             List<User> model = userService.GetUserByDept(user);
           //  ViewBag.Roles = userService.FindAllRole(user.UserID);

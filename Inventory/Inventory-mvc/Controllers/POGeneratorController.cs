@@ -22,16 +22,16 @@ namespace Inventory_mvc.Service
             int orderNo = Int32.Parse(id);
             Purchase_Order_Record por = pos.FindByOrderID(orderNo);
 
-            Inventory_mvc.Models.User clerk = ctx.User.Where(x => x.userID == por.clerkID).First();
+            Inventory_mvc.Models.User clerk = ctx.Users.Where(x => x.userID == por.clerkID).First();
 
-            Supplier s = ctx.Supplier.Where(x => x.supplierCode == por.supplierCode).First();
+            Supplier s = ctx.Suppliers.Where(x => x.supplierCode == por.supplierCode).First();
             ViewBag.orderNo = id;
             ViewBag.clerkID = por.clerkID;
             ViewBag.clerkName = clerk.name;
             ViewBag.supplier = s.supplierName;
             ViewBag.delivery = por.expectedDeliveryDate;
 
-            List<Purchase_Details> model = ctx.Purchase_Details.Where(x => x.orderNo == orderNo).ToList();
+            List<Purchase_Detail> model = ctx.Purchase_Detail.Where(x => x.orderNo == orderNo).ToList();
 
             return View(model);
         }
