@@ -12,7 +12,8 @@ namespace Inventory_mvc.Controllers
     public class AdjustmentVoucherController : Controller
     {
         IStationeryService stationeryService = new StationeryService();
-
+        IUserService userService = new UserService();
+        IAdjustmentVoucherService adjustmentVoucherService = new AdjustmentVoucherService();
 
         // GET: AdjustmentVoucherRecord
         public ActionResult Index()
@@ -30,7 +31,7 @@ namespace Inventory_mvc.Controllers
                 Session["NewVoucher"] = vmList;
             }
 
-            if(!String.IsNullOrEmpty(itemCode)) // use to display message once remove item from voucher
+            if(!String.IsNullOrEmpty(itemCode)) // use to display message if remove item from voucher
             {
                 TempData["SuccessMessage"] = String.Format("{0} was removed.", itemCode);
             }
@@ -51,11 +52,29 @@ namespace Inventory_mvc.Controllers
             vm.Description = s.description;
             vm.UOM = s.unitOfMeasure;
             vm.Price = s.price;
-            vmList.Add(vm);
 
+            bool contain = false;
+            bool zeroQuantity = (quantity == 0) ? true : false;
+
+            foreach (var item in vmList)
+            {
+                if (item.ItemCode == vm.ItemCode)
+                {
+                    item.Quantity += vm.Quantity;
+                    contain = true;
+                    zeroQuantity = (item.Quantity == 0) ? true : false; // notify user if quantity become 0
+                    break;
+                }
+            }
+            if (!contain)
+            {
+                vmList.Add(vm);
+            }
+          
             Session["NewVoucher"] = vmList;
 
             TempData["SuccessMessage"] = String.Format("{0} was added.", itemCode);
+            TempData["WarningMessage"] = (zeroQuantity)? String.Format("Warning! Quantity of {0} is 0, which will not be submitted.", itemCode) : null;
 
             return RedirectToAction("NewVoucher");
         }
@@ -89,12 +108,28 @@ namespace Inventory_mvc.Controllers
             // TODO : IMPLEMENT LOGIC
             // LOGIC
 
-            // Submit Form
-            TempData["SuccessMessage"] = String.Format("Discrepancy report has been submitted.");
+            // TODO: REMOVE HARD CODED REQUESTER ID
+            //string requesterID = HttpContext.User.Identity.Name;
 
-            List<NewVoucherViewModel> list = new List<NewVoucherViewModel>();
-            Session["NewVoucher"] = list;
+            string requesterID = "S1013";
 
+            if(adjustmentVoucherService.SubmitNewAdjustmentVoucher(vmList,3,requesterID))
+            {
+                // clear list
+                Session["NewVoucher"] = new List<NewVoucherViewModel>();
+                TempData["SuccessMessage"] = String.Format("Discrepancy report has been submitted.");
+
+                // TODO: TEST EMAIL NOTIFICATION
+                // send email notification
+
+                //voucher amount +qty not count, -qty count
+
+
+            }
+            else
+            {
+                TempData["ErrorMessage"] = String.Format("Error writing to database");
+            }
 
             return RedirectToAction("NewVoucher");
         }

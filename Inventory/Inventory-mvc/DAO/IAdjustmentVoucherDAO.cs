@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Inventory_mvc.Models;
+using Inventory_mvc.ViewModel;
 
 namespace Inventory_mvc.DAO
 {
@@ -18,5 +19,7 @@ namespace Inventory_mvc.DAO
         int UpdateAdjustmentVoucherInfo(Adjustment_Voucher_Record voucher);
 
         bool DeleteAdjustmentVoucher(int voucherID);
+
+
     }
 }

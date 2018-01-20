@@ -149,8 +149,6 @@ namespace Inventory_mvc.Controllers
             requisition.deptCode = deptCode;
             requisition.status = status;
             requisition.requestDate = requestDate;
-
-            //List<RaiseRequisitionViewModel> requestList = Session["RequestList"] as List<RaiseRequisitionViewModel>;
             
             foreach(RaiseRequisitionViewModel request in requestList)
             {
@@ -167,22 +165,13 @@ namespace Inventory_mvc.Controllers
                 // Valid request, submit to database
                 if (requisitionService.SubmitNewRequisition(requisition))
                 {
-                    // TODO: TEST EMAIL NOTIFICATION
-                    // send email notification
-                    string content = String.Format("There is a new requisition from {0} pending your approval.", requesterName);                 
-                    string[] emailReciever = userService.FindApprovingStaffsEmailByRequesterID(requesterID);
-                               
-                    foreach(var emailaddress in emailReciever)
-                    {
-                        sendEmail email = new sendEmail(emailaddress, "New Stationery Requisition", content);
-                        //email.send();
-                    }
-
-
                     // clear requestlist
                     Session["RequestList"] = new List<RaiseRequisitionViewModel>();
-
                     TempData["SuccessMessage"] = "New stationery requisition has been submitted.";
+
+                    // TODO: TEST EMAIL NOTIFICATION
+                    // send email notification
+                    EmailNotification.EmailNotificatioForNewRequisition(requesterID);
 
                     // go to user requisition list
                     return RedirectToAction("Index", "ListRequisitions");
