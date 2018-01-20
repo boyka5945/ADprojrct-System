@@ -42,5 +42,7 @@ namespace Inventory_mvc.Service
         Requisition_Record IsUserAuthorizedForRequisition(int requisitionNo, string requesterID, out string errorMessage);
 
         bool UpdateRequisitionDetails(List<RequisitionDetailViewModel> vmList, out string errorMessage);
+
+        int DetailsCountOfOneItemcode(string itemcode);
     }
 }

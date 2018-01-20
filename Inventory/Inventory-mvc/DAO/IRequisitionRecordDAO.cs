@@ -31,6 +31,8 @@ namespace Inventory_mvc.DAO
 
         Requisition_Detail FindDetailsBy2Key(string itemCode, int requisitionNo);
 
+        int DetailsCountOfOneItemcode(string itemCode);
+
         List<Disbursement> GetRequisitionByDept(string deptCode);
 
         bool SubmitNewRequisition(Requisition_Record requisition);
