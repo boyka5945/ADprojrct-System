@@ -4,7 +4,7 @@
 @{
     ViewBag.Title = "ShowDetail";
 
-    var editMessage = TempData["EditMessage"];
+    var successMessage = TempData["SuccessMessage"];
 
 }
 
@@ -26,10 +26,10 @@
 </div>
 
 <br/>
-@if (editMessage != null)
+@if (successMessage != null)
 {
     <div class="alert alert-success">
-        @editMessage.ToString()
+        @successMessage.ToString()
     </div>
 }
 <br />

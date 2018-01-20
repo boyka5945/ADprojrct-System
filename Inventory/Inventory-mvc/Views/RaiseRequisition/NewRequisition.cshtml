@@ -4,18 +4,8 @@
 @{
     var removeItemMessage = TempData["RemoveItemMessage"];
 
-    int count = Model.Count();
-
-    string disabled = "";
-    if(count == 0)
-    {
-        disabled = "disabled";
-    }
-
-    var addItemMessage = TempData["AddItemMessage"];
-    var addItemErrorMessage = TempData["AddItemErrorMessage"];
-    var editItemMessage = TempData["EditItemMessage"];
-    var submitErrorMessage = TempData["SubmitErrorMessage"];
+    var successMessage = TempData["SuccessMessage"];
+    var errorMessage = TempData["ErrorMessage"];
 }
 
 <h2>Requisition Form</h2>
@@ -26,91 +16,76 @@
 <br />
 <br />
 
-@if (removeItemMessage != null)
+@if (successMessage != null)
 {
     <div class="alert alert-success">
-        @removeItemMessage.ToString()
+        @successMessage.ToString()
     </div>
 }
 
-@if (addItemMessage != null)
-{
-    <div class="alert alert-success">
-        @addItemMessage.ToString()
-    </div>
-}
-
-@if (addItemErrorMessage != null)
-{
-<div class="alert alert-danger">
-    @addItemErrorMessage.ToString()
-</div>
-}
-
-@if (editItemMessage != null)
-{
-    <div class="alert alert-success">
-        @editItemMessage.ToString()
-    </div>
-}
-
-@if (submitErrorMessage != null)
+@if (errorMessage != null)
 {
     <div class="alert alert-danger">
-        @submitErrorMessage.ToString()
+        @errorMessage.ToString()
     </div>
 }
-
 
 <br />
 
-@using (Html.BeginForm("SubmitRequisition", "RaiseRequisition", FormMethod.Post, new { @class = "form" }))
+@if (Model.Count() == 0)
 {
-    <table class="table">
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.UOM)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Quantity)
-            </th>
-            <th></th>
-        </tr>
-
-        @foreach (var item in Model)
-        {               
+    <h4><i>Your requistion form is empty.</i></h4>
+}
+else
+{
+    using (Html.BeginForm("SubmitRequisition", "RaiseRequisition", FormMethod.Post, new { @class = "form" }))
+    {
+        <table class="table">
             <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Description)
-                    @Html.HiddenFor(modelItem => item.ItemCode, new { id="itemCode"})
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.UOM)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Quantity)
-                </td>
-                <td> 
-                    <a href="#" onclick="EditRequestItem('@item.ItemCode')">Edit</a> |
-                    @Html.ActionLink("Remove", "RemoveRequestItem", "RaiseRequisition", new { itemCode = item.ItemCode }, new {})
-                </td>
+                <th>
+                    @Html.DisplayNameFor(model => model.Description)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.UOM)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Quantity)
+                </th>
+                <th></th>
             </tr>
-        }
-    </table>
 
-    <br />
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Description)
+                        @Html.HiddenFor(modelItem => item.ItemCode, new { id = "itemCode" })
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UOM)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Quantity)
+                    </td>
+                    <td>
+                        <a href="#" onclick="EditRequestItem('@item.ItemCode')">Edit</a> |
+                        @Html.ActionLink("Remove", "RemoveRequestItem", "RaiseRequisition", new { itemCode = item.ItemCode }, new { })
+                    </td>
+                </tr>
+            }
+        </table>
 
-        <input type="submit" value="Submit Requisition" class="btn btn-success @disabled" />
+        <br />
+
+        <input type="submit" value="Submit Requisition" class="btn btn-success" />
         <a href="@Url.Action("ClearAllRequestItem", "RaiseRequisition" )">
-            <input type="button" value="Clear All" class="btn btn-danger" @disabled />
+            <input type="button" value="Clear All" class="btn btn-danger"/>
         </a>
 
-    <br />
-
+        <br />
+    }
 }
+
 
 <!-- The below code is for the modal dialog -->
 <div class="modal fade" id="addItemModal" tabindex="-1" role="dialog">

@@ -26,10 +26,15 @@ namespace Inventory_mvc.Controllers
 
             string requesterID = "S1013";
 
+            if(String.IsNullOrEmpty(sortOrder))
+            {
+                ViewBag.DateSortParm = "date_desc";
+            }
+
             ViewBag.CurrentSort = sortOrder;
-            ViewBag.DateSortParm = String.IsNullOrEmpty(sortOrder) ? "" : "Request Date";
-            ViewBag.NumberSortParm = sortOrder == "Requisition Form No." ? "number_desc" : "Requisition Form Number";
-            ViewBag.StatusSortParm = sortOrder == "Status" ? "status_desc" : "Status";
+            ViewBag.DateSortParm = (sortOrder == "Request Date") ? "date_desc" : "Request Date";
+            ViewBag.NumberSortParm = (sortOrder == "Requisition Form Number") ? "number_desc" : "Requisition Form Number";
+            ViewBag.StatusSortParm = (sortOrder == "Status") ? "status_desc" : "Status";
 
             List<Requisition_Record> records = requisitionService.GetSortedRecordsByRequesterID(requesterID, sortOrder);
 
@@ -69,7 +74,7 @@ namespace Inventory_mvc.Controllers
             {
                 if (requisitionService.DeleteRequisition(recordNo))
                 {
-                    TempData["RemoveMessage"] = String.Format("Requisition no. {0} was removed.", record.requisitionNo);
+                    TempData["SuccessMessage"] = String.Format("Requisition no. {0} was removed.", record.requisitionNo);
                 }
                 else
                 {
@@ -150,7 +155,7 @@ namespace Inventory_mvc.Controllers
             
             if (requisitionService.UpdateRequisitionDetails(vmList, out errorMessage))
             {
-                TempData["EditMessage"] = String.Format("Requisition form no. {0} has been updated.", vmList.First().RequisitionNo);
+                TempData["SuccessMessage"] = String.Format("Requisition form no. {0} has been updated.", vmList.First().RequisitionNo);
                 return RedirectToAction("ShowDetail", new { id = vmList.First().RequisitionNo });
             }
             else
@@ -175,7 +180,7 @@ namespace Inventory_mvc.Controllers
 
         //        if (requisitionService.UpdateDetails(requisitionDetail))
         //        {
-        //            TempData["EditMessage"] = String.Format("Quantity of {0} was updated.", description);
+        //            TempData["SuccessMessage"] = String.Format("Quantity of {0} was updated.", description);
         //        }
         //        else
         //        {

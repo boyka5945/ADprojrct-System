@@ -15,6 +15,7 @@ namespace Inventory_mvc.Controllers
         IStationeryService stationeryService = new StationeryService();
         ISupplierService supplierService = new SupplierService();
         IUserService userService = new UserService();
+        ITransactionRecordService transactionService = new TransactionRecordService();
 
         // GET: Stationery
         public ActionResult Index(string searchString, int? page, string categoryID = "All")
@@ -26,7 +27,7 @@ namespace Inventory_mvc.Controllers
 
             // Store clerk roleID == 7
             int roleID = userService.GetRoleByID(userID);
-            ViewBag.Role = (roleID.ToString() == "7") ? "Clerk" : "";
+            ViewBag.Role = (roleID.ToString() == "7") ? "StoreClerk" : "";
 
 
             List<StationeryViewModel> stationeries = stationeryService.GetStationeriesVMBasedOnCriteria(searchString, categoryID);
@@ -133,11 +134,11 @@ namespace Inventory_mvc.Controllers
                 {
                     if (stationeryService.UpdateStationeryInfo(stationeryVM))
                     {
-                        TempData["EditMessage"] = String.Format("'{0}' has been updated", code);
+                        TempData["SuccessMessage"] = String.Format("'{0}' has been updated", code);
                     }
                     else
                     {
-                        TempData["EditErrorMessage"] = String.Format("There is not change to '{0}'.", code);
+                        TempData["ErrorMessage"] = String.Format("There is not change to '{0}'.", code);
                     }
 
                     return RedirectToAction("Index");
@@ -238,7 +239,7 @@ namespace Inventory_mvc.Controllers
                     try
                     {
                         stationeryService.AddNewStationery(stationeryVM);
-                        TempData["CreateMessage"] = String.Format("Stationery '{0}' is added.", code);
+                        TempData["SuccessMessage"] = String.Format("Stationery '{0}' is added.", code);
                         return RedirectToAction("Index");
                     }
                     catch (Exception e)
@@ -261,11 +262,11 @@ namespace Inventory_mvc.Controllers
 
             if (stationeryService.DeleteStationery(id))
             {
-                TempData["DeleteMessage"] = String.Format("Stationery '{0}' has been deleted", id);
+                TempData["SuccessMessage"] = String.Format("Stationery '{0}' has been deleted", id);
             }
             else
             {
-                TempData["DeleteErrorMessage"] = String.Format("Cannot delete stationery '{0}'", id);
+                TempData["ErrorMessage"] = String.Format("Cannot delete stationery '{0}'", id);
             }
 
             return RedirectToAction("Index");
@@ -286,7 +287,11 @@ namespace Inventory_mvc.Controllers
 
             // Store clerk roleID == 7
             int roleID = userService.GetRoleByID(userID);
-            ViewBag.Role = (roleID.ToString() == "7") ? "Clerk" : "";
+            ViewBag.Role = (roleID.ToString() == "7") ? "StoreClerk" : "";
+
+
+            ViewBag.SelectYear = new SelectList(transactionService.GetSelectableTransactionYear(DateTime.Today.Year));
+            ViewBag.SelectMonth = new SelectList(transactionService.GetSelectableTransactionMonth(DateTime.Today.Month));
 
             return View(stationeryService.FindStationeryViewModelByItemCode(id));
         }
@@ -305,6 +310,31 @@ namespace Inventory_mvc.Controllers
         //    return View();
         //}
 
+
+        [HttpPost]
+        public ActionResult ViewTransaction(string id, int selectedYear, int selectedMonth)
+        {
+            List<Transaction_Detail> records = transactionService.GetTransaciontDetailsByCriteria(selectedYear, selectedMonth, id);
+
+            List<ItemTransactionRecordViewModel> vmList = new List<ItemTransactionRecordViewModel>();
+
+            foreach (var r in records)
+            {
+                ItemTransactionRecordViewModel vm = new ItemTransactionRecordViewModel();
+
+                vm.TransactionNo = r.transactionNo;
+                vm.TransactionDate = (DateTime)r.Transaction_Record.date;
+                vm.ItemCode = r.itemCode;
+                vm.Quantity = r.adjustedQty;
+                vm.BalanceQty = r.balanceQty;
+                vm.TransactionType = r.Transaction_Record.type;
+                vm.Remarks = r.remarks;
+
+                vmList.Add(vm);                              
+            }
+
+            return PartialView("_ViewTransaction", vmList);
+        }
 
     }
 }
