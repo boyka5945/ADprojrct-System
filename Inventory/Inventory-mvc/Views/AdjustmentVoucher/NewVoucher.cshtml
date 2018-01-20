@@ -1,21 +1,23 @@
 ﻿<script src="~/Scripts/select2.min.js"></script>
 <link href="~/Content/select2.min.css" rel="stylesheet" />
 
-@model IEnumerable<Inventory_mvc.ViewModel.RaiseRequisitionViewModel>
-
+@model IEnumerable<Inventory_mvc.ViewModel.NewVoucherViewModel>
 
 @{
+    ViewBag.Title = "NewVoucher";
+
     var successMessage = TempData["SuccessMessage"];
     var errorMessage = TempData["ErrorMessage"];
+    var warningMessage = TempData["WarningMessage"];
 }
 
-<h2>Requisition Form</h2>
+<h2>Discrepancy Report</h2>
 
 <br />
 <button type="button" class="btn btn-success" id="addItemBtn" data-toggle="modal" data-target="#addItemModal">Add New Item</button>
-@Html.ActionLink("Go To Catalogue", "BrowseCatalogue", null, new { @class = "btn btn-primary" })
 <br />
 <br />
+
 
 @if (successMessage != null)
 {
@@ -31,32 +33,34 @@
     </div>
 }
 
+@if (warningMessage != null)
+{
+    <div class="alert alert-warning">
+        @warningMessage.ToString()
+    </div>
+}
+
 <br />
 
 @if (Model.Count() == 0)
 {
-    <h4><i>Your requistion form is empty.</i></h4>
+    <h4><i>There is not item in disprecancy report.</i></h4>
 }
 else
 {
-    using (Html.BeginForm("SubmitRequisition", "RaiseRequisition", FormMethod.Post, new { @class = "form", @id="requestForm" }))
+    using (Html.BeginForm("SubmitVoucher", "AdjustmentVoucher", FormMethod.Post, new { @class = "form", @id = "voucherForm" }))
     {
         <table class="table">
             <thead>
                 <tr>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Description)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.UOM)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Quantity)
-                    </th>
+                    <th>@Html.DisplayNameFor(model => model.ItemCode)</th>
+                    <th>@Html.DisplayNameFor(model => model.Description)</th>
+                    <th>@Html.DisplayNameFor(model => model.UOM)</th>
+                    <th>@Html.DisplayNameFor(model => model.Quantity)</th>
+                    <th>@Html.DisplayNameFor(model => model.Reason)</th>
                     <th></th>
                 </tr>
             </thead>
-
             <tbody>
                 @for (int i = 0; i < Model.Count(); i++)
                 {
@@ -64,8 +68,12 @@ else
 
                     <tr>
                         <td>
-                            @Html.DisplayFor(modelItem => item.Description)
+                            @Html.DisplayFor(modelItem => item.ItemCode)
                             <input type="hidden" name="[@i].ItemCode" value="@item.ItemCode" />
+                            <input type="hidden" name="[@i].Price" value="@item.Price" />
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Description)
                             <input type="hidden" name="[@i].Description" value="@item.Description" />
                         </td>
                         <td>
@@ -73,7 +81,10 @@ else
                             <input type="hidden" name="[@i].UOM" value="@item.UOM" />
                         </td>
                         <td>
-                            <input type="number" name="[@i].Quantity" value="@item.Quantity" class="form-control form-control-sm" min="1" required/>
+                            <input type="number" name="[@i].Quantity" value="@item.Quantity" class="form-control form-control-sm" />
+                        </td>
+                        <td>
+                            <input type="text" name="[@i].Reason" value="@item.Reason" class="form-control form-control-sm" />
                         </td>
                         <td>
                             <a href="#" data-bind="@item.ItemCode" onclick="RemoveItem('@item.ItemCode')" class="removeBtn">Remove</a>
@@ -84,14 +95,14 @@ else
         </table>
 
         <br />
-
         <input type="submit" value="Submit Requisition" class="btn btn-success" />
-        <a href="@Url.Action("ClearAllRequestItem", "RaiseRequisition" )">
-            <input type="button" value="Clear All" class="btn btn-danger"/>
+        <a href="@Url.Action("ClearAllItemInVoucher", "AdjustmentVoucher" )">
+            <input type="button" value="Clear All" class="btn btn-danger" />
         </a>
-
         <br />
+
     }
+
 }
 
 
@@ -99,10 +110,10 @@ else
 <div class="modal fade" id="addItemModal" tabindex="-1" role="dialog">
     <div class="modal-dialog">
         <div class="modal-content" id="addItemModalBodyDiv">
-            @using (Html.BeginForm("AddNewRequestItem", "RaiseRequisition", FormMethod.Post, new { @class = "form", id = "itemForm" }))
-            {
+            @using (Html.BeginForm("AddItemIntoVoucher", "AdjustmentVoucher", FormMethod.Post, new { @class = "form", @id = "newVoucher" }))
+        {
                 <div class="modal-header">
-                    <h3 class="modal-title">Add Stationery Request</h3>
+                    <h3 class="modal-title">Add Discrepancy</h3>
                 </div>
 
                 <div class="modal-body">
@@ -117,9 +128,15 @@ else
                     </div>
 
                     <div class="form-group">
-                        @Html.Label("Quantity")
-                        <input type="number" name="quantity" value="1" min="1" class="form-control" required/>
+                        @Html.Label("Quantity Adjusted")
+                        <input type="number" class="form-control" placeholder="Quantity" name="quantity" required />
                     </div>
+
+                    <div class="form-group">
+                        @Html.Label("Reason")
+                        <input type="text" class="form-control" placeholder="Reason" name="reason" />
+                    </div>
+
                 </div>
 
                 <div class="modal-footer">
@@ -134,11 +151,12 @@ else
 
 
 <script>
+
     $(document).ready(function () {
         $('.js-data-example-ajax').select2({
 
             ajax: {
-                url: '/RaiseRequisition/GetStationeryListJSON',
+                url: '/AdjustmentVoucher/GetStationeryListJSON',
                 delay: 250,
                 dataType: 'json',
                 //data: function (params) {
@@ -154,7 +172,7 @@ else
                 // Additional AJAX parameters go here; see the end of this chapter for the full code of this example
             },
 
-            placeholder: "Select a stationery",
+            placeholder: "Input item code",
             minimumInputLength: 1,
             selectOnClose: true,
             allowClear: true,
@@ -164,27 +182,26 @@ else
         $(".removeBtn").click(function () {
             var itemCode = $(this).data("bind");
 
-            var myformdata = $("#requestForm").serializeArray(); // convert form to array
+            var myformdata = $("#voucherForm").serializeArray(); // convert form to array
             myformdata.push({ name: "itemCode", value: itemCode }); // add extra key-value pair
 
             $.ajax({
                 type: "POST",
-                url: "/RaiseRequisition/RemoveRequestItem",
+                url: "/AdjustmentVoucher/RemoveVoucherItem",
                 data: $.param(myformdata), // convert to url-encoded form
-                success: function () {
-                    window.location.href = "/RaiseRequisition/NewRequisition?itemCode=" + itemCode;
+                success: function() {
+                    window.location.href = "/AdjustmentVoucher/NewVoucher?itemCode=" + itemCode;
                 }
             });
         });
 
-
         $("#addItemBtn").click(function () {
 
-            var myformdata = $("#requestForm").serializeArray(); // convert form to array
+            var myformdata = $("#voucherForm").serializeArray(); // convert form to array
 
             $.ajax({
                 type: "POST",
-                url: "/RaiseRequisition/SaveTemporaryValue",
+                url: "/AdjustmentVoucher/SaveTemporaryValue",
                 data: $.param(myformdata), // convert to url-encoded form
                 //success: function () {
                 //    alert("success");
@@ -192,10 +209,5 @@ else
             });
         });
 
-
     });
-
 </script>
-
-
-

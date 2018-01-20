@@ -5,7 +5,7 @@ using System.Web;
 
 namespace Inventory_mvc.DAO
 {
-    public class AdjustmentVoucherDAO
+    public class AdjustmentVoucherDAO : IAdjustmentVoucherDAO
     {
 
     }
