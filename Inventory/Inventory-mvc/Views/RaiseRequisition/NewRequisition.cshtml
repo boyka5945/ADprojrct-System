@@ -172,7 +172,7 @@ else
                 url: "/RaiseRequisition/RemoveRequestItem",
                 data: $.param(myformdata), // convert to url-encoded form
                 success: function () {
-                    window.location.href = "/RaiseRequisition/NewRequisition?itemCode=" + itemCode;
+                    window.location.href = "/RaiseRequisition/NewRequisition?type=remove&itemCode=" + itemCode;
                 }
             });
         });

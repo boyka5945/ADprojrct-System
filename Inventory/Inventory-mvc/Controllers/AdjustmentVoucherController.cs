@@ -17,12 +17,28 @@ namespace Inventory_mvc.Controllers
         IAdjustmentVoucherService adjustmentVoucherService = new AdjustmentVoucherService();
 
         // GET: AdjustmentVoucherRecord
-        public ActionResult Index()
+        public ActionResult Index(string status)
         {
+            //List<NewVoucherViewModel> pendingApprovalList = adjustmentVoucherService.FindVoucherPendingApproval(string userID);
+            ViewBag.Status = (String.IsNullOrEmpty(status)) ? "Pending" : status;
+
+            List<SelectListItem> statusSelectList = new List<SelectListItem>();
+            statusSelectList.Add(new SelectListItem { Text = "Pending", Value = "Pending"});
+            statusSelectList.Add(new SelectListItem { Text = "Approved", Value = "Approved"});
+            statusSelectList.Add(new SelectListItem { Text = "Rejected", Value = "Rejected" });
+            foreach(var s in statusSelectList)
+            {
+                if(s.Value == ViewBag.Status)
+                {
+                    s.Selected = true;
+                }
+            }
+            ViewBag.SelectStatus = statusSelectList;
+
             return View();
         }
 
-        public ActionResult NewVoucher(string itemCode = null)
+        public ActionResult NewVoucher(string type, string itemCode = null)
         {
             List<NewVoucherViewModel> vmList = Session["NewVoucher"] as List<NewVoucherViewModel>;
 
@@ -32,7 +48,7 @@ namespace Inventory_mvc.Controllers
                 Session["NewVoucher"] = vmList;
             }
 
-            if(!String.IsNullOrEmpty(itemCode)) // use to display message if remove item from voucher
+            if(!String.IsNullOrEmpty(itemCode) && type == "remove") // use to display message if remove item from voucher
             {
                 TempData["SuccessMessage"] = String.Format("{0} was removed.", itemCode);
             }
@@ -107,7 +123,6 @@ namespace Inventory_mvc.Controllers
         public ActionResult SubmitVoucher(List<NewVoucherViewModel> vmList)
         {
             // TODO : IMPLEMENT LOGIC
-            // LOGIC
 
             // TODO: REMOVE HARD CODED REQUESTER ID
             //string requesterID = HttpContext.User.Identity.Name;
@@ -118,16 +133,15 @@ namespace Inventory_mvc.Controllers
             {
                 // clear list
                 Session["NewVoucher"] = new List<NewVoucherViewModel>();
-                TempData["SuccessMessage"] = String.Format("Discrepancy report has been submitted.");
+                TempData["SuccessMessage"] = String.Format("Discrepancy report has been submitted for approval.");
 
                 // TODO: TEST EMAIL NOTIFICATION
                 // send email notification
-
-                // count amount for only -ve quantity
+             
                 decimal voucherAmount = 0.00M;
                 foreach(var item in vmList)
                 {
-                    if(item.Quantity < 0)
+                    if(item.Quantity < 0) // count amount for only -ve quantity
                     {
                         voucherAmount += item.Quantity * item.Price;
                     }

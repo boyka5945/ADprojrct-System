@@ -37,11 +37,11 @@ namespace Inventory_mvc.Controllers
             return RedirectToAction("BrowseCatalogue", new { searchString = "", categoryID = "All" });
         }
 
-        public ActionResult NewRequisition(string itemCode = null)
+        public ActionResult NewRequisition(string type, string itemCode = null)
         {
             List<RaiseRequisitionViewModel> requestList = Session["RequestList"] as List<RaiseRequisitionViewModel>;
 
-            if(!String.IsNullOrEmpty(itemCode)) // to show message after remove item
+            if(!String.IsNullOrEmpty(itemCode) && type == "remove") // to show message after remove item
             {
                 Stationery s = stationeryService.FindStationeryByItemCode(itemCode);
                 TempData["SuccessMessage"] = String.Format("{0} was removed.", s.description);

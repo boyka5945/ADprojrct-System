@@ -1,29 +1,88 @@
-﻿<script src="~/Scripts/bootstrap-combobox.js"></script>
-<link href="~/Content/bootstrap-combobox.css" rel="stylesheet" />
+﻿@model PagedList.IPagedList<Inventory_mvc.ViewModel.NewVoucherViewModel>
+
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 
 
 @{
-ViewBag.Title = "Index";
+    ViewBag.Title = "Index";
+
+    var successMessage = TempData["SuccessMessage"];
+    var errorMessage = TempData["ErrorMessage"];
 }
 
-<h2>Index</h2>
 
-<div>
-    <select class="combobox">
-        <option></option>
-        <option value="PA">Pennsylvania</option>
-        <option value="CT">Connecticut</option>
-        <option value="NY">New York</option>
-        <option value="MD">Maryland</option>
-        <option value="VA">Virginia</option>
-    </select>
-</div>
+<h2>Adjustment Voucher List</h2>
 
+@using (Html.BeginForm("Index", "AdjustmentVoucher", FormMethod.Get, new { @class = "form"}))
+{
+<table class="table pagination">
+    <tr>
+        <td>
+            @Html.Label("Filter By Status", new { @class = "text-right font-weight-bold" })
+        </td>
+        <td>
+            @Html.DropDownList("status", ViewBag.SelectStatus as IEnumerable<SelectListItem>, new { @class = "form-control", onchange = "form.submit();" })
+        </td>
+    </tr>
+</table>
+}
 <br />
-<br />
 
-<script type="text/javascript">
-  $(document).ready(function(){
-    $('.combobox').combobox();
-  });
-</script>
+@if (successMessage != null)
+{
+    <div class="alert alert-success">
+        @successMessage.ToString()
+    </div>
+}
+
+
+@if (errorMessage != null)
+{
+    <div class="alert alert-danger">
+        @errorMessage.ToString()
+    </div>
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.ActionLink("Requisition Form No.", "Index", new { sortOrder = ViewBag.NumberSortParm })
+            </th>
+            <th>
+                @Html.ActionLink("Request Date", "Index", new { sortOrder = ViewBag.DateSortParm })
+            </th>
+            <th>
+                @Html.ActionLink("Status", "Index", new { sortOrder = ViewBag.StatusSortParm })
+            </th>
+            <th>@Html.Label("Action")</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.requisitionNo)</td>
+                <td>@Html.DisplayFor(modelItem => item.requestDate)</td>
+                <td>@Html.DisplayFor(modelItem => item.status)</td>
+                <td>
+                    @Html.ActionLink("Details", "ShowDetail", "ListRequisitions", new { id = item.requisitionNo }, new { })
+                    @if (item.status == "Pending Approval")
+                    {
+                        @:| @Html.ActionLink("Edit", "EditRecord", "ListRequisitions", new { id = item.requisitionNo }, new { })
+                        @:| @Html.ActionLink("Remove", "RemoveRecord", "ListRequisitions", new { id = item.requisitionNo }, new { })
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+    @Html.PagedListPager(Model, page => Url.Action("Index",
+                new { page, sortOrder = ViewBag.CurrentSort }))
+
+

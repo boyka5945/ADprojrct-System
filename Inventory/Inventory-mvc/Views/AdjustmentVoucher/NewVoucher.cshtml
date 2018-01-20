@@ -95,7 +95,7 @@ else
         </table>
 
         <br />
-        <input type="submit" value="Submit Requisition" class="btn btn-success" />
+        <input type="submit" value="Submit Discrepancy Report" class="btn btn-success" />
         <a href="@Url.Action("ClearAllItemInVoucher", "AdjustmentVoucher" )">
             <input type="button" value="Clear All" class="btn btn-danger" />
         </a>
@@ -190,7 +190,7 @@ else
                 url: "/AdjustmentVoucher/RemoveVoucherItem",
                 data: $.param(myformdata), // convert to url-encoded form
                 success: function() {
-                    window.location.href = "/AdjustmentVoucher/NewVoucher?itemCode=" + itemCode;
+                    window.location.href = "/AdjustmentVoucher/NewVoucher?type=remove&itemCode=" + itemCode;
                 }
             });
         });
