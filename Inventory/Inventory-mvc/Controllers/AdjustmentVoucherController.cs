@@ -22,12 +22,13 @@ namespace Inventory_mvc.Controllers
         {
             // TODO: REMOVE HARD CODED APPROVER ID
             //string approverID = HttpContext.User.Identity.Name;
-            string approverID = "S1016"; // supervisor
-            //string approverID = "S1015"; // store manager
+            //string approverID = "S1016"; // supervisor
+            string approverID = "S1015"; // store manager
 
 
             // Set Filter criteria
-            ViewBag.Status = (String.IsNullOrEmpty(status)) ? "Pending" : status;
+            status = (String.IsNullOrEmpty(status)) ? "Pending" : status;
+            ViewBag.Status = status;
 
             List<SelectListItem> statusSelectList = new List<SelectListItem>();
             statusSelectList.Add(new SelectListItem { Text = "Pending", Value = "Pending"});
@@ -44,7 +45,8 @@ namespace Inventory_mvc.Controllers
 
             if (String.IsNullOrEmpty(sortOrder))
             {
-                ViewBag.NumberSortParm = "Voucher Number";
+                sortOrder = "Voucher Number"; // make default sorting by voucher number
+                ViewBag.NumberSortParm = sortOrder;
             }
 
             ViewBag.CurrentSort = sortOrder;

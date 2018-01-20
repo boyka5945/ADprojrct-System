@@ -74,11 +74,11 @@
                 <td>@Html.DisplayFor(modelItem => item.IssueDate)</td>
                 @if (ViewBag.Status == "Pending")
                 {
-                    <td><span class="text-danger">@item.VoucherTotalAmount</span></td>
+                    <td><span class="text-danger">$ @item.VoucherTotalAmount</span></td>
                 }
                 <td>
                     @Html.ActionLink("Details", "ShowDetail", "AdjustmentVoucher", new { id = item.VoucherNo }, new { })
-                    @if (ViewBag.Status != "Pending")
+                    @if (ViewBag.Status == "Pending")
                     {
                         @:| @Html.ActionLink("Approve / Reject", "MakeApproval", "AdjustmentVoucher", new { id = item.VoucherNo }, new { })
                     }

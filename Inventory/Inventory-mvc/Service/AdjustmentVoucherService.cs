@@ -85,12 +85,12 @@ namespace Inventory_mvc.Service
                     AdjustmentVoucherViewModel vm = ConvertRecordToViewModel(record);
                     vm.VoucherTotalAmount = GetVoucherRecordTotalAmount(record.voucherID); // only Pending need total amount
 
-                    if(isManager && vm.VoucherTotalAmount > 250)
+                    if(isManager && vm.VoucherTotalAmount * -1 > 250)
                     {
                         // manager for voucher amount > 250
                         vmList.Add(vm);
                     }
-                    else if(isSupervisor && vm.VoucherTotalAmount <= 250)
+                    else if(isSupervisor && vm.VoucherTotalAmount * -1 <= 250)
                     {
                         // supervisor for voucher amount <= 250
                         vmList.Add(vm);
