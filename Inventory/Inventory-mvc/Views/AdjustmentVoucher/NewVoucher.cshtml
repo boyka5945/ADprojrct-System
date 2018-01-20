@@ -1,7 +1,7 @@
 ﻿<script src="~/Scripts/select2.min.js"></script>
 <link href="~/Content/select2.min.css" rel="stylesheet" />
 
-@model IEnumerable<Inventory_mvc.ViewModel.NewVoucherViewModel>
+@model IEnumerable<Inventory_mvc.ViewModel.AdjustmentVoucherViewModel>
 
 @{
     ViewBag.Title = "NewVoucher";
@@ -54,7 +54,7 @@ else
             <thead>
                 <tr>
                     <th>@Html.DisplayNameFor(model => model.ItemCode)</th>
-                    <th>@Html.DisplayNameFor(model => model.Description)</th>
+                    <th>@Html.DisplayNameFor(model => model.StationeryDescription)</th>
                     <th>@Html.DisplayNameFor(model => model.UOM)</th>
                     <th>@Html.DisplayNameFor(model => model.Quantity)</th>
                     <th>@Html.DisplayNameFor(model => model.Reason)</th>
@@ -73,8 +73,8 @@ else
                             <input type="hidden" name="[@i].Price" value="@item.Price" />
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.Description)
-                            <input type="hidden" name="[@i].Description" value="@item.Description" />
+                            @Html.DisplayFor(modelItem => item.StationeryDescription)
+                            <input type="hidden" name="[@i].StationeryDescription" value="@item.StationeryDescription" />
                         </td>
                         <td>
                             @Html.DisplayFor(modelItem => item.UOM)

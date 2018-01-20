@@ -38,5 +38,20 @@ namespace InventoryWCF
         public List<RetrievalFrom> getRetrievalList() { return null; }
 
         public List<Disbursement> getDisbursementList() { return null; }
+
+        public bool updateRequisitionRecord(RequisitionRecord rr)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<RequisitionRecord> getRequisitionListByUserID(string UserID)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<RequisitionDetails> getrequisitionDetailsByNO(int requisitionNo)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -1,4 +1,4 @@
-﻿@model PagedList.IPagedList<Inventory_mvc.ViewModel.NewVoucherViewModel>
+﻿@model PagedList.IPagedList<Inventory_mvc.ViewModel.AdjustmentVoucherViewModel>
 
 @using PagedList.Mvc;
 <link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
@@ -13,21 +13,6 @@
 
 
 <h2>Adjustment Voucher List</h2>
-
-@using (Html.BeginForm("Index", "AdjustmentVoucher", FormMethod.Get, new { @class = "form"}))
-{
-<table class="table pagination">
-    <tr>
-        <td>
-            @Html.Label("Filter By Status", new { @class = "text-right font-weight-bold" })
-        </td>
-        <td>
-            @Html.DropDownList("status", ViewBag.SelectStatus as IEnumerable<SelectListItem>, new { @class = "form-control", onchange = "form.submit();" })
-        </td>
-    </tr>
-</table>
-}
-<br />
 
 @if (successMessage != null)
 {
@@ -44,41 +29,65 @@
     </div>
 }
 
+@using (Html.BeginForm("Index", "AdjustmentVoucher", FormMethod.Get, new { @class = "form"}))
+{
+<table class="table pagination">
+    <tr>
+        <td>
+            @Html.Label("Filter By Status", new { @class = "text-right font-weight-bold" })
+        </td>
+        <td>
+            @Html.DropDownList("status", ViewBag.SelectStatus as IEnumerable<SelectListItem>, new { @class = "form-control", onchange = "form.submit();" })
+        </td>
+    </tr>
+</table>
+
+<br />
+
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.ActionLink("Requisition Form No.", "Index", new { sortOrder = ViewBag.NumberSortParm })
+                @Html.ActionLink("Voucher Number", "Index", new { sortOrder = ViewBag.NumberSortParm })
             </th>
             <th>
-                @Html.ActionLink("Request Date", "Index", new { sortOrder = ViewBag.DateSortParm })
+                @Html.ActionLink("Requester", "Index", new { sortOrder = ViewBag.RequesterSortParm })
             </th>
             <th>
-                @Html.ActionLink("Status", "Index", new { sortOrder = ViewBag.StatusSortParm })
+                @Html.Label("Issue Date")
             </th>
-            <th>@Html.Label("Action")</th>
+            @if (ViewBag.Status == "Pending")
+            {
+                <th>@Html.Label("Adjusted Amount")</th>
+            }
+            <th>
+                @Html.Label("Action")
+            </th>
         </tr>
     </thead>
     <tbody>
         @foreach (var item in Model)
         {
             <tr>
-                <td>@Html.DisplayFor(modelItem => item.requisitionNo)</td>
-                <td>@Html.DisplayFor(modelItem => item.requestDate)</td>
-                <td>@Html.DisplayFor(modelItem => item.status)</td>
+                <td>@Html.DisplayFor(modelItem => item.VoucherNo)</td>
+                <td>@Html.DisplayFor(modelItem => item.Requester)</td>
+                <td>@Html.DisplayFor(modelItem => item.IssueDate)</td>
+                @if (ViewBag.Status == "Pending")
+                {
+                    <td><span class="text-danger">@item.VoucherTotalAmount</span></td>
+                }
                 <td>
-                    @Html.ActionLink("Details", "ShowDetail", "ListRequisitions", new { id = item.requisitionNo }, new { })
-                    @if (item.status == "Pending Approval")
+                    @Html.ActionLink("Details", "ShowDetail", "AdjustmentVoucher", new { id = item.VoucherNo }, new { })
+                    @if (ViewBag.Status != "Pending")
                     {
-                        @:| @Html.ActionLink("Edit", "EditRecord", "ListRequisitions", new { id = item.requisitionNo }, new { })
-                        @:| @Html.ActionLink("Remove", "RemoveRecord", "ListRequisitions", new { id = item.requisitionNo }, new { })
+                        @:| @Html.ActionLink("Approve / Reject", "MakeApproval", "AdjustmentVoucher", new { id = item.VoucherNo }, new { })
                     }
                 </td>
             </tr>
         }
     </tbody>
 </table>
-
+}
 
     Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
 

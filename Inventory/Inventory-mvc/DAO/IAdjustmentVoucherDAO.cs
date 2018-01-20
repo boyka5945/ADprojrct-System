@@ -20,6 +20,6 @@ namespace Inventory_mvc.DAO
 
         bool DeleteAdjustmentVoucher(int voucherID);
 
-
+        List<Adjustment_Voucher_Record> GetVouchersByCriteria(string status, string sortOrder);
     }
 }

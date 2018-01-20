@@ -6,11 +6,15 @@ using System.Web;
 
 namespace Inventory_mvc.ViewModel
 {
-    public class NewVoucherViewModel
+    public class AdjustmentVoucherViewModel
     {
         [Required]
         [Display(Name = "Item Code")]
         public string ItemCode { get; set; }
+
+        public string StationeryDescription { get; set; }
+
+        public string UOM { get; set; }
 
         [Required]
         [Display(Name = "Quantity Adjusted")]
@@ -18,12 +22,17 @@ namespace Inventory_mvc.ViewModel
 
         public string Reason { get; set; }
 
-        public string Description { get; set; }
-
-        public string UOM { get; set; }
-
         [DisplayFormat(DataFormatString = "{0:#.00}")]
         [Display(Name = "Unit Price")]
         public decimal Price { get; set; }
+
+        public string Requester { get; set; }
+
+        [DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:dd/MM/yy}", ApplyFormatInEditMode = true)]
+        public DateTime IssueDate { get; set; }
+
+        public int VoucherNo { get; set; }
+
+        public decimal VoucherTotalAmount { get; set; }
     }
 }
