@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using Inventory_mvc.Service;
 using Inventory_mvc.Models;
 using Inventory_mvc.ViewModel;
+using Inventory_mvc.Function;
 
 namespace Inventory_mvc.Controllers
 {
@@ -122,9 +123,17 @@ namespace Inventory_mvc.Controllers
                 // TODO: TEST EMAIL NOTIFICATION
                 // send email notification
 
-                //voucher amount +qty not count, -qty count
+                // count amount for only -ve quantity
+                decimal voucherAmount = 0.00M;
+                foreach(var item in vmList)
+                {
+                    if(item.Quantity < 0)
+                    {
+                        voucherAmount += item.Quantity * item.Price;
+                    }
+                }
 
-
+                EmailNotification.EmailNotificationForNewAdjustmentVoucher(requesterID, voucherAmount);
             }
             else
             {

@@ -50,7 +50,7 @@ namespace Inventory_mvc.Function
         }
 
 
-        public static void EmailNotificatioForNewAdjustmentVoucher(string requesterID, decimal voucherAmount)
+        public static void EmailNotificationForNewAdjustmentVoucher(string requesterID, decimal voucherAmount)
         {
             if(voucherAmount <= 250)
             {
@@ -77,6 +77,11 @@ namespace Inventory_mvc.Function
 
 
         public static void EmailNotificationForItemCollection(DateTime collectionDate)
+        {
+
+        }
+
+        public static void EmailNotificationForCollectionPointChange(string userRepID)
         {
 
         }

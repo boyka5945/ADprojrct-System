@@ -219,7 +219,7 @@ namespace Inventory_mvc.DAO
                 int[] approvingRoleID = { -1, -1 };
 
                 // Employee = 3 ==> DeptHead = 2, ActingDeptHead = 8
-                // StoreClerk = 7 ==> Manager = 5, Supervisor = 6
+                // StoreClerk = 7 ==> Manager = 5 | Supervisor? = 6
 
                 if (requesterRole == 3)
                 {
@@ -227,7 +227,7 @@ namespace Inventory_mvc.DAO
                 }
                 else if(requesterRole == 7)
                 {
-                    approvingRoleID = new int[] { 5, 6 };
+                    approvingRoleID = new int[] { 5 };
                 }
 
                 string[] deptHeadEmail = (from u in context.Users
