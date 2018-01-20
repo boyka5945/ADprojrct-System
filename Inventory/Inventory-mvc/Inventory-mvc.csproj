@@ -262,6 +262,7 @@
     <Compile Include="Service\SupplierService.cs" />
     <Compile Include="Service\TransactionRecordService.cs" />
     <Compile Include="Service\UserService.cs" />
+    <Compile Include="ViewModel\NewVoucherViewModel.cs" />
     <Compile Include="ViewModel\BrowseStationeryCatalogueViewModel.cs" />
     <Compile Include="ViewModel\CollectionPointViewModel.cs" />
     <Compile Include="ViewModel\Disbursement.cs" />
@@ -269,12 +270,14 @@
     <Compile Include="ViewModel\RaiseRequisitionViewModel.cs" />
     <Compile Include="ViewModel\RequisitionDetailViewModel.cs" />
     <Compile Include="ViewModel\RetrieveForm.cs" />
+    <Compile Include="ViewModel\StationeryJSONForCombobox.cs" />
     <Compile Include="ViewModel\StationeryViewModel.cs" />
     <Compile Include="ViewModel\SupplierViewModel.cs" />
     <Compile Include="ViewModel\UserViewModel.cs" />
     <Compile Include="ViewModel\Purchase_Order_RecordViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\select2.min.css" />
     <Content Include="Images\pinyin.txt" />
     <Content Include="Images\test1.jpg" />
     <Content Include="Images\test2.jpg" />
@@ -365,6 +368,7 @@
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\select2.min.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -423,6 +427,7 @@
     <Content Include="Views\Stationery\_ViewTransaction.cshtml" />
     <Content Include="Views\ManageRequisitions\GenerateRetrieveForm.cshtml" />
     <Content Include="Views\AdjustmentVoucher\Index.cshtml" />
+    <Content Include="Views\AdjustmentVoucher\NewVoucher.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -13,7 +13,7 @@ namespace Inventory_mvc.Service
         private IStationeryDAO stationeryDAO = new StationeryDAO();
 
 
-        List<StationeryViewModel> IStationeryService.GetAllStationeryViewModel()
+        public List<StationeryViewModel> GetAllStationeryViewModel()
         {
             List<Stationery> stationeryList = stationeryDAO.GetAllStationery();
 
@@ -26,14 +26,14 @@ namespace Inventory_mvc.Service
             return viewModelList;
         }
 
-        bool IStationeryService.isExistingCode(string itemCode)
+        public bool isExistingCode(string itemCode)
         {
             string code = itemCode.ToUpper().Trim();
 
             return stationeryDAO.GetAllItemCode().Contains(code);
         }
 
-        bool IStationeryService.isPositiveLevel(int reorderLevel)
+        public bool isPositiveLevel(int reorderLevel)
         {
             int level = reorderLevel;
             if (level < 0)
@@ -46,7 +46,7 @@ namespace Inventory_mvc.Service
             }
         }
 
-        bool IStationeryService.isPositivePrice(decimal price)
+        public bool isPositivePrice(decimal price)
         {
             decimal p = price;
             if (p < 0)
@@ -59,7 +59,7 @@ namespace Inventory_mvc.Service
             }
         }
 
-        bool IStationeryService.isPositiveQty(int reorderQty)
+        public bool isPositiveQty(int reorderQty)
         {
             int qty = reorderQty;
             if (qty < 0)
@@ -72,7 +72,7 @@ namespace Inventory_mvc.Service
             }
         }
 
-        bool IStationeryService.AddNewStationery(StationeryViewModel stationeryVM)
+        public bool AddNewStationery(StationeryViewModel stationeryVM)
         {
             return stationeryDAO.AddNewStationery(ConvertFromViewModel(stationeryVM));
         }
@@ -98,7 +98,6 @@ namespace Inventory_mvc.Service
         }    
 
         
-
         private Stationery ConvertFromViewModel(StationeryViewModel stationeryVM)
         {
             Stationery stationery = new Stationery();
@@ -119,7 +118,7 @@ namespace Inventory_mvc.Service
 
         }
 
-        bool IStationeryService.UpdateStationeryInfo(StationeryViewModel stationeryVM)
+        public bool UpdateStationeryInfo(StationeryViewModel stationeryVM)
         {
             Stationery stationery = ConvertFromViewModel(stationeryVM);
 
@@ -135,13 +134,13 @@ namespace Inventory_mvc.Service
 
         }
 
-        StationeryViewModel IStationeryService.FindStationeryViewModelByItemCode(string itemCode)
+        public StationeryViewModel FindStationeryViewModelByItemCode(string itemCode)
         {
             string code = itemCode.ToUpper().Trim();
             return ConvertToViewModel(stationeryDAO.FindByItemCode(code));
         }
 
-        Stationery IStationeryService.FindStationeryByItemCode(string itemCode)
+        public Stationery FindStationeryByItemCode(string itemCode)
         {
             string code = itemCode.ToUpper().Trim();
             return stationeryDAO.FindByItemCode(code);
@@ -149,7 +148,7 @@ namespace Inventory_mvc.Service
 
 
 
-        bool IStationeryService.DeleteStationery(string itemCode)
+        public bool DeleteStationery(string itemCode)
         {
             string code = itemCode.ToUpper().Trim();
             Stationery stationery = stationeryDAO.FindByItemCode(code);
@@ -162,44 +161,44 @@ namespace Inventory_mvc.Service
             return stationeryDAO.DeleteStationery(code);
         }
 
-        
-        List<Stationery> IStationeryService.GetAllStationery()
+
+        public List<Stationery> GetAllStationery()
         {
             return stationeryDAO.GetAllStationery();
         }
 
-        List<Category> IStationeryService.GetAllCategory()
+        public List<Category> GetAllCategory()
         {
             return stationeryDAO.GetAllCategory();
         }
 
 
-        List<string> IStationeryService.GetAllUOMList()
+        public List<string> GetAllUOMList()
         {
             return stationeryDAO.GetAllUOMList();
         }
 
-        List<string> IStationeryService.GetAllFirstSupplierList()
+        public List<string> GetAllFirstSupplierList()
         {
             return stationeryDAO.GetAllFirstSupplierList();
         }
 
-        List<string> IStationeryService.GetAllSecondSupplierList()
+        public List<string> GetAllSecondSupplierList()
         {
             return stationeryDAO.GetAllSecondSupplierList();
         }
 
-        List<string> IStationeryService.GetAllThirdSupplierList()
+        public List<string> GetAllThirdSupplierList()
         {
             return stationeryDAO.GetAllThirdSupplierList();
         }
 
-        List<int> IStationeryService.GetAllCategoryIDList()
+        public List<int> GetAllCategoryIDList()
         {
             return stationeryDAO.GetAllCategoryIDList();
         }
 
-        bool IStationeryService.isExistingSupplierCode(string supplier1, string supplier2)
+        public bool isExistingSupplierCode(string supplier1, string supplier2)
         {
             string code1 = supplier1.ToUpper().Trim();
             string code2 = supplier2.ToUpper().Trim();
@@ -228,5 +227,9 @@ namespace Inventory_mvc.Service
             return vmList;
         }
 
+        public List<Stationery> GetStationeriesBasedOnCriteria(string itemCodeOrDescription)
+        {
+            return stationeryDAO.GetStationeriesBasedOnCriteria(itemCodeOrDescription);
+        }
     }
 }

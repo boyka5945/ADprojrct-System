@@ -9,7 +9,7 @@ namespace Inventory_mvc.DAO
 {
     public class SupplierDAO : ISupplierDAO
     {
-        bool ISupplierDAO.AddNewSupplier(Supplier supplier)
+        public bool AddNewSupplier(Supplier supplier)
         {
             using (StationeryModel context = new StationeryModel())
             {
@@ -25,7 +25,7 @@ namespace Inventory_mvc.DAO
             }
         }
 
-        bool ISupplierDAO.DeleteSupplier(string supplierCode)
+        public bool DeleteSupplier(string supplierCode)
         {
             using (StationeryModel context = new StationeryModel())
             {
@@ -40,7 +40,7 @@ namespace Inventory_mvc.DAO
             }
         }
 
-        Supplier ISupplierDAO.FindBySupplierCode(string supplierCode)
+        public Supplier FindBySupplierCode(string supplierCode)
         {
             using (StationeryModel context = new StationeryModel())
             {
@@ -54,7 +54,7 @@ namespace Inventory_mvc.DAO
             }
         }
 
-        List<Supplier> ISupplierDAO.GetAllSupplier()
+        public List<Supplier> GetAllSupplier()
         {
             using (StationeryModel context = new StationeryModel())
             {
@@ -63,7 +63,7 @@ namespace Inventory_mvc.DAO
             }
         }
 
-        List<string> ISupplierDAO.GetAllSupplierCode()
+        public List<string> GetAllSupplierCode()
         {
             using (StationeryModel context = new StationeryModel())
             {
@@ -72,7 +72,7 @@ namespace Inventory_mvc.DAO
             }
         }
 
-        int ISupplierDAO.UpdateSupplierInfo(Supplier supplier)
+        public int UpdateSupplierInfo(Supplier supplier)
         {
             using (StationeryModel context = new StationeryModel())
             {

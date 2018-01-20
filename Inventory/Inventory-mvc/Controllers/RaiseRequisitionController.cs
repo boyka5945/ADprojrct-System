@@ -37,50 +37,27 @@ namespace Inventory_mvc.Controllers
             return RedirectToAction("BrowseCatalogue", new { searchString = "", categoryID = "All" });
         }
 
-        public ActionResult NewRequisition()
+        public ActionResult NewRequisition(string itemCode = null)
         {
             List<RaiseRequisitionViewModel> requestList = Session["RequestList"] as List<RaiseRequisitionViewModel>;
+
+            if(!String.IsNullOrEmpty(itemCode)) // to show message after remove item
+            {
+                Stationery s = stationeryService.FindStationeryByItemCode(itemCode);
+                TempData["SuccessMessage"] = String.Format("{0} was removed.", s.description);
+            }
+
             return View(requestList);
         }
 
-        [HttpGet]
-        public ActionResult CreateEditRequestItem(string itemCode)
+        [HttpPost]
+        public void SaveTemporaryValue(List<RaiseRequisitionViewModel> requestList)
         {
-            // NEW OR EDIT
-            List<RaiseRequisitionViewModel> requestList = Session["RequestList"] as List<RaiseRequisitionViewModel>;
-            RaiseRequisitionViewModel viewModel = new RaiseRequisitionViewModel();
-
-            if (!String.IsNullOrEmpty(itemCode))
+            // to reserve edited quantity value when press Add Item button
+            if(requestList != null)
             {
-                viewModel = requestList.Find(x => x.ItemCode == itemCode);
+                Session["RequestList"] = requestList;
             }
-
-
-            // GET SELECT LIST FOR DROP DOWN BOX
-            List<Stationery> stationeries = stationeryService.GetAllStationery();
-            List<SelectListItem> selectListItems = new List<SelectListItem>();
-
-            foreach (Stationery s in stationeries)
-            {
-                selectListItems.Add(new SelectListItem()
-                {
-                    Text = s.description + " (" + s.unitOfMeasure + ")",
-                    Value = s.itemCode,
-                    Selected = false
-                });
-            }
-
-            foreach (SelectListItem item in selectListItems)
-            {
-                if (item.Value == viewModel.ItemCode)
-                {
-                    item.Selected = true;
-                }
-            }
-
-            ViewBag.SelectList = selectListItems;
-
-            return PartialView("_CreateEditPartial", viewModel);
         }
 
 
@@ -141,21 +118,8 @@ namespace Inventory_mvc.Controllers
         }
 
         [HttpPost]
-        public ActionResult EditRequestItem(RaiseRequisitionViewModel model)
-        {         
-            List<RaiseRequisitionViewModel> requestList = Session["RequestList"] as List<RaiseRequisitionViewModel>;
-            RaiseRequisitionViewModel request = requestList.Find(x => x.ItemCode == model.ItemCode);
-            request.Quantity = model.Quantity;
-            Session["RequestList"] = requestList;
-
-            TempData["SuccessMessage"] = String.Format("Quantity of {0} was updated.", request.Description);
-
-            return RedirectToAction("NewRequisition");
-        }
-
-        public ActionResult RemoveRequestItem(string itemCode)
+        public ActionResult RemoveRequestItem(string itemCode, List<RaiseRequisitionViewModel> requestList)
         {
-            List<RaiseRequisitionViewModel> requestList = Session["RequestList"] as List<RaiseRequisitionViewModel>;
             RaiseRequisitionViewModel vm = requestList.Find(x => x.ItemCode == itemCode);
             string itemDescription = vm.Description;
             requestList.Remove(vm);
@@ -167,19 +131,8 @@ namespace Inventory_mvc.Controllers
         }
 
 
-        public ActionResult ClearAllRequestItem()
-        {
-            List<RaiseRequisitionViewModel> requestList = Session["RequestList"] as List<RaiseRequisitionViewModel>;
-            requestList.Clear();
-            Session["RequestList"] = requestList;
-
-            TempData["SuccessMessage"] = String.Format("All items were removed.");
-
-            return RedirectToAction("NewRequisition");
-        }
-
         [HttpPost]
-        public ActionResult SubmitRequisition()
+        public ActionResult SubmitRequisition(List<RaiseRequisitionViewModel> requestList)
         {
             // TODO: REMOVE HARD CODED REQUESTER ID
             // string requesterID = HttpContext.User.Identity.Name;
@@ -197,7 +150,7 @@ namespace Inventory_mvc.Controllers
             requisition.status = status;
             requisition.requestDate = requestDate;
 
-            List<RaiseRequisitionViewModel> requestList = Session["RequestList"] as List<RaiseRequisitionViewModel>;
+            //List<RaiseRequisitionViewModel> requestList = Session["RequestList"] as List<RaiseRequisitionViewModel>;
             
             foreach(RaiseRequisitionViewModel request in requestList)
             {
@@ -237,12 +190,14 @@ namespace Inventory_mvc.Controllers
                 else
                 {
                     // error when write to database
+                    Session["RequestList"] = requestList;
                     TempData["ErrorMessage"] = "Error Writing to Database";
                 }
             }
             else
             {
                 // Invalid request
+                Session["RequestList"] = requestList;
                 TempData["ErrorMessage"] = "Invalid request";
             }
 
@@ -250,6 +205,32 @@ namespace Inventory_mvc.Controllers
             return RedirectToAction("NewRequisition");
         }
 
+        public ActionResult ClearAllRequestItem()
+        {
+            List<RaiseRequisitionViewModel> requestList = Session["RequestList"] as List<RaiseRequisitionViewModel>;
+            requestList.Clear();
+            Session["RequestList"] = requestList;
+
+            TempData["SuccessMessage"] = String.Format("All items were removed.");
+
+            return RedirectToAction("NewRequisition");
+        }
+
+
+        public ActionResult GetStationeryListJSON(string term = null)
+        {
+            List<StationeryJSONForCombobox> options = new List<StationeryJSONForCombobox>();
+
+            List<Stationery> stationeries = stationeryService.GetStationeriesBasedOnCriteria(term);
+            foreach (var s in stationeries)
+            {
+                StationeryJSONForCombobox option = new StationeryJSONForCombobox();
+                option.id = s.itemCode;
+                option.text = s.description;
+                options.Add(option);
+            }
+            return Json(options, JsonRequestBehavior.AllowGet);
+        }
 
 
     }

@@ -32,7 +32,7 @@ namespace Inventory_mvc.Service
 
         List<Category> GetAllCategory();
         List<Stationery> GetStationeriesBasedOnCriteria(string searchString, string categoryID);
-
+        List<Stationery> GetStationeriesBasedOnCriteria(string itemCodeOrDescription);
 
         // FOR VIEW MODEL
         List<StationeryViewModel> GetAllStationeryViewModel();

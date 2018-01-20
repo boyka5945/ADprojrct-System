@@ -1,0 +1,205 @@
+﻿<script src="~/Scripts/select2.min.js"></script>
+<link href="~/Content/select2.min.css" rel="stylesheet" />
+
+@model IEnumerable<Inventory_mvc.ViewModel.NewVoucherViewModel>
+
+@{
+    ViewBag.Title = "NewVoucher";
+
+    var successMessage = TempData["SuccessMessage"];
+    var errorMessage = TempData["ErrorMessage"];
+}
+
+<h2>Discrepancy Report</h2>
+
+<br />
+<button type="button" class="btn btn-success" id="addItemBtn" data-toggle="modal" data-target="#addItemModal">Add New Item</button>
+<br />
+<br />
+
+
+    @if (successMessage != null)
+    {
+        <div class="alert alert-success">
+            @successMessage.ToString()
+        </div>
+    }
+
+    @if (errorMessage != null)
+    {
+        <div class="alert alert-danger">
+            @errorMessage.ToString()
+        </div>
+    }
+
+    <br />
+
+    @if (Model.Count() == 0)
+    {
+        <h4><i>There is not item in disprecancy report.</i></h4>
+    }
+    else
+    {
+        using (Html.BeginForm("SubmitVoucher", "AdjustmentVoucher", FormMethod.Post, new { @class = "form", @id = "voucherForm" }))
+        {
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>@Html.DisplayNameFor(model => model.ItemCode)</th>
+                        <th>@Html.DisplayNameFor(model => model.Description)</th>
+                        <th>@Html.DisplayNameFor(model => model.UOM)</th>
+                        <th>@Html.DisplayNameFor(model => model.Quantity)</th>
+                        <th>@Html.DisplayNameFor(model => model.Reason)</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (int i = 0; i < Model.Count(); i++)
+                    {
+                        var item = Model.ElementAt(i);
+
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ItemCode)
+                                <input type="hidden" name="[@i].ItemCode" value="@item.ItemCode" />
+                                <input type="hidden" name="[@i].Price" value="@item.Price" />
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Description)
+                                <input type="hidden" name="[@i].Description" value="@item.Description" />
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.UOM)
+                                <input type="hidden" name="[@i].UOM" value="@item.UOM" />
+                            </td>
+                            <td>
+                                <input type="number" name="[@i].Quantity" value="@item.Quantity" class="form-control form-control-sm" />
+                            </td>
+                            <td>
+                                <input type="text" name="[@i].Reason" value="@item.Reason" class="form-control form-control-sm" />
+                            </td>
+                            <td>
+                                <a href="#" data-bind="@item.ItemCode" onclick="RemoveItem('@item.ItemCode')" class="removeBtn">Remove</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+            <br />
+            <input type="submit" value="Submit Requisition" class="btn btn-success" />
+            <a href="@Url.Action("ClearAllItemInVoucher", "AdjustmentVoucher" )">
+                <input type="button" value="Clear All" class="btn btn-danger" />
+            </a>
+            <br />
+
+        }
+
+    }
+
+
+    <!-- The below code is for the modal dialog -->
+    <div class="modal fade" id="addItemModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content" id="addItemModalBodyDiv">
+                @using (Html.BeginForm("AddItemIntoVoucher", "AdjustmentVoucher", FormMethod.Post, new { @class = "form", @id = "newVoucher" }))
+            {
+                    <div class="modal-header">
+                        <h3 class="modal-title">Add Discrepancy</h3>
+                    </div>
+
+                    <div class="modal-body">
+
+                        <div class="form-group">
+                            @Html.Label("Item Code")
+                            <br />
+                            <!-- Combobox -->
+                            <select class="js-data-example-ajax js-states form-control" style="width: 100%" name="itemCode" required>
+                                <option></option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.Label("Quantity Adjusted")
+                            <input type="number" class="form-control" placeholder="Quantity" name="quantity" required />
+                        </div>
+
+                        <div class="form-group">
+                            @Html.Label("Reason")
+                            <input type="text" class="form-control" placeholder="Reason" name="reason" />
+                        </div>
+
+                    </div>
+
+                    <div class="modal-footer">
+                        <input type="submit" value="Add" class="btn btn-success" />
+                        <input type="button" value="Cancel" class="btn btn-secondary" data-dismiss="modal" />
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+
+
+    <script>
+
+        $(document).ready(function () {
+            $('.js-data-example-ajax').select2({
+
+                ajax: {
+                    url: '/AdjustmentVoucher/GetStationeryListJSON',
+                    delay: 250,
+                    dataType: 'json',
+                    //data: function (params) {
+                    //    return {
+                    //        q: params.term, // additional parameters
+                    //    };
+                    //},
+                    processResults: function (data) {
+                        return {
+                            results: data
+                        };
+                    },
+                    // Additional AJAX parameters go here; see the end of this chapter for the full code of this example
+                },
+
+                placeholder: "Select a stationery",
+                minimumInputLength: 1,
+                selectOnClose: true,
+                allowClear: true,
+                dropdownParent: $('#addItemModal'),
+            });
+
+            $(".removeBtn").click(function () {
+                var itemCode = $(this).data("bind");
+
+                var myformdata = $("#voucherForm").serializeArray(); // convert form to array
+                myformdata.push({ name: "itemCode", value: itemCode }); // add extra key-value pair
+
+                $.ajax({
+                    type: "POST",
+                    url: "/AdjustmentVoucher/RemoveVoucherItem",
+                    data: $.param(myformdata), // convert to url-encoded form
+                    success: function() {
+                        window.location.href = "/AdjustmentVoucher/NewVoucher?itemCode=" + itemCode;
+                    }
+                });
+            });
+
+            $("#addItemBtn").click(function () {
+
+                var myformdata = $("#voucherForm").serializeArray(); // convert form to array
+
+                $.ajax({
+                    type: "POST",
+                    url: "/AdjustmentVoucher/SaveTemporaryValue",
+                    data: $.param(myformdata), // convert to url-encoded form
+                    //success: function () {
+                    //    alert("success");
+                    //}
+                });
+            });
+
+        });
+    </script>
