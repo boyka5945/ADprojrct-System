@@ -6,6 +6,7 @@ using Inventory_mvc.Models;
 using Inventory_mvc.ViewModel;
 using System.Data.Entity;
 
+
 namespace Inventory_mvc.DAO
 {
     public class RequisitionRecordDAO : IRequisitionRecordDAO
@@ -229,7 +230,6 @@ namespace Inventory_mvc.DAO
 
         public List<RetrieveForm> GetRetrieveFormByDateTime(DateTime? time)
         {
-
             StationeryModel entity = new StationeryModel();
             List<Requisition_Record> rr = entity.Requisition_Records.Where(x => x.approveDate < time).ToList();
             List<RetrieveForm> retrieveList = new List<RetrieveForm>();
@@ -263,8 +263,10 @@ namespace Inventory_mvc.DAO
             for (int i = 0; i < ItemCodes.Count; i++)
             {
                 RetrieveForm rf = new RetrieveForm();
-                rf.description = ItemCodes[i];
+                rf.ItemCode = ItemCodes[i];
+                rf.description = entity.Stationeries.Where(x => x.itemCode == rf.ItemCode).First().description;
                 rf.Qty = Qty[i];
+                rf.retrieveQty = 0;
                 retrieveList.Add(rf);
             }
             return retrieveList;

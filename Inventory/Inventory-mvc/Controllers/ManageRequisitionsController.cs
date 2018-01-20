@@ -52,6 +52,7 @@ namespace Inventory_mvc.Controllers
             {
                 BigModelView bigModel;
                 List<Requisition_Record> list = rs.GetRecordByItemCode(itemCode);
+                var retrieve = (List<RetrieveForm>)(HttpContext.Application["retrieveform"]);
                 for (int i = 0; i < list.Count; i++)
                 {
                     bigModel = new BigModelView();
@@ -59,7 +60,18 @@ namespace Inventory_mvc.Controllers
                     {
                         bigModel.description = ss.FindStationeryByItemCode(itemCode).description;
                         bigModel.itemCode = itemCode;
-                        bigModel.retrievedQuantity = "100";
+                        if (retrieve != null)
+                        {
+                            foreach (var r in retrieve)
+                            {
+                                if (r.ItemCode == itemCode)
+                                    bigModel.retrievedQuantity = r.retrieveQty.ToString();
+                            }
+                        }
+                        else
+                        {
+                            bigModel.retrievedQuantity = "Havent retrieve yet.";
+                        }
                     }
                     else
                     {
@@ -251,7 +263,7 @@ namespace Inventory_mvc.Controllers
             }
             if (Session["retrieveList"] != null)
             {
-                List<RetrieveForm> model = (List<RetrieveForm>)Session["retrieveList"];
+                List < RetrieveForm > model = (List<RetrieveForm>)Session["retrieveList"];
                 int pageSize = 1;
                 int pageNumber = (page ?? 1);
                 return View(model.ToPagedList(pageNumber, pageSize));
@@ -265,11 +277,28 @@ namespace Inventory_mvc.Controllers
             DateTime? from = Convert.ToDateTime(form["from"]);
             RetrieveForm rf = new RetrieveForm();
             List<RetrieveForm> model = rs.GetRetrieveFormByDateTime(from);
+            
             Session["retrieveList"] = model;
-            //return View(model);
+                        //return View(model);
             int pageSize = 1;
             int pageNumber = (page ?? 1);
             return View(model.ToPagedList(pageNumber, pageSize));
         }
+
+        [HttpPost]
+        public ActionResult GetApplication(IEnumerable<RetrieveForm> form)
+        {
+
+            HttpContext.Application["retrieveform"] = form.ToList();
+            foreach (var item in form) {
+
+                StationeryViewModel model = ss.FindStationeryViewModelByItemCode(item.ItemCode);
+                model.StockQty = model.StockQty - (int)item.retrieveQty;
+                ss.UpdateStationeryInfo(model);
+            }
+            return RedirectToAction("GenerateRetrieveForm");
+        }
+
+
     }
 }
