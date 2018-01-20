@@ -254,7 +254,7 @@ namespace Inventory_mvc.DAO
             {
                 foreach (var b in rr)
                 {
-                    if ((b.Requisition_Detail.Where(x => x.itemCode == ItemCodes[i]).Count()) > 0)
+                    if ((b.Requisition_Detail.Where(x => x.itemCode == ItemCodes[i]).Count()) > 0 && (b.status == "Approved and Processing" || b.status == "Partially fulfilled"))
                     {
                         Qty[i] = Qty[i] + b.Requisition_Detail.Where(x => x.itemCode == ItemCodes[i]).First().allocatedQty;
                     }
@@ -330,6 +330,12 @@ namespace Inventory_mvc.DAO
                 return records.ToList();
             }
 
+        }
+
+        public int DetailsCountOfOneItemcode(string itemCode)
+        {
+            StationeryModel entity = new StationeryModel();
+            return entity.Requisition_Detail.Where(x => x.itemCode == itemCode).Count();
         }
     }
 }

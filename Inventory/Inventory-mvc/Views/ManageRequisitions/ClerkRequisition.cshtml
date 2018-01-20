@@ -7,7 +7,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2></h2>
+<h2>Allocate requisition</h2>
 @using (Html.BeginForm(new { Action = "AllocateRequisition" }))
 {
 <table class="table">
@@ -63,14 +63,20 @@
             @Html.DisplayFor(modelItem => Model.ToList()[i].unfulfilledQty)
         </td>
         <td>
-            @Html.EditorFor(modelItem => Model.ToList()[i].allocateQty)
-        </td>
+            @if (Model.ToList()[i].retrievedQuantity == "")
+            {
+            @Html.DisplayFor(modelItem => Model.ToList()[i].allocateQty)
+            }
+            else
+            {
+                @Html.EditorFor(modelItem => Model.ToList()[i].allocateQty)
+            }</td>
     </tr>
 }
 
 
 </table>
-<div class="col-md-offset-2 col-md-10">
+<div class="col-md-offset-2 col-md-0">
     <input type="submit" value="Allocate" class="btn btn-default" />
 </div>
 }

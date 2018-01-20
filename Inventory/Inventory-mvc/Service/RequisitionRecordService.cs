@@ -154,5 +154,10 @@ namespace Inventory_mvc.Service
         {
             return rDAO.GetSortedRecordsByRequesterID(requesterID, sortOrder);
         }
+
+        public int DetailsCountOfOneItemcode(string itemcode)
+        {
+            return rDAO.DetailsCountOfOneItemcode(itemcode);
+        }
     }
 }

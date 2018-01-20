@@ -27,9 +27,17 @@ namespace Inventory_mvc.Controllers
         public ActionResult ManagerRequisition(int? page)
         {
             string name = HttpContext.User.Identity.Name;
+            List<Requisition_Record> list = new List<Requisition_Record>();
             List<Requisition_Record> model = rs.GetAllRequisition();
+            foreach(var item in model)
+            {
+                if (item.deptCode == us.FindDeptCodeByID(name))
+                {
+                    list.Add(item);
+                }
+            }
             List<Requisition_Record> model1 = new List<Requisition_Record>();
-            foreach (var m in model)
+            foreach (var m in list)
             {
                 if (m.status == "Approved and Processing" || m.status == "Rejected" || m.status == "Pending")
                 {
@@ -70,7 +78,7 @@ namespace Inventory_mvc.Controllers
                         }
                         else
                         {
-                            bigModel.retrievedQuantity = "Havent retrieve yet.";
+                            bigModel.retrievedQuantity = "";
                         }
                     }
                     else
@@ -80,8 +88,14 @@ namespace Inventory_mvc.Controllers
                         bigModel.retrievedQuantity = "";
                     }
                     bigModel.requisitionRecord = list[i];
-                    bigModel.unfulfilledQty = rs.FindUnfulfilledQtyBy2Key(itemCode, list[i].requisitionNo);
-                    bigModel.allocateQty = rs.FindDetailsBy2Key(itemCode, list[i].requisitionNo).allocatedQty;
+                    if (rs.FindUnfulfilledQtyBy2Key(itemCode, list[i].requisitionNo) == null)
+                        bigModel.unfulfilledQty = 0;
+                    else
+                        bigModel.unfulfilledQty = rs.FindUnfulfilledQtyBy2Key(itemCode, list[i].requisitionNo);
+                    if (rs.FindDetailsBy2Key(itemCode, list[i].requisitionNo).allocatedQty == null)
+                        bigModel.allocateQty = 0;
+                    else
+                        bigModel.allocateQty = rs.FindDetailsBy2Key(itemCode, list[i].requisitionNo).allocatedQty;
                     blist.Add(bigModel);
                 }
                 TempData["BigModel"] = blist;
@@ -99,22 +113,49 @@ namespace Inventory_mvc.Controllers
         public ActionResult AllocateRequisition(IEnumerable<BigModelView> model, int? page)
         {
             var page1 = (int)TempData["page"];
+            List<string> itemCodes = rs.GetItemCodeList();
+            var ls = (List< RetrieveForm>)HttpContext.Application["retrieveform"];
             if (ModelState.IsValid)
             {
                 List<BigModelView> l = model.ToList();
                 List<BigModelView> l2 = (List<BigModelView>)TempData["BigModel"];
                 for (int i = 0; i < l.Count; i++)
                 {
+                    if (l[i].allocateQty < 0)
+                    {
+                        ViewBag.Message = "Quantity can not less than 0.";
+                        return View("Error");
+                    }
                     l2[i + (int)(page1-1)*4].allocateQty = l[i].allocateQty;
                 }
-                for (int i = 0; i < l2.Count - (page1 - 1) * 4; i++) {
+                int qty = 0;
+                for (int i = 0; i < itemCodes.Count(); i++) {
+                    qty = 0;
+                    int length = rs.DetailsCountOfOneItemcode(itemCodes[i]);
+                    for (int k = 0; k < l2.Count(); k++)
+                    {
+                        if (l2[k].itemCode == itemCodes[i])
+                        {
+                            int check = k;
+                            for (int p = 0; p < length; p++) {
+                                qty = qty + (int)l2[k + p].allocateQty;
+                            }
+                            if (qty > Convert.ToInt32(l2[check].retrievedQuantity))
+                            {
+                                ViewBag.Message = "Allocated quantity more than retrieved quantity.";
+                                return View("Error");
+                            }
+                        }
+                    }
+                }
+                for (int i = 0; i < 4; i++) {
                     if (l2[i + (int)(page1 - 1) * 4].itemCode == "")
                     {
-                        for (int j = i; j >= 0; j--)
+                        for (int j = i + (int)(page1 - 1) * 4; j >= 0; j--)
                         {
-                            if (l2[j + (int)(page1 - 1) * 4].itemCode != "")
+                            if (l2[j].itemCode != "")
                             {
-                                rs.UpdateDetails(l2[j + (int)(page1 - 1) * 4].itemCode, l2[i + (int)(page1 - 1) * 4].requisitionRecord.requisitionNo, l2[i + (int)(page1 - 1) * 4].allocateQty);
+                                rs.UpdateDetails(l2[j].itemCode, l2[i + (int)(page1 - 1) * 4].requisitionRecord.requisitionNo, l2[i + (int)(page1 - 1) * 4].allocateQty);
                                 break;
                             }
                         }
@@ -274,10 +315,14 @@ namespace Inventory_mvc.Controllers
         [HttpPost]
         public ActionResult GenerateRetrieveForm(FormCollection form, int? page)
         {
+            if (form["from"] == null)
+            {
+                return View("GenerateRetrieveForm");
+            }
             DateTime? from = Convert.ToDateTime(form["from"]);
             RetrieveForm rf = new RetrieveForm();
             List<RetrieveForm> model = rs.GetRetrieveFormByDateTime(from);
-            
+            Session["date"] = from;
             Session["retrieveList"] = model;
                         //return View(model);
             int pageSize = 1;
@@ -291,7 +336,11 @@ namespace Inventory_mvc.Controllers
 
             HttpContext.Application["retrieveform"] = form.ToList();
             foreach (var item in form) {
-
+                if (item.retrieveQty < 0)
+                {
+                    ViewBag.Message = "Quantity can not less than 0.";
+                    return View("Error");
+                }
                 StationeryViewModel model = ss.FindStationeryViewModelByItemCode(item.ItemCode);
                 model.StockQty = model.StockQty - (int)item.retrieveQty;
                 ss.UpdateStationeryInfo(model);
