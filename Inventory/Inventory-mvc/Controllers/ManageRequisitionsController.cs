@@ -49,6 +49,7 @@ namespace Inventory_mvc.Controllers
             {
                 BigModelView bigModel;
                 List<Requisition_Record> list = rs.GetRecordByItemCode(itemCode);
+                var retrieve = (List<RetrieveForm>)(HttpContext.Application["retrieveform"]);
                 for (int i = 0; i < list.Count; i++)
                 {
                     bigModel = new BigModelView();
@@ -56,7 +57,18 @@ namespace Inventory_mvc.Controllers
                     {
                         bigModel.description = ss.FindStationeryByItemCode(itemCode).description;
                         bigModel.itemCode = itemCode;
-                        bigModel.retrievedQuantity = "100";
+                        if (retrieve != null)
+                        {
+                            foreach (var r in retrieve)
+                            {
+                                if (r.ItemCode == itemCode)
+                                    bigModel.retrievedQuantity = r.retrieveQty.ToString();
+                            }
+                        }
+                        else
+                        {
+                            bigModel.retrievedQuantity = "Havent retrieve yet.";
+                        }
                     }
                     else
                     {
@@ -201,6 +213,10 @@ namespace Inventory_mvc.Controllers
         [HttpGet]
         public ActionResult GenerateRetrieveForm()
         {
+            if (HttpContext.Application["retrieveQty"] != null)
+            {
+                var a = (List<int>)(HttpContext.Application["retrieveQty"]);
+            }
             return View();
         }
 
@@ -210,7 +226,25 @@ namespace Inventory_mvc.Controllers
             DateTime? from = Convert.ToDateTime(form["from"]);
             RetrieveForm rf = new RetrieveForm();
             List<RetrieveForm> model = rs.GetRetrieveFormByDateTime(from);
+            
+            
             return View(model);
         }
+
+        [HttpPost]
+        public ActionResult GetApplication(IEnumerable<RetrieveForm> form)
+        {
+
+            HttpContext.Application["retrieveform"] = form.ToList();
+            foreach (var item in form) {
+
+                StationeryViewModel model = ss.FindStationeryViewModelByItemCode(item.ItemCode);
+                model.StockQty = model.StockQty - (int)item.retrieveQty;
+                ss.UpdateStationeryInfo(model);
+            }
+            return RedirectToAction("GenerateRetrieveForm");
+        }
+
+
     }
 }

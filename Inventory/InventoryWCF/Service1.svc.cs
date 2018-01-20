@@ -22,5 +22,21 @@ namespace InventoryWCF
             return true;
         }
 
+
+        public Boolean changePassWord(User user) { return true; }
+
+
+        public List<string> getAllItemCode() { return null; }
+
+      
+        public List<RequisitionRecord> getRequisitionByItemCode(string itemCode) { return null; }
+
+        public RequisitionDetails getRequisitionDetailsBy2Keys(string itemCode, int requisitionNO) { return null; }
+
+        public Boolean updateRequisitionDetails(RequisitionDetails rd) { return true; }
+        // TODO: Add your service operations here
+        public List<RetrievalFrom> getRetrievalList() { return null; }
+
+        public List<Disbursement> getDisbursementList() { return null; }
     }
 }

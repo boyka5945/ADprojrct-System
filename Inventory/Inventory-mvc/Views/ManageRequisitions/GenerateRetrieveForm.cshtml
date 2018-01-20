@@ -3,6 +3,7 @@
 @{
     ViewBag.Title = "View";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    List<int> list = new List<int>();
 }
 
 <h2>@ViewBag.Message</h2>
@@ -20,34 +21,48 @@
         </div>
     }
 </div>
-@if (Model != null) { 
+@if (Model != null)
+{
+    using (Html.BeginForm(new { Action = "GetApplication" }))
+    {
 <table class="table">
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.description)
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Qty)
-        </th>
         <th></th>
+        <th>
+            Need
+        </th>
+        <th>RetrieveQty</th>
     </tr>
-    @foreach (var item in Model)
+    @for (int i = 0;i<Model.Count();i++)
     {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.description)
+                @Html.DisplayFor(modelItem => Model.ToList()[i].description)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Qty)
+                @Html.HiddenFor(modelItem => Model.ToList()[i].ItemCode)
             </td>
-            @*<td>
-                    @Html.ActionLink("Approve", "ApproveRequisition", new { id = item.requisitionNo });
-                </td>*@
+            <td>
+                @Html.DisplayFor(modelItem => Model.ToList()[i].Qty)
+            </td>
+            <td>
+                @Html.EditorFor(modelItem => Model.ToList()[i].retrieveQty)
+            </td>  
         </tr>
     }
 
 </table>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Save" class="btn btn-default" />
+        </div>
+    </div>
+    }
 }
+
 <script>
     $(function () {
         $("#delstart").datepicker({
