@@ -4,18 +4,8 @@
 @{
     var removeItemMessage = TempData["RemoveItemMessage"];
 
-    int count = Model.Count();
-
-    string disabled = "";
-    if(count == 0)
-    {
-        disabled = "disabled";
-    }
-
-    var addItemMessage = TempData["AddItemMessage"];
-    var addItemErrorMessage = TempData["AddItemErrorMessage"];
-    var editItemMessage = TempData["EditItemMessage"];
-    var submitErrorMessage = TempData["SubmitErrorMessage"];
+    var successMessage = TempData["SuccessMessage"];
+    var errorMessage = TempData["ErrorMessage"];
 }
 
 <h2>Requisition Form</h2>
@@ -26,41 +16,19 @@
 <br />
 <br />
 
-@if (removeItemMessage != null)
+@if (successMessage != null)
 {
     <div class="alert alert-success">
-        @removeItemMessage.ToString()
+        @successMessage.ToString()
     </div>
 }
 
-@if (addItemMessage != null)
-{
-    <div class="alert alert-success">
-        @addItemMessage.ToString()
-    </div>
-}
-
-@if (addItemErrorMessage != null)
-{
-<div class="alert alert-danger">
-    @addItemErrorMessage.ToString()
-</div>
-}
-
-@if (editItemMessage != null)
-{
-    <div class="alert alert-success">
-        @editItemMessage.ToString()
-    </div>
-}
-
-@if (submitErrorMessage != null)
+@if (errorMessage != null)
 {
     <div class="alert alert-danger">
-        @submitErrorMessage.ToString()
+        @errorMessage.ToString()
     </div>
 }
-
 
 <br />
 
@@ -109,9 +77,9 @@ else
 
         <br />
 
-        <input type="submit" value="Submit Requisition" class="btn btn-success @disabled" />
+        <input type="submit" value="Submit Requisition" class="btn btn-success" />
         <a href="@Url.Action("ClearAllRequestItem", "RaiseRequisition" )">
-            <input type="button" value="Clear All" class="btn btn-danger" @disabled />
+            <input type="button" value="Clear All" class="btn btn-danger"/>
         </a>
 
         <br />

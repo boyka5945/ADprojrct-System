@@ -8,8 +8,8 @@
 
     List<Inventory_mvc.Models.Category> categoryList = ViewBag.CategoryList;
 
-    var addItemMessage = TempData["AddItemMessage"];
-    var addItemErrorMessage = TempData["AddItemErrorMessage"];    
+    var successMessage = TempData["SuccessMessage"];
+    var errorMessage = TempData["ErrorMessage"];    
 }
 
 
@@ -56,17 +56,17 @@
 }
 
 
-@if (addItemMessage != null)
+@if (successMessage != null)
 {
     <div class="alert alert-success">
-        @addItemMessage.ToString()
+        @successMessage.ToString()
     </div>
 }
 
-@if (addItemErrorMessage != null)
+@if (errorMessage != null)
 {
     <div class="alert alert-danger">
-        @addItemErrorMessage.ToString()
+        @errorMessage.ToString()
     </div>
 }
 

@@ -3,16 +3,10 @@
 @{
     ViewBag.Title = "Supplier List";
 
-    var createMessage = TempData["CreateMessage"];
-
-    var editMessage = TempData["EditMessage"];
-    var editErrorMessage = TempData["EditErrorMessage"];
-
-    var deleteErrorMessage = TempData["DeleteErrorMessage"];
-    var deleteMessage = TempData["DeleteMessage"];
+    var successMessage = TempData["SuccessMessage"];
+    var errorMessage = TempData["ErrorMessage"];
 
     string role = ViewBag.Role;
-
 }
 
 <h2>Supplier List</h2>
@@ -21,42 +15,19 @@
 
 <div>
     <p>
-        @if (createMessage != null)
+        @if (successMessage != null)
         {
             <div class="alert alert-success">
-                @createMessage.ToString()
+                @successMessage.ToString()
             </div>
         }
 
-        @if (editMessage != null)
-        {
-            <div class="alert alert-success">
-                @editMessage.ToString()
-            </div>
-        }
-
-        @if (editErrorMessage != null)
+        @if (errorMessage != null)
         {
             <div class="alert alert-danger">
-                @editErrorMessage.ToString()
+                @errorMessage.ToString()
             </div>
         }
-
-        @if (deleteMessage != null)
-        {
-            <div class="alert alert-success">
-                @deleteMessage.ToString()
-            </div>
-        }
-
-        @if (deleteErrorMessage != null)
-        {
-            <div class="alert alert-danger">
-                @deleteErrorMessage.ToString()
-            </div>
-        }
-
-
     </p>
 </div>
 

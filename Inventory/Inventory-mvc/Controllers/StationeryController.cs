@@ -134,11 +134,11 @@ namespace Inventory_mvc.Controllers
                 {
                     if (stationeryService.UpdateStationeryInfo(stationeryVM))
                     {
-                        TempData["EditMessage"] = String.Format("'{0}' has been updated", code);
+                        TempData["SuccessMessage"] = String.Format("'{0}' has been updated", code);
                     }
                     else
                     {
-                        TempData["EditErrorMessage"] = String.Format("There is not change to '{0}'.", code);
+                        TempData["ErrorMessage"] = String.Format("There is not change to '{0}'.", code);
                     }
 
                     return RedirectToAction("Index");
@@ -239,7 +239,7 @@ namespace Inventory_mvc.Controllers
                     try
                     {
                         stationeryService.AddNewStationery(stationeryVM);
-                        TempData["CreateMessage"] = String.Format("Stationery '{0}' is added.", code);
+                        TempData["SuccessMessage"] = String.Format("Stationery '{0}' is added.", code);
                         return RedirectToAction("Index");
                     }
                     catch (Exception e)
@@ -262,11 +262,11 @@ namespace Inventory_mvc.Controllers
 
             if (stationeryService.DeleteStationery(id))
             {
-                TempData["DeleteMessage"] = String.Format("Stationery '{0}' has been deleted", id);
+                TempData["SuccessMessage"] = String.Format("Stationery '{0}' has been deleted", id);
             }
             else
             {
-                TempData["DeleteErrorMessage"] = String.Format("Cannot delete stationery '{0}'", id);
+                TempData["ErrorMessage"] = String.Format("Cannot delete stationery '{0}'", id);
             }
 
             return RedirectToAction("Index");

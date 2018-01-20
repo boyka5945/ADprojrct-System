@@ -91,7 +91,7 @@ namespace Inventory_mvc.Controllers
             if(quantity < 1)
             {
                 string addItemErrorMessage = String.Format("Quantity must be greater than or equal to 1.");
-                TempData["AddItemErrorMessage"] = addItemErrorMessage;
+                TempData["ErrorMessage"] = addItemErrorMessage;
             }
             else
             {
@@ -121,7 +121,7 @@ namespace Inventory_mvc.Controllers
                 Session["RequestList"] = requestList;
 
                 string addItemMessage = String.Format("{0} x {1} was added into requisition form.", vm.Quantity, vm.Description);
-                TempData["AddItemMessage"] = addItemMessage;
+                TempData["SuccessMessage"] = addItemMessage;
             }
 
             ViewBag.SearchString = searchString;
@@ -148,7 +148,7 @@ namespace Inventory_mvc.Controllers
             request.Quantity = model.Quantity;
             Session["RequestList"] = requestList;
 
-            TempData["EditItemMessage"] = String.Format("Quantity of {0} was updated.", request.Description);
+            TempData["SuccessMessage"] = String.Format("Quantity of {0} was updated.", request.Description);
 
             return RedirectToAction("NewRequisition");
         }
@@ -161,7 +161,7 @@ namespace Inventory_mvc.Controllers
             requestList.Remove(vm);
             Session["RequestList"] = requestList;
 
-            TempData["RemoveItemMessage"] = String.Format("{0} was removed.", itemDescription);
+            TempData["SuccessMessage"] = String.Format("{0} was removed.", itemDescription);
 
             return RedirectToAction("NewRequisition");
         }
@@ -173,7 +173,7 @@ namespace Inventory_mvc.Controllers
             requestList.Clear();
             Session["RequestList"] = requestList;
 
-            TempData["RemoveItemMessage"] = String.Format("All items were removed.");
+            TempData["SuccessMessage"] = String.Format("All items were removed.");
 
             return RedirectToAction("NewRequisition");
         }
@@ -229,7 +229,7 @@ namespace Inventory_mvc.Controllers
                     // clear requestlist
                     Session["RequestList"] = new List<RaiseRequisitionViewModel>();
 
-                    TempData["SubmitMessage"] = "New stationery requisition has been submitted";
+                    TempData["SuccessMessage"] = "New stationery requisition has been submitted.";
 
                     // go to user requisition list
                     return RedirectToAction("Index", "ListRequisitions");
@@ -237,13 +237,13 @@ namespace Inventory_mvc.Controllers
                 else
                 {
                     // error when write to database
-                    TempData["SubmitErrorMessage"] = "Error Writing to Database";
+                    TempData["ErrorMessage"] = "Error Writing to Database";
                 }
             }
             else
             {
                 // Invalid request
-                TempData["SubmitErrorMessage"] = "Invalid request";
+                TempData["ErrorMessage"] = "Invalid request";
             }
 
             //return to new requisition form if submit unsuccessful
