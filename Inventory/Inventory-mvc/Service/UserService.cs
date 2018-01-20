@@ -158,5 +158,9 @@ namespace Inventory_mvc.Service
         {
             return userDAO.AlrDelegated(userid);
         }
+        int IUserService.GetRoleByID(string userID)
+        {
+            return userDAO.GetRoleByID(userID);
+        }
     }
 }

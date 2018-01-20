@@ -1,0 +1,29 @@
+﻿<script src="~/Scripts/bootstrap-combobox.js"></script>
+<link href="~/Content/bootstrap-combobox.css" rel="stylesheet" />
+
+
+@{
+ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<div>
+    <select class="combobox">
+        <option></option>
+        <option value="PA">Pennsylvania</option>
+        <option value="CT">Connecticut</option>
+        <option value="NY">New York</option>
+        <option value="MD">Maryland</option>
+        <option value="VA">Virginia</option>
+    </select>
+</div>
+
+<br />
+<br />
+
+<script type="text/javascript">
+  $(document).ready(function(){
+    $('.combobox').combobox();
+  });
+</script>

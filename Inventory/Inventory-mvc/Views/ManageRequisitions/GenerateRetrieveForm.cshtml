@@ -1,9 +1,11 @@
-﻿@model IEnumerable<Inventory_mvc.ViewModel.RetrieveForm>
+﻿@*@model IEnumerable<Inventory_mvc.ViewModel.RetrieveForm>*@
+@model PagedList.IPagedList<Inventory_mvc.ViewModel.RetrieveForm>
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 
 @{
     ViewBag.Title = "View";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    List<int> list = new List<int>();
 }
 
 <h2>@ViewBag.Message</h2>
@@ -28,7 +30,7 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.description)
+            @Html.Label("Description")
         </th>
         <th></th>
         <th>
@@ -61,7 +63,13 @@
         </div>
     </div>
     }
-}
+    <div>
+            Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+            @Html.PagedListPager(Model, page => Url.Action("GenerateRetrieveForm",
+                     new { page }))
+        
+    </div>
+            }
 
 <script>
     $(function () {
@@ -76,3 +84,4 @@
         });
     });
 </script>
+

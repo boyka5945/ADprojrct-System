@@ -107,11 +107,11 @@ namespace Inventory_mvc.DAO
                 User rep = (from r in entity.Users where r.role == 4 select r).First();
                 rep.role = 3;
                 User user = (from u in entity.Users where u.userID == userID select u).First();
-                if(user.role!= 8)
+                if (user.role != 8)
                 {
                     user.role = 4;
                 }
-                
+
 
                 int rowAffected = entity.SaveChanges();
 
@@ -132,7 +132,7 @@ namespace Inventory_mvc.DAO
             {
                 int i = 0;
                 User user = (from u in entity.Users where u.userID == userID select u).First();
-                List<User> emplist = (from emps in entity.Users where (emps.userID != userID && emps.departmentCode==user.departmentCode) select emps).ToList<User>();
+                List<User> emplist = (from emps in entity.Users where (emps.userID != userID && emps.departmentCode == user.departmentCode) select emps).ToList<User>();
                 foreach (User u in emplist)
                 {
                     if (u.role == 4)
@@ -212,17 +212,41 @@ namespace Inventory_mvc.DAO
                                    where u.userID == requesterID
                                    select u.departmentCode).First();
 
-                // DeptHead = 2, ActingDeptHead = 8
+                int requesterRole = (from u in context.Users
+                                        where u.userID == requesterID
+                                        select u.role).First();
+
+                int[] approvingRoleID = { -1, -1 };
+
+                // Employee = 3 ==> DeptHead = 2, ActingDeptHead = 8
+                // StoreClerk = 7 ==> Manager = 5, Supervisor = 6
+
+                if (requesterRole == 3)
+                {
+                    approvingRoleID = new int[] { 2, 8 };
+                }
+                else if(requesterRole == 7)
+                {
+                    approvingRoleID = new int[] { 5, 6 };
+                }
 
                 string[] deptHeadEmail = (from u in context.Users
                                           where u.departmentCode == deptCode &
-                                          (u.role == 2 || u.role == 8)                                         
+                                          (approvingRoleID.Contains(u.role))
                                           select u.userEmail).ToArray();
 
                 return deptHeadEmail;
             }
         }
 
-
+        int IUserDAO.GetRoleByID(string userID)
+        {
+            using (StationeryModel context = new StationeryModel())
+            {
+                return (from u in context.Users
+                        where u.userID == userID
+                        select u.role).FirstOrDefault();
+            }
+        }
     }
 }

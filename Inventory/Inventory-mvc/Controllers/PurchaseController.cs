@@ -7,13 +7,14 @@ using Inventory_mvc.Service;
 using Inventory_mvc.Models;
 using Inventory_mvc.DAO;
 using Inventory_mvc.ViewModel;
+using PagedList;
 
 namespace Inventory_mvc.Controllers
 {
     public class PurchaseController : Controller
     {
         // GET: PurchaseDetails
-
+        
         IPurchaseOrderService pos = new PurchaseOrderService();
         Purchase_Order_Record por = new Purchase_Order_Record();
         IStationeryService ss = new StationeryService();
@@ -27,9 +28,10 @@ namespace Inventory_mvc.Controllers
 
         [HttpGet]
         //FormCollection form
-        public ActionResult ListPurchaseOrders(string search, string searchBy)
+        public ActionResult ListPurchaseOrders(string search, string searchBy,int? page)
         {
-
+            ViewBag.Search = search;
+            ViewBag.SearchBy = searchBy;
             List<Purchase_Order_Record> model = new List<Purchase_Order_Record>();
             List<Purchase_Order_Record> searchResults = new List<Purchase_Order_Record>();
             switch (searchBy)
@@ -54,7 +56,10 @@ namespace Inventory_mvc.Controllers
                     break;
 
             }
-            return View(model);
+            int pageSize = 2;
+            int pageNumber = (page ?? 1);
+            return View(model.ToPagedList(pageNumber, pageSize));
+            //return View(model);
         }
 
         [HttpGet]
@@ -94,6 +99,9 @@ namespace Inventory_mvc.Controllers
 
             int orderNo = findNextOrderNo();
             ViewBag.orderNo = orderNo;
+
+            ViewBag.itemCode = pos.GetAllPurchaseOrder();
+
             List<Purchase_Detail> model = new List<Purchase_Detail>();
             Dictionary<Purchase_Detail, string> details = new Dictionary<Purchase_Detail, string>();
 
@@ -105,6 +113,12 @@ namespace Inventory_mvc.Controllers
 
             }
 
+            if(pd.itemCode == null)
+            {
+                string errorMessage = String.Format("Item Code must not be empty.");
+                ModelState.AddModelError("itemCode", errorMessage);
+                return View();
+            }
 
             details.Add(pd, supplierCode);
             model.Add(pd);
@@ -189,6 +203,32 @@ namespace Inventory_mvc.Controllers
             List<Purchase_Detail> model = new List<Purchase_Detail>();
 
             return View("RaisePurchaseOrder", model);
+        }
+
+        [HttpPost]
+        public ActionResult UpdatePD()
+        {
+            Dictionary<Purchase_Detail, string> details = (Dictionary<Purchase_Detail, string>)Session["detailsBundle"];
+            List<Purchase_Detail> model = details.Keys.ToList<Purchase_Detail>();
+
+            string itemCode = Request.Params.Get("ditemCode");
+            var index = model.FindIndex(c => c.itemCode == itemCode);
+
+            model[index].qty = Int32.Parse(Request.Params.Get("dqty"));
+            model[index].price = Int32.Parse(Request.Params.Get("dprice"));
+
+
+            string supplier = details[model[index]];
+
+            //save changes to the dictionary and to session state
+            details.Remove(model[index]);
+            details.Add(model[index], supplier);
+
+            Session["detailsBundle"] = details;
+
+
+            return View("RaisePurchaseOrder", model);
+
         }
 
         //helper method

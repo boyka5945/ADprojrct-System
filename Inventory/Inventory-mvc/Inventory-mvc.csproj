@@ -186,6 +186,7 @@
     <Compile Include="Controllers\SupplierController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\CheckShortfallController.cs" />
+    <Compile Include="Controllers\POGeneratorController.cs" />
     <Compile Include="DAO\AdjustmentVoucherDAO.cs" />
     <Compile Include="DAO\CollectionPointDAO.cs" />
     <Compile Include="DAO\DAOException.cs" />
@@ -264,6 +265,7 @@
     <Compile Include="ViewModel\BrowseStationeryCatalogueViewModel.cs" />
     <Compile Include="ViewModel\CollectionPointViewModel.cs" />
     <Compile Include="ViewModel\Disbursement.cs" />
+    <Compile Include="ViewModel\ItemTransactionRecordViewModel.cs" />
     <Compile Include="ViewModel\RaiseRequisitionViewModel.cs" />
     <Compile Include="ViewModel\RequisitionDetailViewModel.cs" />
     <Compile Include="ViewModel\RetrieveForm.cs" />
@@ -277,7 +279,6 @@
     <Content Include="Images\test1.jpg" />
     <Content Include="Images\test2.jpg" />
     <Content Include="Images\test3.jpg" />
-    <Content Include="Content\combobox.css" />
     <Content Include="Content\OrderCSS\style.css" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
@@ -355,7 +356,6 @@
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery-ui-1.12.1.js" />
     <Content Include="Scripts\jquery-ui-1.12.1.min.js" />
-    <Content Include="Scripts\jquery.combobox.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
@@ -420,7 +420,9 @@
     <Content Include="Views\ListRequisitions\ShowDetail.cshtml" />
     <Content Include="Views\ListRequisitions\_EditRecord.cshtml" />
     <Content Include="Views\ListRequisitions\EditRecord.cshtml" />
+    <Content Include="Views\Stationery\_ViewTransaction.cshtml" />
     <Content Include="Views\ManageRequisitions\GenerateRetrieveForm.cshtml" />
+    <Content Include="Views\AdjustmentVoucher\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

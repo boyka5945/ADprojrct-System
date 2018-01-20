@@ -313,6 +313,9 @@ namespace Inventory_mvc.DAO
                     case "Request Date":
                         records = records.OrderBy(r => r.requestDate);
                         break;
+                    case "date_desc":
+                        records = records.OrderByDescending(r => r.requestDate);
+                        break;
                     case "Status":
                         records = records.OrderBy(r => r.status);
                         break;

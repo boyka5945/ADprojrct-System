@@ -12,10 +12,20 @@ namespace Inventory_mvc.Controllers
     public class SupplierController : Controller
     {
         ISupplierService supplierService = new SupplierService();
+        IUserService userService = new UserService();
 
         // GET: Supplier
         public ActionResult Index()
         {
+            // TODO: REMOVE HARD CODED REQUESTER ID
+            //string requesterID = HttpContext.User.Identity.Name;
+            string userID = "S1017"; // clerk
+            //string userID = "S1016"; // supervisor
+
+            // Store clerk roleID == 7
+            int roleID = userService.GetRoleByID(userID);
+            ViewBag.Role = (roleID.ToString() == "7") ? "StoreClerk" : "";
+
             return View(supplierService.GetAllSuppliers());
         }
 
@@ -42,12 +52,12 @@ namespace Inventory_mvc.Controllers
                 try
                 {
                     supplierService.AddNewSupplier(supplierVM);
-                    TempData["CreateMessage"] = String.Format("Supplier '{0}' is added.", code);
+                    TempData["SuccessMessage"] = String.Format("Supplier '{0}' is added.", code);
                     return RedirectToAction("Index");
                 }
                 catch (Exception e)
                 {
-                    TempData["ExceptionMessage"] = e.Message;
+                    TempData["ErrorMessage"] = e.Message;
                 }
             }
 
@@ -75,11 +85,11 @@ namespace Inventory_mvc.Controllers
                 {
                     if (supplierService.UpdateSupplierInfo(supplierVM))
                     {
-                        TempData["EditMessage"] = String.Format("'{0}' has been updated", code);
+                        TempData["SuccessMessage"] = String.Format("'{0}' has been updated", code);
                     }
                     else
                     {
-                        TempData["EditErrorMessage"] = String.Format("There is not change to '{0}'.", code);
+                        TempData["ErrorMessage"] = String.Format("There is not change to '{0}'.", code);
                     }
 
                     return RedirectToAction("Index");
@@ -99,11 +109,11 @@ namespace Inventory_mvc.Controllers
         {
             if (supplierService.DeleteSupplier(id))
             {
-                TempData["DeleteMessage"] = String.Format("Supplier '{0}' has been deleted", id);
+                TempData["SuccessMessage"] = String.Format("Supplier '{0}' has been deleted", id);
             }
             else
             {
-                TempData["DeleteErrorMessage"] = String.Format("Cannot delete supplier '{0}'", id);
+                TempData["ErrorMessage"] = String.Format("Cannot delete supplier '{0}'", id);
             }
 
             return RedirectToAction("Index");
