@@ -36,7 +36,7 @@ namespace Inventory_mvc.Controllers
                 {
                     if (UserService.FindByUserID(model.UserName).password == model.Password)
                     {
-                        int roleID = 1;
+                        int roleID = UserService.GetRoleByID(model.UserName);
                         string identity = model.UserName;
                         AuthorizationManager.SetTicket(Response, model.RememberMe, identity, roleID);
                     }

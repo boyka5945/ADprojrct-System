@@ -20,7 +20,7 @@ namespace Inventory_mvc.Service
             Pending, Approved, Rejected
         }
 
-        IAdjustmentVoucherDAO adjustmentVoucherDAO = new AdjustmentVoucherDAO();
+        AdjustmentVoucherDAO adjustmentVoucherDAO = new AdjustmentVoucherDAO();
 
         public bool SubmitNewAdjustmentVoucher(List<NewVoucherViewModel> vmList, int remarks, string requesterID)
         {
@@ -43,7 +43,8 @@ namespace Inventory_mvc.Service
 
             vourcherRecord.Voucher_Details = details;
 
-            return adjustmentVoucherDAO.AddNewAdjustmentVoucher(vourcherRecord);
+            return true;
+            //return adjustmentVoucherDAO.AddNewAdjustmentVoucher(vourcherRecord);
         }
     }
 }
