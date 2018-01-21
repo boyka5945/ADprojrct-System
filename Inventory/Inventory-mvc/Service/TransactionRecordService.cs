@@ -80,7 +80,7 @@ namespace Inventory_mvc.Service
             }
             else
             {
-                throw new Exception("Error writing to database");
+                throw new Exception("Error writing new transaction record into database");
             }
         }
     }

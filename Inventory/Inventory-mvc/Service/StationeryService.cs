@@ -239,7 +239,7 @@ namespace Inventory_mvc.Service
 
             if(s.stockQty < 0)
             {
-                string errorMessage = String.Format("Stock quantity of {0} less than 0", itemCode);
+                string errorMessage = String.Format("Stock quantity of {0} is less than 0", itemCode);
                 throw new Exception(errorMessage);
             }
 
