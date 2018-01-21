@@ -25,9 +25,8 @@ namespace Inventory_mvc.DAO
 
         User IUserDAO.FindByUserID(string userID)
         {
-            string userid = userID;
             StationeryModel entity = new StationeryModel();
-            var a = (from user in entity.Users where user.userID == userid select user).First();
+            var a = (from user in entity.Users where user.userID == userID select user).First();
 
             return a;
         }

@@ -169,10 +169,6 @@ namespace Inventory_mvc.Controllers
                     Session["RequestList"] = new List<RaiseRequisitionViewModel>();
                     TempData["SuccessMessage"] = "New stationery requisition has been submitted.";
 
-                    // TODO: TEST EMAIL NOTIFICATION
-                    // send email notification
-                    EmailNotification.EmailNotificatioForNewRequisition(requesterID);
-
                     // go to user requisition list
                     return RedirectToAction("Index", "ListRequisitions");
                 }
@@ -215,7 +211,7 @@ namespace Inventory_mvc.Controllers
             {
                 StationeryJSONForCombobox option = new StationeryJSONForCombobox();
                 option.id = s.itemCode;
-                option.text = s.description;
+                option.text = String.Format("{0} ({1})", s.description, s.unitOfMeasure);
                 options.Add(option);
             }
             return Json(options, JsonRequestBehavior.AllowGet);

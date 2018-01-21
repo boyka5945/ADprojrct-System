@@ -310,29 +310,11 @@ namespace Inventory_mvc.Controllers
         //    return View();
         //}
 
-
+        
         [HttpPost]
         public ActionResult ViewTransaction(string id, int selectedYear, int selectedMonth)
         {
-            List<Transaction_Detail> records = transactionService.GetTransaciontDetailsByCriteria(selectedYear, selectedMonth, id);
-
-            List<ItemTransactionRecordViewModel> vmList = new List<ItemTransactionRecordViewModel>();
-
-            foreach (var r in records)
-            {
-                ItemTransactionRecordViewModel vm = new ItemTransactionRecordViewModel();
-
-                vm.TransactionNo = r.transactionNo;
-                vm.TransactionDate = (DateTime)r.Transaction_Record.date;
-                vm.ItemCode = r.itemCode;
-                vm.Quantity = r.adjustedQty;
-                vm.BalanceQty = r.balanceQty;
-                vm.TransactionType = r.Transaction_Record.type;
-                vm.Remarks = r.remarks;
-
-                vmList.Add(vm);                              
-            }
-
+            List<ItemTransactionRecordViewModel> vmList = transactionService.GetTransaciontDetailsViewModelByCriteria(selectedYear, selectedMonth, id);
             return PartialView("_ViewTransaction", vmList);
         }
 

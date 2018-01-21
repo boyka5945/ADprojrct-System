@@ -63,7 +63,7 @@ namespace Inventory_mvc.Function
         }
 
 
-        public static void EmailNotificatioForAdjustmentVoucherApprovalStatus(int voucherNo, int status)
+        public static void EmailNotificatioForAdjustmentVoucherApprovalStatus(int voucherNo, int status, string remarks)
         {
             if (status.ToString() == ApprovalStatus.Approved.ToString())
             {

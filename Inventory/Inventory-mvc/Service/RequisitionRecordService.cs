@@ -5,6 +5,7 @@ using System.Web;
 using Inventory_mvc.Models;
 using Inventory_mvc.DAO;
 using Inventory_mvc.ViewModel;
+using Inventory_mvc.Function;
 
 namespace Inventory_mvc.Service
 {
@@ -60,7 +61,18 @@ namespace Inventory_mvc.Service
 
         public bool SubmitNewRequisition(Requisition_Record requisition)
         {
-            return rDAO.SubmitNewRequisition(requisition);
+            if(rDAO.SubmitNewRequisition(requisition))
+            {
+                // TODO: TEST EMAIL NOTIFICATION
+                // send email notification       
+                EmailNotification.EmailNotificatioForNewRequisition(requisition.requesterID);
+
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         public List<Requisition_Record> GetRecordsByRequesterID(string requesterID)
@@ -109,6 +121,13 @@ namespace Inventory_mvc.Service
             return (record.requesterID == requesterID);
         }
 
+        /// <summary>
+        /// Return record if the record is raised by the user. Return null if false
+        /// </summary>
+        /// <param name="requisitionNo"></param>
+        /// <param name="requesterID"></param>
+        /// <param name="errorMessage"></param>
+        /// <returns></returns>
         public Requisition_Record IsUserAuthorizedForRequisition(int requisitionNo, string requesterID, out string errorMessage)
         {
             Requisition_Record record = null;
@@ -126,8 +145,9 @@ namespace Inventory_mvc.Service
             }
 
             return record;  
-
         }
+
+
 
         public bool UpdateRequisitionDetails(List<RequisitionDetailViewModel> vmList, out string errorMessage)
         {
@@ -159,5 +179,28 @@ namespace Inventory_mvc.Service
         {
             return rDAO.DetailsCountOfOneItemcode(itemcode);
         }
+
+        public List<RequisitionDetailViewModel> GetViewModelFromRequisitionRecord(Requisition_Record record)
+        {
+            List<RequisitionDetailViewModel> vmList = new List<RequisitionDetailViewModel>();
+
+            foreach (var item in record.Requisition_Detail)
+            {
+                RequisitionDetailViewModel vm = new RequisitionDetailViewModel();
+
+                vm.ItemCode = item.itemCode;
+                vm.RequestQty = (item.qty == null) ? 0 : (int)item.qty;
+                vm.RequisitionNo = record.requisitionNo;
+                vm.ReceivedQty = (item.fulfilledQty == null) ? 0 : (int)item.fulfilledQty;
+                vm.UOM = item.Stationery.unitOfMeasure;
+                vm.Description = item.Stationery.description;
+                vm.RequestDate = (DateTime)record.requestDate;
+
+                vmList.Add(vm);
+            }
+
+            return vmList;
+        }
+
     }
 }

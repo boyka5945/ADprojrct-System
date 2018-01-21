@@ -115,21 +115,7 @@ namespace Inventory_mvc.Controllers
             }
 
 
-            List<RequisitionDetailViewModel> vmList = new List<RequisitionDetailViewModel>();
-            foreach (var item in record.Requisition_Detail)
-            {
-                RequisitionDetailViewModel vm = new RequisitionDetailViewModel();
-
-                vm.ItemCode = item.itemCode;
-                vm.RequestQty = (item.qty == null) ? 0 : (int)item.qty;
-                vm.RequisitionNo = record.requisitionNo;
-                vm.ReceivedQty = (item.fulfilledQty == null) ? 0 : (int) item.fulfilledQty;
-                vm.UOM = item.Stationery.unitOfMeasure;
-                vm.Description = item.Stationery.description;
-                vm.RequestDate = (DateTime)record.requestDate;
-
-                vmList.Add(vm);
-            }
+            List<RequisitionDetailViewModel> vmList = requisitionService.GetViewModelFromRequisitionRecord(record);
 
             string approvalStatus = (record.status == "Pending Approval") ? "Pending Approval" : "Approved";
 
@@ -146,7 +132,7 @@ namespace Inventory_mvc.Controllers
             {
                 if (vm.RequestQty < 1)
                 {
-                    TempData["ErrorMessage"] = "Quantity must be greater than or equal to 1";
+                    TempData["ErrorMessage"] = String.Format("Quantity of {0} must be greater than or equal to 1", vm.Description);
                     return RedirectToAction("EditRecord", vmList);
                 }
             }
@@ -213,21 +199,7 @@ namespace Inventory_mvc.Controllers
                 return RedirectToAction("Index");
             }
 
-            List<RequisitionDetailViewModel> vmList = new List<RequisitionDetailViewModel>();
-            foreach (var item in record.Requisition_Detail)
-            {
-                RequisitionDetailViewModel vm = new RequisitionDetailViewModel();
-
-                vm.ItemCode = item.itemCode;
-                vm.RequestQty = (item.qty == null) ? 0 : (int)item.qty;
-                vm.RequisitionNo = record.requisitionNo;
-                vm.ReceivedQty = (item.fulfilledQty == null) ? 0 : (int) item.fulfilledQty;
-                vm.UOM = item.Stationery.unitOfMeasure;
-                vm.Description = item.Stationery.description;
-                vm.RequestDate = (DateTime) record.requestDate;
-
-                vmList.Add(vm);
-            }
+            List<RequisitionDetailViewModel> vmList = requisitionService.GetViewModelFromRequisitionRecord(record);
 
             string approvalStatus = (record.status == "Pending Approval") ? "Pending Approval" : "Approved";
 

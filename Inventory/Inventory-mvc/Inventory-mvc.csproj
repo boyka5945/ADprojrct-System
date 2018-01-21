@@ -263,6 +263,11 @@
     <Compile Include="Service\SupplierService.cs" />
     <Compile Include="Service\TransactionRecordService.cs" />
     <Compile Include="Service\UserService.cs" />
+    <Compile Include="Utilities\AdjustmentVoucherRemarks.cs" />
+    <Compile Include="Utilities\AdjustmentVoucherStatus.cs" />
+    <Compile Include="Utilities\RequisitionStatus.cs" />
+    <Compile Include="Utilities\TransactionTypecs.cs" />
+    <Compile Include="Utilities\UserRoles.cs" />
     <Compile Include="ViewModel\AdjustmentVoucherViewModel.cs" />
     <Compile Include="ViewModel\BrowseStationeryCatalogueViewModel.cs" />
     <Compile Include="ViewModel\CollectionPointViewModel.cs" />
@@ -429,6 +434,8 @@
     <Content Include="Views\ManageRequisitions\GenerateRetrieveForm.cshtml" />
     <Content Include="Views\AdjustmentVoucher\Index.cshtml" />
     <Content Include="Views\AdjustmentVoucher\NewVoucher.cshtml" />
+    <Content Include="Views\AdjustmentVoucher\ShowDetail.cshtml" />
+    <Content Include="Views\AdjustmentVoucher\MakeApproval.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -15,15 +15,23 @@ namespace Inventory_mvc.Service
         /// </summary>
         /// <param name="vmList"></param>
         /// <param name="remarks"> 
-        /// 0: Inventory_Check | 1: Stock_Retrieval | 2: Disbursement | 3: Reconciliation
+        /// AdjustmentVoucherRemarks => INV_CHECK | STK_RETRIVE | DISBURSE | RECONCILE
         /// </param>
         /// <returns></returns>
-        bool SubmitNewAdjustmentVoucher(List<AdjustmentVoucherViewModel> vmList, int remarks, string requesterID);
+        bool SubmitNewAdjustmentVoucher(List<AdjustmentVoucherViewModel> vmList, string remarks, string requesterID);
 
         bool ValidateNewAdjustmentVoucher(List<AdjustmentVoucherViewModel> vmList, out string errorMessage);
 
         List<AdjustmentVoucherViewModel> GetVoucherRecordsByCriteria(string approverID, string status, string sortOrder);
 
         Adjustment_Voucher_Record FindVoucherRecordByVoucherNo(int voucherNo);
+
+        List<AdjustmentVoucherViewModel> IsUserAuthorizedToViewVoucherDetail(int voucherNo, string userID, out string errorMessage);
+
+        decimal GetVoucherRecordTotalAmount(int voucherNo);
+
+        decimal GetVoucherRecordTotalAmount(Adjustment_Voucher_Record record);
+
+
     }
 }

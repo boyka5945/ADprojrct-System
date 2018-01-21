@@ -7,6 +7,7 @@ using Inventory_mvc.Service;
 using Inventory_mvc.Models;
 using Inventory_mvc.ViewModel;
 using Inventory_mvc.Function;
+using Inventory_mvc.Utilities;
 using PagedList;
 
 namespace Inventory_mvc.Controllers
@@ -22,8 +23,8 @@ namespace Inventory_mvc.Controllers
         {
             // TODO: REMOVE HARD CODED APPROVER ID
             //string approverID = HttpContext.User.Identity.Name;
-            //string approverID = "S1016"; // supervisor
-            string approverID = "S1015"; // store manager
+            string approverID = "S1016"; // supervisor
+            //string approverID = "S1015"; // store manager
 
 
             // Set Filter criteria
@@ -31,12 +32,12 @@ namespace Inventory_mvc.Controllers
             ViewBag.Status = status;
 
             List<SelectListItem> statusSelectList = new List<SelectListItem>();
-            statusSelectList.Add(new SelectListItem { Text = "Pending", Value = "Pending"});
-            statusSelectList.Add(new SelectListItem { Text = "Approved", Value = "Approved"});
+            statusSelectList.Add(new SelectListItem { Text = "Pending", Value = "Pending" });
+            statusSelectList.Add(new SelectListItem { Text = "Approved", Value = "Approved" });
             statusSelectList.Add(new SelectListItem { Text = "Rejected", Value = "Rejected" });
-            foreach(var s in statusSelectList)
+            foreach (var s in statusSelectList)
             {
-                if(s.Value == ViewBag.Status)
+                if (s.Value == ViewBag.Status)
                 {
                     s.Selected = true;
                 }
@@ -45,13 +46,13 @@ namespace Inventory_mvc.Controllers
 
             if (String.IsNullOrEmpty(sortOrder))
             {
-                sortOrder = "Voucher Number"; // make default sorting by voucher number
+                sortOrder = "number_desc"; // make default sorting by voucher number desc
                 ViewBag.NumberSortParm = sortOrder;
             }
 
             ViewBag.CurrentSort = sortOrder;
             ViewBag.NumberSortParm = (sortOrder == "Voucher Number") ? "number_desc" : "Voucher Number";
-            ViewBag.RequesterSortParm = (sortOrder == "Requester") ? "requester_desc" : "Requester";
+            ViewBag.RequesterSortParm = (sortOrder == "Issued By") ? "issued_by_desc" : "Issued By";
 
             // TODO : get records
             List<AdjustmentVoucherViewModel> vouchers = adjustmentVoucherService.GetVoucherRecordsByCriteria(approverID, status, sortOrder);
@@ -71,7 +72,7 @@ namespace Inventory_mvc.Controllers
                 Session["NewVoucher"] = vmList;
             }
 
-            if(!String.IsNullOrEmpty(itemCode) && type == "remove") // use to display message if remove item from voucher
+            if (!String.IsNullOrEmpty(itemCode) && type == "remove") // use to display message if remove item from voucher
             {
                 TempData["SuccessMessage"] = String.Format("{0} was removed.", itemCode);
             }
@@ -84,7 +85,7 @@ namespace Inventory_mvc.Controllers
         {
             Stationery s = stationeryService.FindStationeryByItemCode(itemCode);
 
-            if((s.stockQty + quantity) < 0) 
+            if ((s.stockQty + quantity) < 0)
             {
                 // cannot minus more than current stock
                 TempData["ErrorMessage"] = String.Format("Negative adjustment quantity cannot greater than current stock.");
@@ -154,36 +155,20 @@ namespace Inventory_mvc.Controllers
         [HttpPost]
         public ActionResult SubmitVoucher(List<AdjustmentVoucherViewModel> vmList)
         {
-            // TODO : IMPLEMENT LOGIC
-
             // TODO: REMOVE HARD CODED REQUESTER ID
             //string requesterID = HttpContext.User.Identity.Name;
 
             string requesterID = "S1013";
             string errorMessage;
 
-            if(adjustmentVoucherService.ValidateNewAdjustmentVoucher(vmList, out errorMessage))
+            if (adjustmentVoucherService.ValidateNewAdjustmentVoucher(vmList, out errorMessage))
             {
                 // Valid voucher
-                if (adjustmentVoucherService.SubmitNewAdjustmentVoucher(vmList, 3, requesterID))
+                if (adjustmentVoucherService.SubmitNewAdjustmentVoucher(vmList, AdjustmentVoucherRemarks.RECONCILE, requesterID))
                 {
                     // clear list
                     Session["NewVoucher"] = new List<AdjustmentVoucherViewModel>();
                     TempData["SuccessMessage"] = String.Format("Discrepancy report has been submitted for approval.");
-
-                    // TODO: TEST EMAIL NOTIFICATION
-                    // send email notification
-
-                    decimal voucherAmount = 0.00M;
-                    foreach (var item in vmList)
-                    {
-                        if (item.Quantity < 0) // count amount for only -ve quantity
-                        {
-                            voucherAmount += item.Quantity * item.Price;
-                        }
-                    }
-
-                    EmailNotification.EmailNotificationForNewAdjustmentVoucher(requesterID, voucherAmount);
                 }
                 else
                 {
@@ -215,7 +200,7 @@ namespace Inventory_mvc.Controllers
             List<StationeryJSONForCombobox> options = new List<StationeryJSONForCombobox>();
 
             List<Stationery> stationeries = stationeryService.GetStationeriesBasedOnCriteria(term);
-            foreach(var s in stationeries)
+            foreach (var s in stationeries)
             {
                 StationeryJSONForCombobox option = new StationeryJSONForCombobox();
                 option.id = s.itemCode;
@@ -226,18 +211,79 @@ namespace Inventory_mvc.Controllers
         }
 
 
-        public ActionResult ShowDetail(string itemCode)
+        public ActionResult ShowDetail(int? id)
         {
-            return View();
+            int voucherNo = (id == null) ? -1 : (int)id;
+
+            if (voucherNo == -1)
+            {
+                return RedirectToAction("Index");
+            }
+
+
+            // TODO: REMOVE HARD CODED APPROVER ID
+            //string approverID = HttpContext.User.Identity.Name;
+            string approverID = "S1016"; // supervisor
+            //string approverID = "S1015"; // store manager
+
+            string errorMessage;
+            List<AdjustmentVoucherViewModel> vmList = adjustmentVoucherService.IsUserAuthorizedToViewVoucherDetail(voucherNo, approverID, out errorMessage);
+
+            if (!String.IsNullOrEmpty(errorMessage))
+            {
+                TempData["ErrorMessage"] = errorMessage;
+                return RedirectToAction("Index");
+            }
+
+            return View(vmList);
         }
 
-        public ActionResult MakeApproval(string itemCode)
+        [HttpGet]
+        public ActionResult MakeApproval(int? id)
         {
-            // TODO : Validate User
-            return View();
+            int voucherNo = (id == null) ? -1 : (int)id;
+
+            if (voucherNo == -1)
+            {
+                return RedirectToAction("Index");
+            }
+
+            // TODO: REMOVE HARD CODED APPROVER ID
+            //string approverID = HttpContext.User.Identity.Name;
+            string approverID = "S1016"; // supervisor
+            //string approverID = "S1015"; // store manager
+
+            string errorMessage;
+            List<AdjustmentVoucherViewModel> vmList = adjustmentVoucherService.IsUserAuthorizedToViewVoucherDetail(voucherNo, approverID, out errorMessage);
+
+            if (!String.IsNullOrEmpty(errorMessage))
+            {
+                TempData["ErrorMessage"] = errorMessage;
+                return RedirectToAction("Index");
+            }
+
+            return View(vmList);
+
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="submitButton"></param>
+        /// <param name="remark">For email notifcation</param>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult MakeApproval(int id, string submitButton, string remark)
+        {
+            // TODO : UPDATE DATABASE
+            int voucherNo = id;
+            string statusMessage = (submitButton == "Approve") ? "approved" : "rejected";
+
+            TempData["SuccessMessage"] = String.Format("Voucher number {0} was {1}.", voucherNo, statusMessage);
+            return RedirectToAction("Index");
+        }
+
 
     }
-
-
 }

@@ -68,10 +68,10 @@ namespace Inventory_mvc.DAO
                     case "Voucher Number":
                         vouchers = vouchers.OrderBy(v => v.voucherID);
                         break;
-                    case "Requester":
+                    case "Issued By":
                         vouchers = vouchers.OrderBy(v => v.User.name);
                         break;
-                    case "requester_desc":
+                    case "issued_by_desc":
                         vouchers = vouchers.OrderByDescending(v => v.User.name);
                         break;
                     default:

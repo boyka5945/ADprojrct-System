@@ -5,32 +5,25 @@ using System.Web;
 using Inventory_mvc.Models;
 using Inventory_mvc.ViewModel;
 using Inventory_mvc.DAO;
+using Inventory_mvc.Function;
+using Inventory_mvc.Utilities;
 
 namespace Inventory_mvc.Service
 {
     public class AdjustmentVoucherService : IAdjustmentVoucherService
     {
-        enum Remarks
-        {
-            Inventory_Check, Stock_Retrieval, Disbursement, Reconciliation
-        }
-
-        enum Status
-        {
-            Pending, Approved, Rejected
-        }
 
         IAdjustmentVoucherDAO adjustmentVoucherDAO = new AdjustmentVoucherDAO();
         IStationeryService stationeryService = new StationeryService();
         IUserService userService = new UserService();
 
-        public bool SubmitNewAdjustmentVoucher(List<AdjustmentVoucherViewModel> vmList, int remarks, string requesterID)
+        public bool SubmitNewAdjustmentVoucher(List<AdjustmentVoucherViewModel> vmList, string remarks, string requesterID)
         {            
             Adjustment_Voucher_Record vourcherRecord = new Adjustment_Voucher_Record();
             vourcherRecord.issueDate = DateTime.Today;
             vourcherRecord.handlingStaffID = requesterID;
-            vourcherRecord.status = Enum.GetName(typeof(Status), Status.Pending);
-            vourcherRecord.remarks = Enum.GetName(typeof(Remarks), remarks);
+            vourcherRecord.status = AdjustmentVoucherStatus.PENDING;
+            vourcherRecord.remarks = remarks;
 
             List<Voucher_Detail> details = new List<Voucher_Detail>();
             foreach(var vm in vmList)
@@ -46,8 +39,19 @@ namespace Inventory_mvc.Service
             }
 
             vourcherRecord.Voucher_Details = details;
+            decimal voucherAmount = GetVoucherRecordTotalAmount(vourcherRecord);
 
-            return adjustmentVoucherDAO.AddNewAdjustmentVoucher(vourcherRecord);
+            if (adjustmentVoucherDAO.AddNewAdjustmentVoucher(vourcherRecord))
+            {
+                // TODO: TEST EMAIL NOTIFICATION
+                // send email notification
+                EmailNotification.EmailNotificationForNewAdjustmentVoucher(requesterID, voucherAmount);
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         public bool ValidateNewAdjustmentVoucher(List<AdjustmentVoucherViewModel> vmList, out string errorMessage)
@@ -75,7 +79,7 @@ namespace Inventory_mvc.Service
 
             List<AdjustmentVoucherViewModel> vmList = new List<AdjustmentVoucherViewModel>();
 
-            if (status == "Pending")
+            if (status == AdjustmentVoucherStatus.PENDING)
             {
                 // calculate total amount
                 // return sorted voucher records based on total Amount & user role
@@ -87,12 +91,12 @@ namespace Inventory_mvc.Service
 
                     if(isManager && vm.VoucherTotalAmount * -1 > 250)
                     {
-                        // manager for voucher amount > 250
+                        // manager => voucher amount > 250
                         vmList.Add(vm);
                     }
                     else if(isSupervisor && vm.VoucherTotalAmount * -1 <= 250)
                     {
-                        // supervisor for voucher amount <= 250
+                        // supervisor => voucher amount <= 250
                         vmList.Add(vm);
                     }
                 }
@@ -116,45 +120,57 @@ namespace Inventory_mvc.Service
             return adjustmentVoucherDAO.FindByVoucherID(voucherNo);
         }
 
-        private AdjustmentVoucherViewModel ConvertRecordToViewModel(Adjustment_Voucher_Record record)
+
+
+
+        /// <summary>
+        /// Return voucher details if user is authorized to view the record
+        /// </summary>
+        /// <param name="voucherNo"></param>
+        /// <param name="userID"></param>
+        /// <param name="errorMessage"></param>
+        /// <returns></returns>
+        public List<AdjustmentVoucherViewModel> IsUserAuthorizedToViewVoucherDetail(int voucherNo, string userID, out string errorMessage)
         {
-            AdjustmentVoucherViewModel vm = new AdjustmentVoucherViewModel();
+            errorMessage = null;
+            List<AdjustmentVoucherViewModel> vmList = new List<AdjustmentVoucherViewModel>();
 
-            vm.VoucherNo = record.voucherID;
-            vm.Requester = userService.FindNameByID(record.handlingStaffID);
-            vm.IssueDate = record.issueDate;
-            vm.VoucherTotalAmount = 0.00M; // only Pending need this info
+            Adjustment_Voucher_Record record = FindVoucherRecordByVoucherNo(voucherNo);
+            if(record == null)
+            {                
+                errorMessage = String.Format("Non-existing voucher.");
+                return null;
+            }
 
-            return vm;
+
+            decimal voucherTotalAmount = GetVoucherRecordTotalAmount(record);
+
+            if(record.status == AdjustmentVoucherStatus.PENDING)
+            {
+                // check for current user
+                bool isManager = userService.IsStoreManager(userID);
+                bool isSupervisor = userService.IsStoreSupervisor(userID);
+
+                if ((isManager && !(voucherTotalAmount * -1 > 250)) || (isSupervisor && !(voucherTotalAmount * -1 <= 250)))
+                {
+                    errorMessage = String.Format("You have not right to approve this voucher.");
+                    return null;
+                }
+            }
+
+            foreach (var detail in record.Voucher_Details)
+            {
+                AdjustmentVoucherViewModel vm = ConvertDetailToViewModel(detail);
+                vm.VoucherTotalAmount = voucherTotalAmount;
+                vmList.Add(vm);
+            }
+
+            return vmList;
         }
 
-
-        private AdjustmentVoucherViewModel ConvertDetailToViewModel(Voucher_Detail detail)
+        public decimal GetVoucherRecordTotalAmount(int voucherNo)
         {
-            Stationery stationery = stationeryService.FindStationeryByItemCode(detail.itemCode);
-            AdjustmentVoucherViewModel vm = new AdjustmentVoucherViewModel();
-
-            // Stationery information
-            vm.ItemCode = detail.itemCode;
-            vm.StationeryDescription = stationery.description;
-            vm.UOM = stationery.unitOfMeasure;
-            vm.Price = stationery.price;
-
-            // Voucher Record information
-            vm.VoucherNo = detail.voucherID;
-            vm.Requester = userService.FindNameByID(detail.Adjustment_Voucher_Record.handlingStaffID); 
-            vm.VoucherTotalAmount = 0.00M;
-            vm.IssueDate = detail.Adjustment_Voucher_Record.issueDate;
-
-            // Voucher Detail information
-            vm.Quantity = detail.adjustedQty;
-            vm.Reason = detail.remarks;
-
-            return vm;
-        }
-
-        private decimal GetVoucherRecordTotalAmount(int voucherNo)
-        {
+            // to retrieve voucher_details associated with this voucherNo
             Adjustment_Voucher_Record record = FindVoucherRecordByVoucherNo(voucherNo);
 
             decimal totalAmount = 0.00M;
@@ -169,6 +185,76 @@ namespace Inventory_mvc.Service
 
             return totalAmount;
         }
+
+        public decimal GetVoucherRecordTotalAmount(Adjustment_Voucher_Record record)
+        {
+            decimal totalAmount = 0.00M;
+            foreach (var detail in record.Voucher_Details)
+            {
+                if (detail.adjustedQty < 0)
+                {
+                    Stationery stationery = stationeryService.FindStationeryByItemCode(detail.itemCode);
+                    totalAmount += detail.adjustedQty * stationery.price;
+                }
+            }
+
+            return totalAmount;
+        }
+
+        private AdjustmentVoucherViewModel ConvertRecordToViewModel(Adjustment_Voucher_Record record)
+        {
+            AdjustmentVoucherViewModel vm = new AdjustmentVoucherViewModel();
+
+            vm.VoucherNo = record.voucherID;
+            vm.Requester = userService.FindNameByID(record.handlingStaffID);
+            vm.IssueDate = record.issueDate;
+            vm.VoucherTotalAmount = 0.00M; // only Pending need this info
+            vm.ApprovalDate = record.approvalDate;
+            if(!String.IsNullOrEmpty(record.authorisingStaffID))
+            {
+                vm.Approver = userService.FindNameByID(record.authorisingStaffID);
+            }
+            vm.Causes = record.remarks;
+            vm.Status = record.status;
+
+            return vm;
+        }
+
+        private AdjustmentVoucherViewModel ConvertDetailToViewModel(Voucher_Detail detail)
+        {
+            Stationery stationery = stationeryService.FindStationeryByItemCode(detail.itemCode);
+            AdjustmentVoucherViewModel vm = new AdjustmentVoucherViewModel();
+
+            // Stationery information
+            vm.ItemCode = detail.itemCode;
+            vm.StationeryDescription = stationery.description;
+            vm.UOM = stationery.unitOfMeasure;
+            vm.Price = stationery.price;
+
+            // Voucher Record information
+            vm.VoucherNo = detail.voucherID;
+            vm.Requester = userService.FindNameByID(detail.Adjustment_Voucher_Record.handlingStaffID);
+            vm.VoucherTotalAmount = 0.00M;
+            vm.IssueDate = detail.Adjustment_Voucher_Record.issueDate;
+            vm.ApprovalDate = detail.Adjustment_Voucher_Record.approvalDate;
+            if (!String.IsNullOrEmpty(detail.Adjustment_Voucher_Record.authorisingStaffID))
+            {
+                vm.Approver = userService.FindNameByID(detail.Adjustment_Voucher_Record.authorisingStaffID);
+            }
+            vm.Causes = detail.Adjustment_Voucher_Record.remarks;
+            vm.Status = detail.Adjustment_Voucher_Record.status;
+
+
+            // Voucher Detail information
+            vm.Quantity = detail.adjustedQty;
+            vm.Reason = detail.remarks;
+
+            return vm;
+        }
+
+
+
+
 
     }
 }
