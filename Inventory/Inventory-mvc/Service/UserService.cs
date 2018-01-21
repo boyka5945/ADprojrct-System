@@ -12,30 +12,22 @@ namespace Inventory_mvc.Service
     {
         private IUserDAO userDAO = new UserDAO();
 
-        List<User> IUserService.GetAllUserViewModel()
-        {
-            List<User> userList = userDAO.GetAllUser();
-
-            List<User> viewModelList = new List<User>();
-            foreach (User u in userList)
-            {
-                viewModelList.Add(u);
-            }
-
-            return viewModelList;
+        List<string> IUserService.GetStoreRoles()
+        {           
+            return userDAO.GetStoreRoles();
         }
 
         List<User> IUserService.GetUserByDept(User user)
         {
             List<User> userList=userDAO.GetUserByDept(user);
-            List<User> viewModelList = new List<User>();
+            List<User> users = new List<User>();
 
             foreach (User s in userList)
             {
                 if (s.userID != user.userID)
-                    viewModelList.Add(s);
+                    users.Add(s);
             }
-            return viewModelList;
+            return users;
         }
 
         User IUserService.FindByUserID(string userid)
@@ -64,40 +56,40 @@ namespace Inventory_mvc.Service
             }
 
         }
-        private User ConvertFromViewModel(UserViewModel userVM)
-        {
-            User user = new User();
+        //private User ConvertFromViewModel(UserViewModel userVM)
+        //{
+        //    User user = new User();
 
-            user.userID = userVM.UserID;
-            user.password = userVM.Password;
-            user.userEmail = userVM.UserEmail;
-            user.role = userVM.Role;
-            user.name = userVM.Name;
-            user.departmentCode = userVM.DepartmentCode;
-            user.contactNo = userVM.ContactNo;
-            user.address = userVM.Address;
-            user.delegationStart = userVM.DelegationStart;
-            user.delegationEnd = userVM.DelegationEnd;
-            return user;
+        //    user.userID = userVM.UserID;
+        //    user.password = userVM.Password;
+        //    user.userEmail = userVM.UserEmail;
+        //    user.role = userVM.Role;
+        //    user.name = userVM.Name;
+        //    user.departmentCode = userVM.DepartmentCode;
+        //    user.contactNo = userVM.ContactNo;
+        //    user.address = userVM.Address;
+        //    user.delegationStart = userVM.DelegationStart;
+        //    user.delegationEnd = userVM.DelegationEnd;
+        //    return user;
 
-        }
+        //}
 
-        private UserViewModel ConvertToViewModel(User u)
-        {
-            UserViewModel userVM = new UserViewModel();
+        //private UserViewModel ConvertToViewModel(User u)
+        //{
+        //    UserViewModel userVM = new UserViewModel();
 
-            userVM.UserID = u.userID;
-            userVM.UserEmail = u.userEmail;
-            userVM.Password = u.password;
-            userVM.Name = u.name;
-            userVM.Role = u.role;
-            userVM.DepartmentCode = u.departmentCode;
-            userVM.Address = u.address;
-            userVM.ContactNo = u.contactNo;
-            userVM.DelegationStart = (DateTime?)u.delegationStart;
-            userVM.DelegationEnd = (DateTime?)u.delegationEnd;
-            return userVM ;
-        }
+        //    userVM.UserID = u.userID;
+        //    userVM.UserEmail = u.userEmail;
+        //    userVM.Password = u.password;
+        //    userVM.Name = u.name;
+        //    userVM.Role = u.role;
+        //    userVM.DepartmentCode = u.departmentCode;
+        //    userVM.Address = u.address;
+        //    userVM.ContactNo = u.contactNo;
+        //    userVM.DelegationStart = (DateTime?)u.delegationStart;
+        //    userVM.DelegationEnd = (DateTime?)u.delegationEnd;
+        //    return userVM ;
+        //}
 
         
         bool IUserService.isExistingID(string userid)
@@ -163,9 +155,9 @@ namespace Inventory_mvc.Service
             return userDAO.GetRoleByID(userID);
         }
 
-        void IUserService.AutoRemove()
+        void IUserService.AutoRemove(User user)
         {
-            userDAO.AutoRomove();
+            userDAO.AutoRomove(user);
         }
     }
 }

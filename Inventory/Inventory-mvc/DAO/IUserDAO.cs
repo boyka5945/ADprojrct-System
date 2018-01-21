@@ -8,7 +8,7 @@ namespace Inventory_mvc.DAO
 {
     public interface IUserDAO
     {
-        List<User> GetAllUser();
+        List<string> GetStoreRoles();
 
         List<User> GetUserByDept(User user);
 
@@ -40,6 +40,6 @@ namespace Inventory_mvc.DAO
 
         int GetRoleByID(string userID);
 
-        void AutoRomove();
+        void AutoRomove(User user);
     }
 }

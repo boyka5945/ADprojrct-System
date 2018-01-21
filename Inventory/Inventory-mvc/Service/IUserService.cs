@@ -8,7 +8,7 @@ namespace Inventory_mvc.Service
 {
     public interface IUserService
     {
-        List<User> GetAllUserViewModel();
+        List<string> GetStoreRoles();
 
         List<User> GetUserByDept(User user);
 
@@ -41,6 +41,6 @@ namespace Inventory_mvc.Service
 
         bool AlrDelegated(string id);
 
-        void AutoRemove();
+        void AutoRemove(User user);
     }
 }

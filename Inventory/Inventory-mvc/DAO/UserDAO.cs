@@ -8,11 +8,11 @@ namespace Inventory_mvc.DAO
 {
     public class UserDAO : IUserDAO
     {
-        List<User> IUserDAO.GetAllUser()
+        List<string> IUserDAO.GetStoreRoles()
         {
             StationeryModel entity = new StationeryModel();
-            return (from u in entity.Users select u).ToList<User>();
-
+            List<string> roles = (from role in entity.roleInfoes where (role.roleID == 6 && role.roleID == 7) select role.roleName).ToList<string>();
+            return roles;
         }
 
         List<User> IUserDAO.GetUserByDept(User user)
@@ -130,22 +130,35 @@ namespace Inventory_mvc.DAO
         {
             using (StationeryModel entity = new StationeryModel())
             {
-                int i = 0;
+                int UR = 0;
+                int supervisor = 0;
                 User user = (from u in entity.Users where u.userID == userID select u).First();
                 List<User> emplist = (from emps in entity.Users where (emps.userID != userID && emps.departmentCode == user.departmentCode) select emps).ToList<User>();
                 foreach (User u in emplist)
                 {
-                    if (u.role == 4)
+                    if (u.role == 4) // if userrepresentative
                     {
-                        i++;
+                       UR++;
+                    }
+                    else if(u.role==6)
+                    {
+                        supervisor++;
                     }
                 }
-                if (i < 1)
+                if (UR < 1) // no userrepresentative in list
                 {
-                    user.role = 4;
+                    user.role = 4; //assign as ur
                 }
                 else
-                    user.role = 3;
+                    user.role = 3; //assign as employee
+
+                if (supervisor < 1)
+                {
+                    user.role = 6;
+                }
+                else
+                    user.role = 7;
+
                 user.delegationStart = null;
                 user.delegationEnd = null;
 
@@ -241,33 +254,70 @@ namespace Inventory_mvc.DAO
             }
         }
 
-        void IUserDAO.AutoRomove()
+        void IUserDAO.AutoRomove(User user)
         {
 
             using (StationeryModel entity = new StationeryModel())
             {
-                int i = 0;
-                List<User> users = (from u in entity.Users select u).ToList<User>();
-                foreach (User u in users)
+                int UR = 0;
+                int supervisor = 0;
+                User actDeptHead = new User();
+                actDeptHead = null;
+                List<User> users = (from u in entity.Users where u.departmentCode==user.departmentCode select u).ToList<User>();
+
+                foreach(User check in users)
                 {
-                    if (u.role == 4)
+                    if(check.role==8)
                     {
-                        i++;
+                        actDeptHead = (from user1 in entity.Users where (user1.role == 8 && user1.departmentCode == user.departmentCode) select user1).First();
                     }
                 }
-                foreach (User user in users)
+                if(actDeptHead!=null)
                 {
-                    user.delegationStart = null;
-                    user.delegationEnd = null;
-                    if (i < 1)
+                    DateTime endDate = (DateTime)actDeptHead.delegationEnd;
+                    DateTime tdy = DateTime.Today;
+                    if (tdy.CompareTo(endDate) > 0)
                     {
-                        user.role = 4;
-                    }
-                    else
-                        user.role = 3;
+                        foreach (User u in users)
+                        {
+                            switch (u.role)
+                            {
+                                case 4:
+                                    UR++;
+                                    break;
+                                case 6:
+                                    supervisor++;
+                                    break;
+                            }
+                        }
 
+                        if (user.role == 2) // if otherdepts
+                        {
+                            if (UR < 1) // no userrepresentative in list
+                            {
+                                actDeptHead.role = 4; //assign as ur
+                            }
+                            else
+                                actDeptHead.role = 3; //assign as employee
+                        }
+                        else        // if store
+                        {
+                            if (supervisor < 1)
+                            {
+                                actDeptHead.role = 6;
+                            }
+                            else
+                                actDeptHead.role = 7;
+                        }
+
+                        actDeptHead.delegationStart = null;
+                        actDeptHead.delegationEnd = null;
+                    }
+                    
+                    entity.SaveChanges();
                 }
             }
+                
         }
     }
 }

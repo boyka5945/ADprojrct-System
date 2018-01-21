@@ -21,17 +21,9 @@ namespace Inventory_mvc.Controllers
             //{
             //    return RedirectToAction("Login", "Home");
             //}
-            User user = userService.FindByUserID("S1000");
+            User user = userService.FindByUserID("S1015");
             List<User> model = userService.GetUserByDept(user);
-            if(HttpContext.Application["EndDate"]!=null)
-            {
-                DateTime endDate = (DateTime)HttpContext.Application["EndDate"];
-                DateTime tdy = DateTime.Now;
-                if (tdy.CompareTo(endDate) > 1)
-                {
-                    userService.AutoRemove();
-                }
-            }
+            userService.AutoRemove(user);
             
             return View(model);
         }
@@ -62,19 +54,7 @@ namespace Inventory_mvc.Controllers
                 userService.DelegateEmp(Request["userID"].ToString(), start.Date, end.Date);
 
             HttpContext.Application["EndDate"] = end;
-            //}
-            //catch(Exception e)
-            //{
-            //    TempData["DelegateMessage"] = String.Format("Employee is not delegated");
-            //    //return View();
-            //}
-           
-            //if(end.CompareTo(start)<1)
-            //{
-            //    TempData["InvalidDateMessage"] = String.Format("Invalid end date");
-            //    return View();
-            //}
-            
+                     
             return RedirectToAction("UserList");
            
             
@@ -97,12 +77,15 @@ namespace Inventory_mvc.Controllers
         }
 
 
-        public ActionResult Edit(string id)
+        public ActionResult Edit()
         {
-            User userVM = userService.FindByUserID(id);
-            //ViewBag.RoleList = userService.RoleForEditAndCreate(id);
-           
-            return View(userVM);
+            string name = HttpContext.User.Identity.Name;
+            //if(name=="")
+            //{
+            //    return RedirectToAction("Login", "Home");
+            //}
+            User user = userService.FindByUserID("S1015");
+            return View(user);
         }
 
         [HttpPost]
@@ -134,38 +117,38 @@ namespace Inventory_mvc.Controllers
             return View(userVM);
         }
 
-        //public ActionResult Create()
-        //{
-            
-        //    return View();
-        //}
+        public ActionResult Create()
+        {
+            ViewBag.RoleList = userService.GetStoreRoles();
+            return View();
+        }
 
-        //[HttpPost]
-        //public ActionResult Create(UserViewModel userVM)
-        //{
-        //    string id = userVM.UserID;
+        [HttpPost]
+        public ActionResult Create(User user)
+        {
+            string id = user.userID;
 
-        //    if (userService.isExistingID(id))
-        //    {
-        //        string errorMessage = String.Format("{0} alrdady existed.", id);
-        //        ModelState.AddModelError("UserID", errorMessage);
-        //    }
-        //    else if (ModelState.IsValid)
-        //    {
-        //        try
-        //        {
-        //            userService.AddNewUser(userVM);
-        //            TempData["CreateMessage"] = String.Format("User '{0}' is added.", id);
-        //            return RedirectToAction("UserList");
-        //        }
-        //        catch (Exception e)
-        //        {
-        //            TempData["ExceptionMessage"] = e.Message;
-        //        }
-        //    }
+            if (userService.isExistingID(id))
+            {
+                string errorMessage = String.Format("{0} alrdady existed.", id);
+                ModelState.AddModelError("UserID", errorMessage);
+            }
+            else if (ModelState.IsValid)
+            {
+                try
+                {
+                    userService.AddNewUser(user);
+                    TempData["CreateMessage"] = String.Format("User '{0}' is added.", id);
+                    return RedirectToAction("UserList");
+                }
+                catch (Exception e)
+                {
+                    TempData["ExceptionMessage"] = e.Message;
+                }
+            }
 
-        //    return View(userVM);
-        //}
+            return View(user);
+        }
         [HttpGet]
         public ActionResult Assign_Rep(string id)
         {
