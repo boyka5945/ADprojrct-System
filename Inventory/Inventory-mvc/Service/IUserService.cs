@@ -40,5 +40,10 @@ namespace Inventory_mvc.Service
         List<int> RoleForEditAndCreate(string userid);
 
         bool AlrDelegated(string id);
+
+        bool IsStoreManager(string userID);
+
+        bool IsStoreSupervisor(string userID);
+
     }
 }

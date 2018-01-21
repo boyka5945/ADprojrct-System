@@ -38,8 +38,10 @@ namespace Inventory_mvc.Models
         [Column(TypeName = "date")]
         public DateTime? approvalDate { get; set; }
 
+        [Display(Name = "Requester")]
         public virtual User User { get; set; }
 
+        [Display(Name = "Approver")]
         public virtual User User1 { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

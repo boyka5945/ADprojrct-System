@@ -1,29 +1,155 @@
-﻿<script src="~/Scripts/bootstrap-combobox.js"></script>
-<link href="~/Content/bootstrap-combobox.css" rel="stylesheet" />
+﻿@model PagedList.IPagedList<Inventory_mvc.ViewModel.AdjustmentVoucherViewModel>
+
+@using PagedList.Mvc;
+@using System.Globalization;
+@using Inventory_mvc.Utilities;
+
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 
 
 @{
-ViewBag.Title = "Index";
+    ViewBag.Title = "Index";
+
+    var successMessage = TempData["SuccessMessage"];
+    var errorMessage = TempData["ErrorMessage"];
+
+    var model = Model.First();
 }
 
-<h2>Index</h2>
 
-<div>
-    <select class="combobox">
-        <option></option>
-        <option value="PA">Pennsylvania</option>
-        <option value="CT">Connecticut</option>
-        <option value="NY">New York</option>
-        <option value="MD">Maryland</option>
-        <option value="VA">Virginia</option>
-    </select>
-</div>
-
-<br />
+<h2>Adjustment Voucher List</h2>
 <br />
 
-<script type="text/javascript">
-  $(document).ready(function(){
-    $('.combobox').combobox();
-  });
-</script>
+@if (successMessage != null)
+{
+    <div class="alert alert-success">
+        @successMessage.ToString()
+    </div>
+}
+
+
+@if (errorMessage != null)
+{
+    <div class="alert alert-danger">
+        @errorMessage.ToString()
+    </div>
+}
+
+@using (Html.BeginForm("Index", "AdjustmentVoucher", FormMethod.Get, new { @class = "form"}))
+{
+<table class="table pagination">
+    <tr>
+        <td>
+            @Html.Label("Filter By Status", new { @class = "text-right font-weight-bold" })
+        </td>
+        <td>
+            @Html.DropDownList("status", ViewBag.SelectStatus as IEnumerable<SelectListItem>, new { @class = "form-control", onchange = "form.submit();" })
+        </td>
+    </tr>
+</table>
+
+
+if (ViewBag.Status == AdjustmentVoucherStatus.PENDING)
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.ActionLink("Voucher Number", "Index", new { sortOrder = ViewBag.NumberSortParm, status = ViewBag.Status })
+                </th>
+                <th>
+                    @Html.DisplayNameFor(i => model.IssueDate)
+                </th>
+                <th>
+                    @Html.ActionLink("Issued By", "Index", new { sortOrder = ViewBag.RequesterSortParm, status = ViewBag.Status })
+                </th>
+                <th>
+                    @Html.DisplayNameFor(i => model.Causes)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(i => model.VoucherTotalAmount)
+                </th>
+                <th>
+                    @Html.Label("Action")
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => item.VoucherNo)</td>
+                    <td>@Html.DisplayFor(modelItem => item.IssueDate)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Requester)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Causes)</td>
+                    @{
+                        // to show currency format as -$#,###.00
+                        CultureInfo culture = CultureInfo.CreateSpecificCulture("en-US");
+                        culture.NumberFormat.CurrencyNegativePattern = 1;
+                        var amt = string.Format(culture, "{0:C}", item.VoucherTotalAmount);
+
+                        var textColor = (item.VoucherTotalAmount < 0) ? "text-danger" : "";
+                    }
+                    <td><span class="@textColor">@amt</span></td>
+                    <td>
+                        @Html.ActionLink("Approve / Reject", "MakeApproval", "AdjustmentVoucher", new { id = item.VoucherNo }, new { })
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.ActionLink("Voucher Number", "Index", new { sortOrder = ViewBag.NumberSortParm, status = ViewBag.Status })
+                </th>
+                <th>
+                    @Html.DisplayNameFor(i => model.IssueDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(i => model.Requester)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(i => model.Causes)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(i => model.ApprovalDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(i => model.Approver)
+                </th>
+                <th>
+                    @Html.Label("Action")
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => item.VoucherNo)</td>
+                    <td>@Html.DisplayFor(modelItem => item.IssueDate)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Requester)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Causes)</td>
+                    <td>@Html.DisplayFor(modelItem => item.ApprovalDate)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Approver)</td>
+                    <td>
+                        @Html.ActionLink("Details", "ShowDetail", "AdjustmentVoucher", new { id = item.VoucherNo }, new { })
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    }
+}
+
+    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+    @Html.PagedListPager(Model, page => Url.Action("Index",
+                new { page, sortOrder = ViewBag.CurrentSort, status = ViewBag.Status }))
+
+

@@ -5,6 +5,7 @@ using System.Web;
 using Inventory_mvc.Models;
 using Inventory_mvc.DAO;
 using Inventory_mvc.ViewModel;
+using Inventory_mvc.Utilities;
 
 namespace Inventory_mvc.Service
 {
@@ -12,7 +13,7 @@ namespace Inventory_mvc.Service
     {
         private IUserDAO userDAO = new UserDAO();
 
-        List<User> IUserService.GetAllUserViewModel()
+        public List<User> GetAllUserViewModel()
         {
             List<User> userList = userDAO.GetAllUser();
 
@@ -25,7 +26,7 @@ namespace Inventory_mvc.Service
             return viewModelList;
         }
 
-        List<User> IUserService.GetUserByDept(User user)
+        public List<User> GetUserByDept(User user)
         {
             List<User> userList=userDAO.GetUserByDept(user);
             List<User> viewModelList = new List<User>();
@@ -38,17 +39,17 @@ namespace Inventory_mvc.Service
             return viewModelList;
         }
 
-        User IUserService.FindByUserID(string userid)
+        public User FindByUserID(string userid)
         {
             return userDAO.FindByUserID(userid);
         }
 
-        void IUserService.DelegateEmp(string userid, DateTime? from, DateTime? to)
+        public void DelegateEmp(string userid, DateTime? from, DateTime? to)
         {
             userDAO.DelegateEmp(userid, from, to);
         }
 
-        bool IUserService.UpdateUserInfo(User userVM)
+        public bool UpdateUserInfo(User userVM)
         {
            // User user = ConvertFromViewModel(userVM);
 
@@ -99,68 +100,81 @@ namespace Inventory_mvc.Service
             return userVM ;
         }
 
-        
-        bool IUserService.isExistingID(string userid)
+
+        public bool isExistingID(string userid)
         {
             string id = userid.ToUpper().Trim();
 
             return userDAO.GetAllUserID().Contains(id);
         }
 
-        bool IUserService.AddNewUser(User userVM)
+        public bool AddNewUser(User userVM)
         {
             return userDAO.AddNewUser(userVM);
         }
 
-        bool IUserService.AssignRep(string userid)
+        public bool AssignRep(string userid)
         {
             return userDAO.AssignRep(userid);
         }
 
-        bool IUserService.Remove_Delegate(string userid)
+        public bool Remove_Delegate(string userid)
         {
             return userDAO.Remove_Delegate(userid);
         }
 
-        List<int> IUserService.FindAllRole(string id)
+        public List<int> FindAllRole(string id)
         {
             return userDAO.FindAllRole(id);
         }
 
-        bool IUserService.FindRole(int role)
+        public bool FindRole(int role)
         {
             return userDAO.FindRole(role);
         }
 
-        string[] IUserService.FindApprovingStaffsEmailByRequesterID(string requesterID)
+        public string[] FindApprovingStaffsEmailByRequesterID(string requesterID)
         {
             return userDAO.FindApprovingStaffsEmailByRequesterID(requesterID);
         }
 
-        string IUserService.FindDeptCodeByID(string userid)
+        public string FindDeptCodeByID(string userid)
         {
             return userDAO.FindByUserID(userid).departmentCode;
         }
 
-        string IUserService.FindNameByID(string userid)
+        public string FindNameByID(string userid)
         {
             return userDAO.FindByUserID(userid).name;
         }
 
 
-        List<int> IUserService.RoleForEditAndCreate(string userid)
+        public List<int> RoleForEditAndCreate(string userid)
         {
             return userDAO.RoleForEditAndCreate(userid);
         }
 
 
-        bool IUserService.AlrDelegated(string userid)
+        public bool AlrDelegated(string userid)
         {
             return userDAO.AlrDelegated(userid);
         }
-        int IUserService.GetRoleByID(string userID)
+        public int GetRoleByID(string userID)
         {
             return userDAO.GetRoleByID(userID);
         }
+
+        public bool IsStoreManager(string userID)
+        {
+            // StoreManager = 5
+            return (GetRoleByID(userID) == (int) UserRoles.RoleID.StoreManager) ? true : false;
+        }
+
+        public bool IsStoreSupervisor(string userID)
+        {
+            // StoreSupervisor = 6
+            return (GetRoleByID(userID) == (int)UserRoles.RoleID.StoreSupervisor) ? true : false;
+        }
+
     }
 }

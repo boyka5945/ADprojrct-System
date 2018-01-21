@@ -1,5 +1,7 @@
 ﻿@model IEnumerable<Inventory_mvc.ViewModel.SupplierViewModel>
 
+@using Inventory_mvc.Utilities;
+
 @{
     ViewBag.Title = "Supplier List";
 
@@ -32,7 +34,7 @@
 </div>
 
 
-@if (role != "StoreClerk")
+@if (role != UserRoles.STORE_CLERK)
 {
     <p>
         @Html.ActionLink("Create New Supplier", "Create")
@@ -63,7 +65,7 @@
         <th>
             @Html.DisplayNameFor(model => model.GSTNo)
         </th>
-        @if (role != "StoreClerk")
+        @if (role != UserRoles.STORE_CLERK)
         {
             <th></th>
         }
@@ -93,7 +95,7 @@
             <td>
                 @Html.DisplayFor(modelItem => item.GSTNo)
             </td>
-            @if (role != "StoreClerk")
+            @if (role != UserRoles.STORE_CLERK)
             {
                 <td>
                     @Html.ActionLink("Edit", "Edit", new { id = item.SupplierCode }) |

@@ -1,6 +1,7 @@
 ﻿using Inventory_mvc.Models;
 using Inventory_mvc.Service;
 using Inventory_mvc.ViewModel;
+using Inventory_mvc.Utilities;
 using PagedList;
 using System;
 using System.Collections.Generic;
@@ -27,7 +28,7 @@ namespace Inventory_mvc.Controllers
 
             // Store clerk roleID == 7
             int roleID = userService.GetRoleByID(userID);
-            ViewBag.Role = (roleID.ToString() == "7") ? "StoreClerk" : "";
+            ViewBag.Role = (roleID == (int) UserRoles.RoleID.StoreClerk) ? UserRoles.STORE_CLERK : "";
 
 
             List<StationeryViewModel> stationeries = stationeryService.GetStationeriesVMBasedOnCriteria(searchString, categoryID);
@@ -287,7 +288,7 @@ namespace Inventory_mvc.Controllers
 
             // Store clerk roleID == 7
             int roleID = userService.GetRoleByID(userID);
-            ViewBag.Role = (roleID.ToString() == "7") ? "StoreClerk" : "";
+            ViewBag.Role = (roleID == (int)UserRoles.RoleID.StoreClerk) ? UserRoles.STORE_CLERK : "";
 
 
             ViewBag.SelectYear = new SelectList(transactionService.GetSelectableTransactionYear(DateTime.Today.Year));
@@ -310,29 +311,11 @@ namespace Inventory_mvc.Controllers
         //    return View();
         //}
 
-
+        
         [HttpPost]
         public ActionResult ViewTransaction(string id, int selectedYear, int selectedMonth)
         {
-            List<Transaction_Detail> records = transactionService.GetTransaciontDetailsByCriteria(selectedYear, selectedMonth, id);
-
-            List<ItemTransactionRecordViewModel> vmList = new List<ItemTransactionRecordViewModel>();
-
-            foreach (var r in records)
-            {
-                ItemTransactionRecordViewModel vm = new ItemTransactionRecordViewModel();
-
-                vm.TransactionNo = r.transactionNo;
-                vm.TransactionDate = (DateTime)r.Transaction_Record.date;
-                vm.ItemCode = r.itemCode;
-                vm.Quantity = r.adjustedQty;
-                vm.BalanceQty = r.balanceQty;
-                vm.TransactionType = r.Transaction_Record.type;
-                vm.Remarks = r.remarks;
-
-                vmList.Add(vm);                              
-            }
-
+            List<ItemTransactionRecordViewModel> vmList = transactionService.GetTransaciontDetailsViewModelByCriteria(selectedYear, selectedMonth, id);
             return PartialView("_ViewTransaction", vmList);
         }
 
