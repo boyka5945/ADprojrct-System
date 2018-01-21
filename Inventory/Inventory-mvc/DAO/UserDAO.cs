@@ -11,7 +11,7 @@ namespace Inventory_mvc.DAO
         List<string> IUserDAO.GetStoreRoles()
         {
             StationeryModel entity = new StationeryModel();
-            List<string> roles = (from role in entity.roleInfoes where (role.roleID == 6 && role.roleID == 7) select role.roleName).ToList<string>();
+            List<string> roles = (from role in entity.roleInfoes where (role.roleID != 1 && role.roleID != 2 && role.roleID != 3 && role.roleID != 4 && role.roleID != 5 && role.roleID != 8) select role.roleName).ToList<string>();
             return roles;
         }
 

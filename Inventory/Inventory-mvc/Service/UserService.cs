@@ -13,8 +13,9 @@ namespace Inventory_mvc.Service
         private IUserDAO userDAO = new UserDAO();
 
         List<string> IUserService.GetStoreRoles()
-        {           
-            return userDAO.GetStoreRoles();
+        {
+            List<string> roleList = userDAO.GetStoreRoles();        
+            return roleList;
         }
 
         List<User> IUserService.GetUserByDept(User user)

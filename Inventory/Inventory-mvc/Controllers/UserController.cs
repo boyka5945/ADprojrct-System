@@ -27,6 +27,21 @@ namespace Inventory_mvc.Controllers
             
             return View(model);
         }
+
+        public ActionResult SMUserList()
+        {
+            string name = HttpContext.User.Identity.Name;
+            //if(name=="")
+            //{
+            //    return RedirectToAction("Login", "Home");
+            //}
+            User user = userService.FindByUserID("S1015");
+            List<User> model = userService.GetUserByDept(user);
+            userService.AutoRemove(user);
+
+            return View(model);
+        }
+
         [HttpGet]
         public ActionResult Delegate(string id)
         {
@@ -45,16 +60,18 @@ namespace Inventory_mvc.Controllers
         }
         [HttpPost]
         public ActionResult Delegate(string userID,string from, string toto )
-        {
-            
-            //try
-            //{
-                DateTime start = DateTime.ParseExact(from, "dd-MM-yyyy", CultureInfo.InvariantCulture);
-                DateTime end = DateTime.ParseExact(toto, "dd-MM-yyyy", CultureInfo.InvariantCulture);
-                userService.DelegateEmp(Request["userID"].ToString(), start.Date, end.Date);
+        {           
+            DateTime start = DateTime.ParseExact(from, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+            DateTime end = DateTime.ParseExact(toto, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+            userService.DelegateEmp(Request["userID"].ToString(), start.Date, end.Date);
 
             HttpContext.Application["EndDate"] = end;
-                     
+
+            User user = userService.FindByUserID(userID);
+            if (user.departmentCode=="STORE")
+            {
+                return RedirectToAction("SMUserList");
+            }      
             return RedirectToAction("UserList");
            
             
@@ -71,7 +88,12 @@ namespace Inventory_mvc.Controllers
             {
                 TempData["RmvDelMessage"] = String.Format("Employee is not delegated");
             }
-           
+
+            User user = userService.FindByUserID(id);
+            if (user.departmentCode == "STORE")
+            {
+                return RedirectToAction("SMUserList");
+            }
             return RedirectToAction("UserList");
 
         }
