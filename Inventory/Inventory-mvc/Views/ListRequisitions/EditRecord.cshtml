@@ -11,7 +11,7 @@
 
 
 <div class="form-group row">
-    <label class="col-sm-2 col-form-label font-weight-bold">Requisition Form No.:</label>
+    <label class="col-sm-2 col-form-label font-weight-bold">@Html.DisplayNameFor(model => model.RequisitionNo):</label>
     <div class="col-sm-10">
         <label class="col-sm-2 col-form-label">@ViewBag.RequisitionFormNo</label>
     </div>
@@ -38,9 +38,9 @@
     <table class="table">
         <thead>
             <tr>
-                <th>@Html.Label("Description")</th>
-                <th>@Html.Label("UOM")</th>
-                <th>@Html.Label("Request Quantity")</th>
+                <th>@Html.DisplayNameFor(model => model.Description)</th>
+                <th>@Html.DisplayNameFor(model => model.UOM)</th>
+                <th>@Html.DisplayNameFor(model => model.RequestQty)</th>
                 <th></th>
             </tr>
         </thead>
@@ -72,7 +72,9 @@
     </table>
     <br />
     <input type="submit" value="Confirm Changes" class="btn btn-success" />
-    @Html.ActionLink("Cancel", "ShowDetail", new { id = ViewBag.RequisitionFormNo }, new { @class = "btn btn-secondary" })
+    <a href="@Url.Action("ShowDetail", new { id = ViewBag.RequisitionFormNo })">
+       <input type="button" value="Cancel" class="btn btn-secondary" />
+    </a>
         <br />
 }
 

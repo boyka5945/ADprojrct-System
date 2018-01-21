@@ -47,14 +47,12 @@ namespace Inventory_mvc.Controllers
             if (String.IsNullOrEmpty(sortOrder))
             {
                 sortOrder = "number_desc"; // make default sorting by voucher number desc
-                ViewBag.NumberSortParm = sortOrder;
             }
 
             ViewBag.CurrentSort = sortOrder;
             ViewBag.NumberSortParm = (sortOrder == "Voucher Number") ? "number_desc" : "Voucher Number";
             ViewBag.RequesterSortParm = (sortOrder == "Issued By") ? "issued_by_desc" : "Issued By";
 
-            // TODO : get records
             List<AdjustmentVoucherViewModel> vouchers = adjustmentVoucherService.GetVoucherRecordsByCriteria(approverID, status, sortOrder);
 
             int pageSize = 7;

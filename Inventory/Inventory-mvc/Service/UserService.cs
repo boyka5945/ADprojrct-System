@@ -5,6 +5,7 @@ using System.Web;
 using Inventory_mvc.Models;
 using Inventory_mvc.DAO;
 using Inventory_mvc.ViewModel;
+using Inventory_mvc.Utilities;
 
 namespace Inventory_mvc.Service
 {
@@ -166,13 +167,13 @@ namespace Inventory_mvc.Service
         public bool IsStoreManager(string userID)
         {
             // StoreManager = 5
-            return (GetRoleByID(userID) == 5) ? true : false;
+            return (GetRoleByID(userID) == (int) UserRoles.RoleID.StoreManager) ? true : false;
         }
 
         public bool IsStoreSupervisor(string userID)
         {
             // StoreSupervisor = 6
-            return (GetRoleByID(userID) == 6) ? true : false;
+            return (GetRoleByID(userID) == (int)UserRoles.RoleID.StoreSupervisor) ? true : false;
         }
 
     }

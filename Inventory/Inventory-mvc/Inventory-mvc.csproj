@@ -266,7 +266,7 @@
     <Compile Include="Utilities\AdjustmentVoucherRemarks.cs" />
     <Compile Include="Utilities\AdjustmentVoucherStatus.cs" />
     <Compile Include="Utilities\RequisitionStatus.cs" />
-    <Compile Include="Utilities\TransactionTypecs.cs" />
+    <Compile Include="Utilities\TransactionTypes.cs" />
     <Compile Include="Utilities\UserRoles.cs" />
     <Compile Include="ViewModel\AdjustmentVoucherViewModel.cs" />
     <Compile Include="ViewModel\BrowseStationeryCatalogueViewModel.cs" />
@@ -406,7 +406,6 @@
     <Content Include="Views\CollectionPoint\Create.cshtml" />
     <Content Include="Views\CollectionPoint\Edit.cshtml" />
     <Content Include="Views\CollectionPoint\Index.cshtml" />
-    <Content Include="Views\RaiseRequisition\RequestPartial.cshtml" />
     <Content Include="Views\Stationery\Delete.cshtml" />
     <Content Include="Views\Stationery\Edit.cshtml" />
     <Content Include="Views\Stationery\ViewStockCard.cshtml" />

@@ -1,6 +1,7 @@
 ﻿using Inventory_mvc.Models;
 using Inventory_mvc.Service;
 using Inventory_mvc.ViewModel;
+using Inventory_mvc.Utilities;
 using PagedList;
 using System;
 using System.Collections.Generic;
@@ -27,7 +28,7 @@ namespace Inventory_mvc.Controllers
 
             // Store clerk roleID == 7
             int roleID = userService.GetRoleByID(userID);
-            ViewBag.Role = (roleID.ToString() == "7") ? "StoreClerk" : "";
+            ViewBag.Role = (roleID == (int) UserRoles.RoleID.StoreClerk) ? UserRoles.STORE_CLERK : "";
 
 
             List<StationeryViewModel> stationeries = stationeryService.GetStationeriesVMBasedOnCriteria(searchString, categoryID);
@@ -287,7 +288,7 @@ namespace Inventory_mvc.Controllers
 
             // Store clerk roleID == 7
             int roleID = userService.GetRoleByID(userID);
-            ViewBag.Role = (roleID.ToString() == "7") ? "StoreClerk" : "";
+            ViewBag.Role = (roleID == (int)UserRoles.RoleID.StoreClerk) ? UserRoles.STORE_CLERK : "";
 
 
             ViewBag.SelectYear = new SelectList(transactionService.GetSelectableTransactionYear(DateTime.Today.Year));
