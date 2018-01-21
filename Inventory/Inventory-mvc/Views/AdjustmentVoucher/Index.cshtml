@@ -2,6 +2,7 @@
 
 @using PagedList.Mvc;
 @using System.Globalization;
+@using Inventory_mvc.Utilities;
 
 <link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 
@@ -46,7 +47,7 @@
 </table>
 
 
-if (ViewBag.Status == "Pending")
+if (ViewBag.Status == AdjustmentVoucherStatus.PENDING)
 {
     <table class="table">
         <thead>

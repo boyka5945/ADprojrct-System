@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.Mvc;
 using Inventory_mvc.Models;
 using Inventory_mvc.ViewModel;
+using Inventory_mvc.Utilities;
 using PagedList;
 
 
@@ -66,7 +67,7 @@ namespace Inventory_mvc.Controllers
             }
 
 
-            if (record.status != "Pending Approval")
+            if (record.status != RequisitionStatus.PENDING_APPROVAL)
             {
                 TempData["ErrorMessage"] = String.Format("Cannot remove requisition no. {0}", record.requisitionNo);
             }
@@ -108,7 +109,7 @@ namespace Inventory_mvc.Controllers
                 return RedirectToAction("Index");
             }
 
-            if (record.status != "Pending Approval")
+            if (record.status != RequisitionStatus.PENDING_APPROVAL)
             {
                 TempData["ErrorMessage"] = String.Format("Requisition has been approved and cannot be edited.");
                 return RedirectToAction("Index");
@@ -117,7 +118,7 @@ namespace Inventory_mvc.Controllers
 
             List<RequisitionDetailViewModel> vmList = requisitionService.GetViewModelFromRequisitionRecord(record);
 
-            string approvalStatus = (record.status == "Pending Approval") ? "Pending Approval" : "Approved";
+            string approvalStatus = (record.status == RequisitionStatus.PENDING_APPROVAL) ? RequisitionStatus.PENDING_APPROVAL : "Approved";
 
             ViewBag.RequisitionFormNo = record.requisitionNo;
             ViewBag.ApprovalStatus = approvalStatus;
@@ -201,7 +202,7 @@ namespace Inventory_mvc.Controllers
 
             List<RequisitionDetailViewModel> vmList = requisitionService.GetViewModelFromRequisitionRecord(record);
 
-            string approvalStatus = (record.status == "Pending Approval") ? "Pending Approval" : "Approved";
+            string approvalStatus = (record.status == RequisitionStatus.PENDING_APPROVAL) ? RequisitionStatus.PENDING_APPROVAL : "Approved";
 
             ViewBag.RequisitionFormNo = record.requisitionNo;
             ViewBag.ApprovalStatus = approvalStatus;

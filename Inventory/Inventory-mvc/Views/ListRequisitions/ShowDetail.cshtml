@@ -1,5 +1,6 @@
 ﻿@model IEnumerable<Inventory_mvc.ViewModel.RequisitionDetailViewModel>
 
+@using Inventory_mvc.Utilities;
 
 @{
     ViewBag.Title = "ShowDetail";
@@ -57,7 +58,7 @@
 </table>
 
 <br />
-@if (ViewBag.ApprovalStatus == "Pending Approval")
+@if (ViewBag.ApprovalStatus == RequisitionStatus.PENDING_APPROVAL)
 {
     @Html.ActionLink("Edit", "EditRecord", "ListRequisitions", new { id = ViewBag.RequisitionFormNo }, new { })
     @:| @Html.ActionLink("Remove", "RemoveRecord", "ListRequisitions", new { id = ViewBag.RequisitionFormNo }, new { }) |

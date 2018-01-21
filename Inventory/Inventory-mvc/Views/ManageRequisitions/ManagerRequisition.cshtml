@@ -1,6 +1,7 @@
 ﻿@*@model IEnumerable<Inventory_mvc.Models.Requisition_Record>*@
 @model PagedList.IPagedList<Inventory_mvc.Models.Requisition_Record>
 @using PagedList.Mvc;
+@using Inventory_mvc.Utilities;
 <link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 
 
@@ -61,11 +62,11 @@
         <td>
             @{
 
-                if (item.status == "Approved and Processing" || item.status == "Rejected")
+                if (item.status == RequisitionStatus.APPROVED_PROCESSING || item.status == RequisitionStatus.REJECTED)
                 {
                     @Html.ActionLink("Details", "RequisitionDetails", new { id = item.requisitionNo });
                 }
-                else if (item.status == "Pending")
+                else if (item.status == RequisitionStatus.PENDING_APPROVAL)
                 {
                     @Html.ActionLink("Approve", "ApproveRequisition", new { id = item.requisitionNo });
                     <br />

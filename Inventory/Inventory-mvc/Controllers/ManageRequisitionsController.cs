@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using Inventory_mvc.Service;
 using Inventory_mvc.Models;
 using Inventory_mvc.ViewModel;
+using Inventory_mvc.Utilities;
 using PagedList;
 
 namespace Inventory_mvc.Controllers
@@ -39,7 +40,7 @@ namespace Inventory_mvc.Controllers
             List<Requisition_Record> model1 = new List<Requisition_Record>();
             foreach (var m in list)
             {
-                if (m.status == "Approved and Processing" || m.status == "Rejected" || m.status == "Pending")
+                if (m.status == RequisitionStatus.APPROVED_PROCESSING || m.status == RequisitionStatus.REJECTED || m.status == RequisitionStatus.PENDING_APPROVAL)
                 {
                     model1.Add(m);
                 }
@@ -192,7 +193,7 @@ namespace Inventory_mvc.Controllers
           
             Requisition_Record model = new Requisition_Record();
             model = rs.GetRequisitionByID(id);
-            rs.UpdateRequisition(model, "Approved and Processing");
+            rs.UpdateRequisition(model, RequisitionStatus.APPROVED_PROCESSING);
             return RedirectToAction("ManagerRequisition");
         }
 
@@ -210,7 +211,7 @@ namespace Inventory_mvc.Controllers
         {
             Requisition_Record model = new Requisition_Record();
             model = rs.GetRequisitionByID(id);
-            rs.UpdateRequisition(model, "Rejected");
+            rs.UpdateRequisition(model, RequisitionStatus.REJECTED);
             return RedirectToAction("ManagerRequisition");
         }
 

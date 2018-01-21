@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using Inventory_mvc.Models;
 using Inventory_mvc.ViewModel;
+using Inventory_mvc.Utilities;
 using System.Data.Entity;
 
 
@@ -254,7 +255,7 @@ namespace Inventory_mvc.DAO
             {
                 foreach (var b in rr)
                 {
-                    if ((b.Requisition_Detail.Where(x => x.itemCode == ItemCodes[i]).Count()) > 0 && (b.status == "Approved and Processing" || b.status == "Partially fulfilled"))
+                    if ((b.Requisition_Detail.Where(x => x.itemCode == ItemCodes[i]).Count()) > 0 && (b.status == RequisitionStatus.APPROVED_PROCESSING || b.status == RequisitionStatus.PARTIALLY_FULFILLED))
                     {
                         Qty[i] = Qty[i] + b.Requisition_Detail.Where(x => x.itemCode == ItemCodes[i]).First().allocatedQty;
                     }

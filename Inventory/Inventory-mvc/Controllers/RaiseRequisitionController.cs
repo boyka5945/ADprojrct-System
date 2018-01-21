@@ -8,6 +8,7 @@ using Inventory_mvc.ViewModel;
 using Inventory_mvc.Service;
 using PagedList;
 using Inventory_mvc.Function;
+using Inventory_mvc.Utilities;
 
 namespace Inventory_mvc.Controllers
 {
@@ -141,7 +142,7 @@ namespace Inventory_mvc.Controllers
 
             string requesterName = userService.FindNameByID(requesterID);
             string deptCode = userService.FindDeptCodeByID(requesterID);
-            string status = "Pending Approval";
+            string status = RequisitionStatus.PENDING_APPROVAL;
             DateTime requestDate = DateTime.Today;
 
             Requisition_Record requisition = new Requisition_Record();

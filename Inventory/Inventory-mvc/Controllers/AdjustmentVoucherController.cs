@@ -28,13 +28,13 @@ namespace Inventory_mvc.Controllers
 
 
             // Set Filter criteria
-            status = (String.IsNullOrEmpty(status)) ? "Pending" : status;
+            status = (String.IsNullOrEmpty(status)) ? AdjustmentVoucherStatus.PENDING : status;
             ViewBag.Status = status;
 
             List<SelectListItem> statusSelectList = new List<SelectListItem>();
-            statusSelectList.Add(new SelectListItem { Text = "Pending", Value = "Pending" });
-            statusSelectList.Add(new SelectListItem { Text = "Approved", Value = "Approved" });
-            statusSelectList.Add(new SelectListItem { Text = "Rejected", Value = "Rejected" });
+            statusSelectList.Add(new SelectListItem { Text = AdjustmentVoucherStatus.PENDING, Value = AdjustmentVoucherStatus.PENDING });
+            statusSelectList.Add(new SelectListItem { Text = AdjustmentVoucherStatus.APPROVED, Value = AdjustmentVoucherStatus.APPROVED });
+            statusSelectList.Add(new SelectListItem { Text = AdjustmentVoucherStatus.REJECTED, Value = AdjustmentVoucherStatus.REJECTED });
             foreach (var s in statusSelectList)
             {
                 if (s.Value == ViewBag.Status)

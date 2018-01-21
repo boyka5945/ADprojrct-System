@@ -1,6 +1,8 @@
 ﻿@model PagedList.IPagedList<Inventory_mvc.Models.Requisition_Record>
 
 @using PagedList.Mvc;
+@using Inventory_mvc.Utilities;
+
 <link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 
 
@@ -58,7 +60,7 @@
                 <td>@Html.DisplayFor(modelItem => item.status)</td>
                 <td>
                     @Html.ActionLink("Details", "ShowDetail", "ListRequisitions", new { id = item.requisitionNo }, new { }) 
-                    @if (item.status == "Pending Approval")
+                    @if (item.status == RequisitionStatus.PENDING_APPROVAL)
                     {
                         @:| @Html.ActionLink("Edit", "EditRecord", "ListRequisitions", new { id = item.requisitionNo }, new { })
                         @:| @Html.ActionLink("Remove", "RemoveRecord", "ListRequisitions", new { id = item.requisitionNo }, new { })
