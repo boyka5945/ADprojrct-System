@@ -7,7 +7,7 @@ using System.Data.Entity;
 
 namespace Inventory_mvc.DAO
 {
-    public class AdjustmentVoucherDAO : IAdjustmentVoucherDAO
+    public class AdjustmentVoucherDAO
     {
         public bool AddNewAdjustmentVoucher(Adjustment_Voucher_Record voucher)
         {
