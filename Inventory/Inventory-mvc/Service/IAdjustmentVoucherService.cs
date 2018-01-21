@@ -32,6 +32,24 @@ namespace Inventory_mvc.Service
 
         decimal GetVoucherRecordTotalAmount(Adjustment_Voucher_Record record);
 
+        bool ValidateAdjustmentVoucherBeforeApprove(int voucherNo, out string errorMessage);
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="voucherNo"></param>
+        /// <param name="approverID"></param>
+        /// <param name="remark"> Email content </param>
+        /// <returns></returns>
+        bool RejectVoucherRecord(int voucherNo, string approverID, string remark);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="voucherNo"></param>
+        /// <param name="approverID"></param>
+        /// <param name="remark"> Email content </param>
+        /// <returns></returns>
+        bool ApproveVoucherRecord(int voucherNo, string approverID, string remark);
     }
 }

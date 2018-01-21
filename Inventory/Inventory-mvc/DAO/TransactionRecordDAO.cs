@@ -12,7 +12,19 @@ namespace Inventory_mvc.DAO
         // TODO : IMPLEMENT NESSESSARY METHOD
         public bool AddNewTransaction(Transaction_Record transaction_record)
         {
-            throw new NotImplementedException();
+            using (StationeryModel context = new StationeryModel())
+            {
+                try
+                {
+                    context.Transaction_Records.Add(transaction_record);
+                    context.SaveChanges();
+                    return true;
+                }
+                catch(Exception e)
+                {
+                    return false;
+                }
+            }
         }
 
         public bool DeleteTransaction(int TransactionNO)

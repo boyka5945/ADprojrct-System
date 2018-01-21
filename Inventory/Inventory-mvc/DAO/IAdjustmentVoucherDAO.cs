@@ -10,15 +10,12 @@ namespace Inventory_mvc.DAO
 {
     interface IAdjustmentVoucherDAO
     {
-        List<Adjustment_Voucher_Record> GetAllAdjustmentVoucher();
 
         Adjustment_Voucher_Record FindByVoucherID(int voucherID);
 
         bool AddNewAdjustmentVoucher(Adjustment_Voucher_Record voucher);
 
         int UpdateAdjustmentVoucherInfo(Adjustment_Voucher_Record voucher);
-
-        bool DeleteAdjustmentVoucher(int voucherID);
 
         List<Adjustment_Voucher_Record> GetVouchersByCriteria(string status, string sortOrder);
     }

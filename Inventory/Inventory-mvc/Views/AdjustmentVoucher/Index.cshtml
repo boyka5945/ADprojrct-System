@@ -12,6 +12,8 @@
 
     var successMessage = TempData["SuccessMessage"];
     var errorMessage = TempData["ErrorMessage"];
+
+    var model = Model.First();
 }
 
 
@@ -56,16 +58,16 @@ if (ViewBag.Status == AdjustmentVoucherStatus.PENDING)
                     @Html.ActionLink("Voucher Number", "Index", new { sortOrder = ViewBag.NumberSortParm, status = ViewBag.Status })
                 </th>
                 <th>
-                    @Html.Label("Issue Date")
+                    @Html.DisplayNameFor(i => model.IssueDate)
                 </th>
                 <th>
                     @Html.ActionLink("Issued By", "Index", new { sortOrder = ViewBag.RequesterSortParm, status = ViewBag.Status })
                 </th>
                 <th>
-                    @Html.Label("Causes")
+                    @Html.DisplayNameFor(i => model.Causes)
                 </th>
                 <th>
-                    @Html.Label("Discrepancy Amount")
+                    @Html.DisplayNameFor(i => model.VoucherTotalAmount)
                 </th>
                 <th>
                     @Html.Label("Action")
@@ -106,19 +108,19 @@ else
                     @Html.ActionLink("Voucher Number", "Index", new { sortOrder = ViewBag.NumberSortParm, status = ViewBag.Status })
                 </th>
                 <th>
-                    @Html.Label("Issue Date")
+                    @Html.DisplayNameFor(i => model.IssueDate)
                 </th>
                 <th>
-                    @Html.Label("Issued By")
+                    @Html.DisplayNameFor(i => model.Requester)
                 </th>
                 <th>
-                    @Html.Label("Causes")
+                    @Html.DisplayNameFor(i => model.Causes)
                 </th>
                 <th>
-                    @Html.Label("Process Date")
+                    @Html.DisplayNameFor(i => model.ApprovalDate)
                 </th>
                 <th>
-                    @Html.Label("Processed By")
+                    @Html.DisplayNameFor(i => model.Approver)
                 </th>
                 <th>
                     @Html.Label("Action")

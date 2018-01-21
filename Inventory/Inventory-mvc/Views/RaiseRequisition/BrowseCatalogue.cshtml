@@ -13,7 +13,7 @@
 }
 
 
-<h3>Stationery Catalogue</h3>
+<h2>Stationery Catalogue</h2>
 
 
 
@@ -78,10 +78,10 @@
             @Html.Label("Category")
         </th>
         <th>
-            @Html.Label("Description")
+            @Html.DisplayNameFor(model => model.FirstOrDefault().description)
         </th>
         <th>
-            @Html.Label("UOM")
+            @Html.DisplayNameFor(model => model.FirstOrDefault().unitOfMeasure)
         </th>
         <th>
             @Html.Label("Add Request")

@@ -1,5 +1,8 @@
 ﻿@model Inventory_mvc.ViewModel.StationeryViewModel
 
+@using Inventory_mvc.Utilities;
+
+
 @{
     ViewBag.Title = "View";
 
@@ -103,7 +106,7 @@
     </dl>
 </div>
 <p>
-    @if (role != "StoreClerk")
+    @if (role != UserRoles.STORE_CLERK)
     {
         @Html.ActionLink("Edit", "Edit", new { id = Model.ItemCode })
         @:|

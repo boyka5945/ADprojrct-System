@@ -72,5 +72,16 @@ namespace Inventory_mvc.Service
             return vmList;
         }
 
+        public bool AddNewTransactionRecord(Transaction_Record record)
+        {
+            if(transactionRecordDAO.AddNewTransaction(record))
+            {
+                return true;
+            }
+            else
+            {
+                throw new Exception("Error writing new transaction record into database");
+            }
+        }
     }
 }

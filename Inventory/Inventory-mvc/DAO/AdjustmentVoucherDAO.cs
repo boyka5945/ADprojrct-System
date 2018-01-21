@@ -9,7 +9,6 @@ namespace Inventory_mvc.DAO
 {
     public class AdjustmentVoucherDAO : IAdjustmentVoucherDAO
     {
-        // TODO : REMOVE UNNESESSARY METHODS
         public bool AddNewAdjustmentVoucher(Adjustment_Voucher_Record voucher)
         {
             using (StationeryModel context = new StationeryModel())
@@ -27,10 +26,6 @@ namespace Inventory_mvc.DAO
             }
         }
 
-        public bool DeleteAdjustmentVoucher(int voucherID)
-        {
-            throw new NotImplementedException();
-        }
 
         public Adjustment_Voucher_Record FindByVoucherID(int voucherID)
         {
@@ -42,14 +37,31 @@ namespace Inventory_mvc.DAO
             }
         }
 
-        public List<Adjustment_Voucher_Record> GetAllAdjustmentVoucher()
-        {
-            throw new NotImplementedException();
-        }
 
         public int UpdateAdjustmentVoucherInfo(Adjustment_Voucher_Record voucher)
         {
-            throw new NotImplementedException();
+            using (StationeryModel context = new StationeryModel())
+            {
+                try
+                {
+                    Adjustment_Voucher_Record record = (from r in context.Adjustment_Voucher_Records
+                                                        where r.voucherID == voucher.voucherID
+                                                        select r).First();
+
+                    record.approvalDate = voucher.approvalDate;
+                    record.authorisingStaffID = voucher.authorisingStaffID;
+                    record.handlingStaffID = voucher.handlingStaffID;
+                    record.issueDate = voucher.issueDate;
+                    record.remarks = voucher.remarks;
+                    record.status = voucher.status;
+
+                    return context.SaveChanges();
+                }
+                catch(Exception e)
+                {
+                    return -1;
+                }
+            }
         }
 
         public List<Adjustment_Voucher_Record> GetVouchersByCriteria(string status, string sortOrder)

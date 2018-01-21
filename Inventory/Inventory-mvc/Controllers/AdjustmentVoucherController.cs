@@ -47,14 +47,12 @@ namespace Inventory_mvc.Controllers
             if (String.IsNullOrEmpty(sortOrder))
             {
                 sortOrder = "number_desc"; // make default sorting by voucher number desc
-                ViewBag.NumberSortParm = sortOrder;
             }
 
             ViewBag.CurrentSort = sortOrder;
             ViewBag.NumberSortParm = (sortOrder == "Voucher Number") ? "number_desc" : "Voucher Number";
             ViewBag.RequesterSortParm = (sortOrder == "Issued By") ? "issued_by_desc" : "Issued By";
 
-            // TODO : get records
             List<AdjustmentVoucherViewModel> vouchers = adjustmentVoucherService.GetVoucherRecordsByCriteria(approverID, status, sortOrder);
 
             int pageSize = 7;
@@ -157,8 +155,7 @@ namespace Inventory_mvc.Controllers
         {
             // TODO: REMOVE HARD CODED REQUESTER ID
             //string requesterID = HttpContext.User.Identity.Name;
-
-            string requesterID = "S1013";
+            string requesterID = "S1017"; // clerk
             string errorMessage;
 
             if (adjustmentVoucherService.ValidateNewAdjustmentVoucher(vmList, out errorMessage))
@@ -172,7 +169,7 @@ namespace Inventory_mvc.Controllers
                 }
                 else
                 {
-                    TempData["ErrorMessage"] = String.Format("Error writing to database");
+                    TempData["ErrorMessage"] = String.Format("Error writing new adjustment voucher into database");
                 }
             }
             else
@@ -276,11 +273,56 @@ namespace Inventory_mvc.Controllers
         [HttpPost]
         public ActionResult MakeApproval(int id, string submitButton, string remark)
         {
-            // TODO : UPDATE DATABASE
-            int voucherNo = id;
-            string statusMessage = (submitButton == "Approve") ? "approved" : "rejected";
+            string errorMessage = null;
 
-            TempData["SuccessMessage"] = String.Format("Voucher number {0} was {1}.", voucherNo, statusMessage);
+            // TODO: REMOVE HARD CODED APPROVER ID
+            //string approverID = HttpContext.User.Identity.Name;
+            string approverID = "S1016"; // supervisor
+            //string approverID = "S1015"; // store manager
+
+            switch (submitButton)
+            {
+                case "Approve":
+                    if(adjustmentVoucherService.ValidateAdjustmentVoucherBeforeApprove(id, out errorMessage))
+                    {
+                        try
+                        {
+                            // valid voucher
+                            if (!adjustmentVoucherService.ApproveVoucherRecord(id, approverID, remark))
+                            {
+                                errorMessage = String.Format("Error occur while updating voucher detail. Please try again later.");
+                            }
+                        }
+                        catch (Exception e) // catch exception from ApproveVoucherRecord method
+                        {
+                            errorMessage = e.Message;
+                        }
+                    }
+                    break;
+
+                case "Reject":
+                    if (!adjustmentVoucherService.RejectVoucherRecord(id, approverID, remark))
+                    {
+                        errorMessage = String.Format("Error occur while updating voucher detail. Please try again later");
+                    }
+                    break;
+
+                default:
+                    errorMessage = String.Format("Opps...some error occured. Please try again later.");
+                    break;
+            }
+
+            if(!String.IsNullOrEmpty(errorMessage))
+            {
+                TempData["ErrorMessage"] = errorMessage;
+                return RedirectToAction("MakeApproval", id);
+            }
+            else
+            {
+                string statusMessage = (submitButton == "Approve") ? "approved" : "rejected";
+                TempData["SuccessMessage"] = String.Format("Voucher number {0} was {1}.", id, statusMessage);
+            }
+
             return RedirectToAction("Index");
         }
 

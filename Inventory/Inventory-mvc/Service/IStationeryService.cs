@@ -20,6 +20,8 @@ namespace Inventory_mvc.Service
 
         Stationery FindStationeryByItemCode(string itemCode);
 
+        bool UpdateStationeryQuantity(string itemCode, int adjustedQuantity);
+
 
         // HELPER METHOD
         bool isExistingCode(string itemCode);
@@ -30,15 +32,7 @@ namespace Inventory_mvc.Service
 
         bool isPositivePrice(decimal price);
 
-        List<Category> GetAllCategory();
-        List<Stationery> GetStationeriesBasedOnCriteria(string searchString, string categoryID);
-        List<Stationery> GetStationeriesBasedOnCriteria(string itemCodeOrDescription);
-
-        // FOR VIEW MODEL
-        List<StationeryViewModel> GetAllStationeryViewModel();
-
-        StationeryViewModel FindStationeryViewModelByItemCode(string itemCode);
-        List<StationeryViewModel> GetStationeriesVMBasedOnCriteria(string searchString, string categoryID);
+        bool isExistingSupplierCode(string supplier1, string supplier2);
 
         List<string> GetAllUOMList();
 
@@ -50,7 +44,22 @@ namespace Inventory_mvc.Service
 
         List<int> GetAllCategoryIDList();
 
-        bool isExistingSupplierCode(string supplier1, string supplier2);
+        List<Category> GetAllCategory();
+
+        List<Stationery> GetStationeriesBasedOnCriteria(string searchString, string categoryID);
+
+        List<Stationery> GetStationeriesBasedOnCriteria(string itemCodeOrDescription);
+
+        // FOR VIEW MODEL
+        List<StationeryViewModel> GetAllStationeryViewModel();
+
+        StationeryViewModel FindStationeryViewModelByItemCode(string itemCode);
+
+        List<StationeryViewModel> GetStationeriesVMBasedOnCriteria(string searchString, string categoryID);
+
+
+
+
 
     }
 }

@@ -29,7 +29,7 @@ namespace Inventory_mvc.Controllers
 
             if(String.IsNullOrEmpty(sortOrder))
             {
-                ViewBag.DateSortParm = "date_desc";
+                sortOrder = "date_desc"; // defaut sorting by date desc
             }
 
             ViewBag.CurrentSort = sortOrder;
@@ -118,6 +118,7 @@ namespace Inventory_mvc.Controllers
 
             List<RequisitionDetailViewModel> vmList = requisitionService.GetViewModelFromRequisitionRecord(record);
 
+            // Set string for display
             string approvalStatus = (record.status == RequisitionStatus.PENDING_APPROVAL) ? RequisitionStatus.PENDING_APPROVAL : "Approved";
 
             ViewBag.RequisitionFormNo = record.requisitionNo;
@@ -202,6 +203,7 @@ namespace Inventory_mvc.Controllers
 
             List<RequisitionDetailViewModel> vmList = requisitionService.GetViewModelFromRequisitionRecord(record);
 
+            // set text for display
             string approvalStatus = (record.status == RequisitionStatus.PENDING_APPROVAL) ? RequisitionStatus.PENDING_APPROVAL : "Approved";
 
             ViewBag.RequisitionFormNo = record.requisitionNo;

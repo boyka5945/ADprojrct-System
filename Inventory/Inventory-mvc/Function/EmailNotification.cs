@@ -67,7 +67,7 @@ namespace Inventory_mvc.Function
         /// AdjustmentVoucherStatus => Approved | Rejected
         /// </param>
         /// <param name="remarks"></param>
-        public static void EmailNotificatioForAdjustmentVoucherApprovalStatus(int voucherNo, string status, string remarks)
+        public static void EmailNotificatioForAdjustmentVoucherApprovalStatus(int voucherNo, string status, string remark)
         {
             if (status == AdjustmentVoucherStatus.APPROVED)
             {

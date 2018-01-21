@@ -28,7 +28,8 @@ namespace Inventory_mvc.Service
 
         
 
-        bool SubmitNewRequisition(Requisition_Record requisition);
+        bool SubmitNewRequisition(Requisition_Record requisition, string requesterID);
+
         List<Disbursement> GetRequisitionByDept(string deptCode);
 
         List<Requisition_Record> GetRecordsByRequesterID(string requesterID);

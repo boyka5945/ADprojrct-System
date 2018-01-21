@@ -5,7 +5,7 @@ using System.Web;
 
 namespace Inventory_mvc.Utilities
 {
-    public class RequisitionStatus
+    public static class RequisitionStatus
     {
         public const string PENDING_APPROVAL = "Pending Approval";
         public const string APPROVED_PROCESSING = "Approved and Processing";
