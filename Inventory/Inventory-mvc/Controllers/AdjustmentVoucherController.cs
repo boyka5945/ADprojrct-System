@@ -274,11 +274,49 @@ namespace Inventory_mvc.Controllers
         [HttpPost]
         public ActionResult MakeApproval(int id, string submitButton, string remark)
         {
-            // TODO : UPDATE DATABASE
-            int voucherNo = id;
-            string statusMessage = (submitButton == "Approve") ? "approved" : "rejected";
+            string errorMessage = null;
 
-            TempData["SuccessMessage"] = String.Format("Voucher number {0} was {1}.", voucherNo, statusMessage);
+            // TODO: REMOVE HARD CODED APPROVER ID
+            //string approverID = HttpContext.User.Identity.Name;
+            string approverID = "S1016"; // supervisor
+            //string approverID = "S1015"; // store manager
+
+            switch (submitButton)
+            {
+                case "Approve":
+                    if(adjustmentVoucherService.ValidateAdjustmentVoucherBeforeApprove(id, out errorMessage))
+                    {
+                        // valid voucher
+                        if (!adjustmentVoucherService.ApproveVoucherRecord(id, approverID, remark))
+                        {
+                            errorMessage = String.Format("Error occur while updating voucher detail. Please try again later.");
+                        }
+                    }
+                    break;
+
+                case "Reject":
+                    if (!adjustmentVoucherService.RejectVoucherRecord(id, approverID, remark))
+                    {
+                        errorMessage = String.Format("Error occur while updating voucher detail. Please try again later");
+                    }
+                    break;
+
+                default:
+                    errorMessage = String.Format("Opps...some error occured. Please try again later.");
+                    break;
+            }
+
+            if(!String.IsNullOrEmpty(errorMessage))
+            {
+                TempData["ErrorMessage"] = errorMessage;
+                return RedirectToAction("MakeApproval", id);
+            }
+            else
+            {
+                string statusMessage = (submitButton == "Approve") ? "approved" : "rejected";
+                TempData["SuccessMessage"] = String.Format("Voucher number {0} was {1}.", id, statusMessage);
+            }
+
             return RedirectToAction("Index");
         }
 

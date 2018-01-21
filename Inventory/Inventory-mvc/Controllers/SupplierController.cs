@@ -24,7 +24,6 @@ namespace Inventory_mvc.Controllers
             //string userID = "S1016"; // supervisor
 
             // Store clerk roleID == 7
-            // TODO - Implement logic to check role
             int roleID = userService.GetRoleByID(userID);
             ViewBag.Role = (roleID == (int)UserRoles.RoleID.StoreClerk) ? UserRoles.STORE_CLERK : "";
 

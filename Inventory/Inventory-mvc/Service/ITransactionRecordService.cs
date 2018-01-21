@@ -16,5 +16,7 @@ namespace Inventory_mvc.Service
         List<Transaction_Detail> GetTransaciontDetailsByCriteria(int year, int month, string itemCode);
 
         List<ItemTransactionRecordViewModel> GetTransaciontDetailsViewModelByCriteria(int selectedYear, int selectedMonth, string id);
+
+        bool AddNewTransactionRecord(Transaction_Record record);
     }
 }

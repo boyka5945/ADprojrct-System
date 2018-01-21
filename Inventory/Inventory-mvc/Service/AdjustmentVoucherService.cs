@@ -7,6 +7,7 @@ using Inventory_mvc.ViewModel;
 using Inventory_mvc.DAO;
 using Inventory_mvc.Function;
 using Inventory_mvc.Utilities;
+using System.Transactions;
 
 namespace Inventory_mvc.Service
 {
@@ -16,6 +17,7 @@ namespace Inventory_mvc.Service
         IAdjustmentVoucherDAO adjustmentVoucherDAO = new AdjustmentVoucherDAO();
         IStationeryService stationeryService = new StationeryService();
         IUserService userService = new UserService();
+        ITransactionRecordService transactionService = new TransactionRecordService();
 
         public bool SubmitNewAdjustmentVoucher(List<AdjustmentVoucherViewModel> vmList, string remarks, string requesterID)
         {            
@@ -69,6 +71,25 @@ namespace Inventory_mvc.Service
             }
             return true;
         }
+
+        public bool ValidateAdjustmentVoucherBeforeApprove(int voucherNo, out string errorMessage)
+        {
+            errorMessage = null;
+
+            Adjustment_Voucher_Record record = FindVoucherRecordByVoucherNo(voucherNo);
+
+            foreach (var item in record.Voucher_Details)
+            {
+                Stationery s = stationeryService.FindStationeryByItemCode(item.itemCode);
+                if ((s.stockQty + item.adjustedQty) < 0)
+                {
+                    errorMessage = String.Format("Cannot process voucher due to negative adjustment quantity of {0} is greater than current stock.", item.itemCode);
+                    return false;
+                }
+            }
+            return true;
+        }
+
 
         public List<AdjustmentVoucherViewModel> GetVoucherRecordsByCriteria(string approverID, string status, string sortOrder)
         {
@@ -201,6 +222,85 @@ namespace Inventory_mvc.Service
             return totalAmount;
         }
 
+
+        public bool RejectVoucherRecord(int voucherNo, string approverID, string remark)
+        {
+            Adjustment_Voucher_Record record = FindVoucherRecordByVoucherNo(voucherNo);
+            record.authorisingStaffID = approverID;
+            record.status = AdjustmentVoucherStatus.REJECTED;
+            record.approvalDate = DateTime.Today;
+
+            if(adjustmentVoucherDAO.UpdateAdjustmentVoucherInfo(record) != -1) // update successfully
+            {
+                // TODO: TEST EMAIL NOTIFICATION
+                EmailNotification.EmailNotificatioForAdjustmentVoucherApprovalStatus(voucherNo, AdjustmentVoucherStatus.REJECTED, remark);
+                return true;
+            }
+            else
+            {
+                return false; // error when writing to database
+            }
+        }
+
+        public bool ApproveVoucherRecord(int voucherNo, string approverID, string remark)
+        {
+            bool result = false;
+
+            // Update Adjustment_Voucher_Record
+            Adjustment_Voucher_Record voucherRecord = FindVoucherRecordByVoucherNo(voucherNo);
+            voucherRecord.authorisingStaffID = approverID;
+            voucherRecord.status = AdjustmentVoucherStatus.APPROVED;
+            voucherRecord.approvalDate = DateTime.Today;
+
+            using (TransactionScope ts = new TransactionScope())
+            {
+                if (adjustmentVoucherDAO.UpdateAdjustmentVoucherInfo(voucherRecord) != -1) // update succesfully
+                {
+                    // Update Stationery Quantity
+                    foreach (Voucher_Detail detail in voucherRecord.Voucher_Details)
+                    {
+                        // throw Exception if stationery quantity become zero
+                        stationeryService.UpdateStationeryQuantity(detail.itemCode, detail.adjustedQty);
+                    }
+
+                    // Insert Record into Transaction table
+                    Transaction_Record transRecord = new Transaction_Record();
+                    transRecord.clerkID = voucherRecord.handlingStaffID;
+                    transRecord.date = voucherRecord.approvalDate;
+                    transRecord.type = TransactionTypes.STOCK_ADJUSTMENT;
+
+                    transRecord.Transaction_Details = new List<Transaction_Detail>();
+                    foreach(Voucher_Detail voucherDetail in voucherRecord.Voucher_Details)
+                    {
+                        Transaction_Detail transDetail = new Transaction_Detail();
+                        transDetail.itemCode = voucherDetail.itemCode;
+                        transDetail.adjustedQty = voucherDetail.adjustedQty;
+                        transDetail.balanceQty = stationeryService.FindStationeryByItemCode(voucherDetail.itemCode).stockQty; // stock after adjustment
+                        transDetail.remarks = String.Format("Voucher no: {0} ({1})", voucherRecord.voucherID, voucherRecord.remarks);
+
+                        transRecord.Transaction_Details.Add(transDetail);
+                    }
+                    // throw Exception if error occur when writing to database 
+                    transactionService.AddNewTransactionRecord(transRecord);
+                    
+
+                    // Email notification
+                    // TODO: TEST EMAIL NOTIFICATION
+                    EmailNotification.EmailNotificatioForAdjustmentVoucherApprovalStatus(voucherNo, AdjustmentVoucherStatus.APPROVED, remark);
+                    result = true;
+                }
+                else
+                {
+                    result = false;
+                }
+
+                ts.Complete();
+                return result;
+            }
+        }
+
+
+
         private AdjustmentVoucherViewModel ConvertRecordToViewModel(Adjustment_Voucher_Record record)
         {
             AdjustmentVoucherViewModel vm = new AdjustmentVoucherViewModel();
@@ -251,10 +351,6 @@ namespace Inventory_mvc.Service
 
             return vm;
         }
-
-
-
-
 
     }
 }
