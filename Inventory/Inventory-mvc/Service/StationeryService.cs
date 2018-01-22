@@ -258,5 +258,10 @@ namespace Inventory_mvc.Service
 
             return viewModelList;
         }
+
+        public List<Stationery> GetStationeriesBasedOnCategoryID(int[] categoryID)
+        {
+            return stationeryDAO.GetStationeriesBasedOnCategoryID(categoryID);
+        }
     }
 }

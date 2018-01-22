@@ -234,5 +234,17 @@ namespace Inventory_mvc.DAO
                         select s).Include(s => s.Category).ToList();
             }
         }
+
+        public List<Stationery> GetStationeriesBasedOnCategoryID(int[] categoryID)
+        {
+            using (StationeryModel context = new StationeryModel())
+            {
+                List<Stationery> stationeries = (from s in context.Stationeries
+                                                 where categoryID.Contains(s.categoryID)
+                                                 select s).Include(s => s.Category).ToList();
+
+                return stationeries;
+            }
+        }
     }
 }

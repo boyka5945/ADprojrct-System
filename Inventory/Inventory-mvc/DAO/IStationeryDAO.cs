@@ -36,5 +36,6 @@ namespace Inventory_mvc.DAO
         List<Stationery> GetStationeriesBasedOnCriteria(string searchString, string categoryID);
         List<Stationery> GetStationeriesBasedOnCriteria(string itemCodeOrDescription);
         List<Stationery> GetAllItemCodes();
+        List<Stationery> GetStationeriesBasedOnCategoryID(int[] categoryID);
     }
 }

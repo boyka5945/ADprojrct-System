@@ -17,6 +17,7 @@
        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
     <style>
         .dropdown-submenu {
             position: relative;
@@ -34,7 +35,10 @@
 </head>
 
 <body style="position: relative; min-height: 100%; top: 0px;">
-    <header class="container-fluid" style="position:relative;text-align:center;top:50%"><a href="#"><img src="~/Images/TopLogo.jpg" /></a></header>
+    
+    <header class="container-fluid" style="position:relative; text-align:center; top:50%">@*<a href="#"><img src="~/Images/LogicLogoT3.PNG" />*@ </a><a href="#"><img src="~/Images/TopLogo.jpg"/> </a>
+        
+    </header>
 
     <nav class="navbar-default">
         <div class="container-fluid">
@@ -46,7 +50,7 @@
                         Request
                     </a>
                     <ul class="dropdown-menu">
-                        <li>@Html.ActionLink("Browse Catalogue", "BrowseCatalogue", "RaiseRequisition")</li>
+                        <li>@Html.ActionLink("Browse Stationery Catalogue", "BrowseCatalogue", "RaiseRequisition")</li>
                         <li>@Html.ActionLink("New Request", "NewRequisition", "RaiseRequisition")</li>
                         <li>@Html.ActionLink("View Request", "Index", "ListRequisitions")</li>
                         
@@ -57,8 +61,8 @@
                         Collection
                     </a>
                     <ul class="dropdown-menu">
-                        <li>@Html.ActionLink("Item to Pick Up", "Collect_Item","CollectionPoint")</li>
-                        <li>@Html.ActionLink("Pending Item", "Pending_Item", "CollectionPoint")</li>
+                        <li>@Html.ActionLink("Items Ready For Collection", "Collect_Item","CollectionPoint")</li>
+                        <li>@Html.ActionLink("Pending Items", "Pending_Item", "CollectionPoint")</li>
                         <li>@Html.ActionLink("Change Collection Point", "UpdateCollectionPoint", "CollectionPoint")</li>
                     </ul>
                 </li>
@@ -100,7 +104,7 @@
                            
                         
                        
-                            <li>@Html.ActionLink("Stationery Retrieval Form", "GenerateRetrieveForm", "ManageRequisitions")</a></li>
+                            <li>@Html.ActionLink("Stationery Retrieval Form", "GenerateRetrieveForm", "ManageRequisitions")</li>
                             <li>@Html.ActionLink("Disbursement List", "DisbursementList", "ManageRequisitions")</li>
                         </ul>
                 </li>
@@ -134,8 +138,8 @@
                         <li>@Html.ActionLink("Receive Stock", "StockReceive", "ReceiveStock")</li>
                     </ul>
                 </li>
-                <li style="position:absolute;right:0px">
-                    @Html.ActionLink("Log Out", "Logout", "Home")
+                <li style="position:absolute;right:0px"  >
+                    @Html.ActionLink("Logout", "Logout", "Home")
                 </li>
             </ul>
         </div>
@@ -162,7 +166,7 @@
 
 
         <footer style="text-align:center;vertical-align:bottom;position:absolute;left:0px;right:0px;bottom:0px;padding:2px">
-            <p>&copy; @DateTime.Now.Year - SA45Team3</p>
+            <p>&copy; @DateTime.Now.Year - SA45Team3@NUS_ISS</p>
         </footer>
    
 

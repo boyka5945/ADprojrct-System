@@ -28,7 +28,6 @@ namespace Inventory_mvc.DAO
         {
             StationeryModel entity = new StationeryModel();
             var a = (from user in entity.Users where user.userID == userID select user).First();
-
             return a;
         }
 
