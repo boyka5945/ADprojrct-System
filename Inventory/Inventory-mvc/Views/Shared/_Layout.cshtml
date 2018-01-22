@@ -47,7 +47,7 @@
                         Request
                     </a>
                     <ul class="dropdown-menu">
-                        <li>@Html.ActionLink("Browse Catalogue", "BrowseCatalogue", "RaiseRequisition")</li>
+                        <li>@Html.ActionLink("Browse Stationery Catalogue", "BrowseCatalogue", "RaiseRequisition")</li>
                         <li>@Html.ActionLink("New Request", "NewRequisition", "RaiseRequisition")</li>
                         <li>@Html.ActionLink("View Request", "Index", "ListRequisitions")</li>
                         
@@ -58,8 +58,8 @@
                         Collection
                     </a>
                     <ul class="dropdown-menu">
-                        <li>@Html.ActionLink("Item to Pick Up", "Collect_Item","CollectionPoint")</li>
-                        <li>@Html.ActionLink("Pending Item", "Pending_Item", "CollectionPoint")</li>
+                        <li>@Html.ActionLink("Items Ready For Pick Up", "Collect_Item","CollectionPoint")</li>
+                        <li>@Html.ActionLink("Pending Items", "Pending_Item", "CollectionPoint")</li>
                         <li>@Html.ActionLink("Change Collection Point", "UpdateCollectionPoint", "CollectionPoint")</li>
                     </ul>
                 </li>
