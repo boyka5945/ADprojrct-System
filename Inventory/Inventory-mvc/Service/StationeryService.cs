@@ -245,5 +245,18 @@ namespace Inventory_mvc.Service
 
             return (stationeryDAO.UpdateStationeryInfo(s) == 1) ? true : false;
         }
+
+        List<StationeryViewModel> IStationeryService.GetAllItemCodes()
+        {
+            List<Stationery> itemCode = stationeryDAO.GetAllItemCodes();
+
+            List<StationeryViewModel> viewModelList = new List<StationeryViewModel>();
+            foreach (Stationery s in itemCode)
+            {
+                viewModelList.Add(ConvertToViewModel(s));
+            }
+
+            return viewModelList;
+        }
     }
 }

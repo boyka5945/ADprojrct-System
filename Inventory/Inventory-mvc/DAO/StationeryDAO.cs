@@ -223,6 +223,16 @@ namespace Inventory_mvc.DAO
 
                 return stationeries.ToList();
             }
+
+        }
+
+        List<Stationery> IStationeryDAO.GetAllItemCodes()
+        {
+            using (StationeryModel context = new StationeryModel())
+            {
+                return (from s in context.Stationeries
+                        select s).Include(s => s.Category).ToList();
+            }
         }
     }
 }
