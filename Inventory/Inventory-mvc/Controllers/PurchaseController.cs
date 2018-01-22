@@ -318,14 +318,6 @@ namespace Inventory_mvc.Controllers
 
         }
 
-        ////helper method to refactor into service
-        //public String ConvertSupplierNameToCode(string name)
-        //{
-        //    String s = ctx.Supplier.Where(x=>x.supplierName == name).First().supplierCode;
-
-        //    return s;
-        //}
-
     }
 
 }
