@@ -57,42 +57,42 @@ namespace Inventory_mvc.Service
             }
 
         }
-        //private User ConvertFromViewModel(UserViewModel userVM)
-        //{
-        //    User user = new User();
+        private User ConvertFromViewModel(UserViewModel userVM)
+        {
+            User user = new User();
 
-        //    user.userID = userVM.UserID;
-        //    user.password = userVM.Password;
-        //    user.userEmail = userVM.UserEmail;
-        //    user.role = userVM.Role;
-        //    user.name = userVM.Name;
-        //    user.departmentCode = userVM.DepartmentCode;
-        //    user.contactNo = userVM.ContactNo;
-        //    user.address = userVM.Address;
-        //    user.delegationStart = userVM.DelegationStart;
-        //    user.delegationEnd = userVM.DelegationEnd;
-        //    return user;
+            user.userID = userVM.UserID;
+            user.password = userVM.Password;
+            user.userEmail = userVM.UserEmail;
+            user.role = userVM.Role;
+            user.name = userVM.Name;
+            user.departmentCode = userVM.DepartmentCode;
+            user.contactNo = userVM.ContactNo;
+            user.address = userVM.Address;
+            user.delegationStart = userVM.DelegationStart;
+            user.delegationEnd = userVM.DelegationEnd;
+            return user;
 
-        //}
+        }
 
-        //private UserViewModel ConvertToViewModel(User u)
-        //{
-        //    UserViewModel userVM = new UserViewModel();
+        private UserViewModel ConvertToViewModel(User u)
+        {
+            UserViewModel userVM = new UserViewModel();
 
-        //    userVM.UserID = u.userID;
-        //    userVM.UserEmail = u.userEmail;
-        //    userVM.Password = u.password;
-        //    userVM.Name = u.name;
-        //    userVM.Role = u.role;
-        //    userVM.DepartmentCode = u.departmentCode;
-        //    userVM.Address = u.address;
-        //    userVM.ContactNo = u.contactNo;
-        //    userVM.DelegationStart = (DateTime?)u.delegationStart;
-        //    userVM.DelegationEnd = (DateTime?)u.delegationEnd;
-        //    return userVM ;
-        //}
+            userVM.UserID = u.userID;
+            userVM.UserEmail = u.userEmail;
+            userVM.Password = u.password;
+            userVM.Name = u.name;
+            userVM.Role = u.role;
+            userVM.DepartmentCode = u.departmentCode;
+            userVM.Address = u.address;
+            userVM.ContactNo = u.contactNo;
+            userVM.DelegationStart = (DateTime?)u.delegationStart;
+            userVM.DelegationEnd = (DateTime?)u.delegationEnd;
+            return userVM;
+        }
 
-        
+
         bool IUserService.isExistingID(string userid)
         {
             string id = userid.ToUpper().Trim();
@@ -110,7 +110,7 @@ namespace Inventory_mvc.Service
             return userDAO.AssignRep(userid);
         }
 
-        bool IUserService.Remove_Delegate(string userid)
+       bool IUserService.Remove_Delegate(string userid)
         {
             return userDAO.Remove_Delegate(userid);
         }

@@ -136,13 +136,14 @@ namespace Inventory_mvc.Controllers
                     ViewBag.ExceptionMessage = e.Message;
                 }
             }
+            
             return View(userVM);
         }
 
         public ActionResult Create()
         {
             ViewBag.RoleList = userService.GetStoreRoles();
-            return View();
+            return View(new User());
         }
 
         [HttpPost]
@@ -169,7 +170,9 @@ namespace Inventory_mvc.Controllers
                 }
             }
 
-            return View(user);
+            ViewBag.RoleList = userService.GetStoreRoles();
+            return RedirectToAction("SMUserList");
+            //            return View(user);
         }
         [HttpGet]
         public ActionResult Assign_Rep(string id)

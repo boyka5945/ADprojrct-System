@@ -42,5 +42,7 @@ namespace Inventory_mvc.Service
         bool AlrDelegated(string id);
 
         void AutoRemove(User user);
+
+
     }
 }
