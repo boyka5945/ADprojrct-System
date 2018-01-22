@@ -274,6 +274,7 @@
     <Compile Include="Utilities\UserRoles.cs" />
     <Compile Include="ViewModel\AdjustmentVoucherViewModel.cs" />
     <Compile Include="ViewModel\BrowseStationeryCatalogueViewModel.cs" />
+    <Compile Include="ViewModel\ChangePasswordViewModel.cs" />
     <Compile Include="ViewModel\CollectionPointViewModel.cs" />
     <Compile Include="ViewModel\Disbursement.cs" />
     <Compile Include="ViewModel\InventoryCheckViewModel.cs" />
@@ -447,10 +448,12 @@
     <Content Include="Views\User\SMUserList.cshtml" />
     <Content Include="Views\InventoryCheck\SubmitInventoryCheckResult.cshtml" />
     <Content Include="Views\InventoryCheck\Index.cshtml" />
+    <Content Include="Views\User\ChangePassword.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\AdjustmentVoucherRecord\" />
+    <Folder Include="Views\ChangePassword\" />
     <Folder Include="Views\Employee\" />
     <Folder Include="Views\Report\" />
     <Folder Include="Views\RequisitionDetails\" />

@@ -48,6 +48,13 @@ namespace Inventory_mvc.Service
 
         void AutoRemove(User user);
 
+        //
+        ChangePasswordViewModel changePasswordUser(User user);
 
+        bool isSame(string password, string oldpassword);
+
+        bool isSameWithPassword(string password, string newpassword);
+
+        bool changePassword(ChangePasswordViewModel vm);
     }
 }

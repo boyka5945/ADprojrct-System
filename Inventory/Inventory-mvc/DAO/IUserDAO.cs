@@ -41,5 +41,7 @@ namespace Inventory_mvc.DAO
         int GetRoleByID(string userID);
 
         void AutoRomove(User user);
+
+        int changePassword(User user);
     }
 }
