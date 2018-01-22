@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using Inventory_mvc.Service;
 using Inventory_mvc.Models;
 using Inventory_mvc.ViewModel;
+using PagedList;
 
 namespace Inventory_mvc.Controllers
 {
@@ -14,6 +15,10 @@ namespace Inventory_mvc.Controllers
         ICollectionPointService collectionPointService = new CollectionPointService();
         IDepartmentService departmentService = new DepartmentService();
         IUserService us = new UserService();
+        IStationeryService ss = new StationeryService();
+        IRequisitionRecordService rs = new RequisitionRecordService();
+        
+     
         // GET: CollectionPoint
         public ActionResult Index()
         {
@@ -163,6 +168,68 @@ namespace Inventory_mvc.Controllers
             return RedirectToAction("UpdateCollectionPoint");
 
 
+        }
+
+        [HttpGet]
+        public ActionResult Collect_Item(int? page)
+        {
+
+            string deptCode = "ZOOL";
+            if (Session["deptCode"] != null)
+            {
+                ViewBag.Select = departmentService.GetDepartmentByCode(Session["deptCode"].ToString()).departmentName;
+                deptCode = Session["deptCode"].ToString();
+            }
+            List<Disbursement> list;
+
+            list = rs.GetRequisitionByDept(deptCode);
+            StationeryModel entity = new StationeryModel();
+            var user = entity.Users.Where(x => x.departmentCode == deptCode).First();
+            foreach (var a in departmentService.GetAllDepartment().ToList())
+            {
+                if (a.departmentCode == deptCode)
+                {
+                    ViewBag.Point = a.Collection_Point.collectionPointName;
+                    ViewBag.rp = user.name;
+                    break;
+                }
+            }
+            
+
+            int pageSize = 10;
+            int pageNumber = (page ?? 1);
+            return View(list.ToPagedList(pageNumber, pageSize));
+        }
+
+        [HttpGet]
+        public ActionResult Pending_Item(int? page)
+        {
+
+            string deptCode = "ZOOL";
+            if (Session["deptCode"] != null)
+            {
+                ViewBag.Select = departmentService.GetDepartmentByCode(Session["deptCode"].ToString()).departmentName;
+                deptCode = Session["deptCode"].ToString();
+            }
+            List<Disbursement> list;
+
+            list = rs.GetRequisitionByDept(deptCode);
+            StationeryModel entity = new StationeryModel();
+            var user = entity.Users.Where(x => x.departmentCode == deptCode).First();
+            foreach (var a in departmentService.GetAllDepartment().ToList())
+            {
+                if (a.departmentCode == deptCode)
+                {
+                    ViewBag.Point = a.Collection_Point.collectionPointName;
+                    ViewBag.rp = user.name;
+                    break;
+                }
+            }
+
+
+            int pageSize = 10;
+            int pageNumber = (page ?? 1);
+            return View(list.ToPagedList(pageNumber, pageSize));
         }
     }
 }

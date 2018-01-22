@@ -254,7 +254,7 @@ namespace Inventory_mvc.Controllers
 
             //return View(list);
 
-            int pageSize = 1;
+            int pageSize = 10;
             int pageNumber = (page ?? 1);
             return View(list.ToPagedList(pageNumber, pageSize));
         }

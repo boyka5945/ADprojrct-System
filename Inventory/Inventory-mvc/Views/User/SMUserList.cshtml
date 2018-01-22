@@ -1,30 +1,26 @@
 ﻿@model IEnumerable<Inventory_mvc.Models.User>
 
 @{
-    ViewBag.Title = "UserList";
+    ViewBag.Title = "SMUserList";
     var delegateMessage = TempData["DelegateMessage"];
     var removeDelegateMessage = TempData["RmvDelMessage"];
-    var assignRepMessage = TempData["AssignRepMessage"];
-    var assignRepErrorMessage = TempData["AssignRepErrorMessage"];
-
+    var createMessage = TempData["CreateMessage"];
 }
 
-<h2>UserList</h2>
+<h2>SMUserList</h2>
 
 <p>
-     @Html.ActionLink("Edit Profile", "Edit")
+    @Html.ActionLink("Create New", "Create") | @Html.ActionLink("Edit Profile", "Edit")
 </p>
 <table class="table">
     <tr>
-        
+       
         <th>
             @Html.DisplayNameFor(model => model.name)
-        </th>
-        
+        </th>             
         <th>
             @Html.DisplayNameFor(model => model.roleInfo.roleName)
         </th>
-       
         <th>
             @Html.DisplayNameFor(model => model.delegationStart)
         </th>
@@ -39,24 +35,20 @@
         
         <td>
             @Html.DisplayFor(modelItem => item.name)
-        </td>
-        
+        </td>       
         <td>
             @Html.DisplayFor(modelItem => item.roleInfo.roleName)
-        </td>
-               
+        </td>       
         <td>
             @Html.DisplayFor(modelItem => item.delegationStart)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.delegationEnd)
         </td>
-
         <td>
-            @*@Html.ActionLink("Edit", "Edit", new { id = item.userID }) |*@
-            @Html.ActionLink("Delegate", "Delegate", new { id = item.userID }) |
-            @Html.ActionLink("Assign Rep", "Assign_Rep", new { id = item.userID }) |
-            @Html.ActionLink("Remove Delegate", "Remove_Delegate", new { id = item.userID }) 
+            @Html.ActionLink("Delegate", "Delegate", new { id = item.userID }) |           
+            @Html.ActionLink("Remove Delegate", "Remove_Delegate", new { id = item.userID })
+            
         </td>
     </tr>
 }
@@ -77,24 +69,12 @@
                 @removeDelegateMessage.ToString()
             </div>
         }
-       
-        @if (assignRepMessage != null)
+
+        @if (createMessage != null)
         {
-            <div class="alert alert-danger">
-                @assignRepMessage.ToString()
+            <div class="alert alert-success">
+                @createMessage.ToString()
             </div>
         }
-
-        @if (assignRepErrorMessage != null)
-        {
-            <div class="alert alert-danger">
-                @assignRepErrorMessage.ToString()
-            </div>
-        }
-
-
     </p>
 </div>
-
-
-

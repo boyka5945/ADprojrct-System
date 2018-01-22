@@ -13,30 +13,24 @@ namespace Inventory_mvc.Service
     {
         private IUserDAO userDAO = new UserDAO();
 
-        public List<User> GetAllUserViewModel()
+        // TODO: Solve the methods
+        List<string> IUserService.GetStoreRoles()
         {
-            List<User> userList = userDAO.GetAllUser();
-
-            List<User> viewModelList = new List<User>();
-            foreach (User u in userList)
-            {
-                viewModelList.Add(u);
-            }
-
-            return viewModelList;
+            List<string> roleList = userDAO.GetStoreRoles();        
+            return roleList;
         }
 
         public List<User> GetUserByDept(User user)
         {
             List<User> userList=userDAO.GetUserByDept(user);
-            List<User> viewModelList = new List<User>();
+            List<User> users = new List<User>();
 
             foreach (User s in userList)
             {
                 if (s.userID != user.userID)
-                    viewModelList.Add(s);
+                    users.Add(s);
             }
-            return viewModelList;
+            return users;
         }
 
         public User FindByUserID(string userid)
@@ -97,7 +91,7 @@ namespace Inventory_mvc.Service
             userVM.ContactNo = u.contactNo;
             userVM.DelegationStart = (DateTime?)u.delegationStart;
             userVM.DelegationEnd = (DateTime?)u.delegationEnd;
-            return userVM ;
+            return userVM;
         }
 
 
@@ -149,10 +143,10 @@ namespace Inventory_mvc.Service
         }
 
 
-        public List<int> RoleForEditAndCreate(string userid)
-        {
-            return userDAO.RoleForEditAndCreate(userid);
-        }
+        //List<string> IUserService.RoleForEditAndCreate(string userid)
+        //{
+        //    return userDAO.RoleForEditAndCreate(userid);
+        //}
 
 
         public bool AlrDelegated(string userid)
@@ -176,5 +170,10 @@ namespace Inventory_mvc.Service
             return (GetRoleByID(userID) == (int)UserRoles.RoleID.StoreSupervisor) ? true : false;
         }
 
+
+        void IUserService.AutoRemove(User user)
+        {
+            userDAO.AutoRomove(user);
+        }
     }
 }

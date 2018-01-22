@@ -155,8 +155,7 @@ namespace Inventory_mvc.Controllers
         {
             // TODO: REMOVE HARD CODED REQUESTER ID
             //string requesterID = HttpContext.User.Identity.Name;
-
-            string requesterID = "S1013";
+            string requesterID = "S1017"; // clerk
             string errorMessage;
 
             if (adjustmentVoucherService.ValidateNewAdjustmentVoucher(vmList, out errorMessage))
@@ -170,7 +169,7 @@ namespace Inventory_mvc.Controllers
                 }
                 else
                 {
-                    TempData["ErrorMessage"] = String.Format("Error writing to database");
+                    TempData["ErrorMessage"] = String.Format("Error writing new adjustment voucher into database");
                 }
             }
             else
@@ -286,10 +285,17 @@ namespace Inventory_mvc.Controllers
                 case "Approve":
                     if(adjustmentVoucherService.ValidateAdjustmentVoucherBeforeApprove(id, out errorMessage))
                     {
-                        // valid voucher
-                        if (!adjustmentVoucherService.ApproveVoucherRecord(id, approverID, remark))
+                        try
                         {
-                            errorMessage = String.Format("Error occur while updating voucher detail. Please try again later.");
+                            // valid voucher
+                            if (!adjustmentVoucherService.ApproveVoucherRecord(id, approverID, remark))
+                            {
+                                errorMessage = String.Format("Error occur while updating voucher detail. Please try again later.");
+                            }
+                        }
+                        catch (Exception e) // catch exception from ApproveVoucherRecord method
+                        {
+                            errorMessage = e.Message;
                         }
                     }
                     break;
