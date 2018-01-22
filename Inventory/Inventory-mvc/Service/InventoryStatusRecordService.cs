@@ -103,5 +103,41 @@ namespace Inventory_mvc.Service
             }
         }
 
+        public List<DateTime> ListAllStockCheckDate()
+        {
+            return inventoryDAO.GetAllStockCheckDate();
+        }
+
+        public List<InventoryCheckViewModel> FindInventoryStatusRecordsByDate(DateTime date)
+        {
+            List<Inventory_Status_Record> records = inventoryDAO.FindInventoryStatusRecordsByDate(date);
+
+            List<InventoryCheckViewModel> vmList = new List<InventoryCheckViewModel>();
+            foreach(var record in records)
+            {
+                vmList.Add(ConvertToInventoryCheckViewModel(record));
+            }
+
+            return vmList;
+        }
+
+        private InventoryCheckViewModel ConvertToInventoryCheckViewModel(Inventory_Status_Record record)
+        {
+            Stationery s = stationeryService.FindStationeryByItemCode(record.itemCode);
+
+            InventoryCheckViewModel vm = new InventoryCheckViewModel();
+            vm.ActualQuantity = record.discrepancyQty + record.onHandQty;
+            vm.CategoryID = s.categoryID;
+            vm.CategoryName = s.Category.categoryName;
+            vm.Discrepancy = record.discrepancyQty;
+            vm.ItemCode = record.itemCode;
+            vm.Location = s.location;
+            vm.Remarks = record.remarks;
+            vm.StationeryDescription = s.description;
+            vm.StockQuantity = record.onHandQty;
+            vm.UOM = s.unitOfMeasure;
+
+            return vm;
+        }
     }
 }

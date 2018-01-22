@@ -12,7 +12,7 @@ namespace Inventory_mvc.DAO
 
         List<DateTime> GetAllStockCheckDate();
 
-        Inventory_Status_Record FindInventoryStatusRecordByDate(DateTime date);
+        List<Inventory_Status_Record> FindInventoryStatusRecordsByDate(DateTime date);
 
 
     }

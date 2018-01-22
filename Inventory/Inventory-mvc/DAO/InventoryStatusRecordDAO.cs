@@ -24,15 +24,21 @@ namespace Inventory_mvc.DAO
 
         public List<DateTime> GetAllStockCheckDate()
         {
-            // TODO: WRITE METHOD
-            throw new NotImplementedException();
+            using (StationeryModel context = new StationeryModel())
+            {
+                return (from r in context.Inventory_Status_Records
+                        select r.date).Distinct().ToList();
+            }
         }
 
-        public Inventory_Status_Record FindInventoryStatusRecordByDate(DateTime date)
+        public List<Inventory_Status_Record> FindInventoryStatusRecordsByDate(DateTime date)
         {
-            // TODO: WRITE METHOD
-            throw new NotImplementedException();
-
+            using (StationeryModel context = new StationeryModel())
+            {
+                return (from r in context.Inventory_Status_Records
+                        where r.date == date
+                        select r).ToList();
+            }
         }
     }
 }

@@ -20,8 +20,28 @@ namespace Inventory_mvc.Controllers
         // GET: InventoryCheck
         public ActionResult Index()
         {
+            List<DateTime> dates = invetoryCheckService.ListAllStockCheckDate();
+            ViewBag.Dates = dates;
 
             return View();
+        }
+
+
+        public ActionResult ShowDetails(DateTime date)
+        {
+            if(date == null)
+            {
+                return RedirectToAction("Index");
+            }
+
+            List<InventoryCheckViewModel> vmList = invetoryCheckService.FindInventoryStatusRecordsByDate(date);
+
+            if(vmList.Count == 0)
+            {
+                TempData["ErrorMessage"] = "Non-existing inventory check record.";
+            }
+
+            return View(vmList);
         }
 
         [HttpGet]

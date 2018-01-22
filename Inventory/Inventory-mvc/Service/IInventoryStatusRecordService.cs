@@ -15,5 +15,9 @@ namespace Inventory_mvc.Service
         bool SaveInventoryCheckResult(List<InventoryCheckViewModel> stockchecklist);
 
         bool SubmitAdjustmentVoucherForInventoryCheckDiscrepancy(List<InventoryCheckViewModel> stockchecklist, string requesterID);
+
+        List<DateTime> ListAllStockCheckDate();
+
+        List<InventoryCheckViewModel> FindInventoryStatusRecordsByDate(DateTime date);
     }
 }
