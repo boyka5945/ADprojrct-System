@@ -38,6 +38,13 @@ namespace Inventory_mvc.Service
             return userDAO.FindByUserID(userid);
         }
 
+        public ChangePasswordViewModel changePasswordUser(User user)
+        {
+          //  User user = userDAO.FindByUserID(uid);
+            ChangePasswordViewModel viewModel = ConvertToViewModel(user);
+            return viewModel;
+        }
+
         public void DelegateEmp(string userid, DateTime? from, DateTime? to)
         {
             userDAO.DelegateEmp(userid, from, to);
@@ -59,38 +66,40 @@ namespace Inventory_mvc.Service
             }
 
         }
-        private User ConvertFromViewModel(UserViewModel userVM)
+        private User ConvertFromViewModel(ChangePasswordViewModel userVM)
         {
             User user = new User();
 
             user.userID = userVM.UserID;
-            user.password = userVM.Password;
-            user.userEmail = userVM.UserEmail;
-            user.role = userVM.Role;
-            user.name = userVM.Name;
-            user.departmentCode = userVM.DepartmentCode;
-            user.contactNo = userVM.ContactNo;
-            user.address = userVM.Address;
-            user.delegationStart = userVM.DelegationStart;
-            user.delegationEnd = userVM.DelegationEnd;
+            user.password = userVM.ConfirmPassword;
+            //user.userEmail = userVM.UserEmail;
+            //user.role = userVM.Role;
+            //user.name = userVM.Name;
+            //user.departmentCode = userVM.DepartmentCode;
+            //user.contactNo = userVM.ContactNo;
+            //user.address = userVM.Address;
+            //user.delegationStart = userVM.DelegationStart;
+            //user.delegationEnd = userVM.DelegationEnd;
             return user;
 
         }
 
-        private UserViewModel ConvertToViewModel(User u)
+
+
+        private ChangePasswordViewModel ConvertToViewModel(User u)
         {
-            UserViewModel userVM = new UserViewModel();
+            ChangePasswordViewModel userVM = new ChangePasswordViewModel();
 
             userVM.UserID = u.userID;
-            userVM.UserEmail = u.userEmail;
-            userVM.Password = u.password;
-            userVM.Name = u.name;
-            userVM.Role = u.role;
-            userVM.DepartmentCode = u.departmentCode;
-            userVM.Address = u.address;
-            userVM.ContactNo = u.contactNo;
-            userVM.DelegationStart = (DateTime?)u.delegationStart;
-            userVM.DelegationEnd = (DateTime?)u.delegationEnd;
+            //userVM.UserEmail = u.userEmail;
+           // userVM.OldPassword = u.password;
+            //userVM.Name = u.name;
+            //userVM.Role = u.role;
+            //userVM.DepartmentCode = u.departmentCode;
+            //userVM.Address = u.address;
+            //userVM.ContactNo = u.contactNo;
+            //userVM.DelegationStart = (DateTime?)u.delegationStart;
+            //userVM.DelegationEnd = (DateTime?)u.delegationEnd;
             return userVM;
         }
 
@@ -174,6 +183,54 @@ namespace Inventory_mvc.Service
         void IUserService.AutoRemove(User user)
         {
             userDAO.AutoRomove(user);
+        }
+
+
+        //ps
+        public bool isSame(string password, string oldpassword)
+        {
+
+            if (password != oldpassword)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+
+        public bool isSameWithPassword(string password, string newpassword)
+        {
+
+            if (password == newpassword)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public bool changePassword(ChangePasswordViewModel vm)
+        {
+            User user = ConvertFromViewModel(vm);
+
+            IUserDAO userDAO = new UserDAO();
+
+            if (userDAO.changePassword(user) == 1)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+
+            //User user = ConvertFromViewModel(vm);
+            //return userDAO.changePassword(user);
         }
     }
 }

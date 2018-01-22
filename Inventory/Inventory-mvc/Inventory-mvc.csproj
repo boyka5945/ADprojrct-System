@@ -271,6 +271,7 @@
     <Compile Include="Utilities\UserRoles.cs" />
     <Compile Include="ViewModel\AdjustmentVoucherViewModel.cs" />
     <Compile Include="ViewModel\BrowseStationeryCatalogueViewModel.cs" />
+    <Compile Include="ViewModel\ChangePasswordViewModel.cs" />
     <Compile Include="ViewModel\CollectionPointViewModel.cs" />
     <Compile Include="ViewModel\Disbursement.cs" />
     <Compile Include="ViewModel\ItemTransactionRecordViewModel.cs" />
@@ -439,10 +440,12 @@
     <Content Include="Views\CollectionPoint\Collect_Item.cshtml" />
     <Content Include="Views\CollectionPoint\Pending_Item.cshtml" />
     <Content Include="Views\User\SMUserList.cshtml" />
+    <Content Include="Views\User\ChangePassword.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\AdjustmentVoucherRecord\" />
+    <Folder Include="Views\ChangePassword\" />
     <Folder Include="Views\Employee\" />
     <Folder Include="Views\InventoryCheck\" />
     <Folder Include="Views\Report\" />
