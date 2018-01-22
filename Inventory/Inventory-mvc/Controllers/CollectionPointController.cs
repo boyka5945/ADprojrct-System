@@ -173,8 +173,12 @@ namespace Inventory_mvc.Controllers
         [HttpGet]
         public ActionResult Collect_Item(int? page)
         {
-
-            string deptCode = "ZOOL";
+            StationeryModel entity = new StationeryModel();
+            string name = HttpContext.User.Identity.Name;
+            string deptCode = us.FindDeptCodeByID(name);
+            var deptName = entity.Departments.Where(x => x.departmentCode == deptCode).First().departmentName;
+            
+            ViewBag.deptName = deptName;
             if (Session["deptCode"] != null)
             {
                 ViewBag.Select = departmentService.GetDepartmentByCode(Session["deptCode"].ToString()).departmentName;
@@ -183,7 +187,7 @@ namespace Inventory_mvc.Controllers
             List<Disbursement> list;
 
             list = rs.GetRequisitionByDept(deptCode);
-            StationeryModel entity = new StationeryModel();
+            
             var user = entity.Users.Where(x => x.departmentCode == deptCode).First();
             foreach (var a in departmentService.GetAllDepartment().ToList())
             {
@@ -204,8 +208,12 @@ namespace Inventory_mvc.Controllers
         [HttpGet]
         public ActionResult Pending_Item(int? page)
         {
+            StationeryModel entity = new StationeryModel();
+            string name = HttpContext.User.Identity.Name;
+            string deptCode = us.FindDeptCodeByID(name);
+            var deptName = entity.Departments.Where(x => x.departmentCode == deptCode).First().departmentName;
 
-            string deptCode = "ZOOL";
+            ViewBag.deptName = deptName;
             if (Session["deptCode"] != null)
             {
                 ViewBag.Select = departmentService.GetDepartmentByCode(Session["deptCode"].ToString()).departmentName;
@@ -213,8 +221,8 @@ namespace Inventory_mvc.Controllers
             }
             List<Disbursement> list;
 
-            list = rs.GetRequisitionByDept(deptCode);
-            StationeryModel entity = new StationeryModel();
+            list = rs.GetPendingDisbursementByDept(deptCode);
+            
             var user = entity.Users.Where(x => x.departmentCode == deptCode).First();
             foreach (var a in departmentService.GetAllDepartment().ToList())
             {
