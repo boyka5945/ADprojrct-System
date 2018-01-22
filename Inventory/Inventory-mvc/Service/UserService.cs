@@ -15,17 +15,12 @@ namespace Inventory_mvc.Service
 
         // TODO: Solve the methods
         List<string> IUserService.GetStoreRoles()
-        public List<User> GetAllUserViewModel()
         {
             List<string> roleList = userDAO.GetStoreRoles();        
             return roleList;
         }
 
-            return viewModelList;
-        }
-
         public List<User> GetUserByDept(User user)
-        List<User> IUserService.GetUserByDept(User user)
         {
             List<User> userList=userDAO.GetUserByDept(user);
             List<User> users = new List<User>();

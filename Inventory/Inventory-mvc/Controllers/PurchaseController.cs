@@ -113,19 +113,28 @@ namespace Inventory_mvc.Controllers
 
             }
 
-            //if(pd.itemCode == null)
-            //{
-            //    string errorMessage = String.Format("Item Code must not be empty.");
-            //    ModelState.AddModelError("itemCode", errorMessage);
-            //    return View();
-            //}
-
-
-            details.Add(pd, supplierCode);
-            model.Add(pd);
-            Session["detailsBundle"] = details;
-            return View("RaisePurchaseOrder", model);
-
+            if (pd.qty < 1)
+            {
+                TempData["QtyErrorMessage"] = "Quantity should be greater than 0";
+            }
+            if (pd.price <= 0)
+            {
+                TempData["PriceErrorMessage"] = "Price cannot be 0 or less than 0.";
+            }
+            try
+            {
+                details.Add(pd, supplierCode);
+                model.Add(pd);
+                Session["detailsBundle"] = details;
+                return View("RaisePurchaseOrder", model);
+            }
+            catch (Exception e)
+            {
+                TempData["ExceptionMessage"] = e.Message;
+            }
+           // ViewBag.model = pos.GetAllPurchaseOrder();
+            
+            return View();
 
         }
 
@@ -138,43 +147,50 @@ namespace Inventory_mvc.Controllers
             int orderNo = findNextOrderNo();
             List<Purchase_Detail> po = details.Keys.ToList<Purchase_Detail>();
             details = (Dictionary<Purchase_Detail, string>)Session["detailsBundle"];
-
-            List<string> suppliers = details.Values.Distinct().ToList();
-            
-            for (int i = 0; i < suppliers.Count; i++)
+            if (details == null)
             {
-                Purchase_Order_Record p = new Purchase_Order_Record();
-            
-                p.clerkID = "S1017"; // HARD CODED supposed to be currently logged in guy
-                p.date = DateTime.Now;
-                p.orderNo = orderNo + i;
-                p.status = "incomplete"; //the default starting status
-                p.supplierCode = suppliers[i];
-                p.expectedDeliveryDate = DateTime.Now.AddDays(14); //HARD CODED currently
-                pos.AddNewPurchaseOrder(p);
+                TempData["ErrorMessage"] = "No PO to generate.";
+                return RedirectToAction("RaisePurchaseOrder");
+            }
+            else
+            {
+                List<string> suppliers = details.Values.Distinct().ToList();
 
-
-                foreach (KeyValuePair<Purchase_Detail, string> entry in details)
+                for (int i = 0; i < suppliers.Count; i++)
                 {
-                    Purchase_Detail pd = entry.Key;
+                    Purchase_Order_Record p = new Purchase_Order_Record();
+                    p.clerkID = "S1017"; // HARD CODED supposed to be currently logged in guy
+                    p.date = DateTime.Now;
+                    p.orderNo = orderNo + i;
+                    p.status = "incomplete"; //the default starting status
+                    p.supplierCode = suppliers[i];
+                    p.expectedDeliveryDate = DateTime.Now.AddDays(14); //HARD CODED currently
+                    pos.AddNewPurchaseOrder(p);
 
-                    string supplierCode = entry.Value;
-                    //find the orderNo matching supplier and create the purchase detail 
-                    if (supplierCode == suppliers[i])
+
+                    foreach (KeyValuePair<Purchase_Detail, string> entry in details)
                     {
-                        pd.orderNo = orderNo + i;
-                        pos.AddPurchaseDetail(pd);
+                        Purchase_Detail pd = entry.Key;
+
+                        string supplierCode = entry.Value;
+                        //find the orderNo matching supplier and create the purchase detail 
+                        if (supplierCode == suppliers[i])
+                        {
+                            pd.orderNo = orderNo + i;
+                            pos.AddPurchaseDetail(pd);
+                        }
+
                     }
+                }
 
+                Session["detailsBundle"] = null; //clear the orderCart
+                List<Purchase_Order_Record> model = pos.GetAllPurchaseOrder();
+                //return View("ListPurchaseOrders", model);
+                int pageSize = 2;
+                int pageNumber = (page ?? 1);
+                return View("ListPurchaseOrders", model.ToPagedList(pageNumber, pageSize));
             }
-            }
-
-            Session["detailsBundle"] = null; //clear the orderCart
-            List<Purchase_Order_Record> model = pos.GetAllPurchaseOrder();
-            //return View("ListPurchaseOrders", model);
-            int pageSize = 2;
-            int pageNumber = (page ?? 1);
-            return View("ListPurchaseOrders", model.ToPagedList(pageNumber, pageSize));
+            
         }
 
         //delete purchase order record
