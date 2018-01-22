@@ -4,98 +4,121 @@
     ViewBag.Title = "StockReceive";
 }
 
-<h2>StockReceive</h2>
+<!doctype html>
+<html>
 
-@using (Html.BeginForm("StockReceive", "ReceiveStock", FormMethod.Post))
-{
+<head>
 
-    <div class="form-group">
-        @Html.Label("PO Number", new { @class = "control-label col-md-2" })
-        @Html.TextBox("searchPONumber", ViewBag.PONumber as string, new { @class = "control-textbox col-md-2" })
-        <input type="submit" value="Search" class="btn btn-default" style=" margin:5px;" readonly />
-    </div>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="/resources/demos/style.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script>
+  $( function() {
+    $( "#datepicker" ).datepicker();
+  } );
+    </script>
 
-    <div class="form-group">
-        @Html.Label("Supplier", new { @class = "control-label col-md-2" })
-        @Html.TextBox("showSupplier", ViewBag.Supplier as string, new { @class = "control-textbox col-md-2" })
-        
-    </div>
-}
+</head>
+
+<body>
+
+    <h2>StockReceive</h2>
+
+    @using (Html.BeginForm("StockReceive", "ReceiveStock", FormMethod.Post))
+    {
+
+        <div class="form-group">
+            @Html.Label("PO Number", new { @class = "control-label col-md-2" })
+            @Html.TextBox("searchPONumber", ViewBag.PONumber as string, new { @class = "control-textbox col-md-2" })
+            <input type="submit" value="Search" class="btn btn-default" style=" margin:5px;" readonly />
+        </div>
+
+        <div class="form-group">
+            @Html.Label("Supplier", new { @class = "control-label col-md-2" })
+            @Html.TextBox("showSupplier", ViewBag.Supplier as string, new { @class = "control-textbox col-md-2" })
+
+        </div>
+    }
     @using (Html.BeginForm("UpdateReceived", "ReceiveStock", FormMethod.Get))
     {
         <input type="hidden" value="@ViewBag.PONumber" name="PONumber" />
+        <input type="hidden" value="@ViewBag.Supplier" name="supplier" />
 
 
-    <div class="form-group">
-        @Html.Label("DO Number", new { @class = "control-label col-md-2" })
-        @Html.TextBox("DONumber")
-    </div>
+        <div class="form-group">
+            @Html.Label("DO Number", new { @class = "control-label col-md-2" })
+            @Html.TextBox("DONumber")
+        </div>
 
-    <div class="form-group">
-        @Html.Label("Received Date", new { @class = "control-label col-md-2" })
-        @Html.TextBox("ReceivedDate")
-    </div>
+        <div class="form-group">
+            @Html.Label("Received Date", new { @class = "control-label col-md-2" })
+            @*@Html.TextBox("ReceivedDate")*@
+
+            <input type="text" id="datepicker" name="ReceivedDate">
+        </div>
 
 
 
 
-<table class="table">
-    <tr>
-        <th>
-            @Html.Label("Item Code")
-        </th>
-        <th>
-            @Html.Label("Description")
-        </th>
-        <th>
-            @Html.Label("Ordered")
-        </th>
-        <th>
-            @Html.Label("Unreceived")
-        </th>
-        <th>
-            @Html.Label("Received")
-        </th>
-        <th>
-            @Html.Label("UOM")
-        </th>
-        <th>
-            @Html.Label("Remarks")
-        </th>
-    </tr>
-    
-    @foreach (var item in Model)
-    {
+        <table class="table">
             <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.itemCode)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Stationery.description)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.qty)
-                </td>
-                <td>@{ 
-                    int fulfilled;
-                    if(item.fulfilledQty.HasValue)
-                    {
-                        fulfilled = item.fulfilledQty.Value;
-                    }
-                    else
-                    {
-                        fulfilled = 0;
+                <th>
+                    @Html.Label("Item Code")
+                </th>
+                <th>
+                    @Html.Label("Description")
+                </th>
+                <th>
+                    @Html.Label("Ordered")
+                </th>
+                <th>
+                    @Html.Label("Unreceived")
+                </th>
+                <th>
+                    @Html.Label("Received")
+                </th>
+                <th>
+                    @Html.Label("UOM")
+                </th>
+                <th>
+                    @Html.Label("Remarks")
+                </th>
+            </tr>
 
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.itemCode)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Stationery.description)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.qty)
+                    </td>
+                    <td>
+                        @{
+                        int fulfilled;
+                        if (item.fulfilledQty.HasValue)
+                        {
+                            fulfilled = item.fulfilledQty.Value;
+                        }
+                        else
+                        {
+                            fulfilled = 0;
+
+                        }
+                        string qtyOutstanding = (item.qty - fulfilled).ToString();
                     }
-                    string qtyOutstanding = (item.qty - fulfilled).ToString();
-                }
                     @Html.Label(qtyOutstanding)
                 </td>
                 <td>
                     @*//input for received*@
                     <div class="form-inline">
                         <input type="number" name="num-@item.itemCode" value="0" min="0" class="form-control" placeholder="FulfilledQty" />
-                     
+
                     </div>
                 </td>
                 <td>
@@ -106,16 +129,21 @@
                     <input type="text" name="rem-@item.itemCode" />
                 </td>
             </tr>
-    }
+                        }
 
 
-</table>
-<div class="form-group">
-    <div class="col-md-offset-2 col-md-10">
-        @Html.ActionLink("Submit All as Received", "UpdateReceived", "ReceiveStock", new { checker = "allReceived" }, null)
-    
-        @*<input type="submit" value="Fill in all unreceived quantity"  class="btn btn-default" />*@
-        <input type="submit" value="Submit" class="btn btn-default" />
-    </div>
-</div>
-}
+        </table>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                @Html.ActionLink("Submit All as Received", "UpdateReceived", "ReceiveStock", new { checker = "allReceived" }, null)
+
+                @*<input type="submit" value="Fill in all unreceived quantity"  class="btn btn-default" />*@
+                <input type="submit" value="Submit" class="btn btn-default" />
+            </div>
+        </div>
+                        }
+
+</body>
+
+
+</html>
