@@ -35,7 +35,7 @@
 
 <body style="position: relative; background-color:lightcyan; min-height: 100%; top: 0px;">
     
-    <header class="container-fluid" style="position:relative;text-align:center;top:50%"><a href="#"><img src="~/Images/TopLogo.jpg"/> </a>
+    <header class="container-fluid" style="position:relative; text-align:center; top:50%"><a href="#"><img src="~/Images/TopLogo.jpg"/> </a>
         
     </header>
 
@@ -60,7 +60,7 @@
                         Collection
                     </a>
                     <ul class="dropdown-menu">
-                        <li>@Html.ActionLink("Items Ready For Pick Up", "Collect_Item","CollectionPoint")</li>
+                        <li>@Html.ActionLink("Items Ready For Collection", "Collect_Item","CollectionPoint")</li>
                         <li>@Html.ActionLink("Pending Items", "Pending_Item", "CollectionPoint")</li>
                         <li>@Html.ActionLink("Change Collection Point", "UpdateCollectionPoint", "CollectionPoint")</li>
                     </ul>
@@ -103,7 +103,7 @@
                            
                         
                        
-                            <li>@Html.ActionLink("Stationery Retrieval Form", "GenerateRetrieveForm", "ManageRequisitions")</a></li>
+                            <li>@Html.ActionLink("Stationery Retrieval Form", "GenerateRetrieveForm", "ManageRequisitions")</li>
                             <li>@Html.ActionLink("Disbursement List", "DisbursementList", "ManageRequisitions")</li>
                         </ul>
                 </li>
