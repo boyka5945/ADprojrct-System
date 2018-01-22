@@ -72,9 +72,7 @@
     </table>
     <br />
     <input type="submit" value="Confirm Changes" class="btn btn-success" />
-    <a href="@Url.Action("ShowDetail", new { id = ViewBag.RequisitionFormNo })">
-       <input type="button" value="Cancel" class="btn btn-secondary" />
-    </a>
+    <input type="button" value="Cancel"  class="btn btn-secondary" onclick="window.location.href='@Url.Action("ShowDetail", new { id = ViewBag.RequisitionFormNo })'" />
         <br />
 }
 

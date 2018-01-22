@@ -276,7 +276,7 @@ namespace Inventory_mvc.Service
                         transDetail.itemCode = voucherDetail.itemCode;
                         transDetail.adjustedQty = voucherDetail.adjustedQty;
                         transDetail.balanceQty = stationeryService.FindStationeryByItemCode(voucherDetail.itemCode).stockQty; // stock after adjustment
-                        transDetail.remarks = String.Format("Voucher no: {0} ({1})", voucherRecord.voucherID, voucherRecord.remarks);
+                        transDetail.remarks = String.Format("Voucher no.: {0} ({1})", voucherRecord.voucherID, voucherRecord.remarks);
 
                         transRecord.Transaction_Details.Add(transDetail);
                     }
