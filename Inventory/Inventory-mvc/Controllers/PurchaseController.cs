@@ -120,6 +120,7 @@ namespace Inventory_mvc.Controllers
             //    return View();
             //}
 
+
             details.Add(pd, supplierCode);
             model.Add(pd);
             Session["detailsBundle"] = details;
