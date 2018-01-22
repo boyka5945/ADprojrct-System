@@ -5,8 +5,41 @@
 @{
     ViewBag.Title = "Raise Purchase Order";
     Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var errorMessage = TempData["ErrorMessage"];
+    var qtyErrorMessage = TempData["QtyErrorMessage"];
+    var priceErrorMessage = TempData["PriceErrorMessage"];
+    var itemCodeErrorMessage = TempData["ItemCodeErrorMessage"];
+
+    //List<Inventory_mvc.Models.Purchase_Order_Record> Model = ViewBag.model;
+    //List<Inventory_mvc.ViewModel.Purchase_Order_RecordViewModel> Model = ViewBag.model;
+}
+@if (errorMessage != null)
+{
+    <div class="alert alert-danger">
+        @errorMessage.ToString()
+    </div>
 }
 
+@if (qtyErrorMessage != null)
+{
+    <div class="alert alert-danger">
+        @qtyErrorMessage.ToString()
+    </div>
+}
+@if (priceErrorMessage != null)
+{
+    <div class="alert alert-danger">
+        @priceErrorMessage.ToString()
+    </div>
+}
+
+@if (itemCodeErrorMessage != null)
+{
+    <div class="alert alert-danger">
+        @itemCodeErrorMessage.ToString()
+    </div>
+}
 
 <!DOCTYPE html>
 
@@ -73,12 +106,12 @@
 
             <hr />
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-            <div class="form-group" style="display: none; ">
+            <div class="form-group">
 
                 @Html.Label("Order Number", htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
                    
-                    <input type="text" name="orderNo" value="@ViewBag.orderNo" readonly>
+                    <input type="text" name="orderNo" value="@ViewBag.orderNo">
 
                 </div>
             </div>
@@ -90,7 +123,7 @@
                 <div class="col-md-10">
                   
                     @Html.Editor("itemCode")
-                    @Html.ValidationMessage("itemCode")
+                    @Html.ValidationMessage("itemCode","", new { @class = "text-danger" })
                 </div>
             </div>
 
@@ -110,7 +143,7 @@
                 <div class="col-md-10">
                  
                     @Html.Editor("qty")
-                    @Html.ValidationMessage("qty")
+                    @Html.ValidationMessage("qty", "", new { @class = "text-danger" })
                 </div>
             </div>
 
@@ -120,7 +153,7 @@
                 <div class="col-md-10">
                 
                     @Html.Editor("price")
-                    @Html.ValidationMessage("price")
+                    @Html.ValidationMessage("price", "", new { @class = "text-danger" })
                 </div>
             </div>
 
@@ -147,7 +180,7 @@
                 <div class="col-md-10">
           
                     @Html.Editor("remarks")
-                    @Html.ValidationMessage("remarks")
+                    @*@Html.ValidationMessage("remarks")*@
                 </div>
             </div>
 
@@ -198,13 +231,20 @@
             <td>
                 @{
                     Inventory_mvc.Models.StationeryModel Entity = new Inventory_mvc.Models.StationeryModel();
+                    Inventory_mvc.Models.Stationery s = new Inventory_mvc.Models.Stationery();
+                    try
+                    {
+                        s = Entity.Stationeries.Where(x => x.itemCode == item.itemCode).First();
+                        String description = s.description;
 
-                    Inventory_mvc.Models.Stationery s = Entity.Stationeries.Where(x => x.itemCode == item.itemCode).First();
+                        @Html.Label(description)
 
-                    String description = s.description;
+                    }
+                    catch (Exception e)
+                    {
 
+                    }
                 }
-                @Html.Label(description)
             </td>
 
             <td>
@@ -212,14 +252,14 @@
             </td>
 
             <td>
-                @Html.DisplayFor(modelItem => item.qty)
+                @Html.DisplayFor(modelItem => item.qty, new { id = "qty"+item.itemCode })
             </td>
 
             <td>
                 @{
                     int totalPrice = (int)item.price * item.qty;
                 }
-                @Html.Label(totalPrice.ToString())
+                @Html.Label(totalPrice.ToString(), new { id = "price"+item.itemCode })
             </td>
 
 
@@ -238,12 +278,17 @@
 </table>
 
 @Html.ActionLink("Clear", "ClearSession", "Purchase", new { @class = "btn btn-default", style="float: right"}) 
-@Html.ActionLink("Generate Purchase Order", "GeneratePO", "Purchase", new { @class = "btn btn-primary", style="float: left" })
+@Html.ActionLink("Generate Purchase Order", "GeneratePO", "Purchase", new { @class = "btn btn-primary", style="float: left" }, null)
+
+
 
 <div>
     <br />
     <br />
     @Html.ActionLink("Back to PO List", "ListPurchaseOrders", "Purchase", new {style = "float: left" })
+    <br />
+    <br />
+
 </div>
 
 
@@ -295,11 +340,17 @@
 
 
 
+
     $('button').click(function () {
 
+
+
         modal.style.display = "block";
-        alert($(this).attr('name'));
         $("[name='ditemCode']").val($(this).attr('name'));
+        //change this to refer to already exisint value
+        $("[name='dprice']").val();
+        $("[name='dqty']").val();
+      
 
     });
 

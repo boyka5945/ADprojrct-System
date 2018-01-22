@@ -30,6 +30,7 @@ namespace Inventory_mvc.Controllers
         //FormCollection form
         public ActionResult ListPurchaseOrders(string search, string searchBy,int? page)
         {
+
             ViewBag.Search = search;
             ViewBag.SearchBy = searchBy;
             List<Purchase_Order_Record> model = new List<Purchase_Order_Record>();
@@ -56,7 +57,7 @@ namespace Inventory_mvc.Controllers
                     break;
 
             }
-            int pageSize = 2;
+            int pageSize = 10;
             int pageNumber = (page ?? 1);
             return View(model.ToPagedList(pageNumber, pageSize));
             //return View(model);
@@ -105,27 +106,51 @@ namespace Inventory_mvc.Controllers
             List<Purchase_Detail> model = new List<Purchase_Detail>();
             Dictionary<Purchase_Detail, string> details = new Dictionary<Purchase_Detail, string>();
 
+           
             if (Session["detailsBundle"] != null)
             {
-                //model = (List<Purchase_Detail>)Session["purchaseOrder"];
+                
                 details = (Dictionary<Purchase_Detail, string>)Session["detailsBundle"];
                 model = details.Keys.ToList<Purchase_Detail>();
 
             }
 
-            //if(pd.itemCode == null)
-            //{
-            //    string errorMessage = String.Format("Item Code must not be empty.");
-            //    ModelState.AddModelError("itemCode", errorMessage);
-            //    return View();
-            //}
+            //validation
+            if (pd.qty < 1)
+            {
+                TempData["QtyErrorMessage"] = "Quantity should be greater than 0";
+            }
+            if (pd.price <= 0)
+            {
+                TempData["PriceErrorMessage"] = "Price cannot be 0 or less than 0.";
+            }
 
-            details.Add(pd, supplierCode);
-            model.Add(pd);
-            Session["detailsBundle"] = details;
-            return View("RaisePurchaseOrder", model);
+            if (pd.itemCode == null)
+            {
+                TempData["ItemCodeErrorMessage"] = "ItemCode must be filled in.";
+            }
+
+            //only save to session if itemcode, price and qty are entered
+            if (pd.price > 0 && pd.qty > 0 && pd.itemCode!=null)
+            {
+                try
+                {
+                    details.Add(pd, supplierCode);
+                    model.Add(pd);
+                    Session["detailsBundle"] = details;
+                    return View("RaisePurchaseOrder", model);
+                }
+                catch (Exception e)
+                {
+                    TempData["ExceptionMessage"] = e.Message;
+                    return View(model);
+                }
+                // ViewBag.model = pos.GetAllPurchaseOrder();
+            }
 
 
+
+            return View(model);
         }
 
         //gets the purchase details and supplier to order from - which are bundled together as key-value pairs, then creates a new purchase order for each supplier
@@ -137,42 +162,50 @@ namespace Inventory_mvc.Controllers
             int orderNo = findNextOrderNo();
             List<Purchase_Detail> po = details.Keys.ToList<Purchase_Detail>();
             details = (Dictionary<Purchase_Detail, string>)Session["detailsBundle"];
-
-            List<string> suppliers = details.Values.Distinct().ToList();
-            
-            for (int i = 0; i < suppliers.Count; i++)
+            if (details == null)
             {
-                Purchase_Order_Record p = new Purchase_Order_Record();
-                p.clerkID = "S1017"; // HARD CODED supposed to be currently logged in guy
-                p.date = DateTime.Now;
-                p.orderNo = orderNo + i;
-                p.status = "incomplete"; //the default starting status
-                p.supplierCode = suppliers[i];
-                p.expectedDeliveryDate = DateTime.Now.AddDays(14); //HARD CODED currently
-                pos.AddNewPurchaseOrder(p);
+                TempData["ErrorMessage"] = "No PO to generate.";
+                return RedirectToAction("RaisePurchaseOrder");
+            }
+            else
+            {
+                List<string> suppliers = details.Values.Distinct().ToList();
 
-
-                foreach (KeyValuePair<Purchase_Detail, string> entry in details)
+                for (int i = 0; i < suppliers.Count; i++)
                 {
-                    Purchase_Detail pd = entry.Key;
+                    Purchase_Order_Record p = new Purchase_Order_Record();
+                    p.clerkID = "S1017"; // HARD CODED supposed to be currently logged in guy
+                    p.date = DateTime.Now;
+                    p.orderNo = orderNo + i;
+                    p.status = "incomplete"; //the default starting status
+                    p.supplierCode = suppliers[i];
+                    p.expectedDeliveryDate = DateTime.Now.AddDays(14); //HARD CODED currently
+                    pos.AddNewPurchaseOrder(p);
 
-                    string supplierCode = entry.Value;
-                    //find the orderNo matching supplier and create the purchase detail 
-                    if (supplierCode == suppliers[i])
+
+                    foreach (KeyValuePair<Purchase_Detail, string> entry in details)
                     {
-                        pd.orderNo = orderNo + i;
-                        pos.AddPurchaseDetail(pd);
+                        Purchase_Detail pd = entry.Key;
+
+                        string supplierCode = entry.Value;
+                        //find the orderNo matching supplier and create the purchase detail 
+                        if (supplierCode == suppliers[i])
+                        {
+                            pd.orderNo = orderNo + i;
+                            pos.AddPurchaseDetail(pd);
+                        }
+
                     }
+                }
 
+                Session["detailsBundle"] = null; //clear the orderCart
+                List<Purchase_Order_Record> model = pos.GetAllPurchaseOrder();
+                //return View("ListPurchaseOrders", model);
+                int pageSize = 2;
+                int pageNumber = (page ?? 1);
+                return View("ListPurchaseOrders", model.ToPagedList(pageNumber, pageSize));
             }
-            }
-
-            Session["detailsBundle"] = null; //clear the orderCart
-            List<Purchase_Order_Record> model = pos.GetAllPurchaseOrder();
-            //return View("ListPurchaseOrders", model);
-            int pageSize = 2;
-            int pageNumber = (page ?? 1);
-            return View("ListPurchaseOrders", model.ToPagedList(pageNumber, pageSize));
+            
         }
 
         //delete purchase order record
@@ -191,8 +224,26 @@ namespace Inventory_mvc.Controllers
         {
             Dictionary<Purchase_Detail, string> details = (Dictionary<Purchase_Detail, string>)Session["detailsBundle"];
             List<Purchase_Detail> model = details.Keys.ToList<Purchase_Detail>();
-            Purchase_Detail pd = model.Where(x => x.itemCode == id).First();
-            model.Remove(pd);
+
+            try
+            {
+
+                Purchase_Detail pd = model.Where(x => x.itemCode == id).First();
+
+                //remove from model
+                model.Remove(pd);
+
+                //remove from sessions state
+                details.Remove(pd);
+                Session["detailsBundle"] = details;
+            }
+
+            catch
+            {
+
+
+            }
+      
 
             return View("RaisePurchaseOrder", model);
 

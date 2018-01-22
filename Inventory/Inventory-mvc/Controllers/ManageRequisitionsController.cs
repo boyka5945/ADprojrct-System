@@ -108,7 +108,7 @@ namespace Inventory_mvc.Controllers
             int pageSize = 4;
             int pageNumber = (page ?? 1);
 
-            TempData["page"] = (page ?? 1);
+            Session["page"] = (page ?? 1);
             return View(blist.ToPagedList(pageNumber, pageSize));
             //return View(blist);
         }
@@ -116,7 +116,7 @@ namespace Inventory_mvc.Controllers
         [HttpPost]
         public ActionResult AllocateRequisition(IEnumerable<BigModelView> model, int? page)
         {
-            var page1 = (int)TempData["page"];
+            var page1 = (int)Session["page"];
             List<string> itemCodes = rs.GetItemCodeList();
             var ls = (List< RetrieveForm>)HttpContext.Application["retrieveform"];
             if (ModelState.IsValid)
@@ -143,6 +143,11 @@ namespace Inventory_mvc.Controllers
                             int check = k;
                             for (int p = 0; p < length; p++) {
                                 qty = qty + (int)l2[k + p].allocateQty;
+                            }
+                            if (l2[check].retrievedQuantity == "")
+                            {
+                                ViewBag.Message = "have not retrieve yet.";
+                                return View("Error");
                             }
                             if (qty > Convert.ToInt32(l2[check].retrievedQuantity))
                             {

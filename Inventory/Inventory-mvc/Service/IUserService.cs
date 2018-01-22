@@ -8,7 +8,7 @@ namespace Inventory_mvc.Service
 {
     public interface IUserService
     {
-        List<User> GetAllUserViewModel();
+        List<string> GetStoreRoles();
 
         List<User> GetUserByDept(User user);
 
@@ -37,13 +37,17 @@ namespace Inventory_mvc.Service
         string FindNameByID(string userid);
         bool FindRole(int role);
 
-        List<int> RoleForEditAndCreate(string userid);
+        //List<string> RoleForEditAndCreate(string userid);
 
         bool AlrDelegated(string id);
 
         bool IsStoreManager(string userID);
 
         bool IsStoreSupervisor(string userID);
+
+
+        void AutoRemove(User user);
+
 
     }
 }

@@ -28,5 +28,7 @@ namespace Inventory_mvc.Service
 
         List<Purchase_Order_Record> FindByStatus(string status);
         List<Purchase_Order_Record> FindBySupplier(string supplier);
+
+        int UpdatePurchaseDetailsInfo(Purchase_Detail pd);
     }
 }
