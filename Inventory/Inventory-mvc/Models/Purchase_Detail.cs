@@ -11,23 +11,22 @@ namespace Inventory_mvc.Models
     {
         [Key]
         [Column(Order = 0)]
-        
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int orderNo { get; set; }
 
         [Key]
         [Column(Order = 1)]
         [StringLength(50)]
-        [Required(AllowEmptyStrings = false, ErrorMessage = "itemCode can not be empty.")]
+        //[Required(AllowEmptyStrings = false, ErrorMessage = "itemCode can not be empty.")]
         public string itemCode { get; set; }
 
         [StringLength(100)]
         public string remarks { get; set; }
-        [Required(AllowEmptyStrings = false, ErrorMessage = "qty can not be empty.")]
+        //[Required(AllowEmptyStrings = false, ErrorMessage = "qty can not be empty.")]
         public int qty { get; set; }
 
         public int? fulfilledQty { get; set; }
-        [Required(AllowEmptyStrings = false, ErrorMessage = "price can not be empty.")]
+        //[Required(AllowEmptyStrings = false, ErrorMessage = "price can not be empty.")]
         public decimal price { get; set; }
 
         public int? deliveryOrderNo { get; set; }

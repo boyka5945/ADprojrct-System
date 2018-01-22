@@ -143,6 +143,7 @@ namespace Inventory_mvc.Controllers
             for (int i = 0; i < suppliers.Count; i++)
             {
                 Purchase_Order_Record p = new Purchase_Order_Record();
+            
                 p.clerkID = "S1017"; // HARD CODED supposed to be currently logged in guy
                 p.date = DateTime.Now;
                 p.orderNo = orderNo + i;

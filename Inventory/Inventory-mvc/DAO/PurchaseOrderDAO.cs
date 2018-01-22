@@ -10,13 +10,13 @@ namespace Inventory_mvc.DAO
     {
         public bool AddNewPurchaseOrder(Purchase_Order_Record purchase_order_record)
         {
-            using (StationeryModel Entity = new StationeryModel())
-            {
+            StationeryModel Entity = new StationeryModel();
+            
                 Entity.Purchase_Order_Records.Add(purchase_order_record);
                 Entity.SaveChanges();
                 return true;
 
-            }
+            
 
 
         }
@@ -36,13 +36,13 @@ namespace Inventory_mvc.DAO
 
         public Purchase_Order_Record FindByOrderID(int orderID)
         {
-            using (StationeryModel Entity = new StationeryModel())
-            {
+            StationeryModel Entity = new StationeryModel();
+            
                 Purchase_Order_Record por = Entity.Purchase_Order_Records.Where(x => x.orderNo == orderID).First();
                 return por;
 
 
-            }
+            
 
         }
 
@@ -100,6 +100,27 @@ namespace Inventory_mvc.DAO
                 return rowAffected;
 
             }
+        }
+
+        public int UpdatePurchaseDetailsInfo(Purchase_Detail pd)
+        {
+            using (StationeryModel Entity = new StationeryModel())
+            {
+                Purchase_Detail purchd = (from x in Entity.Purchase_Detail
+                                             where x.orderNo == pd.orderNo && x.itemCode == pd.itemCode
+                                             select x).FirstOrDefault();
+
+                purchd.fulfilledQty = pd.fulfilledQty;
+                purchd.price = pd.price;
+                purchd.deliveryOrderNo = pd.deliveryOrderNo;
+                purchd.remarks = pd.remarks;
+
+                int rowAffected = Entity.SaveChanges();
+
+                return rowAffected;
+
+            }
+
         }
 
 

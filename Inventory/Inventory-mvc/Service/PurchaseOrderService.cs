@@ -68,6 +68,11 @@ namespace Inventory_mvc.Service
             return dao.FindBySupplier(supplier);
         }
 
+        public int UpdatePurchaseDetailsInfo(Purchase_Detail pd)
+        {
+            return dao.UpdatePurchaseDetailsInfo(pd);
+        }
+
         //public void AddPurchaseDetail(int deliveryOrderNo, string itemCode, int qty, string remarks)
         //{
         //    dao.AddPurchaseDetail(deliveryOrderNo, itemCode, qty, remarks);
