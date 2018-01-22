@@ -288,10 +288,7 @@ namespace Inventory_mvc.Controllers
                         try
                         {
                             // valid voucher
-                            if (!adjustmentVoucherService.ApproveVoucherRecord(id, approverID, remark))
-                            {
-                                errorMessage = String.Format("Error occur while updating voucher detail. Please try again later.");
-                            }
+                            adjustmentVoucherService.ApproveVoucherRecord(id, approverID, remark);
                         }
                         catch (Exception e) // catch exception from ApproveVoucherRecord method
                         {
@@ -301,9 +298,13 @@ namespace Inventory_mvc.Controllers
                     break;
 
                 case "Reject":
-                    if (!adjustmentVoucherService.RejectVoucherRecord(id, approverID, remark))
+                    try
                     {
-                        errorMessage = String.Format("Error occur while updating voucher detail. Please try again later");
+                        adjustmentVoucherService.RejectVoucherRecord(id, approverID, remark);
+                    }
+                    catch(Exception e)
+                    {
+                        errorMessage = String.Format("Error occur while updating voucher detail. Please try again later. ({0})", e.Message);
                     }
                     break;
 

@@ -13,8 +13,7 @@ namespace Inventory_mvc.Service
     {
         private IUserDAO userDAO = new UserDAO();
 
-        // TODO: Solve the methods
-        List<string> IUserService.GetStoreRoles()
+        public List<string> GetStoreRoles()
         {
             List<string> roleList = userDAO.GetStoreRoles();        
             return roleList;

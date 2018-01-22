@@ -85,7 +85,7 @@
                     @Html.DisplayFor(modelItem => item.ActualQuantity)
                     <input type="hidden" name="[@i].ActualQuantity" value="@item.ActualQuantity" />
                 </td>
-                @if (item.Discrepancy > 0)
+                @if (item.Discrepancy >= 0)
                 {
                     <td>
                         <span class="text-success">+@item.Discrepancy</span>

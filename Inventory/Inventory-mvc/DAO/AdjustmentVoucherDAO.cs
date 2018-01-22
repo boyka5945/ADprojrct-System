@@ -60,7 +60,8 @@ namespace Inventory_mvc.DAO
                 }
                 catch(Exception e)
                 {
-                    return -1;
+                    string errorMessage = String.Format("Error occurs when updating adjustment voucher. ({0})", e.Message);
+                    throw new Exception(errorMessage);
                 }
             }
         }
