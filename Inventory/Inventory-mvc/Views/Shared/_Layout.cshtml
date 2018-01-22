@@ -114,16 +114,19 @@
                 <li>
                     @Html.ActionLink("Stationery Requisition Form", "ClerkRequisition", "ManageRequisitions")
                 </li>
-                <li>
-                    @Html.ActionLink("Approve Stationery Request", "ManagerRequisition", "ManageRequisitions")
-                </li>
+                @if (Convert.ToInt32(HttpContext.Current.Application["role"]) == 2 || Convert.ToInt32(HttpContext.Current.Application["role"]) == 5 || Convert.ToInt32(HttpContext.Current.Application["role"]) == 8 )
+                {
+                    <li>
+                        @Html.ActionLink("Approve Stationery Request", "ManagerRequisition", "ManageRequisitions")
+                    </li>
+                }
                 <li class="dropdown-submenu">
                     <a class="test" href="#">Inventory Adjustment Voucher<span class="caret"></span></a>
                     <ul class="dropdown-menu" style="top:20%;left:100%;margin-top:1px">
                         <li>@Html.ActionLink("Submit Voucher", "NewVoucher", "AdjustmentVoucher")</li>
-@if (Convert.ToInt32(HttpContext.Current.Application["role"]) == 5 || Convert.ToInt32(HttpContext.Current.Application["role"]) == 6 || Convert.ToInt32(HttpContext.Current.Application["role"]) == 8)
-{
-                        <li>@Html.ActionLink("Approve Voucher", "Index", "AdjustmentVoucher")</li>}
+                        @if (Convert.ToInt32(HttpContext.Current.Application["role"]) == 5 || Convert.ToInt32(HttpContext.Current.Application["role"]) == 6 || Convert.ToInt32(HttpContext.Current.Application["role"]) == 8)
+                        {
+                            <li>@Html.ActionLink("Approve Voucher", "Index", "AdjustmentVoucher")</li>}
                     </ul>
                 </li>
 
@@ -131,8 +134,8 @@
 
                 <li>@Html.ActionLink("Stationery Retrieval Form", "GenerateRetrieveForm", "ManageRequisitions")</li>
                 <li>@Html.ActionLink("Disbursement List", "DisbursementList", "ManageRequisitions")</li>
-           </ul>
-        </li>
+            </ul>
+      </li>
     }
 @if (Convert.ToInt32(HttpContext.Current.Application["role"]) == 5 || Convert.ToInt32(HttpContext.Current.Application["role"]) == 6 || Convert.ToInt32(HttpContext.Current.Application["role"]) == 7 || Convert.ToInt32(HttpContext.Current.Application["role"]) == 8)
 {
