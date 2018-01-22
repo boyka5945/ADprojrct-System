@@ -9,6 +9,7 @@
     var errorMessage = TempData["ErrorMessage"];
     var qtyErrorMessage = TempData["QtyErrorMessage"];
     var priceErrorMessage = TempData["PriceErrorMessage"];
+    var itemCodeErrorMessage = TempData["ItemCodeErrorMessage"];
 
     //List<Inventory_mvc.Models.Purchase_Order_Record> Model = ViewBag.model;
     //List<Inventory_mvc.ViewModel.Purchase_Order_RecordViewModel> Model = ViewBag.model;
@@ -30,6 +31,13 @@
 {
     <div class="alert alert-danger">
         @priceErrorMessage.ToString()
+    </div>
+}
+
+@if (itemCodeErrorMessage != null)
+{
+    <div class="alert alert-danger">
+        @itemCodeErrorMessage.ToString()
     </div>
 }
 
@@ -244,14 +252,14 @@
             </td>
 
             <td>
-                @Html.DisplayFor(modelItem => item.qty)
+                @Html.DisplayFor(modelItem => item.qty, new { id = "qty"+item.itemCode })
             </td>
 
             <td>
                 @{
                     int totalPrice = (int)item.price * item.qty;
                 }
-                @Html.Label(totalPrice.ToString())
+                @Html.Label(totalPrice.ToString(), new { id = "price"+item.itemCode })
             </td>
 
 
@@ -278,6 +286,9 @@
     <br />
     <br />
     @Html.ActionLink("Back to PO List", "ListPurchaseOrders", "Purchase", new {style = "float: left" })
+    <br />
+    <br />
+
 </div>
 
 
@@ -329,11 +340,17 @@
 
 
 
+
     $('button').click(function () {
 
+
+
         modal.style.display = "block";
-        alert($(this).attr('name'));
         $("[name='ditemCode']").val($(this).attr('name'));
+        //change this to refer to already exisint value
+        $("[name='dprice']").val();
+        $("[name='dqty']").val();
+      
 
     });
 
