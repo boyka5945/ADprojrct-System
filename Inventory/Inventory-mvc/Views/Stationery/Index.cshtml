@@ -1,6 +1,8 @@
 ﻿@model PagedList.IPagedList<Inventory_mvc.ViewModel.StationeryViewModel>
 
 @using PagedList.Mvc;
+@using Inventory_mvc.Utilities;
+
 <link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 
 
@@ -8,13 +10,8 @@
 @{
     ViewBag.Title = "Stationery List";
 
-    var createMessage = TempData["CreateMessage"];
-
-    var editMessage = TempData["EditMessage"];
-    var editErrorMessage = TempData["EditErrorMessage"];
-
-    var deleteErrorMessage = TempData["DeleteErrorMessage"];
-    var deleteMessage = TempData["DeleteMessage"];
+    var successMessage = TempData["SuccessMessage"];
+    var errorMessage = TempData["ErrorMessage"];
 
     List<Inventory_mvc.Models.Category> categoryList = ViewBag.CategoryList;
 
@@ -64,59 +61,23 @@
 
 <div>
     <p>
-        @if (editMessage != null)
+        @if (successMessage != null)
         {
             <div class="alert alert-success">
-                @editMessage.ToString()
+                @successMessage.ToString()
             </div>
         }
 
-        @if (editErrorMessage != null)
+        @if (errorMessage != null)
         {
             <div class="alert alert-danger">
-                @editErrorMessage.ToString()
-            </div>
-        }
-
-
-        @if (createMessage != null)
-        {
-            <div class="alert alert-success">
-                @createMessage.ToString()
-            </div>
-        }
-
-        @if (editMessage != null)
-        {
-            <div class="alert alert-success">
-                @editMessage.ToString()
-            </div>
-        }
-
-        @if (editErrorMessage != null)
-        {
-            <div class="alert alert-danger">
-                @editErrorMessage.ToString()
-            </div>
-        }
-
-        @if (deleteErrorMessage != null)
-        {
-            <div class="alert alert-danger">
-                @deleteErrorMessage.ToString()
-            </div>
-        }
-
-        @if (deleteMessage != null)
-        {
-            <div class="alert alert-success">
-                @deleteMessage.ToString()
+                @errorMessage.ToString()
             </div>
         }
     </p>
 </div>
 
-@if(role != "Clerk")
+@if (role != UserRoles.STORE_CLERK)
 {
     <p>
         @Html.ActionLink("Create New Stationery", "Create")
@@ -209,8 +170,8 @@
             </td>
             <td>
                 @Html.ActionLink("View StockCard", "ViewStockCard", new { id = item.ItemCode })
-                
-                @if (role != "Clerk")
+
+                @if (role != UserRoles.STORE_CLERK)
                 {
                     @:| @Html.ActionLink("Edit", "Edit", new { id = item.ItemCode })
                     @:| @Html.ActionLink("Delete", "Delete", new { id = item.ItemCode })

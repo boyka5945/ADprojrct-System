@@ -17,6 +17,7 @@ namespace Inventory_mvc.Models
         }
 
         [Key]
+        [Required]
         [StringLength(50)]
         public string departmentCode { get; set; }
 

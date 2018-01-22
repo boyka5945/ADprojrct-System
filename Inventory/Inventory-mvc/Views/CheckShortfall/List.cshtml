@@ -34,7 +34,7 @@
 <body>
     <h2>Shortfall List</h2>
 
-    @Html.BeginForm("AddSelected", "CheckShortfall", FormMethod.Get){
+    @using (Html.BeginForm(new { Action = "AddSelected", Controller = "CheckShortfall", FormMethod.Get })) {
     <table class="table">
         <tr>
             <th>
@@ -145,7 +145,7 @@
 
 
     </table>
-
+    }
     Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
 
     @Html.PagedListPager(Model, page => Url.Action("List",

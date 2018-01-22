@@ -21,26 +21,33 @@ namespace Inventory_mvc.Models
 
         [Key]
         [StringLength(50)]
+        [Display(Name = "Item Code")]
         public string itemCode { get; set; }
 
         public int categoryID { get; set; }
 
         [Required]
         [StringLength(50)]
+        [Display(Name = "Description")]
         public string description { get; set; }
 
+        [Display(Name = "Reorder Level")]
         public int reorderLevel { get; set; }
 
+        [Display(Name = "Reorder Quantity")]
         public int reorderQty { get; set; }
 
         [Required]
         [StringLength(50)]
+        [Display(Name = "UOM")]
         public string unitOfMeasure { get; set; }
 
+        [Display(Name = "Stock Quantity")]
         public int stockQty { get; set; }
 
         [Required]
         [StringLength(50)]
+        [Display(Name = "Location")]
         public string location { get; set; }
 
         [Required]
@@ -53,6 +60,7 @@ namespace Inventory_mvc.Models
         [StringLength(50)]
         public string thirdSupplierCode { get; set; }
 
+        [Display(Name = "Price")]
         public decimal price { get; set; }
 
         public virtual Category Category { get; set; }

@@ -1,5 +1,8 @@
 ﻿@model Inventory_mvc.ViewModel.StationeryViewModel
 
+@using Inventory_mvc.Utilities;
+
+
 @{
     ViewBag.Title = "View";
 
@@ -103,12 +106,62 @@
     </dl>
 </div>
 <p>
-@if (role != "Clerk")
-{
-    @Html.ActionLink("Edit", "Edit", new { id = Model.ItemCode }) 
-    @:|
-}
+    @if (role != UserRoles.STORE_CLERK)
+    {
+        @Html.ActionLink("Edit", "Edit", new { id = Model.ItemCode })
+        @:|
+    }
 
  
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Back to Stationery List", "Index")
 </p>
+
+<hr />
+
+<h4>Item Transaction Record</h4>
+
+<form id="transactionForm">
+    <table class="table pagination">
+        <tr>
+            <td>
+                @Html.Label("Select Year", new { @class = "text-right font-weight-bold" })
+            </td>
+            <td>
+                @Html.DropDownList("selectedYear", ViewBag.SelectYear as SelectList, new { @class = "form-control" })
+            </td>
+            <td>
+                @Html.Label("Select Month", new { @class = "text-right font-weight-bold" })
+            </td>
+            <td>
+                @Html.DropDownList("selectedMonth", ViewBag.SelectMonth as SelectList, new { @class = "form-control" })
+            </td>
+            <td>
+                <input type="hidden" name="id" value="@Model.ItemCode" />
+                <input type="button" class="btn btn-primary" onclick="LoadData('@Model.ItemCode')" value="View Transaction" />
+            </td>
+        </tr>
+    </table>
+</form>
+
+
+<div id="transactionRecord">
+
+</div>
+
+<script>
+    function LoadData(itemCode)
+    {
+        $.ajax({
+            url: '/Stationery/ViewTransaction',
+            data: $('#transactionForm').serialize(),
+            type: 'POST',
+            success: function (data) {
+                $("#transactionRecord").html(data)
+            },
+            error: function () {
+                alert("Opps. Some error occurs. Please try again.");
+            }
+        });
+    }
+
+</script>

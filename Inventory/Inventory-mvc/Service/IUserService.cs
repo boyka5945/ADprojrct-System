@@ -41,6 +41,11 @@ namespace Inventory_mvc.Service
 
         bool AlrDelegated(string id);
 
+        bool IsStoreManager(string userID);
+
+        bool IsStoreSupervisor(string userID);
+
+
         void AutoRemove(User user);
 
 

@@ -83,11 +83,24 @@ namespace Inventory_mvc.Controllers
         }
 
         [HttpPost]
-        public ActionResult CreateDepartment(Department dept)
+        public ActionResult CreateDepartment(Department dept, FormCollection form)
         {
-            var PointID = Convert.ToInt32( Request["collectionPointID"]);
             DepartmentService ds = new DepartmentService();
-            dept.collectionPointID = PointID;
+            ViewBag.CollectionPointList = collectionPointService.GetAllCollectionPoints();
+            try
+            {
+                var PointID = Convert.ToInt32(form["PointID"]);
+                
+                dept.collectionPointID = PointID;
+            }
+            catch
+            {
+                string errorMessage = String.Format("Select Collection Point.");
+                ModelState.AddModelError("collectionPointID", errorMessage);
+                return View();
+            }        
+           
+            
 
             string deptCode = dept.departmentCode;
 

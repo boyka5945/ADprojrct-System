@@ -8,14 +8,10 @@ namespace Inventory_mvc.DAO
 {
     public interface ITransactionRecordDAO
     {
-        List<Transaction_Record> GetAllTransaction();
-
-        Transaction_Record FindByTransactionNO(int TransactionNO);
+        Transaction_Record FindByTransactionNo(int transactionNo);
 
         Boolean AddNewTransaction(Transaction_Record transaction_record);
 
-        int UpdateTransactionInfo(Transaction_Record transaction_record);
-
-        Boolean DeleteTransaction(int TransactionNO);
+        List<Transaction_Detail> GetTransaciontDetailsByCriteria(int year, int month, string itemCode);
     }
 }

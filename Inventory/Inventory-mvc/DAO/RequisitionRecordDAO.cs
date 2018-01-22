@@ -4,7 +4,9 @@ using System.Linq;
 using System.Web;
 using Inventory_mvc.Models;
 using Inventory_mvc.ViewModel;
+using Inventory_mvc.Utilities;
 using System.Data.Entity;
+
 
 namespace Inventory_mvc.DAO
 {
@@ -229,7 +231,6 @@ namespace Inventory_mvc.DAO
 
         public List<RetrieveForm> GetRetrieveFormByDateTime(DateTime? time)
         {
-
             StationeryModel entity = new StationeryModel();
             List<Requisition_Record> rr = entity.Requisition_Records.Where(x => x.approveDate < time).ToList();
             List<RetrieveForm> retrieveList = new List<RetrieveForm>();
@@ -254,7 +255,7 @@ namespace Inventory_mvc.DAO
             {
                 foreach (var b in rr)
                 {
-                    if ((b.Requisition_Detail.Where(x => x.itemCode == ItemCodes[i]).Count()) > 0)
+                    if ((b.Requisition_Detail.Where(x => x.itemCode == ItemCodes[i]).Count()) > 0 && (b.status == RequisitionStatus.APPROVED_PROCESSING || b.status == RequisitionStatus.PARTIALLY_FULFILLED))
                     {
                         Qty[i] = Qty[i] + b.Requisition_Detail.Where(x => x.itemCode == ItemCodes[i]).First().allocatedQty;
                     }
@@ -263,8 +264,10 @@ namespace Inventory_mvc.DAO
             for (int i = 0; i < ItemCodes.Count; i++)
             {
                 RetrieveForm rf = new RetrieveForm();
-                rf.description = ItemCodes[i];
+                rf.ItemCode = ItemCodes[i];
+                rf.description = entity.Stationeries.Where(x => x.itemCode == rf.ItemCode).First().description;
                 rf.Qty = Qty[i];
+                rf.retrieveQty = 0;
                 retrieveList.Add(rf);
             }
             return retrieveList;
@@ -311,6 +314,9 @@ namespace Inventory_mvc.DAO
                     case "Request Date":
                         records = records.OrderBy(r => r.requestDate);
                         break;
+                    case "date_desc":
+                        records = records.OrderByDescending(r => r.requestDate);
+                        break;
                     case "Status":
                         records = records.OrderBy(r => r.status);
                         break;
@@ -325,6 +331,12 @@ namespace Inventory_mvc.DAO
                 return records.ToList();
             }
 
+        }
+
+        public int DetailsCountOfOneItemcode(string itemCode)
+        {
+            StationeryModel entity = new StationeryModel();
+            return entity.Requisition_Detail.Where(x => x.itemCode == itemCode).Count();
         }
     }
 }
