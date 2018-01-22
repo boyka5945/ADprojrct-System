@@ -7,6 +7,7 @@ using Inventory_mvc.Service;
 using Inventory_mvc.Models;
 using Inventory_mvc.ViewModel;
 using PagedList;
+using System.Transactions;
 
 namespace Inventory_mvc.Controllers
 {
@@ -19,12 +20,40 @@ namespace Inventory_mvc.Controllers
         // GET: InventoryCheck
         public ActionResult Index()
         {
+            List<DateTime> dates = invetoryCheckService.ListAllStockCheckDate();
+            ViewBag.Dates = dates;
+
             return View();
+        }
+
+
+        public ActionResult ShowDetails(DateTime date)
+        {
+            if(date == null)
+            {
+                return RedirectToAction("Index");
+            }
+
+            List<InventoryCheckViewModel> vmList = invetoryCheckService.FindInventoryStatusRecordsByDate(date);
+
+            if(vmList.Count == 0)
+            {
+                TempData["ErrorMessage"] = "Non-existing inventory check record.";
+            }
+
+            return View(vmList);
         }
 
         [HttpGet]
         public ActionResult GenerateInventoryChecklist()
         {
+            if (HttpContext.Application["InventoryChecklist"] != null)
+            {
+                // must complete current stock check first before generate new one
+                TempData["ErrorMessage"] = String.Format("Please complete or cancel current stock check before generate another checklist.");
+                return RedirectToAction("ProcessInventoryCheck");
+            }
+
             ViewBag.CategoryList = stationeryService.GetAllCategory();
 
             List<Category> categories = stationeryService.GetAllCategory();
@@ -50,6 +79,7 @@ namespace Inventory_mvc.Controllers
         [HttpPost]
         public ActionResult GenerateInventoryChecklist(int[] categorylistbox = null)
         {
+
             string errorMessage = null;
 
             if(categorylistbox == null)
@@ -62,7 +92,7 @@ namespace Inventory_mvc.Controllers
                 errorMessage = String.Format("There is {0} pending adjustment voucher(s). Please process all vouchers first before generate the list.", adjustmentVoucherService.GetPendingVoucherCount());
             }
 
-            if(!String.IsNullOrEmpty(errorMessage))
+            if (!String.IsNullOrEmpty(errorMessage))
             {
                 TempData["ErrorMessage"] = errorMessage;
                 return RedirectToAction("GenerateInventoryChecklist");
@@ -73,45 +103,27 @@ namespace Inventory_mvc.Controllers
             HttpContext.Application["InventoryChecklist"] = vmList;
             HttpContext.Application.UnLock();
 
-
             return RedirectToAction("ProcessInventoryCheck", vmList);
         }
 
 
         [HttpGet]
-        public ActionResult ProcessInventoryCheck(List<InventoryCheckViewModel> checklist, int? page)
+        public ActionResult ProcessInventoryCheck(int? page)
         {
             HttpContext.Application.Lock();
-            List<InventoryCheckViewModel> currentList = HttpContext.Application["InventoryChecklist"] as List<InventoryCheckViewModel>;
+            List<InventoryCheckViewModel> stockchecklist = HttpContext.Application["InventoryChecklist"] as List<InventoryCheckViewModel>;
             HttpContext.Application.UnLock();
-            if (currentList == null) // not yet generate any list
+
+            if (stockchecklist == null) // not yet generate any list
             {
                 return RedirectToAction("GenerateInventoryChecklist");
-            }
-
-            if(checklist == null) // from GenerateInventoryChecklist page
-            {
-                checklist = currentList;
-            }
-            else
-            {
-                // from ProcessInventoryCheck after change page
-                // store input quantity
-                HttpContext.Application.Lock();
-                HttpContext.Application["InventoryChecklist"] = checklist;
-                HttpContext.Application.UnLock();
             }
 
             ViewBag.Page = page;
 
             int pageSize = 5;
             int pageNumber = (page ?? 1);
-            return View(checklist.ToPagedList(pageNumber, pageSize));
-        }
-
-        public ActionResult SubmitInventoryCheckResult()
-        {
-            return View();
+            return View(stockchecklist.ToPagedList(pageNumber, pageSize));
         }
 
         [HttpPost]
@@ -120,20 +132,106 @@ namespace Inventory_mvc.Controllers
             if(checklist != null || checklist.Count != 0)
             {
                 HttpContext.Application.Lock();
-                List<InventoryCheckViewModel> currentList = HttpContext.Application["InventoryChecklist"] as List<InventoryCheckViewModel>;
+                List<InventoryCheckViewModel> stockchecklist = HttpContext.Application["InventoryChecklist"] as List<InventoryCheckViewModel>;
                 HttpContext.Application.UnLock();
 
                 foreach(InventoryCheckViewModel item in checklist)
                 {
-                    InventoryCheckViewModel vm = currentList.Find(x => x.ItemCode == item.ItemCode);
+                    InventoryCheckViewModel vm = stockchecklist.Find(x => x.ItemCode == item.ItemCode);
                     vm.ActualQuantity = item.ActualQuantity;
                 }
 
                 HttpContext.Application.Lock();
-                HttpContext.Application["InventoryChecklist"] = currentList;
+                HttpContext.Application["InventoryChecklist"] = stockchecklist;
                 HttpContext.Application.UnLock();
             }
 
+        }
+
+        [HttpGet]
+        public ActionResult CancelCurrentStockCheck()
+        {
+            HttpContext.Application.Lock();
+            HttpContext.Application["InventoryChecklist"] = null;
+            HttpContext.Application.UnLock();
+
+            TempData["SuccessMessage"] = "Stock check has been cancelled.";
+            return RedirectToAction("GenerateInventoryChecklist");
+        }
+
+        [HttpPost]
+        public ActionResult SubmitInventoryCheckResult()
+        {
+            HttpContext.Application.Lock();
+            List<InventoryCheckViewModel> stockchecklist = HttpContext.Application["InventoryChecklist"] as List<InventoryCheckViewModel>;
+            HttpContext.Application.UnLock();
+
+            // find discrepancy
+            List<InventoryCheckViewModel> discrepancylist = invetoryCheckService.ConvertStockChecklistToDiscrepancyList(stockchecklist);
+
+            if(discrepancylist.Count() == 0) // if not disprecancy then save into database directly
+            {
+                try
+                {
+                    invetoryCheckService.SaveInventoryCheckResult(stockchecklist);
+
+                    // clear list
+                    HttpContext.Application.Lock();
+                    HttpContext.Application["InventoryChecklist"] = null;
+                    HttpContext.Application.UnLock();
+
+                    TempData["SuccessMessage"] = "Stock check result has been submitted.";
+                    return RedirectToAction("Index");
+                }
+                catch (Exception e)
+                {
+                    TempData["ErrorMessage"] = e.Message;
+                    return RedirectToAction("ProcessInventoryCheck");
+                }
+            }
+            else
+            {
+                // show discrepany report
+                return View(discrepancylist);
+            }
+        }
+
+
+        [HttpPost]
+        public ActionResult ConfirmInventoryCheckResult()
+        {
+            HttpContext.Application.Lock();
+            List<InventoryCheckViewModel> stockchecklist = HttpContext.Application["InventoryChecklist"] as List<InventoryCheckViewModel>;
+            HttpContext.Application.UnLock();
+
+            // TODO: REMOVE HARD CODED REQUESTER ID
+            //string requesterID = HttpContext.User.Identity.Name;
+            string requesterID = "S1017"; // clerk
+
+
+            using (TransactionScope ts = new TransactionScope())
+            {
+                try
+                {
+                    invetoryCheckService.SubmitAdjustmentVoucherForInventoryCheckDiscrepancy(stockchecklist, requesterID);
+                    invetoryCheckService.SaveInventoryCheckResult(stockchecklist);
+
+                    HttpContext.Application.Lock();
+                    HttpContext.Application["InventoryChecklist"] = null;
+                    HttpContext.Application.UnLock();
+
+                    ts.Complete();
+
+                    TempData["SuccessMessage"] = "Stock check result has been submitted.";
+                    return RedirectToAction("Index");
+                }
+                catch (Exception e)
+                {
+                    TempData["ErrorMessage"] = e.Message;
+                }
+            }
+
+            return RedirectToAction("ProcessInventoryCheck");
         }
 
     }

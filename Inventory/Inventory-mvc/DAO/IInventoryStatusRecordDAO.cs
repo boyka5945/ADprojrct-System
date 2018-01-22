@@ -8,6 +8,12 @@ namespace Inventory_mvc.DAO
 {
     public interface IInventoryStatusRecordDAO
     {
-        
+        bool AddNewInventoryStatusRecords(List<Inventory_Status_Record> records);
+
+        List<DateTime> GetAllStockCheckDate();
+
+        List<Inventory_Status_Record> FindInventoryStatusRecordsByDate(DateTime date);
+
+
     }
 }

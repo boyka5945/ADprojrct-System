@@ -32,5 +32,13 @@ namespace Inventory_mvc.ViewModel
         [Required]
         [Display(Name = "Actual Quantity")]
         public int ActualQuantity { get; set; }
+
+        public int Discrepancy { get; set; }
+
+        public string Remarks { get; set; }
+
+        [Display(Name = "Stock Check Date")]
+        [DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:dd/MM/yy}", ApplyFormatInEditMode = true)]
+        public DateTime StockCheckDate { get; set; }
     }
 }
