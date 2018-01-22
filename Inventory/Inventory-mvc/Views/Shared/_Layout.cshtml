@@ -35,7 +35,9 @@
 
 <body style="position: relative; background-color:lightcyan; min-height: 100%; top: 0px;">
     
-    <header class="container-fluid" style="position:relative;text-align:center;top:50%"><a href="#"><img src="~/Images/TopLogo.jpg" /></a></header>
+    <header class="container-fluid" style="position:relative;text-align:center;top:50%"><a href="#"><img src="~/Images/TopLogo.jpg"/> </a>
+        
+    </header>
 
     <nav class="navbar-default">
         <div class="container-fluid">
@@ -135,7 +137,7 @@
                         <li>@Html.ActionLink("Receive Stock", "StockReceive", "ReceiveStock")</li>
                     </ul>
                 </li>
-                <li style="position:absolute;right:0px">
+                <li style="position:absolute;right:0px"  >
                     @Html.ActionLink("Logout", "Logout", "Home")
                 </li>
             </ul>
