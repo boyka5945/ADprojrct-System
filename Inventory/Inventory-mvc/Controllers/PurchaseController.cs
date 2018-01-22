@@ -89,7 +89,8 @@ namespace Inventory_mvc.Controllers
             ViewBag.orderNo = orderNo;
 
             List<Purchase_Detail> model = new List<Purchase_Detail>();
-            ViewBag.itemCodeList = ss.GetAllItemCodes(); 
+            ViewBag.itemCodeList = ss.GetAllItemCodes();
+            ViewBag.AllItems = ss.GetAllStationery();
 
             if (Session["detailsBundle"] != null)
             {
@@ -317,11 +318,11 @@ namespace Inventory_mvc.Controllers
 
         }
 
-        [HttpGet]
-        public ActionResult GetDescrpAndPrice(string )
-        {
+        //[HttpGet]
+        //public ActionResult GetDescrpAndPrice(string )
+        //{
 
-        }
+        //}
 
         //helper method
         public int findNextOrderNo()
