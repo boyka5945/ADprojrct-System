@@ -13,7 +13,12 @@
     var successMessage = TempData["SuccessMessage"];
     var errorMessage = TempData["ErrorMessage"];
 
-    var model = Model.First();
+    Inventory_mvc.ViewModel.AdjustmentVoucherViewModel model = null;
+
+    if (Model.Count() != 0)
+    {
+        model = Model.First();
+    }
 }
 
 
@@ -51,53 +56,61 @@
 
 if (ViewBag.Status == AdjustmentVoucherStatus.PENDING)
 {
-    <table class="table">
-        <thead>
-            <tr>
-                <th>
-                    @Html.ActionLink("Voucher Number", "Index", new { sortOrder = ViewBag.NumberSortParm, status = ViewBag.Status })
-                </th>
-                <th>
-                    @Html.DisplayNameFor(i => model.IssueDate)
-                </th>
-                <th>
-                    @Html.ActionLink("Issued By", "Index", new { sortOrder = ViewBag.RequesterSortParm, status = ViewBag.Status })
-                </th>
-                <th>
-                    @Html.DisplayNameFor(i => model.Causes)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(i => model.VoucherTotalAmount)
-                </th>
-                <th>
-                    @Html.Label("Action")
-                </th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
+    if (Model.Count() == 0)
+    {
+        <h4><i>There is not voucher pending approval.</i></h4>
+        <br />
+    }
+    else
+    {
+        <table class="table">
+            <thead>
                 <tr>
-                    <td>@Html.DisplayFor(modelItem => item.VoucherNo)</td>
-                    <td>@Html.DisplayFor(modelItem => item.IssueDate)</td>
-                    <td>@Html.DisplayFor(modelItem => item.Requester)</td>
-                    <td>@Html.DisplayFor(modelItem => item.Causes)</td>
-                    @{
-                        // to show currency format as -$#,###.00
-                        CultureInfo culture = CultureInfo.CreateSpecificCulture("en-US");
-                        culture.NumberFormat.CurrencyNegativePattern = 1;
-                        var amt = string.Format(culture, "{0:C}", item.VoucherTotalAmount);
-
-                        var textColor = (item.VoucherTotalAmount < 0) ? "text-danger" : "";
-                    }
-                    <td><span class="@textColor">@amt</span></td>
-                    <td>
-                        @Html.ActionLink("Approve / Reject", "MakeApproval", "AdjustmentVoucher", new { id = item.VoucherNo }, new { })
-                    </td>
+                    <th>
+                        @Html.ActionLink("Voucher Number", "Index", new { sortOrder = ViewBag.NumberSortParm, status = ViewBag.Status })
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(i => model.IssueDate)
+                    </th>
+                    <th>
+                        @Html.ActionLink("Issued By", "Index", new { sortOrder = ViewBag.RequesterSortParm, status = ViewBag.Status })
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(i => model.Causes)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(i => model.VoucherTotalAmount)
+                    </th>
+                    <th>
+                        @Html.Label("Action")
+                    </th>
                 </tr>
-            }
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(modelItem => item.VoucherNo)</td>
+                        <td>@Html.DisplayFor(modelItem => item.IssueDate)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Requester)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Causes)</td>
+                        @{
+                            // to show currency format as -$#,###.00
+                            CultureInfo culture = CultureInfo.CreateSpecificCulture("en-US");
+                            culture.NumberFormat.CurrencyNegativePattern = 1;
+                            var amt = string.Format(culture, "{0:C}", item.VoucherTotalAmount);
+
+                            var textColor = (item.VoucherTotalAmount < 0) ? "text-danger" : "";
+                        }
+                        <td><span class="@textColor">@amt</span></td>
+                        <td>
+                            @Html.ActionLink("Approve / Reject", "MakeApproval", "AdjustmentVoucher", new { id = item.VoucherNo }, new { })
+                        </td>
+                    </tr>
+                 }
+            </tbody>
+        </table>
+    }
 }
 else
 {

@@ -51,5 +51,7 @@ namespace Inventory_mvc.Service
         /// <param name="remark"> Email content </param>
         /// <returns></returns>
         bool ApproveVoucherRecord(int voucherNo, string approverID, string remark);
+
+        int GetPendingVoucherCount();
     }
 }
