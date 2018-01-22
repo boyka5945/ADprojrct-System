@@ -75,14 +75,25 @@ namespace InventoryWCF
             return BusinessLogic.updateRequisitionDetails(requisitionNo, ItemCode, allocateQty);
         }
 
-        //public Boolean updateRequisitionRecord(RequisitionRecord rr) { return true; }
-        //// TODO: Add your service operations here
-        //public List<RetrievalFrom> getRetrievalList() { return null; }
+        public List<RetrievalFrom> getRetrievalList()
+        {
+            throw new NotImplementedException();
+        }
 
-        //public List<Disbursement> getDisbursementList() { return null; }
+        public List<Disbursement> getDisbursementList()
+        {
+            throw new NotImplementedException();
+        }
 
-        //public List<RequisitionRecord> getRequisitionListByUserID(string UserID) { return null; }
+        public List<RequisitionRecord> getRequisitionListByUserID(string UserID)
+        {
+            throw new NotImplementedException();
+        }
 
-        //public List<RequisitionDetails> getrequisitionDetailsByNO(int requisitionNo){ return null; }
+        public List<RequisitionDetails> getrequisitionDetailsByNO(int requisitionNo)
+        {
+            throw new NotImplementedException();
+        }
+
     }
 }
