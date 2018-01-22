@@ -7,13 +7,36 @@
     ViewBag.Title = "ProcessInventoryCheck";
 
     var model = Model.First();
+
+    var successMessage = TempData["SuccessMessage"];
+    var errorMessage = TempData["ErrorMessage"];
+    var warningMessage = TempData["WarningMessage"];
 }
 
-<h2>Inventory Check</h2>
+<h2>Record Inventory Check Result</h2>
 
 <br />
+@if (successMessage != null)
+{
+    <div class="alert alert-success">
+        @successMessage.ToString()
+    </div>
+}
 
-<label>Please input actual stock quantity: </label>
+@if (errorMessage != null)
+{
+    <div class="alert alert-danger">
+        @errorMessage.ToString()
+    </div>
+}
+
+@if (warningMessage != null)
+{
+    <div class="alert alert-warning">
+        @warningMessage.ToString()
+    </div>
+}
+
 
 @using (Html.BeginForm("SubmitInventoryCheckResult", "InventoryCheck", new {  }, FormMethod.Post, new { @class = "form", @id="checkForm" }))
 {
@@ -67,31 +90,35 @@
         </tbody>
     </table>
 
+    
 
     @:Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
 
     @Html.PagedListPager(Model, page => Url.Action("ProcessInventoryCheck", new { page }))
 
 
-    <input type="button" value="Save" onclick="SaveData()" class="btn btn-primary" />
-    <input type="submit" value="Subtmit Stock Check Record" class="btn btn-success" />
+    <input type="submit" value="Subtmit Stock Check Result" class="btn btn-success" />
+    <input type="button" value="Cancel Stock Check" onclick="CancelStockCheck()" class="btn btn-danger" />
 }
 
                      
-
 <script>
-    function SaveData() {
+    function SaveData()
+    {
+        var myformdata = $("#checkForm").serializeArray(); // convert form to array
 
-            var myformdata = $("#checkForm").serializeArray(); // convert form to array
+        $.ajax({
+            type: "POST",
+            url: "/InventoryCheck/SaveTemporaryValue",
+            data: $.param(myformdata), // convert to url-encoded form
+            //success: function () {
+                //alert("success");
+            //}
+        });
+    }
 
-            $.ajax({
-                type: "POST",
-                url: "/InventoryCheck/SaveTemporaryValue",
-                data: $.param(myformdata), // convert to url-encoded form
-                //success: function () {
-                    //alert("success");
-                    //window.location.href = "/InventoryCheck/ProcessInventoryCheck"
-                //}
-            });
-        }
+    function CancelStockCheck()
+    {
+        window.location.href = "/InventoryCheck/CancelCurrentStockCheck";
+    }
 </script>

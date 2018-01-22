@@ -1,0 +1,100 @@
+﻿@model IEnumerable<Inventory_mvc.ViewModel.InventoryCheckViewModel>
+
+@{
+    ViewBag.Title = "SubmitInventoryCheckResult";
+
+    var successMessage = TempData["SuccessMessage"];
+    var errorMessage = TempData["ErrorMessage"];
+    var warningMessage = TempData["WarningMessage"];
+}
+
+<h2>Inventory Check Discrepancy Report</h2>
+
+<br />
+@if (successMessage != null)
+{
+    <div class="alert alert-success">
+        @successMessage.ToString()
+    </div>
+}
+
+@if (errorMessage != null)
+{
+    <div class="alert alert-danger">
+        @errorMessage.ToString()
+    </div>
+}
+
+@if (warningMessage != null)
+{
+    <div class="alert alert-warning">
+        @warningMessage.ToString()
+    </div>
+}
+
+
+@using (Html.BeginForm("ConfirmInventoryCheckResult", "InventoryCheck", new { }, FormMethod.Post, new { @class = "form", @id = "checkForm" }))
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.ItemCode)</th>
+                <th>@Html.DisplayNameFor(model => model.StationeryDescription)</th>
+                <th>@Html.DisplayNameFor(model => model.UOM)</th>
+                <th>@Html.DisplayNameFor(model => model.StockQuantity)</th>
+                <th>@Html.DisplayNameFor(model => model.ActualQuantity)</th>
+                <th>@Html.DisplayNameFor(model => model.Discrepancy)</th>
+                <th>@Html.DisplayNameFor(model => model.Remarks)</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (int i = 0; i < Model.Count(); i++)
+                {
+                    var item = Model.ElementAt(i);
+
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ItemCode)
+                        <input type="hidden" name="[@i].ItemCode" value="@item.ItemCode" />
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.StationeryDescription)
+                        <input type="hidden" name="[@i].StationeryDescription" value="@item.StationeryDescription" />
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UOM)
+                        <input type="hidden" name="[@i].UOM" value="@item.UOM" />
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.StockQuantity)
+                        <input type="hidden" name="[@i].StockQuantity" value="@item.StockQuantity" />
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ActualQuantity)
+                        <input type="hidden" name="[@i].ActualQuantity" value="@item.ActualQuantity" />
+                    </td>
+                    @if (item.Discrepancy > 0)
+                    {
+                        <td>
+                            <span class="text-success">+@item.Discrepancy</span>
+                        </td>
+                    }
+                    else
+                    {
+                        <td>
+                            <span class="text-danger">@item.Discrepancy</span>
+                        </td>
+                    }
+                    <td>
+                        <input type="text" name="Remarks" placeholder="Input remarks here" class="form-control"/>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+        <br />
+        <input type="submit" value="Confirm and Submit Discrepancy Report" class="btn btn-success" />
+        <input type="button" value="Back To Checklist" class="btn btn-secondary" onclick="window.location.href='@Url.Action("ProcessInventoryCheck", "InventoryCheck")'" />
+        <br />
+}
