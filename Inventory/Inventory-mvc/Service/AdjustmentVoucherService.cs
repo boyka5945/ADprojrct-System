@@ -352,5 +352,9 @@ namespace Inventory_mvc.Service
             return vm;
         }
 
+        public int GetPendingVoucherCount()
+        {
+            return adjustmentVoucherDAO.GetPendingVoucherCount();
+        }
     }
 }

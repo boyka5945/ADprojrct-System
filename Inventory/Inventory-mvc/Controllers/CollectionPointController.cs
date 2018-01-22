@@ -90,7 +90,7 @@ namespace Inventory_mvc.Controllers
                     }
                     else
                     {
-                        TempData["EditErrorMessage"] = String.Format("There is not change to '{0}'.", id);
+                        TempData["EditErrorMessage"] = String.Format("There is no change to '{0}'.", id);
                     }
 
                     return RedirectToAction("Index");
@@ -109,11 +109,11 @@ namespace Inventory_mvc.Controllers
         {
             if (collectionPointService.DeleteCollectionPoint(id))
             {
-                TempData["DeleteMessage"] = String.Format("Supplier '{0}' has been deleted", id);
+                TempData["DeleteMessage"] = String.Format("Collection Point '{0}' has been deleted", id);
             }
             else
             {
-                TempData["DeleteErrorMessage"] = String.Format("Cannot delete supplier '{0}'", id);
+                TempData["DeleteErrorMessage"] = String.Format("Cannot delete collection point '{0}'", id);
             }
 
             return RedirectToAction("Index");

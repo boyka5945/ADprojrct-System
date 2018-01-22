@@ -18,7 +18,7 @@
     string role = ViewBag.Role;
 }
 
-            @if (editMessage != null)
+            @*@if (editMessage != null)
             {
                 @Html.Label(editMessage.ToString(), new { @class = "alert alert-success" });
             }
@@ -36,9 +36,9 @@
             @if (deleteMessage != null)
             {
                 @Html.Label(deleteMessage.ToString(), new { @class = "alert alert-success" });
-            }
-        </p>
-    </div>
+            }*@
+        @*</p>
+    </div>*@
 
     @using (Html.BeginForm("Index", "Stationery", FormMethod.Get, new { @class = "form-group" }))
     {

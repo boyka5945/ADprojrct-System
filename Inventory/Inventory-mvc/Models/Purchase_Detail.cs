@@ -17,6 +17,7 @@ namespace Inventory_mvc.Models
         [Key]
         [Column(Order = 1)]
         [StringLength(50)]
+        //[Required]
         //[Required(AllowEmptyStrings = false, ErrorMessage = "itemCode can not be empty.")]
         public string itemCode { get; set; }
 

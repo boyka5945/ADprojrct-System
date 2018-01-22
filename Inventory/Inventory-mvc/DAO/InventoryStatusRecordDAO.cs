@@ -6,7 +6,7 @@ using System.Web;
 
 namespace Inventory_mvc.DAO
 {
-    public class InventoryStatusRecordDAO
+    public class InventoryStatusRecordDAO : IInventoryStatusRecordDAO
     {
 
     }

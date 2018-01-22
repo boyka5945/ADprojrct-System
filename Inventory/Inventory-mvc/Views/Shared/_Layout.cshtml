@@ -20,6 +20,7 @@
        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
     <style>
         .dropdown-submenu {
             position: relative;
@@ -52,7 +53,7 @@
                 Request
             </a>
             <ul class="dropdown-menu">
-                <li>@Html.ActionLink("Browse Catalogue", "BrowseCatalogue", "RaiseRequisition")</li>
+                <li>@Html.ActionLink("Browse Stationery Catalogue", "BrowseCatalogue", "RaiseRequisition")</li>
                 <li>@Html.ActionLink("New Request", "NewRequisition", "RaiseRequisition")</li>
                 <li>@Html.ActionLink("View Request", "Index", "ListRequisitions")</li>
 
@@ -65,7 +66,7 @@
                 Collection
             </a>
             <ul class="dropdown-menu">
-                <li>@Html.ActionLink("Item to Pick Up", "Collect_Item", "CollectionPoint")</li>
+                <li>@Html.ActionLink("Item Ready For Collection", "Collect_Item", "CollectionPoint")</li>
                 <li>@Html.ActionLink("Pending Item", "Pending_Item", "CollectionPoint")</li>
                 <li>@Html.ActionLink("Change Collection Point", "UpdateCollectionPoint", "CollectionPoint")</li>
             </ul>
@@ -156,7 +157,7 @@
                     </ul>
                 </li>}
                 <li style="position:absolute;right:0px">
-                    @Html.ActionLink("Log Out", "Logout", "Home")
+                    @Html.ActionLink("Logout", "Logout", "Home")
                 </li>
             </ul>
 
@@ -183,7 +184,7 @@
 
 
         <footer style="text-align:center;vertical-align:bottom;position:absolute;left:0px;right:0px;bottom:0px;padding:2px">
-            <p>&copy; @DateTime.Now.Year - SA45Team3</p>
+            <p>&copy; @DateTime.Now.Year - SA45Team3@NUS_ISS</p>
         </footer>
    
 

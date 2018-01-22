@@ -1,0 +1,55 @@
+﻿<style>
+    #ListBox
+    {
+          height: 340px;
+    }
+</style>
+
+@using Inventory_mvc.Models;
+
+@{
+    ViewBag.Title = "GenerateInventoryCheckList";
+
+    var successMessage = TempData["SuccessMessage"];
+    var errorMessage = TempData["ErrorMessage"];
+    var warningMessage = TempData["WarningMessage"];
+}
+
+<h2>Generate Inventory Checklist</h2>
+
+<br />
+
+
+@if (successMessage != null)
+{
+    <div class="alert alert-success">
+        @successMessage.ToString()
+    </div>
+}
+
+@if (errorMessage != null)
+{
+    <div class="alert alert-danger">
+        @errorMessage.ToString()
+    </div>
+}
+
+@if (warningMessage != null)
+{
+    <div class="alert alert-warning">
+        @warningMessage.ToString()
+    </div>
+}
+
+<h4>Select categories to generate checklist:</h4>
+
+    @using (Html.BeginForm("GenerateInventoryChecklist", "InventoryCheck", FormMethod.Post, new { @class = "form" }))
+    {
+        <div class="row">
+            <div class="form-group col-xs-3">
+                @Html.ListBox("categorylistbox", ViewBag.SelectList as IEnumerable<SelectListItem>, new { @class = "form-control", @id="ListBox"})
+            </div>
+        </div>
+        <input type="submit" value="Generate List" class="btn btn-success" />
+    }
+
