@@ -8,7 +8,7 @@ using System.Web.Security;
 using Inventory_mvc.Function;
 using Inventory_mvc.Models;
 using Inventory_mvc.Service;
-
+using Inventory_mvc.ViewModel;
 
 namespace Inventory_mvc.Controllers
 {
@@ -30,28 +30,32 @@ namespace Inventory_mvc.Controllers
             {
                 if (!UserService.isExistingID(model.UserName))
                 {
-                    ViewBag.errorMessage = "UserName or PassWord is not correct.";
+                    ViewBag.errorMessage = "UserName is not correct.";
                 }
-                else if (ModelState.IsValid)
-                {
+                else {
                     if (UserService.FindByUserID(model.UserName).password == model.Password)
                     {
                         int roleID = UserService.GetRoleByID(model.UserName);
                         string identity = model.UserName;
+                        HttpContext.Application["role"] = roleID;
                         AuthorizationManager.SetTicket(Response, model.RememberMe, identity, roleID);
+                        if (!string.IsNullOrEmpty(returnUrl))
+                        {
+                            return Redirect(returnUrl);
+                        }
+                        else//null
+                        {
+                            return RedirectToAction("Index", "Home");
+                        }
                     }
-
-                    if (!string.IsNullOrEmpty(returnUrl))
+                    else
                     {
-                        return Redirect(returnUrl);
-                    }
-                    else//null
-                    {
-                        return RedirectToAction("Index", "Home");
-                    }
-                }
+                        ViewBag.errorMessage = "PassWord is not correct.";
+                    }   
+                }   
             }
-            return View(model);
+        
+        return View(model);
         }
 
         [RoleAuthorize]
@@ -71,8 +75,12 @@ namespace Inventory_mvc.Controllers
         [AllowAnonymous]
         public ActionResult Logout()
         {
+            HttpContext.Application.Clear();
             FormsAuthentication.SignOut();
             return RedirectToAction("Login", "Home");
         }
+
+
+        
     }
 }

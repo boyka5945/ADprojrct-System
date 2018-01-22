@@ -28,7 +28,6 @@ namespace Inventory_mvc.DAO
         {
             StationeryModel entity = new StationeryModel();
             var a = (from user in entity.Users where user.userID == userID select user).First();
-
             return a;
         }
 
@@ -334,6 +333,24 @@ namespace Inventory_mvc.DAO
                 }
             }
                 
+        }
+
+        public int changePassword(User user)
+        {
+            using (StationeryModel context = new StationeryModel())
+            {
+                User u = (from x in context.Users
+                                where x.userID == user.userID
+                                select x).FirstOrDefault();
+
+                u.password = user.password;
+
+                int rowAffected = context.SaveChanges();
+
+                return rowAffected;
+            }
+
+           
         }
     }
 }

@@ -8,12 +8,12 @@ namespace Inventory_mvc.DAO
 {
     public interface IInventoryStatusRecordDAO
     {
-        
-        List<Inventory_Status_Record> GetAllInventoryStatusRecord();
-        Inventory_Status_Record FindInventoryStatusRecordByDate(DateTime date);
-        Inventory_Status_Record FindInventoryStatusRecordByItem(string itemCode);
-        Boolean AddNewInventoryStatusRecord(Inventory_Status_Record record);
-        int UpdateInventoryStatusRecord(Inventory_Status_Record record);
-        Boolean DeleteInventoryStatusRecord(Inventory_Status_Record record);
+        bool AddNewInventoryStatusRecords(List<Inventory_Status_Record> records);
+
+        List<DateTime> GetAllStockCheckDate();
+
+        List<Inventory_Status_Record> FindInventoryStatusRecordsByDate(DateTime date);
+
+
     }
 }

@@ -18,5 +18,6 @@ namespace Inventory_mvc.DAO
         int UpdateAdjustmentVoucherInfo(Adjustment_Voucher_Record voucher);
 
         List<Adjustment_Voucher_Record> GetVouchersByCriteria(string status, string sortOrder);
+        int GetPendingVoucherCount();
     }
 }

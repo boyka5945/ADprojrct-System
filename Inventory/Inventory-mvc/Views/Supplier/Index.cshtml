@@ -34,7 +34,7 @@
 </div>
 
 
-@if (role != UserRoles.STORE_CLERK)
+@if (role == UserRoles.STORE_CLERK)
 {
     <p>
         @Html.ActionLink("Create New Supplier", "Create")
@@ -95,7 +95,7 @@
             <td>
                 @Html.DisplayFor(modelItem => item.GSTNo)
             </td>
-            @if (role != UserRoles.STORE_CLERK)
+            @if (role == UserRoles.STORE_CLERK)
             {
                 <td>
                     @Html.ActionLink("Edit", "Edit", new { id = item.SupplierCode }) |

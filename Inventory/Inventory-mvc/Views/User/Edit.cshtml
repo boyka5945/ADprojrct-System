@@ -2,13 +2,15 @@
 
 @{
     ViewBag.Title = "Edit";
+    var successMessage = TempData["SuccessMessage"];
+    var errorMessage = TempData["ErrorMessage"];
     //List<string> userList = ViewBag.RoleList;
 }
 
 <h2>Edit</h2>
 
 
-@using (Html.BeginForm())
+@using (Html.BeginForm("Edit","User",FormMethod.Post))
 {
     @Html.AntiForgeryToken()
     
@@ -29,9 +31,11 @@
 
         <div class="form-group">
             @Html.LabelFor(model => model.password, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.TextBoxFor(model => model.password, new { placeholder = "", htmlAttributes = new { @class = "form-control" } })
+            <div class="col-md-10 form-inline">
+                <input type="password" value="@Model.password" class="form-control"/>
                 @Html.ValidationMessageFor(model => model.password, "", new { @class = "text-danger" })
+                
+                <input type="button" value="Change Password" class="btn btn-primary" onclick="location.href='@Url.Action("ChangePassword","User")'" />
             </div>
         </div>
 
@@ -86,11 +90,29 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
+                <input type="submit" value="Save" class="btn btn-lg btn-primary" />
             </div>
         </div>
     </div>
 }
+
+<div>
+    <p>
+        @if (successMessage != null)
+        {
+            <div class="alert alert-success">
+                @successMessage.ToString()
+            </div>
+        }
+
+        @if (errorMessage != null)
+        {
+            <div class="alert alert-danger">
+                @errorMessage.ToString()
+            </div>
+        }
+    </p>
+</div>
 
 <div>
     @Html.ActionLink("Done", "UserList")

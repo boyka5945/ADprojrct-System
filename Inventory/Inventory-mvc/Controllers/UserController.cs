@@ -21,7 +21,7 @@ namespace Inventory_mvc.Controllers
             //{
             //    return RedirectToAction("Login", "Home");
             //}
-            User user = userService.FindByUserID("S1015");
+            User user = userService.FindByUserID(name);
             List<User> model = userService.GetUserByDept(user);
             userService.AutoRemove(user);
             
@@ -35,7 +35,7 @@ namespace Inventory_mvc.Controllers
             //{
             //    return RedirectToAction("Login", "Home");
             //}
-            User user = userService.FindByUserID("S1015");
+            User user = userService.FindByUserID(name);
             List<User> model = userService.GetUserByDept(user);
             userService.AutoRemove(user);
 
@@ -106,7 +106,7 @@ namespace Inventory_mvc.Controllers
             //{
             //    return RedirectToAction("Login", "Home");
             //}
-            User user = userService.FindByUserID("S1015");
+            User user = userService.FindByUserID(name);
             return View(user);
         }
 
@@ -192,6 +192,143 @@ namespace Inventory_mvc.Controllers
             return RedirectToAction("UserList");
         }
 
-        
+
+        //ps
+        [AllowAnonymous]
+        public ActionResult ChangePassword()
+        {
+            string name = HttpContext.User.Identity.Name;
+            //if(name=="")
+            //{
+            //    return RedirectToAction("Login", "Home");
+            //}
+            User user = userService.FindByUserID("S1015");
+            ChangePasswordViewModel viewModel = userService.changePasswordUser(user);
+            return View(viewModel);
+        }
+
+        // POST: Login/ChangePassword/{id}
+        [HttpPost]
+        public ActionResult ChangePassword(ChangePasswordViewModel changePasswordVM)
+        {
+            ChangePasswordViewModel vm2 = changePasswordVM;
+            string name = HttpContext.User.Identity.Name;
+            User user = userService.FindByUserID("S1015");
+
+            string oldPassword = changePasswordVM.OldPassword;
+            string newPassword = changePasswordVM.NewPassword;
+            string confirmPassword = changePasswordVM.ConfirmPassword;
+
+            string password = user.password;
+            string code = user.userID;
+            //if (password == newPassword)
+            //{
+            //    TempData["SameWithPassword"] = String.Format("Same With Password.");
+            //}
+            //bool cond1 = userService.isSame(password, oldPassword);
+            //if (cond1)
+            //{
+            //    //string errorMessage = String.Format("{0} Incorrect", oldPassword);
+            //    //ModelState.AddModelError("Incorrect", errorMessage);
+
+            //    TempData["IncorrectPassword"] = String.Format("Incorrect Password.");
+            //}
+            //bool cond2 = userService.isSame(password, newPassword);
+            //if (!cond2)
+            //{
+            //    TempData["SameWithOldPassword"] = String.Format("Same With Password.");
+            //}
+
+            
+            if (ModelState.IsValid)
+            {
+                bool cond1 = userService.isSame(password, oldPassword);
+                if (cond1)
+                {
+                    //string errorMessage = String.Format("{0} Incorrect", oldPassword);
+                    //ModelState.AddModelError("Incorrect", errorMessage);
+
+                    TempData["IncorrectPassword"] = String.Format("Incorrect Password.");
+                }
+                bool cond2 = userService.isSame(password, newPassword);
+                if (!cond2)
+                {
+                    TempData["SameWithOldPassword"] = String.Format("Same With Password.");
+                }
+                if (newPassword!=confirmPassword)
+                {
+                    TempData["NotMatch"] = String.Format("New password and confirm password does not match");
+                    //try
+                    //{
+                    //    bool t = userService.changePassword(changePasswordVM);
+                    //    if (userService.changePassword(changePasswordVM))
+                    //    {
+                    //        TempData["SuccessMessage"] = String.Format("'{0}' has been updated", code);
+                    //    }
+                    //    else
+                    //    {
+                    //        TempData["ErrorMessage"] = String.Format("There is not change to '{0}'.",code);
+                    //    }
+
+                        //return RedirectToAction("Edit");
+                    //}
+                    //catch (Exception e)
+                    //{
+                    //    ViewBag.ExceptionMessage = e.Message;
+                    //}
+
+                    //ChangePasswordViewModel vm1 = changePasswordVM;
+
+                    //int i=userService.changePassword(changePasswordVM);
+                    //if(i<1)
+                    //{
+                    //    TempData["Passwordnotchanged"] = String.Format("Password Not Changed");
+                    //}
+                }
+                if(!cond1 && cond2 && newPassword == confirmPassword)
+                {
+                    try
+                    {
+                        bool t = userService.changePassword(changePasswordVM);
+                        if (userService.changePassword(changePasswordVM))
+                        {
+                            TempData["ErrorMessage"] = String.Format("There is not change to '{0}'.", code);
+                            
+                        }
+                        else
+                        {
+                            TempData["SuccessMessage"] = String.Format("'{0}' has been updated", code);
+                        }
+
+                        return RedirectToAction("Edit");
+                    }
+                    catch (Exception e)
+                    {
+                        ViewBag.ExceptionMessage = e.Message;
+                    }
+                }
+
+                //else
+                //{ }
+                return View(changePasswordVM); ;
+                //return RedirectToAction("Edit");
+            }
+           
+            
+
+            //
+
+            //if(user.password != oldPassword)
+            //{
+            //    string errorMessage = String.Format("Incorrect Password!");
+            //    ModelState.AddModelError("Incorrect", errorMessage);
+            //    return View(changePasswordVM);
+            //}
+
+            return View(changePasswordVM);
+           // return RedirectToAction("Edit");
+            
+        }
+
     }
 }

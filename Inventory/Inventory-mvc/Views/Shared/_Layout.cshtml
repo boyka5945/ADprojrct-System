@@ -1,5 +1,8 @@
 ﻿<!DOCTYPE html>
 <html lang="en-us" style="height: 100%;">
+@using Inventory_mvc.Utilities;
+
+
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -17,6 +20,7 @@
        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
     <style>
         .dropdown-submenu {
             position: relative;
@@ -36,106 +40,142 @@
 <body style="position: relative; min-height: 100%; top: 0px;">
     <header class="container-fluid" style="position:relative;text-align:center;top:50%"><a href="#"><img src="~/Images/TopLogo.jpg" /></a></header>
 
-    <nav class="navbar-default">
+<nav class="navbar-default">
         <div class="container-fluid">
-          
+         
             <ul class="nav nav-tabs">
                 <li>@Html.ActionLink("Home", "Contact", "Home")</li>
-                <li class="dropdown">
-                    <a class="btn btn-primary dropdown-toggle" style="width:120px" type="button" data-toggle="dropdown" href="#">
-                        Request
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li>@Html.ActionLink("Browse Catalogue", "BrowseCatalogue", "RaiseRequisition")</li>
-                        <li>@Html.ActionLink("New Request", "NewRequisition", "RaiseRequisition")</li>
-                        <li>@Html.ActionLink("View Request", "Index", "ListRequisitions")</li>
-                        
-                    </ul>
-                </li>
-                <li class="dropdown">
-                    <a class="btn btn-primary dropdown-toggle" style="width:120px" type="button" data-toggle="dropdown" href="#">
-                        Collection
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li>@Html.ActionLink("Item to Pick Up", "Collect_Item","CollectionPoint")</li>
-                        <li>@Html.ActionLink("Pending Item", "Pending_Item", "CollectionPoint")</li>
-                        <li>@Html.ActionLink("Change Collection Point", "UpdateCollectionPoint", "CollectionPoint")</li>
-                    </ul>
-                </li>
-                <li class="dropdown">
-                    <a class="btn btn-primary dropdown-toggle" style="width:120px" type="button" data-toggle="dropdown" href="#">
-                        Employee
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li>@Html.ActionLink("View Employee", "UserList", "User")</li>
-                        <li>@Html.ActionLink("Delegation", "Delegate", "User")</li>
-                        <li>@Html.ActionLink("Department List", "ListDepartment", "Department")</li>
-                        
-                    </ul>
-                </li>
-                <li class="dropdown">
-                    <a class="btn btn-primary dropdown-toggle" style="width:120px" type="button" data-toggle="dropdown" href="#">
-                        Manage List
-                       </a>
-                    <ul class="dropdown-menu">
-                        <li>@Html.ActionLink("Stationery Catalogue", "Index", "Stationery")</li>
-                        <li>@Html.ActionLink("Supplier List", "Index", "Supplier")</li>
-                        <li>@Html.ActionLink("Collection Point List", "Index", "CollectionPoint")</li>
-                        
-                    </ul>
-                </li>
-                <li class="dropdown">
-                    <a class="btn btn-primary dropdown-toggle" style="width:120px" type="button" data-toggle="dropdown" href="#">Forms</a>
-                    <ul class="dropdown-menu">
-                        <li>
-                            @Html.ActionLink("Stationery Requisition Form", "ManagerRequisition", "ManageRequisitions")
-                            </li>
-                                <li class="dropdown-submenu">
-                                    <a class="test" href="#">Inventory Adjustment Voucher<span class="caret"></span></a>
-                                    <ul class="dropdown-menu" style="top:20%;left:100%;margin-top:1px">
-                                        <li>@Html.ActionLink("Submit Voucher", "NewVoucher", "AdjustmentVoucher")</li>
-                                        
-                                    </ul>
+                @if (Convert.ToInt32(HttpContext.Current.Application["role"]) == 2 || Convert.ToInt32(HttpContext.Current.Application["role"]) == 3 || Convert.ToInt32(HttpContext.Current.Application["role"]) == 4 || Convert.ToInt32(HttpContext.Current.Application["role"]) == 5 || Convert.ToInt32(HttpContext.Current.Application["role"]) == 6 || Convert.ToInt32(HttpContext.Current.Application["role"]) == 7 || Convert.ToInt32(HttpContext.Current.Application["role"]) == 8)
+                {
+
+                    <li class="dropdown">
+                        <a class="btn btn-primary dropdown-toggle" style="width:120px" type="button" data-toggle="dropdown" href="#">
+                            Request
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>@Html.ActionLink("Browse Stationery Catalogue", "BrowseCatalogue", "RaiseRequisition")</li>
+                            <li>@Html.ActionLink("New Request", "NewRequisition", "RaiseRequisition")</li>
+                            <li>@Html.ActionLink("View Request", "Index", "ListRequisitions")</li>
+
+                        </ul>
+                    </li>}
+                @if (Convert.ToInt32(HttpContext.Current.Application["role"]) == 5 || Convert.ToInt32(HttpContext.Current.Application["role"]) == 4 || Convert.ToInt32(HttpContext.Current.Application["role"]) == 2 || Convert.ToInt32(HttpContext.Current.Application["role"]) == 8)
+                {
+                    <li class="dropdown">
+                        <a class="btn btn-primary dropdown-toggle" style="width:120px" type="button" data-toggle="dropdown" href="#">
+                            Collection
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>@Html.ActionLink("Item Ready For Collection", "Collect_Item", "CollectionPoint")</li>
+                            <li>@Html.ActionLink("Pending Item", "Pending_Item", "CollectionPoint")</li>
+                            <li>@Html.ActionLink("Change Collection Point", "UpdateCollectionPoint", "CollectionPoint")</li>
+                        </ul>
+                    </li>
+                }
+                @if (Convert.ToInt32(HttpContext.Current.Application["role"]) == 2 || Convert.ToInt32(HttpContext.Current.Application["role"]) == 3 || Convert.ToInt32(HttpContext.Current.Application["role"]) == 4 || Convert.ToInt32(HttpContext.Current.Application["role"]) == 5 || Convert.ToInt32(HttpContext.Current.Application["role"]) == 6 || Convert.ToInt32(HttpContext.Current.Application["role"]) == 7 || Convert.ToInt32(HttpContext.Current.Application["role"]) == 8)
+                {
+                    <li class="dropdown">
+                        <a class="btn btn-primary dropdown-toggle" style="width:120px" type="button" data-toggle="dropdown" href="#">
+                            Employee
+                        </a>
+                        <ul class="dropdown-menu">
+
+                            <li>@Html.ActionLink("View Employee", "UserList", "User")</li>
+
+                            @if (Convert.ToInt32(HttpContext.Current.Application["role"]) == 5)
+                {
+                                <li>@Html.ActionLink("Manage Employee", "SMUserList", "User")</li>
+                            }
+                            @if (Convert.ToInt32(HttpContext.Current.Application["role"]) == 2 || Convert.ToInt32(HttpContext.Current.Application["role"]) == 5)
+                            {
+                                <li>@Html.ActionLink("Department List", "ListDepartment", "Department")</li>
+                            }
+                        </ul>
+                    </li>}
+                @if (Convert.ToInt32(HttpContext.Current.Application["role"]) == 5 || Convert.ToInt32(HttpContext.Current.Application["role"]) == 6 || Convert.ToInt32(HttpContext.Current.Application["role"]) == 7 || Convert.ToInt32(HttpContext.Current.Application["role"]) == 8)
+                {
+                    <li class="dropdown">
+                        <a class="btn btn-primary dropdown-toggle" style="width:120px" type="button" data-toggle="dropdown" href="#">
+                            Manage List
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>@Html.ActionLink("Stationery Catalogue", "Index", "Stationery")</li>
+                            <li>@Html.ActionLink("Supplier List", "Index", "Supplier")</li>
+                            <li>@Html.ActionLink("Collection Point List", "Index", "CollectionPoint")</li>
+
+                        </ul>
+                    </li>}
+                @if (Convert.ToInt32(HttpContext.Current.Application["role"]) == 2 || Convert.ToInt32(HttpContext.Current.Application["role"]) == 5 || Convert.ToInt32(HttpContext.Current.Application["role"]) == 6 || Convert.ToInt32(HttpContext.Current.Application["role"]) == 7 || Convert.ToInt32(HttpContext.Current.Application["role"]) == 8)
+                {
+                    <li class="dropdown">
+                        <a class="btn btn-primary dropdown-toggle" style="width:120px" type="button" data-toggle="dropdown" href="#">Forms</a>
+
+                        <ul class="dropdown-menu">
+
+                            @if (Convert.ToInt32(HttpContext.Current.Application["role"]) == 5 || Convert.ToInt32(HttpContext.Current.Application["role"]) == 6 || Convert.ToInt32(HttpContext.Current.Application["role"]) == 7)
+                {
+                                <li>
+                                    @Html.ActionLink("Stationery Requisition Form", "ClerkRequisition", "ManageRequisitions")
                                 </li>
-                           
-                        
-                       
-                            <li>@Html.ActionLink("Stationery Retrieval Form", "GenerateRetrieveForm", "ManageRequisitions")</a></li>
-                            <li>@Html.ActionLink("Disbursement List", "DisbursementList", "ManageRequisitions")</li>
+                            }
+                            @if (Convert.ToInt32(HttpContext.Current.Application["role"]) == 2 || Convert.ToInt32(HttpContext.Current.Application["role"]) == 5 || Convert.ToInt32(HttpContext.Current.Application["role"]) == 8)
+                {
+                                <li>
+                                    @Html.ActionLink("Approve Stationery Request", "ManagerRequisition", "ManageRequisitions")
+                                </li>
+                            }
+@if (Convert.ToInt32(HttpContext.Current.Application["role"]) == 5 || Convert.ToInt32(HttpContext.Current.Application["role"]) == 6 || Convert.ToInt32(HttpContext.Current.Application["role"]) == 7)
+{
+                            <li class="dropdown-submenu">
+                                <a class="test" href="#">Inventory Adjustment Voucher<span class="caret"></span></a>
+                                <ul class="dropdown-menu" style="top:20%;left:100%;margin-top:1px">
+                                    <li>@Html.ActionLink("Submit Voucher", "NewVoucher", "AdjustmentVoucher")</li>
+                                    @if (Convert.ToInt32(HttpContext.Current.Application["role"]) == 5 || Convert.ToInt32(HttpContext.Current.Application["role"]) == 6)
+                                    {
+                                        <li>@Html.ActionLink("Approve Voucher", "Index", "AdjustmentVoucher")</li>}
+                                </ul>
+                            </li>
+}
+
+
+                            @if (Convert.ToInt32(HttpContext.Current.Application["role"]) == 5 || Convert.ToInt32(HttpContext.Current.Application["role"]) == 6 || Convert.ToInt32(HttpContext.Current.Application["role"]) == 7)
+                {
+                                <li>@Html.ActionLink("Stationery Retrieval Form", "GenerateRetrieveForm", "ManageRequisitions")</li>
+                            }
+                            @if (Convert.ToInt32(HttpContext.Current.Application["role"]) == 5 || Convert.ToInt32(HttpContext.Current.Application["role"]) == 6 || Convert.ToInt32(HttpContext.Current.Application["role"]) == 7)
+                {
+                                <li>@Html.ActionLink("Disbursement List", "DisbursementList", "ManageRequisitions")</li>
+                            }
                         </ul>
-                </li>
-                <li class="dropdown">
-                    <a class="btn btn-primary dropdown-toggle" style="width:120px" type="button" data-toggle="dropdown" href="#">Adjustment</a>
-                    <ul class="dropdown-menu">
-                        <li class="dropdown-submenu">
-                            <a class="test" href="#">Inventory Adjustment Voucher<span class="caret"></span></a>
-                            <ul class="dropdown-menu" style="top:20%;left:100%;margin-top:1px">
-                                <li>@Html.ActionLink("Submit Voucher", "NewVoucher", "AdjustmentVoucher")</li>
-                                <li>@Html.ActionLink("Approve Voucher", "Index", "AdjustmentVoucher")</li>
-                            </ul>
-                        </li>
+
+                    </li>
+                }
+                @if (Convert.ToInt32(HttpContext.Current.Application["role"]) == 5 || Convert.ToInt32(HttpContext.Current.Application["role"]) == 6 || Convert.ToInt32(HttpContext.Current.Application["role"]) == 7 || Convert.ToInt32(HttpContext.Current.Application["role"]) == 8)
+                {
+                    <li class="dropdown">
+                        <a class="btn btn-primary dropdown-toggle" style="width:120px" type="button" data-toggle="dropdown" href="#">Reports</a>
+                        <ul class="dropdown-menu">
+                            <li>@Html.ActionLink("Reorder Report", "", "")</li>
+                            <li>@Html.ActionLink("Inventory Status Report", "", "")</li>
+                            <li>@Html.ActionLink("Trend Analysis Report", "", "")</li>
                         </ul>
-</li>
-                
-                <li class="dropdown">
-                    <a class="btn btn-primary dropdown-toggle" style="width:120px" type="button" data-toggle="dropdown" href="#">Reports</a>
-                    <ul class="dropdown-menu">
-                        <li>@Html.ActionLink("Reorder Report", "", "")</li>
-                        <li>@Html.ActionLink("Inventory Status Report", "", "")</li>
-                        <li>@Html.ActionLink("Trend Analysis Report", "", "")</li>
-                    </ul>
-                </li>
-                <li class="dropdown">
-                    <a class="btn btn-primary dropdown-toggle" style="width:120px" type="button" data-toggle="dropdown" href="#">Stocks</a>
-                    <ul class="dropdown-menu">
-                        <li>@Html.ActionLink("View Stock Card", "Index", "Stationery")</li>
-                        <li>@Html.ActionLink("View Shortfall List", "List", "CheckShortfall")</li>
-                        <li>@Html.ActionLink("Generate Purchase Order", "ListPurchaseOrders", "Purchase")</li>
-                        <li>@Html.ActionLink("Receive Stock", "StockReceive", "ReceiveStock")</li>
-                    </ul>
-                </li>
+                    </li>
+                }
+
+                @if (Convert.ToInt32(HttpContext.Current.Application["role"]) == 5 || Convert.ToInt32(HttpContext.Current.Application["role"]) == 6 || Convert.ToInt32(HttpContext.Current.Application["role"]) == 7 || Convert.ToInt32(HttpContext.Current.Application["role"]) == 8)
+                {
+                    <li class="dropdown">
+                        <a class="btn btn-primary dropdown-toggle" style="width:120px" type="button" data-toggle="dropdown" href="#">Stocks</a>
+                        <ul class="dropdown-menu">
+                            <li>@Html.ActionLink("View Stock Card", "Index", "Stationery")</li>
+                            <li>@Html.ActionLink("View Shortfall List", "List", "CheckShortfall")</li>
+                            <li>@Html.ActionLink("Generate Purchase Order", "ListPurchaseOrders", "Purchase")</li>
+                            <li>@Html.ActionLink("Receive Stock", "StockReceive", "ReceiveStock")</li>
+                        </ul>
+                    </li>
+                }
                 <li style="position:absolute;right:0px">
-                    @Html.ActionLink("Log Out", "Logout", "Home")
+                    @Html.ActionLink("Logout", "Logout", "Home")
                 </li>
             </ul>
         </div>
@@ -143,7 +183,6 @@
 
 
 
-  
 
     <div class="container body-content">
 
@@ -162,7 +201,7 @@
 
 
         <footer style="text-align:center;vertical-align:bottom;position:absolute;left:0px;right:0px;bottom:0px;padding:2px">
-            <p>&copy; @DateTime.Now.Year - SA45Team3</p>
+            <p>&copy; @DateTime.Now.Year - SA45Team3@NUS_ISS</p>
         </footer>
    
 

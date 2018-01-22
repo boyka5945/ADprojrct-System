@@ -23,8 +23,8 @@ namespace Inventory_mvc.Controllers
         {
             // TODO: REMOVE HARD CODED REQUESTER ID
             //string requesterID = HttpContext.User.Identity.Name;
-            string userID = "S1017"; // clerk
-            //string userID = "S1016"; // supervisor
+            //string userID = "S1017"; // clerk
+            string userID = "S1016"; // supervisor
 
             // Store clerk roleID == 7
             int roleID = userService.GetRoleByID(userID);

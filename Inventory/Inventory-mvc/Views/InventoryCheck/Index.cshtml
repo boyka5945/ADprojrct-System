@@ -1,0 +1,57 @@
+﻿
+
+@{
+    ViewBag.Title = "Index";
+
+    List<DateTime> dates = ViewBag.Dates;
+
+    var successMessage = TempData["SuccessMessage"];
+    var errorMessage = TempData["ErrorMessage"];
+    var warningMessage = TempData["WarningMessage"];
+}
+
+<h2>Inventory Check Records</h2>
+
+<br />
+
+
+@if (successMessage != null)
+{
+    <div class="alert alert-success">
+        @successMessage.ToString()
+    </div>
+}
+
+@if (errorMessage != null)
+{
+    <div class="alert alert-danger">
+        @errorMessage.ToString()
+    </div>
+}
+
+@if (warningMessage != null)
+{
+    <div class="alert alert-warning">
+        @warningMessage.ToString()
+    </div>
+}
+
+<table class="table" style="width=50%">
+    <thead>
+        <tr>
+            <th>Stock Check Dates</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(var date in dates)
+        {
+            <tr>
+                <td>@String.Format("{0:dd/MM/yy}", date)</td>
+                <td>
+                    @Html.ActionLink("Details", "ShowDetails", new { date = date })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
