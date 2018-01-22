@@ -22,6 +22,7 @@ namespace Inventory_mvc.Service
 
         bool UpdateStationeryQuantity(string itemCode, int adjustedQuantity);
 
+        List<Stationery> GetStationeriesBasedOnCategoryID(int[] categoryID);
 
         // HELPER METHOD
         bool isExistingCode(string itemCode);
@@ -56,10 +57,6 @@ namespace Inventory_mvc.Service
         StationeryViewModel FindStationeryViewModelByItemCode(string itemCode);
 
         List<StationeryViewModel> GetStationeriesVMBasedOnCriteria(string searchString, string categoryID);
-
-
-
-
-
+        List<StationeryViewModel> GetAllItemCodes();
     }
 }

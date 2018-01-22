@@ -21,7 +21,7 @@ namespace Inventory_mvc.Controllers
             //{
             //    return RedirectToAction("Login", "Home");
             //}
-            User user = userService.FindByUserID("S1015");
+            User user = userService.FindByUserID(name);
             List<User> model = userService.GetUserByDept(user);
             userService.AutoRemove(user);
             
@@ -35,7 +35,7 @@ namespace Inventory_mvc.Controllers
             //{
             //    return RedirectToAction("Login", "Home");
             //}
-            User user = userService.FindByUserID("S1015");
+            User user = userService.FindByUserID(name);
             List<User> model = userService.GetUserByDept(user);
             userService.AutoRemove(user);
 
@@ -106,7 +106,7 @@ namespace Inventory_mvc.Controllers
             //{
             //    return RedirectToAction("Login", "Home");
             //}
-            User user = userService.FindByUserID("S1015");
+            User user = userService.FindByUserID(name);
             return View(user);
         }
 

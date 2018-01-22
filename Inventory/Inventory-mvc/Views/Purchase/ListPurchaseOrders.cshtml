@@ -21,10 +21,10 @@
 
     <div class="form-group">
   
-        @Html.ActionLink("Create New", "RaisePurchaseOrder", "Purchase", new { @class = "btn btn-default col-md-2" })
+        @Html.ActionLink("Create New", "RaisePurchaseOrder", "Purchase", new { @class = "btn btn-primary col-md-2" })
  
 </div>
-
+    <br />
     <br />
 
 
@@ -38,7 +38,7 @@
                 @Html.DropDownList("searchBy", new List<SelectListItem> {
             new SelectListItem{Text = "PO Number", Value="orderNo",},
             new SelectListItem{ Text= "Status", Value="status"},
-            new SelectListItem{ Text= "Supplier", Value= "supplier"} }, "Select")
+            new SelectListItem{ Text= "Supplier", Value= "supplier"} }, "Show All")
 
                 <input type="text" name="search" />
                 <input type="submit" value="search" />
@@ -49,7 +49,8 @@
         }
 
     </div>
-
+    <br />
+    <br />
 
     <table class="table">
         <tr>

@@ -23,8 +23,8 @@ namespace Inventory_mvc.Controllers
         {
             // TODO: REMOVE HARD CODED APPROVER ID
             //string approverID = HttpContext.User.Identity.Name;
-            string approverID = "S1016"; // supervisor
-            //string approverID = "S1015"; // store manager
+            //string approverID = "S1016"; // supervisor
+            string approverID = "S1015"; // store manager
 
 
             // Set Filter criteria
@@ -220,8 +220,8 @@ namespace Inventory_mvc.Controllers
 
             // TODO: REMOVE HARD CODED APPROVER ID
             //string approverID = HttpContext.User.Identity.Name;
-            string approverID = "S1016"; // supervisor
-            //string approverID = "S1015"; // store manager
+            //string approverID = "S1016"; // supervisor
+            string approverID = "S1015"; // store manager
 
             string errorMessage;
             List<AdjustmentVoucherViewModel> vmList = adjustmentVoucherService.IsUserAuthorizedToViewVoucherDetail(voucherNo, approverID, out errorMessage);
@@ -247,8 +247,8 @@ namespace Inventory_mvc.Controllers
 
             // TODO: REMOVE HARD CODED APPROVER ID
             //string approverID = HttpContext.User.Identity.Name;
-            string approverID = "S1016"; // supervisor
-            //string approverID = "S1015"; // store manager
+            //string approverID = "S1016"; // supervisor
+            string approverID = "S1015"; // store manager
 
             string errorMessage;
             List<AdjustmentVoucherViewModel> vmList = adjustmentVoucherService.IsUserAuthorizedToViewVoucherDetail(voucherNo, approverID, out errorMessage);
@@ -277,8 +277,8 @@ namespace Inventory_mvc.Controllers
 
             // TODO: REMOVE HARD CODED APPROVER ID
             //string approverID = HttpContext.User.Identity.Name;
-            string approverID = "S1016"; // supervisor
-            //string approverID = "S1015"; // store manager
+            //string approverID = "S1016"; // supervisor
+            string approverID = "S1015"; // store manager
 
             switch (submitButton)
             {

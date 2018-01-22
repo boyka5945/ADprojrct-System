@@ -37,17 +37,17 @@ namespace InventoryWCF
 
         //// TODO: Add your service operations here
 
-        //[OperationContract]
-        //List<RetrievalFrom> getRetrievalList();
+        [OperationContract]
+        List<RetrievalFrom> getRetrievalList();
 
-        //[OperationContract]
-        //List<Disbursement> getDisbursementList();
-        ////the follwing is for employee
-        //[OperationContract]
-        //List<RequisitionRecord> getRequisitionListByUserID(string UserID);
+        [OperationContract]
+        List<Disbursement> getDisbursementList();
+        //the follwing is for employee
+        [OperationContract]
+        List<RequisitionRecord> getRequisitionListByUserID(string UserID);
 
-        //[OperationContract]
-        //List<RequisitionDetails> getrequisitionDetailsByNO(int requisitionNo);
+        [OperationContract]
+        List<RequisitionDetails> getrequisitionDetailsByNO(int requisitionNo);
 
 
     }

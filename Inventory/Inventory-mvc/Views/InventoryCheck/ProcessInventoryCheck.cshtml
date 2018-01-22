@@ -1,0 +1,124 @@
+﻿@model PagedList.IPagedList<Inventory_mvc.ViewModel.InventoryCheckViewModel>
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+
+@{
+    ViewBag.Title = "ProcessInventoryCheck";
+
+    var model = Model.First();
+
+    var successMessage = TempData["SuccessMessage"];
+    var errorMessage = TempData["ErrorMessage"];
+    var warningMessage = TempData["WarningMessage"];
+}
+
+<h2>Record Inventory Check Result</h2>
+
+<br />
+@if (successMessage != null)
+{
+    <div class="alert alert-success">
+        @successMessage.ToString()
+    </div>
+}
+
+@if (errorMessage != null)
+{
+    <div class="alert alert-danger">
+        @errorMessage.ToString()
+    </div>
+}
+
+@if (warningMessage != null)
+{
+    <div class="alert alert-warning">
+        @warningMessage.ToString()
+    </div>
+}
+
+
+@using (Html.BeginForm("SubmitInventoryCheckResult", "InventoryCheck", new {  }, FormMethod.Post, new { @class = "form", @id="checkForm" }))
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>@Html.DisplayNameFor(i => model.CategoryName)</th>
+                <th>@Html.DisplayNameFor(i => model.ItemCode )</th>
+                <th>@Html.DisplayNameFor(i => model.StationeryDescription)</th>
+                <th>@Html.DisplayNameFor(i => model.UOM)</th>
+                <th>@Html.DisplayNameFor(i => model.Location)</th>
+                <th>@Html.DisplayNameFor(i => model.StockQuantity)</th>
+                <th>@Html.DisplayNameFor(i => model.ActualQuantity)</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for(int i = 0; i < Model.Count(); i++)
+            {
+                var item = Model.ElementAt(i);
+                <tr>
+                    <td>
+                        @Html.DisplayFor(p => item.CategoryName)
+                        <input type="hidden" name="[@i].CategoryName" value="@item.CategoryName" />
+                        <input type="hidden" name="[@i].CategoryID" value="@item.CategoryID" />
+                    </td>
+                    <td>
+                        @Html.DisplayFor(p => item.ItemCode)
+                        <input type="hidden" name="[@i].ItemCode" value="@item.ItemCode"/>
+                    </td>
+                    <td>
+                        @Html.DisplayFor(p => item.StationeryDescription)
+                        <input type="hidden" name="[@i].StationeryDescription" value="@item.StationeryDescription" />
+                    </td>
+                    <td>
+                        @Html.DisplayFor(p => item.UOM)
+                        <input type="hidden" name="[@i].UOM" value="@item.UOM" />
+                    </td>
+                    <td>
+                        @Html.DisplayFor(p => item.Location)
+                        <input type="hidden" name="[@i].Location" value="@item.Location" />
+                    </td>
+                    <td>
+                        @Html.DisplayFor(p => item.StockQuantity)
+                        <input type="hidden" name="[@i].StockQuantity" value="@item.StockQuantity" />
+                    </td>
+                    <td>
+                        <input type="number" name="[@i].ActualQuantity"  value="@item.ActualQuantity" class="form-control" min="0" onchange="SaveData()"  required />
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    
+
+    @:Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+    @Html.PagedListPager(Model, page => Url.Action("ProcessInventoryCheck", new { page }))
+
+
+    <input type="submit" value="Subtmit Stock Check Result" class="btn btn-success" />
+    <input type="button" value="Cancel Stock Check" onclick="CancelStockCheck()" class="btn btn-danger" />
+}
+
+                     
+<script>
+    function SaveData()
+    {
+        var myformdata = $("#checkForm").serializeArray(); // convert form to array
+
+        $.ajax({
+            type: "POST",
+            url: "/InventoryCheck/SaveTemporaryValue",
+            data: $.param(myformdata), // convert to url-encoded form
+            //success: function () {
+                //alert("success");
+            //}
+        });
+    }
+
+    function CancelStockCheck()
+    {
+        window.location.href = "/InventoryCheck/CancelCurrentStockCheck";
+    }
+</script>

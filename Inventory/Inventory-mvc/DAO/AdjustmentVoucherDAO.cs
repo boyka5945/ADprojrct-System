@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using Inventory_mvc.Models;
+using Inventory_mvc.Utilities;
 using System.Data.Entity;
 
 namespace Inventory_mvc.DAO
@@ -92,6 +93,16 @@ namespace Inventory_mvc.DAO
                 }
 
                 return vouchers.ToList();
+            }
+        }
+
+        public int GetPendingVoucherCount()
+        {
+            using (StationeryModel context = new StationeryModel())
+            {
+                return (from v in context.Adjustment_Voucher_Records
+                        where v.status == AdjustmentVoucherStatus.PENDING
+                        select v).Count();
             }
         }
     }

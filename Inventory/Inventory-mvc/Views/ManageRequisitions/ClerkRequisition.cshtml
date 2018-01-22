@@ -1,4 +1,5 @@
 ﻿@*@model IEnumerable<Inventory_mvc.Models.BigModelView>*@
+
 @model PagedList.IPagedList<Inventory_mvc.Models.BigModelView>
 @using PagedList.Mvc;
 <link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
@@ -63,14 +64,8 @@
             @Html.DisplayFor(modelItem => Model.ToList()[i].unfulfilledQty)
         </td>
         <td>
-            @if (Model.ToList()[i].retrievedQuantity == "")
-            {
-            @Html.DisplayFor(modelItem => Model.ToList()[i].allocateQty)
-            }
-            else
-            {
-                @Html.EditorFor(modelItem => Model.ToList()[i].allocateQty)
-            }</td>
+            @Html.EditorFor(modelItem => Model.ToList()[i].allocateQty)
+        </td>
     </tr>
 }
 

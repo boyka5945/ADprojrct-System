@@ -27,7 +27,10 @@ namespace Inventory_mvc.Controllers
         [HttpGet]
         public ActionResult ManagerRequisition(int? page)
         {
-            string name = HttpContext.User.Identity.Name;
+            // TODO: REMOVE HARD CODED APPROVER ID
+            //string name = HttpContext.User.Identity.Name;
+            string name = "S1012"; // Dept head of ZOOL
+
             List<Requisition_Record> list = new List<Requisition_Record>();
             List<Requisition_Record> model = rs.GetAllRequisition();
             foreach(var item in model)
@@ -47,7 +50,7 @@ namespace Inventory_mvc.Controllers
             }
             
             //return View(model1);
-            int pageSize = 1;
+            int pageSize = 10;
             int pageNumber = (page ?? 1);
             return View(model1.ToPagedList(pageNumber, pageSize));
         }
@@ -105,7 +108,7 @@ namespace Inventory_mvc.Controllers
             int pageSize = 4;
             int pageNumber = (page ?? 1);
 
-            TempData["page"] = (page ?? 1);
+            Session["page"] = (page ?? 1);
             return View(blist.ToPagedList(pageNumber, pageSize));
             //return View(blist);
         }
@@ -113,7 +116,7 @@ namespace Inventory_mvc.Controllers
         [HttpPost]
         public ActionResult AllocateRequisition(IEnumerable<BigModelView> model, int? page)
         {
-            var page1 = (int)TempData["page"];
+            var page1 = (int)Session["page"];
             List<string> itemCodes = rs.GetItemCodeList();
             var ls = (List< RetrieveForm>)HttpContext.Application["retrieveform"];
             if (ModelState.IsValid)
@@ -140,6 +143,11 @@ namespace Inventory_mvc.Controllers
                             int check = k;
                             for (int p = 0; p < length; p++) {
                                 qty = qty + (int)l2[k + p].allocateQty;
+                            }
+                            if (l2[check].retrievedQuantity == "")
+                            {
+                                ViewBag.Message = "have not retrieve yet.";
+                                return View("Error");
                             }
                             if (qty > Convert.ToInt32(l2[check].retrievedQuantity))
                             {
@@ -292,7 +300,7 @@ namespace Inventory_mvc.Controllers
             ViewData["list"] = departmentlist;
             var list = rs.GetRequisitionByDept(deptCode);
             //return View(list);
-            int pageSize = 1;
+            int pageSize = 10;
             int pageNumber = (page ?? 1);
             return View(list.ToPagedList(pageNumber, pageSize));
         }
@@ -306,7 +314,7 @@ namespace Inventory_mvc.Controllers
             if (Session["retrieveList"] != null)
             {
                 List < RetrieveForm > model = (List<RetrieveForm>)Session["retrieveList"];
-                int pageSize = 1;
+                int pageSize = 10;
                 int pageNumber = (page ?? 1);
                 return View(model.ToPagedList(pageNumber, pageSize));
             }
@@ -326,7 +334,7 @@ namespace Inventory_mvc.Controllers
             Session["date"] = from;
             Session["retrieveList"] = model;
                         //return View(model);
-            int pageSize = 1;
+            int pageSize = 10;
             int pageNumber = (page ?? 1);
             return View(model.ToPagedList(pageNumber, pageSize));
         }
