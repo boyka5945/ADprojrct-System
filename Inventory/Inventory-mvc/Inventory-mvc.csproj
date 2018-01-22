@@ -273,6 +273,7 @@
     <Compile Include="ViewModel\BrowseStationeryCatalogueViewModel.cs" />
     <Compile Include="ViewModel\CollectionPointViewModel.cs" />
     <Compile Include="ViewModel\Disbursement.cs" />
+    <Compile Include="ViewModel\InventoryCheckViewModel.cs" />
     <Compile Include="ViewModel\ItemTransactionRecordViewModel.cs" />
     <Compile Include="ViewModel\RaiseRequisitionViewModel.cs" />
     <Compile Include="ViewModel\RequisitionDetailViewModel.cs" />
@@ -438,12 +439,13 @@
     <Content Include="Views\AdjustmentVoucher\MakeApproval.cshtml" />
     <Content Include="Views\CollectionPoint\Collect_Item.cshtml" />
     <Content Include="Views\CollectionPoint\Pending_Item.cshtml" />
+    <Content Include="Views\InventoryCheck\GenerateInventoryChecklist.cshtml" />
+    <Content Include="Views\InventoryCheck\ProcessInventoryCheck.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\AdjustmentVoucherRecord\" />
     <Folder Include="Views\Employee\" />
-    <Folder Include="Views\InventoryCheck\" />
     <Folder Include="Views\Report\" />
     <Folder Include="Views\RequisitionDetails\" />
     <Folder Include="Views\RequisitionRecord\" />

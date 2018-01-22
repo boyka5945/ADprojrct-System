@@ -245,5 +245,10 @@ namespace Inventory_mvc.Service
 
             return (stationeryDAO.UpdateStationeryInfo(s) == 1) ? true : false;
         }
+
+        public List<Stationery> GetStationeriesBasedOnCategoryID(int[] categoryID)
+        {
+            return stationeryDAO.GetStationeriesBasedOnCategoryID(categoryID);
+        }
     }
 }

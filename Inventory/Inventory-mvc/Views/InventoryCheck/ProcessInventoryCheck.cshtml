@@ -1,0 +1,97 @@
+﻿@model PagedList.IPagedList<Inventory_mvc.ViewModel.InventoryCheckViewModel>
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+
+@{
+    ViewBag.Title = "ProcessInventoryCheck";
+
+    var model = Model.First();
+}
+
+<h2>Inventory Check</h2>
+
+<br />
+
+<label>Please input actual stock quantity: </label>
+
+@using (Html.BeginForm("SubmitInventoryCheckResult", "InventoryCheck", new {  }, FormMethod.Post, new { @class = "form", @id="checkForm" }))
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>@Html.DisplayNameFor(i => model.CategoryName)</th>
+                <th>@Html.DisplayNameFor(i => model.ItemCode )</th>
+                <th>@Html.DisplayNameFor(i => model.StationeryDescription)</th>
+                <th>@Html.DisplayNameFor(i => model.UOM)</th>
+                <th>@Html.DisplayNameFor(i => model.Location)</th>
+                <th>@Html.DisplayNameFor(i => model.StockQuantity)</th>
+                <th>@Html.DisplayNameFor(i => model.ActualQuantity)</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for(int i = 0; i < Model.Count(); i++)
+            {
+                var item = Model.ElementAt(i);
+                <tr>
+                    <td>
+                        @Html.DisplayFor(p => item.CategoryName)
+                        <input type="hidden" name="[@i].CategoryName" value="@item.CategoryName" />
+                        <input type="hidden" name="[@i].CategoryID" value="@item.CategoryID" />
+                    </td>
+                    <td>
+                        @Html.DisplayFor(p => item.ItemCode)
+                        <input type="hidden" name="[@i].ItemCode" value="@item.ItemCode"/>
+                    </td>
+                    <td>
+                        @Html.DisplayFor(p => item.StationeryDescription)
+                        <input type="hidden" name="[@i].StationeryDescription" value="@item.StationeryDescription" />
+                    </td>
+                    <td>
+                        @Html.DisplayFor(p => item.UOM)
+                        <input type="hidden" name="[@i].UOM" value="@item.UOM" />
+                    </td>
+                    <td>
+                        @Html.DisplayFor(p => item.Location)
+                        <input type="hidden" name="[@i].Location" value="@item.Location" />
+                    </td>
+                    <td>
+                        @Html.DisplayFor(p => item.StockQuantity)
+                        <input type="hidden" name="[@i].StockQuantity" value="@item.StockQuantity" />
+                    </td>
+                    <td>
+                        <input type="number" name="[@i].ActualQuantity"  value="@item.ActualQuantity" class="form-control" min="0" onchange="SaveData()"  required />
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+
+    @:Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+    @Html.PagedListPager(Model, page => Url.Action("ProcessInventoryCheck", new { page }))
+
+
+    <input type="button" value="Save" onclick="SaveData()" class="btn btn-primary" />
+    <input type="submit" value="Subtmit Stock Check Record" class="btn btn-success" />
+}
+
+                     
+
+<script>
+    function SaveData() {
+
+            var myformdata = $("#checkForm").serializeArray(); // convert form to array
+
+            $.ajax({
+                type: "POST",
+                url: "/InventoryCheck/SaveTemporaryValue",
+                data: $.param(myformdata), // convert to url-encoded form
+                //success: function () {
+                    //alert("success");
+                    //window.location.href = "/InventoryCheck/ProcessInventoryCheck"
+                //}
+            });
+        }
+</script>

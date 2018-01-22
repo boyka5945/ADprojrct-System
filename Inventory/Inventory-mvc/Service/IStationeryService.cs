@@ -22,6 +22,7 @@ namespace Inventory_mvc.Service
 
         bool UpdateStationeryQuantity(string itemCode, int adjustedQuantity);
 
+        List<Stationery> GetStationeriesBasedOnCategoryID(int[] categoryID);
 
         // HELPER METHOD
         bool isExistingCode(string itemCode);
