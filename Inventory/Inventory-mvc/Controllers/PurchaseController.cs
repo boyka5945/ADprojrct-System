@@ -165,6 +165,7 @@ namespace Inventory_mvc.Controllers
                     //save
                     else
                     {
+                    //pd.price = ctx.Stationeries.Where(x => x.itemCode == pd.itemCode).First().price;
                         details.Add(pd, supplierCode);
                         model.Add(pd);
                         Session["detailsBundle"] = details;
@@ -313,6 +314,12 @@ namespace Inventory_mvc.Controllers
 
 
             return View("RaisePurchaseOrder", model);
+
+        }
+
+        [HttpGet]
+        public ActionResult GetDescrpAndPrice(string )
+        {
 
         }
 
