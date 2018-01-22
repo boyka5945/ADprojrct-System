@@ -436,6 +436,8 @@
     <Content Include="Views\AdjustmentVoucher\NewVoucher.cshtml" />
     <Content Include="Views\AdjustmentVoucher\ShowDetail.cshtml" />
     <Content Include="Views\AdjustmentVoucher\MakeApproval.cshtml" />
+    <Content Include="Views\CollectionPoint\Collect_Item.cshtml" />
+    <Content Include="Views\CollectionPoint\Pending_Item.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
