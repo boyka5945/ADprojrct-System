@@ -12,13 +12,20 @@ namespace Inventory_mvc.DAO
         {
             using (StationeryModel context = new StationeryModel())
             {
-                context.Inventory_Status_Records.AddRange(records);
-                if(context.SaveChanges() == 0)
+                try
                 {
-                    return false;
-                }
+                    context.Inventory_Status_Records.AddRange(records);
+                    if (context.SaveChanges() == 0)
+                    {
+                        return false;
+                    }
 
-                return true;                
+                    return true;
+                }
+                catch (Exception e)
+                {
+                    throw new Exception(e.Message);
+                }
             }
         }
 

@@ -48,8 +48,8 @@ namespace InventoryWCF
             {
                 itemcode = x.itemCode
             }).ToList();
-
-            foreach (var group in groups)
+            var newgroups = groups.Distinct().ToList();
+            foreach (var group in newgroups)
             {
                 ItemCodes.Add(group.itemcode);
             }

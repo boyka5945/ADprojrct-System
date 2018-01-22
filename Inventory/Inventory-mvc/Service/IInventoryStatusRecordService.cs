@@ -19,5 +19,7 @@ namespace Inventory_mvc.Service
         List<DateTime> ListAllStockCheckDate();
 
         List<InventoryCheckViewModel> FindInventoryStatusRecordsByDate(DateTime date);
+
+        List<string> TodayAlreadyConductedStockCheckForCategories(DateTime date, int[] categoryID);
     }
 }

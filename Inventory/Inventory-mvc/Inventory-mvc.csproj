@@ -448,6 +448,7 @@
     <Content Include="Views\User\SMUserList.cshtml" />
     <Content Include="Views\InventoryCheck\SubmitInventoryCheckResult.cshtml" />
     <Content Include="Views\InventoryCheck\Index.cshtml" />
+    <Content Include="Views\InventoryCheck\ShowDetails.cshtml" />
     <Content Include="Views\User\ChangePassword.cshtml" />
   </ItemGroup>
   <ItemGroup>
