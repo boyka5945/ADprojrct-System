@@ -21,12 +21,27 @@ namespace Inventory_mvc.Controllers
             //{
             //    return RedirectToAction("Login", "Home");
             //}
-            User user = userService.FindByUserID("S1000");
+            User user = userService.FindByUserID("S1015");
             List<User> model = userService.GetUserByDept(user);
-          //  ViewBag.Roles = userService.FindAllRole(user.UserID);
-            //ViewBag.alrDelegated = userService.AlrDelegated(id);
+            userService.AutoRemove(user);
+            
             return View(model);
         }
+
+        public ActionResult SMUserList()
+        {
+            string name = HttpContext.User.Identity.Name;
+            //if(name=="")
+            //{
+            //    return RedirectToAction("Login", "Home");
+            //}
+            User user = userService.FindByUserID("S1015");
+            List<User> model = userService.GetUserByDept(user);
+            userService.AutoRemove(user);
+
+            return View(model);
+        }
+
         [HttpGet]
         public ActionResult Delegate(string id)
         {
@@ -45,26 +60,18 @@ namespace Inventory_mvc.Controllers
         }
         [HttpPost]
         public ActionResult Delegate(string userID,string from, string toto )
-        {
-            
-            //try
-            //{
-                DateTime start = DateTime.ParseExact(from, "dd-MM-yyyy", CultureInfo.InvariantCulture);
-                DateTime end = DateTime.ParseExact(toto, "dd-MM-yyyy", CultureInfo.InvariantCulture);
-                userService.DelegateEmp(Request["userID"].ToString(), start.Date, end.Date);
-            //}
-            //catch(Exception e)
-            //{
-            //    TempData["DelegateMessage"] = String.Format("Employee is not delegated");
-            //    //return View();
-            //}
-           
-            //if(end.CompareTo(start)<1)
-            //{
-            //    TempData["InvalidDateMessage"] = String.Format("Invalid end date");
-            //    return View();
-            //}
-            
+        {           
+            DateTime start = DateTime.ParseExact(from, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+            DateTime end = DateTime.ParseExact(toto, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+            userService.DelegateEmp(Request["userID"].ToString(), start.Date, end.Date);
+
+            HttpContext.Application["EndDate"] = end;
+
+            User user = userService.FindByUserID(userID);
+            if (user.departmentCode=="STORE")
+            {
+                return RedirectToAction("SMUserList");
+            }      
             return RedirectToAction("UserList");
            
             
@@ -81,17 +88,26 @@ namespace Inventory_mvc.Controllers
             {
                 TempData["RmvDelMessage"] = String.Format("Employee is not delegated");
             }
-           
+
+            User user = userService.FindByUserID(id);
+            if (user.departmentCode == "STORE")
+            {
+                return RedirectToAction("SMUserList");
+            }
             return RedirectToAction("UserList");
 
         }
 
 
-        public ActionResult Edit(string id)
+        public ActionResult Edit()
         {
-            User userVM = userService.FindByUserID(id);
-            ViewBag.RoleList = userService.RoleForEditAndCreate(id);
-            return View(userVM);
+            string name = HttpContext.User.Identity.Name;
+            //if(name=="")
+            //{
+            //    return RedirectToAction("Login", "Home");
+            //}
+            User user = userService.FindByUserID("S1015");
+            return View(user);
         }
 
         [HttpPost]
@@ -120,41 +136,44 @@ namespace Inventory_mvc.Controllers
                     ViewBag.ExceptionMessage = e.Message;
                 }
             }
+            
             return View(userVM);
         }
 
-        //public ActionResult Create()
-        //{
-            
-        //    return View();
-        //}
+        public ActionResult Create()
+        {
+            ViewBag.RoleList = userService.GetStoreRoles();
+            return View(new User());
+        }
 
-        //[HttpPost]
-        //public ActionResult Create(UserViewModel userVM)
-        //{
-        //    string id = userVM.UserID;
+        [HttpPost]
+        public ActionResult Create(User user)
+        {
+            string id = user.userID;
 
-        //    if (userService.isExistingID(id))
-        //    {
-        //        string errorMessage = String.Format("{0} alrdady existed.", id);
-        //        ModelState.AddModelError("UserID", errorMessage);
-        //    }
-        //    else if (ModelState.IsValid)
-        //    {
-        //        try
-        //        {
-        //            userService.AddNewUser(userVM);
-        //            TempData["CreateMessage"] = String.Format("User '{0}' is added.", id);
-        //            return RedirectToAction("UserList");
-        //        }
-        //        catch (Exception e)
-        //        {
-        //            TempData["ExceptionMessage"] = e.Message;
-        //        }
-        //    }
+            if (userService.isExistingID(id))
+            {
+                string errorMessage = String.Format("{0} alrdady existed.", id);
+                ModelState.AddModelError("UserID", errorMessage);
+            }
+            else if (ModelState.IsValid)
+            {
+                try
+                {
+                    userService.AddNewUser(user);
+                    TempData["CreateMessage"] = String.Format("User '{0}' is added.", id);
+                    return RedirectToAction("UserList");
+                }
+                catch (Exception e)
+                {
+                    TempData["ExceptionMessage"] = e.Message;
+                }
+            }
 
-        //    return View(userVM);
-        //}
+            ViewBag.RoleList = userService.GetStoreRoles();
+            return RedirectToAction("SMUserList");
+            //            return View(user);
+        }
         [HttpGet]
         public ActionResult Assign_Rep(string id)
         {

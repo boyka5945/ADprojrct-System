@@ -4,8 +4,6 @@
     ViewBag.Title = "UserList";
     var delegateMessage = TempData["DelegateMessage"];
     var removeDelegateMessage = TempData["RmvDelMessage"];
-    var editMessage = TempData["EditMessage"];
-    var editErrorMessage = TempData["EditErrorMessage"];
     var assignRepMessage = TempData["AssignRepMessage"];
     var assignRepErrorMessage = TempData["AssignRepErrorMessage"];
 
@@ -14,7 +12,7 @@
 <h2>UserList</h2>
 
 <p>
-    @*@Html.ActionLink("Create New", "Create")*@
+     @Html.ActionLink("Edit Profile", "Edit")
 </p>
 <table class="table">
     <tr>
@@ -55,7 +53,7 @@
         </td>
 
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id = item.userID }) |
+            @*@Html.ActionLink("Edit", "Edit", new { id = item.userID }) |*@
             @Html.ActionLink("Delegate", "Delegate", new { id = item.userID }) |
             @Html.ActionLink("Assign Rep", "Assign_Rep", new { id = item.userID }) |
             @Html.ActionLink("Remove Delegate", "Remove_Delegate", new { id = item.userID }) 
@@ -79,21 +77,7 @@
                 @removeDelegateMessage.ToString()
             </div>
         }
-
-        @if (editMessage != null)
-        {
-            <div class="alert alert-danger">
-                @editMessage.ToString()
-            </div>
-        }
-
-        @if (editErrorMessage != null)
-        {
-            <div class="alert alert-success">
-                @editErrorMessage.ToString()
-            </div>
-        }
-
+       
         @if (assignRepMessage != null)
         {
             <div class="alert alert-danger">

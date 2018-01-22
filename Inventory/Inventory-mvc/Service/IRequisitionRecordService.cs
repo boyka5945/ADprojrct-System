@@ -28,7 +28,8 @@ namespace Inventory_mvc.Service
 
         
 
-        bool SubmitNewRequisition(Requisition_Record requisition);
+        bool SubmitNewRequisition(Requisition_Record requisition, string requesterID);
+
         List<Disbursement> GetRequisitionByDept(string deptCode);
 
         List<Requisition_Record> GetRecordsByRequesterID(string requesterID);
@@ -39,10 +40,15 @@ namespace Inventory_mvc.Service
 
         bool DeleteRequisition(int recordNo);
         List<Requisition_Record> GetSortedRecordsByRequesterID(string requesterID, string sortOrder);
+
         Requisition_Record IsUserAuthorizedForRequisition(int requisitionNo, string requesterID, out string errorMessage);
+
+
 
         bool UpdateRequisitionDetails(List<RequisitionDetailViewModel> vmList, out string errorMessage);
 
         int DetailsCountOfOneItemcode(string itemcode);
+
+        List<RequisitionDetailViewModel> GetViewModelFromRequisitionRecord(Requisition_Record record);
     }
 }

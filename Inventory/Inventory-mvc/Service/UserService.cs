@@ -5,6 +5,7 @@ using System.Web;
 using Inventory_mvc.Models;
 using Inventory_mvc.DAO;
 using Inventory_mvc.ViewModel;
+using Inventory_mvc.Utilities;
 
 namespace Inventory_mvc.Service
 {
@@ -12,30 +13,24 @@ namespace Inventory_mvc.Service
     {
         private IUserDAO userDAO = new UserDAO();
 
-        public List<User> GetAllUserViewModel()
+        // TODO: Solve the methods
+        List<string> IUserService.GetStoreRoles()
         {
-            List<User> userList = userDAO.GetAllUser();
-
-            List<User> viewModelList = new List<User>();
-            foreach (User u in userList)
-            {
-                viewModelList.Add(u);
-            }
-
-            return viewModelList;
+            List<string> roleList = userDAO.GetStoreRoles();        
+            return roleList;
         }
 
         public List<User> GetUserByDept(User user)
         {
             List<User> userList=userDAO.GetUserByDept(user);
-            List<User> viewModelList = new List<User>();
+            List<User> users = new List<User>();
 
             foreach (User s in userList)
             {
                 if (s.userID != user.userID)
-                    viewModelList.Add(s);
+                    users.Add(s);
             }
-            return viewModelList;
+            return users;
         }
 
         public User FindByUserID(string userid)
@@ -96,7 +91,7 @@ namespace Inventory_mvc.Service
             userVM.ContactNo = u.contactNo;
             userVM.DelegationStart = (DateTime?)u.delegationStart;
             userVM.DelegationEnd = (DateTime?)u.delegationEnd;
-            return userVM ;
+            return userVM;
         }
 
 
@@ -148,10 +143,10 @@ namespace Inventory_mvc.Service
         }
 
 
-        public List<int> RoleForEditAndCreate(string userid)
-        {
-            return userDAO.RoleForEditAndCreate(userid);
-        }
+        //List<string> IUserService.RoleForEditAndCreate(string userid)
+        //{
+        //    return userDAO.RoleForEditAndCreate(userid);
+        //}
 
 
         public bool AlrDelegated(string userid)
@@ -166,14 +161,19 @@ namespace Inventory_mvc.Service
         public bool IsStoreManager(string userID)
         {
             // StoreManager = 5
-            return (GetRoleByID(userID) == 5) ? true : false;
+            return (GetRoleByID(userID) == (int) UserRoles.RoleID.StoreManager) ? true : false;
         }
 
         public bool IsStoreSupervisor(string userID)
         {
             // StoreSupervisor = 6
-            return (GetRoleByID(userID) == 6) ? true : false;
+            return (GetRoleByID(userID) == (int)UserRoles.RoleID.StoreSupervisor) ? true : false;
         }
 
+
+        void IUserService.AutoRemove(User user)
+        {
+            userDAO.AutoRomove(user);
+        }
     }
 }

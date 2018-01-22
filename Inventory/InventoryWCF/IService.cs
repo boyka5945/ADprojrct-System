@@ -10,41 +10,44 @@ namespace InventoryWCF
 {
     // NOTE: You can use the "Rename" command on the "Refactor" menu to change the interface name "IService1" in both code and config file together.
     [ServiceContract]
-    public interface IService1
+    public interface IService
     {
         [OperationContract]
-        Boolean validateUser(User user);
+        [WebGet(UriTemplate = "/ValidateUser", ResponseFormat = WebMessageFormat.Json)]
+        Boolean ValidateUser(string userid, string password);
 
         [OperationContract]
-        Boolean changePassWord(User user);
+        [WebGet(UriTemplate = "/ChangePassWord", ResponseFormat = WebMessageFormat.Json)]
+        Boolean changePassWord(string userid, string currentpassword, string newpassword);
 
         [OperationContract]
+        [WebGet(UriTemplate = "/All", ResponseFormat = WebMessageFormat.Json)]
         List<string> getAllItemCode();
 
         [OperationContract]
-        List<RequisitionRecord> getRequisitionByItemCode(string itemCode);
+        [WebGet(UriTemplate = "/getRequisitionByItemCode/{itemCode}", ResponseFormat = WebMessageFormat.Json)]
+        List<RequisitionDetails> getRequisitionDetailsByItemCode(string itemCode);
 
         [OperationContract]
+        [WebGet(UriTemplate = "/getRequisitionDetailsBy2Keys", ResponseFormat = WebMessageFormat.Json)]
         RequisitionDetails getRequisitionDetailsBy2Keys(string itemCode, int requisitionNO);
 
         [OperationContract]
-        Boolean updateRequisitionDetails(RequisitionDetails rd);
+        Boolean updateRequisitionDetails(int requisitionNo, string ItemCode, int allocateQty);
 
-        [OperationContract]
-        Boolean updateRequisitionRecord(RequisitionRecord rr);
-        // TODO: Add your service operations here
+        //// TODO: Add your service operations here
 
-        [OperationContract]
-        List<RetrievalFrom> getRetrievalList();
+        //[OperationContract]
+        //List<RetrievalFrom> getRetrievalList();
 
-        [OperationContract]
-        List<Disbursement> getDisbursementList();
-        //the follwing is for employee
-        [OperationContract]
-        List<RequisitionRecord> getRequisitionListByUserID(string UserID);
+        //[OperationContract]
+        //List<Disbursement> getDisbursementList();
+        ////the follwing is for employee
+        //[OperationContract]
+        //List<RequisitionRecord> getRequisitionListByUserID(string UserID);
 
-        [OperationContract]
-        List<RequisitionDetails> getrequisitionDetailsByNO(int requisitionNo);
+        //[OperationContract]
+        //List<RequisitionDetails> getrequisitionDetailsByNO(int requisitionNo);
 
 
     }
@@ -108,7 +111,7 @@ namespace InventoryWCF
         public string ItemCode
         {
             get { return itemcode; }
-            set { ItemCode = value; }
+            set { itemcode = value; }
         }
 
         public string Description

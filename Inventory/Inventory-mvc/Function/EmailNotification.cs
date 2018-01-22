@@ -3,16 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using Inventory_mvc.Service;
+using Inventory_mvc.Utilities;
 
 namespace Inventory_mvc.Function
 {
     public class EmailNotification
     {
-        enum ApprovalStatus
-        {
-            Approved, Rejected
-        }
-
         private static IUserService userService = new UserService();
 
         public static void EmailNotificatioForNewRequisition(string requesterID)
@@ -34,15 +30,15 @@ namespace Inventory_mvc.Function
         /// </summary>
         /// <param name="requisitionNo"></param>
         /// <param name="status">
-        /// 0: Approved | 1: Rejected
+        /// RequisitionStatus => Approved and Processing | Rejected
         /// </param>
-        public static void EmailNotificatioForRequisitionApprovalStatus(int requisitionNo, int status)
+        public static void EmailNotificatioForRequisitionApprovalStatus(int requisitionNo, string status)
         {
-            if(status.ToString() == ApprovalStatus.Approved.ToString())
+            if(status == RequisitionStatus.APPROVED_PROCESSING)
             {
 
             }
-            else if (status.ToString() == ApprovalStatus.Rejected.ToString())
+            else if (status == RequisitionStatus.REJECTED)
             {
 
             }
@@ -63,13 +59,21 @@ namespace Inventory_mvc.Function
         }
 
 
-        public static void EmailNotificatioForAdjustmentVoucherApprovalStatus(int voucherNo, int status)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="voucherNo"></param>
+        /// <param name="status">
+        /// AdjustmentVoucherStatus => Approved | Rejected
+        /// </param>
+        /// <param name="remarks"></param>
+        public static void EmailNotificatioForAdjustmentVoucherApprovalStatus(int voucherNo, string status, string remark)
         {
-            if (status.ToString() == ApprovalStatus.Approved.ToString())
+            if (status == AdjustmentVoucherStatus.APPROVED)
             {
 
             }
-            else if (status.ToString() == ApprovalStatus.Rejected.ToString())
+            else if (status == AdjustmentVoucherStatus.REJECTED)
             {
 
             }

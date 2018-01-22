@@ -9,31 +9,33 @@ namespace Inventory_mvc.DAO
 {
     public class TransactionRecordDAO : ITransactionRecordDAO
     {
-        // TODO : IMPLEMENT NESSESSARY METHOD
         public bool AddNewTransaction(Transaction_Record transaction_record)
         {
-            throw new NotImplementedException();
+            using (StationeryModel context = new StationeryModel())
+            {
+                try
+                {
+                    context.Transaction_Records.Add(transaction_record);
+                    context.SaveChanges();
+                    return true;
+                }
+                catch(Exception e)
+                {
+                    return false;
+                }
+            }
         }
 
-        public bool DeleteTransaction(int TransactionNO)
+        public Transaction_Record FindByTransactionNo(int transactionNo)
         {
-            throw new NotImplementedException();
+            using (StationeryModel context = new StationeryModel())
+            {
+                return (from r in context.Transaction_Records
+                        where r.transactionNo == transactionNo
+                        select r).Include(r => r.Transaction_Details).FirstOrDefault();
+            }
         }
 
-        public Transaction_Record FindByTransactionNO(int TransactionNO)
-        {
-            throw new NotImplementedException();
-        }
-
-        public List<Transaction_Record> GetAllTransaction()
-        {
-            throw new NotImplementedException();
-        }
-
-        public int UpdateTransactionInfo(Transaction_Record transaction_record)
-        {
-            throw new NotImplementedException();
-        }
 
         public List<Transaction_Detail> GetTransaciontDetailsByCriteria(int year, int month, string itemCode)
         {
@@ -46,7 +48,6 @@ namespace Inventory_mvc.DAO
                         select r).Include(r => r.Transaction_Record).ToList();
             }
         }
-
 
     }
 }

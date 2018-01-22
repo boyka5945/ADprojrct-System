@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using Inventory_mvc.Service;
 using Inventory_mvc.Models;
 using Inventory_mvc.ViewModel;
+using Inventory_mvc.Utilities;
 
 namespace Inventory_mvc.Controllers
 {
@@ -24,7 +25,7 @@ namespace Inventory_mvc.Controllers
 
             // Store clerk roleID == 7
             int roleID = userService.GetRoleByID(userID);
-            ViewBag.Role = (roleID.ToString() == "7") ? "StoreClerk" : "";
+            ViewBag.Role = (roleID == (int)UserRoles.RoleID.StoreClerk) ? UserRoles.STORE_CLERK : "";
 
             return View(supplierService.GetAllSuppliers());
         }
@@ -68,6 +69,11 @@ namespace Inventory_mvc.Controllers
         // GET: Supplier/Edit/{id}
         public ActionResult Edit(string id)
         {
+            if(String.IsNullOrEmpty(id))
+            {
+                return RedirectToAction("Index");
+            }
+
             SupplierViewModel supplierVM = supplierService.FindBySupplierCode(id);
             return View(supplierVM);
         }
@@ -107,6 +113,11 @@ namespace Inventory_mvc.Controllers
         // GET: Supplier/Delete/{id}
         public ActionResult Delete(string id)
         {
+            if(String.IsNullOrEmpty(id))
+            {
+                return RedirectToAction("Index");
+            }
+
             if (supplierService.DeleteSupplier(id))
             {
                 TempData["SuccessMessage"] = String.Format("Supplier '{0}' has been deleted", id);

@@ -1,0 +1,117 @@
+﻿@model IEnumerable<Inventory_mvc.ViewModel.AdjustmentVoucherViewModel>
+@using Inventory_mvc.Utilities;
+
+@{
+    ViewBag.Title = "ShowDetail";
+
+    var successMessage = TempData["SuccessMessage"];
+
+    var record = Model.First();
+
+    var textColor = "";
+}
+
+<h2>Adjustment Voucher Detail</h2>
+
+<br />
+@if (successMessage != null)
+{
+    <div class="alert alert-success">
+        @successMessage.ToString()
+    </div>
+}
+
+<div class="form-group row">
+    <label class="col-sm-2 col-form-label font-weight-bold">@Html.DisplayNameFor(model => model.VoucherNo):</label>
+    <div class="col-sm-10">
+        <label class="col-sm-2 col-form-label">@record.VoucherNo</label>
+    </div>
+</div>
+<div class="form-group row">
+    <label class="col-sm-2 col-form-label font-weight-bold">@Html.DisplayNameFor(model => model.Status):</label>
+    <div class="col-sm-10">
+        @if (record.Status == AdjustmentVoucherStatus.APPROVED)
+        {
+            textColor = "text-success";
+        }
+        else
+        {
+            textColor = "text-danger";
+        }
+        <label class="col-sm-2 col-form-label @textColor">@record.Status</label>
+    </div>
+</div>
+<div class="form-group row">
+    <label class="col-sm-2 col-form-label font-weight-bold">@Html.DisplayNameFor(model => model.IssueDate):</label>
+    <div class="col-sm-10">
+        <label class="col-sm-2 col-form-label">
+            @Html.DisplayFor(model => record.IssueDate)
+        </label>
+    </div>
+</div>
+<div class="form-group row">
+    <label class="col-sm-2 col-form-label font-weight-bold">@Html.DisplayNameFor(model => model.Requester):</label>
+    <div class="col-sm-10">
+        <label class="col-sm-2 col-form-label">@record.Requester</label>
+    </div>
+</div>
+<div class="form-group row">
+    <label class="col-sm-2 col-form-label font-weight-bold">@Html.DisplayNameFor(model => model.Causes):</label>
+    <div class="col-sm-10">
+        <label class="col-sm-2 col-form-label">@record.Causes</label>
+    </div>
+</div>
+<div class="form-group row">
+    <label class="col-sm-2 col-form-label font-weight-bold">@Html.DisplayNameFor(model => model.ApprovalDate):</label>
+    <div class="col-sm-10">
+        <label class="col-sm-2 col-form-label">
+            @Html.DisplayFor(model => record.ApprovalDate)
+        </label>
+    </div>
+</div>
+<div class="form-group row">
+    <label class="col-sm-2 col-form-label font-weight-bold">@Html.DisplayNameFor(model => model.Approver):</label>
+    <div class="col-sm-10">
+        <label class="col-sm-2 col-form-label">@record.Approver</label>
+    </div>
+</div>
+
+
+<br />
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.ItemCode)</th>
+            <th>@Html.DisplayNameFor(model => model.StationeryDescription)</th>
+            <th>@Html.DisplayNameFor(model => model.UOM)</th>
+            <th>@Html.DisplayNameFor(model => model.Quantity)</th>
+            <th>@Html.DisplayNameFor(model => model.Reason)</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.ItemCode)</td>
+                <td>@Html.DisplayFor(modelItem => item.StationeryDescription)</td>
+                <td>@Html.DisplayFor(modelItem => item.UOM)</td>
+                @if (item.Quantity > 0)
+                {
+                    <td>
+                        <span class="text-success">+@item.Quantity</span>
+                    </td>
+                }
+                else
+                {
+                    <td>
+                        <span class="text-danger">@item.Quantity</span>
+                    </td>
+                }
+                <td>@Html.DisplayFor(modelItem => item.Reason)</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@Html.ActionLink("Back to List", "Index")

@@ -119,7 +119,7 @@ else
                 <div class="modal-body">
 
                     <div class="form-group">
-                        @Html.Label("Item Code")
+                        <label>@Html.DisplayNameFor(model => model.ItemCode)</label>
                         <br />
                         <!-- Combobox -->
                         <select class="js-data-example-ajax js-states form-control" style="width: 100%" name="itemCode" required>
@@ -128,12 +128,12 @@ else
                     </div>
 
                     <div class="form-group">
-                        @Html.Label("Quantity Adjusted")
+                        <label>@Html.DisplayNameFor(model => model.Quantity)</label>                        
                         <input type="number" class="form-control" placeholder="Quantity" name="quantity" required />
                     </div>
 
                     <div class="form-group">
-                        @Html.Label("Reason")
+                        <label>@Html.DisplayNameFor(model => model.Reason)</label>
                         <input type="text" class="form-control" placeholder="Reason" name="reason" />
                     </div>
 
@@ -173,7 +173,7 @@ else
             },
 
             placeholder: "Input item code",
-            minimumInputLength: 1,
+            //minimumInputLength: 1,
             selectOnClose: true,
             allowClear: true,
             dropdownParent: $('#addItemModal'),
