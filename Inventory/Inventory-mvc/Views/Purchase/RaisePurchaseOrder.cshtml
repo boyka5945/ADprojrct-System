@@ -11,12 +11,20 @@
     var priceErrorMessage = TempData["PriceErrorMessage"];
     var itemCodeErrorMessage = TempData["ItemCodeErrorMessage"];
     var exceptionMessage = TempData["ExceptionMessage"];
+    var duplicateMessage = TempData["DuplicateEntryMessage"];
 
 
     List<Inventory_mvc.ViewModel.StationeryViewModel> itemCodeLists = ViewBag.itemCodeList;
 
     //List<Inventory_mvc.Models.Purchase_Order_Record> Model = ViewBag.model;
     //List<Inventory_mvc.ViewModel.Purchase_Order_RecordViewModel> Model = ViewBag.model;
+}
+
+@if (duplicateMessage != null)
+{
+    <div class="alert alert-danger">
+        @duplicateMessage.ToString()
+    </div>
 }
 @if (errorMessage != null)
 {
@@ -110,7 +118,7 @@
 
             <hr />
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-            <div class="form-group">
+            <div class="form-group" style="display: none">
 
                 @Html.Label("Order Number", htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
@@ -154,6 +162,7 @@
             <div class="form-group">
                 @Html.Label("Item Description", htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
+                 
       
                     @Html.Editor("description")
                     @*@Html.ValidationMessage("description")*@

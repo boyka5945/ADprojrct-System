@@ -73,12 +73,12 @@ namespace Inventory_mvc.Controllers
             //return View(model);
         }
 
-        [HttpGet]
-        public ActionResult ObtainPurchaseDetails(string id)
-        {
-            return View();
+        //[HttpGet]
+        //public ActionResult ObtainPurchaseDetails(string id)
+        //{
+        //    return View();
 
-        }
+        //}
 
         [HttpGet]
         public ActionResult RaisePurchaseOrder()
@@ -119,24 +119,6 @@ namespace Inventory_mvc.Controllers
 
 
             ViewBag.itemCodeList = ss.GetAllItemCodes();
-            //try
-            //{
-                var itemCode = pd.itemCode;
-
-            //pd.itemCode = itemCode;
-            //}
-            //catch
-            //{
-            //if (pd.itemCode == "--Select--")
-            //{
-            //    string errorMessage = String.Format("Select Item Code");
-            //    ModelState.AddModelError("itemCode", errorMessage);
-            //    ViewBag.itemCodeList = ss.GetAllItemCodes();
-            //    //model = new List<Purchase_Detail>();
-            //    return View();
-            //}
-
-            //}
 
             if (Session["detailsBundle"] != null)
             {
@@ -146,43 +128,53 @@ namespace Inventory_mvc.Controllers
 
             }
 
+
+
             //validation
             if (pd.qty < 1)
             {
                 TempData["QtyErrorMessage"] = "Quantity should be greater than 0";
+                string qtyError = "Quantity should be greater than 0";
+                ModelState.AddModelError("qty", qtyError);
+
             }
             if (pd.price <= 0)
             {
                 TempData["PriceErrorMessage"] = "Price cannot be 0 or less than 0.";
+                string priceError = "Price cannot be 0 or less than 0. ";
+                ModelState.AddModelError("price", priceError);
             }
 
             if (pd.itemCode == "--Select--")
             {
                 TempData["ItemCodeErrorMessage"] = "ItemCode must be selected.";
+                string itemCodeError = "ItemCode must be selected. ";
+                ModelState.AddModelError("itemCode", itemCodeError);
             }
 
             //only save to session if itemcode, price and qty are entered
             if (pd.price > 0 && pd.qty > 0 && pd.itemCode!=("--Select--"))
             {
-                try
-                {
-                    details.Add(pd, supplierCode);
-                    model.Add(pd);
-                    Session["detailsBundle"] = details;
+          
+                    //check for pre-exisiting pd with same itemcode
+                    if (model.Exists(x => x.itemCode == pd.itemCode))
+                    {
+                        TempData["DuplicateEntryMessage"] = "An order for the same item already exists in the list.";
+
+                    }
+                    //save
+                    else
+                    {
+                        details.Add(pd, supplierCode);
+                        model.Add(pd);
+                        Session["detailsBundle"] = details;
+                    }
+                    ModelState.Clear();
                     return View("RaisePurchaseOrder", model);
-                }
-                catch (Exception e)
-                {
-                    TempData["ExceptionMessage"] = e.Message;
-                    return View(model);
-                }
-                // ViewBag.model = pos.GetAllPurchaseOrder();
+
             }
-            string errorMessage = "select item code.";
-            ModelState.AddModelError("itemCode", errorMessage);
 
-
-            ViewBag.itemCodeList = ss.GetAllItemCodes();
+            ModelState.Clear();
             return View(model);
         }
 
@@ -253,7 +245,6 @@ namespace Inventory_mvc.Controllers
             int pageSize = 10;
             int pageNumber = (page ?? 1);
 
-            ViewBag.itemCodeList = ss.GetAllItemCodes();
 
             return View("ListPurchaseOrders", model.ToPagedList(pageNumber, pageSize));
 
@@ -268,8 +259,7 @@ namespace Inventory_mvc.Controllers
             List<Purchase_Detail> model = details.Keys.ToList<Purchase_Detail>();
             ViewBag.itemCodeList = ss.GetAllItemCodes();
 
-            try
-            {
+       
 
                 Purchase_Detail pd = model.Where(x => x.itemCode == id).First();
 
@@ -279,13 +269,9 @@ namespace Inventory_mvc.Controllers
                 //remove from sessions state
                 details.Remove(pd);
                 Session["detailsBundle"] = details;
-            }
-
-            catch
-            {
+            
 
 
-            }
       
 
             return View("RaisePurchaseOrder", model);
@@ -295,6 +281,7 @@ namespace Inventory_mvc.Controllers
         [HttpGet]
         public ActionResult ClearSession()
         {
+            ViewBag.itemCodeList = ss.GetAllItemCodes();
             Session["detailsBundle"] = null;
 
             List<Purchase_Detail> model = new List<Purchase_Detail>();
