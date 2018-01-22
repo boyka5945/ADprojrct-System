@@ -52,10 +52,11 @@ namespace InventoryWCF
             return list;
         }
 
-        public RequisitionDetails getRequisitionDetailsBy2Keys(string itemCode, int requisitionNO)
+        public RequisitionDetails getRequisitionDetailsBy2Keys(string itemCode, string requisitionNO)
         {
 
-            var rr = BusinessLogic.getRequisitionDetailsBy2Keys(itemCode, requisitionNO);
+            int No = Convert.ToInt32(requisitionNO);
+            var rr = BusinessLogic.getRequisitionDetailsBy2Keys(itemCode, No);
             RequisitionDetails r = new RequisitionDetails();
             r.RequisitonNo = rr.requisitionNo;
             r.RetrievedDate = rr.retrievedDate;
@@ -70,30 +71,30 @@ namespace InventoryWCF
             return r;
         }
 
-        public Boolean updateRequisitionDetails(int requisitionNo, string ItemCode, int allocateQty)
-        {
-            return BusinessLogic.updateRequisitionDetails(requisitionNo, ItemCode, allocateQty);
-        }
+        //public Boolean updateRequisitionDetails(int requisitionNo, string ItemCode, int allocateQty)
+        //{
+        //    return BusinessLogic.updateRequisitionDetails(requisitionNo, ItemCode, allocateQty);
+        //}
 
-        public List<RetrievalFrom> getRetrievalList()
-        {
-            throw new NotImplementedException();
-        }
+        //public List<RetrievalFrom> getRetrievalList()
+        //{
+        //    throw new NotImplementedException();
+        //}
 
-        public List<Disbursement> getDisbursementList()
-        {
-            throw new NotImplementedException();
-        }
+        //public List<Disbursement> getDisbursementList()
+        //{
+        //    throw new NotImplementedException();
+        //}
 
-        public List<RequisitionRecord> getRequisitionListByUserID(string UserID)
-        {
-            throw new NotImplementedException();
-        }
+        //public List<RequisitionRecord> getRequisitionListByUserID(string UserID)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
-        public List<RequisitionDetails> getrequisitionDetailsByNO(int requisitionNo)
-        {
-            throw new NotImplementedException();
-        }
+        //public List<RequisitionDetails> getrequisitionDetailsByNO(int requisitionNo)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
     }
 }

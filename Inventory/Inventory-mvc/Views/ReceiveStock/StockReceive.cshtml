@@ -24,124 +24,146 @@
 <body>
 
     <h2>StockReceive</h2>
-
-    @using (Html.BeginForm("StockReceive", "ReceiveStock", FormMethod.Post))
-    {
-
-        <div class="form-group">
-            @Html.Label("PO Number", new { @class = "control-label col-md-2" })
-            @Html.TextBox("searchPONumber", ViewBag.PONumber as string, new { @class = "control-textbox col-md-2", @id="poNum" })
-            <input type="submit" value="Search" class="btn btn-default" style=" margin:5px;" readonly />
-        </div>
-
-        <div class="form-group">
-            @Html.Label("Supplier", new { @class = "control-label col-md-2" })
-            @Html.TextBox("showSupplier", ViewBag.Supplier as string, new { @class = "control-textbox col-md-2", @id="supp" })
-
-        </div>
-    }
-    @using (Html.BeginForm("UpdateReceived", "ReceiveStock", FormMethod.Get))
-    {
-        <input type="hidden" value="@ViewBag.PONumber" name="PONumber" />
-        <input type="hidden" value="@ViewBag.Supplier" name="supplier" />
-
-
-        <div class="form-group">
-            @Html.Label("DO Number", new { @class = "control-label col-md-2" })
-            @Html.TextBox("DONumber")
-        </div>
-
-        <div class="form-group">
-            @Html.Label("Received Date", new { @class = "control-label col-md-2", @id="date"})
-            @*@Html.TextBox("ReceivedDate")*@
-
-            <input type="text" id="datepicker" name="ReceivedDate">
-        </div>
-
-
-
-
-        <table class="table">
-            <tr>
-                <th>
-                    @Html.Label("Item Code")
-                </th>
-                <th>
-                    @Html.Label("Description")
-                </th>
-                <th>
-                    @Html.Label("Ordered")
-                </th>
-                <th>
-                    @Html.Label("Unreceived")
-                </th>
-                <th>
-                    @Html.Label("Received")
-                </th>
-                <th>
-                    @Html.Label("UOM")
-                </th>
-                <th>
-                    @Html.Label("Remarks")
-                </th>
-            </tr>
-
-            @foreach (var item in Model)
+    
+            @using (Html.BeginForm("StockReceive", "ReceiveStock", FormMethod.Post))
             {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.itemCode)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Stationery.description)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.qty)
-                    </td>
-                    <td>
-                        @{
-                        int fulfilled;
-                        if (item.fulfilledQty.HasValue)
-                        {
-                            fulfilled = item.fulfilledQty.Value;
-                        }
-                        else
-                        {
-                            fulfilled = 0;
 
-                        }
-                        string qtyOutstanding = (item.qty - fulfilled).ToString();
+               
+                    <div class="row" style="margin-top: 10px; margin-bottom: 10px;">
+                        <div class="col-md-2">
+                            @Html.Label("PO Number", htmlAttributes: new { @class = "control-label" })
+                            </div>
+                            <div class="col-md-10">
+                                @Html.TextBox("searchPONumber", ViewBag.PONumber as string)
+                                <input type="submit" value="Search" class="btn btn-info" style=" margin-left:10px;" onclick="ponumValidate()"  />
+                                <p id="ponumValidation" style="display: none"></p>
+                            </div>
+                        </div>
+
+                    <div class="row" style="margin-top: 10px; margin-bottom: 10px;">
+                        <div class="col-md-2">
+                            @Html.Label("Supplier", htmlAttributes: new { @class = "control-label" })
+                            </div>
+                            <div class="col-md-10">
+                                @Html.TextBox("showSupplier", ViewBag.Supplier as string, new { @readonly = "readonly" })
+                            </div>
+                        </div>
+
+                 
                     }
-                    @Html.Label(qtyOutstanding)
-                </td>
-                <td>
-                    @*//input for received*@
-                    <div class="form-inline">
-                        <input type="number" name="num-@item.itemCode" value="0" min="0" class="form-control" placeholder="FulfilledQty" />
-
-                    </div>
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Stationery.unitOfMeasure)
-                </td>
-                <td>
-                    @*//input for remarks*@
-                    <input type="text" name="rem-@item.itemCode" />
-                </td>
-            </tr>
-                        }
+                    @using (Html.BeginForm("UpdateReceived", "ReceiveStock", FormMethod.Get))
+                    {
 
 
-        </table>
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                @Html.ActionLink("Submit All as Received", "UpdateReceived", "ReceiveStock", new { @class = "all", checker = "allReceived" }, null)
-                <input type="button" value="submit all" class="btn btn-default" id="all" />
-                @*<input type="submit" value="Fill in all unreceived quantity"  class="btn btn-default" />*@
-                <input type="submit" value="Submit" class="btn btn-default" />
-            </div>
-        </div>
-                        }
+                     
+                            <div class="row" style="margin-top: 10px; margin-bottom: 10px;">
+                                <div class="col-md-2">
+                                    @Html.Label("DO Number", htmlAttributes: new { @class = "control-label" })
+                                    </div>
+                                    <div class="col-md-10">
+                                        @Html.TextBox("DONumber")
+                                    </div>
+                                </div>
+
+                            <div class="row" style="margin-top: 10px; margin-bottom: 10px;">
+                                <div class="col-md-2">
+                                    @Html.Label("Received Date", htmlAttributes: new { @class = "control-label" })
+                                    </div>
+                                    @*@Html.TextBox("ReceivedDate")*@
+                                    <div class="col-md-10">
+                                        <input type="text" id="datepicker" name="ReceivedDate">
+                                    </div>
+                                </div>
+
+                            
+
+                            <input type="hidden" value="@ViewBag.PONumber" name="PONumber" />
+                            <input type="hidden" value="@ViewBag.Supplier" name="supplier" />
+
+
+
+
+                            <table class="table">
+                                <tr>
+                                    <th>
+                                        @Html.Label("Item Code")
+                                    </th>
+                                    <th>
+                                        @Html.Label("Description")
+                                    </th>
+                                    <th>
+                                        @Html.Label("Ordered")
+                                    </th>
+                                    <th>
+                                        @Html.Label("Unreceived")
+                                    </th>
+                                    <th>
+                                        @Html.Label("Received")
+                                    </th>
+                                    <th>
+                                        @Html.Label("UOM")
+                                    </th>
+                                    <th>
+                                        @Html.Label("Remarks")
+                                    </th>
+                                </tr>
+
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.itemCode)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Stationery.description)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.qty)
+                                        </td>
+                                        <td>
+                                            @{
+                                                int fulfilled;
+                                                if (item.fulfilledQty.HasValue)
+                                                {
+                                                    fulfilled = item.fulfilledQty.Value;
+                                                }
+                                                else
+                                                {
+                                                    fulfilled = 0;
+
+                                                }
+                                                string qtyOutstanding = (item.qty - fulfilled).ToString();
+                                            }
+                                            @Html.Label(qtyOutstanding)
+                                        </td>
+                                        <td>
+                                            @*//input for received*@
+                                            <div class="form-inline">
+                                                <input type="number" name="num-@item.itemCode" value="0" min="0" class="form-control" placeholder="FulfilledQty" />
+
+                                            </div>
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Stationery.unitOfMeasure)
+                                        </td>
+                                        <td>
+                                            @*//input for remarks*@
+                                            <input type="text" name="rem-@item.itemCode" />
+                                        </td>
+                                    </tr>
+                                                }
+
+
+                            </table>
+                            <div class="form-group">
+                                <div class="col-md-offset-2 col-md-10">
+                                    @*@Html.ActionLink("Submit All as Received", "UpdateReceived", "ReceiveStock", new { @class = "all", checker = "allReceived" }, null)*@
+                                    <input type="submit" name="sbutton" value="Submit All" class="btn btn-default" />
+                                    @*<input type="submit" value="Fill in all unreceived quantity"  class="btn btn-default" />*@
+                                    <input type="submit" name="sbutton" value="Submit" class="btn btn-default" />
+                                </div>
+                            </div>
+                            }
 
 </body>
 
@@ -151,27 +173,19 @@
 </html>
 
 <script>
-    //button click function 
-    $(".all").click(function () {
 
-        alert("clicked");
+    function ponumValidate() {
+        
+        var field = $("#searchPONumber");
+        if (field.length == 0) {
+            alert("clicked");
+            $("#ponumValidation").css("display", "inline");
+            $("#ponumValidation").text("Required");
+            
+        }
+    
+    }
 
-        var PONumber = $("[name='searchPONumber']").val();
-        var DONumber = $("[name='DONumber']").val();
-        var ReceivedDate = $("[name='ReceivedDate']").val();
-        var supplier = $("[name='showSupplier']").val();
-
-        alert(PONumber + DONumber + ReceivedDate + supplier);
-
-
-        //var url = $(this).attr('href') + '?name=' + firstname; // build new url
-        //location.href = url; // redirect
-        //return false; // cancel default redirect
-
-
-
-
-    })
 
 
 </script>
