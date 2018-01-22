@@ -14,7 +14,7 @@ namespace Inventory_mvc.Controllers
     public class PurchaseController : Controller
     {
         // GET: PurchaseDetails
-        
+
         IPurchaseOrderService pos = new PurchaseOrderService();
         Purchase_Order_Record por = new Purchase_Order_Record();
         IStationeryService ss = new StationeryService();
@@ -28,7 +28,7 @@ namespace Inventory_mvc.Controllers
 
         [HttpGet]
         //FormCollection form
-        public ActionResult ListPurchaseOrders(string search, string searchBy,int? page)
+        public ActionResult ListPurchaseOrders(string search, string searchBy, int? page)
         {
 
             ViewBag.Search = search;
@@ -65,7 +65,7 @@ namespace Inventory_mvc.Controllers
             {
                 model = new List<Purchase_Order_Record>();
                 //return empty list if nothing can be found
-                
+
             }
             int pageSize = 10;
             int pageNumber = (page ?? 1);
@@ -89,7 +89,8 @@ namespace Inventory_mvc.Controllers
             ViewBag.orderNo = orderNo;
 
             List<Purchase_Detail> model = new List<Purchase_Detail>();
-            ViewBag.itemCodeList = ss.GetAllItemCodes(); 
+            ViewBag.itemCodeList = ss.GetAllItemCodes();
+            ViewBag.AllItems = ss.GetAllStationery();
 
             if (Session["detailsBundle"] != null)
             {
@@ -122,7 +123,7 @@ namespace Inventory_mvc.Controllers
 
             if (Session["detailsBundle"] != null)
             {
-                
+
                 details = (Dictionary<Purchase_Detail, string>)Session["detailsBundle"];
                 model = details.Keys.ToList<Purchase_Detail>();
 
@@ -153,24 +154,25 @@ namespace Inventory_mvc.Controllers
             }
 
             //only save to session if itemcode, price and qty are entered
-            if (pd.price > 0 && pd.qty > 0 && pd.itemCode!=("--Select--"))
+            if (pd.price > 0 && pd.qty > 0 && pd.itemCode != ("--Select--"))
             {
-          
-                    //check for pre-exisiting pd with same itemcode
-                    if (model.Exists(x => x.itemCode == pd.itemCode))
-                    {
-                        TempData["DuplicateEntryMessage"] = "An order for the same item already exists in the list.";
 
-                    }
-                    //save
-                    else
-                    {
-                        details.Add(pd, supplierCode);
-                        model.Add(pd);
-                        Session["detailsBundle"] = details;
-                    }
-                    ModelState.Clear();
-                    return View("RaisePurchaseOrder", model);
+                //check for pre-exisiting pd with same itemcode
+                if (model.Exists(x => x.itemCode == pd.itemCode))
+                {
+                    TempData["DuplicateEntryMessage"] = "An order for the same item already exists in the list.";
+
+                }
+                //save
+                else
+                {
+                    //pd.price = ctx.Stationeries.Where(x => x.itemCode == pd.itemCode).First().price;
+                    details.Add(pd, supplierCode);
+                    model.Add(pd);
+                    Session["detailsBundle"] = details;
+                }
+                ModelState.Clear();
+                return View("RaisePurchaseOrder", model);
 
             }
 
@@ -230,14 +232,14 @@ namespace Inventory_mvc.Controllers
                 int pageNumber = (page ?? 1);
                 return View("ListPurchaseOrders", model.ToPagedList(pageNumber, pageSize));
             }
-            
+
         }
 
         //delete purchase order record
         [HttpGet]
         public ActionResult Delete(string id, int? page)
         {
-        
+
             pos.DeletePurchaseOrder(Int32.Parse(id));
             List<Purchase_Order_Record> model = pos.GetAllPurchaseOrder();
 
@@ -259,20 +261,20 @@ namespace Inventory_mvc.Controllers
             List<Purchase_Detail> model = details.Keys.ToList<Purchase_Detail>();
             ViewBag.itemCodeList = ss.GetAllItemCodes();
 
-       
-
-                Purchase_Detail pd = model.Where(x => x.itemCode == id).First();
-
-                //remove from model
-                model.Remove(pd);
-
-                //remove from sessions state
-                details.Remove(pd);
-                Session["detailsBundle"] = details;
-            
 
 
-      
+            Purchase_Detail pd = model.Where(x => x.itemCode == id).First();
+
+            //remove from model
+            model.Remove(pd);
+
+            //remove from sessions state
+            details.Remove(pd);
+            Session["detailsBundle"] = details;
+
+
+
+
 
             return View("RaisePurchaseOrder", model);
 
@@ -310,6 +312,29 @@ namespace Inventory_mvc.Controllers
             details.Add(model[index], supplier);
 
             Session["detailsBundle"] = details;
+
+
+            return View("RaisePurchaseOrder", model);
+
+        }
+
+        //for refreshing the values of price and description whenever drop down list value is changed
+        [HttpGet]
+        public ActionResult GetDescrpAndPrice(string itemcode)
+        {
+            Dictionary<Purchase_Detail, string> details = new Dictionary<Purchase_Detail, string>();
+            List<Purchase_Detail> model = new List<Purchase_Detail>();
+            if (Session["detailsBundle"] != null)
+            {
+                details = (Dictionary<Purchase_Detail, string>)Session["detailsBundle"];
+                model = details.Keys.ToList<Purchase_Detail>();
+            }
+            ViewBag.itemCodeList = ss.GetAllItemCodes();
+
+            Stationery s = ss.FindStationeryByItemCode(itemcode);
+            ViewBag.price = s.price;
+            ViewBag.descrp = s.description;
+            ViewBag.itemcode = itemcode;
 
 
             return View("RaisePurchaseOrder", model);

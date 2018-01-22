@@ -334,5 +334,23 @@ namespace Inventory_mvc.DAO
             }
                 
         }
+
+        public int changePassword(User user)
+        {
+            using (StationeryModel context = new StationeryModel())
+            {
+                User u = (from x in context.Users
+                                where x.userID == user.userID
+                                select x).FirstOrDefault();
+
+                u.password = user.password;
+
+                int rowAffected = context.SaveChanges();
+
+                return rowAffected;
+            }
+
+           
+        }
     }
 }

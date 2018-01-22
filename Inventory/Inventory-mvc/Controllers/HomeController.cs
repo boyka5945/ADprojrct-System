@@ -8,7 +8,7 @@ using System.Web.Security;
 using Inventory_mvc.Function;
 using Inventory_mvc.Models;
 using Inventory_mvc.Service;
-
+using Inventory_mvc.ViewModel;
 
 namespace Inventory_mvc.Controllers
 {
@@ -79,5 +79,8 @@ namespace Inventory_mvc.Controllers
             FormsAuthentication.SignOut();
             return RedirectToAction("Login", "Home");
         }
+
+
+        
     }
 }
