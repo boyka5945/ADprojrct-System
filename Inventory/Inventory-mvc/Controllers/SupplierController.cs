@@ -6,16 +6,27 @@ using System.Web.Mvc;
 using Inventory_mvc.Service;
 using Inventory_mvc.Models;
 using Inventory_mvc.ViewModel;
+using Inventory_mvc.Utilities;
 
 namespace Inventory_mvc.Controllers
 {
     public class SupplierController : Controller
     {
         ISupplierService supplierService = new SupplierService();
+        IUserService userService = new UserService();
 
         // GET: Supplier
         public ActionResult Index()
         {
+            // TODO: REMOVE HARD CODED REQUESTER ID
+            //string requesterID = HttpContext.User.Identity.Name;
+            string userID = "S1017"; // clerk
+            //string userID = "S1016"; // supervisor
+
+            // Store clerk roleID == 7
+            int roleID = userService.GetRoleByID(userID);
+            ViewBag.Role = (roleID == (int)UserRoles.RoleID.StoreClerk) ? UserRoles.STORE_CLERK : "";
+
             return View(supplierService.GetAllSuppliers());
         }
 
@@ -42,12 +53,12 @@ namespace Inventory_mvc.Controllers
                 try
                 {
                     supplierService.AddNewSupplier(supplierVM);
-                    TempData["CreateMessage"] = String.Format("Supplier '{0}' is added.", code);
+                    TempData["SuccessMessage"] = String.Format("Supplier '{0}' is added.", code);
                     return RedirectToAction("Index");
                 }
                 catch (Exception e)
                 {
-                    TempData["ExceptionMessage"] = e.Message;
+                    TempData["ErrorMessage"] = e.Message;
                 }
             }
 
@@ -58,6 +69,11 @@ namespace Inventory_mvc.Controllers
         // GET: Supplier/Edit/{id}
         public ActionResult Edit(string id)
         {
+            if(String.IsNullOrEmpty(id))
+            {
+                return RedirectToAction("Index");
+            }
+
             SupplierViewModel supplierVM = supplierService.FindBySupplierCode(id);
             return View(supplierVM);
         }
@@ -75,11 +91,11 @@ namespace Inventory_mvc.Controllers
                 {
                     if (supplierService.UpdateSupplierInfo(supplierVM))
                     {
-                        TempData["EditMessage"] = String.Format("'{0}' has been updated", code);
+                        TempData["SuccessMessage"] = String.Format("'{0}' has been updated", code);
                     }
                     else
                     {
-                        TempData["EditErrorMessage"] = String.Format("There is not change to '{0}'.", code);
+                        TempData["ErrorMessage"] = String.Format("There is not change to '{0}'.", code);
                     }
 
                     return RedirectToAction("Index");
@@ -97,13 +113,18 @@ namespace Inventory_mvc.Controllers
         // GET: Supplier/Delete/{id}
         public ActionResult Delete(string id)
         {
+            if(String.IsNullOrEmpty(id))
+            {
+                return RedirectToAction("Index");
+            }
+
             if (supplierService.DeleteSupplier(id))
             {
-                TempData["DeleteMessage"] = String.Format("Supplier '{0}' has been deleted", id);
+                TempData["SuccessMessage"] = String.Format("Supplier '{0}' has been deleted", id);
             }
             else
             {
-                TempData["DeleteErrorMessage"] = String.Format("Cannot delete supplier '{0}'", id);
+                TempData["ErrorMessage"] = String.Format("Cannot delete supplier '{0}'", id);
             }
 
             return RedirectToAction("Index");

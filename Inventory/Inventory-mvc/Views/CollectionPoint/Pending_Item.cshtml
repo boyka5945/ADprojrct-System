@@ -1,0 +1,105 @@
+﻿@*@model IEnumerable<Inventory_mvc.ViewModel.Disbursement>*@
+@model PagedList.IPagedList<Inventory_mvc.ViewModel.Disbursement>
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+@{
+    ViewBag.Title = "View";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+ body
+{
+       
+}
+table
+{
+    border-collapse: separate;
+    counter-reset: Count-Value;  
+}
+
+tr td:first-child:before
+{
+  counter-increment: Count-Value;
+  content: counter(Count-Value);
+}
+
+ tab1 { padding-left: 1em; }
+    tab2 { padding-left: 2em; }
+    tab3 { padding-left: 3em; }
+</style>
+<h2 class="text-info" style="position:relative;text-align:left;left:15%;font-family:'Bookman Old Style'">Pending Items to be Processed</h2>
+<div class="container" style="text-align:left;position:relative;left:15%;padding:10px">
+    
+    @using (Html.BeginForm())
+    {<div>
+
+        @Html.Label("DepartmentName:")
+        @Html.Label("Zoology Dept")
+    </div>
+         
+             <div>
+                 @Html.Label("Representative: ")
+
+                 @Html.Label((string)ViewBag.rp)
+
+             </div>
+    }
+</div>
+@{ 
+    List<SelectListItem> list = new List<SelectListItem>();
+
+    var data = new []
+        {
+           new SelectListItem {Value = "1",Text= "List by Items" },
+        new SelectListItem {Value  = "2",Text =  "List by Request"}
+    };
+    list = data.ToList();
+
+}
+<div class="container" style="text-align:right;position:relative;right:37%">
+  @Html.Label("View by: ")  @Html.DropDownList("ddl", new SelectList(list,"Value","Text"), new { onchange = "form.submit();" })
+</div>
+
+<div style="width:50%;text-align:center;position:relative;left:15%">
+    <table class="table table1 table-bordered" style="border:double">
+        <tr style="background-color:darkgray">
+
+            <th style="text-align:center">
+                @Html.Label("S/N")
+            </th>
+            <th style="text-align:center">
+                @Html.Label("Item Description")
+            </th>
+            <th style="text-align:center">
+                @Html.Label("Quantity")
+            </th>
+            
+        </tr>
+        @foreach (var item in Model)
+  {
+            <tr>
+
+                <td>
+
+
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.itemDescription)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.quantity)
+                </td>
+                @*<td>
+                        @Html.ActionLink("Approve", "ApproveRequisition", new { id = item.requisitionNo });
+                    </td>*@
+            </tr>
+        }
+
+    </table>
+</div>
+<div style="position:relative;left:25%">
+    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+    @Html.PagedListPager(Model, page => Url.Action("ViewItemCollection",
+                     new { page }))
+</div>

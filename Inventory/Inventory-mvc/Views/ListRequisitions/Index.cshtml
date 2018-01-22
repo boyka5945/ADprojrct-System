@@ -1,14 +1,15 @@
 ﻿@model PagedList.IPagedList<Inventory_mvc.Models.Requisition_Record>
 
 @using PagedList.Mvc;
+@using Inventory_mvc.Utilities;
+
 <link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 
 
 @{
     ViewBag.Title = "Index";
 
-    var submitMessage = TempData["SubmitMessage"];
-    var removeMessage = TempData["RemoveMessage"];
+    var successMessage = TempData["SuccessMessage"];
     var errorMessage = TempData["ErrorMessage"];
 }
 
@@ -20,17 +21,10 @@
 <br />
 
 
-@if (submitMessage != null)
+@if (successMessage != null)
 {
     <div class="alert alert-success">
-        @submitMessage.ToString()
-    </div>
-}
-
-@if (removeMessage != null)
-{
-    <div class="alert alert-danger">
-        @removeMessage.ToString()
+        @successMessage.ToString()
     </div>
 }
 
@@ -66,7 +60,7 @@
                 <td>@Html.DisplayFor(modelItem => item.status)</td>
                 <td>
                     @Html.ActionLink("Details", "ShowDetail", "ListRequisitions", new { id = item.requisitionNo }, new { }) 
-                    @if (item.status == "Pending Approval")
+                    @if (item.status == RequisitionStatus.PENDING_APPROVAL)
                     {
                         @:| @Html.ActionLink("Edit", "EditRecord", "ListRequisitions", new { id = item.requisitionNo }, new { })
                         @:| @Html.ActionLink("Remove", "RemoveRecord", "ListRequisitions", new { id = item.requisitionNo }, new { })

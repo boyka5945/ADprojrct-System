@@ -1,5 +1,7 @@
-﻿@model IEnumerable<Inventory_mvc.Models.Purchase_Order_Record>
-
+﻿@*@model IEnumerable<Inventory_mvc.Models.Purchase_Order_Record>*@
+@model PagedList.IPagedList<Inventory_mvc.Models.Purchase_Order_Record>
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 @{
     ViewBag.Title = "Purchase Orders";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -17,11 +19,11 @@
     <h1 style="">Purchase Order Record</h1>
     <br />
 
-    <div class=" form-group">
+    <div class="form-group">
   
         @Html.ActionLink("Create New", "RaisePurchaseOrder", "Purchase", new { @class = "btn btn-default col-md-2" })
  
-
+</div>
 
     <br />
 
@@ -101,6 +103,11 @@
         }
 
     </table>
+
+    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+    @Html.PagedListPager(Model, page => Url.Action("ListPurchaseOrders",
+                     new { search = ViewBag.Search, searchBy = ViewBag.SearchBy,page }))
 </body>
 </html>
 

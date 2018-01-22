@@ -1,0 +1,80 @@
+﻿@model IEnumerable<Inventory_mvc.Models.User>
+
+@{
+    ViewBag.Title = "SMUserList";
+    var delegateMessage = TempData["DelegateMessage"];
+    var removeDelegateMessage = TempData["RmvDelMessage"];
+    var createMessage = TempData["CreateMessage"];
+}
+
+<h2>SMUserList</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create") | @Html.ActionLink("Edit Profile", "Edit")
+</p>
+<table class="table">
+    <tr>
+       
+        <th>
+            @Html.DisplayNameFor(model => model.name)
+        </th>             
+        <th>
+            @Html.DisplayNameFor(model => model.roleInfo.roleName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.delegationStart)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.delegationEnd)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        
+        <td>
+            @Html.DisplayFor(modelItem => item.name)
+        </td>       
+        <td>
+            @Html.DisplayFor(modelItem => item.roleInfo.roleName)
+        </td>       
+        <td>
+            @Html.DisplayFor(modelItem => item.delegationStart)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.delegationEnd)
+        </td>
+        <td>
+            @Html.ActionLink("Delegate", "Delegate", new { id = item.userID }) |           
+            @Html.ActionLink("Remove Delegate", "Remove_Delegate", new { id = item.userID })
+            
+        </td>
+    </tr>
+}
+
+</table>
+<div>
+    <p>
+        @if (delegateMessage != null)
+        {
+            <div class="alert alert-success">
+                @delegateMessage.ToString()
+            </div>
+        }
+
+        @if (removeDelegateMessage != null)
+        {
+            <div class="alert alert-success">
+                @removeDelegateMessage.ToString()
+            </div>
+        }
+
+        @if (createMessage != null)
+        {
+            <div class="alert alert-success">
+                @createMessage.ToString()
+            </div>
+        }
+    </p>
+</div>

@@ -2,7 +2,7 @@
 
 @{
     ViewBag.Title = "Edit";
-    List<string> roleList = ViewBag.RoleList;
+    //List<string> userList = ViewBag.RoleList;
 }
 
 <h2>Edit</h2>
@@ -28,6 +28,14 @@
         </div>
 
         <div class="form-group">
+            @Html.LabelFor(model => model.password, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.password, new { placeholder = "", htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.password, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
             @Html.LabelFor(model => model.contactNo, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.TextBoxFor(model => model.contactNo, new { placeholder = "", htmlAttributes = new { @class = "form-control" } })
@@ -43,20 +51,19 @@
             </div>
         </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.role, htmlAttributes: new { @class = "control-label col-md-2" })
+        @*<div class="form-group">
+            @Html.LabelFor(model => model.roleInfo.roleName, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 <select name="role" class="custom-select my-1 mr-sm-2">
-                    @foreach (var role in roleList)
+                    @foreach (string user in userList)
                     {
-                        <option value="@role"> @role </option>
+                        <option value="@user"> @user </option>
                     }
                 </select>
                 
-                @*@Html.EditorFor(model => model.Role, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Role, "", new { @class = "text-danger" })*@
+               
             </div>
-        </div>
+        </div>*@
 
         <div class="form-group">
             @Html.LabelFor(model => model.departmentCode, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -86,7 +93,7 @@
 }
 
 <div>
-    @Html.ActionLink("Back to List", "UserList")
+    @Html.ActionLink("Done", "UserList")
 </div>
 
 @section Scripts {

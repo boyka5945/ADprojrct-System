@@ -9,7 +9,7 @@ namespace Inventory_mvc.DAO
 {
     public class StationeryDAO : IStationeryDAO
     {
-        bool IStationeryDAO.AddNewStationery(Stationery stationery)
+        public bool AddNewStationery(Stationery stationery)
         {
             using (StationeryModel context = new StationeryModel())
             {
@@ -41,7 +41,7 @@ namespace Inventory_mvc.DAO
             }
         }
 
-        Stationery IStationeryDAO.FindByItemCode(string itemCode)
+        public Stationery FindByItemCode(string itemCode)
         {
             StationeryModel context = new StationeryModel();
 
@@ -50,9 +50,9 @@ namespace Inventory_mvc.DAO
                     select s).FirstOrDefault();
         }
 
-        
 
-         int IStationeryDAO.UpdateStationeryInfo(Stationery stationery)
+
+        public int UpdateStationeryInfo(Stationery stationery)
         {
             using (StationeryModel context = new StationeryModel())
             {
@@ -76,9 +76,9 @@ namespace Inventory_mvc.DAO
                 return rowAffected;
             }
         }
-   
 
-        List<string> IStationeryDAO.GetAllItemCode()
+
+        public List<string> GetAllItemCode()
         {
 
             using (StationeryModel context = new StationeryModel())
@@ -87,10 +87,10 @@ namespace Inventory_mvc.DAO
                         select s.itemCode).ToList();
             }
         }
-        
 
-    
-        List<Stationery> IStationeryDAO.GetAllStationery()
+
+
+        public List<Stationery> GetAllStationery()
         {
             using (StationeryModel context = new StationeryModel())
             {
@@ -100,11 +100,11 @@ namespace Inventory_mvc.DAO
                         .ToList();
             }
         }
-       
-     
 
 
-        List<string> IStationeryDAO.GetUOMList()
+
+
+        public List<string> GetUOMList()
         {
             using (StationeryModel context = new StationeryModel())
             {
@@ -114,7 +114,7 @@ namespace Inventory_mvc.DAO
         }
 
 
-        List<Category> IStationeryDAO.GetAllCategory()
+        public List<Category> GetAllCategory()
         {
             using (StationeryModel context = new StationeryModel())
             {
@@ -127,7 +127,7 @@ namespace Inventory_mvc.DAO
 
 
 
-        List<String> IStationeryDAO.GetAllUOMList()
+        public List<String> GetAllUOMList()
         {
             using (StationeryModel context = new StationeryModel())
             {
@@ -136,7 +136,7 @@ namespace Inventory_mvc.DAO
             }
         }
 
-        List<string> IStationeryDAO.GetAllFirstSupplierList()
+        public List<string> GetAllFirstSupplierList()
         {
             using (StationeryModel context = new StationeryModel())
             {
@@ -145,7 +145,7 @@ namespace Inventory_mvc.DAO
             }
         }
 
-        List<string> IStationeryDAO.GetAllSecondSupplierList()
+        public List<string> GetAllSecondSupplierList()
         {
             using (StationeryModel context = new StationeryModel())
             {
@@ -154,7 +154,7 @@ namespace Inventory_mvc.DAO
             }
         }
 
-        List<string> IStationeryDAO.GetAllThirdSupplierList()
+        public List<string> GetAllThirdSupplierList()
         {
             using (StationeryModel context = new StationeryModel())
             {
@@ -163,7 +163,7 @@ namespace Inventory_mvc.DAO
             }
         }
 
-        List<int> IStationeryDAO.GetAllCategoryIDList()
+        public List<int> GetAllCategoryIDList()
         {
             using (StationeryModel context = new StationeryModel())
             {
@@ -173,7 +173,7 @@ namespace Inventory_mvc.DAO
         }
 
 
-        List<Stationery> IStationeryDAO.GetStationeriesBasedOnCriteria(string searchString, string categoryID)
+        public List<Stationery> GetStationeriesBasedOnCriteria(string searchString, string categoryID)
         {
             using (StationeryModel context = new StationeryModel())
             {
@@ -200,6 +200,29 @@ namespace Inventory_mvc.DAO
                 return stationeries.Include(s => s.Category).ToList();
             }
 
+        }
+
+        public List<Stationery> GetStationeriesBasedOnCriteria(string itemCodeOrDescription)
+        {
+            using (StationeryModel context = new StationeryModel())
+            {
+                var stationeries = from s in context.Stationeries select s;
+
+                if (!String.IsNullOrEmpty(itemCodeOrDescription))
+                {
+                    string[] searchStringArray = itemCodeOrDescription.Split();
+                    foreach (string s in searchStringArray)
+                    {
+                        string search = s.ToLower().Trim();
+                        if (!String.IsNullOrEmpty(search))
+                        {
+                            stationeries = stationeries.Where(x => (x.description.ToLower().Contains(search) || x.itemCode.ToLower().Contains(search)));
+                        }
+                    }
+                }
+
+                return stationeries.ToList();
+            }
         }
     }
 }

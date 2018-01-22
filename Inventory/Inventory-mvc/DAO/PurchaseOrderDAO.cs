@@ -61,9 +61,9 @@ namespace Inventory_mvc.DAO
         {
             using (StationeryModel Entity = new StationeryModel())
             {
-                Supplier s = Entity.Suppliers.Where(x => x.supplierName == supplier).First();
+                List<Supplier> s = Entity.Suppliers.Where(x => x.supplierName == supplier).ToList();
 
-                List<Purchase_Order_Record> por = Entity.Purchase_Order_Records.Where(x => x.supplierCode == s.supplierCode).ToList();
+                List<Purchase_Order_Record> por = Entity.Purchase_Order_Records.Where(x => x.supplierCode == supplier).ToList();
                 return por;
 
             }

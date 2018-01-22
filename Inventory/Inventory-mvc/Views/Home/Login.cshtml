@@ -1,14 +1,19 @@
-﻿
-@{
-    ViewBag.Title = "Login";
-    string errormessage = ViewBag.errorMessage;
-}
+﻿@model Inventory_mvc.Models.AccountLoginModels
 
-<h3>@if (errormessage != null)
-{
-    @errormessage
-}</h3>
-@model Inventory_mvc.Models.AccountLoginModels
+<html>
+<body>
+    @{
+        ViewBag.Title = "Login";
+        string errormessage = ViewBag.errorMessage;
+    }
+
+    <h3>
+        @if (errormessage != null)
+    {
+        @errormessage
+    }
+</h3>
+
 
 <style>
     .bs-login {
@@ -70,9 +75,10 @@
                     </div>
                 </div>
                 <div>
-                    <canvas width="100" height="40" style="border:1px solid black;" id="myCanvas" onclick="change()">your browser does not support the canvas tag </canvas>
+                    <canvas width="100" height="40" style="border:1px solid black;" id="myCanvas" onclick="change()">your browser does not support the canvas tag </canvas></div>
+                    <div style="padding:10px;padding-left:0px">
                     <input id="first" type="text">
-                    <input name="checkV" id="check" hidden="hidden" value = "AAA"></input>
+                    <input name="checkV" id="check" hidden="hidden" value="AAA"/>
                 </div>
                 <div class="form-group">
                     <div class="col-sm-10">
@@ -85,67 +91,68 @@
         </div>
     </div>
 </div>
-<body>
-    <script>
-        var canvas = document.getElementById('myCanvas');
-        var ctx = canvas.getContext('2d');
-        var img = new Image();
-        var random1;
-        var random2;
-        var random3;
-        var random4;
-        var allText;
-        img.src = "http://localhost:54956/images/test1.jpg";
-        function gen() {
-            var rawFile = new XMLHttpRequest();
-            rawFile.open("GET", "http://localhost:54956/images/pinyin.txt", false);
-            rawFile.onreadystatechange = function () {
-                if (rawFile.readyState === 4) {
-                    allText = rawFile.responseText;
-                }
-            }
-            rawFile.send();
 
-            ctx.drawImage(img, 0, 0);
-            ctx.font = "20pt Calibri";
-            ctx.fillStyle = "#FFFFFF";
-            random1 = allText[Math.ceil(Math.random() * 61)];
-            random2 = allText[Math.ceil(Math.random() * 61)];
-            random3 = allText[Math.ceil(Math.random() * 61)];
-            random4 = allText[Math.ceil(Math.random() * 61)];
-            ctx.fillText(random1, 5, 20);
-            ctx.fillText(random2, 30, 20);
-            ctx.fillText(random3, 65, 20);
-            ctx.fillText(random4, 85, 20);
-        }
-
-        function validation() {
-            if (document.getElementById("first").value === random1 + random2 + random3 + random4) {
-                document.getElementById("check").value = "BBB";
-            } else {
-                alert("validationCode is not correct.");
+<script>
+    var canvas = document.getElementById('myCanvas');
+    var ctx = canvas.getContext('2d');
+    var img = new Image();
+    var random1;
+    var random2;
+    var random3;
+    var random4;
+    var allText;
+    img.src = "http://localhost:54956/images/test1.jpg";
+    function gen() {
+        var rawFile = new XMLHttpRequest();
+        rawFile.open("GET", "http://localhost:54956/images/pinyin.txt", false);
+        rawFile.onreadystatechange = function () {
+            if (rawFile.readyState === 4) {
+                allText = rawFile.responseText;
             }
         }
+        rawFile.send();
 
-        function change() {
-            img.src = "http://localhost:54956/images/test" + Math.ceil(Math.random() * 2 + 1) + ".jpg";
-            ctx.drawImage(img, 0, 0);
-            ctx.font = "20pt Calibri";
-            ctx.fillStyle = "#FFFFFF";
-            random1 = allText[Math.ceil(Math.random() * 61)];
-            random2 = allText[Math.ceil(Math.random() * 61)];
-            random3 = allText[Math.ceil(Math.random() * 61)];
-            random4 = allText[Math.ceil(Math.random() * 61)];
-            ctx.fillText(random1, 10, 20);
-            ctx.fillText(random2, 40, 20);
-            ctx.fillText(random3, 70, 20);
-            ctx.fillText(random4, 100, 20);
+        ctx.drawImage(img, 0, 0);
+        ctx.font = "20pt Calibri";
+        ctx.fillStyle = "#FFFFFF";
+        random1 = allText[Math.ceil(Math.random() * 61)];
+        random2 = allText[Math.ceil(Math.random() * 61)];
+        random3 = allText[Math.ceil(Math.random() * 61)];
+        random4 = allText[Math.ceil(Math.random() * 61)];
+        ctx.fillText(random1, 5, 20);
+        ctx.fillText(random2, 30, 20);
+        ctx.fillText(random3, 65, 20);
+        ctx.fillText(random4, 85, 20);
+    }
+
+    function validation() {
+        if (document.getElementById("first").value === random1 + random2 + random3 + random4) {
+            document.getElementById("check").value = "BBB";
+        } else {
+            alert("validationCode is not correct.");
         }
+    }
 
-        img.onload = function () {
-            gen();
-        }
+    function change() {
+        img.src = "http://localhost:54956/images/test" + Math.ceil(Math.random() * 2 + 1) + ".jpg";
+        ctx.drawImage(img, 0, 0);
+        ctx.font = "20pt Calibri";
+        ctx.fillStyle = "#FFFFFF";
+        random1 = allText[Math.ceil(Math.random() * 61)];
+        random2 = allText[Math.ceil(Math.random() * 61)];
+        random3 = allText[Math.ceil(Math.random() * 61)];
+        random4 = allText[Math.ceil(Math.random() * 61)];
+        ctx.fillText(random1, 10, 20);
+        ctx.fillText(random2, 40, 20);
+        ctx.fillText(random3, 70, 20);
+        ctx.fillText(random4, 100, 20);
+    }
 
-    </script>
+    img.onload = function () {
+        gen();
+    }
+
+</script>
 </body>
+
 </html>

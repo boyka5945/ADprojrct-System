@@ -7,13 +7,14 @@ using Inventory_mvc.Service;
 using Inventory_mvc.Models;
 using Inventory_mvc.DAO;
 using Inventory_mvc.ViewModel;
+using PagedList;
 
 namespace Inventory_mvc.Controllers
 {
     public class PurchaseController : Controller
     {
         // GET: PurchaseDetails
-
+        
         IPurchaseOrderService pos = new PurchaseOrderService();
         Purchase_Order_Record por = new Purchase_Order_Record();
         IStationeryService ss = new StationeryService();
@@ -27,9 +28,10 @@ namespace Inventory_mvc.Controllers
 
         [HttpGet]
         //FormCollection form
-        public ActionResult ListPurchaseOrders(string search, string searchBy)
+        public ActionResult ListPurchaseOrders(string search, string searchBy,int? page)
         {
-
+            ViewBag.Search = search;
+            ViewBag.SearchBy = searchBy;
             List<Purchase_Order_Record> model = new List<Purchase_Order_Record>();
             List<Purchase_Order_Record> searchResults = new List<Purchase_Order_Record>();
             switch (searchBy)
@@ -54,7 +56,10 @@ namespace Inventory_mvc.Controllers
                     break;
 
             }
-            return View(model);
+            int pageSize = 2;
+            int pageNumber = (page ?? 1);
+            return View(model.ToPagedList(pageNumber, pageSize));
+            //return View(model);
         }
 
         [HttpGet]
@@ -94,6 +99,9 @@ namespace Inventory_mvc.Controllers
 
             int orderNo = findNextOrderNo();
             ViewBag.orderNo = orderNo;
+
+            //ViewBag.itemCode = pos.GetAllPurchaseOrder();
+
             List<Purchase_Detail> model = new List<Purchase_Detail>();
             Dictionary<Purchase_Detail, string> details = new Dictionary<Purchase_Detail, string>();
 
@@ -105,6 +113,12 @@ namespace Inventory_mvc.Controllers
 
             }
 
+            //if(pd.itemCode == null)
+            //{
+            //    string errorMessage = String.Format("Item Code must not be empty.");
+            //    ModelState.AddModelError("itemCode", errorMessage);
+            //    return View();
+            //}
 
             details.Add(pd, supplierCode);
             model.Add(pd);
@@ -117,7 +131,7 @@ namespace Inventory_mvc.Controllers
         //gets the purchase details and supplier to order from - which are bundled together as key-value pairs, then creates a new purchase order for each supplier
         //then creates purchase detail with order num matching the supplier which user has chosen
         [HttpGet]
-        public ActionResult GeneratePO()
+        public ActionResult GeneratePO(int? page)
         {
 
             int orderNo = findNextOrderNo();
@@ -156,7 +170,10 @@ namespace Inventory_mvc.Controllers
 
             Session["detailsBundle"] = null; //clear the orderCart
             List<Purchase_Order_Record> model = pos.GetAllPurchaseOrder();
-            return View("ListPurchaseOrders", model);
+            //return View("ListPurchaseOrders", model);
+            int pageSize = 2;
+            int pageNumber = (page ?? 1);
+            return View("ListPurchaseOrders", model.ToPagedList(pageNumber, pageSize));
         }
 
         //delete purchase order record
