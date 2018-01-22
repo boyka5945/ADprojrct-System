@@ -13,11 +13,11 @@ namespace InventoryWCF
     public interface IService
     {
         [OperationContract]
-        [WebGet(UriTemplate = "/ValidateUser", ResponseFormat = WebMessageFormat.Json)]
+        [WebGet(UriTemplate = "/ValidateUser/{userid}/{password}", ResponseFormat = WebMessageFormat.Json)]
         Boolean ValidateUser(string userid, string password);
 
         [OperationContract]
-        [WebGet(UriTemplate = "/ChangePassWord", ResponseFormat = WebMessageFormat.Json)]
+        [WebGet(UriTemplate = "/ChangePassWord/{userid}/{currentpassword}/{newpassword}", ResponseFormat = WebMessageFormat.Json)]
         Boolean changePassWord(string userid, string currentpassword, string newpassword);
 
         [OperationContract]
@@ -29,25 +29,25 @@ namespace InventoryWCF
         List<RequisitionDetails> getRequisitionDetailsByItemCode(string itemCode);
 
         [OperationContract]
-        [WebGet(UriTemplate = "/getRequisitionDetailsBy2Keys", ResponseFormat = WebMessageFormat.Json)]
-        RequisitionDetails getRequisitionDetailsBy2Keys(string itemCode, int requisitionNO);
+        [WebGet(UriTemplate = "/getRequisitionDetailsBy2Keys/{itemCode}/{requisitionNo}", ResponseFormat = WebMessageFormat.Json)]
+        RequisitionDetails getRequisitionDetailsBy2Keys(string itemCode, string requisitionNO);
 
-        [OperationContract]
-        Boolean updateRequisitionDetails(int requisitionNo, string ItemCode, int allocateQty);
+        //[OperationContract]
+        //Boolean updateRequisitionDetails(int requisitionNo, string ItemCode, int allocateQty);
 
         //// TODO: Add your service operations here
 
-        [OperationContract]
-        List<RetrievalFrom> getRetrievalList();
+        //[OperationContract]
+        //List<RetrievalFrom> getRetrievalList();
 
-        [OperationContract]
-        List<Disbursement> getDisbursementList();
-        //the follwing is for employee
-        [OperationContract]
-        List<RequisitionRecord> getRequisitionListByUserID(string UserID);
+        //[OperationContract]
+        //List<Disbursement> getDisbursementList();
+        ////the follwing is for employee
+        //[OperationContract]
+        //List<RequisitionRecord> getRequisitionListByUserID(string UserID);
 
-        [OperationContract]
-        List<RequisitionDetails> getrequisitionDetailsByNO(int requisitionNo);
+        //[OperationContract]
+        //List<RequisitionDetails> getrequisitionDetailsByNO(int requisitionNo);
 
 
     }
@@ -127,6 +127,14 @@ namespace InventoryWCF
         string userid;
         string password;
         string username;
+        int role;
+
+        [DataMember]
+        public int Role
+        {
+            get { return role; }
+            set { role = value; }
+        }
 
         [DataMember]
         public string UserID
