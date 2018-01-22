@@ -23,9 +23,8 @@ namespace Inventory_mvc.Controllers
         {
             // Retrieve all requisitions made by current user
             // TODO: REMOVE HARD CODED REQUESTER ID
-            //string requesterID = HttpContext.User.Identity.Name;
-
-            string requesterID = "S1013";
+            string requesterID = HttpContext.User.Identity.Name;
+            //string requesterID = "S1013";
 
             if(String.IsNullOrEmpty(sortOrder))
             {
@@ -54,9 +53,9 @@ namespace Inventory_mvc.Controllers
             }
 
             // TODO: REMOVE HARD CODED REQUESTER ID
-            //string requesterID = HttpContext.User.Identity.Name;
+            string requesterID = HttpContext.User.Identity.Name;
+           // string requesterID = "S1013";
 
-            string requesterID = "S1013";
             string errorMessage;
             Requisition_Record record = requisitionService.IsUserAuthorizedForRequisition(recordNo, requesterID, out errorMessage);
 
@@ -97,9 +96,9 @@ namespace Inventory_mvc.Controllers
             }
 
             // TODO: REMOVE HARD CODED REQUESTER ID
-            //string requesterID = HttpContext.User.Identity.Name;
+            string requesterID = HttpContext.User.Identity.Name;
+            //string requesterID = "S1013";
 
-            string requesterID = "S1013";
             string errorMessage;
             Requisition_Record record = requisitionService.IsUserAuthorizedForRequisition(recordNo, requesterID, out errorMessage);
 
@@ -189,9 +188,9 @@ namespace Inventory_mvc.Controllers
             }
 
             // TODO: REMOVE HARD CODED REQUESTER ID
-            //string requesterID = HttpContext.User.Identity.Name;
+            string requesterID = HttpContext.User.Identity.Name;
+            //string requesterID = "S1013";
 
-            string requesterID = "S1013";
             string errorMessage;
             Requisition_Record record = requisitionService.IsUserAuthorizedForRequisition(recordNo, requesterID, out errorMessage);
 

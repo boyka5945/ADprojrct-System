@@ -29,7 +29,6 @@ namespace Inventory_mvc.Controllers
 
         public ActionResult ShowDetails(DateTime? date = null)
         {
-            // TODO : FIX NULL DATE
             if (date == null)
             {
                 return RedirectToAction("Index");
@@ -223,8 +222,8 @@ namespace Inventory_mvc.Controllers
 
 
             // TODO: REMOVE HARD CODED REQUESTER ID
-            //string requesterID = HttpContext.User.Identity.Name;
-            string requesterID = "S1017"; // clerk
+            string requesterID = HttpContext.User.Identity.Name;
+            //string requesterID = "S1017"; // clerk
 
 
             using (TransactionScope ts = new TransactionScope())

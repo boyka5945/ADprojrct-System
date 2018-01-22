@@ -43,7 +43,13 @@ namespace Inventory_mvc.Controllers
         {
             List<RaiseRequisitionViewModel> requestList = Session["RequestList"] as List<RaiseRequisitionViewModel>;
 
-            if(!String.IsNullOrEmpty(itemCode) && type == "remove") // to show message after remove item
+            if(requestList == null)
+            {
+                requestList = new List<RaiseRequisitionViewModel>();
+                Session["RequestList"] = requestList;
+            }
+
+            if (!String.IsNullOrEmpty(itemCode) && type == "remove") // to show message after remove item
             {
                 Stationery s = stationeryService.FindStationeryByItemCode(itemCode);
                 TempData["SuccessMessage"] = String.Format("{0} was removed.", s.description);
@@ -139,8 +145,8 @@ namespace Inventory_mvc.Controllers
         public ActionResult SubmitRequisition(List<RaiseRequisitionViewModel> requestList)
         {
             // TODO: REMOVE HARD CODED REQUESTER ID
-            // string requesterID = HttpContext.User.Identity.Name;
-            string requesterID = "S1013";
+            string requesterID = HttpContext.User.Identity.Name;
+            //string requesterID = "S1013";
 
             Requisition_Record requisition = new Requisition_Record();
             

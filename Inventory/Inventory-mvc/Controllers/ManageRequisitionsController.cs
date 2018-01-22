@@ -28,8 +28,8 @@ namespace Inventory_mvc.Controllers
         public ActionResult ManagerRequisition(int? page)
         {
             // TODO: REMOVE HARD CODED APPROVER ID
-            //string name = HttpContext.User.Identity.Name;
-            string name = "S1012"; // Dept head of ZOOL
+            string name = HttpContext.User.Identity.Name;
+            //string name = "S1012"; // Dept head of ZOOL
 
             List<Requisition_Record> list = new List<Requisition_Record>();
             List<Requisition_Record> model = rs.GetAllRequisition();

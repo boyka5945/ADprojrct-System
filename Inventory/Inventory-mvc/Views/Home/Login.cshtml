@@ -51,17 +51,25 @@
 <div id="login1">
     <div class="bs-login">
         <div class="bs-signin">
-            @Html.ValidationSummary(false, "", new { @class = "alert alert-danger" })
+            @{ 
+                // TODO : check login page
+                // @Html.ValidationSummary(false , "", new { @class = "alert alert-danger" })
+            }
+
             @using (Html.BeginForm("Login", "Home", FormMethod.Post, new { @class = "form-horizontal" }))
             {
                 <div class="form-group">
                     <div class="col-sm-9">
                         @Html.TextBoxFor(x => x.UserName, new { placeholder = "Username", @class = "form-control", })
+                        @Html.ValidationMessageFor(x => x.UserName, "", new { @class = "text-danger" })
+
+
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="col-sm-9">
                         @Html.PasswordFor(x => x.Password, new { type = "password", placeholder = "Password", @class = "form-control", })
+                        @Html.ValidationMessageFor(x => x.Password, "", new { @class = "text-danger" })
                     </div>
                 </div>
                 <div class="form-group">
