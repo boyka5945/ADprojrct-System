@@ -35,27 +35,37 @@ namespace Inventory_mvc.Controllers
             ViewBag.SearchBy = searchBy;
             List<Purchase_Order_Record> model = new List<Purchase_Order_Record>();
             List<Purchase_Order_Record> searchResults = new List<Purchase_Order_Record>();
-            switch (searchBy)
+
+            try
             {
-                case ("orderNo"):
-                    por = pos.FindByOrderID(Int32.Parse(search));
-                    model.Add(por);
-                    break;
+                switch (searchBy)
+                {
+                    case ("orderNo"):
+                        por = pos.FindByOrderID(Int32.Parse(search));
+                        model.Add(por);
+                        break;
 
-                case ("status"):
-                    searchResults = pos.FindByStatus(search);
-                    model.AddRange(searchResults);
-                    break;
+                    case ("status"):
+                        searchResults = pos.FindByStatus(search);
+                        model.AddRange(searchResults);
+                        break;
 
-                case ("supplier"):
-                    searchResults = pos.FindBySupplier(search);
-                    model.AddRange(searchResults);
-                    break;
+                    case ("supplier"):
+                        searchResults = pos.FindBySupplier(search);
+                        model.AddRange(searchResults);
+                        break;
 
-                default:
-                    model = pos.GetAllPurchaseOrder();
-                    break;
+                    default:
+                        model = pos.GetAllPurchaseOrder();
+                        break;
 
+                }
+            }
+            catch
+            {
+                model = new List<Purchase_Order_Record>();
+                //return empty list if nothing can be found
+                
             }
             int pageSize = 10;
             int pageNumber = (page ?? 1);

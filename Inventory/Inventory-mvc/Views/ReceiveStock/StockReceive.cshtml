@@ -30,13 +30,13 @@
 
         <div class="form-group">
             @Html.Label("PO Number", new { @class = "control-label col-md-2" })
-            @Html.TextBox("searchPONumber", ViewBag.PONumber as string, new { @class = "control-textbox col-md-2" })
+            @Html.TextBox("searchPONumber", ViewBag.PONumber as string, new { @class = "control-textbox col-md-2", @id="poNum" })
             <input type="submit" value="Search" class="btn btn-default" style=" margin:5px;" readonly />
         </div>
 
         <div class="form-group">
             @Html.Label("Supplier", new { @class = "control-label col-md-2" })
-            @Html.TextBox("showSupplier", ViewBag.Supplier as string, new { @class = "control-textbox col-md-2" })
+            @Html.TextBox("showSupplier", ViewBag.Supplier as string, new { @class = "control-textbox col-md-2", @id="supp" })
 
         </div>
     }
@@ -52,7 +52,7 @@
         </div>
 
         <div class="form-group">
-            @Html.Label("Received Date", new { @class = "control-label col-md-2" })
+            @Html.Label("Received Date", new { @class = "control-label col-md-2", @id="date"})
             @*@Html.TextBox("ReceivedDate")*@
 
             <input type="text" id="datepicker" name="ReceivedDate">
@@ -135,8 +135,8 @@
         </table>
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                @Html.ActionLink("Submit All as Received", "UpdateReceived", "ReceiveStock", new { checker = "allReceived" }, null)
-
+                @Html.ActionLink("Submit All as Received", "UpdateReceived", "ReceiveStock", new { @class = "all", checker = "allReceived" }, null)
+                <input type="button" value="submit all" class="btn btn-default" id="all" />
                 @*<input type="submit" value="Fill in all unreceived quantity"  class="btn btn-default" />*@
                 <input type="submit" value="Submit" class="btn btn-default" />
             </div>
@@ -146,4 +146,32 @@
 </body>
 
 
+
+
 </html>
+
+<script>
+    //button click function 
+    $(".all").click(function () {
+
+        alert("clicked");
+
+        var PONumber = $("[name='searchPONumber']").val();
+        var DONumber = $("[name='DONumber']").val();
+        var ReceivedDate = $("[name='ReceivedDate']").val();
+        var supplier = $("[name='showSupplier']").val();
+
+        alert(PONumber + DONumber + ReceivedDate + supplier);
+
+
+        //var url = $(this).attr('href') + '?name=' + firstname; // build new url
+        //location.href = url; // redirect
+        //return false; // cancel default redirect
+
+
+
+
+    })
+
+
+</script>

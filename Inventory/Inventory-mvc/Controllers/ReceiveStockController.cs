@@ -59,7 +59,7 @@ namespace Inventory_mvc.Controllers
         //update PD fulfilled qty, remarks,deliveryNo
         //update transaction table
         [HttpGet]
-        public ActionResult UpdateReceived(string DONumber, string ReceivedDate, string PONumber, string supplier)
+        public ActionResult UpdateReceived(string DONumber, string ReceivedDate, string PONumber, string supplier, string checker)
         {
             string clerkID = "S1008"; //HARD CODED
             Purchase_Order_Record por = pos.FindByOrderID(Int32.Parse(PONumber));
@@ -79,11 +79,27 @@ namespace Inventory_mvc.Controllers
             List<Purchase_Detail> model = pos.GetPurchaseDetailsByOrderNo(Int32.Parse(PONumber));
             foreach (Purchase_Detail pd in model)
             {
+                int receivedNum;
                 string ic = pd.itemCode;
                 string received = Request.QueryString.GetValues("num-" + ic).First();
-                int receivedNum = Int32.Parse(received);
+
+                //condition check if option for button" all received"
+                if (checker == "allReceived")
+                {
+                    if (!pd.fulfilledQty.HasValue)
+                    {
+                        pd.fulfilledQty = 0;
+                    }
+
+                    receivedNum = pd.qty - pd.fulfilledQty.Value;
+                }
+                else
+                {
+                    receivedNum = Int32.Parse(received);
+                }
                 string remarks = Request.QueryString.GetValues("rem-" + ic).First();
                 pd.fulfilledQty = receivedNum;
+
                 pd.remarks = remarks; //delete?
 
                 //update stationery table
@@ -105,7 +121,7 @@ namespace Inventory_mvc.Controllers
                 AddNewTransactionDetail(td);
 
 
-            
+
 
 
                 //if (pd.deliveryOrderNo.HasValue) //append to existing DO numbers
@@ -158,7 +174,8 @@ namespace Inventory_mvc.Controllers
 
 
         //helper methods
-        public int findNextTransactionNo() {
+        public int findNextTransactionNo()
+        {
             //find latest transaction no.
 
             List<Transaction_Record> trList = ctx.Transaction_Records.ToList();
