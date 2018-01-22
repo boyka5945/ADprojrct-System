@@ -300,7 +300,7 @@ namespace Inventory_mvc.Controllers
             ViewData["list"] = departmentlist;
             var list = rs.GetRequisitionByDept(deptCode);
             //return View(list);
-            int pageSize = 1;
+            int pageSize = 10;
             int pageNumber = (page ?? 1);
             return View(list.ToPagedList(pageNumber, pageSize));
         }
@@ -314,7 +314,7 @@ namespace Inventory_mvc.Controllers
             if (Session["retrieveList"] != null)
             {
                 List < RetrieveForm > model = (List<RetrieveForm>)Session["retrieveList"];
-                int pageSize = 1;
+                int pageSize = 10;
                 int pageNumber = (page ?? 1);
                 return View(model.ToPagedList(pageNumber, pageSize));
             }
@@ -334,7 +334,7 @@ namespace Inventory_mvc.Controllers
             Session["date"] = from;
             Session["retrieveList"] = model;
                         //return View(model);
-            int pageSize = 1;
+            int pageSize = 10;
             int pageNumber = (page ?? 1);
             return View(model.ToPagedList(pageNumber, pageSize));
         }
