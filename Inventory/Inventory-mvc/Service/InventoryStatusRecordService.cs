@@ -69,15 +69,15 @@ namespace Inventory_mvc.Service
                 records.Add(record);
             }
 
-            if(inventoryDAO.AddNewInventoryStatusRecords(records))
+            try
             {
+                inventoryDAO.AddNewInventoryStatusRecords(records);
                 return true;
             }
-            else
+            catch(Exception e)
             {
                 throw new Exception("Error when writing inventory status records");
             }
-
         }
 
         public bool SubmitAdjustmentVoucherForInventoryCheckDiscrepancy(List<InventoryCheckViewModel> stockchecklist, string requesterID)
@@ -90,7 +90,9 @@ namespace Inventory_mvc.Service
                 AdjustmentVoucherViewModel vm = new AdjustmentVoucherViewModel();
                 vm.ItemCode = item.ItemCode;
                 vm.Quantity = item.Discrepancy;
-                vm.Reason = item.Remarks;                
+                vm.Reason = item.Remarks;
+
+                vmList.Add(vm);          
             }
 
             if(adjustmentVoucherService.SubmitNewAdjustmentVoucher(vmList, AdjustmentVoucherRemarks.INV_CHECK, requesterID))
@@ -138,6 +140,26 @@ namespace Inventory_mvc.Service
             vm.UOM = s.unitOfMeasure;
 
             return vm;
+        }
+
+        public List<string> TodayAlreadyConductedStockCheckForCategories(DateTime date, int[] categoryID)
+        {
+            List<InventoryCheckViewModel> records = FindInventoryStatusRecordsByDate(date);
+
+            List<string> result = new List<string>();
+
+            foreach(var r in records)
+            {
+                if(categoryID.Contains(r.CategoryID))
+                {
+                    if(!result.Contains(r.CategoryName))
+                    {
+                        result.Add(r.CategoryName);
+                    }
+                }
+            }
+
+            return result;
         }
     }
 }

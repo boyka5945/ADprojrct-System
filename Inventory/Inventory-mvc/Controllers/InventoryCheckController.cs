@@ -29,7 +29,8 @@ namespace Inventory_mvc.Controllers
 
         public ActionResult ShowDetails(DateTime date)
         {
-            if(date == null)
+            // TODO : FIX NULL DATE
+            if (date == null)
             {
                 return RedirectToAction("Index");
             }
@@ -90,6 +91,12 @@ namespace Inventory_mvc.Controllers
             {
                 // check whether has pending adjustment voucher
                 errorMessage = String.Format("There is {0} pending adjustment voucher(s). Please process all vouchers first before generate the list.", adjustmentVoucherService.GetPendingVoucherCount());
+            }
+            else if(invetoryCheckService.TodayAlreadyConductedStockCheckForCategories(DateTime.Today, categorylistbox).Count != 0)
+            {
+                List<string> categories = invetoryCheckService.TodayAlreadyConductedStockCheckForCategories(DateTime.Today, categorylistbox);
+
+                errorMessage = String.Format("Stock check results for categories: {0} has been submitted today.", String.Join(", ", categories));
             }
 
             if (!String.IsNullOrEmpty(errorMessage))
@@ -198,11 +205,23 @@ namespace Inventory_mvc.Controllers
 
 
         [HttpPost]
-        public ActionResult ConfirmInventoryCheckResult()
+        public ActionResult ConfirmInventoryCheckResult(List<InventoryCheckViewModel> discrepancylist)
         {
             HttpContext.Application.Lock();
             List<InventoryCheckViewModel> stockchecklist = HttpContext.Application["InventoryChecklist"] as List<InventoryCheckViewModel>;
             HttpContext.Application.UnLock();
+
+            foreach(var item in discrepancylist)
+            {
+                InventoryCheckViewModel vm = stockchecklist.Find(x => x.ItemCode == item.ItemCode);
+                vm.Remarks = item.Remarks;
+            }
+
+            HttpContext.Application.Lock();
+            HttpContext.Application["InventoryChecklist"] = stockchecklist;
+            HttpContext.Application.UnLock();
+
+
 
             // TODO: REMOVE HARD CODED REQUESTER ID
             //string requesterID = HttpContext.User.Identity.Name;

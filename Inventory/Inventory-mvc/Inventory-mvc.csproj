@@ -447,6 +447,7 @@
     <Content Include="Views\User\SMUserList.cshtml" />
     <Content Include="Views\InventoryCheck\SubmitInventoryCheckResult.cshtml" />
     <Content Include="Views\InventoryCheck\Index.cshtml" />
+    <Content Include="Views\InventoryCheck\ShowDetails.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
