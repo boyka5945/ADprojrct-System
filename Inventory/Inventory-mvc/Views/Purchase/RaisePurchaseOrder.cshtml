@@ -137,9 +137,15 @@
                     @*@Html.Editor("itemCode")
                         @Html.ValidationMessage("itemCode","", new { @class = "text-danger" })*@
 
-                    <select name="itemCode" class="custom-select my-1 mr-sm-2" onchange="valueSelected()">
+                    <select name="itemCode" id="ddlist" class="custom-select my-1 mr-sm-2" onchange="valueSelected()">
+                        @if (ViewBag.itemcode != null)
+                        {
+                          <option value="--Select--" selected=@ViewBag.itemcode>@ViewBag.itemcode</option>
+                        }
+                        else
+                        {
                         <option value="--Select--" selected="selected">--Select--</option>
-
+                        }
                         @foreach (var itmeCode in itemCodeLists)
                         {
                             string selected = "";
@@ -167,7 +173,7 @@
                 @Html.Label("Item Description", htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
 
-                    <input type="text" id="itcode" readonly />
+                    <input type="text" value=@ViewBag.descrp readonly />
                     @*@Html.Editor("description")*@
                     @*@Html.ValidationMessage("description")*@
                 </div>
@@ -187,7 +193,8 @@
 
                 @Html.Label("Price", htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
-                    @Html.Editor("price", new {@id="defaultPrice" })
+                    <input name="price" type="text" value=@ViewBag.price  />
+                    @*@Html.Editor("price", new {@id="defaultPrice" })*@
                     @Html.ValidationMessage("price", "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -426,10 +433,18 @@
         }
        
         ////on selecting from dropdownlist display item description
+
+        @{ 
+            List<Inventory_mvc.Models.Stationery> stats = (List<Inventory_mvc.Models.Stationery>)ViewBag.AllItems;
+
+            
+        }
         function valueSelected() {
 
-            var ddlist = $(this).val();
-            pricetbox.val(ddlist);
+            var ddlist = $("#ddlist").val();
+            var destination = "GetDescrpAndPrice?itemcode=" + ddlist;
+            window.location.href = "http:" + destination;
+          
 
         }
 
