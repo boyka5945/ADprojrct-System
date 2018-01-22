@@ -6,32 +6,38 @@
 
 <h2>StockReceive</h2>
 
-@using (Html.BeginForm())
+@using (Html.BeginForm("StockReceive", "ReceiveStock", FormMethod.Post))
 {
 
     <div class="form-group">
         @Html.Label("PO Number", new { @class = "control-label col-md-2" })
-        @Html.TextBox("searchPONumber", ViewBag.SearchString as string, new { @class = "control-textbox col-md-2" })
-        <input type="submit" value="Search" class="btn btn-default" />
+        @Html.TextBox("searchPONumber", ViewBag.PONumber as string, new { @class = "control-textbox col-md-2" })
+        <input type="submit" value="Search" class="btn btn-default" style=" margin:5px;" readonly />
     </div>
 
     <div class="form-group">
         @Html.Label("Supplier", new { @class = "control-label col-md-2" })
-        @Html.TextBox("showSupplier", ViewBag.SearchString as string, new { @class = "control-textbox col-md-2" })
+        @Html.TextBox("showSupplier", ViewBag.Supplier as string, new { @class = "control-textbox col-md-2" })
         
     </div>
+}
+    @using (Html.BeginForm("UpdateReceived", "ReceiveStock", FormMethod.Get))
+    {
+        <input type="hidden" value="@ViewBag.PONumber" name="PONumber" />
+
 
     <div class="form-group">
         @Html.Label("DO Number", new { @class = "control-label col-md-2" })
-        @Html.TextBox("searchDONumber", ViewBag.SearchString as string, new { @class = "control-textbox col-md-2" })
+        @Html.TextBox("DONumber")
     </div>
 
     <div class="form-group">
         @Html.Label("Received Date", new { @class = "control-label col-md-2" })
-        @Html.TextBox("ReceivedDate", ViewBag.SearchString as string, new { @class = "control-textbox col-md-2" })
+        @Html.TextBox("ReceivedDate")
     </div>
 
-}
+
+
 
 <table class="table">
     <tr>
@@ -58,7 +64,7 @@
         </th>
     </tr>
     
-    @*@foreach (var item in Model)
+    @foreach (var item in Model)
     {
             <tr>
                 <td>
@@ -70,29 +76,46 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.qty)
                 </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.qty)
+                <td>@{ 
+                    int fulfilled;
+                    if(item.fulfilledQty.HasValue)
+                    {
+                        fulfilled = item.fulfilledQty.Value;
+                    }
+                    else
+                    {
+                        fulfilled = 0;
+
+                    }
+                    string qtyOutstanding = (item.qty - fulfilled).ToString();
+                }
+                    @Html.Label(qtyOutstanding)
                 </td>
                 <td>
+                    @*//input for received*@
                     <div class="form-inline">
-                        <input type="number" name="fulfilledQty" value="0" min="1" class="form-control" placeholder="FulfilledQty" />
-                        <input type="submit" value="Add" class="btn btn-outline-primary" />
+                        <input type="number" name="num-@item.itemCode" value="0" min="0" class="form-control" placeholder="FulfilledQty" />
+                     
                     </div>
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Stationery.unitOfMeasure)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.remarks)
+                    @*//input for remarks*@
+                    <input type="text" name="rem-@item.itemCode" />
                 </td>
             </tr>
-        }*@
+    }
 
 
 </table>
 <div class="form-group">
     <div class="col-md-offset-2 col-md-10">
-        <input type="submit" value="Fill in all unreceived quantity" class="btn btn-default" />
+        @Html.ActionLink("Submit All as Received", "UpdateReceived", "ReceiveStock", new { checker = "allReceived" }, null)
+    
+        @*<input type="submit" value="Fill in all unreceived quantity"  class="btn btn-default" />*@
         <input type="submit" value="Submit" class="btn btn-default" />
     </div>
 </div>
+}
