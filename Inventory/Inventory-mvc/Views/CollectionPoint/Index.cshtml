@@ -12,7 +12,7 @@
 
 }
 
-<h2>Index</h2>
+<h2>Collection Points</h2>
 
 <br />
 
@@ -79,11 +79,7 @@
             
             @Html.ActionLink("Delete", "Delete", new { id=item.collectionPointID })
         </td>
-        <td>
-            @Html.DropDownListFor(modelItem => item.collectionPointName, new List<SelectListItem>
-       { new SelectListItem{Text="science dept", Value="science dept", Selected= true},
-         new SelectListItem{Text="some dept ", Value="False"}}, "Select One")
-            </td>
+       
 </tr>
 }
 

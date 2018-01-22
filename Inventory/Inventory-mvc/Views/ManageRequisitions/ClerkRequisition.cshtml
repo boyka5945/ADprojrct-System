@@ -1,23 +1,25 @@
-﻿@model IEnumerable<Inventory_mvc.Models.BigModelView>
-
+﻿@*@model IEnumerable<Inventory_mvc.Models.BigModelView>*@
+@model PagedList.IPagedList<Inventory_mvc.Models.BigModelView>
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 @{
     ViewBag.Title = "ClerkRequisition";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2></h2>
+<h2>Allocate requisition</h2>
 @using (Html.BeginForm(new { Action = "AllocateRequisition" }))
 {
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.itemCode)
+            @Html.Label("Item Code")
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.description)
+            @Html.Label("Description")
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.retrievedQuantity)
+            @Html.Label("Retrieved Quantity")
         </th>
         <th>
             requisitionNo
@@ -29,7 +31,7 @@
             requestDate
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.unfulfilledQty)
+            @Html.Label("Unfulfilled Quantity")
         </th>
         <th>
             allocateQty
@@ -61,13 +63,27 @@
             @Html.DisplayFor(modelItem => Model.ToList()[i].unfulfilledQty)
         </td>
         <td>
-            @Html.EditorFor(modelItem => Model.ToList()[i].allocateQty)
-        </td>
+            @if (Model.ToList()[i].retrievedQuantity == "")
+            {
+            @Html.DisplayFor(modelItem => Model.ToList()[i].allocateQty)
+            }
+            else
+            {
+                @Html.EditorFor(modelItem => Model.ToList()[i].allocateQty)
+            }</td>
     </tr>
 }
 
+
 </table>
-    <div class="col-md-offset-2 col-md-10">
-        <input type="submit" value="Allocate" class="btn btn-default" />
-    </div>
+<div class="col-md-offset-2 col-md-0">
+    <input type="submit" value="Allocate" class="btn btn-default" />
+</div>
 }
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("ClerkRequisition",
+                     new { page }))
+
+
+

@@ -13,7 +13,7 @@ namespace Inventory_mvc.Service
         private ISupplierDAO supplierDAO = new SupplierDAO();
 
 
-        List<SupplierViewModel> ISupplierService.GetAllSuppliers()
+        public List<SupplierViewModel> GetAllSuppliers()
         {
             List<Supplier> supplierList = supplierDAO.GetAllSupplier();
 
@@ -26,19 +26,19 @@ namespace Inventory_mvc.Service
             return viewModelList;
         }
 
-        bool ISupplierService.isExistingCode(string supplierCode)
+        public bool isExistingCode(string supplierCode)
         {
             string code = supplierCode.ToUpper().Trim();
 
             return supplierDAO.GetAllSupplierCode().Contains(code);
         }
 
-        bool ISupplierService.AddNewSupplier(SupplierViewModel supplierVM)
+        public bool AddNewSupplier(SupplierViewModel supplierVM)
         {
             return supplierDAO.AddNewSupplier(ConvertFromViewModel(supplierVM));
         }
 
-        bool ISupplierService.DeleteSupplier(string supplierCode)
+        public bool DeleteSupplier(string supplierCode)
         {
             string code = supplierCode.ToUpper().Trim();
             Supplier supplier = supplierDAO.FindBySupplierCode(code);
@@ -51,13 +51,13 @@ namespace Inventory_mvc.Service
             return supplierDAO.DeleteSupplier(code);
         }
 
-        SupplierViewModel ISupplierService.FindBySupplierCode(string supplierCode)
+        public SupplierViewModel FindBySupplierCode(string supplierCode)
         {
             string code = supplierCode.ToUpper().Trim();
             return ConvertToViewModel(supplierDAO.FindBySupplierCode(code));
         }
 
-        bool ISupplierService.UpdateSupplierInfo(SupplierViewModel supplierVM)
+        public bool UpdateSupplierInfo(SupplierViewModel supplierVM)
         {
             Supplier supplier = ConvertFromViewModel(supplierVM);
 

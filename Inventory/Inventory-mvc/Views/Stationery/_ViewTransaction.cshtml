@@ -1,0 +1,45 @@
+﻿@model IEnumerable<Inventory_mvc.ViewModel.ItemTransactionRecordViewModel>
+
+@if (Model.Count() == 0)
+{
+    <h4><i>There are not any transactions.</i></h4>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>@Html.Label("Date")</th>
+                <th>@Html.Label("Department / Supplier")</th>
+                <th>@Html.Label("Quantity")</th>
+                <th>@Html.Label("Balance")</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => item.TransactionDate)</td>
+                    <td>@Html.DisplayFor(modelItem => item.TransactionType) - @Html.DisplayFor(modelItem => item.Remarks) </td>
+
+                    @if (item.Quantity > 0)
+                    {
+                        <td>
+                            <span class="text-success">+@item.Quantity</span>
+                        </td>
+                    }
+                    else
+                    {
+                        <td>
+                            <span class="text-danger">@item.Quantity</span>
+                        </td>
+                    }
+                    <td>@Html.DisplayFor(modelItem => item.BalanceQty)</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+
+

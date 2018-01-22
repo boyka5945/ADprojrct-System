@@ -8,12 +8,12 @@
 
     List<Inventory_mvc.Models.Category> categoryList = ViewBag.CategoryList;
 
-    var addItemMessage = TempData["AddItemMessage"];
-    var addItemErrorMessage = TempData["AddItemErrorMessage"];    
+    var successMessage = TempData["SuccessMessage"];
+    var errorMessage = TempData["ErrorMessage"];    
 }
 
 
-<h3>Stationery Catalogue</h3>
+<h2>Stationery Catalogue</h2>
 
 
 
@@ -56,32 +56,32 @@
 }
 
 
-@if (addItemMessage != null)
+@if (successMessage != null)
 {
     <div class="alert alert-success">
-        @addItemMessage.ToString()
+        @successMessage.ToString()
     </div>
 }
 
-@if (addItemErrorMessage != null)
+@if (errorMessage != null)
 {
     <div class="alert alert-danger">
-        @addItemErrorMessage.ToString()
+        @errorMessage.ToString()
     </div>
 }
 
 
 
-<table class="table">
+<table class="table table-responsive">
     <tr>
         <th>
             @Html.Label("Category")
         </th>
         <th>
-            @Html.Label("Description")
+            @Html.DisplayNameFor(model => model.FirstOrDefault().description)
         </th>
         <th>
-            @Html.Label("UOM")
+            @Html.DisplayNameFor(model => model.FirstOrDefault().unitOfMeasure)
         </th>
         <th>
             @Html.Label("Add Request")
@@ -120,3 +120,5 @@
 
 
         @Html.ActionLink("Go To Requisition Form", "NewRequisition", "RaiseRequisition", null, new { @class = "btn btn-primary" })
+
+<br />

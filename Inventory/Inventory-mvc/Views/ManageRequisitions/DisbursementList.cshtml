@@ -1,4 +1,7 @@
-﻿@model IEnumerable<Inventory_mvc.ViewModel.Disbursement>
+﻿@*@model IEnumerable<Inventory_mvc.ViewModel.Disbursement>*@
+@model PagedList.IPagedList<Inventory_mvc.ViewModel.Disbursement>
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 
 @{
     ViewBag.Title = "View";
@@ -27,10 +30,10 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.itemDescription)
+            @Html.Label("Item Description")
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.quantity)
+            @Html.Label("Quantity")
         </th>
         <th></th>
     </tr>
@@ -49,6 +52,12 @@
 }
 
 </table>
+
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+@Html.PagedListPager(Model, page => Url.Action("DisbursementList",
+                     new { page }))
+
+
         @Html.Label("Representative :")
         @Html.Label((string)ViewBag.rp)
 

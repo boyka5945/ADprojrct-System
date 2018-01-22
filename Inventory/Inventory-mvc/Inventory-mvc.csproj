@@ -73,6 +73,7 @@
     </Reference>
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
+    <Reference Include="System.Transactions" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -186,6 +187,7 @@
     <Compile Include="Controllers\SupplierController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\CheckShortfallController.cs" />
+    <Compile Include="Controllers\POGeneratorController.cs" />
     <Compile Include="DAO\AdjustmentVoucherDAO.cs" />
     <Compile Include="DAO\CollectionPointDAO.cs" />
     <Compile Include="DAO\DAOException.cs" />
@@ -209,6 +211,7 @@
     <Compile Include="DAO\SupplierDAO.cs" />
     <Compile Include="DAO\TransactionRecordDAO.cs" />
     <Compile Include="DAO\UserDAO.cs" />
+    <Compile Include="Function\EmailNotification.cs" />
     <Compile Include="Models\Adjustment_Voucher_Record.cs" />
     <Compile Include="Models\BigModelView.cs" />
     <Compile Include="Models\Category.cs" />
@@ -261,23 +264,31 @@
     <Compile Include="Service\SupplierService.cs" />
     <Compile Include="Service\TransactionRecordService.cs" />
     <Compile Include="Service\UserService.cs" />
+    <Compile Include="Utilities\AdjustmentVoucherRemarks.cs" />
+    <Compile Include="Utilities\AdjustmentVoucherStatus.cs" />
+    <Compile Include="Utilities\RequisitionStatus.cs" />
+    <Compile Include="Utilities\TransactionTypes.cs" />
+    <Compile Include="Utilities\UserRoles.cs" />
+    <Compile Include="ViewModel\AdjustmentVoucherViewModel.cs" />
     <Compile Include="ViewModel\BrowseStationeryCatalogueViewModel.cs" />
     <Compile Include="ViewModel\CollectionPointViewModel.cs" />
     <Compile Include="ViewModel\Disbursement.cs" />
+    <Compile Include="ViewModel\ItemTransactionRecordViewModel.cs" />
     <Compile Include="ViewModel\RaiseRequisitionViewModel.cs" />
     <Compile Include="ViewModel\RequisitionDetailViewModel.cs" />
     <Compile Include="ViewModel\RetrieveForm.cs" />
+    <Compile Include="ViewModel\StationeryJSONForCombobox.cs" />
     <Compile Include="ViewModel\StationeryViewModel.cs" />
     <Compile Include="ViewModel\SupplierViewModel.cs" />
     <Compile Include="ViewModel\UserViewModel.cs" />
     <Compile Include="ViewModel\Purchase_Order_RecordViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\select2.min.css" />
     <Content Include="Images\pinyin.txt" />
     <Content Include="Images\test1.jpg" />
     <Content Include="Images\test2.jpg" />
     <Content Include="Images\test3.jpg" />
-    <Content Include="Content\combobox.css" />
     <Content Include="Content\OrderCSS\style.css" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
@@ -355,7 +366,6 @@
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery-ui-1.12.1.js" />
     <Content Include="Scripts\jquery-ui-1.12.1.min.js" />
-    <Content Include="Scripts\jquery.combobox.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
@@ -365,6 +375,7 @@
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\select2.min.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -396,7 +407,6 @@
     <Content Include="Views\CollectionPoint\Create.cshtml" />
     <Content Include="Views\CollectionPoint\Edit.cshtml" />
     <Content Include="Views\CollectionPoint\Index.cshtml" />
-    <Content Include="Views\RaiseRequisition\RequestPartial.cshtml" />
     <Content Include="Views\Stationery\Delete.cshtml" />
     <Content Include="Views\Stationery\Edit.cshtml" />
     <Content Include="Views\Stationery\ViewStockCard.cshtml" />
@@ -420,6 +430,14 @@
     <Content Include="Views\ListRequisitions\ShowDetail.cshtml" />
     <Content Include="Views\ListRequisitions\_EditRecord.cshtml" />
     <Content Include="Views\ListRequisitions\EditRecord.cshtml" />
+    <Content Include="Views\Stationery\_ViewTransaction.cshtml" />
+    <Content Include="Views\ManageRequisitions\GenerateRetrieveForm.cshtml" />
+    <Content Include="Views\AdjustmentVoucher\Index.cshtml" />
+    <Content Include="Views\AdjustmentVoucher\NewVoucher.cshtml" />
+    <Content Include="Views\AdjustmentVoucher\ShowDetail.cshtml" />
+    <Content Include="Views\AdjustmentVoucher\MakeApproval.cshtml" />
+    <Content Include="Views\CollectionPoint\Collect_Item.cshtml" />
+    <Content Include="Views\CollectionPoint\Pending_Item.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -1,4 +1,9 @@
-﻿@model IEnumerable<Inventory_mvc.Models.Requisition_Record>
+﻿@*@model IEnumerable<Inventory_mvc.Models.Requisition_Record>*@
+@model PagedList.IPagedList<Inventory_mvc.Models.Requisition_Record>
+@using PagedList.Mvc;
+@using Inventory_mvc.Utilities;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
 
 @{
     ViewBag.Title = "View";
@@ -9,10 +14,10 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.requisitionNo)
+            @Html.Label("Requisition No:")
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Department.departmentName)
+            @Html.Label("Department Name")
         </th>
         <th>
             RequesterName
@@ -21,13 +26,13 @@
             ApprovingName
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.approveDate)
+            @Html.Label("Approved Date")
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.status)
+            @Html.Label("Status")
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.requestDate)
+            @Html.Label("Requested Date")
         </th>
         <th></th>
     </tr>
@@ -57,11 +62,11 @@
         <td>
             @{
 
-                if (item.status == "Approved and Processing" || item.status == "Rejected")
+                if (item.status == RequisitionStatus.APPROVED_PROCESSING || item.status == RequisitionStatus.REJECTED)
                 {
                     @Html.ActionLink("Details", "RequisitionDetails", new { id = item.requisitionNo });
                 }
-                else if (item.status == "Pending")
+                else if (item.status == RequisitionStatus.PENDING_APPROVAL)
                 {
                     @Html.ActionLink("Approve", "ApproveRequisition", new { id = item.requisitionNo });
                     <br />
@@ -75,3 +80,10 @@
 }
 
 </table>
+
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("ManagerRequisition",
+                     new { page }))
+
+

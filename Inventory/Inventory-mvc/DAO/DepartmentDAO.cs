@@ -27,16 +27,24 @@ namespace Inventory_mvc.DAO
             {
                 StationeryModel entity = new StationeryModel();
                 Department department = new Department();
-                department.departmentCode = dept.departmentCode;
+                string capDeptCode = dept.departmentCode.ToUpper();
+                department.departmentCode = capDeptCode;
                 department.departmentName = dept.departmentName;
                 department.contactName = dept.contactName;
                 department.phoneNo = dept.phoneNo;
                 department.faxNo = dept.faxNo;
                 //department.departmentHeadID = dept.departmentHeadID;
-                department.collectionPointID = dept.collectionPointID;
-                //department.representativeID = dept.representativeID;
-                entity.Departments.Add(department);
-                entity.SaveChanges();
+                if (dept.collectionPointID.ToString() == "--Select--")
+                {
+                    return false;
+                }
+                else {
+                    department.collectionPointID = dept.collectionPointID;
+                    //department.representativeID = dept.representativeID;
+                    entity.Departments.Add(department);
+                    entity.SaveChanges();
+                }
+                
             }
             catch
             {
