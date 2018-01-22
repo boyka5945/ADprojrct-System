@@ -35,27 +35,37 @@ namespace Inventory_mvc.Controllers
             ViewBag.SearchBy = searchBy;
             List<Purchase_Order_Record> model = new List<Purchase_Order_Record>();
             List<Purchase_Order_Record> searchResults = new List<Purchase_Order_Record>();
-            switch (searchBy)
+
+            try
             {
-                case ("orderNo"):
-                    por = pos.FindByOrderID(Int32.Parse(search));
-                    model.Add(por);
-                    break;
+                switch (searchBy)
+                {
+                    case ("orderNo"):
+                        por = pos.FindByOrderID(Int32.Parse(search));
+                        model.Add(por);
+                        break;
 
-                case ("status"):
-                    searchResults = pos.FindByStatus(search);
-                    model.AddRange(searchResults);
-                    break;
+                    case ("status"):
+                        searchResults = pos.FindByStatus(search);
+                        model.AddRange(searchResults);
+                        break;
 
-                case ("supplier"):
-                    searchResults = pos.FindBySupplier(search);
-                    model.AddRange(searchResults);
-                    break;
+                    case ("supplier"):
+                        searchResults = pos.FindBySupplier(search);
+                        model.AddRange(searchResults);
+                        break;
 
-                default:
-                    model = pos.GetAllPurchaseOrder();
-                    break;
+                    default:
+                        model = pos.GetAllPurchaseOrder();
+                        break;
 
+                }
+            }
+            catch
+            {
+                model = new List<Purchase_Order_Record>();
+                //return empty list if nothing can be found
+                
             }
             int pageSize = 10;
             int pageNumber = (page ?? 1);
@@ -79,6 +89,7 @@ namespace Inventory_mvc.Controllers
             ViewBag.orderNo = orderNo;
 
             List<Purchase_Detail> model = new List<Purchase_Detail>();
+            ViewBag.itemCodeList = ss.GetAllItemCodes(); 
 
             if (Session["detailsBundle"] != null)
             {
@@ -106,7 +117,27 @@ namespace Inventory_mvc.Controllers
             List<Purchase_Detail> model = new List<Purchase_Detail>();
             Dictionary<Purchase_Detail, string> details = new Dictionary<Purchase_Detail, string>();
 
-           
+
+            ViewBag.itemCodeList = ss.GetAllItemCodes();
+            //try
+            //{
+                var itemCode = pd.itemCode;
+
+            //pd.itemCode = itemCode;
+            //}
+            //catch
+            //{
+            //if (pd.itemCode == "--Select--")
+            //{
+            //    string errorMessage = String.Format("Select Item Code");
+            //    ModelState.AddModelError("itemCode", errorMessage);
+            //    ViewBag.itemCodeList = ss.GetAllItemCodes();
+            //    //model = new List<Purchase_Detail>();
+            //    return View();
+            //}
+
+            //}
+
             if (Session["detailsBundle"] != null)
             {
                 
@@ -125,13 +156,13 @@ namespace Inventory_mvc.Controllers
                 TempData["PriceErrorMessage"] = "Price cannot be 0 or less than 0.";
             }
 
-            if (pd.itemCode == null)
+            if (pd.itemCode == "--Select--")
             {
-                TempData["ItemCodeErrorMessage"] = "ItemCode must be filled in.";
+                TempData["ItemCodeErrorMessage"] = "ItemCode must be selected.";
             }
 
             //only save to session if itemcode, price and qty are entered
-            if (pd.price > 0 && pd.qty > 0 && pd.itemCode!=null)
+            if (pd.price > 0 && pd.qty > 0 && pd.itemCode!=("--Select--"))
             {
                 try
                 {
@@ -147,9 +178,11 @@ namespace Inventory_mvc.Controllers
                 }
                 // ViewBag.model = pos.GetAllPurchaseOrder();
             }
+            string errorMessage = "select item code.";
+            ModelState.AddModelError("itemCode", errorMessage);
 
 
-
+            ViewBag.itemCodeList = ss.GetAllItemCodes();
             return View(model);
         }
 
@@ -201,7 +234,7 @@ namespace Inventory_mvc.Controllers
                 Session["detailsBundle"] = null; //clear the orderCart
                 List<Purchase_Order_Record> model = pos.GetAllPurchaseOrder();
                 //return View("ListPurchaseOrders", model);
-                int pageSize = 2;
+                int pageSize = 10;
                 int pageNumber = (page ?? 1);
                 return View("ListPurchaseOrders", model.ToPagedList(pageNumber, pageSize));
             }
@@ -210,11 +243,20 @@ namespace Inventory_mvc.Controllers
 
         //delete purchase order record
         [HttpGet]
-        public ActionResult Delete(string id)
+        public ActionResult Delete(string id, int? page)
         {
         
             pos.DeletePurchaseOrder(Int32.Parse(id));
-            return View("ListPurchaseOrders");
+            List<Purchase_Order_Record> model = pos.GetAllPurchaseOrder();
+
+            //return View("ListPurchaseOrders");
+            int pageSize = 10;
+            int pageNumber = (page ?? 1);
+
+            ViewBag.itemCodeList = ss.GetAllItemCodes();
+
+            return View("ListPurchaseOrders", model.ToPagedList(pageNumber, pageSize));
+
 
         }
 
@@ -224,6 +266,7 @@ namespace Inventory_mvc.Controllers
         {
             Dictionary<Purchase_Detail, string> details = (Dictionary<Purchase_Detail, string>)Session["detailsBundle"];
             List<Purchase_Detail> model = details.Keys.ToList<Purchase_Detail>();
+            ViewBag.itemCodeList = ss.GetAllItemCodes();
 
             try
             {
@@ -264,6 +307,7 @@ namespace Inventory_mvc.Controllers
         {
             Dictionary<Purchase_Detail, string> details = (Dictionary<Purchase_Detail, string>)Session["detailsBundle"];
             List<Purchase_Detail> model = details.Keys.ToList<Purchase_Detail>();
+            ViewBag.itemCodeList = ss.GetAllItemCodes();
 
             string itemCode = Request.Params.Get("ditemCode");
             var index = model.FindIndex(c => c.itemCode == itemCode);
@@ -307,14 +351,6 @@ namespace Inventory_mvc.Controllers
             }
 
         }
-
-        ////helper method to refactor into service
-        //public String ConvertSupplierNameToCode(string name)
-        //{
-        //    String s = ctx.Supplier.Where(x=>x.supplierName == name).First().supplierCode;
-
-        //    return s;
-        //}
 
     }
 
