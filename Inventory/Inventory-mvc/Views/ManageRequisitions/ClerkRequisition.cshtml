@@ -63,14 +63,8 @@
             @Html.DisplayFor(modelItem => Model.ToList()[i].unfulfilledQty)
         </td>
         <td>
-            @if (Model.ToList()[i].retrievedQuantity == "")
-            {
-            @Html.DisplayFor(modelItem => Model.ToList()[i].allocateQty)
-            }
-            else
-            {
-                @Html.EditorFor(modelItem => Model.ToList()[i].allocateQty)
-            }</td>
+            @Html.EditorFor(modelItem => Model.ToList()[i].allocateQty)
+        </td>
     </tr>
 }
 
