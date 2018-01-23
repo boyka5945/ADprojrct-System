@@ -359,6 +359,7 @@
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
+    <None Include="Properties\PublishProfiles\AD_Inventory.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <None Include="Scripts\jquery-3.2.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.2.1.js" />
@@ -396,8 +397,6 @@
     <Content Include="Views\Installer\Success.cshtml" />
     <Content Include="Views\Supplier\Index.cshtml" />
     <Content Include="Views\Supplier\Create.cshtml" />
-    <Content Include="Views\ManageRequisitions\EditRequisition.cshtml" />
-    <Content Include="Views\ManageRequisitions\ListRequisition.cshtml" />
     <Content Include="Views\Purchase\ListPurchaseOrders.cshtml" />
     <Content Include="Views\POGenerator\gen.cshtml" />
     <Content Include="Views\Purchase\RaisePurchaseOrder.cshtml" />

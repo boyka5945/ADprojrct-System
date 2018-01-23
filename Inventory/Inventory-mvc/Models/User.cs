@@ -20,31 +20,41 @@ namespace Inventory_mvc.Models
             Transaction_Record = new HashSet<Transaction_Record>();
         }
 
+        [Required]
         [StringLength(50)]
+        [Display(Name = "UserID")]
         public string userID { get; set; }
 
         [Required]
         [StringLength(50)]
+        [Display(Name = "Password")]
         public string password { get; set; }
 
         [Required]
         [StringLength(50)]
+        [Display(Name = "Name")]
         public string name { get; set; }
 
+        [Required]
+        [Display(Name = "Contact Number")]
         public int contactNo { get; set; }
 
         [Required]
         [StringLength(200)]
+        [Display(Name = "Address")]
         public string address { get; set; }
 
+        [Required]
         public int role { get; set; }
 
-        [Required]
+        //[Required]
         [StringLength(50)]
+        [Display(Name = "Department Code")]
         public string departmentCode { get; set; }
 
         [Required]
         [StringLength(50)]
+        [Display(Name = "User Email")]
         public string userEmail { get; set; }
 
         [Column(TypeName = "date")]

@@ -7,6 +7,7 @@ using Inventory_mvc.Service;
 using Inventory_mvc.Models;
 using Inventory_mvc.ViewModel;
 using System.Globalization;
+using Inventory_mvc.Utilities;
 
 namespace Inventory_mvc.Controllers
 {
@@ -142,8 +143,10 @@ namespace Inventory_mvc.Controllers
 
         public ActionResult Create()
         {
-            ViewBag.RoleList = userService.GetStoreRoles();
-            return View(new User());
+            ViewBag.RoleList = UserRoles.GetCreatableRolesForDepartment["Store"];
+            User newUser = new User();
+            newUser.departmentCode = "STORE";
+            return View(newUser);
         }
 
         [HttpPost]
@@ -162,7 +165,7 @@ namespace Inventory_mvc.Controllers
                 {
                     userService.AddNewUser(user);
                     TempData["CreateMessage"] = String.Format("User '{0}' is added.", id);
-                    return RedirectToAction("UserList");
+                    return RedirectToAction("SMUserList");
                 }
                 catch (Exception e)
                 {
@@ -170,9 +173,9 @@ namespace Inventory_mvc.Controllers
                 }
             }
 
-            ViewBag.RoleList = userService.GetStoreRoles();
-            return RedirectToAction("SMUserList");
-            //            return View(user);
+            ViewBag.RoleList = UserRoles.GetCreatableRolesForDepartment["Store"];
+            //return RedirectToAction("SMUserList");
+            return View(user);
         }
         [HttpGet]
         public ActionResult Assign_Rep(string id)
@@ -225,24 +228,7 @@ namespace Inventory_mvc.Controllers
 
             string password = user.password;
             string code = user.userID;
-            //if (password == newPassword)
-            //{
-            //    TempData["SameWithPassword"] = String.Format("Same With Password.");
-            //}
-            //bool cond1 = userService.isSame(password, oldPassword);
-            //if (cond1)
-            //{
-            //    //string errorMessage = String.Format("{0} Incorrect", oldPassword);
-            //    //ModelState.AddModelError("Incorrect", errorMessage);
-
-            //    TempData["IncorrectPassword"] = String.Format("Incorrect Password.");
-            //}
-            //bool cond2 = userService.isSame(password, newPassword);
-            //if (!cond2)
-            //{
-            //    TempData["SameWithOldPassword"] = String.Format("Same With Password.");
-            //}
-
+           
             
             if (ModelState.IsValid)
             {
@@ -262,32 +248,7 @@ namespace Inventory_mvc.Controllers
                 if (newPassword!=confirmPassword)
                 {
                     TempData["NotMatch"] = String.Format("New password and confirm password does not match");
-                    //try
-                    //{
-                    //    bool t = userService.changePassword(changePasswordVM);
-                    //    if (userService.changePassword(changePasswordVM))
-                    //    {
-                    //        TempData["SuccessMessage"] = String.Format("'{0}' has been updated", code);
-                    //    }
-                    //    else
-                    //    {
-                    //        TempData["ErrorMessage"] = String.Format("There is not change to '{0}'.",code);
-                    //    }
-
-                        //return RedirectToAction("Edit");
-                    //}
-                    //catch (Exception e)
-                    //{
-                    //    ViewBag.ExceptionMessage = e.Message;
-                    //}
-
-                    //ChangePasswordViewModel vm1 = changePasswordVM;
-
-                    //int i=userService.changePassword(changePasswordVM);
-                    //if(i<1)
-                    //{
-                    //    TempData["Passwordnotchanged"] = String.Format("Password Not Changed");
-                    //}
+                   
                 }
                 if(!cond1 && cond2 && newPassword == confirmPassword)
                 {
@@ -319,19 +280,22 @@ namespace Inventory_mvc.Controllers
             }
            
             
-
-            //
-
-            //if(user.password != oldPassword)
-            //{
-            //    string errorMessage = String.Format("Incorrect Password!");
-            //    ModelState.AddModelError("Incorrect", errorMessage);
-            //    return View(changePasswordVM);
-            //}
-
             return View(changePasswordVM);
            // return RedirectToAction("Edit");
             
+        }
+
+        public ActionResult Promote(string id)
+        {
+            if (userService.Promote(id))
+            {
+                TempData["PromoteMessage"] = String.Format("'{0}' has been promoted as Store supervisor", id);
+            }
+            else
+            {
+                TempData["PromoteErrorMessage"] = String.Format("Cannot promote");
+            }
+            return RedirectToAction("SMUserList");
         }
 
     }

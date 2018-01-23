@@ -44,5 +44,7 @@ namespace Inventory_mvc.DAO
 
         int changePassword(User user);
         List<User> FindUsersByRole(int roleID);
+
+        bool Promote(string uid);
     }
 }
