@@ -95,7 +95,7 @@ Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.Page
 
         $.ajax({
             type: "POST",
-            url: "/ManageRequisitions/KeepTempData",
+            url: '@Url.Action("KeepTempData", "ManageRequisitions")',
             data: $.param(myformdata), // convert to url-encoded form
             //success: function () {
                 //alert("success");

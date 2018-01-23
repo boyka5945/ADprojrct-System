@@ -104,6 +104,13 @@ namespace Inventory_mvc.Controllers
             }
 
             List<InventoryCheckViewModel> vmList = invetoryCheckService.GetInventoryChecklistBasedOnCategory(categorylistbox);
+
+            if(vmList.Count == 0)
+            {
+                TempData["ErrorMessage"] = "There is no stationery for selected categories.";
+                return RedirectToAction("GenerateInventoryChecklist");
+            }
+
             HttpContext.Application.Lock();
             HttpContext.Application["InventoryChecklist"] = vmList;
             HttpContext.Application.UnLock();
