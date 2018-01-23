@@ -21,8 +21,7 @@ namespace Inventory_mvc
 
         public void Session_Start()
         {
-            List<RaiseRequisitionViewModel> requestList = new List<RaiseRequisitionViewModel>();
-            Session["RequestList"] = requestList;
+
         }
     }
 }

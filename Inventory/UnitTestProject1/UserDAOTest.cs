@@ -19,7 +19,7 @@ namespace UnitTestProject1
             string requesterID = "S1013";
 
             // Act
-            var result = dao.FindApprovingStaffsEmailByRequesterID(requesterID);
+            var result = dao.FindApprovingStaffsEmailByRequesterID(requesterID, new int[] { 2 });
 
             // Assert
             Assert.AreEqual(result[0], "barryallen@logic.sg");

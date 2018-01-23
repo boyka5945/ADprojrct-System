@@ -38,7 +38,7 @@ namespace Inventory_mvc.ViewModel
         public string Remarks { get; set; }
 
         [Display(Name = "Stock Check Date")]
-        [DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:dd/MM/yy}", ApplyFormatInEditMode = true)]
+        [DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         public DateTime StockCheckDate { get; set; }
     }
 }

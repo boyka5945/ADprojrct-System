@@ -34,6 +34,17 @@ namespace Inventory_mvc.Controllers
             //empty model
             List<Purchase_Detail> model = new List<Purchase_Detail>();
 
+            if (TempData["POnumRedirect"] != null)
+            {
+                int poNum = Int32.Parse((string) TempData["POnumRedirect"]);
+                model = pos.GetPurchaseDetailsByOrderNo(poNum);
+
+                ViewBag.DOnumber = TempData["DOnumRedirect"];
+                ViewBag.POnumber = TempData["PONumRedirect"];
+                ViewBag.Supplier = TempData["SupplierRedirect"];
+                ViewBag.ReceivedDate = TempData["ReceivedDateRedirect"];
+
+            }
             return View(model);
 
 
@@ -43,12 +54,21 @@ namespace Inventory_mvc.Controllers
         [HttpPost]
         public ActionResult StockReceive(string searchPONumber)
         {
-            List<Purchase_Detail> model = pos.GetPurchaseDetailsByOrderNo(Int32.Parse(searchPONumber));
-            Purchase_Order_Record por = pos.FindByOrderID(Int32.Parse(searchPONumber));
+            List<Purchase_Detail> model = new List<Purchase_Detail>();
+            try
+            {
+                model = pos.GetPurchaseDetailsByOrderNo(Int32.Parse(searchPONumber));
+                Purchase_Order_Record por = pos.FindByOrderID(Int32.Parse(searchPONumber));
 
-            ViewBag.PONumber = searchPONumber;
-            ViewBag.Supplier = ctx.Suppliers.Where(x => x.supplierCode == por.supplierCode).First().supplierName;
+                ViewBag.PONumber = searchPONumber;
+                ViewBag.Supplier = ctx.Suppliers.Where(x => x.supplierCode == por.supplierCode).First().supplierName;
+            }
 
+            catch
+            {
+                TempData["searchError"] = "PO Number is required";
+                //return RedirectToAction("StockReceive");
+            }
             return View(model);
         }
 
@@ -59,9 +79,12 @@ namespace Inventory_mvc.Controllers
         //update PD fulfilled qty, remarks,deliveryNo
         //update transaction table
         [HttpGet]
-        public ActionResult UpdateReceived(string DONumber, string ReceivedDate, string PONumber, string supplier, string checker)
+        public ActionResult UpdateReceived(string DONumber, string ReceivedDate, string PONumber, string supplier, string sbutton)
         {
-            string clerkID = "S1008"; //HARD CODED
+            // TODO: REMOVE HARDCODED USERID
+
+            string clerkID = HttpContext.User.Identity.Name;
+
             Purchase_Order_Record por = pos.FindByOrderID(Int32.Parse(PONumber));
             int pdOutstanding = por.Purchase_Detail.Count;
 
@@ -77,28 +100,56 @@ namespace Inventory_mvc.Controllers
             trs.AddNewTransactionRecord(tr);
 
             List<Purchase_Detail> model = pos.GetPurchaseDetailsByOrderNo(Int32.Parse(PONumber));
+            List<string> filledItems = new List<string>();
+
+            //validation - fulfilled items cannot be filled beyond requested limit
             foreach (Purchase_Detail pd in model)
             {
+                if (pd.fulfilledQty == pd.qty)
+                {
+                    filledItems.Add(pd.Stationery.description);
+
+                }
+
+            }
+            //confirm that the form is invalid
+            if (filledItems.Count > 0)
+            {
+                TempData["icodesFilled"] = filledItems;
+                //return the existing form values back to the view
+                TempData["DOnumRedirect"] = DONumber;
+                TempData["PONumRedirect"] = PONumber;
+                TempData["SupplierRedirect"] = supplier;
+                TempData["ReceivedDateRedirect"] = ReceivedDate;
+           
+                return RedirectToAction("StockReceive");
+
+            }
+
+            foreach (Purchase_Detail pd in model)
+            {
+
                 int receivedNum;
                 string ic = pd.itemCode;
                 string received = Request.QueryString.GetValues("num-" + ic).First();
 
                 //condition check if option for button" all received"
-                if (checker == "allReceived")
+                if (sbutton == "Submit All")
                 {
-                    if (!pd.fulfilledQty.HasValue)
+
+                    if (pd.fulfilledQty == null)
                     {
                         pd.fulfilledQty = 0;
                     }
-
                     receivedNum = pd.qty - pd.fulfilledQty.Value;
+
                 }
                 else
                 {
                     receivedNum = Int32.Parse(received);
                 }
                 string remarks = Request.QueryString.GetValues("rem-" + ic).First();
-                pd.fulfilledQty = receivedNum;
+                pd.fulfilledQty += receivedNum;
 
                 pd.remarks = remarks; //delete?
 
@@ -166,7 +217,7 @@ namespace Inventory_mvc.Controllers
 
 
             ViewBag.Supplier = supplier;
-
+            ViewBag.PONumber = PONumber;
             return View("StockReceive", model);
 
         }

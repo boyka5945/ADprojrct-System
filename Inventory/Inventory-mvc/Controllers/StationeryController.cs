@@ -21,14 +21,10 @@ namespace Inventory_mvc.Controllers
         // GET: Stationery
         public ActionResult Index(string searchString, int? page, string categoryID = "All")
         {
-            // TODO: REMOVE HARD CODED REQUESTER ID
-            //string requesterID = HttpContext.User.Identity.Name;
-            //string userID = "S1017"; // clerk
-            string userID = "S1016"; // supervisor
+            string userID = HttpContext.User.Identity.Name;
 
             // Store clerk roleID == 7
-            int roleID = userService.GetRoleByID(userID);
-            ViewBag.Role = (roleID == (int) UserRoles.RoleID.StoreClerk) ? UserRoles.STORE_CLERK : "";
+            ViewBag.RoleID = userService.GetRoleByID(userID);
 
 
             List<StationeryViewModel> stationeries = stationeryService.GetStationeriesVMBasedOnCriteria(searchString, categoryID);
@@ -282,13 +278,10 @@ namespace Inventory_mvc.Controllers
                 return RedirectToAction("Index");
             }
 
-            // TODO: REMOVE HARD CODED REQUESTER ID
-            //string requesterID = HttpContext.User.Identity.Name;
-            string userID = "S1017";
+            string userID = HttpContext.User.Identity.Name;
 
             // Store clerk roleID == 7
-            int roleID = userService.GetRoleByID(userID);
-            ViewBag.Role = (roleID == (int)UserRoles.RoleID.StoreClerk) ? UserRoles.STORE_CLERK : "";
+            ViewBag.RoleID = userService.GetRoleByID(userID);
 
 
             ViewBag.SelectYear = new SelectList(transactionService.GetSelectableTransactionYear(DateTime.Today.Year));

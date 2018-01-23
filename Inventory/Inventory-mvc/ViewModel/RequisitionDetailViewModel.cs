@@ -20,7 +20,7 @@ namespace Inventory_mvc.ViewModel
         public int RequisitionNo { get; set; }
 
         [Display(Name = "Request Date")]
-        [DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:dd/MM/yy}", ApplyFormatInEditMode = true)]
+        [DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         public DateTime RequestDate { get; set; }
 
         [Display(Name = "Request Quantity")]

@@ -2,17 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using InventoryWCF.Model;
+using Inventory_mvc.Models;
 
 namespace InventoryWCF
 {
     public class BusinessLogic
     {
-       
         public static Boolean validateUser(string userID, string password)
         {
             StationeryModel entity = new StationeryModel();
-            if (entity.User.Where(x => x.userID == userID && x.password == password).Count() > 0)
+            if (entity.Users.Where(x => x.userID == userID && x.password == password).Count() > 0)
             {
                 return true;
             }
@@ -26,9 +25,9 @@ namespace InventoryWCF
         {
             using (StationeryModel entity = new StationeryModel())
             {
-                if (entity.User.Where(x => x.userID == userID && x.password == CurrentPassword).Count() > 0)
+                if (entity.Users.Where(x => x.userID == userID && x.password == CurrentPassword).Count() > 0)
                 {
-                    InventoryWCF.Model.User updateUser = entity.User.Where(x => x.userID == userID && x.password == CurrentPassword).First();
+                    User updateUser = entity.Users.Where(x => x.userID == userID && x.password == CurrentPassword).First();
                     updateUser.password = NewPassWord;
                     entity.SaveChanges();
                     return true;
@@ -44,7 +43,7 @@ namespace InventoryWCF
         {
             StationeryModel entity = new StationeryModel();
             List<string> ItemCodes = new List<string>();
-            var groups = entity.Requisition_Details.Select(x => new
+            var groups = entity.Requisition_Detail.Select(x => new
             {
                 itemcode = x.itemCode
             }).ToList();
@@ -57,25 +56,25 @@ namespace InventoryWCF
 
         }
 
-        public static List<Requisition_Details> getRequisitionDetailsByItemCode(string itemCode)
+        public static List<Requisition_Detail> getRequisitionDetailsByItemCode(string itemCode)
         {
             StationeryModel entity = new StationeryModel();
-            return entity.Requisition_Details.Where(x => x.itemCode == itemCode).ToList();
+            return entity.Requisition_Detail.Where(x => x.itemCode == itemCode).ToList();
         }
 
-        public static Requisition_Details getRequisitionDetailsBy2Keys(string itemCode, int requisitionNo)
+        public static Requisition_Detail getRequisitionDetailsBy2Keys(string itemCode, int requisitionNo)
         {
             StationeryModel entity = new StationeryModel();
-            return entity.Requisition_Details.Where(x => x.itemCode == itemCode && x.requisitionNo == requisitionNo).First();
+            return entity.Requisition_Detail.Where(x => x.itemCode == itemCode && x.requisitionNo == requisitionNo).First();
         }
 
         public static Boolean updateRequisitionDetails(int requisitionNo, string ItemCode, int allocateQty)
         {
             using (StationeryModel entity = new StationeryModel())
             {
-                if (entity.Requisition_Details.Where(x => x.requisitionNo == requisitionNo && x.itemCode == ItemCode).Count() > 0)
+                if (entity.Requisition_Detail.Where(x => x.requisitionNo == requisitionNo && x.itemCode == ItemCode).Count() > 0)
                 {
-                    var model = entity.Requisition_Details.Where(x => x.requisitionNo == requisitionNo && x.itemCode == ItemCode).First();
+                    var model = entity.Requisition_Detail.Where(x => x.requisitionNo == requisitionNo && x.itemCode == ItemCode).First();
                     model.allocatedQty = allocateQty;
                     model.Stationery.stockQty = model.Stationery.stockQty - allocateQty;
                     entity.SaveChanges();

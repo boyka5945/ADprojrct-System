@@ -5,8 +5,6 @@
 
 @{
     ViewBag.Title = "View";
-
-    string role = ViewBag.Role;
 }
 
 
@@ -106,7 +104,7 @@
     </dl>
 </div>
 <p>
-    @if (role != UserRoles.STORE_CLERK)
+    @if (ViewBag.RoleID != (int) UserRoles.RoleID.StoreClerk)
     {
         @Html.ActionLink("Edit", "Edit", new { id = Model.ItemCode })
         @:|

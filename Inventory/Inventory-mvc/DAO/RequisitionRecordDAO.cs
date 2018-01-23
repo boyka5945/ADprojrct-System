@@ -215,6 +215,50 @@ namespace Inventory_mvc.DAO
 
         }
 
+        public List<Disbursement> GetPendingDisbursementByDept(string deptCode)
+        {
+            List<Disbursement> disbursementList = new List<Disbursement>();
+            StationeryModel entity = new StationeryModel();
+            List<Requisition_Record> list = entity.Requisition_Records.Where(x => x.deptCode == deptCode && x.status == "Approved and Processing" && x.status != "Partially fulfilled").ToList();
+            List<string> itemCodes = new List<string>();
+            List<int?> Qty = new List<int?>();
+            foreach (var item in list)
+            {
+                List<Requisition_Detail> rd = item.Requisition_Detail.Where(x => x.qty-x.fulfilledQty > 0).ToList();
+                foreach (var a in rd)
+                {
+                    if (!itemCodes.Contains(a.itemCode))
+                    {
+                        itemCodes.Add(a.itemCode);
+                    }
+                }
+            }
+            for (int i = 0; i < itemCodes.Count; i++)
+            {
+                Qty.Add((int?)0);
+            }
+            for (int i = 0; i < itemCodes.Count; i++)
+            {
+                foreach (var b in list)
+                {
+                    if ((b.Requisition_Detail.Where(x => x.itemCode == itemCodes[i]).Count()) > 0)
+                    {
+                        Qty[i] = Qty[i] + b.Requisition_Detail.Where(x => x.itemCode == itemCodes[i]).First().allocatedQty;
+                    }
+                }
+            }
+            for (int i = 0; i < itemCodes.Count; i++)
+            {
+                Disbursement disbursement = new Disbursement();
+                disbursement.itemDescription = itemCodes[i];
+                disbursement.quantity = Qty[i];
+                disbursementList.Add(disbursement);
+            }
+            return disbursementList;
+
+
+        }
+
         public bool SubmitNewRequisition(Requisition_Record requisition)
         {
             using (StationeryModel context = new StationeryModel())
