@@ -411,5 +411,10 @@ namespace Inventory_mvc.DAO
                 entity.SaveChanges();
             }
         }
+
+        public void updatestatus(int requisitionNo)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
