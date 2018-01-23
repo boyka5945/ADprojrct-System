@@ -13,24 +13,34 @@ namespace InventoryWCF
     public interface IService
     {
         [OperationContract]
+        // TODO change to post method
         [WebGet(UriTemplate = "/ValidateUser/{userid}/{password}", ResponseFormat = WebMessageFormat.Json)]
         Boolean ValidateUser(string userid, string password);
 
         [OperationContract]
-        [WebGet(UriTemplate = "/ChangePassWord/{userid}/{currentpassword}/{newpassword}", ResponseFormat = WebMessageFormat.Json)]
-        Boolean changePassWord(string userid, string currentpassword, string newpassword);
+        // TODO change to post method
+        [WebGet(UriTemplate = "/ChangePassword/{userid}/{currentpassword}/{newpassword}", ResponseFormat = WebMessageFormat.Json)]
+        Boolean ChangePassword(string userid, string currentpassword, string newpassword);
+
+        //[OperationContract]
+        //[WebGet(UriTemplate = "/All", ResponseFormat = WebMessageFormat.Json)]
+        //List<string> GetAllItemCode();
 
         [OperationContract]
-        [WebGet(UriTemplate = "/All", ResponseFormat = WebMessageFormat.Json)]
-        List<string> getAllItemCode();
+        [WebGet(UriTemplate = "/GetRequisitionByItemCode/{itemCode}", ResponseFormat = WebMessageFormat.Json)]
+        List<WCFRequisitionDetail> GetRequisitionDetailsByItemCode(string itemCode);
 
         [OperationContract]
-        [WebGet(UriTemplate = "/getRequisitionByItemCode/{itemCode}", ResponseFormat = WebMessageFormat.Json)]
-        List<RequisitionDetails> getRequisitionDetailsByItemCode(string itemCode);
+        [WebGet(UriTemplate = "/GetRequisitionDetailsBy2Keys/{itemCode}/{requisitionNo}", ResponseFormat = WebMessageFormat.Json)]
+        WCFRequisitionDetail GetRequisitionDetailsBy2Keys(string itemCode, string requisitionNO);
 
         [OperationContract]
-        [WebGet(UriTemplate = "/getRequisitionDetailsBy2Keys/{itemCode}/{requisitionNo}", ResponseFormat = WebMessageFormat.Json)]
-        RequisitionDetails getRequisitionDetailsBy2Keys(string itemCode, string requisitionNO);
+        [WebGet(UriTemplate = "/GetAllStationeries", ResponseFormat = WebMessageFormat.Json)]
+        List<WCFStationery> GetAllStationeries();
+
+        [OperationContract]
+        [WebGet(UriTemplate = "/GetStationery/{itemCode}", ResponseFormat = WebMessageFormat.Json)]
+        WCFStationery GetStationery(string itemCode);
 
         //[OperationContract]
         //Boolean updateRequisitionDetails(int requisitionNo, string ItemCode, int allocateQty);
@@ -55,7 +65,7 @@ namespace InventoryWCF
 
     // Use a data contract as illustrated in the sample below to add composite types to service operations.
     [DataContract]
-    public class Disbursement
+    public class WCFDisbursement
     {
         string stationeryDescription;
         int? qty;
@@ -82,7 +92,7 @@ namespace InventoryWCF
     }
 
     [DataContract]
-    public class RetrievalFrom
+    public class WCFRetrievalForm
     {
         string description;
         int? qty;
@@ -94,6 +104,7 @@ namespace InventoryWCF
             set { description = value; }
         }
 
+        [DataMember]
         public int? Qty
         {
             get { return qty; }
@@ -102,10 +113,13 @@ namespace InventoryWCF
     }
 
     [DataContract]
-    public class stationery
+    public class WCFStationery
     {
         string itemcode;
         string description;
+        string uom;
+        string categoryName;
+        string location;
 
         [DataMember]
         public string ItemCode
@@ -114,15 +128,38 @@ namespace InventoryWCF
             set { itemcode = value; }
         }
 
+
+        [DataMember]
         public string Description
         {
             get { return description; }
             set { description = value; }
         }
+
+        [DataMember]
+        public string UOM
+        {
+            get { return uom; }
+            set { uom = value; }
+        }
+
+        [DataMember(Name = "Category")]
+        public string CategoryName
+        {
+            get { return categoryName; }
+            set { categoryName = value; }
+        }
+
+        [DataMember]
+        public string Location
+        {
+            get { return location; }
+            set { location = value; }
+        }
     }
 
     [DataContract]
-    public class User
+    public class WCFUser
     {
         string userid;
         string password;
@@ -159,7 +196,7 @@ namespace InventoryWCF
     }
 
     [DataContract]
-    public class RequisitionRecord
+    public class WCFRequisitionRecord
     {
         int requisitionNo;
         string deptCode;
@@ -221,10 +258,11 @@ namespace InventoryWCF
     }
 
     [DataContract]
-    public class RequisitionDetails
+    public class WCFRequisitionDetail
     {
         int requisitonNo;
         string itemCode;
+        string description;
         string remarks;
         int qty;
         int fulfilledQty;
@@ -246,6 +284,14 @@ namespace InventoryWCF
             get { return itemCode; }
             set { itemCode = value; }
         }
+
+        [DataMember]
+        public string StationeryDescription
+        {
+            get { return description; }
+            set { description = value; }
+        }
+
 
         [DataMember]
         public string Remarks
