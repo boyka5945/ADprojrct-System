@@ -2,7 +2,6 @@
 
 @{
     ViewBag.Title = "Create";
-    List<string> roleList = ViewBag.RoleList;
 }
 
 <h2>Create</h2>
@@ -68,12 +67,16 @@
         <div class="form-group">
             @Html.LabelFor(model => model.role, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
+                @*@Html.DropDownListFor(model => model.role, ViewBag.RoleList as IEnumerable<SelectListItem> )*@
                 <select name="role" class="custom-select my-1 mr-sm-2">
-                    @foreach (var role in roleList)
+                    @foreach (var role in ViewBag.RoleList as List<SelectListItem>)
                     {
-                        <option value="@role"> @role </option>
+                        int value = Int32.Parse(role.Value);
+                        <option value=@value> @role.Text </option>
                     }
                 </select>
+
+                <input type="hidden" value="@Model.departmentCode" name="departmentCode"/>
 
                 @*@Html.EditorFor(model => model.Role, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Role, "", new { @class = "text-danger" })*@

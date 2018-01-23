@@ -5,6 +5,8 @@
     var delegateMessage = TempData["DelegateMessage"];
     var removeDelegateMessage = TempData["RmvDelMessage"];
     var createMessage = TempData["CreateMessage"];
+    var promoteMessage = TempData["PromoteMessage"];
+    var promoteErrorMessage = TempData["PromoteErrorMessage"];
 }
 
 <h2>SMUserList</h2>
@@ -21,12 +23,7 @@
         <th>
             @Html.DisplayNameFor(model => model.roleInfo.roleName)
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.delegationStart)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.delegationEnd)
-        </th>
+       
         <th></th>
     </tr>
 
@@ -39,15 +36,10 @@
         <td>
             @Html.DisplayFor(modelItem => item.roleInfo.roleName)
         </td>       
+       
         <td>
-            @Html.DisplayFor(modelItem => item.delegationStart)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.delegationEnd)
-        </td>
-        <td>
-            @Html.ActionLink("Delegate", "Delegate", new { id = item.userID }) |           
-            @Html.ActionLink("Remove Delegate", "Remove_Delegate", new { id = item.userID })
+            @Html.ActionLink("Promote", "Promote", new { id = item.userID })            
+            @*@Html.ActionLink("Remove Delegate", "Remove_Delegate", new { id = item.userID })*@
             
         </td>
     </tr>
@@ -74,6 +66,20 @@
         {
             <div class="alert alert-success">
                 @createMessage.ToString()
+            </div>
+        }
+
+        @if (promoteMessage != null)
+        {
+            <div class="alert alert-success">
+                @promoteMessage.ToString()
+            </div>
+        }
+
+        @if (promoteErrorMessage != null)
+        {
+            <div class="alert alert-success">
+                @promoteErrorMessage.ToString()
             </div>
         }
     </p>

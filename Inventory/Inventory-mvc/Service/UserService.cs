@@ -236,5 +236,10 @@ namespace Inventory_mvc.Service
         {
             return userDAO.FindUsersByRole(roleID);
         }
+
+        public bool Promote(string uid)
+        {
+            return userDAO.Promote(uid);
+        }
     }
 }

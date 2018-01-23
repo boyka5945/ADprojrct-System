@@ -35,8 +35,8 @@ namespace Inventory_mvc.Utilities
         {
             { "Store", new List<SelectListItem>()
                            {
-                                new SelectListItem() { Value = RoleID.StoreSupervisor.ToString(), Text = STORE_SUPERVISOR },
-                                new SelectListItem() { Value = RoleID.StoreClerk.ToString(), Text = STORE_CLERK }
+                                new SelectListItem() { Value = ((int) RoleID.StoreSupervisor).ToString(), Text = STORE_SUPERVISOR },
+                                new SelectListItem() { Value = ((int) RoleID.StoreClerk).ToString(), Text = STORE_CLERK }
                            }
             },
             { "Others", new List<SelectListItem>()
