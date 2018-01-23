@@ -61,6 +61,7 @@ namespace Inventory_mvc.Service
             rDAO.UpdateRequisitionDetails(itemcode, requisitionNo, allocateQty);
         }
 
+
         public bool SubmitNewRequisition(Requisition_Record requisition, string requesterID)
         {
             requisition.requesterID = requesterID;
@@ -215,5 +216,15 @@ namespace Inventory_mvc.Service
             return vmList;
         }
 
+        public int UpdateDetails(string itemcode, int requisitionNo, int? allocateQty, int? fulfilledQty)
+        {
+            rDAO.UpdateRequisitionDetails(itemcode, requisitionNo, allocateQty, fulfilledQty);
+            return 0;
+        }
+
+        public void updatestatus(int requisitionNo, int status)
+        {
+            //rDAO.updatestatus(requisitionNo,status);
+        }
     }
 }

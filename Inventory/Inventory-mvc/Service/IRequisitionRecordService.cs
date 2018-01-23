@@ -45,7 +45,9 @@ namespace Inventory_mvc.Service
 
         Requisition_Record IsUserAuthorizedForRequisition(int requisitionNo, string requesterID, out string errorMessage);
 
+        int UpdateDetails(string itemcode, int requisitionNo, int? allocateQty, int? fulfilledQty);
 
+        void updatestatus(int requisitionNo,int status);
 
         bool UpdateRequisitionDetails(List<RequisitionDetailViewModel> vmList, out string errorMessage);
 

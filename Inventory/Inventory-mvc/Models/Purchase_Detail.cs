@@ -23,11 +23,12 @@ namespace Inventory_mvc.Models
 
         [StringLength(100)]
         public string remarks { get; set; }
-        [Required(AllowEmptyStrings = false, ErrorMessage = "qty can not be empty.")]
+        [Required]
+        //[Required(AllowEmptyStrings = false, ErrorMessage = "qty can not be empty.")]
         public int qty { get; set; }
 
         public int? fulfilledQty { get; set; }
-        [Required(AllowEmptyStrings = false, ErrorMessage = "price can not be empty.")]
+        //[Required(AllowEmptyStrings = false, ErrorMessage = "price can not be empty.")]
         public decimal price { get; set; }
 
         public int? deliveryOrderNo { get; set; }
