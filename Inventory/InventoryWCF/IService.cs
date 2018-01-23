@@ -200,8 +200,11 @@ namespace InventoryWCF
     {
         int requisitionNo;
         string deptCode;
+        string deptName;
         string requesterID;
+        string requesterName;
         string approvingStaffID;
+        string approvingStaffName;
         DateTime? approveDate;
         string status;
         DateTime? requestDate;
@@ -220,6 +223,13 @@ namespace InventoryWCF
             set { deptCode = value; }
         }
 
+        [DataMember]
+        public string DeptName
+        {
+            get { return deptName; }
+            set { deptName = value; }
+        }
+
 
         [DataMember]
         public string RequesterID
@@ -229,11 +239,27 @@ namespace InventoryWCF
         }
 
         [DataMember]
+        public string RequesterName
+        {
+            get { return requesterName; }
+            set { requesterName = value; }
+        }
+
+
+        [DataMember]
         public string ApprovingStaffID
         {
             get { return approvingStaffID; }
             set { approvingStaffID = value; }
         }
+
+        [DataMember]
+        public string ApprovingStaffName
+        {
+            get { return approvingStaffName; }
+            set { approvingStaffName = value; }
+        }
+
 
         [DataMember]
         public DateTime? ApproveDate
@@ -263,6 +289,7 @@ namespace InventoryWCF
         int requisitonNo;
         string itemCode;
         string description;
+        string uom;
         string remarks;
         int qty;
         int fulfilledQty;
@@ -272,7 +299,7 @@ namespace InventoryWCF
         DateTime? nextCollectionDate;
 
         [DataMember]
-        public int RequisitonNo
+        public int RequisitionNo
         {
             get { return requisitonNo; }
             set { requisitonNo = value; }
@@ -292,6 +319,13 @@ namespace InventoryWCF
             set { description = value; }
         }
 
+        [DataMember]
+        public string UOM
+        {
+            get { return uom; }
+            set { uom = value; }
+        }
+
 
         [DataMember]
         public string Remarks
@@ -300,7 +334,7 @@ namespace InventoryWCF
             set { remarks = value; }
         }
 
-        [DataMember]
+        [DataMember (Name = "RequestQty")]
         public int Qty
         {
             get { return qty; }

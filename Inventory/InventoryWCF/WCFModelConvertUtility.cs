@@ -20,17 +20,19 @@ namespace InventoryWCF
 
         public static WCFRequisitionDetail ConvertToWCFRequisitionDetail(Requisition_Detail detail)
         {
+            Stationery s = stationeryService.FindStationeryByItemCode(detail.itemCode);
             WCFRequisitionDetail wcf_detail = new WCFRequisitionDetail();
-            wcf_detail.RequisitonNo = detail.requisitionNo;
-            wcf_detail.RetrievedDate = detail.retrievedDate;
+            wcf_detail.RequisitionNo = detail.requisitionNo;
             wcf_detail.ItemCode = detail.itemCode;
-            wcf_detail.NextCollectionDate = detail.nextCollectionDate;
-            wcf_detail.Qty = (detail.qty == null) ? 0 : (int) detail.qty;
-            wcf_detail.ClerkID = detail.clerkID;
-            wcf_detail.AllocateQty = (detail.allocatedQty == null) ? 0 : (int)detail.allocatedQty;
-            wcf_detail.FulfilledQty = (detail.fulfilledQty == null) ? 0 : (int)detail.fulfilledQty;
+            wcf_detail.StationeryDescription = s.description;
+            wcf_detail.UOM = s.unitOfMeasure;
             wcf_detail.Remarks = detail.remarks;
-            wcf_detail.StationeryDescription = stationeryService.FindStationeryByItemCode(detail.itemCode).description;
+            wcf_detail.Qty = (detail.qty == null) ? 0 : (int) detail.qty;
+            wcf_detail.FulfilledQty = (detail.fulfilledQty == null) ? 0 : (int)detail.fulfilledQty;
+            wcf_detail.ClerkID = detail.clerkID;
+            wcf_detail.RetrievedDate = detail.retrievedDate;
+            wcf_detail.AllocateQty = (detail.allocatedQty == null) ? 0 : (int)detail.allocatedQty;
+            wcf_detail.NextCollectionDate = detail.nextCollectionDate;
 
             return wcf_detail;
         }
