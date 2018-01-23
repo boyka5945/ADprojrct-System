@@ -224,7 +224,7 @@ namespace Inventory_mvc.Service
 
         public void updatestatus(int requisitionNo, int status)
         {
-            rDAO.updatestatus(requisitionNo,status);
+            rDAO.updatestatus(requisitionNo);
         }
     }
 }
