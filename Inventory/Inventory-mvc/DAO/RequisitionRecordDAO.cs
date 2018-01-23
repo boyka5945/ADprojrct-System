@@ -70,6 +70,17 @@ namespace Inventory_mvc.DAO
             return 0;
         }
 
+        public int UpdateRequisitionDetails(string itemcode, int requisitionNo, int? allocateQty, int? fulfilledQty)
+        {
+            StationeryModel entity = new StationeryModel();
+            Requisition_Detail rd = new Requisition_Detail();
+            rd = entity.Requisition_Detail.Where(x => x.itemCode == itemcode && x.requisitionNo == requisitionNo).First();
+            rd.allocatedQty = allocateQty;
+            rd.fulfilledQty = fulfilledQty;
+            entity.SaveChanges();
+            return 0;
+        }
+
         public Boolean DeleteRequisition(int requisitionNo)
         {
             using (StationeryModel context = new StationeryModel())
@@ -80,7 +91,7 @@ namespace Inventory_mvc.DAO
                                                  where r.requisitionNo == requisitionNo
                                                  select r).FirstOrDefault();
 
-                    context.Requisition_Detail.RemoveRange(record.Requisition_Detail);                    
+                    context.Requisition_Detail.RemoveRange(record.Requisition_Detail);
                     context.Requisition_Records.Remove(record);
                     context.SaveChanges();
 
@@ -93,7 +104,7 @@ namespace Inventory_mvc.DAO
             }
         }
 
-        public List<Requisition_Detail> GetDetailsByNO(int No=0)
+        public List<Requisition_Detail> GetDetailsByNO(int No = 0)
         {
             StationeryModel entity = new StationeryModel();
             if (No == 0)
@@ -102,17 +113,17 @@ namespace Inventory_mvc.DAO
             }
             else
             {
-                
+
                 return entity.Requisition_Records.Where(x => x.requisitionNo == No).First().Requisition_Detail.ToList();
             }
         }
 
-        public  List<string> GetDetailsByGroup()
+        public List<string> GetDetailsByGroup()
         {
             StationeryModel entity = new StationeryModel();
             List<Requisition_Detail> list = new List<Requisition_Detail>();
             List<string> list2 = new List<string>();
-          
+
             var groups = entity.Requisition_Detail.Select(x => new
             {
                 itemcode = x.itemCode
@@ -130,7 +141,7 @@ namespace Inventory_mvc.DAO
             StationeryModel entity = new StationeryModel();
             List<Requisition_Record> returnList = new List<Requisition_Record>();
             List<Requisition_Detail> list = entity.Requisition_Detail.Where(x => x.itemCode == itemCode).ToList();
-            foreach(var l in list)
+            foreach (var l in list)
             {
                 returnList.Add(FindByRequisitionNo(l.requisitionNo));
             }
@@ -154,15 +165,15 @@ namespace Inventory_mvc.DAO
         public Requisition_Detail FindDetailsBy2Key(string itemcode, int requisitionNo)
         {
             StationeryModel entity = new StationeryModel();
-            return entity.Requisition_Detail.Where(x=>x.itemCode == itemcode && x.requisitionNo == requisitionNo).First();
-            
+            return entity.Requisition_Detail.Where(x => x.itemCode == itemcode && x.requisitionNo == requisitionNo).First();
+
         }
 
         public List<Disbursement> GetRequisitionByDept(string deptCode)
         {
             List<Disbursement> disbursementList = new List<Disbursement>();
             StationeryModel entity = new StationeryModel();
-            List<Requisition_Record> list = entity.Requisition_Records.Where(x => x.deptCode == deptCode && x.status == "Approved and Processing" && x.status != "Partially fulfilled").ToList();
+            List<Requisition_Record> list = entity.Requisition_Records.Where(x => x.deptCode == deptCode && (x.status == "Approved and Processing" || x.status == "Partially fulfilled")).ToList();
             List<string> itemCodes = new List<string>();
             List<int?> Qty = new List<int?>();
             foreach (var item in list)
@@ -180,7 +191,7 @@ namespace Inventory_mvc.DAO
             {
                 Qty.Add((int?)0);
             }
-            for (int i = 0; i<itemCodes.Count; i++)
+            for (int i = 0; i < itemCodes.Count; i++)
             {
                 foreach (var b in list)
                 {
@@ -193,13 +204,15 @@ namespace Inventory_mvc.DAO
             for (int i = 0; i < itemCodes.Count; i++)
             {
                 Disbursement disbursement = new Disbursement();
-                disbursement.itemDescription = itemCodes[i];
+                disbursement.itemCode = itemCodes[i];
+                var A = itemCodes[i];
+                disbursement.itemDescription = entity.Stationeries.Where(x => x.itemCode == A).First().description;
                 disbursement.quantity = Qty[i];
                 disbursementList.Add(disbursement);
             }
             return disbursementList;
 
-                       
+
         }
 
         public bool SubmitNewRequisition(Requisition_Record requisition)
@@ -257,7 +270,7 @@ namespace Inventory_mvc.DAO
                 {
                     if ((b.Requisition_Detail.Where(x => x.itemCode == ItemCodes[i]).Count()) > 0 && (b.status == RequisitionStatus.APPROVED_PROCESSING || b.status == RequisitionStatus.PARTIALLY_FULFILLED))
                     {
-                        Qty[i] = Qty[i] + b.Requisition_Detail.Where(x => x.itemCode == ItemCodes[i]).First().allocatedQty;
+                        Qty[i] = Qty[i] + b.Requisition_Detail.Where(x => x.itemCode == ItemCodes[i]).First().qty - b.Requisition_Detail.Where(x => x.itemCode == ItemCodes[i]).First().fulfilledQty;
                     }
                 }
             }
@@ -337,6 +350,22 @@ namespace Inventory_mvc.DAO
         {
             StationeryModel entity = new StationeryModel();
             return entity.Requisition_Detail.Where(x => x.itemCode == itemCode).Count();
+        }
+
+        public void updatestatus(int requisitionNo, int status)
+        {
+            using (StationeryModel entity = new StationeryModel()){
+                var record = entity.Requisition_Records.Where(x => x.requisitionNo == requisitionNo).First();
+                if (status == 1)
+                {
+                    record.status = "Collected";
+                }
+                else if (status == 2)
+                {
+                    record.status = "Partially fulfilled";
+                }
+                entity.SaveChanges();
+            }
         }
     }
 }

@@ -25,6 +25,10 @@ namespace Inventory_mvc.DAO
 
         int UpdateRequisitionDetails(string itemcode, int requisitionNo, int? allocateQty);
 
+        int UpdateRequisitionDetails(string itemcode, int requisitionNo, int? allocateQty, int? fulfilledQty);
+
+        void updatestatus(int requisitionNo);
+
         List<Requisition_Detail> GetDetailsByNO(int No=0);
 
         int? FindUnfulfilledQtyBy2Key(string itemcode, int requisionNo);
