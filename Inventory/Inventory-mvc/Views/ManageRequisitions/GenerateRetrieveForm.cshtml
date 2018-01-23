@@ -9,6 +9,8 @@
 }
 
 <h2>@ViewBag.Message</h2>
+
+@Html.ActionLink("Allocate", "ClerkRequisition", "ManageRequisitions");
 <div>
 
     @using (Html.BeginForm())
@@ -25,7 +27,7 @@
 </div>
 @if (Model != null)
 {
-    using (Html.BeginForm(new { Action = "GetApplication" }))
+    using (Html.BeginForm("GetApplication", "ManageRequisitions", new { }, FormMethod.Post, new { @class = "form", @id = "checkForm" }))
     {
 <table class="table">
     <tr>
@@ -43,15 +45,18 @@
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => Model.ToList()[i].description)
+                <input type="hidden" name="[@i].description" value="@Model.ToList()[i].description" />
             </td>
             <td>
                 @Html.HiddenFor(modelItem => Model.ToList()[i].ItemCode)
+                <input type="hidden" name="[@i].ItemCode" value="@Model.ToList()[i].ItemCode" />
             </td>
             <td>
                 @Html.DisplayFor(modelItem => Model.ToList()[i].Qty)
+                <input type="hidden" name="[@i].Qty" value="@Model.ToList()[i].Qty" />
             </td>
             <td>
-                @Html.EditorFor(modelItem => Model.ToList()[i].retrieveQty)
+                <input type="number" name="[@i].retrieveQty" class="form-control" min="0" onchange="SaveData()" required />
             </td>  
         </tr>
     }
@@ -63,6 +68,7 @@
         </div>
     </div>
     }
+    
     <div>
             Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
             @Html.PagedListPager(Model, page => Url.Action("GenerateRetrieveForm",
@@ -83,5 +89,17 @@
             showButtonPanel: true
         });
     });
+    function SaveData() {
+        var myformdata = $("#checkForm").serializeArray(); // convert form to array
+
+        $.ajax({
+            type: "POST",
+            url: "/ManageRequisitions/KeepTempData2",
+            data: $.param(myformdata), // convert to url-encoded form
+            //success: function () {
+            //alert("success");
+            //}
+        });
+    }
 </script>
 
