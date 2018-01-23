@@ -185,6 +185,8 @@ namespace Inventory_mvc.Controllers
         [HttpGet]
         public ActionResult GeneratePO(int? page)
         {
+            string loggedInUser = HttpContext.User.Identity.Name;
+            
 
             int orderNo = findNextOrderNo();
             List<Purchase_Detail> po = details.Keys.ToList<Purchase_Detail>();
@@ -200,10 +202,10 @@ namespace Inventory_mvc.Controllers
 
                 for (int i = 0; i < suppliers.Count; i++)
                 {
-                    // TODO: REMOVE HARDCODED USERID
+               
 
                     Purchase_Order_Record p = new Purchase_Order_Record();
-                    p.clerkID = "S1017"; // HARD CODED supposed to be currently logged in guy
+                    p.clerkID = loggedInUser; 
                     p.date = DateTime.Now;
                     p.orderNo = orderNo + i;
                     p.status = "incomplete"; //the default starting status

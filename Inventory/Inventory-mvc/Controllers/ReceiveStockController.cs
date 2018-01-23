@@ -83,7 +83,8 @@ namespace Inventory_mvc.Controllers
         {
             // TODO: REMOVE HARDCODED USERID
 
-            string clerkID = "S1008"; //HARD CODED
+            string clerkID = HttpContext.User.Identity.Name;
+
             Purchase_Order_Record por = pos.FindByOrderID(Int32.Parse(PONumber));
             int pdOutstanding = por.Purchase_Detail.Count;
 
@@ -136,7 +137,10 @@ namespace Inventory_mvc.Controllers
                 if (sbutton == "Submit All")
                 {
 
-
+                    if (pd.fulfilledQty == null)
+                    {
+                        pd.fulfilledQty = 0;
+                    }
                     receivedNum = pd.qty - pd.fulfilledQty.Value;
 
                 }
