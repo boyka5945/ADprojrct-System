@@ -51,14 +51,33 @@ namespace Inventory_mvc.DAO
 
         public int UpdateUserInfo(User user)
         {
+            //using (StationeryModel context = new StationeryModel())
+            //{
+            //    User u = (from x in context.Users
+            //                    where x.userID == user.userID
+            //                    select x).FirstOrDefault();
+
+            //    //u.userID = user.userID;
+            //    //u.password = user.password;
+            //    u.address = user.address;
+            //    //u.role = user.role;
+            //    u.userEmail = user.userEmail;
+            //    u.name = user.name;
+            //    u.contactNo = user.contactNo;
+            //    //u.delegationStart = user.delegationStart;
+            //    //u.delegationEnd = user.delegationEnd;
+            //    //u.departmentCode = user.departmentCode;
+            //    int rowAffected = context.SaveChanges();
+            //    return rowAffected;
+            //}
             StationeryModel entity = new StationeryModel();
             try
             {
-                User u = (from a in entity.Users where a.userID == user.userID select a).First();
-                u.userID = user.userID;
-                u.password = user.password;
+                User u = (from a in entity.Users where a.userID == user.userID select a).FirstOrDefault();
+                //u.userID = user.userID;
+                //u.password = user.password;
                 u.address = user.address;
-                u.role = user.role;
+                //u.role = user.role;
                 u.userEmail = user.userEmail;
                 u.name = user.name;
                 u.contactNo = user.contactNo;
