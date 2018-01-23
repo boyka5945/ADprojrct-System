@@ -156,7 +156,7 @@ else
         $('.js-data-example-ajax').select2({
 
             ajax: {
-                url: '/AdjustmentVoucher/GetStationeryListJSON',
+                url: '@Url.Action("GetStationeryListJSON", "AdjustmentVoucher")',
                 delay: 250,
                 dataType: 'json',
                 //data: function (params) {
@@ -187,12 +187,12 @@ else
 
             $.ajax({
                 type: "POST",
-                url: "/AdjustmentVoucher/RemoveVoucherItem",
+                url: '@Url.Action("RemoveVoucherItem", "AdjustmentVoucher")',
                 data: $.param(myformdata), // convert to url-encoded form
                 success: function() {
-                    window.location.href = "/AdjustmentVoucher/NewVoucher?type=remove&itemCode=" + itemCode;
+                    window.location.href = '@Url.Action("NewVoucher", "AdjustmentVoucher")?type=remove&itemCode=' + itemCode;
                 }
-            });
+                    });
         });
 
         $("#addItemBtn").click(function () {
@@ -201,7 +201,7 @@ else
 
             $.ajax({
                 type: "POST",
-                url: "/AdjustmentVoucher/SaveTemporaryValue",
+                url: '@Url.Action("SaveTemporaryValue", "AdjustmentVoucher")',
                 data: $.param(myformdata), // convert to url-encoded form
                 //success: function () {
                 //    alert("success");

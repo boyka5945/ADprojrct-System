@@ -14,7 +14,7 @@ namespace Inventory_mvc.Service
 
         public int[] GetSelectableTransactionYear(int year)
         {
-            int baseYear = 2018;
+            int baseYear = 2017;
 
             List<int> years = new List<int>();
 
@@ -30,16 +30,21 @@ namespace Inventory_mvc.Service
 
         public int[] GetSelectableTransactionMonth(int month)
         {
-            int baseMonth = 1;
+            //int baseMonth = 1;
 
             List<int> months = new List<int>();
 
-            for (int i = baseMonth; i <= month; i++)
+            for(int i = 1; i<= 12; i++)
             {
                 months.Add(i);
             }
 
-            months.Reverse();
+            //for (int i = baseMonth; i <= month; i++)
+            //{
+            //    months.Add(i);
+            //}
+
+            //months.Reverse();
 
             return months.ToArray();
         }

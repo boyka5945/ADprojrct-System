@@ -51,14 +51,33 @@ namespace Inventory_mvc.DAO
 
         public int UpdateUserInfo(User user)
         {
+            //using (StationeryModel context = new StationeryModel())
+            //{
+            //    User u = (from x in context.Users
+            //                    where x.userID == user.userID
+            //                    select x).FirstOrDefault();
+
+            //    //u.userID = user.userID;
+            //    //u.password = user.password;
+            //    u.address = user.address;
+            //    //u.role = user.role;
+            //    u.userEmail = user.userEmail;
+            //    u.name = user.name;
+            //    u.contactNo = user.contactNo;
+            //    //u.delegationStart = user.delegationStart;
+            //    //u.delegationEnd = user.delegationEnd;
+            //    //u.departmentCode = user.departmentCode;
+            //    int rowAffected = context.SaveChanges();
+            //    return rowAffected;
+            //}
             StationeryModel entity = new StationeryModel();
             try
             {
-                User u = (from a in entity.Users where a.userID == user.userID select a).First();
-                u.userID = user.userID;
-                u.password = user.password;
+                User u = (from a in entity.Users where a.userID == user.userID select a).FirstOrDefault();
+                //u.userID = user.userID;
+                //u.password = user.password;
                 u.address = user.address;
-                u.role = user.role;
+                //u.role = user.role;
                 u.userEmail = user.userEmail;
                 u.name = user.name;
                 u.contactNo = user.contactNo;
@@ -195,21 +214,7 @@ namespace Inventory_mvc.DAO
             }
         }
 
-        //List<string> IUserDAO.RoleForEditAndCreate(string userID)
-        //{
-        //    StationeryModel entity = new StationeryModel();
-        //    List<string> roles;
-        //    User u = (from a in entity.Users where a.userID == userID select a).First();
-        //    //List<int> temp = (from user in entity.Users where (user.departmentCode == u.departmentCode && user.role != 2 && user.role != 8) select user.role).ToList<int>();
-        //   // List<int> roleids = (from user in entity.Users where (user.departmentCode == u.departmentCode && user.role != 2 && user.role != 8) select user).ToList<int>()
-        //    if (u.departmentCode== "STORE")
-        //    {
-        //        roles=(from role in entity.roleInfoes where (role.roleID!=1 && role.roleID!=2 && role.roleID!=3 && role.roleID!=8)
-        //    }
-
-
-        //    return roles;
-        //}
+   
 
         public bool AlrDelegated(string id)
         {
@@ -224,7 +229,7 @@ namespace Inventory_mvc.DAO
             }
         }
 
-        public string[] FindApprovingStaffsEmailByRequesterID(string requesterID)
+        public string[] FindApprovingStaffsEmailByRequesterID(string requesterID, int[] approvingRoleID)
         {
             using (StationeryModel context = new StationeryModel())
             {
@@ -232,30 +237,12 @@ namespace Inventory_mvc.DAO
                                    where u.userID == requesterID
                                    select u.departmentCode).First();
 
-                int requesterRole = (from u in context.Users
-                                        where u.userID == requesterID
-                                        select u.role).First();
+                string[] approvingStaffEmail = (from u in context.Users
+                                                where u.departmentCode == deptCode &
+                                                (approvingRoleID.Contains(u.role))
+                                                select u.userEmail).ToArray();
 
-                int[] approvingRoleID = { -1, -1 };
-
-                // Employee = 3 | UR = 4 ==> DeptHead = 2, ActingDeptHead = 8
-                // StoreClerk = 7 ==> Manager = 5 | Supervisor? = 6
-
-                if (requesterRole == (int)UserRoles.RoleID.Employee || requesterRole == (int)UserRoles.RoleID.UserRepresentative)
-                {
-                    approvingRoleID = new int[] { (int)UserRoles.RoleID.DepartmentHead, (int)UserRoles.RoleID.ActingDepartmentHead };
-                }
-                else if(requesterRole == (int)UserRoles.RoleID.StoreClerk)
-                {
-                    approvingRoleID = new int[] { (int)UserRoles.RoleID.StoreManager };
-                }
-
-                string[] deptHeadEmail = (from u in context.Users
-                                          where u.departmentCode == deptCode &
-                                          (approvingRoleID.Contains(u.role))
-                                          select u.userEmail).ToArray();
-
-                return deptHeadEmail;
+                return approvingStaffEmail;
             }
         }
 
@@ -351,6 +338,36 @@ namespace Inventory_mvc.DAO
             }
 
            
+        }
+
+        public List<User> FindUsersByRole(int roleID)
+        {
+            using (StationeryModel context = new StationeryModel())
+            {
+                return (from x in context.Users
+                        where x.role == roleID
+                        select x).ToList();
+            }
+
+        }
+
+        public bool Promote(string uid)
+        {
+            using (StationeryModel context = new StationeryModel())
+            {
+                User user = (from u in context.Users where u.userID == uid select u).First();
+                user.role = 6;
+                int rowAffected = context.SaveChanges();
+
+                if (rowAffected <= 2)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
         }
     }
 }

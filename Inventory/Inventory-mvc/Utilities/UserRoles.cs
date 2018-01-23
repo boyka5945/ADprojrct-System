@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace Inventory_mvc.Utilities
 {
@@ -29,6 +30,23 @@ namespace Inventory_mvc.Utilities
             ActingDepartmentHead
         }
 
+
+        public static Dictionary<string, List<SelectListItem>> GetCreatableRolesForDepartment = new Dictionary<string, List<SelectListItem>>()
+        {
+            { "Store", new List<SelectListItem>()
+                           {
+                                new SelectListItem() { Value = ((int) RoleID.StoreSupervisor).ToString(), Text = STORE_SUPERVISOR },
+                                new SelectListItem() { Value = ((int) RoleID.StoreClerk).ToString(), Text = STORE_CLERK }
+                           }
+            },
+            { "Others", new List<SelectListItem>()
+                           {
+                                new SelectListItem() { Value = RoleID.Employee.ToString(), Text = EMPLOYEE }
+                           }
+            }
+        };
+            
+     
         public const string SUPER_ADMIN = "superAdmin";
         public const string DEPT_HEAD = "DepartmentHead";
         public const string EMPLOYEE = "Employee";

@@ -9,7 +9,7 @@
 }
 
 <h2>Allocate requisition</h2>
-@using (Html.BeginForm(new { Action = "AllocateRequisition" }))
+@using (Html.BeginForm("AllocateRequisition", "ManageRequisitions", new { }, FormMethod.Post, new { @class = "form", @id = "checkForm" }))
 {
 <table class="table">
     <tr>
@@ -44,27 +44,34 @@
     <tr>
         <td>
             @Html.DisplayFor(modelItem => Model.ToList()[i].itemCode)
+            <input type="hidden" name="[@i].itemCode" value="@Model.ToList()[i].itemCode" />
         </td>
         <td>
             @Html.DisplayFor(modelItem => Model.ToList()[i].description)
+            <input type="hidden" name="[@i].description" value="@Model.ToList()[i].description" />
         </td>
         <td>
             @Html.DisplayFor(modelItem => Model.ToList()[i].retrievedQuantity)
+            <input type="hidden" name="[@i].retrievedQuantity" value="@Model.ToList()[i].retrievedQuantity" />
         </td>
         <td>
             @Html.DisplayFor(modelItem => Model.ToList()[i].requisitionRecord.requisitionNo)
+            <input type="hidden" name="[@i].requisitionRecord.requisitionNo" value="@Model.ToList()[i].requisitionRecord.requisitionNo" />
         </td>
         <td>
             @Html.DisplayFor(modelItem => Model.ToList()[i].requisitionRecord.Department.departmentName)
+            <input type="hidden" name="[@i].requisitionRecord.Department.departmentName" value="@Model.ToList()[i].requisitionRecord.Department.departmentName" />
         </td>
         <td>
             @Html.DisplayFor(modelItem => Model.ToList()[i].requisitionRecord.requestDate)
+            <input type="hidden" name="[@i].requisitionRecord.requestDate" value="@Model.ToList()[i].requisitionRecord.requestDate" />
         </td>
         <td>
             @Html.DisplayFor(modelItem => Model.ToList()[i].unfulfilledQty)
+            <input type="hidden" name="[@i].unfulfilledQty" value="@Model.ToList()[i].unfulfilledQty" />
         </td>
         <td>
-            @Html.EditorFor(modelItem => Model.ToList()[i].allocateQty)
+            <input type="number" name="[@i].allocateQty" value="@Model.ToList()[i].allocateQty" class="form-control" min="0" onchange="SaveData()" required />
         </td>
     </tr>
 }
@@ -74,11 +81,25 @@
 <div class="col-md-offset-2 col-md-0">
     <input type="submit" value="Allocate" class="btn btn-default" />
 </div>
+@Html.ActionLink("Disbursement", "DisbursementList", "ManageRequisitions");
 }
 Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
 
 @Html.PagedListPager(Model, page => Url.Action("ClerkRequisition",
                      new { page }))
 
+<script>
+    function SaveData()
+    {
+        var myformdata = $("#checkForm").serializeArray(); // convert form to array
 
-
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("KeepTempData", "ManageRequisitions")',
+            data: $.param(myformdata), // convert to url-encoded form
+            //success: function () {
+                //alert("success");
+            //}
+        });
+    }
+</script>

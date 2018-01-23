@@ -30,7 +30,7 @@ namespace Inventory_mvc.Service
 
         
 
-        string[] FindApprovingStaffsEmailByRequesterID(string requesterID);
+        string[] FindApprovingStaffsEmailByRequesterID(string requesterID, int[] approvingRoleID);
         int GetRoleByID(string userID);
         string FindDeptCodeByID(string userid);
 
@@ -56,5 +56,8 @@ namespace Inventory_mvc.Service
         bool isSameWithPassword(string password, string newpassword);
 
         bool changePassword(ChangePasswordViewModel vm);
+        List<User> FindUsersByRole(int roleID);
+
+        bool Promote(string uid);
     }
 }

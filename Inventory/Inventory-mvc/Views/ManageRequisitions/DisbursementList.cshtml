@@ -32,22 +32,38 @@
         <th>
             @Html.Label("Item Description")
         </th>
+        <th></th>
         <th>
             @Html.Label("Quantity")
         </th>
-        <th></th>
+        <th>
+            Actual RetrievedQty
+        </th>
+        <th>
+
+        </th>
     </tr>
-@foreach (var item in Model) {
+@for (int i = 0; i < Model.Count(); i++)
+{
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.itemDescription)
+            @Html.DisplayFor(modelItem => Model.ToList()[i].itemDescription)
+            <input type="hidden" name="[@i].itemDescription" value="@Model.ToList()[i].itemDescription" />
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.quantity)
+            @Html.HiddenFor(modelItem => Model.ToList()[i].itemCode)
+            <input type="hidden" name="[@i].itemCode" value="@Model.ToList()[i].itemCode" />
         </td>
-        @*<td>
-            @Html.ActionLink("Approve", "ApproveRequisition", new { id = item.requisitionNo });
-        </td>*@
+        <td>
+            @Html.DisplayFor(modelItem => Model.ToList()[i].quantity)
+            <input type="hidden" name="[@i].quantity" value="@Model.ToList()[i].quantity" />
+        </td>
+        <td>
+            <input type="number" id="ActualQty" class="form-control" min="0" required />
+        </td>
+        <td>
+            <input type="button" name="button" class="form-control" value="Confirm" onclick="SaveData('@Model.ToList()[i].itemCode')" />
+        </td>
     </tr>
 }
 
@@ -60,4 +76,14 @@ Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.Page
 
         @Html.Label("Representative :")
         @Html.Label((string)ViewBag.rp)
+<script>
+    function SaveData(itemCode) {
+        var myformdata = document.getElementById("ActualQty").value; // convert form to array
 
+        window.location.href = '@Url.Action("updateFulfilledQty", "ManageRequisitions")?key1=' + myformdata + "&key2=" + itemCode;
+            // convert to url-encoded form
+            //success: function () {
+            //alert("success");
+            //}
+    }
+</script>
