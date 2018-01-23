@@ -32,6 +32,8 @@ namespace Inventory_mvc.Service
 
         List<Disbursement> GetRequisitionByDept(string deptCode);
 
+        List<Disbursement> GetPendingDisbursementByDept(string deptCode);
+
         List<Requisition_Record> GetRecordsByRequesterID(string requesterID);
 
         bool ValidateRequisition(Requisition_Record requisition);

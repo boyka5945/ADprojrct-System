@@ -81,6 +81,8 @@ namespace Inventory_mvc.Controllers
         [HttpGet]
         public ActionResult UpdateReceived(string DONumber, string ReceivedDate, string PONumber, string supplier, string sbutton)
         {
+            // TODO: REMOVE HARDCODED USERID
+
             string clerkID = "S1008"; //HARD CODED
             Purchase_Order_Record por = pos.FindByOrderID(Int32.Parse(PONumber));
             int pdOutstanding = por.Purchase_Detail.Count;

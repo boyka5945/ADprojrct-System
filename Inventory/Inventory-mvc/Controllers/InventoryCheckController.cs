@@ -27,15 +27,14 @@ namespace Inventory_mvc.Controllers
         }
 
 
-        public ActionResult ShowDetails(DateTime date)
+        public ActionResult ShowDetails(DateTime? date = null)
         {
-            // TODO : FIX NULL DATE
             if (date == null)
             {
                 return RedirectToAction("Index");
             }
 
-            List<InventoryCheckViewModel> vmList = invetoryCheckService.FindInventoryStatusRecordsByDate(date);
+            List<InventoryCheckViewModel> vmList = invetoryCheckService.FindInventoryStatusRecordsByDate((DateTime) date);
 
             if(vmList.Count == 0)
             {
@@ -82,6 +81,7 @@ namespace Inventory_mvc.Controllers
         {
 
             string errorMessage = null;
+            List<string> checkedCategories;
 
             if(categorylistbox == null)
             {
@@ -90,13 +90,11 @@ namespace Inventory_mvc.Controllers
             else if(adjustmentVoucherService.GetPendingVoucherCount() != 0)
             {
                 // check whether has pending adjustment voucher
-                errorMessage = String.Format("There is {0} pending adjustment voucher(s). Please process all vouchers first before generate the list.", adjustmentVoucherService.GetPendingVoucherCount());
+                errorMessage = String.Format("There are {0} pending adjustment voucher(s). Please process all vouchers first before generate the list.", adjustmentVoucherService.GetPendingVoucherCount());
             }
-            else if(invetoryCheckService.TodayAlreadyConductedStockCheckForCategories(DateTime.Today, categorylistbox).Count != 0)
+            else if(invetoryCheckService.IsStockCheckConductedForCategoriesOnDate(DateTime.Today, categorylistbox, out checkedCategories))
             {
-                List<string> categories = invetoryCheckService.TodayAlreadyConductedStockCheckForCategories(DateTime.Today, categorylistbox);
-
-                errorMessage = String.Format("Stock check results for categories: {0} has been submitted today.", String.Join(", ", categories));
+                errorMessage = String.Format("Stock check results for categories: {0} has been submitted today.", String.Join(", ", checkedCategories));
             }
 
             if (!String.IsNullOrEmpty(errorMessage))
@@ -221,12 +219,7 @@ namespace Inventory_mvc.Controllers
             HttpContext.Application["InventoryChecklist"] = stockchecklist;
             HttpContext.Application.UnLock();
 
-
-
-            // TODO: REMOVE HARD CODED REQUESTER ID
-            //string requesterID = HttpContext.User.Identity.Name;
-            string requesterID = "S1017"; // clerk
-
+            string requesterID = HttpContext.User.Identity.Name;
 
             using (TransactionScope ts = new TransactionScope())
             {

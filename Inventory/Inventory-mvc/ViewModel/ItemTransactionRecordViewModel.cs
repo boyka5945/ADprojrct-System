@@ -9,7 +9,7 @@ namespace Inventory_mvc.ViewModel
     public class ItemTransactionRecordViewModel
     {
         [Display(Name = "Date")]
-        [DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:dd/MM/yy}", ApplyFormatInEditMode = true)]
+        [DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         public DateTime TransactionDate { get; set; }
 
         public int TransactionNo { get; set; }

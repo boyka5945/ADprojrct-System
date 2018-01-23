@@ -47,7 +47,7 @@
         @foreach(var date in dates)
         {
             <tr>
-                <td>@String.Format("{0:dd/MM/yy}", date)</td>
+                <td>@String.Format("{0:dd/MM/yyyy}", date)</td>
                 <td>
                     @Html.ActionLink("Details", "ShowDetails", new { date = date })
                 </td>

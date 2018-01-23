@@ -13,8 +13,7 @@ namespace Inventory_mvc.Service
     {
         private IUserDAO userDAO = new UserDAO();
 
-        // TODO: Solve the methods
-        List<string> IUserService.GetStoreRoles()
+        public List<string> GetStoreRoles()
         {
             List<string> roleList = userDAO.GetStoreRoles();        
             return roleList;
@@ -136,9 +135,9 @@ namespace Inventory_mvc.Service
             return userDAO.FindRole(role);
         }
 
-        public string[] FindApprovingStaffsEmailByRequesterID(string requesterID)
+        public string[] FindApprovingStaffsEmailByRequesterID(string requesterID, int[] approvingRoleID)
         {
-            return userDAO.FindApprovingStaffsEmailByRequesterID(requesterID);
+            return userDAO.FindApprovingStaffsEmailByRequesterID(requesterID, approvingRoleID);
         }
 
         public string FindDeptCodeByID(string userid)
@@ -231,6 +230,11 @@ namespace Inventory_mvc.Service
 
             //User user = ConvertFromViewModel(vm);
             //return userDAO.changePassword(user);
+        }
+
+        public List<User> FindUsersByRole(int roleID)
+        {
+            return userDAO.FindUsersByRole(roleID);
         }
     }
 }

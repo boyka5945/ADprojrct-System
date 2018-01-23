@@ -36,47 +36,55 @@
     </div>
 }
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.ActionLink("Requisition Form No.", "Index", new { sortOrder = ViewBag.NumberSortParm })            
-            </th>
-            <th>
-                @Html.ActionLink("Request Date", "Index", new { sortOrder = ViewBag.DateSortParm })
-            </th>
-            <th>
-                @Html.ActionLink("Status", "Index", new { sortOrder = ViewBag.StatusSortParm })   
-            </th>
-            <th>@Html.Label("Action")</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach(var item in Model)
-        {
+@if (Model.Count() == 0)
+{
+    <h4><i>Your requistion list is empty.</i></h4>
+}
+else
+{
+    <table class="table">
+        <thead>
             <tr>
-                <td>@Html.DisplayFor(modelItem => item.requisitionNo)</td>
-                <td>@Html.DisplayFor(modelItem => item.requestDate)</td>
-                <td>@Html.DisplayFor(modelItem => item.status)</td>
-                <td>
-                    @Html.ActionLink("Details", "ShowDetail", "ListRequisitions", new { id = item.requisitionNo }, new { }) 
-                    @if (item.status == RequisitionStatus.PENDING_APPROVAL)
-                    {
-                        @:| @Html.ActionLink("Edit", "EditRecord", "ListRequisitions", new { id = item.requisitionNo }, new { })
-                        @:| @Html.ActionLink("Remove", "RemoveRecord", "ListRequisitions", new { id = item.requisitionNo }, new { })
-                    }
-                </td>
+                <th>
+                    @Html.ActionLink("Requisition Form No.", "Index", new { sortOrder = ViewBag.NumberSortParm })
+                </th>
+                <th>
+                    @Html.ActionLink("Request Date", "Index", new { sortOrder = ViewBag.DateSortParm })
+                </th>
+                <th>
+                    @Html.ActionLink("Status", "Index", new { sortOrder = ViewBag.StatusSortParm })
+                </th>
+                <th>@Html.Label("Action")</th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => item.requisitionNo)</td>
+                    <td>@Html.DisplayFor(modelItem => item.requestDate)</td>
+                    <td>@Html.DisplayFor(modelItem => item.status)</td>
+                    <td>
+                        @Html.ActionLink("Details", "ShowDetail", "ListRequisitions", new { id = item.requisitionNo }, new { })
+                        @if (item.status == RequisitionStatus.PENDING_APPROVAL)
+                    {
+                            @:| @Html.ActionLink("Edit", "EditRecord", "ListRequisitions", new { id = item.requisitionNo }, new { })
+                            @:| @Html.ActionLink("Remove", "RemoveRecord", "ListRequisitions", new { id = item.requisitionNo }, new { })
+                    }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
 
 
-    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+    @:Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
 
     @Html.PagedListPager(Model, page => Url.Action("Index",
                 new { page, sortOrder = ViewBag.CurrentSort }))
 
+
+}
 
 
 

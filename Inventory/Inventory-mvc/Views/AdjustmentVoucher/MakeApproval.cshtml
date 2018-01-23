@@ -80,7 +80,7 @@
 
 @using (Html.BeginForm("MakeApproval", "AdjustmentVoucher",new { id = record.VoucherNo }, FormMethod.Post, new { @class = "form", id = "editForm" }))
 {
-    <textarea name="remarks" class="form-control" rows="4" cols="10" placeholder="Input remark here"></textarea>
+    <textarea name="remarks" class="form-control" rows="4" cols="10" placeholder="Write some message here..."></textarea>
     <br />
     <button type="submit" name="submitButton" value="Approve" class="btn btn-success">Approve</button>
     <button type="submit" name="submitButton" value="Reject" class="btn btn-danger">Reject</button>

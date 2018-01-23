@@ -230,15 +230,17 @@ namespace Inventory_mvc.Service
             record.status = AdjustmentVoucherStatus.REJECTED;
             record.approvalDate = DateTime.Today;
 
-            if(adjustmentVoucherDAO.UpdateAdjustmentVoucherInfo(record) != -1) // update successfully
+            try
             {
+                adjustmentVoucherDAO.UpdateAdjustmentVoucherInfo(record);
+
                 // TODO: TEST EMAIL NOTIFICATION
                 EmailNotification.EmailNotificatioForAdjustmentVoucherApprovalStatus(voucherNo, AdjustmentVoucherStatus.REJECTED, remark);
                 return true;
             }
-            else
+            catch (Exception e)
             {
-                return false; // error when writing to database
+                throw new Exception(e.Message);
             }
         }
 
@@ -254,8 +256,10 @@ namespace Inventory_mvc.Service
 
             using (TransactionScope ts = new TransactionScope())
             {
-                if (adjustmentVoucherDAO.UpdateAdjustmentVoucherInfo(voucherRecord) != -1) // update succesfully
+                try
                 {
+                    adjustmentVoucherDAO.UpdateAdjustmentVoucherInfo(voucherRecord);
+
                     // Update Stationery Quantity
                     foreach (Voucher_Detail detail in voucherRecord.Voucher_Details)
                     {
@@ -270,7 +274,7 @@ namespace Inventory_mvc.Service
                     transRecord.type = TransactionTypes.STOCK_ADJUSTMENT;
 
                     transRecord.Transaction_Details = new List<Transaction_Detail>();
-                    foreach(Voucher_Detail voucherDetail in voucherRecord.Voucher_Details)
+                    foreach (Voucher_Detail voucherDetail in voucherRecord.Voucher_Details)
                     {
                         Transaction_Detail transDetail = new Transaction_Detail();
                         transDetail.itemCode = voucherDetail.itemCode;
@@ -282,16 +286,15 @@ namespace Inventory_mvc.Service
                     }
                     // throw Exception if error occur when writing to database 
                     transactionService.AddNewTransactionRecord(transRecord);
-                    
 
                     // Email notification
                     // TODO: TEST EMAIL NOTIFICATION
                     EmailNotification.EmailNotificatioForAdjustmentVoucherApprovalStatus(voucherNo, AdjustmentVoucherStatus.APPROVED, remark);
                     result = true;
                 }
-                else
+                catch (Exception e)
                 {
-                    result = false;
+                    throw new Exception(e.Message);
                 }
 
                 ts.Complete();
