@@ -92,12 +92,11 @@ namespace Inventory_mvc.Function
 
             // TODO : WRITE EMAIL CONTENT TEMPLATE
             string content = "Some content";
-            foreach(var e in emailAddress)
+            foreach(string e in emailAddress)
             {
                 sendEmail email = new sendEmail(e, "New adjustment voucher pending approval", content);
                 //email.send();
             }
-
         }
 
 

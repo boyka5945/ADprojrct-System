@@ -285,6 +285,7 @@ namespace Inventory_mvc.Controllers
 
 
             ViewBag.SelectYear = new SelectList(transactionService.GetSelectableTransactionYear(DateTime.Today.Year));
+
             ViewBag.SelectMonth = new SelectList(transactionService.GetSelectableTransactionMonth(DateTime.Today.Month));
 
             return View(stationeryService.FindStationeryViewModelByItemCode(id));
