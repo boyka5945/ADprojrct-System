@@ -34,118 +34,94 @@
 <body>
     <h2>Shortfall List</h2>
 
-    @using (Html.BeginForm(new { Action = "AddSelected", Controller = "CheckShortfall", FormMethod.Get })) {
-    <table class="table">
-        <tr>
-            <th>
-                @*@Html.DisplayNameFor(model => model.CategoryID)*@
-                @Html.Label("Category ID")
-            </th>
-            <th>
-                @*@Html.DisplayNameFor(model => model.Description)*@
-                @Html.Label("Description")
-            </th>
-            <th>
-                @*@Html.DisplayNameFor(model => model.ReorderLevel)*@
-                @Html.Label("Reorder Level")
-            </th>
-            <th>
-                @*@Html.DisplayNameFor(model => model.ReorderQty)*@
-                @Html.Label("Reorder Qty")
-            </th>
-            <th>
-                @*@Html.DisplayNameFor(model => model.UnitOfMeasure)*@
-                @Html.Label("UoM")
-            </th>
-            <th>
-                @*@Html.DisplayNameFor(model => model.StockQty)*@
-                @Html.Label("Stock Qty")
-            </th>
-            <th>
-                @*@Html.DisplayNameFor(model => model.Location)*@
-                @Html.Label("Location")
-            </th>
-            <th>
-                @*@Html.DisplayNameFor(model => model.FirstSupplierCode)*@
-                @Html.Label("First Supplier Code")
-            </th>
-            <th>
-                @*@Html.DisplayNameFor(model => model.SecondSupplierCode)*@
-                @Html.Label("Second Supplier Code")
-            </th>
-            <th>
-                @*@Html.DisplayNameFor(model => model.ThirdSupplierCode)*@
-                @Html.Label("Third Supplier Code")
-            </th>
-            <th>
-                @*@Html.DisplayNameFor(model => model.Price)*@
-                @Html.Label("Price")
-            </th>
-
-            <th></th>
-        </tr>
-
-        @foreach (var item in Model)
-        {
+    @using (Html.BeginForm("AddSelected", "CheckShortfall", FormMethod.Get ))
+    {
+        <table class="table">
             <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CategoryID)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Description)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ReorderLevel)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ReorderQty)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.UnitOfMeasure)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.StockQty)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Location)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.FirstSupplierCode)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.SecondSupplierCode)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ThirdSupplierCode)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Price)
-                </td>
-                <td>
-                    @{
-                        int qtyToOrder;
-                        if (@item.ReorderQty < (@item.ReorderLevel - @item.ReorderQty))
-                        {
-                            qtyToOrder = @item.ReorderLevel - @item.ReorderQty;
+                <th>
 
-                        }
-                        else
-                        {
-                            qtyToOrder = @item.ReorderQty;
-                        }
-                    }
+                    @Html.Label("Item Code")
+                </th>
+                <th>
+                    @*@Html.DisplayNameFor(model => model.Description)*@
+                    @Html.Label("Description")
+                </th>
+                <th>
+                    @*@Html.DisplayNameFor(model => model.ReorderLevel)*@
+                    @Html.Label("Reorder Level")
+                </th>
+                <th>
+                    @*@Html.DisplayNameFor(model => model.ReorderQty)*@
+                    @Html.Label("Reorder Qty")
+                </th>
+                <th>
+                    @*@Html.DisplayNameFor(model => model.UnitOfMeasure)*@
+                    @Html.Label("UoM")
+                </th>
+                <th>
+                    @*@Html.DisplayNameFor(model => model.StockQty)*@
+                    @Html.Label("Stock Qty")
+                </th>
 
+                <th>
+                    @*@Html.DisplayNameFor(model => model.Price)*@
+                    @Html.Label("Price")
+                </th>
 
-                    <input type="checkbox" value="@qtyToOrder" name="@item.ItemCode" />
-                </td>
-
+                <th>@Html.Label("Suggested Qty")</th>
             </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ItemCode)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ReorderLevel)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ReorderQty)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UnitOfMeasure)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.StockQty)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Price)
+                    </td>
+                    <td>
+                        @{
+                            int suggestedQty = item.Suggested;
                         }
 
 
+                        <input type="number" value="@suggestedQty" />
+                    </td>
+                    <td>
+                 
+                        <input type="checkbox" value="@item.Suggested" name="@item.ItemCode" />
+                    </td>
+                </tr>
+                            }
 
-    </table>
-    }
+
+
+        </table>
+        <input type="submit" value="Generate PO" />
+
+                            }
+
+
+
+
     Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
 
     @Html.PagedListPager(Model, page => Url.Action("List",
@@ -154,14 +130,14 @@
 
 
 
-    <input type="submit" value="Generate PO" />
-    @Html.ActionLink("Generate PO for All Items", "AddSelected", new { checker= "addAll"}, null)
+
+    @Html.ActionLink("Generate PO for All Items", "AddSelected", new { checker = "addAll" }, null)
 
     <br />
-    <br/>
+    <br />
     <br />
     @*<input type="submit" value="Submit all for PO Generation " id="selectAll" />*@
-    
+
 
 
 </body>
