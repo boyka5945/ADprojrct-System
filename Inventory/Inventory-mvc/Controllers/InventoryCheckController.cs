@@ -219,12 +219,7 @@ namespace Inventory_mvc.Controllers
             HttpContext.Application["InventoryChecklist"] = stockchecklist;
             HttpContext.Application.UnLock();
 
-
-
-            // TODO: REMOVE HARD CODED REQUESTER ID
             string requesterID = HttpContext.User.Identity.Name;
-            //string requesterID = "S1017"; // clerk
-
 
             using (TransactionScope ts = new TransactionScope())
             {

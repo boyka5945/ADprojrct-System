@@ -18,14 +18,10 @@ namespace Inventory_mvc.Controllers
         // GET: Supplier
         public ActionResult Index()
         {
-            // TODO: REMOVE HARD CODED REQUESTER ID
             string userID = HttpContext.User.Identity.Name;
-            //string userID = "S1017"; // clerk
-            //string userID = "S1016"; // supervisor
 
             // Store clerk roleID == 7
-            int roleID = userService.GetRoleByID(userID);
-            ViewBag.Role = (roleID == (int)UserRoles.RoleID.StoreClerk) ? UserRoles.STORE_CLERK : "";
+            ViewBag.RoleID = userService.GetRoleByID(userID);
 
             return View(supplierService.GetAllSuppliers());
         }

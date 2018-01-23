@@ -14,8 +14,6 @@
     var errorMessage = TempData["ErrorMessage"];
 
     List<Inventory_mvc.Models.Category> categoryList = ViewBag.CategoryList;
-
-    string role = ViewBag.Role;
 }
 
             @*@if (editMessage != null)
@@ -97,7 +95,7 @@
     </p>
 </div>
 
-@if (role != UserRoles.STORE_CLERK)
+@if (ViewBag.RoleID != (int)UserRoles.RoleID.StoreClerk)
 {
     <p>
         @Html.ActionLink("Create New Stationery", "Create")
@@ -191,7 +189,7 @@
             <td>
                 @Html.ActionLink("View StockCard", "ViewStockCard", new { id = item.ItemCode })
 
-                @if (role != UserRoles.STORE_CLERK)
+                @if (ViewBag.RoleID != (int)UserRoles.RoleID.StoreClerk)
                 {
                     @:| @Html.ActionLink("Edit", "Edit", new { id = item.ItemCode })
                     @:| @Html.ActionLink("Delete", "Delete", new { id = item.ItemCode })

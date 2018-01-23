@@ -273,7 +273,6 @@
     <Compile Include="Utilities\TransactionTypes.cs" />
     <Compile Include="Utilities\UserRoles.cs" />
     <Compile Include="ViewModel\AdjustmentVoucherViewModel.cs" />
-    <Compile Include="ViewModel\BrowseStationeryCatalogueViewModel.cs" />
     <Compile Include="ViewModel\ChangePasswordViewModel.cs" />
     <Compile Include="ViewModel\CollectionPointViewModel.cs" />
     <Compile Include="ViewModel\Disbursement.cs" />

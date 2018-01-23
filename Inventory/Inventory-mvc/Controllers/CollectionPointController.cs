@@ -125,6 +125,7 @@ namespace Inventory_mvc.Controllers
 
         public ActionResult UpdateCollectionPoint()
         {
+            // TODO: REMOVE HARDCODED USERID
             //hardcoded value before login being implemented
             string userID = "S1000";
             DepartmentService ds = new DepartmentService();

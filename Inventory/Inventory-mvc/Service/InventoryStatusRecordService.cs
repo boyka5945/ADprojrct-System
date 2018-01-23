@@ -138,6 +138,7 @@ namespace Inventory_mvc.Service
             vm.StationeryDescription = s.description;
             vm.StockQuantity = record.onHandQty;
             vm.UOM = s.unitOfMeasure;
+            vm.StockCheckDate = record.date;
 
             return vm;
         }
