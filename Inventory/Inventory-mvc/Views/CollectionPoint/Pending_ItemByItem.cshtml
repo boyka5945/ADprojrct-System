@@ -1,0 +1,41 @@
+﻿
+@model IEnumerable<Inventory_mvc.ViewModel.Disbursement>
+
+
+@{
+
+    List<Inventory_mvc.ViewModel.Disbursement> requisitionList = (List<Inventory_mvc.ViewModel.Disbursement>)TempData["requisitionListbyitem"];
+}
+
+<div style="width:50%;text-align:center;position:relative;left:15%">
+    <table class="table table1 table-bordered" style="border:double">
+        <tr style="background-color:darkgray">
+
+            <th style="text-align:center">
+                @Html.Label("S/N")
+            </th>
+            <th style="text-align:center">
+                @Html.Label("Item Description")
+            </th>
+            <th style="text-align:center">
+                @Html.Label("Quantity")
+            </th>
+
+        </tr>
+        @foreach (var item in requisitionList)
+        {
+            <tr>
+
+                <td></td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.itemDescription)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.quantity)
+                </td>
+
+            </tr>
+        }
+
+    </table>
+</div>

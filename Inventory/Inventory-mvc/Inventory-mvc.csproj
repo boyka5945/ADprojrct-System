@@ -449,6 +449,10 @@
     <Content Include="Views\InventoryCheck\Index.cshtml" />
     <Content Include="Views\InventoryCheck\ShowDetails.cshtml" />
     <Content Include="Views\User\ChangePassword.cshtml" />
+    <Content Include="Views\CollectionPoint\Collect_ItemByRequest.cshtml" />
+    <Content Include="Views\CollectionPoint\Collect_ItemByItem.cshtml" />
+    <Content Include="Views\CollectionPoint\Pending_ItemByItem.cshtml" />
+    <Content Include="Views\CollectionPoint\Pending_ItemByRequest.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

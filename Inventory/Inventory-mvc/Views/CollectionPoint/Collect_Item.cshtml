@@ -1,109 +1,178 @@
 ﻿@*@model IEnumerable<Inventory_mvc.ViewModel.Disbursement>*@
 @model PagedList.IPagedList<Inventory_mvc.ViewModel.Disbursement>
+
+
 @using PagedList.Mvc;
 <link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+
 
 @{
     ViewBag.Title = "View";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    List<Inventory_mvc.Models.Requisition_Detail> requisitionList = (List<Inventory_mvc.Models.Requisition_Detail>)TempData["requisitionListbyrequest"];
 }
 <style>
- body
-{
-       
-}
-table
-{
-    border-collapse: separate;
-    counter-reset: Count-Value;  
-}
+    body {
+    }
 
-tr td:first-child:before
-{
-  counter-increment: Count-Value;
-  content: counter(Count-Value);
-}
+    table {
+        border-collapse: separate;
+        counter-reset: Count-Value;
+    }
 
- tab1 { padding-left: 1em; }
-    tab2 { padding-left: 2em; }
-    tab3 { padding-left: 3em; }
+    tr td:first-child:before {
+        counter-increment: Count-Value;
+        content: counter(Count-Value);
+    }
+
+    tab1 {
+        padding-left: 1em;
+    }
+
+    tab2 {
+        padding-left: 2em;
+    }
+
+    tab3 {
+        padding-left: 3em;
+    }
 </style>
 <h2 class="text-info" style="position:relative;text-align:left;left:15%;font-family:'Bookman Old Style'">Item Ready For Collection</h2>
 <div class="container" style="text-align:left;position:relative;left:15%;padding:10px">
-    
+
     @using (Html.BeginForm())
     {<div>
 
         @Html.Label("DepartmentName:")
         @Html.Label((string)ViewBag.deptName)
     </div>
-         <div style="width:50%">
-             @Html.Label("CollectionPoint: ")
+    <div style="width:50%">
+        @Html.Label("CollectionPoint: ")
 
-             @Html.Label((string)ViewBag.Point)
-         </div>
-             <div style="width:50%">
-                 @Html.Label("Representative: ")
+        @Html.Label((string)ViewBag.Point)
+    </div>
+    <div style="width:50%">
+        @Html.Label("Representative: ")
 
-                 @Html.Label((string)ViewBag.rp)
+        @Html.Label((string)ViewBag.rp)
 
-             </div>
+    </div>
     }
 </div>
-@{ 
+@{
     List<SelectListItem> list = new List<SelectListItem>();
 
-    var data = new []
+    var data = new[]
         {
-           new SelectListItem {Value = "1",Text= "List by Items" },
+           new SelectListItem {Value = "1",Text= "List by Items"},
         new SelectListItem {Value  = "2",Text =  "List by Request"}
     };
     list = data.ToList();
 
 }
-<div class="container" style="text-align:right;position:relative;right:37%">
-  @Html.Label("View by: ")  @Html.DropDownList("ddl", new SelectList(list,"Value","Text"), new { onchange = "form.submit();" })
-</div>
+@using (Html.BeginForm("Collect_Item", "CollectionPoint", FormMethod.Get))
+{
+    <div class="container" style="text-align:right;position:relative;right:37%">
+        @Html.Label("View by: ")
 
-<div style="width:50%;text-align:center;position:relative;left:15%">
-    <table class="table table1 table-bordered" style="border:double">
-        <tr style="background-color:darkgray">
+        @*@Html.DropDownList("ddl", new SelectList(list, "Value", "Text"), new { @onchange = "SelectedIndexChanged()", @id = "ddl1" })*@
+        <select name="ddl" id="ddl1" onchange="SelectedIndexChanged()">
+            @foreach (var i in new SelectList(list, "Value", "Text"))
+            {
+                <option value="@i.Value" selected>@i.Text</option>
+            }
 
-            <th style="text-align:center">
-                @Html.Label("S/N")
-            </th>
-            <th style="text-align:center">
-                @Html.Label("Item Description")
-            </th>
-            <th style="text-align:center">
-                @Html.Label("Quantity")
-            </th>
-            
-        </tr>
-        @foreach (var item in Model)
-  {
-            <tr>
-
-                <td>
+        </select>
+    </div>
 
 
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.itemDescription)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.quantity)
-                </td>
-                @*<td>
-                        @Html.ActionLink("Approve", "ApproveRequisition", new { id = item.requisitionNo });
-                    </td>*@
-            </tr>
+    <div id="partialPlaceHolder" style="display:none;">
+        
+    </div>
+
+    <script>
+
+    function SelectedIndexChanged() {
+
+      var selectedID = ($('#ddl1 option:selected').val());
+      //alert(selectedID);
+      $.get('/CollectionPoint/Collect_Item2/' + selectedID, function (data) {
+
+          /* data is the pure html returned from action method, load it to your page */
+          $('#partialPlaceHolder').html(data);
+          /* little fade in effect */
+          $('#partialPlaceHolder').fadeIn('fast');
+      });
+
+    };
+    </script>
+
+    @*if (Session["status"] != null)
+    {
+        if (Session["status"].ToString() == "1")
+        {
+            <div id="partialDiv">
+                @Html.Partial("Collect_ItemByItem")
+            </div>
+
         }
 
-    </table>
-</div>
-<div style="position:relative;left:25%">
-    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
-    @Html.PagedListPager(Model, page => Url.Action("ViewItemCollection",
-                     new { page }))
-</div>
+        else if (Session["status"].ToString() == "2")
+        {
+            <div id = "partialDiv1" >
+            @Html.Partial("Collect_ItemByRequest")
+            </div>
+        }
+    }*@
+
+}
+@*<script>*@
+
+@*$(document).ready(function () {
+            $("#form").on("change", function () {
+                $.ajax(
+                {
+                    url: '/CollectionPoint/Collect_Item',
+                    type: 'GET',
+                    data: "",
+                    contentType: 'application/json; charset=utf-8',
+                    success: function (data) {
+                        $("#partialDiv").html(data);
+                    },
+                    error: function () {
+                        alert("error");
+                    }
+                });
+            });
+        });
+    </script>*@
+
+
+
+
+
+    @*$(document).ready(function () {
+        $('#RES_VID').change(function (){
+
+            debugger;
+
+            $.ajax(
+
+                {
+                    url: '@Url.Action("UpdatePartialViewList")',
+                    type: 'GET',
+                    data: { VID: $('#RES_VID').val() },
+
+                    success: function (partialView)
+                    {
+                        $('#PV_WidgetList').html(partialView);
+                        $('#PV_WidgetList').show();
+                    }
+                }
+                );
+        }
+        });
+</script>*@
+
+
