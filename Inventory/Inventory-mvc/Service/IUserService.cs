@@ -57,5 +57,7 @@ namespace Inventory_mvc.Service
 
         bool changePassword(ChangePasswordViewModel vm);
         List<User> FindUsersByRole(int roleID);
+
+        bool Promote(string uid);
     }
 }

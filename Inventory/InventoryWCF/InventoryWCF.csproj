@@ -90,6 +90,7 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="Properties\PublishProfiles\AD_Inventory_WCF.pubxml" />
+    <None Include="Properties\PublishProfiles\test.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
