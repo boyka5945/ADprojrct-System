@@ -2,6 +2,10 @@
 
 @{
     ViewBag.Title = "StockReceive";
+    var errorMessage = TempData["searchError"];
+    var fulfilledItemError = TempData["icodesFilled"];
+    List<string> fulfilledItemList = (List<string>)fulfilledItemError;
+
 }
 
 <!doctype html>
@@ -24,7 +28,17 @@
 <body>
 
     <h2>StockReceive</h2>
-    
+    <div>
+        @if (fulfilledItemError != null)
+        {
+            <p style="color: red;">The following items have already been fulfilled. </p>
+            foreach (string s in fulfilledItemList)
+            {
+                <p style="color: red;">@s</p>
+            }
+
+        }
+    </div>
             @using (Html.BeginForm("StockReceive", "ReceiveStock", FormMethod.Post))
             {
 
@@ -34,9 +48,14 @@
                             @Html.Label("PO Number", htmlAttributes: new { @class = "control-label" })
                             </div>
                             <div class="col-md-10">
-                                @Html.TextBox("searchPONumber", ViewBag.PONumber as string)
-                                <input type="submit" value="Search" class="btn btn-info" style=" margin-left:10px;" onclick="ponumValidate()"  />
-                                <p id="ponumValidation" style="display: none"></p>
+                                <input type="text" value="@ViewBag.PONumber" name="searchPONumber" required/>
+                                @*@Html.TextBox("searchPONumber", ViewBag.PONumber as string)*@
+                                <input type="submit" value="Search" class="btn btn-info" style=" margin-left:10px;" />
+                                @*@if (errorMessage != null)
+                                {
+                                    <p id="ponumValidation">@errorMessage</p>
+
+                                }*@
                             </div>
                         </div>
 
@@ -61,7 +80,8 @@
                                     @Html.Label("DO Number", htmlAttributes: new { @class = "control-label" })
                                     </div>
                                     <div class="col-md-10">
-                                        @Html.TextBox("DONumber")
+                                        <input type="number" name="DONumber" value="@ViewBag.DOnumber" required />
+                                        @*@Html.TextBox("DONumber")*@
                                     </div>
                                 </div>
 
@@ -71,7 +91,7 @@
                                     </div>
                                     @*@Html.TextBox("ReceivedDate")*@
                                     <div class="col-md-10">
-                                        <input type="text" id="datepicker" name="ReceivedDate">
+                                        <input type="text" id="datepicker" name="ReceivedDate" value="@ViewBag.ReceivedDate" required />
                                     </div>
                                 </div>
 
@@ -165,6 +185,10 @@
                             </div>
                             }
 
+    <br />
+    <br />
+    <br />
+    <br />
 </body>
 
 
@@ -174,17 +198,29 @@
 
 <script>
 
-    function ponumValidate() {
-        
-        var field = $("#searchPONumber");
-        if (field.length == 0) {
-            alert("clicked");
-            $("#ponumValidation").css("display", "inline");
-            $("#ponumValidation").text("Required");
+    //function ponumValidate() {
+     
+    //    var field = $("#searchPONumber").val();
+    //    if (field == "") {
             
-        }
+    //        $("#ponumValidation").css("display", "inline");
+    //        $("#ponumValidation").css("color", "red");
+    //        $("#ponumValidation").text("Required");
+
+    //        $('#searchBtn').submit(function (event) {
+    //            event.preventDefault();
+    //        });
+            
+    //        return false;
+           
+    //    }
+    //    return true;
     
-    }
+    //}
+
+    //function returnToPreviousPage() {
+    //    window.history.back();
+    //}
 
 
 
