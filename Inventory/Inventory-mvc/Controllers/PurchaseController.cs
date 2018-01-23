@@ -294,6 +294,9 @@ namespace Inventory_mvc.Controllers
         [HttpPost]
         public ActionResult UpdatePD()
         {
+            int qty = Int32.Parse(Request.Params.Get("dqty"));
+            decimal price = Decimal.Parse(Request.Params.Get("dprice"));
+
             Dictionary<Purchase_Detail, string> details = (Dictionary<Purchase_Detail, string>)Session["detailsBundle"];
             List<Purchase_Detail> model = details.Keys.ToList<Purchase_Detail>();
             ViewBag.itemCodeList = ss.GetAllItemCodes();
@@ -301,8 +304,8 @@ namespace Inventory_mvc.Controllers
             string itemCode = Request.Params.Get("ditemCode");
             var index = model.FindIndex(c => c.itemCode == itemCode);
 
-            model[index].qty = Int32.Parse(Request.Params.Get("dqty"));
-            model[index].price = Int32.Parse(Request.Params.Get("dprice"));
+            model[index].qty = qty;
+            model[index].price = price;
 
 
             string supplier = details[model[index]];

@@ -341,13 +341,13 @@
                 <p>Item Code</p>
                 <input type="text" name="ditemCode" />
                 <p>Price</p>
-                <input type="text" name="dprice" />
+                <input type="number" name="dprice" min="0.01" required />
                 <p>Quantity</p>
-                <input type="text" name="dqty" />
+                <input type="number" name="dqty" min="1" required />
                 <p>Remarks</p>
                 <input type="text" name="dremarks" />
                 <br />
-                <input type="submit" value="Update" />
+                <input type="submit" value="Update" id="modalSubmit" onclick="modalSubmitButtonClick" />
                 <br />
                 <span class="close" onclick="close">&times;</span>
             }
@@ -380,20 +380,19 @@
 
         var descriptiontbox = document.getElementById('defaultPrice');
 
+        //var modalSubmitButton = document.getElementById('modalSubmit');
 
+        var modalPrice = document.getElementById('dprice');
 
-
+        var modalQty = document.getElementById('dqty');
 
         $('button').click(function () {
-
-
 
             modal.style.display = "block";
             $("[name='ditemCode']").val($(this).attr('name'));
             //change this to refer to already exisint value
             $("[name='dprice']").val();
             $("[name='dqty']").val();
-
 
         });
 
@@ -417,8 +416,6 @@
         function close() {
             modal.style.display = "none";
         }
-
-
 
         // When the user clicks on <span> (x), close the modal
         span.onclick = function () {
@@ -444,9 +441,21 @@
             var ddlist = $("#ddlist").val();
             var destination = "GetDescrpAndPrice?itemcode=" + ddlist;
             window.location.href = "http:" + destination;
-          
 
         }
+
+        //function modalSubmitButtonClick () {
+        //    alert("clicked");
+
+        //    var modalPriceF = parseFloat(modalPrice.val());
+        //    if (modalPriceF <= 0) {
+        //        alert("activated");
+        //        return false;
+        //    }
+        //    else {
+        //        alert("passed");
+        //    }
+        //}
 
     </script>
 
