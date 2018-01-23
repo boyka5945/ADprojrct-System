@@ -7,7 +7,7 @@ namespace Inventory_mvc.Models
     using System.Data.Entity.Spatial;
 
     [Table("Requisition Record")]
-    public partial class Requisition_Record
+    public partial class Requisition_Record : IComparable
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Requisition_Record()
@@ -48,5 +48,12 @@ namespace Inventory_mvc.Models
         public virtual User User { get; set; }
 
         public virtual User User1 { get; set; }
+
+        public int CompareTo(Object obj)
+        {
+            var rr = (Requisition_Record)obj;
+            
+            return requestDate.Value.CompareTo(rr.requestDate);
+        }
     }
 }

@@ -22,6 +22,8 @@ namespace Inventory_mvc.Controllers
 
         Dictionary<Purchase_Detail, string> details = new Dictionary<Purchase_Detail, string>();
 
+
+
         public ActionResult Index()
         {
             return View();
@@ -30,9 +32,9 @@ namespace Inventory_mvc.Controllers
         [HttpGet]
         public ActionResult List(int? page)
         {
-            List<StationeryViewModel> items = stationeryService.GetAllStationeryViewModel();
-            List<StationeryViewModel> model = items.Where(x => x.StockQty < x.ReorderLevel).ToList();
+            //condition for finding items to reorder
 
+            List<StationeryViewModel> model = shortFallList();
 
             int pageSize = 20;
             int pageNumber = (page ?? 1);
@@ -45,11 +47,19 @@ namespace Inventory_mvc.Controllers
 
             List<string> itemCodes = new List<string>();
             List<Purchase_Detail> model = new List<Purchase_Detail>();
+            Dictionary<string, string> kv = new Dictionary<string, string>(); //kv pair of itemcode and sggestedqty
+            List<StationeryViewModel> modelAll = new List<StationeryViewModel>(); // used if generate all is chosen
 
             if (checker == "addAll") //add all
             {
-                itemCodes = stationeryService.GetAllStationeryViewModel().Select(x => x.ItemCode).ToList();
+                List<StationeryViewModel> items = stationeryService.GetAllStationeryViewModel();
+                List<StationeryViewModel> itemsToReorder = items.Where(x => x.StockQty < x.ReorderLevel).ToList();
+                foreach(StationeryViewModel svm in itemsToReorder)
+                {
+                    itemCodes.Add(svm.ItemCode);
+                }
 
+                modelAll = shortFallList();
 
             }
 
@@ -57,32 +67,42 @@ namespace Inventory_mvc.Controllers
             {
                 //list of itemCodes to be reordered
                 itemCodes = Request.QueryString.AllKeys.ToList();
+                
+                foreach (string s in itemCodes) {
+
+                    string v = Request.QueryString.GetValues(s).First();
+                    kv.Add(s, v);
+
+                        }
+                
             }
             
-            //might need to remove
-            if (Session["detailsBundle"] != null)
-            {
-                details = (Dictionary<Purchase_Detail, string>)Session["detailsBundle"];
-                model = details.Keys.ToList<Purchase_Detail>();
+            ////might need to remove
+            //if (Session["detailsBundle"] != null)
+            //{
+            //    details = (Dictionary<Purchase_Detail, string>)Session["detailsBundle"];
+            //    model = details.Keys.ToList<Purchase_Detail>();
 
-            }
+            //}
 
             foreach (string i in itemCodes)
             {
                 //takes the price of the first/default supplier
                 Stationery s = ctx.Stationeries.Where(x => x.itemCode == i).First();
                 decimal price = s.price;
+                int qtyToReorder;
+
                 //find qty to reorder
-                int qtyToReorder = 0;
-                if(s.reorderQty < (s.reorderLevel - s.reorderQty))
+                if (checker == "addAll")
                 {
-                    qtyToReorder = s.reorderLevel - s.reorderQty;
+                    StationeryViewModel svm = modelAll.Where(x => x.ItemCode == i).First();
+                    qtyToReorder = svm.Suggested;
+
                 }
                 else
                 {
-                    qtyToReorder = s.reorderQty;
+                    qtyToReorder = Int32.Parse(kv[i]);
                 }
-
                 Purchase_Detail pd = new Purchase_Detail();
                 pd.orderNo = findNextOrderNo();
                 pd.itemCode = i;
@@ -105,7 +125,11 @@ namespace Inventory_mvc.Controllers
             int orderNo = findNextOrderNo();
             ViewBag.orderNo = orderNo;
 
-            return View("~/Views/Purchase/RaisePurchaseOrder.cshtml", model);
+            ViewBag.itemCodeList = stationeryService.GetAllItemCodes();
+            //return View("~/Views/Purchase/RaisePurchaseOrder.cshtml", model);
+ 
+
+            return RedirectToAction("RaisePurchaseOrder", "Purchase", model);
         }
 
 
@@ -131,6 +155,50 @@ namespace Inventory_mvc.Controllers
                 return maxOrderNo + 1;
             }
 
+        }
+
+        //very important helper method
+        public List<StationeryViewModel> shortFallList()
+        {
+            //condition for finding items to reorder
+            List<StationeryViewModel> items = stationeryService.GetAllStationeryViewModel();
+            List<StationeryViewModel> model = items.Where(x => x.StockQty < x.ReorderLevel).ToList(); //TO DO: USE THE SERVICE METHOD 
+
+            //calculating the suggested qty to order per item
+            foreach (StationeryViewModel s in model)
+            {
+                //suggsted = requested qty(from user) still outstanding + reorder level - qty alrdy ordered
+                string itemCode = s.ItemCode;
+                int requestQty = 0;
+                int purchasedAndPendingQty = 0;
+                int suggested;
+                List<Requisition_Detail> userRequests = ctx.Requisition_Detail.Where(x => x.itemCode == itemCode && x.qty.Value > (x.fulfilledQty ?? 0)).ToList();
+
+                foreach (Requisition_Detail rd in userRequests)
+                {
+                    requestQty += (rd.qty.Value - (rd.fulfilledQty ?? 0));
+                }
+
+                int diffBetweenQtyAndMin = s.ReorderLevel - s.StockQty;
+
+
+
+                List<Purchase_Detail> existingPurchases = ctx.Purchase_Detail.Where(x => x.itemCode == itemCode && x.qty > (x.fulfilledQty ?? 0)).ToList();
+
+
+                foreach (Purchase_Detail pd in existingPurchases)
+                {
+                    purchasedAndPendingQty += (pd.qty - pd.fulfilledQty ?? 0);
+                }
+
+                suggested = requestQty + (s.ReorderLevel - s.StockQty) - purchasedAndPendingQty;
+
+                s.Suggested = suggested;
+
+
+
+            }
+            return model;
         }
     }
 }
