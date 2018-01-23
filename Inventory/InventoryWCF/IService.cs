@@ -32,6 +32,14 @@ namespace InventoryWCF
         [WebGet(UriTemplate = "/getRequisitionDetailsBy2Keys/{itemCode}/{requisitionNo}", ResponseFormat = WebMessageFormat.Json)]
         RequisitionDetails getRequisitionDetailsBy2Keys(string itemCode, string requisitionNO);
 
+        [OperationContract]
+        [WebGet(UriTemplate = "/GetAllStationeries", ResponseFormat = WebMessageFormat.Json)]
+        List<Stationery> GetAllStationeries();
+
+        [OperationContract]
+        [WebGet(UriTemplate = "/GetStationery/{itemCode}", ResponseFormat = WebMessageFormat.Json)]
+        Stationery GetStationery(string itemCode);
+
         //[OperationContract]
         //Boolean updateRequisitionDetails(int requisitionNo, string ItemCode, int allocateQty);
 
@@ -94,6 +102,7 @@ namespace InventoryWCF
             set { description = value; }
         }
 
+        [DataMember]
         public int? Qty
         {
             get { return qty; }
@@ -102,10 +111,13 @@ namespace InventoryWCF
     }
 
     [DataContract]
-    public class stationery
+    public class Stationery
     {
         string itemcode;
         string description;
+        string uom;
+        string category;
+        string location;
 
         [DataMember]
         public string ItemCode
@@ -114,10 +126,33 @@ namespace InventoryWCF
             set { itemcode = value; }
         }
 
+
+        [DataMember]
         public string Description
         {
             get { return description; }
             set { description = value; }
+        }
+
+        [DataMember]
+        public string UOM
+        {
+            get { return uom; }
+            set { uom = value; }
+        }
+
+        [DataMember]
+        public string Category
+        {
+            get { return category; }
+            set { category = value; }
+        }
+
+        [DataMember]
+        public string Location
+        {
+            get { return location; }
+            set { location = value; }
         }
     }
 
@@ -225,6 +260,7 @@ namespace InventoryWCF
     {
         int requisitonNo;
         string itemCode;
+        string description;
         string remarks;
         int qty;
         int fulfilledQty;
@@ -246,6 +282,14 @@ namespace InventoryWCF
             get { return itemCode; }
             set { itemCode = value; }
         }
+
+        [DataMember]
+        public string Description
+        {
+            get { return description; }
+            set { description = value; }
+        }
+
 
         [DataMember]
         public string Remarks

@@ -5,6 +5,8 @@ using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.ServiceModel.Web;
 using System.Text;
+using Inventory_mvc.Service;
+
 
 
 namespace InventoryWCF
@@ -69,6 +71,16 @@ namespace InventoryWCF
             r.Remarks = rr.remarks;
 
             return r;
+        }
+
+        public List<Stationery> GetAllStationeries()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Stationery GetStationery(string itemCode)
+        {
+            throw new NotImplementedException();
         }
 
         //public Boolean updateRequisitionDetails(int requisitionNo, string ItemCode, int allocateQty)

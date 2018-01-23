@@ -11,7 +11,6 @@ namespace Inventory_mvc.Function
     {
         // Employee = 3 | UR = 4 ==> DeptHead = 2, ActingDeptHead = 8
         // StoreClerk = 7 ==> Manager = 5 
-
         private static Dictionary<int, int[]> RequisitionApprovingStaffsRoleID = new Dictionary<int, int[]>()
         {
             { (int) UserRoles.RoleID.Employee, new int[] { (int) UserRoles.RoleID.DepartmentHead, (int) UserRoles.RoleID.ActingDepartmentHead} },
@@ -169,7 +168,5 @@ namespace Inventory_mvc.Function
                 //email.send();
             }
         }
-
-
     }
 }
