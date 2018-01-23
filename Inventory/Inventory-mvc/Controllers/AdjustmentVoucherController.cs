@@ -21,11 +21,7 @@ namespace Inventory_mvc.Controllers
         // GET: AdjustmentVoucherRecord
         public ActionResult Index(string status, int? page, string sortOrder)
         {
-            // TODO: REMOVE HARD CODED APPROVER ID
-            //string approverID = HttpContext.User.Identity.Name;
-            string approverID = "S1016"; // supervisor
-            //string approverID = "S1015"; // store manager
-
+            string approverID = HttpContext.User.Identity.Name;
 
             // Set Filter criteria
             status = (String.IsNullOrEmpty(status)) ? AdjustmentVoucherStatus.PENDING : status;
@@ -153,9 +149,7 @@ namespace Inventory_mvc.Controllers
         [HttpPost]
         public ActionResult SubmitVoucher(List<AdjustmentVoucherViewModel> vmList)
         {
-            // TODO: REMOVE HARD CODED REQUESTER ID
-            //string requesterID = HttpContext.User.Identity.Name;
-            string requesterID = "S1017"; // clerk
+            string requesterID = HttpContext.User.Identity.Name;
             string errorMessage;
 
             if (adjustmentVoucherService.ValidateNewAdjustmentVoucher(vmList, out errorMessage))
@@ -218,10 +212,7 @@ namespace Inventory_mvc.Controllers
             }
 
 
-            // TODO: REMOVE HARD CODED APPROVER ID
-            //string approverID = HttpContext.User.Identity.Name;
-            string approverID = "S1016"; // supervisor
-            //string approverID = "S1015"; // store manager
+            string approverID = HttpContext.User.Identity.Name;
 
             string errorMessage;
             List<AdjustmentVoucherViewModel> vmList = adjustmentVoucherService.IsUserAuthorizedToViewVoucherDetail(voucherNo, approverID, out errorMessage);
@@ -245,10 +236,7 @@ namespace Inventory_mvc.Controllers
                 return RedirectToAction("Index");
             }
 
-            // TODO: REMOVE HARD CODED APPROVER ID
-            //string approverID = HttpContext.User.Identity.Name;
-            string approverID = "S1016"; // supervisor
-            //string approverID = "S1015"; // store manager
+            string approverID = HttpContext.User.Identity.Name;
 
             string errorMessage;
             List<AdjustmentVoucherViewModel> vmList = adjustmentVoucherService.IsUserAuthorizedToViewVoucherDetail(voucherNo, approverID, out errorMessage);
@@ -275,10 +263,7 @@ namespace Inventory_mvc.Controllers
         {
             string errorMessage = null;
 
-            // TODO: REMOVE HARD CODED APPROVER ID
-            //string approverID = HttpContext.User.Identity.Name;
-            string approverID = "S1016"; // supervisor
-            //string approverID = "S1015"; // store manager
+            string approverID = HttpContext.User.Identity.Name;
 
             switch (submitButton)
             {
@@ -288,10 +273,7 @@ namespace Inventory_mvc.Controllers
                         try
                         {
                             // valid voucher
-                            if (!adjustmentVoucherService.ApproveVoucherRecord(id, approverID, remark))
-                            {
-                                errorMessage = String.Format("Error occur while updating voucher detail. Please try again later.");
-                            }
+                            adjustmentVoucherService.ApproveVoucherRecord(id, approverID, remark);
                         }
                         catch (Exception e) // catch exception from ApproveVoucherRecord method
                         {
@@ -301,9 +283,13 @@ namespace Inventory_mvc.Controllers
                     break;
 
                 case "Reject":
-                    if (!adjustmentVoucherService.RejectVoucherRecord(id, approverID, remark))
+                    try
                     {
-                        errorMessage = String.Format("Error occur while updating voucher detail. Please try again later");
+                        adjustmentVoucherService.RejectVoucherRecord(id, approverID, remark);
+                    }
+                    catch(Exception e)
+                    {
+                        errorMessage = String.Format("Error occur while updating voucher detail. Please try again later. ({0})", e.Message);
                     }
                     break;
 

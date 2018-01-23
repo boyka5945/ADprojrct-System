@@ -229,6 +229,8 @@ namespace Inventory_mvc.Controllers
         [HttpGet]
         public ActionResult GeneratePO(int? page)
         {
+            string loggedInUser = HttpContext.User.Identity.Name;
+            
 
             int orderNo = findNextOrderNo();
             List<Purchase_Detail> po = details.Keys.ToList<Purchase_Detail>();
@@ -244,8 +246,10 @@ namespace Inventory_mvc.Controllers
 
                 for (int i = 0; i < suppliers.Count; i++)
                 {
+               
+
                     Purchase_Order_Record p = new Purchase_Order_Record();
-                    p.clerkID = "S1017"; // HARD CODED supposed to be currently logged in guy
+                    p.clerkID = loggedInUser; 
                     p.date = DateTime.Now;
                     p.orderNo = orderNo + i;
                     p.status = "incomplete"; //the default starting status
@@ -341,6 +345,9 @@ namespace Inventory_mvc.Controllers
         [HttpPost]
         public ActionResult UpdatePD()
         {
+            int qty = Int32.Parse(Request.Params.Get("dqty"));
+            decimal price = Decimal.Parse(Request.Params.Get("dprice"));
+
             Dictionary<Purchase_Detail, string> details = (Dictionary<Purchase_Detail, string>)Session["detailsBundle"];
             List<Purchase_Detail> model = details.Keys.ToList<Purchase_Detail>();
             ViewBag.itemCodeList = ss.GetAllItemCodes();

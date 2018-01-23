@@ -138,28 +138,28 @@ namespace Inventory_mvc.Service
             vm.StationeryDescription = s.description;
             vm.StockQuantity = record.onHandQty;
             vm.UOM = s.unitOfMeasure;
+            vm.StockCheckDate = record.date;
 
             return vm;
         }
 
-        public List<string> TodayAlreadyConductedStockCheckForCategories(DateTime date, int[] categoryID)
+        public bool IsStockCheckConductedForCategoriesOnDate(DateTime date, int[] categoryID, out List<string> checkedCategories)
         {
             List<InventoryCheckViewModel> records = FindInventoryStatusRecordsByDate(date);
 
-            List<string> result = new List<string>();
-
+            checkedCategories = new List<string>();
             foreach(var r in records)
             {
                 if(categoryID.Contains(r.CategoryID))
                 {
-                    if(!result.Contains(r.CategoryName))
+                    if(!checkedCategories.Contains(r.CategoryName))
                     {
-                        result.Add(r.CategoryName);
+                        checkedCategories.Add(r.CategoryName);
                     }
                 }
             }
 
-            return result;
+            return (checkedCategories.Count != 0) ? true : false;
         }
     }
 }

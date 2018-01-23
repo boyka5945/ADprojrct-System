@@ -43,7 +43,14 @@ namespace Inventory_mvc.Controllers
         {
             List<RaiseRequisitionViewModel> requestList = Session["RequestList"] as List<RaiseRequisitionViewModel>;
 
-            if(!String.IsNullOrEmpty(itemCode) && type == "remove") // to show message after remove item
+            if(requestList == null)
+            {
+                // to fix weird situation where when session start the list didnt initialize
+                requestList = new List<RaiseRequisitionViewModel>();
+                Session["RequestList"] = requestList;
+            }
+
+            if (!String.IsNullOrEmpty(itemCode) && type == "remove") // to show message after remove item
             {
                 Stationery s = stationeryService.FindStationeryByItemCode(itemCode);
                 TempData["SuccessMessage"] = String.Format("{0} was removed.", s.description);
@@ -66,16 +73,24 @@ namespace Inventory_mvc.Controllers
         [HttpPost]
         public ActionResult AddNewRequestItem(string itemCode, int quantity, string searchString, int? page, string categoryID)
         {
+            List<RaiseRequisitionViewModel> requestList = Session["RequestList"] as List<RaiseRequisitionViewModel>;
+
+            if (requestList == null)
+            {
+                // to fix weird situation where when session start the list didnt initialize
+                requestList = new List<RaiseRequisitionViewModel>();
+                Session["RequestList"] = requestList;
+            }
+
+
             // Server side validation
-            if(quantity < 1)
+            if (quantity < 1)
             {
                 string addItemErrorMessage = String.Format("Quantity must be greater than or equal to 1.");
                 TempData["ErrorMessage"] = addItemErrorMessage;
             }
             else
             {
-                List<RaiseRequisitionViewModel> requestList = Session["RequestList"] as List<RaiseRequisitionViewModel>;
-
                 Stationery stationery = stationeryService.FindStationeryByItemCode(itemCode);
 
                 RaiseRequisitionViewModel vm = new RaiseRequisitionViewModel();
@@ -138,9 +153,7 @@ namespace Inventory_mvc.Controllers
         [HttpPost]
         public ActionResult SubmitRequisition(List<RaiseRequisitionViewModel> requestList)
         {
-            // TODO: REMOVE HARD CODED REQUESTER ID
-            // string requesterID = HttpContext.User.Identity.Name;
-            string requesterID = "S1013";
+            string requesterID = HttpContext.User.Identity.Name;
 
             Requisition_Record requisition = new Requisition_Record();
             

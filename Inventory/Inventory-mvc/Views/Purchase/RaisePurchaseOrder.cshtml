@@ -386,29 +386,20 @@
             <div class="modal-content">
                 @using (Html.BeginForm("UpdatePD", "Purchase", FormMethod.Post))
             {
-                    <p>Item Code</p>
-                    <input type="text" name="ditemCode" />
-
-                    <p>Price</p>
-                    <input id="dprice" type="text" name="dprice" value="" required />
-                    @*<span class="alert alert-danger"
-                        data-valmsg-for="dprice"
-                        data-valmsg-replace="true">xxx</span>*@
-
-                    <p>Quantity</p>
-                    <input id="dqty" type="text" name="dqty" value="" required />
-                    @*<span class="alert alert-danger"
-                        data-valmsg-for="dprice"
-                        data-valmsg-replace="true">yyy</span>*@
-
-                    <p>Remarks</p>
-                    <input type="text" name="dremarks" />
-                    <br />
-                    <input type="submit" value="Update" />
-                    <br />
-                    <span class="close" onclick="close">&times;</span>
-                }
-            </div>
+                <p>Item Code</p>
+                <input type="text" name="ditemCode" />
+                <p>Price</p>
+                <input type="number" name="dprice" min="0.01" required />
+                <p>Quantity</p>
+                <input type="number" name="dqty" min="1" required />
+                <p>Remarks</p>
+                <input type="text" name="dremarks" />
+                <br />
+                <input type="submit" value="Update" id="modalSubmit" onclick="modalSubmitButtonClick" />
+                <br />
+                <span class="close" onclick="close">&times;</span>
+            }
+        </div>
 
         </div>
 
@@ -437,22 +428,21 @@
 
             var descriptiontbox = document.getElementById('defaultPrice');
 
+        //var modalSubmitButton = document.getElementById('modalSubmit');
 
+        var modalPrice = document.getElementById('dprice');
 
-
+        var modalQty = document.getElementById('dqty');
 
             $('button').click(function () {
 
+            modal.style.display = "block";
+            $("[name='ditemCode']").val($(this).attr('name'));
+            //change this to refer to already exisint value
+            $("[name='dprice']").val();
+            $("[name='dqty']").val();
 
-
-                modal.style.display = "block";
-                $("[name='ditemCode']").val($(this).attr('name'));
-                //change this to refer to already exisint value
-                $("[name='dprice']").val();
-                $("[name='dqty']").val();
-
-
-            });
+        });
 
             //function showModal(obj) {
 
@@ -475,12 +465,10 @@
                 modal.style.display = "none";
             }
 
-
-
-            // When the user clicks on <span> (x), close the modal
-            span.onclick = function () {
-                modal.style.display = "none";
-            }
+        // When the user clicks on <span> (x), close the modal
+        span.onclick = function () {
+            modal.style.display = "none";
+        }
 
             // When the user clicks anywhere outside of the modal, close it
             window.onclick = function (event) {
@@ -498,12 +486,24 @@
         }
             function valueSelected() {
 
-                var ddlist = $("#ddlist").val();
-                var destination = "GetDescrpAndPrice?itemcode=" + ddlist;
-                window.location.href = "http:" + destination;
+            var ddlist = $("#ddlist").val();
+            var destination = "GetDescrpAndPrice?itemcode=" + ddlist;
+            window.location.href = "http:" + destination;
 
+        }
 
-            }
+        //function modalSubmitButtonClick () {
+        //    alert("clicked");
+
+        //    var modalPriceF = parseFloat(modalPrice.val());
+        //    if (modalPriceF <= 0) {
+        //        alert("activated");
+        //        return false;
+        //    }
+        //    else {
+        //        alert("passed");
+        //    }
+        //}
 
         </script>
 

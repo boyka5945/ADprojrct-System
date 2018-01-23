@@ -36,12 +36,13 @@ namespace Inventory_mvc.DAO
 
         //  bool DeleteUser(string userID);
 
-        string[] FindApprovingStaffsEmailByRequesterID(string requesterID);
+        string[] FindApprovingStaffsEmailByRequesterID(string requesterID, int[] approvingRoleID);
 
         int GetRoleByID(string userID);
 
         void AutoRomove(User user);
 
         int changePassword(User user);
+        List<User> FindUsersByRole(int roleID);
     }
 }

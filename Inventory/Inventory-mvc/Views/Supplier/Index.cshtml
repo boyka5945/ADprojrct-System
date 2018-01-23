@@ -8,7 +8,6 @@
     var successMessage = TempData["SuccessMessage"];
     var errorMessage = TempData["ErrorMessage"];
 
-    string role = ViewBag.Role;
 }
 
 <h2>Supplier List</h2>
@@ -34,7 +33,7 @@
 </div>
 
 
-@if (role == UserRoles.STORE_CLERK)
+@if (ViewBag.RoleID != (int) UserRoles.RoleID.StoreClerk)
 {
     <p>
         @Html.ActionLink("Create New Supplier", "Create")
@@ -65,7 +64,7 @@
         <th>
             @Html.DisplayNameFor(model => model.GSTNo)
         </th>
-        @if (role != UserRoles.STORE_CLERK)
+        @if (ViewBag.RoleID != (int) UserRoles.RoleID.StoreClerk)
         {
             <th></th>
         }
@@ -95,7 +94,7 @@
             <td>
                 @Html.DisplayFor(modelItem => item.GSTNo)
             </td>
-            @if (role == UserRoles.STORE_CLERK)
+            @if (ViewBag.RoleID != (int)UserRoles.RoleID.StoreClerk)
             {
                 <td>
                     @Html.ActionLink("Edit", "Edit", new { id = item.SupplierCode }) |

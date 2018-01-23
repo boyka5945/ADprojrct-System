@@ -22,10 +22,7 @@ namespace Inventory_mvc.Controllers
         public ActionResult Index(int? page, string sortOrder)
         {
             // Retrieve all requisitions made by current user
-            // TODO: REMOVE HARD CODED REQUESTER ID
-            //string requesterID = HttpContext.User.Identity.Name;
-
-            string requesterID = "S1013";
+            string requesterID = HttpContext.User.Identity.Name;
 
             if(String.IsNullOrEmpty(sortOrder))
             {
@@ -53,10 +50,8 @@ namespace Inventory_mvc.Controllers
                 return RedirectToAction("Index");
             }
 
-            // TODO: REMOVE HARD CODED REQUESTER ID
-            //string requesterID = HttpContext.User.Identity.Name;
+            string requesterID = HttpContext.User.Identity.Name;
 
-            string requesterID = "S1013";
             string errorMessage;
             Requisition_Record record = requisitionService.IsUserAuthorizedForRequisition(recordNo, requesterID, out errorMessage);
 
@@ -96,10 +91,8 @@ namespace Inventory_mvc.Controllers
                 return RedirectToAction("Index");
             }
 
-            // TODO: REMOVE HARD CODED REQUESTER ID
-            //string requesterID = HttpContext.User.Identity.Name;
+            string requesterID = HttpContext.User.Identity.Name;
 
-            string requesterID = "S1013";
             string errorMessage;
             Requisition_Record record = requisitionService.IsUserAuthorizedForRequisition(recordNo, requesterID, out errorMessage);
 
@@ -188,10 +181,8 @@ namespace Inventory_mvc.Controllers
                 return RedirectToAction("Index");
             }
 
-            // TODO: REMOVE HARD CODED REQUESTER ID
-            //string requesterID = HttpContext.User.Identity.Name;
+            string requesterID = HttpContext.User.Identity.Name;
 
-            string requesterID = "S1013";
             string errorMessage;
             Requisition_Record record = requisitionService.IsUserAuthorizedForRequisition(recordNo, requesterID, out errorMessage);
 

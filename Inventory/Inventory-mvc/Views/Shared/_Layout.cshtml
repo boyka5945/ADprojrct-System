@@ -124,8 +124,8 @@
                                     @Html.ActionLink("Approve Stationery Request", "ManagerRequisition", "ManageRequisitions")
                                 </li>
                             }
-@if (Convert.ToInt32(HttpContext.Current.Application["role"]) == 5 || Convert.ToInt32(HttpContext.Current.Application["role"]) == 6 || Convert.ToInt32(HttpContext.Current.Application["role"]) == 7)
-{
+                    @if (Convert.ToInt32(HttpContext.Current.Application["role"]) == 5 || Convert.ToInt32(HttpContext.Current.Application["role"]) == 6 || Convert.ToInt32(HttpContext.Current.Application["role"]) == 7)
+                        {
                             <li class="dropdown-submenu">
                                 <a class="test" href="#">Inventory Adjustment Voucher<span class="caret"></span></a>
                                 <ul class="dropdown-menu" style="top:20%;left:100%;margin-top:1px">
@@ -135,7 +135,7 @@
                                         <li>@Html.ActionLink("Approve Voucher", "Index", "AdjustmentVoucher")</li>}
                                 </ul>
                             </li>
-}
+                        }
 
 
                             @if (Convert.ToInt32(HttpContext.Current.Application["role"]) == 5 || Convert.ToInt32(HttpContext.Current.Application["role"]) == 6 || Convert.ToInt32(HttpContext.Current.Application["role"]) == 7)
@@ -169,7 +169,8 @@
                         <ul class="dropdown-menu">
                             <li>@Html.ActionLink("View Stock Card", "Index", "Stationery")</li>
                             <li>@Html.ActionLink("View Shortfall List", "List", "CheckShortfall")</li>
-                            <li>@Html.ActionLink("Generate Purchase Order", "ListPurchaseOrders", "Purchase")</li>
+                            <li>@Html.ActionLink("Generate Purchase Order", "RaisePurchaseOrder", "Purchase")</li>
+                            <li>@Html.ActionLink("View Purchase Order", "ListPurchaseOrders", "Purchase")</li>
                             <li>@Html.ActionLink("Receive Stock", "StockReceive", "ReceiveStock")</li>
                         </ul>
                     </li>
@@ -198,7 +199,8 @@
     </div>
 
 
-
+    <br />
+    <br />
 
         <footer style="text-align:center;vertical-align:bottom;position:absolute;left:0px;right:0px;bottom:0px;padding:2px">
             <p>&copy; @DateTime.Now.Year - SA45Team3@NUS_ISS</p>

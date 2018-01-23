@@ -1,4 +1,5 @@
-﻿<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -73,30 +74,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BusinessLogic.cs" />
-    <Compile Include="Model\Adjustment_Voucher_Record.cs" />
-    <Compile Include="Model\Category.cs" />
-    <Compile Include="Model\Collection_Point.cs" />
-    <Compile Include="Model\Department.cs" />
-    <Compile Include="Model\Inventory_Status_Record.cs" />
-    <Compile Include="Model\StationeryModel.cs" />
-    <Compile Include="Model\permissionInfo.cs" />
-    <Compile Include="Model\Purchase_Details.cs" />
-    <Compile Include="Model\Purchase_Order_Record.cs" />
-    <Compile Include="Model\Requisition_Details.cs" />
-    <Compile Include="Model\Requisition_Record.cs" />
-    <Compile Include="Model\roleInfo.cs" />
-    <Compile Include="Model\rolePermission.cs" />
-    <Compile Include="Model\Stationery.cs" />
-    <Compile Include="Model\Supplier.cs" />
-    <Compile Include="Model\Transaction_Details.cs" />
-    <Compile Include="Model\Transaction_Record.cs" />
-    <Compile Include="Model\User.cs" />
-    <Compile Include="Model\Voucher_Details.cs" />
     <Compile Include="Service.svc.cs">
       <DependentUpon>Service.svc</DependentUpon>
     </Compile>
     <Compile Include="IService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WCFModelConvertUtility.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Code\" />
@@ -104,12 +87,19 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="Properties\PublishProfiles\AD_Inventory_WCF.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
     <None Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Inventory-mvc\Inventory-mvc.csproj">
+      <Project>{3a9b3f7c-39b3-4100-aee0-43291e5f0092}</Project>
+      <Name>Inventory-mvc</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

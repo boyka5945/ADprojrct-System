@@ -197,6 +197,8 @@ namespace Inventory_mvc.Controllers
         [AllowAnonymous]
         public ActionResult ChangePassword()
         {
+            // TODO: REMOVE HARDCODED USERID
+
             string name = HttpContext.User.Identity.Name;
             //if(name=="")
             //{
@@ -211,6 +213,8 @@ namespace Inventory_mvc.Controllers
         [HttpPost]
         public ActionResult ChangePassword(ChangePasswordViewModel changePasswordVM)
         {
+            // TODO: REMOVE HARDCODED USERID
+
             ChangePasswordViewModel vm2 = changePasswordVM;
             string name = HttpContext.User.Identity.Name;
             User user = userService.FindByUserID("S1015");

@@ -32,6 +32,8 @@ namespace Inventory_mvc.Service
 
         List<Disbursement> GetRequisitionByDept(string deptCode);
 
+        List<Disbursement> GetPendingDisbursementByDept(string deptCode);
+
         List<Requisition_Record> GetRecordsByRequesterID(string requesterID);
 
         bool ValidateRequisition(Requisition_Record requisition);
@@ -43,7 +45,9 @@ namespace Inventory_mvc.Service
 
         Requisition_Record IsUserAuthorizedForRequisition(int requisitionNo, string requesterID, out string errorMessage);
 
+        int UpdateDetails(string itemcode, int requisitionNo, int? allocateQty, int? fulfilledQty);
 
+        void updatestatus(int requisitionNo,int status);
 
         bool UpdateRequisitionDetails(List<RequisitionDetailViewModel> vmList, out string errorMessage);
 
