@@ -260,3 +260,4 @@ paket-files/
 __pycache__/
 *.pyc
 /Inventory/InventoryWCF/Properties/PublishProfiles/CustomProfile.pubxml
+/Inventory/InventoryWCF/Properties/PublishProfiles/test.pubxml
