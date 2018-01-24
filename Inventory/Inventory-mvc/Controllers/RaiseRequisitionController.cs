@@ -19,12 +19,12 @@ namespace Inventory_mvc.Controllers
         IUserService userService = new UserService();
 
         // GET: RaiseRequisition/BrowseCatalogue
-        public ActionResult BrowseCatalogue(string searchString, int? page, string categoryID = "All")
+        public ActionResult BrowseCatalogue(string searchString, int? page, string categoryID = "-1")
         {
             List<Stationery> stationeries = stationeryService.GetStationeriesBasedOnCriteria(searchString, categoryID);
 
             ViewBag.CategoryList = stationeryService.GetAllCategory();
-            ViewBag.CategoryID = (categoryID == "All") ? "All" : categoryID;
+            ViewBag.CategoryID = (categoryID == "-1") ? "-1" : categoryID;
 
             ViewBag.SearchString = searchString;
             ViewBag.Page = page;
@@ -162,16 +162,26 @@ namespace Inventory_mvc.Controllers
                 Requisition_Detail rd = new Requisition_Detail();
                 rd.itemCode = request.ItemCode;
                 rd.qty = request.Quantity;
+                rd.allocatedQty = 0;
+                rd.fulfilledQty = 0;
 
                 requisition.Requisition_Detail.Add(rd);
             }
 
+            // TODO : REMOVE THIS AFTER AUTHORITIZATION IMPLEMENTED
+            if(!requisitionService.IsUserValidToSubmitRequisition(requesterID))
+            {
+                TempData["ErrorMessage"] = "You are not allowed to submit stationery requisition";
+                return RedirectToAction("NewRequisition");
+            }
 
-            if(requisitionService.ValidateRequisition(requisition))
+            if (requisitionService.ValidateRequisition(requisition))
             {
                 // Valid request, submit to database
-                if (requisitionService.SubmitNewRequisition(requisition, requesterID))
+                try
                 {
+                    requisitionService.SubmitNewRequisition(requisition, requesterID);
+
                     // clear requestlist
                     Session["RequestList"] = new List<RaiseRequisitionViewModel>();
                     TempData["SuccessMessage"] = "New stationery requisition has been submitted.";
@@ -179,11 +189,11 @@ namespace Inventory_mvc.Controllers
                     // go to user requisition list
                     return RedirectToAction("Index", "ListRequisitions");
                 }
-                else
+                catch (Exception e)
                 {
-                    // error when write to database
+                    // error
                     Session["RequestList"] = requestList;
-                    TempData["ErrorMessage"] = "Error Writing to Database";
+                    TempData["ErrorMessage"] = e.Message;
                 }
             }
             else

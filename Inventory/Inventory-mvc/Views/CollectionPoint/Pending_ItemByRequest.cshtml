@@ -4,6 +4,7 @@
 @{
 
     List<Inventory_mvc.Models.Requisition_Detail> requisitionList = (List<Inventory_mvc.Models.Requisition_Detail>)TempData["requisitionListbyrequest"];
+  
 }
 
 <div style="width:50%;text-align:center;position:relative;left:15%">
@@ -37,7 +38,14 @@
                     @Html.DisplayFor(modelItem => itemB.itemCode)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => itemB.allocatedQty)
+                 
+                    @{
+                        var q = itemB.qty - itemB.fulfilledQty-itemB.allocatedQty;
+                    }
+                    @q
+
+                   
+
                 </td>
               
             </tr>

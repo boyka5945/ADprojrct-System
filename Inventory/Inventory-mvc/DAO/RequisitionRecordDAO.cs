@@ -254,7 +254,7 @@ namespace Inventory_mvc.DAO
             List<int?> Qty = new List<int?>();
             foreach (var item in list)
             {
-                List<Requisition_Detail> rd = item.Requisition_Detail.Where(x => x.qty-x.fulfilledQty > 0&&x.allocatedQty==0).ToList();
+                List<Requisition_Detail> rd = item.Requisition_Detail.Where(x => x.qty-x.fulfilledQty >x.allocatedQty).ToList();
                 foreach (var a in rd)
                 {
                     if (!itemCodes.Contains(a.itemCode))
@@ -273,7 +273,7 @@ namespace Inventory_mvc.DAO
                 {
                     if ((b.Requisition_Detail.Where(x => x.itemCode == itemCodes[i]).Count()) > 0)
                     {
-                        Qty[i] = Qty[i] + b.Requisition_Detail.Where(x => x.itemCode == itemCodes[i]).First().allocatedQty;
+                        Qty[i] = Qty[i] + (b.Requisition_Detail.Where(x => x.itemCode == itemCodes[i]).First().qty)- (b.Requisition_Detail.Where(x => x.itemCode == itemCodes[i]).First().fulfilledQty)- (b.Requisition_Detail.Where(x => x.itemCode == itemCodes[i]).First().allocatedQty);
                     }
                 }
             }
@@ -293,10 +293,10 @@ namespace Inventory_mvc.DAO
         {
             StationeryModel entity = new StationeryModel();
             List<Requisition_Detail> requisitionList = new List<Requisition_Detail>();
-            List<Requisition_Record> list = entity.Requisition_Records.Where(x => x.deptCode == deptCode).ToList();
+            List<Requisition_Record> list = entity.Requisition_Records.Where(x => x.deptCode == deptCode && (x.status == "Approved and Processing" || x.status == "Partially fulfilled")).ToList();
             foreach (var request in list)
             {
-                List<Requisition_Detail> rd = request.Requisition_Detail.Where(x => x.qty - x.fulfilledQty > 0 && x.allocatedQty == 0).ToList();
+                List<Requisition_Detail> rd = request.Requisition_Detail.Where(x => x.qty - x.fulfilledQty > x.allocatedQty ).ToList();
 
                 foreach (var a in rd)
                 {
@@ -320,7 +320,7 @@ namespace Inventory_mvc.DAO
                 }
                 catch (Exception e)
                 {
-                    return false;
+                    throw new Exception(e.Message);
                 }
             }
         }

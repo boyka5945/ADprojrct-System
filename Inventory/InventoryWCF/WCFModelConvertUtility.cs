@@ -15,6 +15,7 @@ namespace InventoryWCF
 
         public static WCFDisbursement ConvertToWCFDisbursement()
         {
+            // TODO : IMPLEMENT METHOD
             throw new NotImplementedException();
         }
 
@@ -37,13 +38,36 @@ namespace InventoryWCF
             return wcf_detail;
         }
 
-        public static WCFRequisitionRecord ConvertToWCFRequisitionRecord()
+        public static WCFRequisitionRecord ConvertToWCFRequisitionRecord(Requisition_Record requisitionRecord)
         {
-            throw new NotImplementedException();
+            WCFRequisitionRecord wcf_requisitionRecord = new WCFRequisitionRecord();
+            wcf_requisitionRecord.RequisitionNo = requisitionRecord.requisitionNo;
+            wcf_requisitionRecord.DeptCode = requisitionRecord.deptCode;
+            wcf_requisitionRecord.DeptName = requisitionRecord.Department.departmentName;
+            wcf_requisitionRecord.RequesterID = requisitionRecord.requesterID;
+            wcf_requisitionRecord.RequesterName = requisitionRecord.User.name;
+            wcf_requisitionRecord.ApprovingStaffID = requisitionRecord.approvingStaffID;
+            wcf_requisitionRecord.ApprovingStaffName = requisitionRecord.User.name;
+            wcf_requisitionRecord.ApproveDate = requisitionRecord.approveDate;
+            wcf_requisitionRecord.Status = requisitionRecord.status;
+            wcf_requisitionRecord.RequestDate = requisitionRecord.requestDate;
+            
+            return wcf_requisitionRecord;
         }
 
+        public static List<WCFRequisitionRecord> ConvertToWCFRequisitionRecord(List<Requisition_Record> requisitionRecords)
+        {
+            List<WCFRequisitionRecord> wcf_requisitionRecords = new List<WCFRequisitionRecord>();
+            foreach (var rr in requisitionRecords)
+            {
+                wcf_requisitionRecords.Add(ConvertToWCFRequisitionRecord(rr));
+            }
+
+            return wcf_requisitionRecords;
+        }
         public static WCFRetrievalForm ConvertToWCFRetrievalForm()
         {
+            // TODO : IMPLEMENT METHOD
             throw new NotImplementedException();
         }
 
@@ -71,10 +95,38 @@ namespace InventoryWCF
         }
 
 
-        public static WCFUser ConvertToWCFUser()
+        public static WCFUser ConvertToWCFUser(User user)
         {
-            throw new NotImplementedException();
+            WCFUser wUser = new WCFUser();
+            wUser.UserID = user.userID;
+            wUser.DepartmentCode = user.departmentCode;
+            wUser.Role = user.role;
+
+            return wUser;
+ 
         }
 
+        public static WCFCategory ConvertToWCFCategory(Category category)
+        {
+            WCFCategory wcf_category = new WCFCategory();
+            wcf_category.CategoryID = category.categoryID;
+            wcf_category.CategoryName = category.categoryName;
+
+            return wcf_category;
+        }
+
+
+        public static List<WCFCategory> ConvertToWCFCategories(List<Category> categories)
+        {
+            List<WCFCategory> wcf_categories = new List<WCFCategory>();
+            foreach(var c in categories)
+            {
+                wcf_categories.Add(ConvertToWCFCategory(c));
+            }
+
+            return wcf_categories;
+        }
+
+        
     }
 }
