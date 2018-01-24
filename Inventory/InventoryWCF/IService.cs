@@ -42,6 +42,9 @@ namespace InventoryWCF
         [WebGet(UriTemplate = "/GetStationery/{itemCode}", ResponseFormat = WebMessageFormat.Json)]
         WCFStationery GetStationery(string itemCode);
 
+        [OperationContract]
+        [WebGet(UriTemplate = "/GetAllRequisitionRecords", ResponseFormat = WebMessageFormat.Json)]
+        List<WCFRequisitionRecord> GetAllRequisitionRecords();
         //[OperationContract]
         //Boolean updateRequisitionDetails(int requisitionNo, string ItemCode, int allocateQty);
 

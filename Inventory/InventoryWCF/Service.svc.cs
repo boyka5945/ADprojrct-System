@@ -134,6 +134,12 @@ namespace InventoryWCF
             }
         }
 
+        public List<WCFRequisitionRecord> GetAllRequisitionRecords()
+        {
+            List<Requisition_Record> requisitionRecords = requisitionRecordService.GetAllRequisition();
+            return WCFModelConvertUtility.ConvertToWCFRequisitionRecord(requisitionRecords);
+        }
+
         //public Boolean updateRequisitionDetails(int requisitionNo, string ItemCode, int allocateQty)
         //{
         //    return BusinessLogic.updateRequisitionDetails(requisitionNo, ItemCode, allocateQty);
