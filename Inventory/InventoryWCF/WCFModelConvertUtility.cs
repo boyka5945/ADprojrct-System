@@ -168,6 +168,21 @@ namespace InventoryWCF
             return wcf_retrievals;
         }
 
+        public static Requisition_Detail ConvertFromWCFRequisitionDetail(WCFRequisitionDetail wcf_detail)
+        {
+            Requisition_Detail detail = new Requisition_Detail();
+            detail.allocatedQty = wcf_detail.AllocateQty;
+            detail.clerkID = wcf_detail.ClerkID;
+            detail.fulfilledQty = wcf_detail.FulfilledQty;
+            detail.itemCode = wcf_detail.ItemCode;
+            detail.nextCollectionDate = wcf_detail.NextCollectionDate;
+            detail.qty = wcf_detail.Qty;
+            detail.remarks = wcf_detail.Remarks;
+            detail.requisitionNo = wcf_detail.RequisitionNo;
+            detail.retrievedDate = wcf_detail.RetrievedDate;
+
+            return detail;
+        }
         
     }
 }

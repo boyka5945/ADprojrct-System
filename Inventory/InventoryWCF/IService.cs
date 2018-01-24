@@ -63,8 +63,11 @@ namespace InventoryWCF
         List<WCFRequisitionRecord> GetAllRequisitionRecords();
 
         [OperationContract]
-        [WebGet(UriTemplate = "/GetAllDepartments", ResponseFormat = WebMessageFormat.Json)]
-        List<WCFDepartment> GetAllDepartments();
+        [WebInvoke(Method = "POST", 
+                   UriTemplate = "/AddNewRequest/{requesterID}", 
+                   RequestFormat =  WebMessageFormat.Json, 
+                   ResponseFormat = WebMessageFormat.Json)]
+        bool AddNewRequest(string requesterID, WCFRequisitionDetail[] newRequisition);
 
         //[OperationContract]
         //Boolean updateRequisitionDetails(int requisitionNo, string ItemCode, int allocateQty);
@@ -75,6 +78,9 @@ namespace InventoryWCF
         [WebGet(UriTemplate = "/GetRetrievalList", ResponseFormat = WebMessageFormat.Json)]
         List<WCFRetrievalForm> getRetrievalList();
 
+        [OperationContract]
+        [WebGet(UriTemplate = "/GetAllDepartments", ResponseFormat = WebMessageFormat.Json)]
+        List<WCFDepartment> GetAllDepartments();
         //[OperationContract]
         //List<Disbursement> getDisbursementList();
         ////the follwing is for employee

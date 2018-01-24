@@ -234,12 +234,26 @@ namespace InventoryWCF
             return WCFModelConvertUtility.ConvertToWCFRequisitionRecord(requisitionRecords);
         }
 
-        public List<WCFDepartment> GetAllDepartments()
+        public bool AddNewRequest(string requesterID, WCFRequisitionDetail[] newRequisition)
         {
-            List<Department> departmentList = departmentService.GetAllDepartment();
-            return WCFModelConvertUtility.ConvertToWCFDepartments(departmentList);
+            Requisition_Record newRecord = new Requisition_Record();
+            newRecord.Requisition_Detail = new List<Requisition_Detail>();
+            //newRecord.Requisition_Detail.Add(WCFModelConvertUtility.ConvertFromWCFRequisitionDetail(newRequisition));
 
+            foreach (var wcf_detail in newRequisition)
+            {
+                newRecord.Requisition_Detail.Add(WCFModelConvertUtility.ConvertFromWCFRequisitionDetail(wcf_detail));
+            }
 
+            try
+            {
+                requisitionRecordService.SubmitNewRequisition(newRecord, requesterID);
+                return true;
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
         }
 
         //public Boolean updateRequisitionDetails(int requisitionNo, string ItemCode, int allocateQty)
@@ -263,6 +277,13 @@ namespace InventoryWCF
 
             return WCFModelConvertUtility.ConvertToWCFRetrievalList(list);
             
+        }
+        public List<WCFDepartment> GetAllDepartments()
+        {
+            List<Department> departmentList = departmentService.GetAllDepartment();
+            return WCFModelConvertUtility.ConvertToWCFDepartments(departmentList);
+
+
         }
 
         //public List<Disbursement> getDisbursementList()
