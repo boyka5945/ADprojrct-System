@@ -112,10 +112,22 @@ namespace Inventory_mvc.Service
             return rDAO.GetRequisitionByDept(deptCode);
         }
 
+        public List<Requisition_Detail> GetAllRequisitionByDept(string deptCode)
+        {
+            RequisitionRecordDAO rDAO = new RequisitionRecordDAO();
+            return rDAO.GetAllRequisitionByDept(deptCode);
+        }
+
         public List<Disbursement> GetPendingDisbursementByDept(string deptCode)
         {
             RequisitionRecordDAO rDAO = new RequisitionRecordDAO();
             return rDAO.GetPendingDisbursementByDept(deptCode);
+        }
+
+        public List<Requisition_Detail> GetAllPendingDisbursementByDept(string deptCode)
+        {
+            RequisitionRecordDAO rDAO = new RequisitionRecordDAO();
+            return rDAO.GetAllPendingDisbursementByDept(deptCode);
         }
 
         public List<RetrieveForm> GetRetrieveFormByDateTime(DateTime? time)
@@ -224,7 +236,7 @@ namespace Inventory_mvc.Service
 
         public void updatestatus(int requisitionNo, int status)
         {
-            rDAO.updatestatus(requisitionNo,status);
+            //rDAO.updatestatus(requisitionNo,status);
         }
     }
 }

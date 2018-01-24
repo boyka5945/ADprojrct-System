@@ -214,21 +214,7 @@ namespace Inventory_mvc.DAO
             }
         }
 
-        //List<string> IUserDAO.RoleForEditAndCreate(string userID)
-        //{
-        //    StationeryModel entity = new StationeryModel();
-        //    List<string> roles;
-        //    User u = (from a in entity.Users where a.userID == userID select a).First();
-        //    //List<int> temp = (from user in entity.Users where (user.departmentCode == u.departmentCode && user.role != 2 && user.role != 8) select user.role).ToList<int>();
-        //   // List<int> roleids = (from user in entity.Users where (user.departmentCode == u.departmentCode && user.role != 2 && user.role != 8) select user).ToList<int>()
-        //    if (u.departmentCode== "STORE")
-        //    {
-        //        roles=(from role in entity.roleInfoes where (role.roleID!=1 && role.roleID!=2 && role.roleID!=3 && role.roleID!=8)
-        //    }
-
-
-        //    return roles;
-        //}
+   
 
         public bool AlrDelegated(string id)
         {
@@ -363,6 +349,25 @@ namespace Inventory_mvc.DAO
                         select x).ToList();
             }
 
+        }
+
+        public bool Promote(string uid)
+        {
+            using (StationeryModel context = new StationeryModel())
+            {
+                User user = (from u in context.Users where u.userID == uid select u).First();
+                user.role = 6;
+                int rowAffected = context.SaveChanges();
+
+                if (rowAffected <= 2)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
         }
     }
 }

@@ -357,7 +357,7 @@ namespace Inventory_mvc.Controllers
             var index = model.FindIndex(c => c.itemCode == itemCode);
 
             
-            int qty = Int32.Parse(Request.Params.Get("dqty"));
+            qty = Int32.Parse(Request.Params.Get("dqty"));
             if (qty < 1)
             {
                 TempData["dQtyErrorMessage"] = "Quantity should be greater than 0";
@@ -369,7 +369,7 @@ namespace Inventory_mvc.Controllers
                 model[index].qty = qty;
             }
 
-            int price = Int32.Parse(Request.Params.Get("dprice"));
+             price = Int32.Parse(Request.Params.Get("dprice"));
             if (price <= 0)
             {
                 TempData["dPriceErrorMessage"] = "Price cannot be 0 or less than 0.";

@@ -109,7 +109,7 @@
 
         $.ajax({
             type: "POST",
-            url: "/InventoryCheck/SaveTemporaryValue",
+            url: '@Url.Action("SaveTemporaryValue", "InventoryCheck")',
             data: $.param(myformdata), // convert to url-encoded form
             //success: function () {
                 //alert("success");
@@ -119,6 +119,6 @@
 
     function CancelStockCheck()
     {
-        window.location.href = "/InventoryCheck/CancelCurrentStockCheck";
+        window.location.href = '@Url.Action("CancelCurrentStockCheck", "InventoryCheck")';
     }
 </script>

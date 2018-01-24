@@ -80,10 +80,10 @@ Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.Page
     function SaveData(itemCode) {
         var myformdata = document.getElementById("ActualQty").value; // convert form to array
 
-        window.location.href = "/ManageRequisitions/updateFulfilledQty?key1=" + myformdata + "&key2=" + itemCode;
+        window.location.href = '@Url.Action("updateFulfilledQty", "ManageRequisitions")?key1=' + myformdata + "&key2=" + itemCode;
             // convert to url-encoded form
             //success: function () {
             //alert("success");
-            //}kjf
+            //}
     }
 </script>

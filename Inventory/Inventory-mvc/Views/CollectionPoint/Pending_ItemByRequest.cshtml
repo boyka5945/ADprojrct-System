@@ -1,0 +1,47 @@
+﻿
+@model Inventory_mvc.Models.Requisition_Detail
+
+@{
+
+    List<Inventory_mvc.Models.Requisition_Detail> requisitionList = (List<Inventory_mvc.Models.Requisition_Detail>)TempData["requisitionListbyrequest"];
+}
+
+<div style="width:50%;text-align:center;position:relative;left:15%">
+    <table class="table table1 table-bordered" style="border:double">
+        <tr style="background-color:darkgray">
+
+            <th style="text-align:center">
+                @Html.Label("S/N")
+            </th>
+
+            <th style="text-align:center">
+                @Html.Label("Request ID")
+            </th>
+            <th style="text-align:center">
+                @Html.Label("Item Description")
+            </th>
+            <th style="text-align:center">
+                @Html.Label("Quantity")
+            </th>
+
+        </tr>
+        @foreach (var itemB in requisitionList)
+        {
+            <tr>
+
+                <td></td>
+                <td>
+                    @Html.DisplayFor(modelItem => itemB.requisitionNo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => itemB.itemCode)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => itemB.allocatedQty)
+                </td>
+              
+            </tr>
+        }
+
+    </table>
+</div>
