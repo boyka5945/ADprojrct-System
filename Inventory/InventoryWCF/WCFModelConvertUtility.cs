@@ -74,10 +74,15 @@ namespace InventoryWCF
         }
 
 
-        public static WCFUser ConvertToWCFUser()
+        public static WCFUser ConvertToWCFUser(User user)
         {
-            // TODO : IMPLEMENT METHOD
-            throw new NotImplementedException();
+            WCFUser wUser = new WCFUser();
+            wUser.UserID = user.userID;
+            wUser.DepartmentCode = user.departmentCode;
+            wUser.Role = user.role;
+
+            return wUser;
+ 
         }
 
         public static WCFCategory ConvertToWCFCategory(Category category)

@@ -21,6 +21,15 @@ namespace InventoryWCF
             }
         }
 
+        public WCFUser GetUser(string userID)
+        {
+            StationeryModel entity = new StationeryModel();
+            User user = entity.Users.Where(x => x.userID == userID).First();
+            WCFUser wcfUser = WCFModelConvertUtility.ConvertToWCFUser(user);
+
+            return wcfUser ;
+        }
+
         public static Boolean changePassWord(string userID, string CurrentPassword, string NewPassWord)
         {
             using (StationeryModel entity = new StationeryModel())
