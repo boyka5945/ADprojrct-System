@@ -15,6 +15,7 @@ namespace InventoryWCF
 
         public static WCFDisbursement ConvertToWCFDisbursement()
         {
+            // TODO : IMPLEMENT METHOD
             throw new NotImplementedException();
         }
 
@@ -66,6 +67,7 @@ namespace InventoryWCF
         }
         public static WCFRetrievalForm ConvertToWCFRetrievalForm()
         {
+            // TODO : IMPLEMENT METHOD
             throw new NotImplementedException();
         }
 
@@ -93,9 +95,36 @@ namespace InventoryWCF
         }
 
 
-        public static WCFUser ConvertToWCFUser()
+        public static WCFUser ConvertToWCFUser(User user)
         {
-            throw new NotImplementedException();
+            WCFUser wUser = new WCFUser();
+            wUser.UserID = user.userID;
+            wUser.DepartmentCode = user.departmentCode;
+            wUser.Role = user.role;
+
+            return wUser;
+ 
+        }
+
+        public static WCFCategory ConvertToWCFCategory(Category category)
+        {
+            WCFCategory wcf_category = new WCFCategory();
+            wcf_category.CategoryID = category.categoryID;
+            wcf_category.CategoryName = category.categoryName;
+
+            return wcf_category;
+        }
+
+
+        public static List<WCFCategory> ConvertToWCFCategories(List<Category> categories)
+        {
+            List<WCFCategory> wcf_categories = new List<WCFCategory>();
+            foreach(var c in categories)
+            {
+                wcf_categories.Add(ConvertToWCFCategory(c));
+            }
+
+            return wcf_categories;
         }
 
         

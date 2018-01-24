@@ -69,17 +69,17 @@ namespace Inventory_mvc.Service
             requisition.status = RequisitionStatus.PENDING_APPROVAL;
             requisition.requestDate = DateTime.Today;
 
-            if (rDAO.SubmitNewRequisition(requisition))
+            try
             {
+                rDAO.SubmitNewRequisition(requisition);
                 // TODO: TEST EMAIL NOTIFICATION
                 // send email notification       
                 EmailNotification.EmailNotificatioForNewRequisition(requisition.requesterID);
-
                 return true;
             }
-            else
+            catch (Exception e)
             {
-                return false;
+                throw new Exception(e.Message);
             }
         }
 
@@ -106,16 +106,40 @@ namespace Inventory_mvc.Service
             return true;
         }
 
+        public bool IsUserValidToSubmitRequisition(string requesterID)
+        {
+            int userRole = userService.GetRoleByID(requesterID);
+
+            List<int> disallowedRoles = new List<int>();
+            disallowedRoles.Add((int)UserRoles.RoleID.ActingDepartmentHead);
+            disallowedRoles.Add((int)UserRoles.RoleID.DepartmentHead);
+            disallowedRoles.Add((int)UserRoles.RoleID.StoreManager);
+
+            return (!disallowedRoles.Contains(userRole));
+        }
+
         public List<Disbursement> GetRequisitionByDept(string deptCode)
         {
             RequisitionRecordDAO rDAO = new RequisitionRecordDAO();
             return rDAO.GetRequisitionByDept(deptCode);
         }
 
+        public List<Requisition_Detail> GetAllRequisitionByDept(string deptCode)
+        {
+            RequisitionRecordDAO rDAO = new RequisitionRecordDAO();
+            return rDAO.GetAllRequisitionByDept(deptCode);
+        }
+
         public List<Disbursement> GetPendingDisbursementByDept(string deptCode)
         {
             RequisitionRecordDAO rDAO = new RequisitionRecordDAO();
             return rDAO.GetPendingDisbursementByDept(deptCode);
+        }
+
+        public List<Requisition_Detail> GetAllPendingDisbursementByDept(string deptCode)
+        {
+            RequisitionRecordDAO rDAO = new RequisitionRecordDAO();
+            return rDAO.GetAllPendingDisbursementByDept(deptCode);
         }
 
         public List<RetrieveForm> GetRetrieveFormByDateTime(DateTime? time)

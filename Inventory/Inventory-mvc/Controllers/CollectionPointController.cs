@@ -199,11 +199,56 @@ namespace Inventory_mvc.Controllers
                     break;
                 }
             }
-            
+
+            List<Requisition_Detail> list2 = rs.GetAllRequisitionByDept(deptCode);
+
+            TempData["requisitionListbyrequest"] = list2;
 
             int pageSize = 10;
             int pageNumber = (page ?? 1);
             return View(list.ToPagedList(pageNumber, pageSize));
+        }
+
+        [HttpGet]
+        public PartialViewResult Collect_Item2(int id)
+        {
+            var partialViewModel = new PartialViewResult();
+            
+            StationeryModel entity = new StationeryModel();
+            string name = HttpContext.User.Identity.Name;
+            string deptCode = us.FindDeptCodeByID(name);
+            var deptName = entity.Departments.Where(x => x.departmentCode == deptCode).First().departmentName;
+            ViewBag.deptName = deptName;
+            var user = entity.Users.Where(x => x.departmentCode == deptCode).First();
+            foreach (var a in departmentService.GetAllDepartment().ToList())
+            {
+                if (a.departmentCode == deptCode)
+                {
+                    ViewBag.Point = a.Collection_Point.collectionPointName;
+                    ViewBag.rp = user.name;
+                    break;
+                }
+            }
+            
+            
+            if (id == 1)
+            {
+                List<Disbursement> list = new List<Disbursement>();
+                list = rs.GetRequisitionByDept(deptCode);
+                TempData["requisitionListbyitem"] = list;
+                
+                return PartialView("Collect_ItemByItem");
+            }
+            else if (id == 2)
+            {
+                List<Requisition_Detail> list = new List<Requisition_Detail>();
+                list = rs.GetAllRequisitionByDept(deptCode);
+                TempData["requisitionListbyrequest"] = list;
+                
+                return PartialView("Collect_ItemByRequest");
+            }
+
+            return null;
         }
 
         [HttpGet]
@@ -239,6 +284,53 @@ namespace Inventory_mvc.Controllers
             int pageSize = 10;
             int pageNumber = (page ?? 1);
             return View(list.ToPagedList(pageNumber, pageSize));
+        }
+
+        [HttpGet]
+        public PartialViewResult Pending_Item2(int id)
+        {
+
+            var partialViewModel = new PartialViewResult();
+
+            StationeryModel entity = new StationeryModel();
+            string name = HttpContext.User.Identity.Name;
+            string deptCode = us.FindDeptCodeByID(name);
+            var deptName = entity.Departments.Where(x => x.departmentCode == deptCode).First().departmentName;
+
+            ViewBag.deptName = deptName;
+           
+            
+            var user = entity.Users.Where(x => x.departmentCode == deptCode).First();
+            foreach (var a in departmentService.GetAllDepartment().ToList())
+            {
+                if (a.departmentCode == deptCode)
+                {
+                    ViewBag.Point = a.Collection_Point.collectionPointName;
+                    ViewBag.rp = user.name;
+                    break;
+                }
+            }
+          
+
+            if (id == 1)
+            {
+                List<Disbursement> list = new List<Disbursement>();
+                list = rs.GetPendingDisbursementByDept(deptCode);
+                TempData["requisitionListbyitem"] = list;
+
+                return PartialView("Pending_ItemByItem");
+            }
+            else if (id == 2)
+            {
+                List<Requisition_Detail> list = new List<Requisition_Detail>();
+                list = rs.GetAllPendingDisbursementByDept(deptCode);
+                TempData["requisitionListbyrequest"] = list;
+
+                return PartialView("Pending_ItemByRequest");
+            }
+
+            return null;
+                     
         }
     }
 }

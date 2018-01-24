@@ -12,15 +12,19 @@ namespace InventoryWCF
     [ServiceContract]
     public interface IService
     {
-        [OperationContract]
+        //[OperationContract]
         // TODO change to post method
-        [WebGet(UriTemplate = "/ValidateUser/{userid}/{password}", ResponseFormat = WebMessageFormat.Json)]
-        Boolean ValidateUser(string userid, string password);
+        //[WebGet(UriTemplate = "/ValidateUser/{userid}/{password}", ResponseFormat = WebMessageFormat.Json)]
+        //Boolean ValidateUser(string userid, string password);
 
         [OperationContract]
         // TODO change to post method
         [WebGet(UriTemplate = "/ChangePassword/{userid}/{currentpassword}/{newpassword}", ResponseFormat = WebMessageFormat.Json)]
         Boolean ChangePassword(string userid, string currentpassword, string newpassword);
+
+        [OperationContract]
+        [WebGet(UriTemplate = "/GetUser/{userid}/{password}", ResponseFormat = WebMessageFormat.Json)]
+        WCFUser GetUser(string userid, string password);
 
         //[OperationContract]
         //[WebGet(UriTemplate = "/All", ResponseFormat = WebMessageFormat.Json)]
@@ -41,6 +45,18 @@ namespace InventoryWCF
         [OperationContract]
         [WebGet(UriTemplate = "/GetStationery/{itemCode}", ResponseFormat = WebMessageFormat.Json)]
         WCFStationery GetStationery(string itemCode);
+
+        [OperationContract]
+        [WebGet(UriTemplate = "/GetStationeries/{categoryName}/{searchString}", ResponseFormat = WebMessageFormat.Json)]
+        List<WCFStationery> GetStationeryByCriteria(string categoryName, string searchString);
+
+        [OperationContract]
+        [WebGet(UriTemplate = "/GetStationeries/{categoryName}", ResponseFormat = WebMessageFormat.Json)]
+        List<WCFStationery> GetStationeryByCategory(string categoryName);
+
+        [OperationContract]
+        [WebGet(UriTemplate = "/GetAllCategories", ResponseFormat = WebMessageFormat.Json)]
+        List<WCFCategory> GetAllCategories();
 
         [OperationContract]
         [WebGet(UriTemplate = "/GetAllRequisitionRecords", ResponseFormat = WebMessageFormat.Json)]
@@ -166,8 +182,9 @@ namespace InventoryWCF
     {
         string userid;
         string password;
-        string username;
+        string departmentCode;
         int role;
+        //need to add departmentCode
 
         [DataMember]
         public int Role
@@ -191,11 +208,12 @@ namespace InventoryWCF
         }
 
         [DataMember]
-        public string UserName
+        public string DepartmentCode
         {
-            get { return username; }
-            set { username = value; }
+            get { return departmentCode; }
+            set { departmentCode = value; }
         }
+
     }
 
     [DataContract]
@@ -337,7 +355,7 @@ namespace InventoryWCF
             set { remarks = value; }
         }
 
-        [DataMember (Name = "RequestQty")]
+        [DataMember(Name = "RequestQty")]
         public int Qty
         {
             get { return qty; }
@@ -378,5 +396,27 @@ namespace InventoryWCF
             get { return nextCollectionDate; }
             set { nextCollectionDate = value; }
         }
+    }
+
+    [DataContract]
+    public class WCFCategory
+    {
+        int categoryID;
+        string categoryName;
+
+        [DataMember]
+        public int CategoryID
+        {
+            get { return categoryID; }
+            set { categoryID = value; }
+        }
+
+        [DataMember]
+        public string CategoryName
+        {
+            get { return categoryName; }
+            set { categoryName = value; }
+        }
+
     }
 }

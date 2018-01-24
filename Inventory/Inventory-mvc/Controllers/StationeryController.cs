@@ -19,7 +19,7 @@ namespace Inventory_mvc.Controllers
         ITransactionRecordService transactionService = new TransactionRecordService();
 
         // GET: Stationery
-        public ActionResult Index(string searchString, int? page, string categoryID = "All")
+        public ActionResult Index(string searchString, int? page, string categoryID = "-1")
         {
             string userID = HttpContext.User.Identity.Name;
 
@@ -30,7 +30,7 @@ namespace Inventory_mvc.Controllers
             List<StationeryViewModel> stationeries = stationeryService.GetStationeriesVMBasedOnCriteria(searchString, categoryID);
 
             ViewBag.CategoryList = stationeryService.GetAllCategory();
-            ViewBag.CategoryID = (categoryID == "All") ? "All" : categoryID;
+            ViewBag.CategoryID = (categoryID == "-1") ? "-1" : categoryID;
             ViewBag.SearchString = searchString;
             ViewBag.Page = page;
 

@@ -57,49 +57,45 @@ tr td:first-child:before
     list = data.ToList();
 
 }
-<div class="container" style="text-align:right;position:relative;right:37%">
-  @Html.Label("View by: ")  @Html.DropDownList("ddl", new SelectList(list,"Value","Text"), new { onchange = "form.submit();" })
-</div>
+@using (Html.BeginForm("Collect_Item", "CollectionPoint", FormMethod.Get))
+{
+    <div class="container" style="text-align:right;position:relative;right:37%">
+        @Html.Label("View by: ")
 
-<div style="width:50%;text-align:center;position:relative;left:15%">
-    <table class="table table1 table-bordered" style="border:double">
-        <tr style="background-color:darkgray">
+        @*@Html.DropDownList("ddl", new SelectList(list, "Value", "Text"), new { @onchange = "SelectedIndexChanged()", @id = "ddl1" })*@
+        <select name="ddl" id="ddl1" onchange="SelectedIndexChanged()">
+            @foreach (var i in new SelectList(list, "Value", "Text"))
+            {
+                <option value="@i.Value" selected>@i.Text</option>
+            }
 
-            <th style="text-align:center">
-                @Html.Label("S/N")
-            </th>
-            <th style="text-align:center">
-                @Html.Label("Item Description")
-            </th>
-            <th style="text-align:center">
-                @Html.Label("Quantity")
-            </th>
-            
-        </tr>
-        @foreach (var item in Model)
-  {
-            <tr>
+        </select>
+    </div>
 
-                <td>
+    <div id="partialPlaceHolder" style="display:none;">
+
+    </div>
+}
+    <script>
+
+    function SelectedIndexChanged() {
+
+      var selectedID = ($('#ddl1 option:selected').val());
+      //alert(selectedID);
+      $.get('/CollectionPoint/Pending_Item2/' + selectedID, function (data) {
+
+          /* data is the pure html returned from action method, load it to your page */
+          $('#partialPlaceHolder').html(data);
+          /* little fade in effect */
+          $('#partialPlaceHolder').fadeIn('fast');
+      });
+
+    };
+    </script>
 
 
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.itemDescription)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.quantity)
-                </td>
-                @*<td>
-                        @Html.ActionLink("Approve", "ApproveRequisition", new { id = item.requisitionNo });
-                    </td>*@
-            </tr>
-        }
-
-    </table>
-</div>
-<div style="position:relative;left:25%">
+@*<div style="position:relative;left:25%">
     Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
     @Html.PagedListPager(Model, page => Url.Action("ViewItemCollection",
                      new { page }))
-</div>
+</div>*@

@@ -150,7 +150,7 @@
     function LoadData(itemCode)
     {
         $.ajax({
-            url: '/Stationery/ViewTransaction',
+            url: '@Url.Action("ViewTransaction", "Stationery")',
             data: $('#transactionForm').serialize(),
             type: 'POST',
             success: function (data) {
