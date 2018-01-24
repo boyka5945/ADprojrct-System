@@ -488,7 +488,7 @@
 
             var ddlist = $("#ddlist").val();
             var destination = "GetDescrpAndPrice?itemcode=" + ddlist;
-            window.location.href = "http:" + destination;
+            window.location.href = '@Url.Action("GetDescrpAndPrice", "Purchase")?itemcode=' + ddlist;
 
         }
 

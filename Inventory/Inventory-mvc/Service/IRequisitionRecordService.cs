@@ -32,7 +32,11 @@ namespace Inventory_mvc.Service
 
         List<Disbursement> GetRequisitionByDept(string deptCode);
 
+        List<Requisition_Detail> GetAllRequisitionByDept(string deptCode);
+
         List<Disbursement> GetPendingDisbursementByDept(string deptCode);
+
+        List<Requisition_Detail> GetAllPendingDisbursementByDept(string deptCode);
 
         List<Requisition_Record> GetRecordsByRequesterID(string requesterID);
 
@@ -54,5 +58,7 @@ namespace Inventory_mvc.Service
         int DetailsCountOfOneItemcode(string itemcode);
 
         List<RequisitionDetailViewModel> GetViewModelFromRequisitionRecord(Requisition_Record record);
+
+        bool IsUserValidToSubmitRequisition(string requesterID);
     }
 }

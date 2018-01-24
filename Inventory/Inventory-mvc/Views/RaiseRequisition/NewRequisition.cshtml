@@ -132,13 +132,11 @@ else
 </div>
 
 
-
 <script>
     $(document).ready(function () {
         $('.js-data-example-ajax').select2({
-
             ajax: {
-                url: '/RaiseRequisition/GetStationeryListJSON',
+                url: '@Url.Action("GetStationeryListJSON", "RaiseRequisition")',
                 delay: 250,
                 dataType: 'json',
                 //data: function (params) {
@@ -164,15 +162,16 @@ else
         $(".removeBtn").click(function () {
             var itemCode = $(this).data("bind");
 
+
             var myformdata = $("#requestForm").serializeArray(); // convert form to array
             myformdata.push({ name: "itemCode", value: itemCode }); // add extra key-value pair
 
             $.ajax({
                 type: "POST",
-                url: "/RaiseRequisition/RemoveRequestItem",
+                url: '@Url.Action("RemoveRequestItem", "RaiseRequisition")',
                 data: $.param(myformdata), // convert to url-encoded form
                 success: function () {
-                    window.location.href = "/RaiseRequisition/NewRequisition?type=remove&itemCode=" + itemCode;
+                    window.location.href = '@Url.Action("NewRequisition", "RaiseRequisition")?type=remove&itemCode=' + itemCode;
                 }
             });
         });
@@ -184,7 +183,7 @@ else
 
             $.ajax({
                 type: "POST",
-                url: "/RaiseRequisition/SaveTemporaryValue",
+                url: '@Url.Action("SaveTemporaryValue", "RaiseRequisition")',
                 data: $.param(myformdata), // convert to url-encoded form
                 //success: function () {
                 //    alert("success");

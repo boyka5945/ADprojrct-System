@@ -94,7 +94,7 @@
 
         $.ajax({
             type: "POST",
-            url: "/ManageRequisitions/KeepTempData2",
+            url: '@Url.Action("KeepTempData2", "ManageRequisitions")',
             data: $.param(myformdata), // convert to url-encoded form
             //success: function () {
             //alert("success");

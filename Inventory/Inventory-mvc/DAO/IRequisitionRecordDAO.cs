@@ -27,7 +27,7 @@ namespace Inventory_mvc.DAO
 
         int UpdateRequisitionDetails(string itemcode, int requisitionNo, int? allocateQty, int? fulfilledQty);
 
-        void updatestatus(int requisitionNo);
+        void updatestatus(int requisitionNo, int status);
 
         List<Requisition_Detail> GetDetailsByNO(int No=0);
 
@@ -39,7 +39,11 @@ namespace Inventory_mvc.DAO
 
         List<Disbursement> GetRequisitionByDept(string deptCode);
 
+        List<Requisition_Detail> GetAllRequisitionByDept(string deptCode);
+
         List<Disbursement> GetPendingDisbursementByDept(string deptCode);
+
+        List<Requisition_Detail> GetAllPendingDisbursementByDept(string deptCode);
 
         bool SubmitNewRequisition(Requisition_Record requisition);
 

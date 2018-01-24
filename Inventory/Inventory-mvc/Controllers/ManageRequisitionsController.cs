@@ -8,6 +8,7 @@ using Inventory_mvc.Models;
 using Inventory_mvc.ViewModel;
 using Inventory_mvc.Utilities;
 using PagedList;
+using Inventory_mvc.Function;
 
 namespace Inventory_mvc.Controllers
 {
@@ -198,6 +199,8 @@ namespace Inventory_mvc.Controllers
             Requisition_Record model = new Requisition_Record();
             model = rs.GetRequisitionByID(id);
             rs.UpdateRequisition(model, RequisitionStatus.APPROVED_PROCESSING);
+            EmailNotification.EmailNotificatioForRequisitionApprovalStatus(id, RequisitionStatus.APPROVED_PROCESSING, "no reason");
+            
             return RedirectToAction("ManagerRequisition");
         }
 
@@ -216,6 +219,7 @@ namespace Inventory_mvc.Controllers
             Requisition_Record model = new Requisition_Record();
             model = rs.GetRequisitionByID(id);
             rs.UpdateRequisition(model, RequisitionStatus.REJECTED);
+            EmailNotification.EmailNotificatioForRequisitionApprovalStatus(id, RequisitionStatus.REJECTED, "no reason");
             return RedirectToAction("ManagerRequisition");
         }
 

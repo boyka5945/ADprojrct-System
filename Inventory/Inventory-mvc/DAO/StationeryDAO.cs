@@ -179,7 +179,7 @@ namespace Inventory_mvc.DAO
             {
                 var stationeries = from s in context.Stationeries select s;
 
-                if(categoryID != "All")
+                if(categoryID != "-1")
                 {
                     stationeries = stationeries.Where(s => s.categoryID.ToString() == categoryID);
                 }
