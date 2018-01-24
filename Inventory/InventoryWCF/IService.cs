@@ -61,13 +61,19 @@ namespace InventoryWCF
         [OperationContract]
         [WebGet(UriTemplate = "/GetAllRequisitionRecords", ResponseFormat = WebMessageFormat.Json)]
         List<WCFRequisitionRecord> GetAllRequisitionRecords();
+
+        [OperationContract]
+        [WebGet(UriTemplate = "/GetAllDepartments", ResponseFormat = WebMessageFormat.Json)]
+        List<WCFDepartment> GetAllDepartments();
+
         //[OperationContract]
         //Boolean updateRequisitionDetails(int requisitionNo, string ItemCode, int allocateQty);
 
         //// TODO: Add your service operations here
 
-        //[OperationContract]
-        //List<RetrievalFrom> getRetrievalList();
+        [OperationContract]
+        [WebGet(UriTemplate = "/GetRetrievalList", ResponseFormat = WebMessageFormat.Json)]
+        List<WCFRetrievalForm> getRetrievalList();
 
         //[OperationContract]
         //List<Disbursement> getDisbursementList();
@@ -418,5 +424,36 @@ namespace InventoryWCF
             set { categoryName = value; }
         }
 
+    }
+
+    [DataContract]
+    public class WCFDepartment
+    {
+        [DataMember]
+        public string departmentCode
+        {
+            get { return departmentCode; }
+            set { departmentCode = value; }
+        }
+            [DataMember]
+            public string departmentName
+        {
+            get { return departmentName; }
+            set { departmentName = value; }
+        }
+
+        [DataMember]
+        public string contactName
+        {
+            get { return contactName; }
+            set { contactName = value; }
+        }
+
+        [DataMember]
+        public int collectionPointID
+        {
+            get { return collectionPointID; }
+            set { collectionPointID = value; }
+        }
     }
 }

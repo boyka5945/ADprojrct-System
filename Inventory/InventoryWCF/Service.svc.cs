@@ -18,6 +18,8 @@ namespace InventoryWCF
         IUserService userService = new UserService();
         IStationeryService stationeryService = new StationeryService();
         IRequisitionRecordService requisitionRecordService = new RequisitionRecordService();
+        DepartmentService departmentService = new DepartmentService();
+        
         
                
         public Boolean ValidateUser(string userid, string password)
@@ -232,15 +234,36 @@ namespace InventoryWCF
             return WCFModelConvertUtility.ConvertToWCFRequisitionRecord(requisitionRecords);
         }
 
+        public List<WCFDepartment> GetAllDepartments()
+        {
+            List<Department> departmentList = departmentService.GetAllDepartment();
+            return WCFModelConvertUtility.ConvertToWCFDepartments(departmentList);
+
+
+        }
+
         //public Boolean updateRequisitionDetails(int requisitionNo, string ItemCode, int allocateQty)
         //{
         //    return BusinessLogic.updateRequisitionDetails(requisitionNo, ItemCode, allocateQty);
         //}
 
-        //public List<RetrievalFrom> getRetrievalList()
-        //{
-        //    throw new NotImplementedException();
-        //}
+        public List<WCFRetrievalForm> getRetrievalList()
+        {
+            //need the list for the next delivery, a.k.a for next monday
+            //must have been approved before this week's wednesday?
+
+            //next delivery date supposedly is:
+            DateTime date = DateTime.Now;
+            //while(date.DayOfWeek != DayOfWeek.Monday)
+            //{
+            //    date.AddDays(1);
+            //}
+
+            List<RetrieveForm> list = requisitionRecordService.GetRetrieveFormByDateTime(date);
+
+            return WCFModelConvertUtility.ConvertToWCFRetrievalList(list);
+            
+        }
 
         //public List<Disbursement> getDisbursementList()
         //{
