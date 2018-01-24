@@ -59,6 +59,6 @@ namespace Inventory_mvc.Service
 
         List<RequisitionDetailViewModel> GetViewModelFromRequisitionRecord(Requisition_Record record);
 
-        bool IsUserValidToSubmitRequisition(string requesterID)
+        bool IsUserValidToSubmitRequisition(string requesterID);
     }
 }
