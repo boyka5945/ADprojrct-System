@@ -36,6 +36,30 @@ namespace InventoryWCF
             }           
         }
 
+        public WCFUser GetUser(string userID, string password)
+        {
+
+            try
+            {
+                User user = userService.FindByUserID(userID);
+                if (user.password == password)
+                {
+                    WCFUser wcfUser = WCFModelConvertUtility.ConvertToWCFUser(user);
+                    return wcfUser;
+                }
+                else
+                {
+                    WCFUser invalid = new WCFUser();
+                    return invalid;
+                }
+            }
+            catch (Exception e)
+            {
+                WCFUser invalid = new WCFUser();
+                return invalid;
+            }
+        }
+
 
         public Boolean ChangePassword(string userid, string currentpassword, string newpassword)
         {
