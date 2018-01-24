@@ -162,6 +162,8 @@ namespace Inventory_mvc.Controllers
                 Requisition_Detail rd = new Requisition_Detail();
                 rd.itemCode = request.ItemCode;
                 rd.qty = request.Quantity;
+                rd.allocatedQty = 0;
+                rd.fulfilledQty = 0;
 
                 requisition.Requisition_Detail.Add(rd);
             }
