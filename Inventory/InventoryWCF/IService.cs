@@ -61,6 +61,14 @@ namespace InventoryWCF
         [OperationContract]
         [WebGet(UriTemplate = "/GetAllRequisitionRecords", ResponseFormat = WebMessageFormat.Json)]
         List<WCFRequisitionRecord> GetAllRequisitionRecords();
+
+        [OperationContract]
+        [WebInvoke(Method = "POST", 
+                   UriTemplate = "/AddNewRequest/{requesterID}", 
+                   RequestFormat =  WebMessageFormat.Json, 
+                   ResponseFormat = WebMessageFormat.Json)]
+        bool AddNewRequest(string requesterID, WCFRequisitionDetail[] newRequisition);
+
         //[OperationContract]
         //Boolean updateRequisitionDetails(int requisitionNo, string ItemCode, int allocateQty);
 

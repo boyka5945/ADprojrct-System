@@ -30,9 +30,9 @@ namespace Inventory_mvc.Service
             return rDAO.GetDetailsByNO(No);  
         }
 
-        public void  UpdateRequisition(Requisition_Record rr, string status) 
+        public void  UpdateRequisition(Requisition_Record rr, string status, string approveStaffID) 
         {
-            rDAO.UpdateRequisition(rr, status);
+            rDAO.UpdateRequisition(rr, status, approveStaffID);
 
         }
 
@@ -248,7 +248,7 @@ namespace Inventory_mvc.Service
 
         public void updatestatus(int requisitionNo, int status)
         {
-            //rDAO.updatestatus(requisitionNo,status);
+            rDAO.updatestatus(requisitionNo,status);
         }
     }
 }

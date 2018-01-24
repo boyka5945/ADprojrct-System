@@ -232,6 +232,28 @@ namespace InventoryWCF
             return WCFModelConvertUtility.ConvertToWCFRequisitionRecord(requisitionRecords);
         }
 
+        public bool AddNewRequest(string requesterID, WCFRequisitionDetail[] newRequisition)
+        {
+            Requisition_Record newRecord = new Requisition_Record();
+            newRecord.Requisition_Detail = new List<Requisition_Detail>();
+            //newRecord.Requisition_Detail.Add(WCFModelConvertUtility.ConvertFromWCFRequisitionDetail(newRequisition));
+
+            foreach (var wcf_detail in newRequisition)
+            {
+                newRecord.Requisition_Detail.Add(WCFModelConvertUtility.ConvertFromWCFRequisitionDetail(wcf_detail));
+            }
+
+            try
+            {
+                requisitionRecordService.SubmitNewRequisition(newRecord, requesterID);
+                return true;
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
+
         //public Boolean updateRequisitionDetails(int requisitionNo, string ItemCode, int allocateQty)
         //{
         //    return BusinessLogic.updateRequisitionDetails(requisitionNo, ItemCode, allocateQty);

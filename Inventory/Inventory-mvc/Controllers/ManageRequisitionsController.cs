@@ -18,6 +18,7 @@ namespace Inventory_mvc.Controllers
         IRequisitionRecordService rs = new RequisitionRecordService();
         IDepartmentService ds = new DepartmentService();
         IUserService us = new UserService();
+        ITransactionRecordService ts = new TransactionRecordService();
         // GET: RequisitionRecord
         public ActionResult Index()
         {
@@ -59,13 +60,13 @@ namespace Inventory_mvc.Controllers
         public ActionResult ClerkRequisition(int? page)
         {
             List<BigModelView> blist = new List<BigModelView>();
+            List<string> itemCodes = rs.GetItemCodeList();
             if (HttpContext.Application["BigModel"] != null)
             {
                 blist = (List<BigModelView>)HttpContext.Application["BigModel"];
             }
             else
             {
-                List<string> itemCodes = rs.GetItemCodeList();
                 foreach (var itemCode in itemCodes)
                 {
                     BigModelView bigModel;
@@ -88,7 +89,7 @@ namespace Inventory_mvc.Controllers
                             }
                             else
                             {
-                                bigModel.retrievedQuantity = "100";
+                                bigModel.retrievedQuantity = "0";
                             }
                         }
                         else
@@ -195,12 +196,12 @@ namespace Inventory_mvc.Controllers
         [HttpGet]
         public ActionResult ApproveRequisition(int id)
         {
-
+            var userID = HttpContext.User.Identity.Name;
             Requisition_Record model = new Requisition_Record();
             model = rs.GetRequisitionByID(id);
-            rs.UpdateRequisition(model, RequisitionStatus.APPROVED_PROCESSING);
+            rs.UpdateRequisition(model, RequisitionStatus.APPROVED_PROCESSING, userID);
             EmailNotification.EmailNotificatioForRequisitionApprovalStatus(id, RequisitionStatus.APPROVED_PROCESSING, "no reason");
-            
+
             return RedirectToAction("ManagerRequisition");
         }
 
@@ -218,7 +219,7 @@ namespace Inventory_mvc.Controllers
         {
             Requisition_Record model = new Requisition_Record();
             model = rs.GetRequisitionByID(id);
-            rs.UpdateRequisition(model, RequisitionStatus.REJECTED);
+            rs.UpdateRequisition(model, RequisitionStatus.REJECTED, "");
             EmailNotification.EmailNotificatioForRequisitionApprovalStatus(id, RequisitionStatus.REJECTED, "no reason");
             return RedirectToAction("ManagerRequisition");
         }
@@ -234,8 +235,8 @@ namespace Inventory_mvc.Controllers
                 deptCode = Session["deptCode"].ToString();
             }
             List<Disbursement> list;
-
             list = rs.GetRequisitionByDept(deptCode);
+            HttpContext.Application["TotalItem"] = list.Count();
             StationeryModel entity = new StationeryModel();
             var user = entity.Users.Where(x => x.departmentCode == deptCode).First();
             foreach (var a in ds.GetAllDepartment().ToList())
@@ -300,12 +301,133 @@ namespace Inventory_mvc.Controllers
             }
             ViewData["list"] = departmentlist;
             var list = rs.GetRequisitionByDept(deptCode);
-
+            HttpContext.Application["TotalItem"] = list.Count();
             //return View(list);
             int pageSize = 10;
             int pageNumber = (page ?? 1);
             return View(list.ToPagedList(pageNumber, pageSize));
         }
+      
+
+        [HttpPost]
+        public void KeepTempData(List<BigModelView> list)
+        {
+            int page = (int)Session["page"];
+            if (list != null || list.Count != 0)
+            {
+                HttpContext.Application.Lock();
+                List<BigModelView> wholeList = (List<BigModelView>)HttpContext.Application["BigModel"];
+                HttpContext.Application.UnLock();
+
+                for (int i = 0; i < list.Count(); i++)
+                {
+
+                    wholeList[i + (page - 1) * 4].allocateQty = list[i].allocateQty;
+                }
+
+                HttpContext.Application.Lock();
+                HttpContext.Application["BigModel"] = wholeList;
+                HttpContext.Application.UnLock();
+            }
+        }
+
+        [HttpPost]
+        public void KeepTempData2(List<RetrieveForm> list)
+        {
+            List<Status> status = new List<Status>();
+
+            if (list != null || list.Count != 0)
+            {
+                List<RetrieveForm> wholeList = (List<RetrieveForm>)HttpContext.Application["retrieveList"];
+                if (HttpContext.Application["checkRetrieve"] == null)
+                {
+                    for (int i = 0; i < wholeList.Count; i++)
+                    {
+                        Status s = new Status(wholeList[i].ItemCode);
+                        status.Add(s);
+                    }
+                }
+                else
+                {
+                    status = (List<Status>)HttpContext.Application["checkRetrieve"];
+                }
+                for (int i = 0; i < list.Count(); i++)
+                {
+                    var item = ss.FindStationeryByItemCode(list[i].ItemCode);
+                    var a = wholeList.Find(x => x.ItemCode == list[i].ItemCode);
+                    if (a.retrieveQty != 0 && a.retrieveQty < item.stockQty)
+                    {
+                        status.Where(x => x.itemCode == list[i].ItemCode).First().status = false;
+                    }
+                    else
+                    {
+                        a.retrieveQty = list[i].retrieveQty;
+                    }
+                }
+                HttpContext.Application["checkRetrieve"] = status;
+                HttpContext.Application["retrieveList"] = wholeList;
+            }
+        }
+
+        [HttpGet]
+        public ActionResult updateFulfilledQty()
+        {
+            var actualQty = Convert.ToInt32((Request.QueryString["key1"]));
+            var itemCode = Request.QueryString["key2"];
+            List<Requisition_Record> list = new List<Requisition_Record>();
+            var a = Session["deptCode"];
+            int status = 1;
+            if (Session["deptCode"] != null)
+            {
+                list = rs.GetRecordByItemCode(itemCode).Where(x => x.Department.departmentCode == Session["deptCode"].ToString() && (x.status == RequisitionStatus.APPROVED_PROCESSING || x.status == RequisitionStatus.PARTIALLY_FULFILLED)).ToList();
+            }
+            Requisition_Detail details = new Requisition_Detail();
+            list.Sort();
+            for (int i = 0; actualQty > 0 && i < list.Count(); i++)
+            {
+                if (list[i].Requisition_Detail.Where(x => x.itemCode == itemCode).First().allocatedQty > 0)
+                {
+                    details = list[i].Requisition_Detail.Where(x => x.itemCode == itemCode && x.allocatedQty > 0).First();
+
+                    if (actualQty - details.allocatedQty >= 0)
+                    {
+                        actualQty = actualQty - (int)details.allocatedQty;
+                        rs.UpdateDetails(itemCode, list[i].requisitionNo, 0, details.allocatedQty + details.fulfilledQty);
+                        foreach (var l in list[i].Requisition_Detail.ToList())
+                        {
+                            if (l.qty != l.fulfilledQty && l.fulfilledQty > 0)
+                            {
+                                status = 2;
+                                break;
+                            }
+                        }
+                        rs.updatestatus(list[i].requisitionNo, status);
+                    }
+                    else
+                    {
+                        rs.UpdateDetails(itemCode, list[i].requisitionNo, 0, actualQty + details.fulfilledQty);
+                        foreach (var l in list[i].Requisition_Detail.ToList())
+                        {
+                            if (l.qty != l.fulfilledQty && l.fulfilledQty > 0)
+                            {
+                                status = 2;
+                                break;
+                            }
+                        }
+                        rs.updatestatus(list[i].requisitionNo, status);
+                        actualQty = 0;
+                    }
+                }
+            }
+            Transaction_Record tr = new Transaction_Record();
+            tr.clerkID = HttpContext.User.Identity.Name;
+            tr.date = DateTime.Now;
+            tr.type = TransactionTypes.DISBURSEMENT;
+            ts.AddNewTransactionRecord(tr);
+            HttpContext.Application["retrieveform"] = null;
+            return RedirectToAction("DisbursementList");
+        }
+
         [HttpGet]
         public ActionResult GenerateRetrieveForm(int? page)
         {
@@ -313,9 +435,9 @@ namespace Inventory_mvc.Controllers
             {
                 return View();
             }
-            if (Session["retrieveList"] != null)
+            if (HttpContext.Application["retrieveList"] != null)
             {
-                List<RetrieveForm> model = (List<RetrieveForm>)Session["retrieveList"];
+                List<RetrieveForm> model = (List<RetrieveForm>)HttpContext.Application["retrieveList"];
                 int pageSize = 1;
                 int pageNumber = (page ?? 1);
                 return View(model.ToPagedList(pageNumber, pageSize));
@@ -332,110 +454,52 @@ namespace Inventory_mvc.Controllers
             }
             DateTime? from = Convert.ToDateTime(form["from"]);
             RetrieveForm rf = new RetrieveForm();
-            List<RetrieveForm> model = rs.GetRetrieveFormByDateTime(from);
+            List<RetrieveForm> model = new List<RetrieveForm>();
             Session["date"] = from;
-            Session["retrieveList"] = model;
-            //return View(model);
+            
+            if (HttpContext.Application["retrieveList"] == null)
+            {
+                model = rs.GetRetrieveFormByDateTime(from);
+                HttpContext.Application["retrieveList"] = model;
+            }
+            else
+            {
+                model = (List<RetrieveForm>)HttpContext.Application["retrieveList"];
+            }
             int pageSize = 1;
             int pageNumber = (page ?? 1);
             return View(model.ToPagedList(pageNumber, pageSize));
         }
 
+
         [HttpPost]
         public ActionResult GetApplication(IEnumerable<RetrieveForm> form)
         {
-            var forms = (List<RetrieveForm>)Session["retrieveList"];
-            HttpContext.Application["retrieveform"] = (List<RetrieveForm>)Session["retrieveList"];
-            foreach (var item in forms)
+            var forms = (List<RetrieveForm>)HttpContext.Application["retrieveList"];
+            HttpContext.Application["retrieveform"] = (List<RetrieveForm>)HttpContext.Application["retrieveList"];
+            var status = (List<Status>)HttpContext.Application["checkRetrieve"];
+            for (int j = 0; j < forms.Count(); j++)
             {
-                StationeryViewModel model = ss.FindStationeryViewModelByItemCode(item.ItemCode);
-                if (model.StockQty < (int)item.retrieveQty)
+                if (!status.Where(x => x.itemCode == forms[j].ItemCode).First().status )
                 {
-                    ViewBag.Message = "Stock is not enough.";
-                    return View("Error");
+                    //ViewBag.Message = forms[j].description + " have been retrieved.";
+                    //return View("Error");
                 }
-                model.StockQty = model.StockQty - (int)item.retrieveQty;
-                ss.UpdateStationeryInfo(model);
-            }
-            return RedirectToAction("GenerateRetrieveForm");
-        }
-
-        [HttpPost]
-        public void KeepTempData(List<BigModelView> list)
-        {
-            int page = (int)Session["page"];
-            if (list != null || list.Count != 0)
-            {
-                HttpContext.Application.Lock();
-                List<BigModelView> wholeList = (List<BigModelView>)HttpContext.Application["BigModel"];
-                HttpContext.Application.UnLock();
-
-                for(int i =0;i<list.Count();i++)
+                else
                 {
-
-                    wholeList[i + (page-1)*4].allocateQty = list[i].allocateQty;
-                }
-
-                HttpContext.Application.Lock();
-                HttpContext.Application["BigModel"] = wholeList;
-                HttpContext.Application.UnLock();
-            }
-        }
-
-        [HttpPost]
-        public void KeepTempData2(List<RetrieveForm> list)
-        {
-            if (list != null || list.Count != 0)
-            {
-                List<RetrieveForm> wholeList = (List<RetrieveForm>)Session["retrieveList"];
-
-                foreach(var item in list)
-                {
-                    var a = wholeList.Find(x => x.ItemCode == item.ItemCode);
-                    a.retrieveQty = item.retrieveQty;
-                }
-
-                Session["retrieveList"] = wholeList;
-            }
-        }
-
-        [HttpGet]
-        public ActionResult updateFulfilledQty()
-        {
-            var actualQty = Convert.ToInt32((Request.QueryString["key1"]));
-            var itemCode = Request.QueryString["key2"];
-            List<Requisition_Record> list = new List<Requisition_Record>();
-            var a = Session["deptCode"];
-            int status = 1;
-            if (Session["deptCode"] != null)
-            {
-                list = rs.GetRecordByItemCode(itemCode).Where(x => x.Department.departmentCode == Session["deptCode"].ToString()).ToList();
-            }
-            Requisition_Detail details = new Requisition_Detail();
-            list.Sort();
-            for (int i = 0; actualQty > 0; i++)
-            {
-                if (list[i].Requisition_Detail.Where(x => x.itemCode == itemCode && x.allocatedQty > 0).Count() > 0)
-                {
-                    details = list[i].Requisition_Detail.Where(x => x.itemCode == itemCode && x.allocatedQty > 0).First();
-
-                    if (actualQty - details.allocatedQty >= 0)
+                    StationeryViewModel stationery = ss.FindStationeryViewModelByItemCode(forms[j].ItemCode);
+                    if (stationery.StockQty < (int)forms[j].retrieveQty)
                     {
-                        actualQty -= (int)details.allocatedQty;
-                        rs.UpdateDetails(itemCode, list[i].requisitionNo, 0, details.allocatedQty + details.fulfilledQty);
-                        foreach (var l in list[i].Requisition_Detail.ToList())
-                        {
-                            if (l.qty != l.fulfilledQty && l.fulfilledQty > 0)
-                            {
-                                status = 2;
-                                
-                            }
-                        }
-                        rs.updatestatus(list[i].requisitionNo, status);
+                        ViewBag.Message = "Stock is not enough.";
+                        return View("Error");
                     }
+                    stationery.StockQty = stationery.StockQty - (int)forms[j].retrieveQty;
+                    ss.UpdateStationeryInfo(stationery);
                 }
+
             }
-            return RedirectToAction("DisbursementList");
+
+            return RedirectToAction("GenerateRetrieveForm");
         }
     }
 }
