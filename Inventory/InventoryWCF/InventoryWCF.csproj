@@ -87,7 +87,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <None Include="Properties\PublishProfiles\AD_Inventory_WCF.pubxml" />
+    <None Include="Properties\PublishProfiles\ThiriKyaw.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
