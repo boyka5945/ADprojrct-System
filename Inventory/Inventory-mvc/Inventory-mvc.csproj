@@ -283,6 +283,7 @@
     <Compile Include="ViewModel\RetrieveForm.cs" />
     <Compile Include="ViewModel\StationeryJSONForCombobox.cs" />
     <Compile Include="ViewModel\StationeryViewModel.cs" />
+    <Compile Include="ViewModel\Status.cs" />
     <Compile Include="ViewModel\SupplierViewModel.cs" />
     <Compile Include="ViewModel\UserViewModel.cs" />
     <Compile Include="ViewModel\Purchase_Order_RecordViewModel.cs" />

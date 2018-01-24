@@ -16,7 +16,7 @@ namespace Inventory_mvc.Service
 
         Requisition_Record GetRequisitionByID(int id);
 
-        void UpdateRequisition(Requisition_Record rr, string status);
+        void UpdateRequisition(Requisition_Record rr, string status, string approveStaffID);
 
         List<string> GetItemCodeList();
 

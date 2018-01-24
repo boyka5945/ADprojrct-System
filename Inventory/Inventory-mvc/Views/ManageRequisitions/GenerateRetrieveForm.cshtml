@@ -56,7 +56,7 @@
                 <input type="hidden" name="[@i].Qty" value="@Model.ToList()[i].Qty" />
             </td>
             <td>
-                <input type="number" name="[@i].retrieveQty" class="form-control" min="0" onchange="SaveData()" required />
+                <input type="number" name="[@i].retrieveQty" value="@Model.ToList()[i].retrieveQty" class="form-control" min="0" onchange="SaveData()" required />
             </td>  
         </tr>
     }
@@ -80,6 +80,7 @@
 <script>
     $(function () {
         $("#delstart").datepicker({
+            dateFormat:'yy/mm/dd',
             showButtonPanel: true
         });
     });

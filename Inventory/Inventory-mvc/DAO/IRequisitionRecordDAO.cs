@@ -15,7 +15,7 @@ namespace Inventory_mvc.DAO
 
         Boolean AddNewRequisition(Requisition_Record purchase_order_record);
 
-        int UpdateRequisition(Requisition_Record purchase_order_record, string status);
+        int UpdateRequisition(Requisition_Record requisition_Record, string status, string approveStaffID);
 
         Boolean DeleteRequisition(int requisitionNo);
 
