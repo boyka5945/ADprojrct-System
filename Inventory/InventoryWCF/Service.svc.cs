@@ -111,14 +111,21 @@ namespace InventoryWCF
             }
             catch (Exception e)
             {
-                throw new Exception("Requisition detail not found");
+                throw new Exception(e.Message);
             }
         }
 
         public List<WCFStationery> GetAllStationeries()
         {
-            List<Stationery> stationeries = stationeryService.GetAllStationery();
-            return WCFModelConvertUtility.ConvertToWCFStationery(stationeries);
+            try
+            {
+                List<Stationery> stationeries = stationeryService.GetAllStationery();
+                return WCFModelConvertUtility.ConvertToWCFStationery(stationeries);
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
         }
 
         public WCFStationery GetStationery(string itemCode)
@@ -130,7 +137,46 @@ namespace InventoryWCF
             }
             catch (Exception e)
             {
-                throw new Exception("Stationery not found");
+                throw new Exception(e.Message);
+            }
+        }
+
+        public List<WCFStationery> GetStationeryByCriteria(string categoryName, string searchString)
+        {
+            try
+            {
+                string categoryID = "-1";
+
+                if(categoryName != "All")
+                {
+                    List<Category> categories = stationeryService.GetAllCategory();
+                    categoryID = categories.Find(x => x.categoryName == categoryName).categoryID.ToString();
+                }
+
+                List<Stationery> stationeries = stationeryService.GetStationeriesBasedOnCriteria(searchString, categoryID);
+                return WCFModelConvertUtility.ConvertToWCFStationery(stationeries);
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+
+        }
+
+        public List<WCFCategory> GetAllCategories()
+        {
+            try
+            {
+                List<Category> categories = stationeryService.GetAllCategory();
+                Category all = new Category();
+                all.categoryID = -1;
+                all.categoryName = "All";
+                categories.Add(all);
+                return WCFModelConvertUtility.ConvertToWCFCategories(categories);
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
             }
         }
 

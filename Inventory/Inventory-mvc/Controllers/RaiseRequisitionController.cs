@@ -19,12 +19,12 @@ namespace Inventory_mvc.Controllers
         IUserService userService = new UserService();
 
         // GET: RaiseRequisition/BrowseCatalogue
-        public ActionResult BrowseCatalogue(string searchString, int? page, string categoryID = "All")
+        public ActionResult BrowseCatalogue(string searchString, int? page, string categoryID = "-1")
         {
             List<Stationery> stationeries = stationeryService.GetStationeriesBasedOnCriteria(searchString, categoryID);
 
             ViewBag.CategoryList = stationeryService.GetAllCategory();
-            ViewBag.CategoryID = (categoryID == "All") ? "All" : categoryID;
+            ViewBag.CategoryID = (categoryID == "-1") ? "-1" : categoryID;
 
             ViewBag.SearchString = searchString;
             ViewBag.Page = page;

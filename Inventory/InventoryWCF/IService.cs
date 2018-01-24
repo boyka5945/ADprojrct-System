@@ -42,6 +42,14 @@ namespace InventoryWCF
         [WebGet(UriTemplate = "/GetStationery/{itemCode}", ResponseFormat = WebMessageFormat.Json)]
         WCFStationery GetStationery(string itemCode);
 
+        [OperationContract]
+        [WebGet(UriTemplate = "/GetStationeries/{categoryName}/{searchString}", ResponseFormat = WebMessageFormat.Json)]
+        List<WCFStationery> GetStationeryByCriteria(string categoryName, string searchString);
+
+        [OperationContract]
+        [WebGet(UriTemplate = "/GetAllCategories", ResponseFormat = WebMessageFormat.Json)]
+        List<WCFCategory> GetAllCategories();
+
         //[OperationContract]
         //Boolean updateRequisitionDetails(int requisitionNo, string ItemCode, int allocateQty);
 
@@ -334,7 +342,7 @@ namespace InventoryWCF
             set { remarks = value; }
         }
 
-        [DataMember (Name = "RequestQty")]
+        [DataMember(Name = "RequestQty")]
         public int Qty
         {
             get { return qty; }
@@ -375,5 +383,27 @@ namespace InventoryWCF
             get { return nextCollectionDate; }
             set { nextCollectionDate = value; }
         }
+    }
+
+    [DataContract]
+    public class WCFCategory
+    {
+        int categoryID;
+        string categoryName;
+
+        [DataMember]
+        public int CategoryID
+        {
+            get { return categoryID; }
+            set { categoryID = value; }
+        }
+
+        [DataMember]
+        public string CategoryName
+        {
+            get { return categoryName; }
+            set { categoryName = value; }
+        }
+
     }
 }
