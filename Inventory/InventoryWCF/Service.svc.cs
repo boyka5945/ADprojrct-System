@@ -160,8 +160,30 @@ namespace InventoryWCF
             {
                 throw new Exception(e.Message);
             }
+        }
+
+        public List<WCFStationery> GetStationeryByCategory(string categoryName)
+        {
+            try
+            {
+                string categoryID = "-1";
+
+                if (categoryName != "All")
+                {
+                    List<Category> categories = stationeryService.GetAllCategory();
+                    categoryID = categories.Find(x => x.categoryName == categoryName).categoryID.ToString();
+                }
+
+                List<Stationery> stationeries = stationeryService.GetStationeriesBasedOnCriteria(null, categoryID);
+                return WCFModelConvertUtility.ConvertToWCFStationery(stationeries);
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
 
         }
+
 
         public List<WCFCategory> GetAllCategories()
         {
@@ -179,6 +201,7 @@ namespace InventoryWCF
                 throw new Exception(e.Message);
             }
         }
+
 
         //public Boolean updateRequisitionDetails(int requisitionNo, string ItemCode, int allocateQty)
         //{

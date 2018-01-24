@@ -309,7 +309,7 @@ namespace Inventory_mvc.DAO
                 }
                 catch (Exception e)
                 {
-                    return false;
+                    throw new Exception(e.Message);
                 }
             }
         }

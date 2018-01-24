@@ -47,6 +47,10 @@ namespace InventoryWCF
         List<WCFStationery> GetStationeryByCriteria(string categoryName, string searchString);
 
         [OperationContract]
+        [WebGet(UriTemplate = "/GetStationeries/{categoryName}", ResponseFormat = WebMessageFormat.Json)]
+        List<WCFStationery> GetStationeryByCategory(string categoryName);
+
+        [OperationContract]
         [WebGet(UriTemplate = "/GetAllCategories", ResponseFormat = WebMessageFormat.Json)]
         List<WCFCategory> GetAllCategories();
 

@@ -58,5 +58,7 @@ namespace Inventory_mvc.Service
         int DetailsCountOfOneItemcode(string itemcode);
 
         List<RequisitionDetailViewModel> GetViewModelFromRequisitionRecord(Requisition_Record record);
+
+        bool IsUserValidToSubmitRequisition(string requesterID)
     }
 }
