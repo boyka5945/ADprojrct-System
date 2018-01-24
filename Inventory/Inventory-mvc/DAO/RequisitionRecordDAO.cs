@@ -440,11 +440,11 @@ namespace Inventory_mvc.DAO
                 var record = entity.Requisition_Records.Where(x => x.requisitionNo == requisitionNo).First();
                 if (status == 1)
                 {
-                    record.status = "Collected";
+                    record.status = RequisitionStatus.COLLECTED;
                 }
                 else if (status == 2)
                 {
-                    record.status = "Partially fulfilled";
+                    record.status = RequisitionStatus.PARTIALLY_FULFILLED;
                 }
                 entity.SaveChanges();
             }
