@@ -192,18 +192,17 @@
     <Compile Include="Controllers\CheckShortfallController.cs" />
     <Compile Include="Controllers\POGeneratorController.cs" />
     <Compile Include="DAO\AdjustmentVoucherDAO.cs" />
-    <Compile Include="DAO\ChartDAO.cs" />
     <Compile Include="DAO\CollectionPointDAO.cs" />
     <Compile Include="DAO\DAOException.cs" />
     <Compile Include="DAO\DepartmentDAO.cs" />
     <Compile Include="DAO\IAdjustmentVoucherDAO.cs" />
-    <Compile Include="DAO\IChartDAO.cs" />
     <Compile Include="DAO\ICollectionPointDAO.cs" />
     <Compile Include="DAO\IDepartmentDAO.cs" />
     <Compile Include="DAO\IInventoryStatusRecordDAO.cs" />
     <Compile Include="DAO\InventoryStatusRecordDAO.cs" />
     <Compile Include="DAO\IPurchaseOrderDAO.cs" />
     <Compile Include="DAO\IReceiveStockDAO.cs" />
+    <Compile Include="DAO\IReportDAO.cs" />
     <Compile Include="DAO\IRequisitionRecordDAO.cs" />
     <Compile Include="DAO\IStationeryDAO.cs" />
     <Compile Include="DAO\ISupplierDAO.cs" />
@@ -211,6 +210,7 @@
     <Compile Include="DAO\IUserDAO.cs" />
     <Compile Include="DAO\PurchaseOrderDAO.cs" />
     <Compile Include="DAO\ReceiveStockDAO.cs" />
+    <Compile Include="DAO\ReportDAO.cs" />
     <Compile Include="DAO\RequisitionRecordDAO.cs" />
     <Compile Include="DAO\StationeryDAO.cs" />
     <Compile Include="DAO\SupplierDAO.cs" />
@@ -257,6 +257,7 @@
     <Compile Include="Service\InventoryStatusRecordService.cs" />
     <Compile Include="Service\IPurchaseOrderService.cs" />
     <Compile Include="Service\IReceiveStockService.cs" />
+    <Compile Include="Service\IReportService.cs" />
     <Compile Include="Service\IRequisitionRecordService.cs" />
     <Compile Include="Service\IStationeryService.cs" />
     <Compile Include="Service\ISupplierService.cs" />
@@ -264,6 +265,7 @@
     <Compile Include="Service\IUserService.cs" />
     <Compile Include="Service\PurchaseOrderService.cs" />
     <Compile Include="Service\ReceiveStockService.cs" />
+    <Compile Include="Service\ReportService.cs" />
     <Compile Include="Service\RequisitionRecordService.cs" />
     <Compile Include="Service\StationeryService.cs" />
     <Compile Include="Service\SupplierService.cs" />
