@@ -129,6 +129,12 @@ namespace Inventory_mvc.Service
             RequisitionRecordDAO rDAO = new RequisitionRecordDAO();
             return rDAO.GetAllRequisitionByDept(deptCode);
         }
+        
+        public List<Requisition_Detail> GetPendingRequestByDeptCode(string deptCode)
+        {
+            RequisitionRecordDAO rDAO = new RequisitionRecordDAO();
+            return rDAO.GetPendingRequestByDeptCode(deptCode);
+        }
 
         public List<Disbursement> GetPendingDisbursementByDept(string deptCode)
         {

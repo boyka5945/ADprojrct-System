@@ -61,6 +61,15 @@ namespace InventoryWCF
         [OperationContract]
         [WebGet(UriTemplate = "/GetAllRequisitionRecords", ResponseFormat = WebMessageFormat.Json)]
         List<WCFRequisitionRecord> GetAllRequisitionRecords();
+
+        [OperationContract]
+        [WebGet(UriTemplate = "/GetPendingRequestByDept/{deptCode}", ResponseFormat = WebMessageFormat.Json)]
+        List<WCFRequisitionDetail> GetPendingRequestByDept(string deptCode);
+
+        [OperationContract]
+        [WebGet(UriTemplate = "/GetDetailByReqNo/{reqNo}", ResponseFormat = WebMessageFormat.Json)]
+        List<WCFRequisitionDetail> GetDetailsByReqNo(string reqNo);
+
         //[OperationContract]
         //Boolean updateRequisitionDetails(int requisitionNo, string ItemCode, int allocateQty);
 

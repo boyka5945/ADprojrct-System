@@ -192,10 +192,12 @@
     <Compile Include="Controllers\CheckShortfallController.cs" />
     <Compile Include="Controllers\POGeneratorController.cs" />
     <Compile Include="DAO\AdjustmentVoucherDAO.cs" />
+    <Compile Include="DAO\ChartDAO.cs" />
     <Compile Include="DAO\CollectionPointDAO.cs" />
     <Compile Include="DAO\DAOException.cs" />
     <Compile Include="DAO\DepartmentDAO.cs" />
     <Compile Include="DAO\IAdjustmentVoucherDAO.cs" />
+    <Compile Include="DAO\IChartDAO.cs" />
     <Compile Include="DAO\ICollectionPointDAO.cs" />
     <Compile Include="DAO\IDepartmentDAO.cs" />
     <Compile Include="DAO\IInventoryStatusRecordDAO.cs" />
@@ -279,6 +281,7 @@
     <Compile Include="ViewModel\InventoryCheckViewModel.cs" />
     <Compile Include="ViewModel\ItemTransactionRecordViewModel.cs" />
     <Compile Include="ViewModel\RaiseRequisitionViewModel.cs" />
+    <Compile Include="ViewModel\ReportViewModel.cs" />
     <Compile Include="ViewModel\RequisitionDetailViewModel.cs" />
     <Compile Include="ViewModel\RetrieveForm.cs" />
     <Compile Include="ViewModel\StationeryJSONForCombobox.cs" />
@@ -452,13 +455,13 @@
     <Content Include="Views\CollectionPoint\Collect_ItemByItem.cshtml" />
     <Content Include="Views\CollectionPoint\Pending_ItemByItem.cshtml" />
     <Content Include="Views\CollectionPoint\Pending_ItemByRequest.cshtml" />
+    <Content Include="Views\Report\Report.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\AdjustmentVoucherRecord\" />
     <Folder Include="Views\ChangePassword\" />
     <Folder Include="Views\Employee\" />
-    <Folder Include="Views\Report\" />
     <Folder Include="Views\RequisitionDetails\" />
     <Folder Include="Views\RequisitionRecord\" />
     <Folder Include="Views\VoucherDetails\" />
