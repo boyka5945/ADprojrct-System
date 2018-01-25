@@ -216,10 +216,6 @@ namespace InventoryWCF
             try
             {
                 List<Category> categories = stationeryService.GetAllCategory();
-                Category all = new Category();
-                all.categoryID = -1;
-                all.categoryName = "All";
-                categories.Add(all);
                 return WCFModelConvertUtility.ConvertToWCFCategories(categories);
             }
             catch (Exception e)
@@ -256,6 +252,17 @@ namespace InventoryWCF
             }
         }
 
+        public List<WCFRequisitionDetail> GetPendingRequestByDept(string deptCode)
+        {
+            List<Requisition_Detail> reqDetail = requisitionRecordService.GetPendingRequestByDeptCode(deptCode);
+            return WCFModelConvertUtility.ConvertToWCFRequestionDetails(reqDetail);
+        }
+
+        public List<WCFRequisitionDetail> GetDetailsByReqNo(string reqNo)
+        {
+            List<Requisition_Detail> reqDetail = requisitionRecordService.GetDetailsByNo(Convert.ToInt32(reqNo));
+            return WCFModelConvertUtility.ConvertToWCFRequestionDetails(reqDetail);
+        }
         //public Boolean updateRequisitionDetails(int requisitionNo, string ItemCode, int allocateQty)
         //{
         //    return BusinessLogic.updateRequisitionDetails(requisitionNo, ItemCode, allocateQty);

@@ -184,5 +184,19 @@ namespace InventoryWCF
             return detail;
         }
         
+
+       
+        public static List<WCFRequisitionDetail> ConvertToWCFRequestionDetails(List<Requisition_Detail> requestionDetail)
+        {
+            List<WCFRequisitionDetail> wcf_reqDetail = new List<WCFRequisitionDetail>();
+            foreach(var rd in requestionDetail)
+            {
+                wcf_reqDetail.Add(ConvertToWCFRequisitionDetail(rd));
+            }
+
+            return wcf_reqDetail;
+        }
+
+        
     }
 }

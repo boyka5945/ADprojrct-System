@@ -16,7 +16,8 @@ namespace Inventory_mvc.Function
         {
             { (int) UserRoles.RoleID.Employee, new int[] { (int) UserRoles.RoleID.DepartmentHead, (int) UserRoles.RoleID.ActingDepartmentHead} },
             { (int) UserRoles.RoleID.UserRepresentative, new int[] { (int) UserRoles.RoleID.DepartmentHead, (int) UserRoles.RoleID.ActingDepartmentHead, (int) UserRoles.RoleID.StoreManager } },
-            { (int) UserRoles.RoleID.StoreClerk, new int[] { (int) UserRoles.RoleID.StoreManager} }
+            { (int) UserRoles.RoleID.StoreClerk, new int[] { (int) UserRoles.RoleID.StoreManager} },
+            { (int) UserRoles.RoleID.StoreSupervisor, new int[] { (int) UserRoles.RoleID.StoreManager} }
         };
 
 

@@ -69,6 +69,15 @@ namespace InventoryWCF
                    ResponseFormat = WebMessageFormat.Json)]
         bool AddNewRequest(string requesterID, WCFRequisitionDetail[] newRequisition);
 
+
+        [OperationContract]
+        [WebGet(UriTemplate = "/GetPendingRequestByDept/{deptCode}", ResponseFormat = WebMessageFormat.Json)]
+        List<WCFRequisitionDetail> GetPendingRequestByDept(string deptCode);
+
+        [OperationContract]
+        [WebGet(UriTemplate = "/GetDetailByReqNo/{reqNo}", ResponseFormat = WebMessageFormat.Json)]
+        List<WCFRequisitionDetail> GetDetailsByReqNo(string reqNo);
+
         //[OperationContract]
         //Boolean updateRequisitionDetails(int requisitionNo, string ItemCode, int allocateQty);
 

@@ -41,6 +41,8 @@ namespace Inventory_mvc.DAO
 
         List<Requisition_Detail> GetAllRequisitionByDept(string deptCode);
 
+        List<Requisition_Detail> GetPendingRequestByDeptCode(string deptCode);
+
         List<Disbursement> GetPendingDisbursementByDept(string deptCode);
 
         List<Requisition_Detail> GetAllPendingDisbursementByDept(string deptCode);
