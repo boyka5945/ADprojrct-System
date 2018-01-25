@@ -151,11 +151,15 @@ namespace InventoryWCF
         public static WCFRetrievalForm ConvertToWCFRetrieval (RetrieveForm retrieval)
         {
             WCFRetrievalForm wcfR = new WCFRetrievalForm();
+            
             wcfR.Description = retrieval.description;
             wcfR.Qty = retrieval.Qty;
+            //add location to WCFRetrievalForm object
+            StationeryModel entity = new StationeryModel();
+            wcfR.Location = entity.Stationeries.Where(x => x.description == retrieval.description).First().location;
 
             return wcfR;
-
+           
         }
 
         public static List<WCFRetrievalForm> ConvertToWCFRetrievalList (List<RetrieveForm> retrieveForm)

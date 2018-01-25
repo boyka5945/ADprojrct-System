@@ -87,6 +87,10 @@ namespace InventoryWCF
         [WebGet(UriTemplate = "/GetRetrievalList", ResponseFormat = WebMessageFormat.Json)]
         List<WCFRetrievalForm> getRetrievalList();
 
+        //[OperationContract]
+        //[WebGet(UriTemplate = "/GetRetrievalItemByName", ResponseFormat = WebMessageFormat.Json)]
+        //List<WCFRetrievalForm> getRetrievalItemByName();
+
         [OperationContract]
         [WebGet(UriTemplate = "/GetAllDepartments", ResponseFormat = WebMessageFormat.Json)]
         List<WCFDepartment> GetAllDepartments();
@@ -136,6 +140,7 @@ namespace InventoryWCF
     {
         string description;
         int? qty;
+        string location;
 
         [DataMember]
         public string Description
@@ -149,6 +154,13 @@ namespace InventoryWCF
         {
             get { return qty; }
             set { qty = value; }
+        }
+
+        [DataMember]
+        public string Location
+        {
+            get { return location; }
+            set { location = value; }
         }
     }
 
