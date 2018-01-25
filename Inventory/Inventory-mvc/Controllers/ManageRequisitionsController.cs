@@ -333,7 +333,7 @@ namespace Inventory_mvc.Controllers
 
         [HttpGet]
         public void updateRetrieve()
-        {
+            {
             var RetrieveQty = Convert.ToInt32((Request.QueryString["key1"]));
             var itemCode = Request.QueryString["key2"];
             var description = Request.QueryString["key4"];
