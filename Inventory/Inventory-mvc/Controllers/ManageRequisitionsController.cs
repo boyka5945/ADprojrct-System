@@ -19,6 +19,7 @@ namespace Inventory_mvc.Controllers
         IDepartmentService ds = new DepartmentService();
         IUserService us = new UserService();
         ITransactionRecordService ts = new TransactionRecordService();
+        IInventoryStatusRecordService Is = new InventoryStatusRecordService();
         // GET: RequisitionRecord
         public ActionResult Index()
         {
@@ -70,7 +71,7 @@ namespace Inventory_mvc.Controllers
                 foreach (var itemCode in itemCodes)
                 {
                     BigModelView bigModel;
-                    List<Requisition_Record> list = rs.GetRecordByItemCode(itemCode);
+                    List<Requisition_Record> list = rs.GetRecordByItemCode(itemCode).Where(x=>x.status == RequisitionStatus.APPROVED_PROCESSING || x.status == RequisitionStatus.PARTIALLY_FULFILLED).ToList();
                     var retrieve = (List<RetrieveForm>)(HttpContext.Application["retrieveform"]);
                     for (int i = 0; i < list.Count; i++)
                     {
@@ -346,10 +347,10 @@ namespace Inventory_mvc.Controllers
             rf.Qty = Qty;
             rf.retrieveQty = RetrieveQty;
             rf.StockQty = stock;
-            StationeryViewModel stationery = ss.FindStationeryViewModelByItemCode(itemCode);
+            //StationeryViewModel stationery = ss.FindStationeryViewModelByItemCode(itemCode);
 
-            stationery.StockQty -= RetrieveQty;
-            ss.UpdateStationeryInfo(stationery);
+            //stationery.StockQty -= RetrieveQty;
+            //ss.UpdateStationeryInfo(stationery);
             
             var rlist = (List<RetrieveForm>)HttpContext.Application["retrieveList"];
             rlist.Where(x => x.ItemCode == itemCode).First().retrieveQty = RetrieveQty;
@@ -375,6 +376,13 @@ namespace Inventory_mvc.Controllers
         {
             var actualQty = Convert.ToInt32((Request.QueryString["key1"]));
             var itemCode = Request.QueryString["key2"];
+            var allocateQty = Convert.ToInt32(Request.QueryString["key3"]);
+            using (StationeryModel model = new StationeryModel())
+            {
+                Stationery s = model.Stationeries.Where(x => x.itemCode == itemCode).First();
+                s.stockQty = s.stockQty - actualQty;
+                model.SaveChanges();
+            }
             List<Requisition_Record> list = new List<Requisition_Record>();
             var a = Session["deptCode"];
 
@@ -382,7 +390,6 @@ namespace Inventory_mvc.Controllers
             {
                 list = rs.GetRecordByItemCode(itemCode).Where(x => x.Department.departmentCode == Session["deptCode"].ToString() && (x.status == RequisitionStatus.APPROVED_PROCESSING || x.status == RequisitionStatus.PARTIALLY_FULFILLED)).ToList();
             }
-            Requisition_Detail details = new Requisition_Detail();
             list.Sort();
             for (int i = 0; actualQty > 0 && i < list.Count(); i++)
             {
@@ -396,7 +403,7 @@ namespace Inventory_mvc.Controllers
                     }
                     else
                     {
-                        rs.UpdateDetails(itemCode, list[i].requisitionNo, 0, actualQty + details.fulfilledQty);
+                        rs.UpdateDetails(itemCode, list[i].requisitionNo, 0, actualQty + b.fulfilledQty);
                         actualQty = 0;
                     }
                 }
@@ -432,6 +439,21 @@ namespace Inventory_mvc.Controllers
                 }
                 rs.updatestatus(list[i].requisitionNo, status);
             }
+
+
+            using (StationeryModel model = new StationeryModel())
+            {
+                Inventory_Status_Record im = new Inventory_Status_Record();
+                im.discrepancyQty = allocateQty - actualQty;
+                im.itemCode = itemCode;
+                TimeSpan ts = new TimeSpan(0, 0, 10);
+                im.date = DateTime.Now;
+                im.onHandQty = model.Stationeries.Where(x=>x.itemCode==itemCode).First().stockQty;
+                im.remarks = "";
+                model.Inventory_Status_Records.Add(im);
+                model.SaveChanges();
+            }
+
             Transaction_Record tr = new Transaction_Record();
             tr.clerkID = HttpContext.User.Identity.Name;
             tr.date = DateTime.Now;

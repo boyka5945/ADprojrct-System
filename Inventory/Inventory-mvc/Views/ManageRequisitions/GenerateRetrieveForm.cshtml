@@ -59,21 +59,15 @@
                 <input type="hidden" id="a[@i]" name="[@i].Qty" value="@Model.ToList()[i].Qty" />
             </td>
             <td>
-                @if (Model.ToList()[i].retrieveQty > 0)
-                {
-                    @Html.DisplayFor(modelItem => Model.ToList()[i].retrieveQty)
-                }
-                else
-                {<input type="number"  id="@i" name="[@i].retrieveQty" value="@Model.ToList()[i].retrieveQty" class="form-control" min="0" max="@Model.ToList()[i].Qty" required />}
+
+                <input type="number"  id="@i" name="[@i].retrieveQty" value="@Model.ToList()[i].retrieveQty" class="form-control" min="0" max="@Model.ToList()[i].Qty" required />
             </td> 
             <td>
                 @Html.HiddenFor(modelItem => Model.ToList()[i].StockQty)
                 <input type="hidden" id="e[@i]" name="[@i].Qty" value="@Model.ToList()[i].StockQty" />
             </td>
             <td>
-                @if (Model.ToList()[i].retrieveQty == 0)
-                {
-                <input type="button" name ="button" class="form-control" value="Confirm" onclick="SaveData(@i,@Model.PageNumber)" />}
+                <input type="button" name ="button" class="form-control" value="Confirm" onclick="SaveData(@i,@Model.PageNumber)" />
             </td>
         </tr>
     }

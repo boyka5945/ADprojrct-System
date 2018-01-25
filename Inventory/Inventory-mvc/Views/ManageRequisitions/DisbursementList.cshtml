@@ -56,7 +56,7 @@
         </td>
         <td>
             @Html.DisplayFor(modelItem => Model.ToList()[i].quantity)
-            <input type="hidden" name="[@i].quantity" value="@Model.ToList()[i].quantity" />
+            <input type="hidden" id="AllocateQty[@i]" name="[@i].quantity" value="@Model.ToList()[i].quantity" />
         </td>
         <td>
             <input type="number" id="ActualQty[@i]" class="form-control" min="0" max="@Model.ToList()[i].quantity" required />
@@ -80,10 +80,11 @@ Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.Page
     function SaveData(i) {
         var ActualQty = document.getElementById("ActualQty["+ i +"]").value; // convert form to array
         var itemCode = document.getElementById(i).value; // convert form to array
+        var AllocateQty = document.getElementById("AllocateQty[" + i + "]").value;
         //if (parseInt(document.getElementById(i).value) > parseInt(document.getElementById("a[" + i + "]").value)) {
         //    alert("ActualRetrieveQty can not more than AllocateQty.");
         //} else {
-        window.location.href = '@Url.Action("updateFulfilledQty", "ManageRequisitions")?key1=' + ActualQty + "&key2=" + itemCode;
+        window.location.href = '@Url.Action("updateFulfilledQty", "ManageRequisitions")?key1=' + ActualQty + "&key2=" + itemCode + "&key3=" + AllocateQty;
         //}
             // convert to url-encoded form
             //success: function () {
