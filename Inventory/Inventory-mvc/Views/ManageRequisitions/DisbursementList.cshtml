@@ -52,17 +52,17 @@
         </td>
         <td>
             @Html.HiddenFor(modelItem => Model.ToList()[i].itemCode)
-            <input type="hidden" name="[@i].itemCode" value="@Model.ToList()[i].itemCode" />
+            <input type="hidden" id="@i" name="[@i].itemCode" value="@Model.ToList()[i].itemCode" />
         </td>
         <td>
             @Html.DisplayFor(modelItem => Model.ToList()[i].quantity)
             <input type="hidden" name="[@i].quantity" value="@Model.ToList()[i].quantity" />
         </td>
         <td>
-            <input type="number" id="ActualQty" class="form-control" min="0" required />
+            <input type="number" id="ActualQty[@i]" class="form-control" min="0" max="@Model.ToList()[i].quantity" required />
         </td>
         <td>
-            <input type="button" name="button" class="form-control" value="Confirm" onclick="SaveData('@Model.ToList()[i].itemCode')" />
+            <input type="button" name="button" class="form-control" value="Confirm" onclick="SaveData(@i)" />
         </td>
     </tr>
 }
@@ -77,10 +77,14 @@ Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.Page
         @Html.Label("Representative :")
         @Html.Label((string)ViewBag.rp)
 <script>
-    function SaveData(itemCode) {
-        var myformdata = document.getElementById("ActualQty").value; // convert form to array
-
-        window.location.href = '@Url.Action("updateFulfilledQty", "ManageRequisitions")?key1=' + myformdata + "&key2=" + itemCode;
+    function SaveData(i) {
+        var ActualQty = document.getElementById("ActualQty["+ i +"]").value; // convert form to array
+        var itemCode = document.getElementById(i).value; // convert form to array
+        //if (parseInt(document.getElementById(i).value) > parseInt(document.getElementById("a[" + i + "]").value)) {
+        //    alert("ActualRetrieveQty can not more than AllocateQty.");
+        //} else {
+        window.location.href = '@Url.Action("updateFulfilledQty", "ManageRequisitions")?key1=' + ActualQty + "&key2=" + itemCode;
+        //}
             // convert to url-encoded form
             //success: function () {
             //alert("success");

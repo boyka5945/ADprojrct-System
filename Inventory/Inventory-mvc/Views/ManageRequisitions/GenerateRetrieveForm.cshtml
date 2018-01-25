@@ -10,16 +10,16 @@
 
 <h2>@ViewBag.Message</h2>
 
-@Html.ActionLink("Allocate", "ClerkRequisition", "ManageRequisitions");
+@Html.ActionLink("Allocate", "ClerkRequisition", "ManageRequisitions")
 <div>
 
     @using (Html.BeginForm())
     {
         <p>
-            From: <input type="text" id="delstart" name="from"> 
+            EndDate: <input type="text" id="delstart" name="from"> 
         </p>
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
+        <div class="ui-button-text-icons">
+            <div class="col-md-offset-8 col-md-10">
                 <input type="submit" value="Confirm" class="btn btn-default" />
             </div>
         </div>
@@ -39,34 +39,46 @@
             Need
         </th>
         <th>RetrieveQty</th>
+        <th>
+            
+        </th><th></th>
     </tr>
     @for (int i = 0;i<Model.Count();i++)
     {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => Model.ToList()[i].description)
-                <input type="hidden" name="[@i].description" value="@Model.ToList()[i].description" />
+                <input type="hidden" id ="c[@i]" name="[@i].description" value="@Model.ToList()[i].description" />
             </td>
             <td>
                 @Html.HiddenFor(modelItem => Model.ToList()[i].ItemCode)
-                <input type="hidden" name="[@i].ItemCode" value="@Model.ToList()[i].ItemCode" />
+                <input type="hidden" id="b[@i]" name="[@i].ItemCode" value="@Model.ToList()[i].ItemCode" />
             </td>
             <td>
                 @Html.DisplayFor(modelItem => Model.ToList()[i].Qty)
-                <input type="hidden" name="[@i].Qty" value="@Model.ToList()[i].Qty" />
+                <input type="hidden" id="a[@i]" name="[@i].Qty" value="@Model.ToList()[i].Qty" />
             </td>
             <td>
-                <input type="number" name="[@i].retrieveQty" value="@Model.ToList()[i].retrieveQty" class="form-control" min="0" onchange="SaveData()" required />
-            </td>  
+                @if (Model.ToList()[i].retrieveQty > 0)
+                {
+                    @Html.DisplayFor(modelItem => Model.ToList()[i].retrieveQty)
+                }
+                else
+                {<input type="number"  id="@i" name="[@i].retrieveQty" value="@Model.ToList()[i].retrieveQty" class="form-control" min="0" max="@Model.ToList()[i].Qty" required />}
+            </td> 
+            <td>
+                @Html.HiddenFor(modelItem => Model.ToList()[i].StockQty)
+                <input type="hidden" id="e[@i]" name="[@i].Qty" value="@Model.ToList()[i].StockQty" />
+            </td>
+            <td>
+                @if (Model.ToList()[i].retrieveQty == 0)
+                {
+                <input type="button" name ="button" class="form-control" value="Confirm" onclick="SaveData(@i,@Model.PageNumber)" />}
+            </td>
         </tr>
     }
 
 </table>
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Save" class="btn btn-default" />
-        </div>
-    </div>
     }
     
     <div>
@@ -80,7 +92,7 @@
 <script>
     $(function () {
         $("#delstart").datepicker({
-            dateFormat:'dd/mm/yy',
+            //dateFormat:'dd/mm/yy',
             showButtonPanel: true
         });
     });
@@ -90,17 +102,30 @@
             showButtonPanel: true
         });
     });
-    function SaveData() {
-        var myformdata = $("#checkForm").serializeArray(); // convert form to array
+    function SaveData(i, j) {
 
-        $.ajax({
-            type: "POST",
-            url: '@Url.Action("KeepTempData2", "ManageRequisitions")',
-            data: $.param(myformdata), // convert to url-encoded form
-            //success: function () {
-            //alert("success");
-            //}
-        });
+        //alert(parseInt(document.getElementById(i).value));
+        //var myformdata = document.getElementById("ActualQty").value; // convert form to array
+        var retrievedQty = document.getElementById(i).value
+        var itemCode = document.getElementById("b[" + i + "]").value;
+        var Qty = document.getElementById("a[" + i + "]").value;
+        var description = document.getElementById("c[" + i + "]").value;
+        var stock = document.getElementById("e[" + i + "]").value;
+
+        if (retrievedQty > Qty) {
+            alert("RetrieveQty can not more than Need.");
+        } else if (retrievedQty > stock) {
+            alert("RetrieveQty can not more than Stock.");
+        } else if (retrievedQty <= 0) {
+            alert("RetrieveQty can not less than 0.")
+        }
+        else {
+
+            window.location.href = '@Url.Action("updateRetrieve", "ManageRequisitions")?key1=' + retrievedQty + "&key2=" + itemCode + "&key3=" + Qty + "&key4=" + description + "&key5=" + j + "&key6=" + stock;
+
+        }
+
     }
+
 </script>
 
