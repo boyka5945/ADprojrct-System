@@ -87,6 +87,10 @@ namespace InventoryWCF
         [WebGet(UriTemplate = "/GetRetrievalList", ResponseFormat = WebMessageFormat.Json)]
         List<WCFRetrievalForm> getRetrievalList();
 
+        [OperationContract]
+        [WebGet(UriTemplate = "/UpdateRetrieval", ResponseFormat = WebMessageFormat.Json)]
+        bool UpdateRetrieval(string description, string qty);
+
         //[OperationContract]
         //[WebGet(UriTemplate = "/GetRetrievalItemByName", ResponseFormat = WebMessageFormat.Json)]
         //List<WCFRetrievalForm> getRetrievalItemByName();
@@ -94,6 +98,9 @@ namespace InventoryWCF
         [OperationContract]
         [WebGet(UriTemplate = "/GetAllDepartments", ResponseFormat = WebMessageFormat.Json)]
         List<WCFDepartment> GetAllDepartments();
+
+
+
         //[OperationContract]
         //List<Disbursement> getDisbursementList();
         ////the follwing is for employee
@@ -140,6 +147,7 @@ namespace InventoryWCF
     {
         string description;
         int? qty;
+        int? qtyRetrieved;
         string location;
 
         [DataMember]
@@ -161,6 +169,13 @@ namespace InventoryWCF
         {
             get { return location; }
             set { location = value; }
+        }
+
+        [DataMember]
+        public int? QtyRetrieved
+        {
+            get { return qtyRetrieved; }
+            set { qtyRetrieved = value; }
         }
     }
 
@@ -483,4 +498,6 @@ namespace InventoryWCF
             set { collectionPointID = value; }
         }
     }
+
+
 }

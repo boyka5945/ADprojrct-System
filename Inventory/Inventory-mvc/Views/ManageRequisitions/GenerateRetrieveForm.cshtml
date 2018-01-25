@@ -59,21 +59,15 @@
                 <input type="hidden" id="a[@i]" name="[@i].Qty" value="@Model.ToList()[i].Qty" />
             </td>
             <td>
-                @if (Model.ToList()[i].retrieveQty > 0)
-                {
-                    @Html.DisplayFor(modelItem => Model.ToList()[i].retrieveQty)
-                }
-                else
-                {<input type="number"  id="@i" name="[@i].retrieveQty" value="@Model.ToList()[i].retrieveQty" class="form-control" min="0" max="@Model.ToList()[i].Qty" required />}
+
+                <input type="number"  id="@i" name="[@i].retrieveQty" value="@Model.ToList()[i].retrieveQty" class="form-control" min="0" max="@Model.ToList()[i].Qty" required />
             </td> 
             <td>
                 @Html.HiddenFor(modelItem => Model.ToList()[i].StockQty)
                 <input type="hidden" id="e[@i]" name="[@i].Qty" value="@Model.ToList()[i].StockQty" />
             </td>
             <td>
-                @if (Model.ToList()[i].retrieveQty == 0)
-                {
-                <input type="button" name ="button" class="form-control" value="Confirm" onclick="SaveData(@i,@Model.PageNumber)" />}
+                <input type="button" name ="button" class="form-control" value="Confirm" onclick="SaveData(@i,@Model.PageNumber)" />
             </td>
         </tr>
     }
@@ -111,8 +105,9 @@
         var Qty = document.getElementById("a[" + i + "]").value;
         var description = document.getElementById("c[" + i + "]").value;
         var stock = document.getElementById("e[" + i + "]").value;
-
-        if (parseInt(retrievedQty) > parseInt(Qty)) {
+        if (retrievedQty == null || retrievedQty == "") {
+            alert("RetrieveQty format is not correct.");
+        } else if (parseInt(retrievedQty) > parseInt(Qty)) {
             alert("RetrieveQty can not more than Need.");
         } else if (parseInt(retrievedQty) > parseInt(stock)) {
             alert("RetrieveQty can not more than Stock.");
@@ -120,8 +115,11 @@
             alert("RetrieveQty can not less than 0.")
         }
         else {
-
-            window.location.href = '@Url.Action("updateRetrieve", "ManageRequisitions")?key1=' + retrievedQty + "&key2=" + itemCode + "&key3=" + Qty + "&key4=" + description + "&key5=" + j + "&key6=" + stock;
+            if (parseInt(retrievedQty) > 0 || parseInt(retrievedQty) <= 0) {
+                window.location.href = '@Url.Action("updateRetrieve", "ManageRequisitions")?key1=' + retrievedQty + "&key2=" + itemCode + "&key3=" + Qty + "&key4=" + description + "&key5=" + j + "&key6=" + stock;
+            } else {
+                alert("please input a number.");
+            }
 
         }
 
