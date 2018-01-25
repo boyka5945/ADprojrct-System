@@ -15,7 +15,7 @@ namespace Inventory_mvc.DAO
             using (StationeryModel entity = new StationeryModel())
             {
                 // TODO - FIX DATE
-                DateTime date = DateTime.Parse("2018-01-12");
+                DateTime date = DateTime.Parse("2018-01-24");
 
                 var purchaseRecords = (from x in entity.Purchase_Order_Records
                                        where x.date == date
