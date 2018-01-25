@@ -127,6 +127,62 @@ namespace InventoryWCF
             return wcf_categories;
         }
 
+        public static WCFDepartment convertToWCFDepartment(Department d)
+        {
+            WCFDepartment wcfd = new WCFDepartment();
+            wcfd.departmentCode = d.departmentCode;
+            wcfd.departmentName = d.departmentName;
+            wcfd.contactName = d.contactName;
+            wcfd.collectionPointID = d.collectionPointID;
+
+            return wcfd;
+        }
+
+        public static List<WCFDepartment> ConvertToWCFDepartments (List<Department> departments)
+        {
+            List<WCFDepartment> wcf_departments = new List<WCFDepartment>();
+            foreach (Department d in departments)
+            {
+                wcf_departments.Add(convertToWCFDepartment(d));
+            }
+            return wcf_departments;
+        }
+
+        public static WCFRetrievalForm ConvertToWCFRetrieval (RetrieveForm retrieval)
+        {
+            WCFRetrievalForm wcfR = new WCFRetrievalForm();
+            wcfR.Description = retrieval.description;
+            wcfR.Qty = retrieval.Qty;
+
+            return wcfR;
+
+        }
+
+        public static List<WCFRetrievalForm> ConvertToWCFRetrievalList (List<RetrieveForm> retrieveForm)
+        {
+            List<WCFRetrievalForm> wcf_retrievals = new List<WCFRetrievalForm>();
+            foreach(RetrieveForm r in retrieveForm)
+            {
+                wcf_retrievals.Add(ConvertToWCFRetrieval(r));
+            }
+            return wcf_retrievals;
+        }
+
+        public static Requisition_Detail ConvertFromWCFRequisitionDetail(WCFRequisitionDetail wcf_detail)
+        {
+            Requisition_Detail detail = new Requisition_Detail();
+            detail.allocatedQty = wcf_detail.AllocateQty;
+            detail.clerkID = wcf_detail.ClerkID;
+            detail.fulfilledQty = wcf_detail.FulfilledQty;
+            detail.itemCode = wcf_detail.ItemCode;
+            detail.nextCollectionDate = wcf_detail.NextCollectionDate;
+            detail.qty = wcf_detail.Qty;
+            detail.remarks = wcf_detail.Remarks;
+            detail.requisitionNo = wcf_detail.RequisitionNo;
+            detail.retrievedDate = wcf_detail.RetrievedDate;
+
+            return detail;
+        }
         
     }
 }
