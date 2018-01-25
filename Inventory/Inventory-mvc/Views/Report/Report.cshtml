@@ -1,0 +1,35 @@
+﻿
+@model Inventory_mvc.Models.User
+
+@{
+    ViewBag.Title = "Report";
+    string[] x = TempData["X"] as string[];
+    int[] y = TempData["Y"] as int[];
+
+
+}
+
+<h2>Report</h2>
+<head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" />
+</head>
+<div class="container">
+    <canvas id="myChart"> </canvas>
+</div>
+
+<script>
+    var myChart = document.getElementById("myChart").getContext("2d");
+
+    var showQtyChart = new Chart("myChart", {
+        type: "bar",
+        data: {
+            labels:[@Html.Raw(ViewBag.X)],
+            datasets:[{
+                labels:'Monthly',
+                data: [@Html.Raw(ViewBag.Y)]
+            }],
+        },
+        options:{}
+    });
+</script>

@@ -179,6 +179,7 @@ namespace Inventory_mvc.DAO
             return entity.Requisition_Detail.Where(x => x.itemCode == itemcode && x.requisitionNo == requisitionNo).First();
 
         }
+        
 
         public List<Disbursement> GetRequisitionByDept(string deptCode)
         {
@@ -241,6 +242,25 @@ namespace Inventory_mvc.DAO
                 }
             }
            
+
+            return requisitionList;
+        }
+
+        public List<Requisition_Detail> GetPendingRequestByDeptCode(string deptCode)
+        {
+            StationeryModel entity = new StationeryModel();
+            List<Requisition_Detail> requisitionList = new List<Requisition_Detail>();
+            List<Requisition_Record> list = entity.Requisition_Records.Where(x => x.deptCode == deptCode).ToList();
+            foreach (var request in list)
+            {
+                List<Requisition_Detail> rd = request.Requisition_Detail.Where(x => x.requisitionNo == request.requisitionNo && request.status== "Pending Approval").ToList();
+
+                foreach (var a in rd)
+                {
+                    requisitionList.Add(a);
+                }
+            }
+
 
             return requisitionList;
         }
@@ -374,6 +394,7 @@ namespace Inventory_mvc.DAO
                 rf.description = entity.Stationeries.Where(x => x.itemCode == rf.ItemCode).First().description;
                 rf.Qty = Qty[i];
                 rf.retrieveQty = 0;
+                rf.StockQty = entity.Stationeries.Where(x => x.itemCode == rf.ItemCode).First().stockQty;
                 retrieveList.Add(rf);
             }
             return retrieveList;
@@ -456,6 +477,10 @@ namespace Inventory_mvc.DAO
                 else if (status == 2)
                 {
                     record.status = RequisitionStatus.PARTIALLY_FULFILLED;
+                }
+                else
+                {
+                    record.status = RequisitionStatus.APPROVED_PROCESSING;
                 }
                 entity.SaveChanges();
             }
