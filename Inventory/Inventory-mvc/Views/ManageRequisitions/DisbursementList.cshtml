@@ -81,14 +81,25 @@ Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.Page
         var ActualQty = document.getElementById("ActualQty["+ i +"]").value; // convert form to array
         var itemCode = document.getElementById(i).value; // convert form to array
         var AllocateQty = document.getElementById("AllocateQty[" + i + "]").value;
-        //if (parseInt(document.getElementById(i).value) > parseInt(document.getElementById("a[" + i + "]").value)) {
-        //    alert("ActualRetrieveQty can not more than AllocateQty.");
-        //} else {
-        window.location.href = '@Url.Action("updateFulfilledQty", "ManageRequisitions")?key1=' + ActualQty + "&key2=" + itemCode + "&key3=" + AllocateQty;
-        //}
+        if (parseInt(ActualQty) < 0) {
+            alert("ActualQty should more than 0.")
+        }
+        else if (parseInt(ActualQty) > 0 || parseInt(ActualQty) <= 0) {
+            if (parseInt(ActualQty) < parseInt(AllocateQty)) {
+                var remarks = prompt("discripency reason:");
+                window.location.href = '@Url.Action("updateFulfilledQty", "ManageRequisitions")?key1=' + ActualQty + "&key2=" + itemCode + "&key3=" + AllocateQty + "&key4=" + remarks;
+            } else {
+                window.location.href = '@Url.Action("updateFulfilledQty", "ManageRequisitions")?key1=' + ActualQty + "&key2=" + itemCode + "&key3=" + AllocateQty;
+            }
+        }
+        else {
+            alert("please input a number.");
+        }
+
+            //}
             // convert to url-encoded form
             //success: function () {
             //alert("success");
             //}
-    }
+        }
 </script>
