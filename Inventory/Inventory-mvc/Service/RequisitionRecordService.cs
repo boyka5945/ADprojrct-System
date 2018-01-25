@@ -20,6 +20,11 @@ namespace Inventory_mvc.Service
             return rDAO.GetAllRequisition();
         }
 
+        public List<Requisition_Record> GetRequisitionRecordByDept(string deptCode)
+        {           
+            return rDAO.GetRequisitionRecordByDept(deptCode);
+        }
+
         public Requisition_Record GetRequisitionByID(int id)
         {
             return rDAO.FindByRequisitionNo(id);

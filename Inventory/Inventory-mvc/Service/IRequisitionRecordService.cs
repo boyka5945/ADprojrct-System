@@ -12,6 +12,8 @@ namespace Inventory_mvc.Service
     {
         List<Requisition_Record> GetAllRequisition();
 
+        List<Requisition_Record> GetRequisitionRecordByDept(string deptCode);
+
         List<Requisition_Detail> GetDetailsByNo(int No=0);
 
         Requisition_Record GetRequisitionByID(int id);

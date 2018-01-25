@@ -11,6 +11,8 @@ namespace Inventory_mvc.DAO
     {
         List<Requisition_Record> GetAllRequisition();
 
+        List<Requisition_Record> GetRequisitionRecordByDept(string deptCode);
+
         Requisition_Record FindByRequisitionNo(int requisitionNo);
 
         Boolean AddNewRequisition(Requisition_Record purchase_order_record);

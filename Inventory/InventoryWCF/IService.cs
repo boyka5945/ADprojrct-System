@@ -90,6 +90,10 @@ namespace InventoryWCF
         [OperationContract]
         [WebGet(UriTemplate = "/GetAllDepartments", ResponseFormat = WebMessageFormat.Json)]
         List<WCFDepartment> GetAllDepartments();
+
+        [OperationContract]
+        [WebGet(UriTemplate = "/GetRequisitionRecordByDept/{deptCode}", ResponseFormat = WebMessageFormat.Json)]
+        List<WCFRequisitionRecord> GetRequsitionRecordByDept(string deptCode);
         //[OperationContract]
         //List<Disbursement> getDisbursementList();
         ////the follwing is for employee
