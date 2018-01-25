@@ -191,7 +191,15 @@ namespace Inventory_mvc.DAO
         {
             List<Disbursement> disbursementList = new List<Disbursement>();
             StationeryModel entity = new StationeryModel();
-            List<Requisition_Record> list = entity.Requisition_Records.Where(x => x.deptCode == deptCode && (x.status == "Approved and Processing" || x.status == "Partially fulfilled")).ToList();
+            List<Requisition_Record> list;
+            if (deptCode != "")
+            {
+                list = entity.Requisition_Records.Where(x => x.deptCode == deptCode && (x.status == "Approved and Processing" || x.status == "Partially fulfilled")).ToList();
+            }
+            else
+            {
+                list = entity.Requisition_Records.Where(x => x.status == "Approved and Processing" || x.status == "Partially fulfilled").ToList();
+            }
             List<string> itemCodes = new List<string>();
             List<int?> Qty = new List<int?>();
             foreach (var item in list)

@@ -6,7 +6,7 @@ using System.Web.Mvc;
 using Inventory_mvc.Service;
 using Inventory_mvc.ViewModel;
 using Inventory_mvc.Models;
-
+using Newtonsoft.Json;
 
 namespace Inventory_mvc.Controllers
 {
@@ -49,8 +49,9 @@ namespace Inventory_mvc.Controllers
             List<string> categoryArray = new List<string>();
             List<int> quantity = new List<int>();
 
-            
-            foreach(var c in categoryList)
+
+
+            foreach (var c in categoryList)
             {
                 categoryArray.Add(c.categoryName);
             }
@@ -71,14 +72,15 @@ namespace Inventory_mvc.Controllers
                 }
             }
 
+           
+
             var cat = categoryArray.ToArray();
             var qty = quantity.ToArray();
 
+          
             ViewBag.X = cat;
             ViewBag.Y = qty;
-
-            TempData["X"] = cat;
-            TempData["Y"] = qty;
+           
 
             return View();
         }

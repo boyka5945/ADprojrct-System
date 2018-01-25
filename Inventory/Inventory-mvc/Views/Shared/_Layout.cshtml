@@ -115,7 +115,7 @@
                         <ul class="dropdown-menu">
 
                        
-
+                          
 
                             @if (Convert.ToInt32(HttpContext.Current.Application["role"]) == 2 || Convert.ToInt32(HttpContext.Current.Application["role"]) == 5 || Convert.ToInt32(HttpContext.Current.Application["role"]) == 8)
                 {
@@ -163,7 +163,7 @@
                     <li class="dropdown">
                         <a class="btn btn-primary dropdown-toggle" style="width:120px" type="button" data-toggle="dropdown" href="#">Reports</a>
                         <ul class="dropdown-menu">
-                            <li>@Html.ActionLink("Reorder Report", "", "")</li>
+                            <li>@Html.ActionLink("Reorder Report", "Report", "Report")</li>
                             <li>@Html.ActionLink("Inventory Status Report", "", "")</li>
                             <li>@Html.ActionLink("Trend Analysis Report", "", "")</li>
                         </ul>
@@ -175,11 +175,21 @@
                     <li class="dropdown">
                         <a class="btn btn-primary dropdown-toggle" style="width:120px" type="button" data-toggle="dropdown" href="#">Stocks</a>
                         <ul class="dropdown-menu">
-                            <li>@Html.ActionLink("View Stock Card", "Index", "Stationery")</li>
-                            <li>@Html.ActionLink("View Shortfall List", "List", "CheckShortfall")</li>
-                            <li>@Html.ActionLink("Generate Purchase Order", "RaisePurchaseOrder", "Purchase")</li>
-                            <li>@Html.ActionLink("View Purchase Order", "ListPurchaseOrders", "Purchase")</li>
-                            <li>@Html.ActionLink("Receive Stock", "StockReceive", "ReceiveStock")</li>
+                          
+                                
+                                <li>@Html.ActionLink("View Stock Card", "Index", "Stationery")</li>
+                            <li class="dropdown-submenu">
+                                <a class="test" href="#">Inventory Check<span class="caret"></span></a>
+                                <ul class="dropdown-menu" style="top:20%;left:100%;margin-top:1px">
+                                    <li>@Html.ActionLink("Generate Inventory Checklist", "GenerateInventoryChecklist", "InventoryCheck")</li>
+                                   
+                                        <li>@Html.ActionLink("Inventory CheckList Report", "ShowDetails", "InventoryCheck")</li>
+                                </ul>
+                            </li>
+                                <li>@Html.ActionLink("View Shortfall List", "List", "CheckShortfall")</li>
+                                <li>@Html.ActionLink("Generate Purchase Order", "RaisePurchaseOrder", "Purchase")</li>
+                                <li>@Html.ActionLink("View Purchase Order", "ListPurchaseOrders", "Purchase")</li>
+                                <li>@Html.ActionLink("Receive Stock", "StockReceive", "ReceiveStock")</li>
                         </ul>
                     </li>
                 }

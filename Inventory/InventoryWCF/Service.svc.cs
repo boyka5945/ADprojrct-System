@@ -8,6 +8,7 @@ using System.Text;
 using Inventory_mvc.Service;
 using Inventory_mvc.Models;
 using Inventory_mvc.ViewModel;
+using System.Web;
 
 namespace InventoryWCF
 {
@@ -19,9 +20,10 @@ namespace InventoryWCF
         IStationeryService stationeryService = new StationeryService();
         IRequisitionRecordService requisitionRecordService = new RequisitionRecordService();
         DepartmentService departmentService = new DepartmentService();
-        
-        
-               
+
+
+
+
         public Boolean ValidateUser(string userid, string password)
         {
             //return BusinessLogic.validateUser(userid, password);
@@ -276,21 +278,45 @@ namespace InventoryWCF
 
         public List<WCFRetrievalForm> getRetrievalList()
         {
-            //need the list for the next delivery, a.k.a for next monday
-            //must have been approved before this week's wednesday?
+            List<RetrieveForm> list = new List<RetrieveForm>();
+             //need the list for the next delivery, a.k.a for next monday
+             //must have been approved before this week's wednesday?
 
-            //next delivery date supposedly is:
-            DateTime date = DateTime.Now;
+             //next delivery date supposedly is:
+             DateTime date = DateTime.Now;
             //while(date.DayOfWeek != DayOfWeek.Monday)
             //{
             //    date.AddDays(1);
             //}
-
-            List<RetrieveForm> list = requisitionRecordService.GetRetrieveFormByDateTime(date);
+            if (HttpContext.Current.Application["retrieveList"] != null)
+            {
+                list = (List<RetrieveForm>)HttpContext.Current.Application["retrieveList"];
+            }
+            else
+            {
+                list = requisitionRecordService.GetRetrieveFormByDateTime(date); //newly generated list
+                HttpContext.Current.Application["retrieveList"] = list;
+            }
 
             return WCFModelConvertUtility.ConvertToWCFRetrievalList(list);
             
         }
+
+        public bool UpdateRetrieval(string description, string qty)
+        {
+            List<RetrieveForm> list = (List<RetrieveForm>)HttpContext.Current.Application["retrieveList"];
+            //RetrieveForm rf = list.Where(x => x.description == description).First();
+            //rf.retrieveQty = Int32.Parse(qty);
+            var index = list.FindIndex(x => x.description == description);
+            list[index].retrieveQty = Int32.Parse(qty);
+
+            HttpContext.Current.Application["retrieveList"] = list;
+            return true;
+
+
+        }
+
+
         public List<WCFDepartment> GetAllDepartments()
         {
             List<Department> departmentList = departmentService.GetAllDepartment();
@@ -299,7 +325,8 @@ namespace InventoryWCF
 
         }
 
-        
+      
+  
 
         //public List<Disbursement> getDisbursementList()
         //{

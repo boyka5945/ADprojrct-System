@@ -1,11 +1,39 @@
 ﻿
-@model Inventory_mvc.Models.User
+
 
 @{
     ViewBag.Title = "Report";
-    string[] x = TempData["X"] as string[];
-    int[] y = TempData["Y"] as int[];
+    //method 2
+    //string[] x = ViewBag.X;
+    //string category = "";
+    //int[] y = ViewBag.Y;
+    //string quantity = "";
 
+
+
+    //for(int i = 0; i<= x.Length -1;++i)
+    //{
+    //    if(i==0)
+    //    {
+    //        category = category + x[i].ToString();
+    //    }
+    //    else
+    //    {
+    //        category = category + "," + x[i].ToString();
+    //    }
+    //}
+
+    //for (int i = 0; i <= y.Length - 1; ++i)
+    //{
+    //    if (i == 0)
+    //    {
+    //        quantity = quantity + y[i].ToString();
+    //    }
+    //    else
+    //    {
+    //        quantity = quantity + "," + y[i].ToString();
+    //    }
+    //}
 
 }
 
@@ -13,28 +41,40 @@
 <head>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" />
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @Styles.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/Chart")
 </head>
 <div class="container">
-    <canvas id="myChart"> </canvas>
+    <canvas id="myChart" width="800" height="400"> </canvas>
 </div>
 
 <script>
+  //method 2:
+    @*var x = "@category";
+    var xCategory = x.split(',');
+    var y = "@quantity";
+    var yQuantity = y.split(',');*@
 
     var category=@Html.Raw(Json.Encode(ViewBag.X));
+
     var quantity=@Html.Raw(Json.Encode(ViewBag.Y));
+
     var myChart = document.getElementById("myChart").getContext("2d");
+    
 
     var showQtyChart = new Chart("myChart", {
         type: "bar",
         data: {
-            label: category,
+            labels: category,
             datasets:[{
                 label:'Monthly',
                 data: quantity
             }],
         },
         options:{
-        
-        }
-    });
+            
+            }}
+    );
 </script>
