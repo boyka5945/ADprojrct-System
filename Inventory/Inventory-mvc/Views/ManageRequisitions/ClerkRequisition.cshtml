@@ -68,10 +68,10 @@
         </td>
         <td>
             @Html.DisplayFor(modelItem => Model.ToList()[i].unfulfilledQty)
-            <input type="hidden" name="[@i].unfulfilledQty" value="@Model.ToList()[i].unfulfilledQty" />
+            <input type="hidden" id="a[@i]" name="[@i].unfulfilledQty" value="@Model.ToList()[i].unfulfilledQty" />
         </td>
         <td>
-            <input type="number" name="[@i].allocateQty" value="@Model.ToList()[i].allocateQty" class="form-control" min="0" onchange="SaveData()" required />
+            <input type="number" id ="@i" name="[@i].allocateQty" value="@Model.ToList()[i].allocateQty" class="form-control" min="0" max="@Model.ToList()[i].unfulfilledQty" onchange="SaveData(@i)" required />
         </td>
     </tr>
 }
@@ -89,17 +89,25 @@ Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.Page
                      new { page }))
 
 <script>
-    function SaveData()
+    function SaveData(i)
     {
-        var myformdata = $("#checkForm").serializeArray(); // convert form to array
+        if (parseInt(document.getElementById(i).value) > parseInt(document.getElementById("a[" + i + "]").value)) {
+            alert("AllocateQty can not more than unfulfilledQty.");
+        } else if (parseInt(document.getElementById(i).value) < 0){
+            alert("AllocateQty can not less than 0.");
+        } else {
+            var myformdata = $("#checkForm").serializeArray(); // convert form to array
 
-        $.ajax({
-            type: "POST",
-            url: '@Url.Action("KeepTempData", "ManageRequisitions")',
-            data: $.param(myformdata), // convert to url-encoded form
-            //success: function () {
-                //alert("success");
-            //}
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("KeepTempData", "ManageRequisitions")',
+                data: $.param(myformdata), // convert to url-encoded form
+                //success: function () {
+                    //alert("success");
+                //}
         });
+        }
+        //alert(i);
+
     }
 </script>

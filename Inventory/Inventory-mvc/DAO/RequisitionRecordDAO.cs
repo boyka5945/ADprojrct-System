@@ -50,12 +50,23 @@ namespace Inventory_mvc.DAO
             return true;
         }
 
-        public int UpdateRequisition(Requisition_Record requisition_Record, string status)
+        public int UpdateRequisition(Requisition_Record requisition_Record, string status, string approveStaffID)
         {
             Requisition_Record rr = new Requisition_Record();
             StationeryModel entity = new StationeryModel();
             rr = entity.Requisition_Records.Where(x => x.requisitionNo == requisition_Record.requisitionNo).First();
             rr.status = status;
+
+            if (approveStaffID == "")
+            {
+                rr.approvingStaffID = null;
+                rr.approveDate = null;
+            }
+            else
+            {
+                rr.approvingStaffID = approveStaffID;
+                rr.approveDate = DateTime.Now;
+            }
             entity.SaveChanges();
             return 0;
         }
@@ -347,7 +358,7 @@ namespace Inventory_mvc.DAO
         public List<RetrieveForm> GetRetrieveFormByDateTime(DateTime? time)
         {
             StationeryModel entity = new StationeryModel();
-            List<Requisition_Record> rr = entity.Requisition_Records.Where(x => x.approveDate < time).ToList();
+            List<Requisition_Record> rr = entity.Requisition_Records.Where(x => x.approveDate < time && (x.status == RequisitionStatus.APPROVED_PROCESSING || x.status == RequisitionStatus.PARTIALLY_FULFILLED)).ToList();
             List<RetrieveForm> retrieveList = new List<RetrieveForm>();
             List<string> ItemCodes = new List<string>();
             List<int?> Qty = new List<int?>();
@@ -383,6 +394,7 @@ namespace Inventory_mvc.DAO
                 rf.description = entity.Stationeries.Where(x => x.itemCode == rf.ItemCode).First().description;
                 rf.Qty = Qty[i];
                 rf.retrieveQty = 0;
+                rf.StockQty = entity.Stationeries.Where(x => x.itemCode == rf.ItemCode).First().stockQty;
                 retrieveList.Add(rf);
             }
             return retrieveList;
@@ -465,6 +477,10 @@ namespace Inventory_mvc.DAO
                 else if (status == 2)
                 {
                     record.status = RequisitionStatus.PARTIALLY_FULFILLED;
+                }
+                else
+                {
+                    record.status = RequisitionStatus.APPROVED_PROCESSING;
                 }
                 entity.SaveChanges();
             }

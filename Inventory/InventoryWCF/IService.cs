@@ -63,6 +63,14 @@ namespace InventoryWCF
         List<WCFRequisitionRecord> GetAllRequisitionRecords();
 
         [OperationContract]
+        [WebInvoke(Method = "POST", 
+                   UriTemplate = "/AddNewRequest/{requesterID}", 
+                   RequestFormat =  WebMessageFormat.Json, 
+                   ResponseFormat = WebMessageFormat.Json)]
+        bool AddNewRequest(string requesterID, WCFRequisitionDetail[] newRequisition);
+
+
+        [OperationContract]
         [WebGet(UriTemplate = "/GetPendingRequestByDept/{deptCode}", ResponseFormat = WebMessageFormat.Json)]
         List<WCFRequisitionDetail> GetPendingRequestByDept(string deptCode);
 
@@ -75,9 +83,13 @@ namespace InventoryWCF
 
         //// TODO: Add your service operations here
 
-        //[OperationContract]
-        //List<RetrievalFrom> getRetrievalList();
+        [OperationContract]
+        [WebGet(UriTemplate = "/GetRetrievalList", ResponseFormat = WebMessageFormat.Json)]
+        List<WCFRetrievalForm> getRetrievalList();
 
+        [OperationContract]
+        [WebGet(UriTemplate = "/GetAllDepartments", ResponseFormat = WebMessageFormat.Json)]
+        List<WCFDepartment> GetAllDepartments();
         //[OperationContract]
         //List<Disbursement> getDisbursementList();
         ////the follwing is for employee
@@ -427,5 +439,36 @@ namespace InventoryWCF
             set { categoryName = value; }
         }
 
+    }
+
+    [DataContract]
+    public class WCFDepartment
+    {
+        [DataMember]
+        public string departmentCode
+        {
+            get { return departmentCode; }
+            set { departmentCode = value; }
+        }
+            [DataMember]
+            public string departmentName
+        {
+            get { return departmentName; }
+            set { departmentName = value; }
+        }
+
+        [DataMember]
+        public string contactName
+        {
+            get { return contactName; }
+            set { contactName = value; }
+        }
+
+        [DataMember]
+        public int collectionPointID
+        {
+            get { return collectionPointID; }
+            set { collectionPointID = value; }
+        }
     }
 }

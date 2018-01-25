@@ -18,6 +18,8 @@ namespace InventoryWCF
         IUserService userService = new UserService();
         IStationeryService stationeryService = new StationeryService();
         IRequisitionRecordService requisitionRecordService = new RequisitionRecordService();
+        DepartmentService departmentService = new DepartmentService();
+        
         
                
         public Boolean ValidateUser(string userid, string password)
@@ -232,6 +234,28 @@ namespace InventoryWCF
             return WCFModelConvertUtility.ConvertToWCFRequisitionRecord(requisitionRecords);
         }
 
+        public bool AddNewRequest(string requesterID, WCFRequisitionDetail[] newRequisition)
+        {
+            Requisition_Record newRecord = new Requisition_Record();
+            newRecord.Requisition_Detail = new List<Requisition_Detail>();
+            //newRecord.Requisition_Detail.Add(WCFModelConvertUtility.ConvertFromWCFRequisitionDetail(newRequisition));
+
+            foreach (var wcf_detail in newRequisition)
+            {
+                newRecord.Requisition_Detail.Add(WCFModelConvertUtility.ConvertFromWCFRequisitionDetail(wcf_detail));
+            }
+
+            try
+            {
+                requisitionRecordService.SubmitNewRequisition(newRecord, requesterID);
+                return true;
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
+
         public List<WCFRequisitionDetail> GetPendingRequestByDept(string deptCode)
         {
             List<Requisition_Detail> reqDetail = requisitionRecordService.GetPendingRequestByDeptCode(deptCode);
@@ -248,10 +272,30 @@ namespace InventoryWCF
         //    return BusinessLogic.updateRequisitionDetails(requisitionNo, ItemCode, allocateQty);
         //}
 
-        //public List<RetrievalFrom> getRetrievalList()
-        //{
-        //    throw new NotImplementedException();
-        //}
+        public List<WCFRetrievalForm> getRetrievalList()
+        {
+            //need the list for the next delivery, a.k.a for next monday
+            //must have been approved before this week's wednesday?
+
+            //next delivery date supposedly is:
+            DateTime date = DateTime.Now;
+            //while(date.DayOfWeek != DayOfWeek.Monday)
+            //{
+            //    date.AddDays(1);
+            //}
+
+            List<RetrieveForm> list = requisitionRecordService.GetRetrieveFormByDateTime(date);
+
+            return WCFModelConvertUtility.ConvertToWCFRetrievalList(list);
+            
+        }
+        public List<WCFDepartment> GetAllDepartments()
+        {
+            List<Department> departmentList = departmentService.GetAllDepartment();
+            return WCFModelConvertUtility.ConvertToWCFDepartments(departmentList);
+
+
+        }
 
         //public List<Disbursement> getDisbursementList()
         //{
