@@ -76,6 +76,7 @@ namespace Inventory_mvc.Controllers
         public ActionResult Logout()
         {
             //HttpContext.Application.Clear();
+            HttpContext.Session.Clear();
             FormsAuthentication.SignOut();
             return RedirectToAction("Login", "Home");
         }

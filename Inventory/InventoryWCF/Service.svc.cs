@@ -214,10 +214,6 @@ namespace InventoryWCF
             try
             {
                 List<Category> categories = stationeryService.GetAllCategory();
-                Category all = new Category();
-                all.categoryID = -1;
-                all.categoryName = "All";
-                categories.Add(all);
                 return WCFModelConvertUtility.ConvertToWCFCategories(categories);
             }
             catch (Exception e)
