@@ -8,6 +8,7 @@ using System.Text;
 using Inventory_mvc.Service;
 using Inventory_mvc.Models;
 using Inventory_mvc.ViewModel;
+using System.Web;
 
 namespace InventoryWCF
 {
@@ -19,9 +20,10 @@ namespace InventoryWCF
         IStationeryService stationeryService = new StationeryService();
         IRequisitionRecordService requisitionRecordService = new RequisitionRecordService();
         DepartmentService departmentService = new DepartmentService();
-        
-        
-               
+
+
+
+
         public Boolean ValidateUser(string userid, string password)
         {
             //return BusinessLogic.validateUser(userid, password);
@@ -270,6 +272,7 @@ namespace InventoryWCF
 
         public List<WCFRetrievalForm> getRetrievalList()
         {
+           
             //need the list for the next delivery, a.k.a for next monday
             //must have been approved before this week's wednesday?
 
@@ -279,12 +282,26 @@ namespace InventoryWCF
             //{
             //    date.AddDays(1);
             //}
+            if(HttpContext.Current.Application["retrieveList"] != null)
+            {
 
+            }
             List<RetrieveForm> list = requisitionRecordService.GetRetrieveFormByDateTime(date);
+            HttpContext.Current.Application["retrieveList"] = list; //how to prevent conflict with desktop web?
 
             return WCFModelConvertUtility.ConvertToWCFRetrievalList(list);
             
         }
+
+        public bool UpdateRetrieval(string description, string qty)
+        {
+            List<RetrieveForm> list = (List<RetrieveForm>)HttpContext.Current.Application["retrieveList"];
+
+
+
+        }
+
+
         public List<WCFDepartment> GetAllDepartments()
         {
             List<Department> departmentList = departmentService.GetAllDepartment();
@@ -292,6 +309,9 @@ namespace InventoryWCF
 
 
         }
+
+      
+  
 
         //public List<Disbursement> getDisbursementList()
         //{
