@@ -92,7 +92,7 @@
 <script>
     $(function () {
         $("#delstart").datepicker({
-            //dateFormat:'dd/mm/yy',
+            dateFormat:'yy/mm/dd',
             showButtonPanel: true
         });
     });
@@ -112,11 +112,11 @@
         var description = document.getElementById("c[" + i + "]").value;
         var stock = document.getElementById("e[" + i + "]").value;
 
-        if (retrievedQty > Qty) {
+        if (parseInt(retrievedQty) > parseInt(Qty)) {
             alert("RetrieveQty can not more than Need.");
-        } else if (retrievedQty > stock) {
+        } else if (parseInt(retrievedQty) > parseInt(stock)) {
             alert("RetrieveQty can not more than Stock.");
-        } else if (retrievedQty <= 0) {
+        } else if (parseInt(retrievedQty) <= 0) {
             alert("RetrieveQty can not less than 0.")
         }
         else {
