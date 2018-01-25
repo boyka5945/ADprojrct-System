@@ -374,6 +374,7 @@ namespace Inventory_mvc.DAO
                 rf.description = entity.Stationeries.Where(x => x.itemCode == rf.ItemCode).First().description;
                 rf.Qty = Qty[i];
                 rf.retrieveQty = 0;
+                rf.StockQty = entity.Stationeries.Where(x => x.itemCode == rf.ItemCode).First().stockQty;
                 retrieveList.Add(rf);
             }
             return retrieveList;
@@ -456,6 +457,10 @@ namespace Inventory_mvc.DAO
                 else if (status == 2)
                 {
                     record.status = RequisitionStatus.PARTIALLY_FULFILLED;
+                }
+                else
+                {
+                    record.status = RequisitionStatus.APPROVED_PROCESSING;
                 }
                 entity.SaveChanges();
             }
