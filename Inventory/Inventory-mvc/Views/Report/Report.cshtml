@@ -19,15 +19,18 @@
 </div>
 
 <script>
+
+    var category=@Html.Raw(Json.Encode(ViewBag.X));
+    var quantity=@Html.Raw(Json.Encode(ViewBag.Y));
     var myChart = document.getElementById("myChart").getContext("2d");
 
     var showQtyChart = new Chart("myChart", {
         type: "bar",
         data: {
-            labels:[@Html.Raw(ViewBag.X)],
+            label: category,
             datasets:[{
                 labels:'Monthly',
-                data: [@Html.Raw(ViewBag.Y)]
+                data: quantity
             }],
         },
         options:{}

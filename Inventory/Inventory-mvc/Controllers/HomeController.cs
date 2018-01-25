@@ -38,7 +38,7 @@ namespace Inventory_mvc.Controllers
                         int roleID = UserService.GetRoleByID(model.UserName);
                         string identity = model.UserName;
                         HttpContext.Application["role"] = roleID;
-                        AuthorizationManager.SetTicket(Response, model.RememberMe, identity, roleID);
+                        AuthorizationManager.SetTicket(Response, model.RememberMe, identity.ToUpper(), roleID);
                         if (!string.IsNullOrEmpty(returnUrl))
                         {
                             return Redirect(returnUrl);
@@ -76,7 +76,7 @@ namespace Inventory_mvc.Controllers
         public ActionResult Logout()
         {
             //HttpContext.Application.Clear();
-            HttpContext.Session.Clear();
+            HttpContext.Application["role"] = null;
             FormsAuthentication.SignOut();
             return RedirectToAction("Login", "Home");
         }
