@@ -102,7 +102,10 @@ namespace InventoryWCF
         [WebGet(UriTemplate = "/GetAllDepartments", ResponseFormat = WebMessageFormat.Json)]
         List<WCFDepartment> GetAllDepartments();
 
-
+        [OperationContract]
+        [WebGet(UriTemplate = "/GetDisbursementByDept/{deptCode}", ResponseFormat = WebMessageFormat.Json)]
+        List<WCFDisbursement> GetDisbursementByDept(string deptCode); 
+}
 
         //[OperationContract]
         //List<Disbursement> getDisbursementList();
@@ -122,8 +125,8 @@ namespace InventoryWCF
     public class WCFDisbursement
     {
         string stationeryDescription;
-        int? qty;
-        int? returnQty;
+        string itemCode;
+        int? needQty;
 
         [DataMember]
         public string StationeryDescription
@@ -132,16 +135,16 @@ namespace InventoryWCF
             set { stationeryDescription = value; }
         }
         [DataMember]
-        public int? Qty
+        public string ItemCode
         {
-            get { return qty; }
-            set { qty = value; }
+            get { return itemCode; }
+            set { itemCode = value; }
         }
         [DataMember]
-        public int? ReturnQty
-        {
-            get { return returnQty; }
-            set { returnQty = value; }
+        public int? NeedQty
+    {
+            get { return needQty; }
+            set { needQty = value; }
         }
     }
 
