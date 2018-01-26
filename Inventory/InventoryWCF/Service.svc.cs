@@ -296,13 +296,13 @@ namespace InventoryWCF
             
         }
 
-        public bool UpdateRetrieval(string description, string qty)
+        public bool UpdateRetrieval(WCFRetrievalForm wcfr)
         {
             List<RetrieveForm> list = (List<RetrieveForm>)HttpContext.Current.Application["retrieveList"];
             //RetrieveForm rf = list.Where(x => x.description == description).First();
             //rf.retrieveQty = Int32.Parse(qty);
-            var index = list.FindIndex(x => x.description == description);
-            list[index].retrieveQty = Int32.Parse(qty);
+            var index = list.FindIndex(x => x.description == wcfr.Description);
+            list[index].retrieveQty = wcfr.QtyRetrieved;
 
             HttpContext.Current.Application["retrieveList"] = list;
             return true;
@@ -319,8 +319,14 @@ namespace InventoryWCF
 
         }
 
-      
-  
+        public List<WCFDisbursement> GetDisbursementByDept(string deptCode)
+        {
+            List<Disbursement> disbursement = requisitionRecordService.GetRequisitionByDept(deptCode);
+            return WCFModelConvertUtility.ConvertToWCFDisbursement(disbursement);
+        }
+
+
+
 
         //public List<Disbursement> getDisbursementList()
         //{
