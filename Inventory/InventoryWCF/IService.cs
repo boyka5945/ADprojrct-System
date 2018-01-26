@@ -63,9 +63,9 @@ namespace InventoryWCF
         List<WCFRequisitionRecord> GetAllRequisitionRecords();
 
         [OperationContract]
-        [WebInvoke(Method = "POST", 
-                   UriTemplate = "/AddNewRequest/{requesterID}", 
-                   RequestFormat =  WebMessageFormat.Json, 
+        [WebInvoke(Method = "POST",
+                   UriTemplate = "/AddNewRequest/{requesterID}",
+                   RequestFormat = WebMessageFormat.Json,
                    ResponseFormat = WebMessageFormat.Json)]
         bool AddNewRequest(string requesterID, WCFRequisitionDetail[] newRequisition);
 
@@ -87,9 +87,9 @@ namespace InventoryWCF
         [WebGet(UriTemplate = "/GetRetrievalList", ResponseFormat = WebMessageFormat.Json)]
         List<WCFRetrievalForm> getRetrievalList();
 
-        [OperationContract]
-        [WebGet(UriTemplate = "/UpdateRetrieval", ResponseFormat = WebMessageFormat.Json)]
-        bool UpdateRetrieval(string description, string qty);
+        //[OperationContract]
+        //[WebGet(UriTemplate = "/UpdateRetrieval", ResponseFormat = WebMessageFormat.Json)]
+        //bool UpdateRetrieval(string description, string qty);
 
         //[OperationContract]
         //[WebGet(UriTemplate = "/GetRetrievalItemByName", ResponseFormat = WebMessageFormat.Json)]
@@ -472,30 +472,27 @@ namespace InventoryWCF
     public class WCFDepartment
     {
         [DataMember]
-        public string departmentCode
+        public string DepartmentCode
         {
-            get { return departmentCode; }
-            set { departmentCode = value; }
-        }
-            [DataMember]
-            public string departmentName
-        {
-            get { return departmentName; }
-            set { departmentName = value; }
+            get; set;
         }
 
         [DataMember]
-        public string contactName
+        public string DepartmentName
         {
-            get { return contactName; }
-            set { contactName = value; }
+            get; set;
         }
 
         [DataMember]
-        public int collectionPointID
+        public string ContactName
         {
-            get { return collectionPointID; }
-            set { collectionPointID = value; }
+            get; set;
+        }
+
+        [DataMember]
+        public int CollectionPointID
+        {
+            get; set;
         }
     }
 
