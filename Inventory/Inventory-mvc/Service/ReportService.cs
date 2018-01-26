@@ -14,9 +14,9 @@ namespace Inventory_mvc.Service
         IReportDAO reportDAO = new ReportDAO();
         IStationeryService stationeryService = new StationeryService();
         
-        public List<ReportViewModel> RetrieveQty()
+        public List<ReportViewModel> RetrieveQty(DateTime ds,DateTime de)
         {
-            List<Purchase_Detail> details = reportDAO.RetrieveQty();
+            List<Purchase_Detail> details = reportDAO.RetrieveQty(ds,de);
 
             List<ReportViewModel> vmList = new List<ReportViewModel>();
             foreach (var d in details)

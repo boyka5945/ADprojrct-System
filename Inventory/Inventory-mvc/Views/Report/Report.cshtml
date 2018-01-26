@@ -41,14 +41,50 @@
 <head>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" />
+    <link type="text/css" href="css/ui-lightness/jquery-ui-1.8.11.custom.css" rel="stylesheet" />	
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="/resources/demos/style.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
     @Styles.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/Chart")
 </head>
-<div class="container">
-    <canvas id="myChart" width="800" height="400"> </canvas>
-</div>
+<body>
+        
+    <table>
+        <tr>
+            <td>
+                @using (Html.BeginForm(FormMethod.Post))
+                {
+                    <div style="left:70%;right:0px;position:relative">
+
+                        @*<input type="hidden" name="userID" value="@Model.userID" />*@
+                        @*<p>From: <input type="text" id="delstart" name="from"> |
+                   To:   <input type="text" id="delend" name="toto">
+                </p>*@
+                        <p>
+                            From: <input type="text" id="delstart" name="from">
+                            To: <input type="text" id="delend" name="toto">
+                        </p>
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-10">
+                                <input type="submit" value="Confirm" class="btn btn-primary" />
+                            </div>
+                        </div>
+                    </div>
+                }
+            </td>
+        </tr>
+        <tr>
+            <td class="container" style="position: relative; height:40vh; width:80vw;padding: 5px">
+                                    <canvas id="myChart" width="800" height="400"> </canvas>
+                
+            </td>
+        </tr>
+    </table>
+</body>
 
 <script>
   //method 2:
@@ -63,18 +99,115 @@
 
     var myChart = document.getElementById("myChart").getContext("2d");
     
+    var randomColorGenerator = function () { 
+        return '#' + (Math.random().toString(16) + '0000000').slice(2, 8); 
+    };
 
     var showQtyChart = new Chart("myChart", {
         type: "bar",
         data: {
             labels: category,
             datasets:[{
-                label:'Monthly',
-                data: quantity
-            }],
+                label:'time range',
+                
+                fill:false,
+                borderColor: randomColorGenerator(),
+                data: quantity,
+                type: "line"
+            },
+            {
+                label:'department1',
+                
+                backgroundColor: randomColorGenerator(),
+              
+                strokeColor: "rgba(220,220,220,0.8)",
+              
+                data: [225,221,122,125,192,218,127,125,136,314,132,123,138,193,145,412,124,313]
+                
+            },
+            {
+                label:'department2',
+                
+                backgroundColor: randomColorGenerator(),
+                
+                strokeColor: "rgba(220,220,220,0.8)",
+              
+                data: [25,81,12,15,19,108,17,15,16,14,115,121,118,119,115,12,14,13]
+            }
+            ],
         },
         options:{
             
-            }}
+            legend: {
+                display: true,
+                labels: {
+                    fontColor: 'rgb(255, 99, 132)'
+                }
+            
+            },
+            title: {
+                display: true,
+                fontSize: 30,
+                fontStyle: 'Bold',
+                text: 'Custom Chart Title'},
+            scales: {
+                yAxes: [{
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'Quantity'
+                    }
+                }],
+                xAxes: [{
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'Category'
+                    }
+                }]
+            }
+        }
+    });
+
+    
+    $(document).ready(function(){
+        $("#delend").attr("disabled", "disable");// add end date to disable
+
+    });
+
+    $( function() {
+        $("#delstart").datepicker(
+        {
+            dateFormat: 'dd-mm-yy', 
+            changeMonth: true,
+            changeYear: true,
+            
+            beforeShowDay: $.datepicker.noWeekends ,
+            onSelect: function (date) {
+
+                $("#delend").removeAttr("disabled");// remove disable after select startdate
+
+            
+            }
+        }
     );
+    });
+
+    $(function () {
+      
+        $("#delend").datepicker(
+        {
+            beforeShowDay: $.datepicker.noWeekends,
+            //  changeMonth:true,
+            //  maxDate: "+2W",
+            defaultDate: "+1w",
+            beforeShow: function () {
+                $(this).datepicker('option','minDate', $('#delstart').val());
+                //  if ($('#delstart').val() === '') $(this).datepicker('option', 'minDate', 0 , 'maxDate' , '+10D');
+            },
+            dateFormat: 'dd-mm-yy',
+            changeMonth: true,
+            changeYear: true
+        });
+    });
+
+   
 </script>

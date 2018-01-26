@@ -34,7 +34,8 @@ namespace Inventory_mvc.DAO
         public Boolean AddNewRequisition(Requisition_Record requisitionRecord)
         {
 
-            using (StationeryModel entity = new StationeryModel()) {
+            using (StationeryModel entity = new StationeryModel())
+            {
                 try
                 {
                     Requisition_Record requisition = new Requisition_Record();
@@ -48,7 +49,7 @@ namespace Inventory_mvc.DAO
                     entity.Requisition_Records.Add(requisition);
                     entity.SaveChanges();
                 }
-                catch
+                catch (Exception e)
                 {
                     return false;
                 }

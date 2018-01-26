@@ -13,10 +13,19 @@ namespace InventoryWCF
         private static IStationeryService stationeryService = new StationeryService();
 
 
-        public static WCFDisbursement ConvertToWCFDisbursement()
+        public static List<WCFDisbursement> ConvertToWCFDisbursement(List<Disbursement> disbursement)
         {
             // TODO : IMPLEMENT METHOD
-            throw new NotImplementedException();
+            List<WCFDisbursement> dl = new List<WCFDisbursement>();
+            foreach (var list in disbursement)
+            {
+                WCFDisbursement d = new WCFDisbursement();
+                d.ItemCode = list.itemCode;
+                d.StationeryDescription = list.itemDescription;
+                d.NeedQty = list.quantity;
+                dl.Add(d);
+            }
+            return dl;
         }
 
         public static WCFRequisitionDetail ConvertToWCFRequisitionDetail(Requisition_Detail detail)
@@ -130,10 +139,10 @@ namespace InventoryWCF
         public static WCFDepartment convertToWCFDepartment(Department d)
         {
             WCFDepartment wcfd = new WCFDepartment();
-            wcfd.departmentCode = d.departmentCode;
-            wcfd.departmentName = d.departmentName;
-            wcfd.contactName = d.contactName;
-            wcfd.collectionPointID = d.collectionPointID;
+            wcfd.DepartmentCode = d.departmentCode;
+            wcfd.DepartmentName = d.departmentName;
+            wcfd.ContactName = d.contactName;
+            wcfd.CollectionPointID = d.collectionPointID;
 
             return wcfd;
         }
@@ -154,10 +163,11 @@ namespace InventoryWCF
             
             wcfR.Description = retrieval.description;
             wcfR.Qty = retrieval.Qty;
-            wcfR.QtyRetrieved = retrieval.Qty;
+            wcfR.QtyRetrieved = retrieval.retrieveQty;
             //add location to WCFRetrievalForm object
             StationeryModel entity = new StationeryModel();
             wcfR.Location = entity.Stationeries.Where(x => x.description == retrieval.description).First().location;
+         
 
             return wcfR;
            

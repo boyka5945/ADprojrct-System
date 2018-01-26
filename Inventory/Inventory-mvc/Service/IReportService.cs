@@ -11,6 +11,6 @@ namespace Inventory_mvc.Service
 {
     interface IReportService
     {
-        List<ReportViewModel> RetrieveQty();
+        List<ReportViewModel> RetrieveQty(DateTime ds, DateTime de);
     }
 }
