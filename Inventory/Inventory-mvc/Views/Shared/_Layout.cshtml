@@ -33,16 +33,42 @@
                 margin-top: -1px;
                
             }
+            body {
+    padding: 0; margin: 0;
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+   
+}
+main {
+    flex: 1;
+    padding: 1em;
+}
+header{
+    padding: 1em;
+
+} 
+
+footer {   
+   
+    padding: 1em;
+     width: 100%;
+  position:relative;
+  left:40%;
+  right: 0;
+  bottom:0;
+  z-index: -99;
+}
     </style>
 
 </head>
 
-<body style="position: relative; min-height: 100%; top: 0px;">
+<body>
     <header class="container-fluid" style="position:relative;text-align:center;top:50%"><a href="#"><img src="~/Images/TopLogo.jpg" /></a></header>
 
-<nav class="navbar-default">
+    <nav class="navbar-default">
         <div class="container-fluid">
-         
+
             <ul class="nav nav-tabs">
                 <li>@Html.ActionLink("Home", "Contact", "Home")</li>
                 @if (Convert.ToInt32(HttpContext.Current.Application["role"]) == 2 || Convert.ToInt32(HttpContext.Current.Application["role"]) == 3 || Convert.ToInt32(HttpContext.Current.Application["role"]) == 4 || Convert.ToInt32(HttpContext.Current.Application["role"]) == 5 || Convert.ToInt32(HttpContext.Current.Application["role"]) == 6 || Convert.ToInt32(HttpContext.Current.Application["role"]) == 7 || Convert.ToInt32(HttpContext.Current.Application["role"]) == 8)
@@ -80,12 +106,12 @@
                         </a>
                         <ul class="dropdown-menu">
                             @if (Convert.ToInt32(HttpContext.Current.Application["role"]) == 2 || Convert.ToInt32(HttpContext.Current.Application["role"]) == 3 || Convert.ToInt32(HttpContext.Current.Application["role"]) == 4 || Convert.ToInt32(HttpContext.Current.Application["role"]) == 6 || Convert.ToInt32(HttpContext.Current.Application["role"]) == 7 || Convert.ToInt32(HttpContext.Current.Application["role"]) == 8)
-                                {
-                            <li>@Html.ActionLink("View Employee", "UserList", "User")</li>
-                                }
+                            {
+                                <li>@Html.ActionLink("View Employee", "UserList", "User")</li>
+                            }
 
                             @if (Convert.ToInt32(HttpContext.Current.Application["role"]) == 5)
-                                {
+                            {
                                 <li>@Html.ActionLink("Manage Employee", "SMUserList", "User")</li>
                             }
                             @if (Convert.ToInt32(HttpContext.Current.Application["role"]) == 2 || Convert.ToInt32(HttpContext.Current.Application["role"]) == 5)
@@ -114,8 +140,8 @@
 
                         <ul class="dropdown-menu">
 
-                       
-                          
+
+
 
                             @if (Convert.ToInt32(HttpContext.Current.Application["role"]) == 2 || Convert.ToInt32(HttpContext.Current.Application["role"]) == 5 || Convert.ToInt32(HttpContext.Current.Application["role"]) == 8)
                 {
@@ -139,21 +165,21 @@
                 {
                                 <li>@Html.ActionLink("Disbursement List", "DisbursementList", "ManageRequisitions")</li>
                             }
-                    @if (Convert.ToInt32(HttpContext.Current.Application["role"]) == 5 || Convert.ToInt32(HttpContext.Current.Application["role"]) == 6 || Convert.ToInt32(HttpContext.Current.Application["role"]) == 7)
-                        {
-                            <li class="dropdown-submenu">
-                                <a class="test" href="#">Inventory Adjustment Voucher<span class="caret"></span></a>
-                                <ul class="dropdown-menu" style="top:20%;left:100%;margin-top:1px">
-                                    <li>@Html.ActionLink("Submit Voucher", "NewVoucher", "AdjustmentVoucher")</li>
-                                    @if (Convert.ToInt32(HttpContext.Current.Application["role"]) == 5 || Convert.ToInt32(HttpContext.Current.Application["role"]) == 6)
-                                    {
-                                        <li>@Html.ActionLink("Approve Voucher", "Index", "AdjustmentVoucher")</li>}
-                                </ul>
-                            </li>
-                        }
+                            @if (Convert.ToInt32(HttpContext.Current.Application["role"]) == 5 || Convert.ToInt32(HttpContext.Current.Application["role"]) == 6 || Convert.ToInt32(HttpContext.Current.Application["role"]) == 7)
+                            {
+                                <li class="dropdown-submenu">
+                                    <a class="test" href="#">Inventory Adjustment Voucher<span class="caret"></span></a>
+                                    <ul class="dropdown-menu" style="top:20%;left:100%;margin-top:1px">
+                                        <li>@Html.ActionLink("Submit Voucher", "NewVoucher", "AdjustmentVoucher")</li>
+                                        @if (Convert.ToInt32(HttpContext.Current.Application["role"]) == 5 || Convert.ToInt32(HttpContext.Current.Application["role"]) == 6)
+                                        {
+                                            <li>@Html.ActionLink("Approve Voucher", "Index", "AdjustmentVoucher")</li>}
+                                    </ul>
+                                </li>
+                            }
 
 
-                    
+
                         </ul>
 
                     </li>
@@ -175,21 +201,21 @@
                     <li class="dropdown">
                         <a class="btn btn-primary dropdown-toggle" style="width:120px" type="button" data-toggle="dropdown" href="#">Stocks</a>
                         <ul class="dropdown-menu">
-                          
-                                
-                                <li>@Html.ActionLink("View Stock Card", "Index", "Stationery")</li>
+
+
+                            <li>@Html.ActionLink("View Stock Card", "Index", "Stationery")</li>
                             <li class="dropdown-submenu">
                                 <a class="test" href="#">Inventory Check<span class="caret"></span></a>
                                 <ul class="dropdown-menu" style="top:20%;left:100%;margin-top:1px">
                                     <li>@Html.ActionLink("Generate Inventory Checklist", "GenerateInventoryChecklist", "InventoryCheck")</li>
-                                   
-                                        <li>@Html.ActionLink("Inventory CheckList Report", "ShowDetails", "InventoryCheck")</li>
+
+                                    <li>@Html.ActionLink("Inventory CheckList Report", "ShowDetails", "InventoryCheck")</li>
                                 </ul>
                             </li>
-                                <li>@Html.ActionLink("View Shortfall List", "List", "CheckShortfall")</li>
-                                <li>@Html.ActionLink("Generate Purchase Order", "RaisePurchaseOrder", "Purchase")</li>
-                                <li>@Html.ActionLink("View Purchase Order", "ListPurchaseOrders", "Purchase")</li>
-                                <li>@Html.ActionLink("Receive Stock", "StockReceive", "ReceiveStock")</li>
+                            <li>@Html.ActionLink("View Shortfall List", "List", "CheckShortfall")</li>
+                            <li>@Html.ActionLink("Generate Purchase Order", "RaisePurchaseOrder", "Purchase")</li>
+                            <li>@Html.ActionLink("View Purchase Order", "ListPurchaseOrders", "Purchase")</li>
+                            <li>@Html.ActionLink("Receive Stock", "StockReceive", "ReceiveStock")</li>
                         </ul>
                     </li>
                 }
@@ -201,41 +227,43 @@
     </nav>
 
 
-
-
-    <div class="container body-content">
-
-
-
-
-        @RenderBody()
+    <main>
+        <div class="container-fluid">
+            <div class="container body-content">
 
 
 
 
+                @RenderBody()
 
-    </div>
 
 
-    <br />
-    <br />
 
-        <footer style="text-align:center;vertical-align:bottom;position:absolute;left:0px;right:0px;bottom:0px;padding:2px">
-            <p>&copy; @DateTime.Now.Year - SA45Team3@NUS_ISS</p>
-        </footer>
-   
+
+            </div>
+        </div>
+    </main>
+
+  
+    <footer>
+        
+            &copy; @DateTime.Now.Year - SA45Team3
+            
+        
+    </footer>
+
 
 
     @RenderSection("scripts", required: false)
 
     <script>
-$(document).ready(function(){
-  $('.dropdown-submenu a.test').on("click", function(e){
-    $(this).next('ul').toggle();
-    e.stopPropagation();
-    e.preventDefault();
-  });
-});
+        $(document).ready(function () {
+            $('.dropdown-submenu a.test').on("click", function (e) {
+                $(this).next('ul').toggle();
+                e.stopPropagation();
+                e.preventDefault();
+            });
+        });
     </script>
 </body>
 </html>

@@ -46,9 +46,17 @@
     @Styles.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/Chart")
 </head>
-<div class="container">
-    <canvas id="myChart" width="800" height="400"> </canvas>
-</div>
+<body>
+    
+    <table>
+        <tr>
+            <td class="container" style="position: relative; height:40vh; width:80vw;padding: 5px">
+                                    <canvas id="myChart" width="800" height="400"> </canvas>
+                
+            </td>
+        </tr>
+    </table>
+</body>
 
 <script>
   //method 2:
@@ -63,18 +71,71 @@
 
     var myChart = document.getElementById("myChart").getContext("2d");
     
+    var randomColorGenerator = function () { 
+        return '#' + (Math.random().toString(16) + '0000000').slice(2, 8); 
+    };
 
     var showQtyChart = new Chart("myChart", {
         type: "bar",
         data: {
             labels: category,
             datasets:[{
-                label:'Monthly',
-                data: quantity
-            }],
+                label:'24-1-2018',
+                
+                fill:false,
+                borderColor: randomColorGenerator(),
+                data: quantity,
+                type: "line"
+            },
+            {
+                label:'25-1-2018',
+                
+                backgroundColor: randomColorGenerator(),
+              
+                strokeColor: "rgba(220,220,220,0.8)",
+              
+                data: [225,221,122,125,192,218,127,125,136,314,132,123,138,193,145,412,124,313]
+                
+            },
+            {
+                label:'26-1-2018',
+                
+                backgroundColor: randomColorGenerator(),
+                
+                strokeColor: "rgba(220,220,220,0.8)",
+              
+                data: [25,81,12,15,19,108,17,15,16,14,115,121,118,119,115,12,14,13]
+            }
+            ],
         },
         options:{
             
-            }}
-    );
+            legend: {
+                display: true,
+                labels: {
+                    fontColor: 'rgb(255, 99, 132)'
+                }
+            
+            },
+            title: {
+                display: true,
+                fontSize: 30,
+                fontStyle: 'Bold',
+                text: 'Custom Chart Title'},
+            scales: {
+                yAxes: [{
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'Quantity'
+                    }
+                }],
+                xAxes: [{
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'Category'
+                    }
+                }]
+            }
+        }
+                });
 </script>
