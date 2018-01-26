@@ -262,7 +262,8 @@ namespace InventoryWCF
 
         public List<WCFRequisitionDetail> GetDetailsByReqNo(string reqNo)
         {
-            List<Requisition_Detail> reqDetail = requisitionRecordService.GetDetailsByNo(Convert.ToInt32(reqNo));
+            int no = Int32.Parse(reqNo);
+            List<Requisition_Detail> reqDetail = requisitionRecordService.GetDetailsByNo(no);
             return WCFModelConvertUtility.ConvertToWCFRequestionDetails(reqDetail);
         }
         //public Boolean updateRequisitionDetails(int requisitionNo, string ItemCode, int allocateQty)
@@ -296,19 +297,19 @@ namespace InventoryWCF
             
         }
 
-        public bool UpdateRetrieval(string description, string qty)
-        {
-            List<RetrieveForm> list = (List<RetrieveForm>)HttpContext.Current.Application["retrieveList"];
-            //RetrieveForm rf = list.Where(x => x.description == description).First();
-            //rf.retrieveQty = Int32.Parse(qty);
-            var index = list.FindIndex(x => x.description == description);
-            list[index].retrieveQty = Int32.Parse(qty);
+        //public bool UpdateRetrieval(string description, string qty)
+        //{
+        //    List<RetrieveForm> list = (List<RetrieveForm>)HttpContext.Current.Application["retrieveList"];
+        //    //RetrieveForm rf = list.Where(x => x.description == description).First();
+        //    //rf.retrieveQty = Int32.Parse(qty);
+        //    var index = list.FindIndex(x => x.description == description);
+        //    list[index].retrieveQty = Int32.Parse(qty);
 
-            HttpContext.Current.Application["retrieveList"] = list;
-            return true;
+        //    HttpContext.Current.Application["retrieveList"] = list;
+        //    return true;
 
 
-        }
+        //}
 
 
         public List<WCFDepartment> GetAllDepartments()
