@@ -18,8 +18,8 @@ namespace Inventory_mvc.Controllers
         // GET: Report
         public ActionResult Report()
         {
-
-            List<ReportViewModel> vmList = reportService.RetrieveQty();
+            DateTime todayDate = DateTime.Now.Date;
+            List<ReportViewModel> vmList = reportService.RetrieveQty(todayDate,todayDate);
             List<ReportViewModel> result = new List<ReportViewModel>();
             foreach (var vm in vmList)
             {
@@ -85,6 +85,76 @@ namespace Inventory_mvc.Controllers
             return View();
         }
 
-      
+        [HttpPost]
+        public ActionResult Report(DateTime from, DateTime toto)
+        {
+
+            List<ReportViewModel> vmList = reportService.RetrieveQty(from,toto);
+            List<ReportViewModel> result = new List<ReportViewModel>();
+            foreach (var vm in vmList)
+            {
+                ReportViewModel i = new ReportViewModel();
+                i.CategoryName = vm.CategoryName;
+                i.Qty = vm.Qty;
+
+                bool contain = false;
+
+                foreach (var j in result)
+                {
+                    if (i.CategoryName == j.CategoryName)
+                    {
+                        j.Qty += i.Qty;
+                        contain = true;
+                        break;
+                    }
+                }
+
+                if (!contain)
+                {
+                    result.Add(i);
+                }
+            }
+
+            List<Category> categoryList = stationeryService.GetAllCategory();
+            List<string> categoryArray = new List<string>();
+            List<int> quantity = new List<int>();
+
+
+
+            foreach (var c in categoryList)
+            {
+                categoryArray.Add(c.categoryName);
+            }
+
+            for (int i = 0; i < categoryArray.Count; i++)
+            {
+                quantity.Add(0);
+            }
+
+            foreach (var item in result)
+            {
+                for (int i = 0; i < categoryArray.Count; i++)
+                {
+                    if (categoryArray[i] == item.CategoryName)
+                    {
+                        quantity[i] += item.Qty;
+                    }
+                }
+            }
+
+
+
+            var cat = categoryArray.ToArray();
+            var qty = quantity.ToArray();
+
+
+            ViewBag.X = cat;
+            ViewBag.Y = qty;
+
+
+            return View();
+        }
+
+
     }
 }

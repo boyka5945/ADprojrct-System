@@ -63,9 +63,9 @@ namespace InventoryWCF
         List<WCFRequisitionRecord> GetAllRequisitionRecords();
 
         [OperationContract]
-        [WebInvoke(Method = "POST", 
-                   UriTemplate = "/AddNewRequest/{requesterID}", 
-                   RequestFormat =  WebMessageFormat.Json, 
+        [WebInvoke(Method = "POST",
+                   UriTemplate = "/AddNewRequest/{requesterID}",
+                   RequestFormat = WebMessageFormat.Json,
                    ResponseFormat = WebMessageFormat.Json)]
         bool AddNewRequest(string requesterID, WCFRequisitionDetail[] newRequisition);
 
@@ -87,9 +87,12 @@ namespace InventoryWCF
         [WebGet(UriTemplate = "/GetRetrievalList", ResponseFormat = WebMessageFormat.Json)]
         List<WCFRetrievalForm> getRetrievalList();
 
-        //[OperationContract]
-        //[WebGet(UriTemplate = "/UpdateRetrieval", ResponseFormat = WebMessageFormat.Json)]
-        //bool UpdateRetrieval(string description, string qty);
+        [OperationContract]
+        [WebInvoke(Method= "POST",
+            UriTemplate = "/UpdateRetrieval", 
+            RequestFormat = WebMessageFormat.Json,
+            ResponseFormat = WebMessageFormat.Json)]
+        bool UpdateRetrieval(WCFRetrievalForm wcfr);
 
         //[OperationContract]
         //[WebGet(UriTemplate = "/GetRetrievalItemByName", ResponseFormat = WebMessageFormat.Json)]
@@ -99,7 +102,14 @@ namespace InventoryWCF
         [WebGet(UriTemplate = "/GetAllDepartments", ResponseFormat = WebMessageFormat.Json)]
         List<WCFDepartment> GetAllDepartments();
 
+        [OperationContract]
+        [WebGet(UriTemplate = "/GetDisbursementByDept/{deptCode}", ResponseFormat = WebMessageFormat.Json)]
+        List<WCFDisbursement> GetDisbursementByDept(string deptCode);
 
+        //[OperationContract]
+        //[WebGet(UriTemplate = "/GetAllRequisitionforAllocation", ResponseFormat = WebMessageFormat.Json)]
+        //List<WCFRequisitionDetail> GetAllRequisitionforAllocation();
+    }
 
         //[OperationContract]
         //List<Disbursement> getDisbursementList();
@@ -111,6 +121,8 @@ namespace InventoryWCF
         //List<RequisitionDetails> getrequisitionDetailsByNO(int requisitionNo);
 
 
+
+
     }
 
 
@@ -119,8 +131,8 @@ namespace InventoryWCF
     public class WCFDisbursement
     {
         string stationeryDescription;
-        int? qty;
-        int? returnQty;
+        string itemCode;
+        int? needQty;
 
         [DataMember]
         public string StationeryDescription
@@ -129,16 +141,16 @@ namespace InventoryWCF
             set { stationeryDescription = value; }
         }
         [DataMember]
-        public int? Qty
+        public string ItemCode
         {
-            get { return qty; }
-            set { qty = value; }
+            get { return itemCode; }
+            set { itemCode = value; }
         }
         [DataMember]
-        public int? ReturnQty
-        {
-            get { return returnQty; }
-            set { returnQty = value; }
+        public int? NeedQty
+    {
+            get { return needQty; }
+            set { needQty = value; }
         }
     }
 
@@ -472,32 +484,29 @@ namespace InventoryWCF
     public class WCFDepartment
     {
         [DataMember]
-        public string departmentCode
+        public string DepartmentCode
         {
-            get { return departmentCode; }
-            set { departmentCode = value; }
-        }
-            [DataMember]
-            public string departmentName
-        {
-            get { return departmentName; }
-            set { departmentName = value; }
+            get; set;
         }
 
         [DataMember]
-        public string contactName
+        public string DepartmentName
         {
-            get { return contactName; }
-            set { contactName = value; }
+            get; set;
         }
 
         [DataMember]
-        public int collectionPointID
+        public string ContactName
         {
-            get { return collectionPointID; }
-            set { collectionPointID = value; }
+            get; set;
+        }
+
+        [DataMember]
+        public int CollectionPointID
+        {
+            get; set;
         }
     }
 
 
-}
+
