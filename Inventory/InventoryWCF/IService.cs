@@ -87,9 +87,9 @@ namespace InventoryWCF
         [WebGet(UriTemplate = "/GetRetrievalList", ResponseFormat = WebMessageFormat.Json)]
         List<WCFRetrievalForm> getRetrievalList();
 
-        [OperationContract]
-        [WebGet(UriTemplate = "/UpdateRetrieval", ResponseFormat = WebMessageFormat.Json)]
-        bool UpdateRetrieval(string description, string qty);
+        //[OperationContract]
+        //[WebGet(UriTemplate = "/UpdateRetrieval", ResponseFormat = WebMessageFormat.Json)]
+        //bool UpdateRetrieval(string description, string qty);
 
         //[OperationContract]
         //[WebGet(UriTemplate = "/GetRetrievalItemByName", ResponseFormat = WebMessageFormat.Json)]
@@ -108,9 +108,7 @@ namespace InventoryWCF
         //[OperationContract]
         //List<RequisitionRecord> getRequisitionListByUserID(string UserID);
 
-        //[OperationContract]
-        //List<RequisitionDetails> getrequisitionDetailsByNO(int requisitionNo);
-
+        
 
     }
 
