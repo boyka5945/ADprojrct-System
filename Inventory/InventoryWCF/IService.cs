@@ -63,9 +63,9 @@ namespace InventoryWCF
         List<WCFRequisitionRecord> GetAllRequisitionRecords();
 
         [OperationContract]
-        [WebInvoke(Method = "POST", 
-                   UriTemplate = "/AddNewRequest/{requesterID}", 
-                   RequestFormat =  WebMessageFormat.Json, 
+        [WebInvoke(Method = "POST",
+                   UriTemplate = "/AddNewRequest/{requesterID}",
+                   RequestFormat = WebMessageFormat.Json,
                    ResponseFormat = WebMessageFormat.Json)]
         bool AddNewRequest(string requesterID, WCFRequisitionDetail[] newRequisition);
 
@@ -474,38 +474,28 @@ namespace InventoryWCF
     [DataContract]
     public class WCFDepartment
     {
-        string departmentCode;
-        string departmentName;
-        string contactName;
-        int collectionPointID;
-
-
         [DataMember]
         public string DepartmentCode
-
         {
-            get { return departmentCode; }
-            set { departmentCode = value; }
+            get; set;
         }
-            [DataMember]
-            public string DepartmentName
+
+        [DataMember]
+        public string DepartmentName
         {
-            get { return departmentName; }
-            set { departmentName = value; }
+            get; set;
         }
 
         [DataMember]
         public string ContactName
         {
-            get { return contactName; }
-            set { contactName = value; }
+            get; set;
         }
 
         [DataMember]
         public int CollectionPointID
         {
-            get { return collectionPointID; }
-            set { collectionPointID = value; }
+            get; set;
         }
     }
 
