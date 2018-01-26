@@ -10,13 +10,15 @@ namespace Inventory_mvc.DAO
 {
     public class ReportDAO : IReportDAO
     {
-        public List<Purchase_Detail> RetrieveQty()
+        public List<Purchase_Detail> RetrieveQty(DateTime ds, DateTime de)
         {
             using (StationeryModel entity = new StationeryModel())
             {
                 // TODO - FIX DATE
-                DateTime dateStart = DateTime.Parse("2018-01-24");
-                DateTime dateEnd = DateTime.Parse("2018-01-25");
+                DateTime dateStart = ds;
+                DateTime dateEnd = de;
+                //DateTime dateStart = DateTime.Parse("2018-01-24");
+                //DateTime dateEnd = DateTime.Parse("2018-01-25");
                 var purchaseRecords = (from x in entity.Purchase_Order_Records
                                        where x.date >= dateStart && x.date <= dateEnd
                                        select x).Include(x => x.Purchase_Detail).ToList();
@@ -39,8 +41,8 @@ namespace Inventory_mvc.DAO
             using (StationeryModel entity = new StationeryModel())
             {
                 // TODO - FIX DATE
-                DateTime dateStart = DateTime.Parse("2018-01-24");
-                DateTime dateEnd = DateTime.Parse("2018-01-25");
+                DateTime dateStart = ds;
+                DateTime dateEnd = de;
 
                 var purchaseRecords = (from x in entity.Purchase_Order_Records
                                        where x.date >= dateStart && x.date <= dateEnd && x.supplierCode == suppCode

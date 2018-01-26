@@ -41,14 +41,42 @@
 <head>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" />
+    <link type="text/css" href="css/ui-lightness/jquery-ui-1.8.11.custom.css" rel="stylesheet" />	
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="/resources/demos/style.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
     @Styles.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/Chart")
 </head>
 <body>
-    
+        
     <table>
+        <tr>
+            <td>
+                @using (Html.BeginForm(FormMethod.Post))
+                {
+                    <div style="left:70%;right:0px;position:relative">
+
+                        @*<input type="hidden" name="userID" value="@Model.userID" />*@
+                        @*<p>From: <input type="text" id="delstart" name="from"> |
+                   To:   <input type="text" id="delend" name="toto">
+                </p>*@
+                        <p>
+                            From: <input type="text" id="delstart" name="from">
+                            To: <input type="text" id="delend" name="toto">
+                        </p>
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-10">
+                                <input type="submit" value="Confirm" class="btn btn-primary" />
+                            </div>
+                        </div>
+                    </div>
+                }
+            </td>
+        </tr>
         <tr>
             <td class="container" style="position: relative; height:40vh; width:80vw;padding: 5px">
                                     <canvas id="myChart" width="800" height="400"> </canvas>
@@ -80,7 +108,7 @@
         data: {
             labels: category,
             datasets:[{
-                label:'24-1-2018',
+                label:'time range',
                 
                 fill:false,
                 borderColor: randomColorGenerator(),
@@ -88,7 +116,7 @@
                 type: "line"
             },
             {
-                label:'25-1-2018',
+                label:'department1',
                 
                 backgroundColor: randomColorGenerator(),
               
@@ -98,7 +126,7 @@
                 
             },
             {
-                label:'26-1-2018',
+                label:'department2',
                 
                 backgroundColor: randomColorGenerator(),
                 
@@ -137,5 +165,49 @@
                 }]
             }
         }
-                });
+    });
+
+    
+    $(document).ready(function(){
+        $("#delend").attr("disabled", "disable");// add end date to disable
+
+    });
+
+    $( function() {
+        $("#delstart").datepicker(
+        {
+            dateFormat: 'dd-mm-yy', 
+            changeMonth: true,
+            changeYear: true,
+            
+            beforeShowDay: $.datepicker.noWeekends ,
+            onSelect: function (date) {
+
+                $("#delend").removeAttr("disabled");// remove disable after select startdate
+
+            
+            }
+        }
+    );
+    });
+
+    $(function () {
+      
+        $("#delend").datepicker(
+        {
+            beforeShowDay: $.datepicker.noWeekends,
+            //  changeMonth:true,
+            //  maxDate: "+2W",
+            defaultDate: "+1w",
+            beforeShow: function () {
+                $(this).datepicker('option','minDate', $('#delstart').val());
+                //  if ($('#delstart').val() === '') $(this).datepicker('option', 'minDate', 0 , 'maxDate' , '+10D');
+            },
+            dateFormat: 'dd-mm-yy',
+            changeMonth: true,
+            changeYear: true
+        });
+    });
+
+   
 </script>
