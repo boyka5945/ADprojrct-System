@@ -130,10 +130,10 @@ namespace InventoryWCF
         public static WCFDepartment convertToWCFDepartment(Department d)
         {
             WCFDepartment wcfd = new WCFDepartment();
-            wcfd.departmentCode = d.departmentCode;
-            wcfd.departmentName = d.departmentName;
-            wcfd.contactName = d.contactName;
-            wcfd.collectionPointID = d.collectionPointID;
+            wcfd.DepartmentCode = d.departmentCode;
+            wcfd.DepartmentName = d.departmentName;
+            wcfd.ContactName = d.contactName;
+            wcfd.CollectionPointID = d.collectionPointID;
 
             return wcfd;
         }
