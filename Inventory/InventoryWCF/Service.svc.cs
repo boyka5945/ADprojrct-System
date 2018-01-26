@@ -319,8 +319,14 @@ namespace InventoryWCF
 
         }
 
-      
-  
+        public List<WCFDisbursement> GetDisbursementByDept(string deptCode)
+        {
+            List<Disbursement> disbursement = requisitionRecordService.GetRequisitionByDept(deptCode);
+            return WCFModelConvertUtility.ConvertToWCFDisbursement(disbursement);
+        }
+
+
+
 
         //public List<Disbursement> getDisbursementList()
         //{

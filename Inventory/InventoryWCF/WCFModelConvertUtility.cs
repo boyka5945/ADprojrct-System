@@ -13,10 +13,19 @@ namespace InventoryWCF
         private static IStationeryService stationeryService = new StationeryService();
 
 
-        public static WCFDisbursement ConvertToWCFDisbursement()
+        public static List<WCFDisbursement> ConvertToWCFDisbursement(List<Disbursement> disbursement)
         {
             // TODO : IMPLEMENT METHOD
-            throw new NotImplementedException();
+            List<WCFDisbursement> dl = new List<WCFDisbursement>();
+            foreach (var list in disbursement)
+            {
+                WCFDisbursement d = new WCFDisbursement();
+                d.ItemCode = list.itemCode;
+                d.StationeryDescription = list.itemDescription;
+                d.NeedQty = list.quantity;
+                dl.Add(d);
+            }
+            return dl;
         }
 
         public static WCFRequisitionDetail ConvertToWCFRequisitionDetail(Requisition_Detail detail)
