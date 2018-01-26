@@ -9,6 +9,7 @@ using Inventory_mvc.Service;
 using Inventory_mvc.Models;
 using Inventory_mvc.ViewModel;
 using System.Web;
+using Inventory_mvc.Utilities;
 
 namespace InventoryWCF
 {
@@ -272,6 +273,7 @@ namespace InventoryWCF
 
         public List<WCFRetrievalForm> getRetrievalList()
         {
+            StationeryModel entity = new StationeryModel();
             List<RetrieveForm> list = new List<RetrieveForm>();
              //need the list for the next delivery, a.k.a for next monday
              //must have been approved before this week's wednesday?
@@ -291,6 +293,10 @@ namespace InventoryWCF
                 list = requisitionRecordService.GetRetrieveFormByDateTime(date); //newly generated list
                 HttpContext.Current.Application["retrieveList"] = list;
             }
+
+            //generate list of requisition records for allocation at the same time
+            List<Requisition_Record> rr = entity.Requisition_Records.Where(x => x.approveDate < date && (x.status == RequisitionStatus.APPROVED_PROCESSING || x.status == RequisitionStatus.PARTIALLY_FULFILLED)).ToList();
+            HttpContext.Current.Application["requisitionRecordList_allocation"] = rr;
 
             return WCFModelConvertUtility.ConvertToWCFRetrievalList(list);
             
@@ -323,6 +329,31 @@ namespace InventoryWCF
         {
             List<Disbursement> disbursement = requisitionRecordService.GetRequisitionByDept(deptCode);
             return WCFModelConvertUtility.ConvertToWCFDisbursement(disbursement);
+        }
+
+        //allocation list should match the retrieval list
+        public List<WCFRequisitionDetail> GetAllRequisitionDetailsforAllocation()
+        {
+            List<WCFRequisitionDetail> allocationList = new List<WCFRequisitionDetail>();
+            if(HttpContext.Current.Application["requisitionRecordList_allocation"] == null)
+            {
+                return allocationList = null; //empty
+            }
+
+            List<Requisition_Record> records = (List<Requisition_Record>)HttpContext.Current.Application["requisitionRecordList_allocation"];
+
+            foreach(Requisition_Record rr in records)
+            {
+                List<Requisition_Detail> temp = (List<Requisition_Detail>) rr.Requisition_Detail;
+                List<WCFRequisitionDetail> wcftemp = WCFModelConvertUtility.ConvertToWCFRequestionDetails(temp);
+                allocationList.AddRange(wcftemp);
+            }
+
+            return allocationList;
+
+
+
+
         }
 
 
