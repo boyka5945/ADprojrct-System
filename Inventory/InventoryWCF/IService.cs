@@ -88,8 +88,11 @@ namespace InventoryWCF
         List<WCFRetrievalForm> getRetrievalList();
 
         [OperationContract]
-        [WebGet(UriTemplate = "/UpdateRetrieval", ResponseFormat = WebMessageFormat.Json)]
-        bool UpdateRetrieval(string description, string qty);
+        [WebInvoke(Method= "POST",
+            UriTemplate = "/UpdateRetrieval", 
+            RequestFormat = WebMessageFormat.Json,
+            ResponseFormat = WebMessageFormat.Json)]
+        bool UpdateRetrieval(WCFRetrievalForm wcfr);
 
         //[OperationContract]
         //[WebGet(UriTemplate = "/GetRetrievalItemByName", ResponseFormat = WebMessageFormat.Json)]
@@ -471,28 +474,35 @@ namespace InventoryWCF
     [DataContract]
     public class WCFDepartment
     {
+        string departmentCode;
+        string departmentName;
+        string contactName;
+        int collectionPointID;
+
+
         [DataMember]
-        public string departmentCode
+        public string DepartmentCode
+
         {
             get { return departmentCode; }
             set { departmentCode = value; }
         }
             [DataMember]
-            public string departmentName
+            public string DepartmentName
         {
             get { return departmentName; }
             set { departmentName = value; }
         }
 
         [DataMember]
-        public string contactName
+        public string ContactName
         {
             get { return contactName; }
             set { contactName = value; }
         }
 
         [DataMember]
-        public int collectionPointID
+        public int CollectionPointID
         {
             get { return collectionPointID; }
             set { collectionPointID = value; }
