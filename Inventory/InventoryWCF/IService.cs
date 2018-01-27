@@ -118,7 +118,7 @@ namespace InventoryWCF
         List<WCFRequisitionDetail> GetAllRequisitionDetailsforAllocation();
 
         [OperationContract]
-        [WebGet(UriTemplate = "/GetAllRequestRecordForItemAllocation", ResponseFormat = WebMessageFormat.Json)]
+        [WebGet(UriTemplate = "/GetAllRequestRecordForItemAllocation/{itemCode}", ResponseFormat = WebMessageFormat.Json)]
         List<WCFRequisitionRecord> GetAllRequestRecordForItemAllocation(string itemCode);
     }
 
