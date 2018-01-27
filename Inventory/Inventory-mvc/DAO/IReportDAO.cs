@@ -11,5 +11,7 @@ namespace Inventory_mvc.DAO
     interface IReportDAO
     {
         List<Purchase_Detail> RetrieveQty(DateTime ds, DateTime de);
+
+        List<Requisition_Detail> GetRequisitionDetailsByItemCodeAndYear(string itemCode, int[] years);
     }
 }

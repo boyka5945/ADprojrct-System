@@ -83,6 +83,29 @@ namespace Inventory_mvc.Service
             }
         }
 
+        // TODO - REMOVE THIS METHOD
+        public bool SubmitNewRequisition(Requisition_Record requisition, string requesterID, DateTime date)
+        {
+            requisition.requesterID = requesterID;
+            requisition.deptCode = userService.FindDeptCodeByID(requesterID);
+            requisition.status = RequisitionStatus.PENDING_APPROVAL;
+            requisition.requestDate = date;
+
+            try
+            {
+                rDAO.SubmitNewRequisition(requisition);
+                // TODO: TEST EMAIL NOTIFICATION
+                // send email notification       
+                EmailNotification.EmailNotificatioForNewRequisition(requisition.requesterID);
+                return true;
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
+
+
         public List<Requisition_Record> GetRecordsByRequesterID(string requesterID)
         {
             return rDAO.GetRecordsByRequesterID(requesterID);
