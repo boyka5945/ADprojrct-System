@@ -357,6 +357,13 @@ namespace InventoryWCF
 
         }
 
+        //public List<WCFRequisitionDetail> GetPendingItemsToBeProcessedByDepartment(string deptCode)
+        //{
+
+        //    List<Requisition_Detail> RD = requisitionRecordService.GetRequisitionByDept(deptCode);
+        //    return WCFModelConvertUtility.ConvertToWCFRequestionDetails;
+        //}
+
 
         public bool SaveActualQty(WCFDisbursement wcfd)
         {
