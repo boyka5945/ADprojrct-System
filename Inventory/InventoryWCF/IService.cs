@@ -83,7 +83,7 @@ namespace InventoryWCF
         UriTemplate = "/SaveTmpDisbursement",
         RequestFormat = WebMessageFormat.Json,
         ResponseFormat = WebMessageFormat.Json)]
-        bool SaveActualQty(WCFDisbursement wcfd)
+        bool SaveActualQty(WCFDisbursement wcfd);
 
         //[OperationContract]
         //Boolean updateRequisitionDetails(int requisitionNo, string ItemCode, int allocateQty);
@@ -519,4 +519,4 @@ namespace InventoryWCF
     }
 
 
-}
+
