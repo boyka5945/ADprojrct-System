@@ -69,6 +69,9 @@ namespace InventoryWCF
                    ResponseFormat = WebMessageFormat.Json)]
         bool AddNewRequest(string requesterID, WCFRequisitionDetail[] newRequisition);
 
+        [OperationContract]
+        [WebGet(UriTemplate = "/GetTmp", ResponseFormat = WebMessageFormat.Json)]
+        List<WCFDisbursement> GetTMP();
 
         [OperationContract]
         [WebGet(UriTemplate = "/GetPendingRequestByDept/{deptCode}", ResponseFormat = WebMessageFormat.Json)]
@@ -83,7 +86,7 @@ namespace InventoryWCF
         UriTemplate = "/SaveTmpDisbursement",
         RequestFormat = WebMessageFormat.Json,
         ResponseFormat = WebMessageFormat.Json)]
-        bool SaveActualQty(WCFDisbursement wcfd)
+        bool SaveActualQty(WCFDisbursement wcfd);
 
         //[OperationContract]
         //Boolean updateRequisitionDetails(int requisitionNo, string ItemCode, int allocateQty);
@@ -519,4 +522,4 @@ namespace InventoryWCF
     }
 
 
-}
+

@@ -385,6 +385,11 @@ namespace InventoryWCF
             
         }
 
+        public List<WCFDisbursement> GetTMP()
+        {
+            return (List<WCFDisbursement>)HttpContext.Current.Application["tempDisbursement"];
+        }
+
         //public List<Disbursement> getDisbursementList()
         //{
         //    throw new NotImplementedException();
