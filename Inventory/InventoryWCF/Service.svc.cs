@@ -358,7 +358,32 @@ namespace InventoryWCF
         }
 
 
+        public bool SaveActualQty(WCFDisbursement wcfd)
+        {
+            try
+            {
+                List<WCFDisbursement> list = new List<WCFDisbursement>();
+                if (HttpContext.Current.Application["tempDisbursement"] != null)
+                {
 
+                    list = (List<WCFDisbursement>)HttpContext.Current.Application["tempDisbursement"];
+
+                }
+                WCFDisbursement d = new WCFDisbursement();
+                d.ItemCode = wcfd.ItemCode;
+                d.NeedQty = wcfd.NeedQty;
+                d.StationeryDescription = wcfd.StationeryDescription;
+                d.ActualQty = wcfd.ActualQty;
+                list.Add(d);
+                HttpContext.Current.Application["tempDisbursement"] = list;
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+            
+        }
 
         //public List<Disbursement> getDisbursementList()
         //{
