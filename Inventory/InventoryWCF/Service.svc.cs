@@ -392,13 +392,14 @@ namespace InventoryWCF
             
         }
 
-    
+    //retrieve list must already be generated
         public List<WCFRequisitionRecord> GetAllRequestRecordForItemAllocation(string itemCode)
         {
-            
-            //all rd for one item
-            List<WCFRequisitionDetail> allRDForAllocation = GetAllRequisitionDetailsforAllocation().Where(x => x.ItemCode == itemCode).ToList();
 
+                List<WCFRequisitionDetail> allRDForAllocation = GetAllRequisitionDetailsforAllocation().Where(x => x.ItemCode == itemCode).ToList();
+
+                //if returns null "There is either no itemCode by that name or the retrieval list has not been generated, hence allocation cannot proceed"
+            
             List<WCFRequisitionRecord> allRRForItem = new List<WCFRequisitionRecord>();
 
             //all record numbers for that item
@@ -426,6 +427,12 @@ namespace InventoryWCF
         {
             return (List<WCFDisbursement>)HttpContext.Current.Application["tempDisbursement"];
         }
+
+        //public List<WCFDisbursement> GetCodeFromName(string name)
+        //{
+        //    stationeryService.GetAllStationery();
+
+        //}
 
         //public List<Disbursement> getDisbursementList()
         //{
