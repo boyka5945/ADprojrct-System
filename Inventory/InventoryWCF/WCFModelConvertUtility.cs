@@ -23,6 +23,19 @@ namespace InventoryWCF
                 d.ItemCode = list.itemCode;
                 d.StationeryDescription = list.itemDescription;
                 d.NeedQty = list.quantity;
+                if (HttpContext.Current.Application["tempDisbursement"] != null)
+                {
+                    List<WCFDisbursement> wcfl = (List<WCFDisbursement>)HttpContext.Current.Application["tempDisbursement"];
+                    if (wcfl.Where(x => x.ItemCode == list.itemCode).Count() > 0)
+                        d.ActualQty = wcfl.Where(x => x.ItemCode == list.itemCode).First().ActualQty;
+                    else
+                        d.ActualQty = 0;
+                }
+                else
+                {
+                    d.ActualQty = 0;
+                }
+               
                 dl.Add(d);
             }
             return dl;
