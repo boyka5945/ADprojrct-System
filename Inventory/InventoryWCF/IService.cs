@@ -106,9 +106,9 @@ namespace InventoryWCF
         [WebGet(UriTemplate = "/GetDisbursementByDept/{deptCode}", ResponseFormat = WebMessageFormat.Json)]
         List<WCFDisbursement> GetDisbursementByDept(string deptCode);
 
-        //[OperationContract]
-        //[WebGet(UriTemplate = "/GetAllRequisitionforAllocation", ResponseFormat = WebMessageFormat.Json)]
-        //List<WCFRequisitionDetail> GetAllRequisitionforAllocation();
+        [OperationContract]
+        [WebGet(UriTemplate = "/GetAllRequisitionDetailsforAllocation", ResponseFormat = WebMessageFormat.Json)]
+        List<WCFRequisitionDetail> GetAllRequisitionDetailsforAllocation();
     }
 
         //[OperationContract]
