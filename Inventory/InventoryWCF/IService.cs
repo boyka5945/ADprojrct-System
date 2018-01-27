@@ -126,6 +126,10 @@ namespace InventoryWCF
         [OperationContract]
         [WebGet(UriTemplate = "/GetPendingItemsByItem/{deptCode}", ResponseFormat = WebMessageFormat.Json)]
         List<WCFDisbursement> GetPendingItemsToBeProcessedByDepartmentByItems(string deptCode);
+
+        //[OperationContract]
+        //[WebGet(UriTemplate = "/GetCodeFromName/{name}", ResponseFormat = WebMessageFormat.Json)]
+        //List<WCFDisbursement> GetCodeFromName(string name);
     }
 
     //[OperationContract]
@@ -182,9 +186,17 @@ namespace InventoryWCF
     public class WCFRetrievalForm
     {
         string description;
+        string itemCode;
         int? qty;
         int? qtyRetrieved;
         string location;
+
+        [DataMember]
+        public string ItemCode
+        {
+            get { return itemCode; }
+            set { itemCode = value; }
+        }
 
         [DataMember]
         public string Description
