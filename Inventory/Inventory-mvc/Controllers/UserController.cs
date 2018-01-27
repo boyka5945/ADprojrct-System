@@ -156,7 +156,7 @@ namespace Inventory_mvc.Controllers
 
             if (userService.isExistingID(id))
             {
-                string errorMessage = String.Format("{0} alrdady existed.", id);
+                string errorMessage = String.Format("{0} already exists.", id);
                 ModelState.AddModelError("UserID", errorMessage);
             }
             else if (ModelState.IsValid)
