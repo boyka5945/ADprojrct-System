@@ -329,7 +329,7 @@ namespace InventoryWCF
         public List<WCFDisbursement> GetDisbursementByDept(string deptCode)
         {
             List<Disbursement> disbursement = requisitionRecordService.GetRequisitionByDept(deptCode);
-            return WCFModelConvertUtility.ConvertToWCFDisbursement(disbursement);
+            return WCFModelConvertUtility.ConvertToWCFDisbursement(disbursement, deptCode);
         }
 
         //allocation list should match the retrieval list
@@ -361,11 +361,11 @@ namespace InventoryWCF
         {
 
             List<Disbursement> pendingItemsByItem = requisitionRecordService.GetPendingDisbursementByDept(deptCode);
-            return WCFModelConvertUtility.ConvertToWCFDisbursement(pendingItemsByItem);
+            return WCFModelConvertUtility.ConvertToWCFDisbursement(pendingItemsByItem,"");
         }
 
 
-        public bool SaveActualQty(string itemCode, string needQty, string stationeryDescription, string actualQty)
+        public bool SaveActualQty(string itemCode, string needQty, string stationeryDescription, string actualQty, string deptCode)
         {
             int aneedQty = Convert.ToInt32(needQty);
             int aactualQty = Convert.ToInt32(actualQty);
@@ -382,6 +382,7 @@ namespace InventoryWCF
                 d.ItemCode = itemCode;
                 d.NeedQty = aneedQty;
                 d.StationeryDescription = stationeryDescription;
+                d.DeptCode = deptCode;
                 d.ActualQty = aactualQty;
                 list.Add(d);
                 HttpContext.Current.Application["tempDisbursement"] = list;

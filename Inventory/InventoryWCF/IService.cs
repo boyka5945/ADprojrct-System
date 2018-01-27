@@ -82,8 +82,8 @@ namespace InventoryWCF
         List<WCFRequisitionDetail> GetDetailsByReqNo(string reqNo);
 
         [OperationContract]
-        [WebGet(UriTemplate = "/SaveTmpDisbursement/{itemCode}/{needQty}/{stationeryDescription}/{actualQty}", ResponseFormat = WebMessageFormat.Json)]
-        bool SaveActualQty(string itemCode, string needQty, string stationeryDescription, string actualQty);
+        [WebGet(UriTemplate = "/SaveTmpDisbursement/{itemCode}/{needQty}/{stationeryDescription}/{actualQty}/{deptCode}", ResponseFormat = WebMessageFormat.Json)]
+        bool SaveActualQty(string itemCode, string needQty, string stationeryDescription, string actualQty, string deptCode);
 
         //[OperationContract]
         //Boolean updateRequisitionDetails(int requisitionNo, string ItemCode, int allocateQty);
@@ -155,6 +155,7 @@ namespace InventoryWCF
         string itemCode;
         int? needQty;
         int? actualQty;
+        string deptCode;
 
         [DataMember]
         public string StationeryDescription
@@ -179,6 +180,12 @@ namespace InventoryWCF
         {
             get { return needQty; }
             set { needQty = value; }
+        }
+
+        public string DeptCode
+        {
+            get { return deptCode;}
+            set { deptCode = value; }
         }
     }
 

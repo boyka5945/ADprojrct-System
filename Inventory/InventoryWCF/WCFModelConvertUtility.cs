@@ -13,7 +13,7 @@ namespace InventoryWCF
         private static IStationeryService stationeryService = new StationeryService();
 
 
-        public static List<WCFDisbursement> ConvertToWCFDisbursement(List<Disbursement> disbursement)
+        public static List<WCFDisbursement> ConvertToWCFDisbursement(List<Disbursement> disbursement, string deptCode)
         {
             // TODO : IMPLEMENT METHOD
             List<WCFDisbursement> dl = new List<WCFDisbursement>();
@@ -26,8 +26,8 @@ namespace InventoryWCF
                 if (HttpContext.Current.Application["tempDisbursement"] != null)
                 {
                     List<WCFDisbursement> wcfl = (List<WCFDisbursement>)HttpContext.Current.Application["tempDisbursement"];
-                    if (wcfl.Where(x => x.ItemCode == list.itemCode).Count() > 0)
-                        d.ActualQty = wcfl.Where(x => x.ItemCode == list.itemCode).First().ActualQty;
+                    if (wcfl.Where(x => x.ItemCode == list.itemCode && x.DeptCode == deptCode).Count() > 0)
+                        d.ActualQty = wcfl.Where(x => x.ItemCode == list.itemCode && x.DeptCode == deptCode).First().ActualQty;
                     else
                         d.ActualQty = 0;
                 }
@@ -35,7 +35,7 @@ namespace InventoryWCF
                 {
                     d.ActualQty = 0;
                 }
-               
+                d.DeptCode = deptCode;
                 dl.Add(d);
             }
             return dl;
