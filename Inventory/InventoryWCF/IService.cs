@@ -114,8 +114,16 @@ namespace InventoryWCF
 
         [OperationContract]
         [WebGet(UriTemplate = "/GetDisbursementByDept/{deptCode}", ResponseFormat = WebMessageFormat.Json)]
-        List<WCFDisbursement> GetDisbursementByDept(string deptCode); 
-}
+        List<WCFDisbursement> GetDisbursementByDept(string deptCode);
+
+        [OperationContract]
+        [WebGet(UriTemplate = "/GetAllRequisitionDetailsforAllocation", ResponseFormat = WebMessageFormat.Json)]
+        List<WCFRequisitionDetail> GetAllRequisitionDetailsforAllocation();
+
+        [OperationContract]
+        [WebGet(UriTemplate = "/GetAllRequestRecordForItemAllocation/{itemCode}", ResponseFormat = WebMessageFormat.Json)]
+        List<WCFRequisitionRecord> GetAllRequestRecordForItemAllocation(string itemCode);
+    }
 
         //[OperationContract]
         //List<Disbursement> getDisbursementList();
