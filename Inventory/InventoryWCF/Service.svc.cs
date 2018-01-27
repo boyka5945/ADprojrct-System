@@ -392,7 +392,7 @@ namespace InventoryWCF
             
         }
 
-        //source list must be same as retrieved list
+    
         public List<WCFRequisitionRecord> GetAllRequestRecordForItemAllocation(string itemCode)
         {
             
@@ -406,6 +406,7 @@ namespace InventoryWCF
             {
 
                 allRRForItem.Add(WCFModelConvertUtility.ConvertToWCFRequisitionRecord(requisitionRecordService.GetRequisitionByID(WCFRd.RequisitionNo)));
+                allRRForItem.Distinct().ToList();
 
             }
 
