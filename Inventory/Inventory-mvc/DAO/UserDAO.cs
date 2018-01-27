@@ -122,8 +122,20 @@ namespace Inventory_mvc.DAO
         {
             using (StationeryModel entity = new StationeryModel())
             {
-                User rep = (from r in entity.Users where r.role == (int) UserRoles.RoleID.UserRepresentative select r).First();
-                rep.role = (int) UserRoles.RoleID.Employee;
+                bool temp = false;
+                List<User> users = (from u in entity.Users select u).ToList();
+                foreach (User u in users)
+                {
+                    if (u.role == (int)UserRoles.RoleID.UserRepresentative)
+                        temp = true;
+
+                }
+                if (temp)
+                {
+                    User rep = (from r in entity.Users where r.role == (int)UserRoles.RoleID.UserRepresentative select r).First();
+                    rep.role = (int)UserRoles.RoleID.Employee;
+                }
+
                 User user = (from u in entity.Users where u.userID == userID select u).First();
                 if (user.role != (int)UserRoles.RoleID.ActingDepartmentHead)
                 {
@@ -149,7 +161,7 @@ namespace Inventory_mvc.DAO
             using (StationeryModel entity = new StationeryModel())
             {
                 int UR = 0;
-                int supervisor = 0;
+               // int supervisor = 0;
                 User user = (from u in entity.Users where u.userID == userID select u).First();
                 List<User> emplist = (from emps in entity.Users where (emps.userID != userID && emps.departmentCode == user.departmentCode) select emps).ToList<User>();
                 foreach (User u in emplist)
@@ -158,10 +170,10 @@ namespace Inventory_mvc.DAO
                     {
                        UR++;
                     }
-                    else if(u.role==(int )UserRoles.RoleID.StoreSupervisor)
-                    {
-                        supervisor++;
-                    }
+                    //else if(u.role==(int )UserRoles.RoleID.StoreSupervisor)
+                    //{
+                    //    supervisor++;
+                    //}
                 }
                 if (UR < 1) // no userrepresentative in list
                 {
@@ -170,12 +182,12 @@ namespace Inventory_mvc.DAO
                 else
                     user.role = 3; //assign as employee
 
-                if (supervisor < 1)
-                {
-                    user.role = 6;
-                }
-                else
-                    user.role = 7;
+                //if (supervisor < 1)
+                //{
+                //    user.role = 6;
+                //}
+                //else
+                //    user.role = 7;
 
                 user.delegationStart = null;
                 user.delegationEnd = null;

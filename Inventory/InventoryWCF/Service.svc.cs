@@ -329,7 +329,7 @@ namespace InventoryWCF
         public List<WCFDisbursement> GetDisbursementByDept(string deptCode)
         {
             List<Disbursement> disbursement = requisitionRecordService.GetRequisitionByDept(deptCode);
-            return WCFModelConvertUtility.ConvertToWCFDisbursement(disbursement);
+            return WCFModelConvertUtility.ConvertToWCFDisbursement(disbursement, deptCode);
         }
 
         //allocation list should match the retrieval list
@@ -357,16 +357,18 @@ namespace InventoryWCF
 
         }
 
-        //public List<WCFRequisitionDetail> GetPendingItemsToBeProcessedByDepartment(string deptCode)
-        //{
-
-        //    List<Requisition_Detail> RD = requisitionRecordService.GetRequisitionByDept(deptCode);
-        //    return WCFModelConvertUtility.ConvertToWCFRequestionDetails;
-        //}
-
-
-        public bool SaveActualQty(WCFDisbursement wcfd)
+        public List<WCFDisbursement> GetPendingItemsToBeProcessedByDepartmentByItems(string deptCode)
         {
+
+            List<Disbursement> pendingItemsByItem = requisitionRecordService.GetPendingDisbursementByDept(deptCode);
+            return WCFModelConvertUtility.ConvertToWCFDisbursement(pendingItemsByItem,"");
+        }
+
+
+        public bool SaveActualQty(string itemCode, string needQty, string stationeryDescription, string actualQty, string deptCode)
+        {
+            int aneedQty = Convert.ToInt32(needQty);
+            int aactualQty = Convert.ToInt32(actualQty);
             try
             {
                 List<WCFDisbursement> list = new List<WCFDisbursement>();
@@ -377,10 +379,11 @@ namespace InventoryWCF
 
                 }
                 WCFDisbursement d = new WCFDisbursement();
-                d.ItemCode = wcfd.ItemCode;
-                d.NeedQty = wcfd.NeedQty;
-                d.StationeryDescription = wcfd.StationeryDescription;
-                d.ActualQty = wcfd.ActualQty;
+                d.ItemCode = itemCode;
+                d.NeedQty = aneedQty;
+                d.StationeryDescription = stationeryDescription;
+                d.DeptCode = deptCode;
+                d.ActualQty = aactualQty;
                 list.Add(d);
                 HttpContext.Current.Application["tempDisbursement"] = list;
                 return true;
@@ -392,13 +395,14 @@ namespace InventoryWCF
             
         }
 
-        //source list must be same as retrieved list
+    //retrieve list must already be generated
         public List<WCFRequisitionRecord> GetAllRequestRecordForItemAllocation(string itemCode)
         {
-            
-            //all rd for one item
-            List<WCFRequisitionDetail> allRDForAllocation = GetAllRequisitionDetailsforAllocation().Where(x => x.ItemCode == itemCode).ToList();
 
+                List<WCFRequisitionDetail> allRDForAllocation = GetAllRequisitionDetailsforAllocation().Where(x => x.ItemCode == itemCode).ToList();
+
+                //if returns null "There is either no itemCode by that name or the retrieval list has not been generated, hence allocation cannot proceed"
+            
             List<WCFRequisitionRecord> allRRForItem = new List<WCFRequisitionRecord>();
 
             //all record numbers for that item
@@ -406,6 +410,7 @@ namespace InventoryWCF
             {
 
                 allRRForItem.Add(WCFModelConvertUtility.ConvertToWCFRequisitionRecord(requisitionRecordService.GetRequisitionByID(WCFRd.RequisitionNo)));
+                allRRForItem.Distinct().ToList();
 
             }
 
@@ -420,6 +425,17 @@ namespace InventoryWCF
    
             
         }
+
+        public List<WCFDisbursement> GetTMP()
+        {
+            return (List<WCFDisbursement>)HttpContext.Current.Application["tempDisbursement"];
+        }
+
+        //public List<WCFDisbursement> GetCodeFromName(string name)
+        //{
+        //    stationeryService.GetAllStationery();
+
+        //}
 
         //public List<Disbursement> getDisbursementList()
         //{

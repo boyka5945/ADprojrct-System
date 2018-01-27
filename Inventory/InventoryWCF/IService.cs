@@ -69,6 +69,9 @@ namespace InventoryWCF
                    ResponseFormat = WebMessageFormat.Json)]
         bool AddNewRequest(string requesterID, WCFRequisitionDetail[] newRequisition);
 
+        [OperationContract]
+        [WebGet(UriTemplate = "/GetTmp", ResponseFormat = WebMessageFormat.Json)]
+        List<WCFDisbursement> GetTMP();
 
         [OperationContract]
         [WebGet(UriTemplate = "/GetPendingRequestByDept/{deptCode}", ResponseFormat = WebMessageFormat.Json)]
@@ -79,11 +82,8 @@ namespace InventoryWCF
         List<WCFRequisitionDetail> GetDetailsByReqNo(string reqNo);
 
         [OperationContract]
-        [WebInvoke(Method = "POST",
-        UriTemplate = "/SaveTmpDisbursement",
-        RequestFormat = WebMessageFormat.Json,
-        ResponseFormat = WebMessageFormat.Json)]
-        bool SaveActualQty(WCFDisbursement wcfd);
+        [WebGet(UriTemplate = "/SaveTmpDisbursement/{itemCode}/{needQty}/{stationeryDescription}/{actualQty}/{deptCode}", ResponseFormat = WebMessageFormat.Json)]
+        bool SaveActualQty(string itemCode, string needQty, string stationeryDescription, string actualQty, string deptCode);
 
         //[OperationContract]
         //Boolean updateRequisitionDetails(int requisitionNo, string ItemCode, int allocateQty);
@@ -95,8 +95,8 @@ namespace InventoryWCF
         List<WCFRetrievalForm> getRetrievalList();
 
         [OperationContract]
-        [WebInvoke(Method= "POST",
-            UriTemplate = "/UpdateRetrieval", 
+        [WebInvoke(Method = "POST",
+            UriTemplate = "/UpdateRetrieval",
             RequestFormat = WebMessageFormat.Json,
             ResponseFormat = WebMessageFormat.Json)]
         bool UpdateRetrieval(WCFRetrievalForm wcfr);
@@ -120,21 +120,31 @@ namespace InventoryWCF
         [OperationContract]
         [WebGet(UriTemplate = "/GetAllRequestRecordForItemAllocation/{itemCode}", ResponseFormat = WebMessageFormat.Json)]
         List<WCFRequisitionRecord> GetAllRequestRecordForItemAllocation(string itemCode);
+
+
+
+        [OperationContract]
+        [WebGet(UriTemplate = "/GetPendingItemsByItem/{deptCode}", ResponseFormat = WebMessageFormat.Json)]
+        List<WCFDisbursement> GetPendingItemsToBeProcessedByDepartmentByItems(string deptCode);
+
+        //[OperationContract]
+        //[WebGet(UriTemplate = "/GetCodeFromName/{name}", ResponseFormat = WebMessageFormat.Json)]
+        //List<WCFDisbursement> GetCodeFromName(string name);
     }
 
-        //[OperationContract]
-        //List<Disbursement> getDisbursementList();
-        ////the follwing is for employee
-        //[OperationContract]
-        //List<RequisitionRecord> getRequisitionListByUserID(string UserID);
+    //[OperationContract]
+    //List<Disbursement> getDisbursementList();
+    ////the follwing is for employee
+    //[OperationContract]
+    //List<RequisitionRecord> getRequisitionListByUserID(string UserID);
 
-        //[OperationContract]
-        //List<RequisitionDetails> getrequisitionDetailsByNO(int requisitionNo);
-
-
+    //[OperationContract]
+    //List<RequisitionDetails> getrequisitionDetailsByNO(int requisitionNo);
 
 
-    }
+
+
+
 
 
     // Use a data contract as illustrated in the sample below to add composite types to service operations.
@@ -145,6 +155,7 @@ namespace InventoryWCF
         string itemCode;
         int? needQty;
         int? actualQty;
+        string deptCode;
 
         [DataMember]
         public string StationeryDescription
@@ -154,11 +165,11 @@ namespace InventoryWCF
         }
         [DataMember]
         public int? ActualQty
-    {
+        {
             get { return actualQty; }
             set { actualQty = value; }
         }
-    [DataMember]
+        [DataMember]
         public string ItemCode
         {
             get { return itemCode; }
@@ -170,15 +181,29 @@ namespace InventoryWCF
             get { return needQty; }
             set { needQty = value; }
         }
+
+        public string DeptCode
+        {
+            get { return deptCode;}
+            set { deptCode = value; }
+        }
     }
 
     [DataContract]
     public class WCFRetrievalForm
     {
         string description;
+        string itemCode;
         int? qty;
         int? qtyRetrieved;
         string location;
+
+        [DataMember]
+        public string ItemCode
+        {
+            get { return itemCode; }
+            set { itemCode = value; }
+        }
 
         [DataMember]
         public string Description
@@ -525,6 +550,7 @@ namespace InventoryWCF
             get; set;
         }
     }
+}
 
 
 
