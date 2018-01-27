@@ -10,6 +10,6 @@ namespace Inventory_mvc.DAO
 {
     interface IReportDAO
     {
-        List<Purchase_Detail> RetrieveQty();
+        List<Purchase_Detail> RetrieveQty(DateTime ds, DateTime de);
     }
 }

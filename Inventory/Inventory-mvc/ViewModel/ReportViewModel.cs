@@ -14,5 +14,9 @@ namespace Inventory_mvc.ViewModel
         public string CategoryName { get; set; }
 
         public int Qty { get; set; }
+
+        public decimal Cost { get; set; }
+
+
     }
 }

@@ -176,10 +176,11 @@ namespace InventoryWCF
             
             wcfR.Description = retrieval.description;
             wcfR.Qty = retrieval.Qty;
-            wcfR.QtyRetrieved = retrieval.Qty;
+            wcfR.QtyRetrieved = retrieval.retrieveQty;
             //add location to WCFRetrievalForm object
             StationeryModel entity = new StationeryModel();
             wcfR.Location = entity.Stationeries.Where(x => x.description == retrieval.description).First().location;
+         
 
             return wcfR;
            

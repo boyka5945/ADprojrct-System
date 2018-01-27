@@ -104,13 +104,8 @@ namespace InventoryWCF
 
         [OperationContract]
         [WebGet(UriTemplate = "/GetDisbursementByDept/{deptCode}", ResponseFormat = WebMessageFormat.Json)]
-        List<WCFDisbursement> GetDisbursementByDept(string deptCode);
-
-
-        [OperationContract]
-        [WebInvoke(UriTemplate = "/SaveActualQty/", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
-        bool SaveActualQty(WCFDisbursement wcfd);
-    }
+        List<WCFDisbursement> GetDisbursementByDept(string deptCode); 
+}
 
         //[OperationContract]
         //List<Disbursement> getDisbursementList();
@@ -120,6 +115,8 @@ namespace InventoryWCF
 
         //[OperationContract]
         //List<RequisitionDetails> getrequisitionDetailsByNO(int requisitionNo);
+
+
 
 
     }
@@ -514,3 +511,5 @@ namespace InventoryWCF
         }
     }
 
+
+}
