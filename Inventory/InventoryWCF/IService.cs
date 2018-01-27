@@ -78,6 +78,13 @@ namespace InventoryWCF
         [WebGet(UriTemplate = "/GetDetailByReqNo/{reqNo}", ResponseFormat = WebMessageFormat.Json)]
         List<WCFRequisitionDetail> GetDetailsByReqNo(string reqNo);
 
+        [OperationContract]
+        [WebInvoke(Method = "POST",
+        UriTemplate = "/SaveTmpDisbursement",
+        RequestFormat = WebMessageFormat.Json,
+        ResponseFormat = WebMessageFormat.Json)]
+        bool SaveActualQty(WCFDisbursement wcfd)
+
         //[OperationContract]
         //Boolean updateRequisitionDetails(int requisitionNo, string ItemCode, int allocateQty);
 
