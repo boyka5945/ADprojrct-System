@@ -357,12 +357,12 @@ namespace InventoryWCF
 
         }
 
-        //public List<WCFRequisitionDetail> GetPendingItemsToBeProcessedByDepartment(string deptCode)
-        //{
+        public List<WCFDisbursement> GetPendingItemsToBeProcessedByDepartmentByItems(string deptCode)
+        {
 
-        //    List<Requisition_Detail> RD = requisitionRecordService.GetRequisitionByDept(deptCode);
-        //    return WCFModelConvertUtility.ConvertToWCFRequestionDetails;
-        //}
+            List<Disbursement> pendingItemsByItem = requisitionRecordService.GetPendingDisbursementByDept(deptCode);
+            return WCFModelConvertUtility.ConvertToWCFDisbursement(pendingItemsByItem);
+        }
 
 
         public bool SaveActualQty(WCFDisbursement wcfd)
@@ -420,6 +420,11 @@ namespace InventoryWCF
             
    
             
+        }
+
+        public List<WCFDisbursement> GetTMP()
+        {
+            return (List<WCFDisbursement>)HttpContext.Current.Application["tempDisbursement"];
         }
 
         //public List<Disbursement> getDisbursementList()

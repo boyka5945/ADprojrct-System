@@ -41,6 +41,7 @@ namespace InventoryWCF
             return dl;
         }
 
+
         public static WCFRequisitionDetail ConvertToWCFRequisitionDetail(Requisition_Detail detail)
         {
             Stationery s = stationeryService.FindStationeryByItemCode(detail.itemCode);
