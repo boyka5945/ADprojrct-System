@@ -15,18 +15,25 @@
 <hr />
 
 <form id="trendForm">
-    <div class="form-group-lg form-inline">
-        <label>Stationery:</label>
-        <!-- Combobox -->
-        <select class="js-data-example-ajax form-control" style="width: 35%" name="itemCode" required>
-            <option></option>
-        </select>
-        <label>Year:</label>
-        <!-- Combobox -->
-        <select class="js-example-basic-multiple form-control" style="width: 25%" name="years" multiple="multiple" required>
-            <option></option>
-        </select>
-        <input type="button" class="btn btn-primary" onclick="LoadData()" value="Generate Chart" />
+
+    <div class="row form-inline">
+        <div class="col-sm-1"><label>Stationery:</label></div>
+        <div class="col-sm-4">
+            <!-- Combobox -->
+            <select class="js-data-example-ajax form-control" style="width: 100%" name="itemCode" required>
+             <option></option>
+            </select>
+        </div>
+        <div class="col-sm-1"><label class="pull-right">Year:</label></div>
+        <div class="col-sm-3">
+            <!-- Combobox -->
+            <select class="js-example-basic-multiple form-control" style="width: 100%" name="years" multiple="multiple" required>
+                <option></option>
+            </select>
+        </div>
+        <div class="col-sm-1">
+            <input type="button" class="btn btn-primary" onclick="LoadData()" value="Generate Chart" />
+        </div>
     </div>
 </form>      
 
@@ -70,7 +77,7 @@
             },
             placeholder: "Input item code",
             selectOnClose: true,
-            allowClear: true,
+            //allowClear: true,
         });
     })
 
@@ -91,7 +98,8 @@
                 },
             },
             placeholder: "Max 2 years",
-            allowClear: true,
+            selectOnClose: true,
+            //allowClear: true,
         });
     });
 </script>
