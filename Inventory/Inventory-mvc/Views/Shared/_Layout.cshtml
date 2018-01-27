@@ -70,7 +70,7 @@ footer {
         <div class="container-fluid">
 
             <ul class="nav nav-tabs">
-                <li>@Html.ActionLink("Home", "Contact", "Home")</li>
+                <li>@Html.ActionLink("Home", "Contact", "Home", new { @style = "color:#000aaa;" })</li>
                 @if (Convert.ToInt32(HttpContext.Current.Application["role"]) == 2 || Convert.ToInt32(HttpContext.Current.Application["role"]) == 3 || Convert.ToInt32(HttpContext.Current.Application["role"]) == 4 || Convert.ToInt32(HttpContext.Current.Application["role"]) == 5 || Convert.ToInt32(HttpContext.Current.Application["role"]) == 6 || Convert.ToInt32(HttpContext.Current.Application["role"]) == 7 || Convert.ToInt32(HttpContext.Current.Application["role"]) == 8)
                 {
 
@@ -220,7 +220,7 @@ footer {
                     </li>
                 }
                 <li style="position:absolute;right:0px">
-                    @Html.ActionLink("Logout", "Logout", "Home")
+                    @Html.ActionLink("Logout", "Logout", "Home", new { @style = "color:#000aaa;" })
                 </li>
             </ul>
         </div>
