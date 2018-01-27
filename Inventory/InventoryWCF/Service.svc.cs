@@ -365,8 +365,10 @@ namespace InventoryWCF
         }
 
 
-        public bool SaveActualQty(WCFDisbursement wcfd)
+        public bool SaveActualQty(string itemCode, string needQty, string stationeryDescription, string actualQty)
         {
+            int aneedQty = Convert.ToInt32(needQty);
+            int aactualQty = Convert.ToInt32(actualQty);
             try
             {
                 List<WCFDisbursement> list = new List<WCFDisbursement>();
@@ -377,10 +379,10 @@ namespace InventoryWCF
 
                 }
                 WCFDisbursement d = new WCFDisbursement();
-                d.ItemCode = wcfd.ItemCode;
-                d.NeedQty = wcfd.NeedQty;
-                d.StationeryDescription = wcfd.StationeryDescription;
-                d.ActualQty = wcfd.ActualQty;
+                d.ItemCode = itemCode;
+                d.NeedQty = aneedQty;
+                d.StationeryDescription = stationeryDescription;
+                d.ActualQty = aactualQty;
                 list.Add(d);
                 HttpContext.Current.Application["tempDisbursement"] = list;
                 return true;
