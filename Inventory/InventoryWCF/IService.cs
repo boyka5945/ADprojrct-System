@@ -107,24 +107,26 @@ namespace InventoryWCF
         List<WCFDisbursement> GetDisbursementByDept(string deptCode);
 
         [OperationContract]
-        [WebGet(UriTemplate = "/GetAllRequisitionforAllocation", ResponseFormat = WebMessageFormat.Json)]
-        List<WCFRequisitionDetail> GetAllRequisitionforAllocation();
-    }
-
-        [OperationContract]
         [WebGet(UriTemplate = "/GetRequisitionRecordByDept/{deptCode}", ResponseFormat = WebMessageFormat.Json)]
         List<WCFRequisitionRecord> GetRequsitionRecordByDept(string deptCode);
+
         //[OperationContract]
-        //List<Disbursement> getDisbursementList();
-        ////the follwing is for employee
-        //[OperationContract]
-        //List<RequisitionRecord> getRequisitionListByUserID(string UserID);
-
-        
-
-
-
+        //[WebGet(UriTemplate = "/GetAllRequisitionforAllocation", ResponseFormat = WebMessageFormat.Json)]
+        //List<WCFRequisitionDetail> GetAllRequisitionforAllocation();
     }
+
+
+    //[OperationContract]
+    //List<Disbursement> getDisbursementList();
+    ////the follwing is for employee
+    //[OperationContract]
+    //List<RequisitionRecord> getRequisitionListByUserID(string UserID);
+
+
+
+
+
+}
 
 
     // Use a data contract as illustrated in the sample below to add composite types to service operations.
