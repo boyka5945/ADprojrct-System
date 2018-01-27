@@ -357,12 +357,12 @@ namespace InventoryWCF
 
         }
 
-        //public List<WCFRequisitionDetail> GetPendingItemsToBeProcessedByDepartment(string deptCode)
-        //{
+        public List<WCFDisbursement> GetPendingItemsToBeProcessedByDepartmentByItems(string deptCode)
+        {
 
-        //    List<Requisition_Detail> RD = requisitionRecordService.GetRequisitionByDept(deptCode);
-        //    return WCFModelConvertUtility.ConvertToWCFRequestionDetails;
-        //}
+            List<Disbursement> pendingItemsByItem = requisitionRecordService.GetPendingDisbursementByDept(deptCode);
+            return WCFModelConvertUtility.ConvertToWCFDisbursement(pendingItemsByItem);
+        }
 
 
         public bool SaveActualQty(string itemCode, string needQty, string stationeryDescription, string actualQty)
@@ -394,7 +394,7 @@ namespace InventoryWCF
             
         }
 
-        //source list must be same as retrieved list
+    
         public List<WCFRequisitionRecord> GetAllRequestRecordForItemAllocation(string itemCode)
         {
             
@@ -408,6 +408,7 @@ namespace InventoryWCF
             {
 
                 allRRForItem.Add(WCFModelConvertUtility.ConvertToWCFRequisitionRecord(requisitionRecordService.GetRequisitionByID(WCFRd.RequisitionNo)));
+                allRRForItem.Distinct().ToList();
 
             }
 
