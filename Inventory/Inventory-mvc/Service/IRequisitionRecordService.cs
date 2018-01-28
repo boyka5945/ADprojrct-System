@@ -64,7 +64,7 @@ namespace Inventory_mvc.Service
         // TODO - REMOVE THIS METHOD
         bool GenerateRandomRequisition(Requisition_Record requisition, string requesterID, DateTime date);
 
-        void UpdateDisbursement(string itemCode, int actualQty, string deptCode, int needQty, string remarks1 = "");
+        void UpdateDisbursement(string itemCode, int actualQty, string deptCode, int needQty, int count, string staffID);
 
     }
 }

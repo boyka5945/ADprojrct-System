@@ -129,8 +129,8 @@ namespace InventoryWCF
         List<WCFDisbursement> GetPendingItemsToBeProcessedByDepartmentByItems(string deptCode);
 
         [OperationContract]
-        [WebGet(UriTemplate = "/UpdateDisbursement/{itemCode}/{needQty}/{actualQty}/{DepartmentCode}", ResponseFormat = WebMessageFormat.Json)]
-        void UpdateDisbursement(string itemCode, string needQty, string actualQty, string DepartmentCode);
+        [WebGet(UriTemplate = "/UpdateDisbursement/{itemCode}/{needQty}/{actualQty}/{DepartmentCode}/{count}/{staffID}", ResponseFormat = WebMessageFormat.Json)]
+        void UpdateDisbursement(string itemCode, string needQty, string actualQty, string DepartmentCode, string count, string staffID);
 
 
 
