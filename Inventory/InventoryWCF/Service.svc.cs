@@ -431,6 +431,17 @@ namespace InventoryWCF
             return (List<WCFDisbursement>)HttpContext.Current.Application["tempDisbursement"];
         }
 
+        public void UpdateStationery(WCFStationery w)
+        {
+            using (StationeryModel entity = new StationeryModel())
+            {
+                 entity.Stationeries.Where(x => x.itemCode == w.ItemCode).First().stockQty -= w.ActualQty;
+                    
+                 entity.SaveChanges();
+            }
+            
+        }
+
         //public List<WCFDisbursement> GetCodeFromName(string name)
         //{
         //    stationeryService.GetAllStationery();
