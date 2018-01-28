@@ -129,10 +129,12 @@ namespace InventoryWCF
 
         [OperationContract]
         [WebInvoke(Method = "POST",
-            UriTemplate = "/UpdateStationery",
+            UriTemplate = "/UpdateDisbursement",
             RequestFormat = WebMessageFormat.Json,
             ResponseFormat = WebMessageFormat.Json)]
-        void UpdateStationery(WCFStationery w);
+        void UpdateDisbursement(WCFDisbursement w);
+
+
 
         //[OperationContract]
         //[WebGet(UriTemplate = "/GetCodeFromName/{name}", ResponseFormat = WebMessageFormat.Json)]

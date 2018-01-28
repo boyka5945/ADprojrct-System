@@ -26,8 +26,6 @@ namespace Inventory_mvc.Service
 
         Requisition_Detail FindDetailsBy2Key(string itemCode, int requisitionNo);
 
-
-
         bool SubmitNewRequisition(Requisition_Record requisition, string requesterID);
 
         List<Disbursement> GetRequisitionByDept(string deptCode);
@@ -65,6 +63,8 @@ namespace Inventory_mvc.Service
 
         // TODO - REMOVE THIS METHOD
         bool GenerateRandomRequisition(Requisition_Record requisition, string requesterID, DateTime date);
+
+        void UpdateDisbursement(string itemCode, int actualQty, string deptCode, int needQty, string remarks1 = "");
 
     }
 }
