@@ -43,6 +43,7 @@ namespace InventoryWCF
             wcf_detail.RetrievedDate = detail.retrievedDate;
             wcf_detail.AllocateQty = (detail.allocatedQty == null) ? 0 : (int)detail.allocatedQty;
             wcf_detail.NextCollectionDate = detail.nextCollectionDate;
+            wcf_detail.Status = detail.Requisition_Record.status;
 
             return wcf_detail;
         }

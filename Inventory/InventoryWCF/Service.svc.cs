@@ -351,10 +351,14 @@ namespace InventoryWCF
             }
 
             return allocationList;
+        }
 
+        public void Update(WCFRequisitionDetail reqDetail)
+        {
+            //Requisition_Detail requisitionDetail = new Requisition_Detail
+            //{
 
-
-
+            //}
         }
 
 

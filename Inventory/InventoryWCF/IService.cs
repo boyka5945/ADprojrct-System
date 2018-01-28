@@ -106,6 +106,12 @@ namespace InventoryWCF
         [WebGet(UriTemplate = "/GetDisbursementByDept/{deptCode}", ResponseFormat = WebMessageFormat.Json)]
         List<WCFDisbursement> GetDisbursementByDept(string deptCode);
 
+        [OperationContract]
+        [WebInvoke(UriTemplate = "/UpdateRequisition", Method = "POST",
+            RequestFormat = WebMessageFormat.Json,
+            ResponseFormat = WebMessageFormat.Json)]
+        void Update(WCFRequisitionDetail reqDetail);
+
         //[OperationContract]
         //[WebGet(UriTemplate = "/GetAllRequisitionforAllocation", ResponseFormat = WebMessageFormat.Json)]
         //List<WCFRequisitionDetail> GetAllRequisitionforAllocation();
@@ -378,6 +384,8 @@ namespace InventoryWCF
         DateTime? retrievedDate;
         int allocateQty;
         DateTime? nextCollectionDate;
+    string status;
+
 
         [DataMember]
         public int RequisitionNo
@@ -456,7 +464,14 @@ namespace InventoryWCF
             get { return nextCollectionDate; }
             set { nextCollectionDate = value; }
         }
+
+    [DataMember]
+    public string Status
+    {
+        get { return status; }
+        set { status = value; }
     }
+}
 
     [DataContract]
     public class WCFCategory
