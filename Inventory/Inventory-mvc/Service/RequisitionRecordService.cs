@@ -276,8 +276,9 @@ namespace Inventory_mvc.Service
             rDAO.updatestatus(requisitionNo, status);
         }
 
-        public void UpdateDisbursement(string itemCode, int actualQty, string deptCode, int needQty ,string remarks1 = "")
+        public void UpdateDisbursement(string itemCode, int actualQty, string deptCode, int needQty, int count, string staffID)
         {
+            int actualTmp = actualQty;
             using (StationeryModel model = new StationeryModel())
             {
                 Stationery s = model.Stationeries.Where(x => x.itemCode == itemCode).First();
@@ -338,51 +339,50 @@ namespace Inventory_mvc.Service
                 updatestatus(list[i].requisitionNo, status);
             }
 
-            using (StationeryModel model = new StationeryModel())
+            if (count == 0)
             {
-                Adjustment_Voucher_Record adjustment = new Adjustment_Voucher_Record();
-                adjustment.voucherID = model.Adjustment_Voucher_Records.ToList().Count() + 1;
-                adjustment.issueDate = DateTime.Now;
-                adjustment.status = AdjustmentVoucherStatus.PENDING;
-                adjustment.remarks = "NA";
-                adjustment.handlingStaffID = "xxx";
-                model.Adjustment_Voucher_Records.Add(adjustment);
+                using (StationeryModel model = new StationeryModel())
+                {
+                    Adjustment_Voucher_Record adjustment = new Adjustment_Voucher_Record();
+                    adjustment.voucherID = model.Adjustment_Voucher_Records.ToList().Count() + 1;
+                    adjustment.issueDate = DateTime.Now;
+                    adjustment.status = AdjustmentVoucherStatus.PENDING;
+                    adjustment.remarks = "NA";
+                    adjustment.handlingStaffID = staffID;
+                    model.Adjustment_Voucher_Records.Add(adjustment);
 
-                //Transaction_Record tr = new Transaction_Record();
-                //tr.clerkID = "yyy";
-                //tr.date = DateTime.Now;
-                //tr.type = TransactionTypes.DISBURSEMENT;
-                //model.Transaction_Records.Add(tr);
-                //model.SaveChanges();
+                    Transaction_Record tr = new Transaction_Record();
+                    tr.clerkID = staffID;
+                    tr.date = DateTime.Now;
+                    tr.type = TransactionTypes.DISBURSEMENT;
+                    model.Transaction_Records.Add(tr);
+                    model.SaveChanges();
+                }
             }
 
-
             using (StationeryModel model = new StationeryModel())
             {
-                if (remarks1 != null)
-                {
-                    //var no = model.Transaction_Records.ToList().Count() - 1;
+                if (needQty - actualTmp > 0)
+                { 
                     var no2 = model.Adjustment_Voucher_Records.ToList().Count() - 1;
                     Voucher_Detail voucher = new Voucher_Detail();
                     voucher.voucherID = model.Adjustment_Voucher_Records.ToList()[no2].voucherID;
                     voucher.itemCode = itemCode;
                     voucher.adjustedQty = needQty - actualQty;
-                    voucher.remarks = remarks1;
+                    voucher.remarks = "";
                     model.Voucher_Details.Add(voucher);
-                    //Transaction_Detail detail = new Transaction_Detail();
-                    //detail.transactionNo = model.Transaction_Records.ToList()[no].transactionNo;
-                    //detail.itemCode = itemCode;
-                    //detail.adjustedQty = actualQtytemp;
-                    //detail.balanceQty = model.Stationeries.Where(x => x.itemCode == itemCode).First().stockQty;
-                    //detail.remarks = "";
-                    //model.Transaction_Details.Add(detail);
                     model.SaveChanges();
                 }
+                var no = model.Transaction_Records.ToList().Count() - 1;
+                Transaction_Detail detail = new Transaction_Detail();
+                detail.transactionNo = model.Transaction_Records.ToList()[no].transactionNo;
+                detail.itemCode = itemCode;
+                detail.adjustedQty = actualTmp;
+                detail.balanceQty = model.Stationeries.Where(x => x.itemCode == itemCode).First().stockQty;
+                detail.remarks = "";
+                model.Transaction_Details.Add(detail);
+                model.SaveChanges();
             }
-
-            //number--;
-
-
         }
 
     }

@@ -464,9 +464,9 @@ namespace InventoryWCF
             return (List<WCFDisbursement>)HttpContext.Current.Application["tempDisbursement"];
         }
 
-        public void UpdateDisbursement(string itemCode, string needQty, string actualQty, string DepartmentCode)
+        public void UpdateDisbursement(string itemCode, string needQty, string actualQty, string DepartmentCode, string count, string staffID)
         {
-            requisitionRecordService.UpdateDisbursement(itemCode, Convert.ToInt32(actualQty), DepartmentCode, Convert.ToInt32(needQty));
+            requisitionRecordService.UpdateDisbursement(itemCode, Convert.ToInt32(actualQty), DepartmentCode, Convert.ToInt32(needQty), Convert.ToInt32(count), staffID);
         }
 
         //public List<WCFDisbursement> GetCodeFromName(string name)
