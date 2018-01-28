@@ -353,12 +353,22 @@ namespace InventoryWCF
             return allocationList;
         }
 
-        public void Update(WCFRequisitionDetail reqDetail)
+        public void UpdateReqDetail(WCFRequisitionDetail reqDetail)
         {
             Requisition_Detail requisitionDetail = new Requisition_Detail
             {
-
+                requisitionNo = reqDetail.RequisitionNo,
+                itemCode = reqDetail.ItemCode,
+                remarks = reqDetail.Remarks,
+                qty = reqDetail.Qty,
+                fulfilledQty = reqDetail.FulfilledQty,
+                clerkID = reqDetail.ClerkID,
+                retrievedDate = reqDetail.RetrievedDate,
+                allocatedQty = reqDetail.AllocateQty,
+                nextCollectionDate = reqDetail.NextCollectionDate
             };
+            //WCFModelConvertUtility.ConvertToWCFRequestionDetails(UpdateReqDetail(requisitionDetail));
+            //UpdateReqDetail(WCFModelConvertUtility.ConvertToWCFRequestionDetails(requisitionDetail);
         }
 
         public List<WCFDisbursement> GetPendingItemsToBeProcessedByDepartmentByItems(string deptCode)

@@ -62,6 +62,17 @@ namespace InventoryWCF
             return wcf_detail;
         }
 
+        public static List<WCFRequisitionDetail> ConvertToWCFRequisitionDetail(List<Requisition_Detail> requisitionDetail)
+        {
+            List<WCFRequisitionDetail> wcf_requisitionDetail = new List<WCFRequisitionDetail>();
+            foreach (var rd in requisitionDetail)
+            {
+                wcf_requisitionDetail.Add(ConvertToWCFRequisitionDetail(rd));
+            }
+
+            return wcf_requisitionDetail;
+        }
+
         public static WCFRequisitionRecord ConvertToWCFRequisitionRecord(Requisition_Record requisitionRecord)
         {
             WCFRequisitionRecord wcf_requisitionRecord = new WCFRequisitionRecord();
