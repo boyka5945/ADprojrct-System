@@ -303,6 +303,25 @@ namespace InventoryWCF
             
         }
 
+        public WCFRetrievalForm GetRetrievalForm(string itemCode)
+        {
+            List<RetrieveForm> list = new List<RetrieveForm>();
+
+            if (HttpContext.Current.Application["retrieveList"] != null)
+            {
+                list = (List<RetrieveForm>)HttpContext.Current.Application["retrieveList"];
+            }
+            else
+            {
+                //can be assumed no items have been retrieved yet since there is no retrieval list generated
+            }
+
+            WCFRetrievalForm item = WCFModelConvertUtility.ConvertToWCFRetrieval(list.Where(x => x.ItemCode == itemCode).First());
+
+            return item;
+
+        }
+
         public bool UpdateRetrieval(WCFRetrievalForm wcfr)
         {
             List<RetrieveForm> list = (List<RetrieveForm>)HttpContext.Current.Application["retrieveList"];
