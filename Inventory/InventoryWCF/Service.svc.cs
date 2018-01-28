@@ -267,10 +267,10 @@ namespace InventoryWCF
             List<Requisition_Detail> reqDetail = requisitionRecordService.GetDetailsByNo(no);
             return WCFModelConvertUtility.ConvertToWCFRequestionDetails(reqDetail);
         }
-        //public Boolean updateRequisitionDetails(int requisitionNo, string ItemCode, int allocateQty)
-        //{
-        //    return BusinessLogic.updateRequisitionDetails(requisitionNo, ItemCode, allocateQty);
-        //}
+        public Boolean updateRequisitionDetails(int requisitionNo, string ItemCode, int allocateQty)
+        {
+            return BusinessLogic.updateRequisitionDetails(requisitionNo, ItemCode, allocateQty);
+        }
 
         public List<WCFRetrievalForm> getRetrievalList()
         {
@@ -301,6 +301,25 @@ namespace InventoryWCF
 
             return WCFModelConvertUtility.ConvertToWCFRetrievalList(list);
             
+        }
+
+        public WCFRetrievalForm GetRetrievalForm(string itemCode)
+        {
+            List<RetrieveForm> list = new List<RetrieveForm>();
+
+            if (HttpContext.Current.Application["retrieveList"] != null)
+            {
+                list = (List<RetrieveForm>)HttpContext.Current.Application["retrieveList"];
+            }
+            else
+            {
+                //can be assumed no items have been retrieved yet since there is no retrieval list generated
+            }
+
+            WCFRetrievalForm item = WCFModelConvertUtility.ConvertToWCFRetrieval(list.Where(x => x.ItemCode == itemCode).First());
+
+            return item;
+
         }
 
         public bool UpdateRetrieval(WCFRetrievalForm wcfr)
