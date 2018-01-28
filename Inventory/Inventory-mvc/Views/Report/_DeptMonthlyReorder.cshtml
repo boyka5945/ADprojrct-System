@@ -3,47 +3,45 @@
 
 @{
     string year = (string)ViewBag.Year;
+    string month = (string)ViewBag.Month;
 }
 
 <input type="hidden" value="@year" name="year" id="year" />
+<input type="hidden" value="@month" name="month" id="month" />
+
 <canvas id="myChart"> </canvas>
 
 <script>
     var year = $('#year').val();
-    var title = 'Stationery Requisition Cumulative Chart of Year ' + year;
+    var month = $('#month').val();
+
+    var title = ['Department Requisition Amount'];
+    var title1 = "";
+
+    if(month == "")
+    {
+        title.push('Year ' + year);
+    }
+    else
+    {
+        title.push(month + ' ' + year);
+    }
 
     var labels = @Html.Raw(Json.Encode(ViewBag.XLabels));
-
-    var lineLabel = @Html.Raw(Json.Encode(ViewBag.YLineLabel));
-    var lineData = @Html.Raw(Json.Encode(ViewBag.YLineData));
-    var barLabel = @Html.Raw(Json.Encode(ViewBag.YBarLabel));
     var barData = @Html.Raw(Json.Encode(ViewBag.YBarData));
 
     var color = Chart.helpers.color;
     var myChart = document.getElementById("myChart").getContext("2d");
 
     var showQtyChart = new Chart("myChart", {
-        type: "bar",  
+        type: "bar",
         data: {
             labels: labels,
             datasets:
             [
                 {
-                    type: 'line',
-                    label: lineLabel,
-                    yAxisID: "y-axis-2",
-                    borderColor: window.chartColors.red,
-                    backgroundColor: window.chartColors.red,
-                    borderWidth: 2,
-                    fill: false,
-                    data: lineData,
-                },
-
-                {
-                    type: "bar",  
-                    label:barLabel,
-                    yAxisID: "y-axis-1",
-                    backgroundColor: window.chartColors.blue,
+                    type: "bar",
+                    backgroundColor: color(chartColors.blue).alpha(0.5).rgbString(),
                     borderColor: window.chartColors.blue,
                     borderWidth: 2,
                     data: barData,
@@ -54,7 +52,7 @@
             {
                 legend:
                 {
-                    display: true,
+                    display: false,
                     labels:
                     {
                         fontColor: window.chartColors.black,
@@ -68,7 +66,7 @@
                     fontStyle: 'Bold',
                     text: title,
                 },
-                tooltips: 
+                tooltips:
                 {
                     mode: 'index',
                     intersect: true
@@ -77,14 +75,10 @@
                 {
                     yAxes:
                     [{
-                        id: "y-axis-1",
-                        type: "linear", // only linear but allow scale type registration. This allows extensions to exist solely for log scale for instance
-                        display: true,
-                        position: "left",
                         scaleLabel:
                         {
                             display: true,
-                            labelString: 'Quantity of item requested',
+                            labelString: 'Amount of item requested ($)',
                             fontSize: 14,
                         },
 
@@ -92,25 +86,6 @@
                         {
                             beginAtZero:true,
                         }
-                    },
-                    {
-                        id: "y-axis-2",
-                        type: "linear", 
-                        display: true,                             
-                        position: "right",
-                        gridLines: { drawOnChartArea: false },
-                        scaleLabel:
-                        {
-                            display: true,
-                            labelString: 'Cumulative Quantity',
-                            fontSize: 14,
-                        },
-
-                        ticks:
-                        {
-                            beginAtZero:false,
-                        }
-
                     }],
 
                     xAxes:
@@ -118,13 +93,14 @@
                         scaleLabel:
                         {
                             display: true,
-                            labelString: 'Months'
+                            labelString: 'Department',
+                            fontSize: 14,
                         }
                     }]
                 }
             }
     });
-    
+
 
 
     // Define a plugin to provide data labels
@@ -161,3 +137,4 @@
         }
     });
 </script>
+
