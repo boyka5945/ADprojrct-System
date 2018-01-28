@@ -59,5 +59,8 @@ namespace Inventory_mvc.Service
         List<StationeryViewModel> GetStationeriesVMBasedOnCriteria(string searchString, string categoryID);
 
         List<StationeryViewModel> GetAllItemCodes();
+
+        // TODO - REMOVE THIS METHOD
+        List<string> GetListOfItemCodes();
     }
 }

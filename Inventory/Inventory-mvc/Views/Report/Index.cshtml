@@ -1,0 +1,34 @@
+﻿<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
+<script src="~/Scripts/chart-colors.js"></script>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Report</h2>
+<div id="progressBar">
+    Generating graph <progress id="p"></progress>
+</div>
+
+
+<div class="container" id="chartContainer"></div>
+
+
+<script>
+    // for requisition cumulative graph
+    $(document).ready(function () {
+
+        $.ajax({
+            url: '@Url.Action("GetRequisitionCumulativeBar", "Report")',
+            type: 'POST',
+
+            success: function (data) {
+                $("#chartContainer").html(data),
+                $('#progressBar').html("");
+            },
+            error: function () {
+                alert("Opps. Some error occurs. Please try again.");
+            }
+        });
+    })
+</script>

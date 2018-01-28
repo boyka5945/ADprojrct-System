@@ -368,6 +368,7 @@
     <None Include="Properties\PublishProfiles\AD_Inventory.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <None Include="Scripts\jquery-3.2.1.intellisense.js" />
+    <Content Include="Scripts\chart-colors.js" />
     <Content Include="Scripts\jquery-3.2.1.js" />
     <Content Include="Scripts\jquery-3.2.1.min.js" />
     <Content Include="Scripts\jquery-3.2.1.slim.js" />
@@ -459,6 +460,13 @@
     <Content Include="Views\CollectionPoint\Pending_ItemByItem.cshtml" />
     <Content Include="Views\CollectionPoint\Pending_ItemByRequest.cshtml" />
     <Content Include="Views\Report\Report.cshtml" />
+    <Content Include="Views\Report\ItemRequestTrend.cshtml" />
+    <Content Include="Views\Report\_ItemRequestTrend.cshtml" />
+    <Content Include="Views\Report\_RequisitionCumulativeBar.cshtml" />
+    <Content Include="Views\Report\Index.cshtml" />
+    <Content Include="Views\Report\RequisitionCumulativeChart.cshtml" />
+    <Content Include="Views\Report\_DeptMonthlyReorder.cshtml" />
+    <Content Include="Views\Report\MonthlyReorderAmount.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

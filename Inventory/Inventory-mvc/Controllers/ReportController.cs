@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using Inventory_mvc.Service;
-using Inventory_mvc.ViewModel;
 using Inventory_mvc.Models;
-using Newtonsoft.Json;
+using Inventory_mvc.ViewModel;
+using Inventory_mvc.Service;
+using Inventory_mvc.Function;
+using Inventory_mvc.Utilities;
 
 namespace Inventory_mvc.Controllers
 {
@@ -15,146 +16,307 @@ namespace Inventory_mvc.Controllers
         IReportService reportService = new ReportService();
         IStationeryService stationeryService = new StationeryService();
 
+        private string[] months = new string[]{ "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" };
+
+
+        public ActionResult Index()
+        {
+            return View();
+        }
+
+
         // GET: Report
         public ActionResult Report()
-        {
-            DateTime todayDate = DateTime.Now.Date;
-            List<ReportViewModel> vmList = reportService.RetrieveQty(todayDate,todayDate);
-            List<ReportViewModel> result = new List<ReportViewModel>();
-            foreach (var vm in vmList)
-            {
-                ReportViewModel i = new ReportViewModel();
-                i.CategoryName = vm.CategoryName;
-                i.Qty = vm.Qty;
-
-                bool contain = false;
-
-                foreach (var j in result)
-                {
-                    if (i.CategoryName == j.CategoryName)
-                    {
-                        j.Qty += i.Qty;
-                        contain = true;
-                        break;
-                    }
-                }
-
-                if (!contain)
-                {
-                    result.Add(i);
-                }
-            }
-
-            List<Category> categoryList = stationeryService.GetAllCategory();
-            List<string> categoryArray = new List<string>();
-            List<int> quantity = new List<int>();
-
-
-
-            foreach (var c in categoryList)
-            {
-                categoryArray.Add(c.categoryName);
-            }
-
-            for (int i = 0; i < categoryArray.Count; i++)
-            {
-                quantity.Add(0);
-            }
-
-            foreach (var item in result)
-            {
-               for(int i = 0; i < categoryArray.Count; i++)
-                {
-                    if(categoryArray[i] == item.CategoryName)
-                    {
-                        quantity[i] += item.Qty;
-                    }
-                }
-            }
-
-           
-
-            var cat = categoryArray.ToArray();
-            var qty = quantity.ToArray();
-
-          
-            ViewBag.X = cat;
-            ViewBag.Y = qty;
-           
-
+        {           
             return View();
         }
 
         [HttpPost]
         public ActionResult Report(DateTime from, DateTime toto)
         {
+            return View();
+        }
 
-            List<ReportViewModel> vmList = reportService.RetrieveQty(from,toto);
-            List<ReportViewModel> result = new List<ReportViewModel>();
-            foreach (var vm in vmList)
+        [HttpGet]
+        public ActionResult RequisitionCumulativeChart()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult GetRequisitionCumulativeBar(int year)
+        {
+            ViewBag.Year = year.ToString();
+
+            List<ReportViewModel> vmList = reportService.GetApprovedRequisitionsOfYear(year);
+
+            var results = (from vm in vmList
+                           group vm by new { vm.Year, vm.Month } into g
+                           select new { Year = g.Key.Year, Month = g.Key.Month, Sum = g.Sum(v => v.RequestQuantity) });
+
+            ViewBag.XLabels = months;
+
+            // Get data for bar chart
+            ViewBag.YBarLabel = "Monthly";
+            int[] monthlyQuantity = new int[12];
+            foreach (var r in results)
             {
-                ReportViewModel i = new ReportViewModel();
-                i.CategoryName = vm.CategoryName;
-                i.Qty = vm.Qty;
-
-                bool contain = false;
-
-                foreach (var j in result)
-                {
-                    if (i.CategoryName == j.CategoryName)
-                    {
-                        j.Qty += i.Qty;
-                        contain = true;
-                        break;
-                    }
-                }
-
-                if (!contain)
-                {
-                    result.Add(i);
-                }
+                monthlyQuantity[r.Month - 1] = r.Sum;
             }
+            ViewBag.YBarData = monthlyQuantity;
 
-            List<Category> categoryList = stationeryService.GetAllCategory();
-            List<string> categoryArray = new List<string>();
-            List<int> quantity = new List<int>();
-
-
-
-            foreach (var c in categoryList)
+            // Get data for line
+            ViewBag.YLineLabel = "Cumulative";
+            int[] cumulative = new int[12];
+            int cumulativeQuantity = 0;
+            for (int i = 0; i < monthlyQuantity.Length; i++)
             {
-                categoryArray.Add(c.categoryName);
+                cumulativeQuantity += monthlyQuantity[i];
+                cumulative[i] = cumulativeQuantity;
             }
+            ViewBag.YLineData = cumulative;
 
-            for (int i = 0; i < categoryArray.Count; i++)
-            {
-                quantity.Add(0);
-            }
-
-            foreach (var item in result)
-            {
-                for (int i = 0; i < categoryArray.Count; i++)
-                {
-                    if (categoryArray[i] == item.CategoryName)
-                    {
-                        quantity[i] += item.Qty;
-                    }
-                }
-            }
+            return PartialView("_RequisitionCumulativeBar");
+        }
 
 
 
-            var cat = categoryArray.ToArray();
-            var qty = quantity.ToArray();
 
-
-            ViewBag.X = cat;
-            ViewBag.Y = qty;
-
-
+        [HttpGet]
+        public ActionResult ItemRequestTrend()
+        {
             return View();
         }
 
 
+        [HttpPost]
+        public ActionResult ItemRequestTrend(string categoryID, string itemCode, int[] years)
+        {
+            years = years.OrderBy(x => x.ToString()).ToArray();
+            List<ReportViewModel> vmList = reportService.GetItemRequestTrend(categoryID, itemCode, years);
+               
+            var results = (from vm in vmList
+                            group vm by new { vm.Year, vm.Month } into g
+                            select new { Year = g.Key.Year, Month = g.Key.Month, Sum = g.Sum(v => v.RequestQuantity) });
+
+            Dictionary<string, int[]> dataset = new Dictionary<string, int[]>();
+
+            foreach(var y in years)
+            {
+                string key = y.ToString(); // use year for dict key
+                int[] value = new int[12]; // 12 months
+                dataset.Add(key, value);                 
+            }
+
+            foreach(var r in results)
+            {
+                string key = r.Year.ToString();
+                var value = dataset[key]; // get values based on year
+                value[r.Month - 1] = r.Sum; // put sum into corresponding month
+            }
+
+            //Stationery s = stationeryService.FindStationeryByItemCode(itemCode);
+
+            //ViewBag.ItemCode = String.Format("{0} ({1})", itemCode, s.description);
+            ViewBag.ItemCode = itemCode;
+
+            ViewBag.XLabels = months;
+
+            for(int i = 0; i < years.Length; i++) // create data array based on # of years
+            {
+                string labelName = String.Format("Label{0}", i+1);
+                string dataName = String.Format("Data{0}", i+1);
+
+                ViewData[labelName] = dataset.Keys.ToArray()[i];
+                ViewData[dataName] = dataset.Values.ToArray()[i];
+            }
+            
+            return PartialView("_ItemRequestTrend");
+        }
+
+        [HttpGet]
+        public ActionResult MonthlyReorderAmount()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult GetDeptMonthlyReorderAmount(int year, int month = -1)
+        {
+            ViewBag.Year = year.ToString();
+            ViewBag.Month = (month == -1) ? "" : months[month - 1]; // get string representation of months
+
+            List<ReportViewModel> vmList;
+
+            if(month == -1) // -1 for all months
+            {
+                vmList = reportService.GetApprovedRequisitionsOfYear(year);
+            }
+            else
+            {
+                vmList = reportService.GetApprovedRequisitionDetialsBasedOnYearAndMonth(year, month);
+            }
+
+            var results = (from vm in vmList
+                           group vm by vm.RequesterDepartment into g
+                           select new { Dept = g.Key, Cost = g.Sum(v => v.RequestQuantity * v.Cost) });
+
+            List<string> dept = new List<string>();
+            List<decimal> cost = new List<decimal>();
+
+            foreach(var r in results)
+            {
+                dept.Add(r.Dept);
+            }
+
+            dept.Sort(); // fix the position of department showing on chart
+
+            foreach(string d in dept)
+            {
+                foreach(var r in results)
+                {
+                    if(r.Dept == d)
+                    {
+                        cost.Add(Math.Round(r.Cost, 2));
+                        break;
+                    }
+                }
+            }
+            
+
+            ViewBag.XLabels = dept.ToArray();
+            ViewBag.YBarData = cost.ToArray();
+
+            return PartialView("_DeptMonthlyReorder");
+        }
+
+
+        public JsonResult GetCategoryListJSON(string term = null)
+        {
+            List<JSONForCombobox> options = new List<JSONForCombobox>();
+
+            List<Category> categories = stationeryService.GetAllCategory();
+
+            options.Add(new JSONForCombobox("-1", "All"));
+
+            foreach (var c in categories)
+            {
+                JSONForCombobox option = new JSONForCombobox();
+                option.id = c.categoryID.ToString();
+                option.text = c.categoryName;
+                options.Add(option);
+            }
+
+            if (!String.IsNullOrEmpty(term))
+            {
+                // used for select2 combobox filtering search result
+                options = (from o in options
+                           where o.text.ToString().ToLower().Contains(term) || o.id.ToString().ToLower().Contains(term)
+                           select o).ToList();
+            }
+
+            return Json(options, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult GetStationeryListBasedOnCategoryJSON(string categoryID, string term = null)
+        {
+            List<JSONForCombobox> options = new List<JSONForCombobox>();
+
+            List<Stationery> stationeries = stationeryService.GetStationeriesBasedOnCriteria(null, categoryID);
+
+            if (categoryID != "-1") 
+            {
+                // only allow All if a specific category is chosen
+                options.Add(new JSONForCombobox("-1", "All"));
+            }
+
+            foreach (var s in stationeries)
+            {
+                JSONForCombobox option = new JSONForCombobox();
+                option.id = s.itemCode;
+                option.text = String.Format("{0} ({1})", s.itemCode, s.description);
+                options.Add(option);
+            }
+
+            if (!String.IsNullOrEmpty(term))
+            {
+                // used for select2 combobox filtering search result
+                options = (from o in options
+                           where o.text.ToString().ToLower().Contains(term) || o.id.ToString().ToLower().Contains(term)
+                           select o).ToList();
+            }
+
+
+            return Json(options, JsonRequestBehavior.AllowGet);
+        }
+
+
+        public JsonResult GetSelectableYearsJSON(string term = null)
+        {
+            List<JSONForCombobox> options = new List<JSONForCombobox>();
+
+            int baseYear = reportService.GetEarliestYear();
+            List<int> years = reportService.GetSelectableYears(baseYear);
+
+
+            foreach (var y in years)
+            {
+                JSONForCombobox option = new JSONForCombobox();
+                option.id = y.ToString();
+                option.text = y.ToString();
+                options.Add(option);
+            }
+
+            if (!String.IsNullOrEmpty(term))
+            {
+                // used for select2 combobox filtering search result
+                options = (from o in options
+                           where o.text.ToString().ToLower().Contains(term) || o.id.ToString().ToLower().Contains(term)
+                           select o).ToList();
+            }
+
+
+            return Json(options, JsonRequestBehavior.AllowGet);
+        }
+
+
+
+        public JsonResult GetSelectableMonthsJSON(int year, string term = null)
+        {
+            List<JSONForCombobox> options = new List<JSONForCombobox>();
+
+            List<int> selectableMonths = reportService.GetSelectableMonths(year);
+
+            options.Add(new JSONForCombobox("-1", "All"));
+
+
+            foreach (var m in selectableMonths)
+            {
+                JSONForCombobox option = new JSONForCombobox();
+                option.id = m.ToString();
+                option.text = months[m - 1];
+                options.Add(option);
+            }
+
+            if (!String.IsNullOrEmpty(term))
+            {
+                // used for select2 combobox filtering search result
+                options = (from o in options
+                           where o.text.ToString().ToLower().Contains(term) || o.id.ToString().ToLower() == term
+                           select o).ToList();
+            }
+
+            return Json(options, JsonRequestBehavior.AllowGet);
+        }
+
+
+
+
+        // TODO - REMOVE THIS METHOD 
+        //public ActionResult GenerateRandomDataForRequisitionRecords()
+        //{
+        //    reportService.GenerateRandomDataForRequisitionRecords();
+        //    return RedirectToAction("Login", "Home");
+        //}
     }
 }

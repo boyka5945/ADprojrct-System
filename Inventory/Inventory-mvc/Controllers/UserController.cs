@@ -69,7 +69,10 @@ namespace Inventory_mvc.Controllers
             HttpContext.Application["EndDate"] = end;
 
             User user = userService.FindByUserID(userID);
-               
+            //if (user.departmentCode=="STORE")
+            //{
+            //    return RedirectToAction("SMUserList");
+            //}      
             return RedirectToAction("UserList");
            
             
@@ -88,7 +91,10 @@ namespace Inventory_mvc.Controllers
             }
 
             User user = userService.FindByUserID(id);
-           
+            //if (user.departmentCode == "STORE")
+            //{
+            //    return RedirectToAction("SMUserList");
+            //}
             return RedirectToAction("UserList");
 
         }

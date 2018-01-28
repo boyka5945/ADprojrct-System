@@ -85,8 +85,9 @@ namespace InventoryWCF
         [WebGet(UriTemplate = "/SaveTmpDisbursement/{itemCode}/{needQty}/{stationeryDescription}/{actualQty}/{deptCode}", ResponseFormat = WebMessageFormat.Json)]
         bool SaveActualQty(string itemCode, string needQty, string stationeryDescription, string actualQty, string deptCode);
 
-        //[OperationContract]
-        //Boolean updateRequisitionDetails(int requisitionNo, string ItemCode, int allocateQty);
+        [OperationContract]
+        [WebGet(UriTemplate = "/updateRequisitionDetails/{requisitionNo}/{ItemCode}/{allocateQty}", ResponseFormat = WebMessageFormat.Json)]
+        Boolean updateRequisitionDetails(int requisitionNo, string ItemCode, int allocateQty);
 
         //// TODO: Add your service operations here
 
@@ -126,6 +127,18 @@ namespace InventoryWCF
         [OperationContract]
         [WebGet(UriTemplate = "/GetPendingItemsByItem/{deptCode}", ResponseFormat = WebMessageFormat.Json)]
         List<WCFDisbursement> GetPendingItemsToBeProcessedByDepartmentByItems(string deptCode);
+
+        [OperationContract]
+        [WebGet(UriTemplate = "/UpdateDisbursement/{itemCode}/{needQty}/{actualQty}/{DepartmentCode}/{count}/{staffID}", ResponseFormat = WebMessageFormat.Json)]
+        void UpdateDisbursement(string itemCode, string needQty, string actualQty, string DepartmentCode, string count, string staffID);
+
+
+
+        [OperationContract]
+        [WebInvoke(UriTemplate = "/UpdateRequisitionDetail", Method = "POST",
+            RequestFormat = WebMessageFormat.Json,
+            ResponseFormat = WebMessageFormat.Json)]
+        void UpdateRequisitionDetail(WCFRequisitionDetail reqDetail);
 
         //[OperationContract]
         //[WebGet(UriTemplate = "/GetCodeFromName/{name}", ResponseFormat = WebMessageFormat.Json)]
@@ -249,6 +262,7 @@ namespace InventoryWCF
         string uom;
         string categoryName;
         string location;
+        int actualQty;
 
         [DataMember]
         public string ItemCode
@@ -285,6 +299,14 @@ namespace InventoryWCF
             get { return location; }
             set { location = value; }
         }
+
+        [DataMember]
+        public int ActualQty
+        {
+            get { return actualQty; }
+            set { actualQty = value; }
+        }
+
     }
 
     [DataContract]
@@ -428,6 +450,8 @@ namespace InventoryWCF
         DateTime? retrievedDate;
         int allocateQty;
         DateTime? nextCollectionDate;
+    string status;
+
 
         [DataMember]
         public int RequisitionNo
@@ -506,7 +530,14 @@ namespace InventoryWCF
             get { return nextCollectionDate; }
             set { nextCollectionDate = value; }
         }
+
+    [DataMember]
+    public string Status
+    {
+        get { return status; }
+        set { status = value; }
     }
+}
 
     [DataContract]
     public class WCFCategory
