@@ -355,10 +355,10 @@ namespace InventoryWCF
 
         public void Update(WCFRequisitionDetail reqDetail)
         {
-            //Requisition_Detail requisitionDetail = new Requisition_Detail
-            //{
+            Requisition_Detail requisitionDetail = new Requisition_Detail
+            {
 
-            //}
+            };
         }
 
         public List<WCFDisbursement> GetPendingItemsToBeProcessedByDepartmentByItems(string deptCode)
@@ -435,9 +435,9 @@ namespace InventoryWCF
             return (List<WCFDisbursement>)HttpContext.Current.Application["tempDisbursement"];
         }
 
-        public void UpdateDisbursement(WCFDisbursement w)
+        public void UpdateDisbursement(string itemCode, string needQty, string actualQty, string DepartmentCode)
         {
-            requisitionRecordService.UpdateDisbursement(w.ItemCode, (int)w.ActualQty, w.DeptCode, (int)w.NeedQty);
+            requisitionRecordService.UpdateDisbursement(itemCode, Convert.ToInt32(actualQty), DepartmentCode, Convert.ToInt32(needQty));
         }
 
         //public List<WCFDisbursement> GetCodeFromName(string name)
