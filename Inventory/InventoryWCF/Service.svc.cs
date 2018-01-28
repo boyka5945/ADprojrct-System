@@ -233,6 +233,14 @@ namespace InventoryWCF
             return WCFModelConvertUtility.ConvertToWCFRequisitionRecord(requisitionRecords);
         }
 
+        public List<WCFRequisitionRecord> GetRequsitionRecordByDept(string deptCode)
+        {
+            List<Requisition_Record> reqByDept = requisitionRecordService.GetRequisitionRecordByDept(deptCode);
+            return WCFModelConvertUtility.ConvertToWCFRequisitionRecord(reqByDept);
+        }
+
+        
+
         public bool AddNewRequest(string requesterID, WCFRequisitionDetail[] newRequisition)
         {
             Requisition_Record newRecord = new Requisition_Record();
@@ -474,6 +482,7 @@ namespace InventoryWCF
         public void UpdateDisbursement(string itemCode, string needQty, string actualQty, string DepartmentCode, string count, string staffID)
         {
             requisitionRecordService.UpdateDisbursement(itemCode, Convert.ToInt32(actualQty), DepartmentCode, Convert.ToInt32(needQty), Convert.ToInt32(count), staffID);
+            HttpContext.Current.Application["tempDisbursement"] = null;
         }
 
         public void UpdateRequisitionDetail(WCFRequisitionDetail reqDetail)
@@ -488,6 +497,7 @@ namespace InventoryWCF
         //    stationeryService.GetAllStationery();
 
         //}
+
 
         //public List<Disbursement> getDisbursementList()
         //{
