@@ -5,7 +5,7 @@ using System.Web;
 
 namespace Inventory_mvc.ViewModel
 {
-    public class StationeryJSONForCombobox
+    public class JSONForCombobox
     {
         public string id { get; set; }
         public string text { get; set; }

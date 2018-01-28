@@ -13,7 +13,7 @@ namespace InventoryWCF
         private static IStationeryService stationeryService = new StationeryService();
 
 
-        public static List<WCFDisbursement> ConvertToWCFDisbursement(List<Disbursement> disbursement)
+        public static List<WCFDisbursement> ConvertToWCFDisbursement(List<Disbursement> disbursement, string deptCode)
         {
             // TODO : IMPLEMENT METHOD
             List<WCFDisbursement> dl = new List<WCFDisbursement>();
@@ -23,10 +23,24 @@ namespace InventoryWCF
                 d.ItemCode = list.itemCode;
                 d.StationeryDescription = list.itemDescription;
                 d.NeedQty = list.quantity;
+                if (HttpContext.Current.Application["tempDisbursement"] != null)
+                {
+                    List<WCFDisbursement> wcfl = (List<WCFDisbursement>)HttpContext.Current.Application["tempDisbursement"];
+                    if (wcfl.Where(x => x.ItemCode == list.itemCode && x.DeptCode == deptCode).Count() > 0)
+                        d.ActualQty = wcfl.Where(x => x.ItemCode == list.itemCode && x.DeptCode == deptCode).First().ActualQty;
+                    else
+                        d.ActualQty = 0;
+                }
+                else
+                {
+                    d.ActualQty = 0;
+                }
+                d.DeptCode = deptCode;
                 dl.Add(d);
             }
             return dl;
         }
+
 
         public static WCFRequisitionDetail ConvertToWCFRequisitionDetail(Requisition_Detail detail)
         {
@@ -165,6 +179,7 @@ namespace InventoryWCF
             wcfR.Description = retrieval.description;
             wcfR.Qty = retrieval.Qty;
             wcfR.QtyRetrieved = retrieval.retrieveQty;
+            wcfR.ItemCode = retrieval.ItemCode;
             //add location to WCFRetrievalForm object
             StationeryModel entity = new StationeryModel();
             wcfR.Location = entity.Stationeries.Where(x => x.description == retrieval.description).First().location;

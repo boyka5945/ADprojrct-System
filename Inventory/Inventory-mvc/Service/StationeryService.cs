@@ -263,5 +263,11 @@ namespace Inventory_mvc.Service
         {
             return stationeryDAO.GetStationeriesBasedOnCategoryID(categoryID);
         }
+
+        // TODO - REMOVE THIS
+        public List<string> GetListOfItemCodes()
+        {
+            return stationeryDAO.GetAllItemCode();
+        }
     }
 }

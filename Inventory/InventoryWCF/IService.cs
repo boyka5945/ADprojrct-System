@@ -69,6 +69,9 @@ namespace InventoryWCF
                    ResponseFormat = WebMessageFormat.Json)]
         bool AddNewRequest(string requesterID, WCFRequisitionDetail[] newRequisition);
 
+        [OperationContract]
+        [WebGet(UriTemplate = "/GetTmp", ResponseFormat = WebMessageFormat.Json)]
+        List<WCFDisbursement> GetTMP();
 
         [OperationContract]
         [WebGet(UriTemplate = "/GetPendingRequestByDept/{deptCode}", ResponseFormat = WebMessageFormat.Json)]
@@ -77,6 +80,10 @@ namespace InventoryWCF
         [OperationContract]
         [WebGet(UriTemplate = "/GetDetailByReqNo/{reqNo}", ResponseFormat = WebMessageFormat.Json)]
         List<WCFRequisitionDetail> GetDetailsByReqNo(string reqNo);
+
+        [OperationContract]
+        [WebGet(UriTemplate = "/SaveTmpDisbursement/{itemCode}/{needQty}/{stationeryDescription}/{actualQty}/{deptCode}", ResponseFormat = WebMessageFormat.Json)]
+        bool SaveActualQty(string itemCode, string needQty, string stationeryDescription, string actualQty, string deptCode);
 
         //[OperationContract]
         //Boolean updateRequisitionDetails(int requisitionNo, string ItemCode, int allocateQty);
@@ -88,8 +95,8 @@ namespace InventoryWCF
         List<WCFRetrievalForm> getRetrievalList();
 
         [OperationContract]
-        [WebInvoke(Method= "POST",
-            UriTemplate = "/UpdateRetrieval", 
+        [WebInvoke(Method = "POST",
+            UriTemplate = "/UpdateRetrieval",
             RequestFormat = WebMessageFormat.Json,
             ResponseFormat = WebMessageFormat.Json)]
         bool UpdateRetrieval(WCFRetrievalForm wcfr);
@@ -107,29 +114,52 @@ namespace InventoryWCF
         List<WCFDisbursement> GetDisbursementByDept(string deptCode);
 
         [OperationContract]
+        [WebGet(UriTemplate = "/GetAllRequisitionDetailsforAllocation", ResponseFormat = WebMessageFormat.Json)]
+        List<WCFRequisitionDetail> GetAllRequisitionDetailsforAllocation();
+
+        [OperationContract]
+        [WebGet(UriTemplate = "/GetAllRequestRecordForItemAllocation/{itemCode}", ResponseFormat = WebMessageFormat.Json)]
+        List<WCFRequisitionRecord> GetAllRequestRecordForItemAllocation(string itemCode);
+
+
+
+        [OperationContract]
+        [WebGet(UriTemplate = "/GetPendingItemsByItem/{deptCode}", ResponseFormat = WebMessageFormat.Json)]
+        List<WCFDisbursement> GetPendingItemsToBeProcessedByDepartmentByItems(string deptCode);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST",
+            UriTemplate = "/UpdateDisbursement",
+            RequestFormat = WebMessageFormat.Json,
+            ResponseFormat = WebMessageFormat.Json)]
+        void UpdateDisbursement(WCFDisbursement w);
+
+
+
+        [OperationContract]
         [WebInvoke(UriTemplate = "/UpdateRequisition", Method = "POST",
             RequestFormat = WebMessageFormat.Json,
             ResponseFormat = WebMessageFormat.Json)]
         void Update(WCFRequisitionDetail reqDetail);
 
         //[OperationContract]
-        //[WebGet(UriTemplate = "/GetAllRequisitionforAllocation", ResponseFormat = WebMessageFormat.Json)]
-        //List<WCFRequisitionDetail> GetAllRequisitionforAllocation();
+        //[WebGet(UriTemplate = "/GetCodeFromName/{name}", ResponseFormat = WebMessageFormat.Json)]
+        //List<WCFDisbursement> GetCodeFromName(string name);
     }
 
-        //[OperationContract]
-        //List<Disbursement> getDisbursementList();
-        ////the follwing is for employee
-        //[OperationContract]
-        //List<RequisitionRecord> getRequisitionListByUserID(string UserID);
+    //[OperationContract]
+    //List<Disbursement> getDisbursementList();
+    ////the follwing is for employee
+    //[OperationContract]
+    //List<RequisitionRecord> getRequisitionListByUserID(string UserID);
 
-        //[OperationContract]
-        //List<RequisitionDetails> getrequisitionDetailsByNO(int requisitionNo);
-
-
+    //[OperationContract]
+    //List<RequisitionDetails> getrequisitionDetailsByNO(int requisitionNo);
 
 
-    }
+
+
+
 
 
     // Use a data contract as illustrated in the sample below to add composite types to service operations.
@@ -139,12 +169,20 @@ namespace InventoryWCF
         string stationeryDescription;
         string itemCode;
         int? needQty;
+        int? actualQty;
+        string deptCode;
 
         [DataMember]
         public string StationeryDescription
         {
             get { return stationeryDescription; }
             set { stationeryDescription = value; }
+        }
+        [DataMember]
+        public int? ActualQty
+        {
+            get { return actualQty; }
+            set { actualQty = value; }
         }
         [DataMember]
         public string ItemCode
@@ -154,9 +192,15 @@ namespace InventoryWCF
         }
         [DataMember]
         public int? NeedQty
-    {
+        {
             get { return needQty; }
             set { needQty = value; }
+        }
+        [DataMember]
+        public string DeptCode
+        {
+            get { return deptCode;}
+            set { deptCode = value; }
         }
     }
 
@@ -164,9 +208,17 @@ namespace InventoryWCF
     public class WCFRetrievalForm
     {
         string description;
+        string itemCode;
         int? qty;
         int? qtyRetrieved;
         string location;
+
+        [DataMember]
+        public string ItemCode
+        {
+            get { return itemCode; }
+            set { itemCode = value; }
+        }
 
         [DataMember]
         public string Description
@@ -205,6 +257,7 @@ namespace InventoryWCF
         string uom;
         string categoryName;
         string location;
+        int actualQty;
 
         [DataMember]
         public string ItemCode
@@ -241,6 +294,14 @@ namespace InventoryWCF
             get { return location; }
             set { location = value; }
         }
+
+        [DataMember]
+        public int ActualQty
+        {
+            get { return actualQty; }
+            set { actualQty = value; }
+        }
+
     }
 
     [DataContract]
@@ -522,6 +583,7 @@ namespace InventoryWCF
             get; set;
         }
     }
+}
 
 
 

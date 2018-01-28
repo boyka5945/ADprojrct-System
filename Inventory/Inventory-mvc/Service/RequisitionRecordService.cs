@@ -25,12 +25,12 @@ namespace Inventory_mvc.Service
             return rDAO.FindByRequisitionNo(id);
         }
 
-        public List<Requisition_Detail> GetDetailsByNo(int No=0)
+        public List<Requisition_Detail> GetDetailsByNo(int No = 0)
         {
-            return rDAO.GetDetailsByNO(No);  
+            return rDAO.GetDetailsByNO(No);
         }
 
-        public void  UpdateRequisition(Requisition_Record rr, string status, string approveStaffID) 
+        public void UpdateRequisition(Requisition_Record rr, string status, string approveStaffID)
         {
             rDAO.UpdateRequisition(rr, status, approveStaffID);
 
@@ -46,7 +46,7 @@ namespace Inventory_mvc.Service
             return rDAO.GetRecordByItemCode(itemCode);
         }
 
-        public int? FindUnfulfilledQtyBy2Key(string itemCode, int requisitionNo) 
+        public int? FindUnfulfilledQtyBy2Key(string itemCode, int requisitionNo)
         {
             return rDAO.FindUnfulfilledQtyBy2Key(itemCode, requisitionNo);
         }
@@ -83,6 +83,25 @@ namespace Inventory_mvc.Service
             }
         }
 
+        // TODO - REMOVE THIS METHOD
+        public bool GenerateRandomRequisition(Requisition_Record requisition, string requesterID, DateTime date)
+        {
+            requisition.requesterID = requesterID;
+            requisition.deptCode = userService.FindDeptCodeByID(requesterID);
+            requisition.requestDate = date;
+
+            try
+            {
+                rDAO.SubmitNewRequisition(requisition);
+                return true;
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
+
+
         public List<Requisition_Record> GetRecordsByRequesterID(string requesterID)
         {
             return rDAO.GetRecordsByRequesterID(requesterID);
@@ -90,7 +109,7 @@ namespace Inventory_mvc.Service
 
         public bool ValidateRequisition(Requisition_Record requisition)
         {
-            if(requisition.Requisition_Detail.Count == 0)
+            if (requisition.Requisition_Detail.Count == 0)
             {
                 return false;
             }
@@ -102,7 +121,7 @@ namespace Inventory_mvc.Service
                     return false;
                 }
             }
-          
+
             return true;
         }
 
@@ -129,7 +148,7 @@ namespace Inventory_mvc.Service
             RequisitionRecordDAO rDAO = new RequisitionRecordDAO();
             return rDAO.GetAllRequisitionByDept(deptCode);
         }
-        
+
         public List<Requisition_Detail> GetPendingRequestByDeptCode(string deptCode)
         {
             RequisitionRecordDAO rDAO = new RequisitionRecordDAO();
@@ -188,7 +207,7 @@ namespace Inventory_mvc.Service
                 errorMessage = String.Format("You have not right to access.");
             }
 
-            return record;  
+            return record;
         }
 
 
@@ -254,7 +273,117 @@ namespace Inventory_mvc.Service
 
         public void updatestatus(int requisitionNo, int status)
         {
-            rDAO.updatestatus(requisitionNo,status);
+            rDAO.updatestatus(requisitionNo, status);
         }
+
+        public void UpdateDisbursement(string itemCode, int actualQty, string deptCode, int needQty ,string remarks1 = "")
+        {
+            using (StationeryModel model = new StationeryModel())
+            {
+                Stationery s = model.Stationeries.Where(x => x.itemCode == itemCode).First();
+                s.stockQty = s.stockQty - actualQty;
+                model.SaveChanges();
+            }
+            List<Requisition_Record> list = new List<Requisition_Record>();
+
+            list = GetRecordByItemCode(itemCode).Where(x => x.Department.departmentCode == deptCode && (x.status == RequisitionStatus.APPROVED_PROCESSING || x.status == RequisitionStatus.PARTIALLY_FULFILLED)).ToList();
+
+            list.Sort();
+            for (int i = 0; actualQty > 0 && i < list.Count(); i++)
+            {
+                var b = list[i].Requisition_Detail.Where(x => x.itemCode == itemCode).First();
+                if (b.allocatedQty > 0)
+                {
+                    if (actualQty - b.allocatedQty >= 0)
+                    {
+                        actualQty = actualQty - (int)b.allocatedQty;
+                        UpdateDetails(itemCode, list[i].requisitionNo, 0, b.allocatedQty + b.fulfilledQty);
+                    }
+                    else
+                    {
+                        UpdateDetails(itemCode, list[i].requisitionNo, 0, actualQty + b.fulfilledQty);
+                        actualQty = 0;
+                    }
+                }
+            }
+
+            for (int i = 0; i < list.Count(); i++)
+            {
+                int status = 1;//Collected
+                int sum = 0;
+                StationeryModel entity = new StationeryModel();
+
+                var NO = list[i].requisitionNo;
+                var detailslist = entity.Requisition_Detail.Where(x => x.requisitionNo == NO).ToList();
+                foreach (var l in detailslist)
+                {
+                    sum = sum + (int)l.fulfilledQty;
+                    if (l.fulfilledQty == l.qty)
+                    {
+
+
+                    }
+                    else
+                    {
+                        status = 2;//partially fulfilled
+                    }
+                }
+                if (status == 2)
+                {
+                    if (sum == 0)
+                    {
+                        status = 3;
+                    }
+                }
+                updatestatus(list[i].requisitionNo, status);
+            }
+
+            using (StationeryModel model = new StationeryModel())
+            {
+                Adjustment_Voucher_Record adjustment = new Adjustment_Voucher_Record();
+                adjustment.voucherID = model.Adjustment_Voucher_Records.ToList().Count() + 1;
+                adjustment.issueDate = DateTime.Now;
+                adjustment.status = AdjustmentVoucherStatus.PENDING;
+                adjustment.remarks = "NA";
+                adjustment.handlingStaffID = "xxx";
+                model.Adjustment_Voucher_Records.Add(adjustment);
+
+                //Transaction_Record tr = new Transaction_Record();
+                //tr.clerkID = "yyy";
+                //tr.date = DateTime.Now;
+                //tr.type = TransactionTypes.DISBURSEMENT;
+                //model.Transaction_Records.Add(tr);
+                //model.SaveChanges();
+            }
+
+
+            using (StationeryModel model = new StationeryModel())
+            {
+                if (remarks1 != null)
+                {
+                    //var no = model.Transaction_Records.ToList().Count() - 1;
+                    var no2 = model.Adjustment_Voucher_Records.ToList().Count() - 1;
+                    Voucher_Detail voucher = new Voucher_Detail();
+                    voucher.voucherID = model.Adjustment_Voucher_Records.ToList()[no2].voucherID;
+                    voucher.itemCode = itemCode;
+                    voucher.adjustedQty = needQty - actualQty;
+                    voucher.remarks = remarks1;
+                    model.Voucher_Details.Add(voucher);
+                    //Transaction_Detail detail = new Transaction_Detail();
+                    //detail.transactionNo = model.Transaction_Records.ToList()[no].transactionNo;
+                    //detail.itemCode = itemCode;
+                    //detail.adjustedQty = actualQtytemp;
+                    //detail.balanceQty = model.Stationeries.Where(x => x.itemCode == itemCode).First().stockQty;
+                    //detail.remarks = "";
+                    //model.Transaction_Details.Add(detail);
+                    model.SaveChanges();
+                }
+            }
+
+            //number--;
+
+
+        }
+
     }
 }
