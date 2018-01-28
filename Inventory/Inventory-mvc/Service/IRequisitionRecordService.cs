@@ -12,7 +12,7 @@ namespace Inventory_mvc.Service
     {
         List<Requisition_Record> GetAllRequisition();
 
-        List<Requisition_Detail> GetDetailsByNo(int No=0);
+        List<Requisition_Detail> GetDetailsByNo(int No = 0);
 
         Requisition_Record GetRequisitionByID(int id);
 
@@ -26,7 +26,7 @@ namespace Inventory_mvc.Service
 
         Requisition_Detail FindDetailsBy2Key(string itemCode, int requisitionNo);
 
-        
+
 
         bool SubmitNewRequisition(Requisition_Record requisition, string requesterID);
 
@@ -53,7 +53,7 @@ namespace Inventory_mvc.Service
 
         int UpdateDetails(string itemcode, int requisitionNo, int? allocateQty, int? fulfilledQty);
 
-        void updatestatus(int requisitionNo,int status);
+        void updatestatus(int requisitionNo, int status);
 
         bool UpdateRequisitionDetails(List<RequisitionDetailViewModel> vmList, out string errorMessage);
 
@@ -63,6 +63,8 @@ namespace Inventory_mvc.Service
 
         bool IsUserValidToSubmitRequisition(string requesterID);
 
-        
+        // TODO - REMOVE THIS METHOD
+        bool GenerateRandomRequisition(Requisition_Record requisition, string requesterID, DateTime date);
+
     }
 }

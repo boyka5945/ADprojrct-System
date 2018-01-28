@@ -1,0 +1,105 @@
+﻿<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
+<script src="~/Scripts/chart-colors.js"></script>
+<script src="~/Scripts/select2.min.js"></script>
+<link href="~/Content/select2.min.css" rel="stylesheet" />
+@*@Scripts.Render("~/bundles/Chart")*@
+
+
+@{
+    ViewBag.Title = "ItemRequestTrend";
+    //string item = (string) ViewBag.ItemCode; 
+}
+
+<h2>Stationery Requisition Trend</h2>
+
+<hr />
+
+<form id="trendForm">
+
+    <div class="row form-inline">
+        <div class="col-sm-1"><label>Stationery:</label></div>
+        <div class="col-sm-4">
+            <!-- Combobox -->
+            <select class="js-data-example-ajax form-control" style="width: 100%" name="itemCode" required>
+             <option></option>
+            </select>
+        </div>
+        <div class="col-sm-1"><label class="pull-right">Year:</label></div>
+        <div class="col-sm-3">
+            <!-- Combobox -->
+            <select class="js-example-basic-multiple form-control" style="width: 100%" name="years" multiple="multiple" required>
+                <option></option>
+            </select>
+        </div>
+        <div class="col-sm-1">
+            <input type="button" class="btn btn-primary" onclick="LoadData()" value="Generate Chart" />
+        </div>
+    </div>
+</form>      
+
+<br />
+
+
+<div class="container" id="chartContainer"></div>
+   
+    
+
+<script>
+
+    function LoadData()
+    {
+        $.ajax({
+            url: '@Url.Action("ItemRequestTrend", "Report")',
+            data: $('#trendForm').serialize(),
+            type: 'POST',
+            success: function (data) {
+                $("#chartContainer").html(data)
+            },
+            error: function () {
+                alert("Opps. Some error occurs. Please try again.");
+            }
+        });
+    }
+
+    // for stationery selection
+    $(document).ready(function () {
+        $('.js-data-example-ajax').select2({
+
+            ajax: {
+                url: '@Url.Action("GetStationeryListJSON", "Report")',
+                delay: 250,
+                dataType: 'json',
+                processResults: function (data) {
+                    return {
+                        results: data
+                    };
+                },
+            },
+            placeholder: "Input item code",
+            selectOnClose: true,
+            //allowClear: true,
+        });
+    })
+
+    // for year selection
+    $(document).ready(function() {
+        $('.js-example-basic-multiple').select2({
+
+            maximumSelectionLength: 2,
+
+            ajax: {
+                url: '@Url.Action("GetSelectableYearsJSON", "Report")',
+                delay: 250,
+                dataType: 'json',
+                processResults: function (data) {
+                    return {
+                        results: data
+                    };
+                },
+            },
+            placeholder: "Max 2 years",
+            selectOnClose: true,
+            //allowClear: true,
+        });
+    });
+</script>

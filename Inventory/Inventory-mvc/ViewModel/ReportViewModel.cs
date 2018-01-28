@@ -7,16 +7,26 @@ namespace Inventory_mvc.ViewModel
 {
     public class ReportViewModel
     {
-        public Stationery Stationery { get; set; }
-
         public string ItemCode { get; set; }
+
+        public string ItemDescription { get; set; }
 
         public string CategoryName { get; set; }
 
-        public int Qty { get; set; }
+        public int RequestQuantity { get; set; }
 
         public decimal Cost { get; set; }
 
+        public string RequesterDepartment { get; set; }
 
+        public List<string> Suppliers { get; set; }
+
+        public List<int> OrderQuantity { get; set; }
+
+        public int Year { get; set; }
+
+        public int Month { get; set; }
+
+        public string Status { get; set; }
     }
 }

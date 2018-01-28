@@ -83,6 +83,25 @@ namespace Inventory_mvc.Service
             }
         }
 
+        // TODO - REMOVE THIS METHOD
+        public bool GenerateRandomRequisition(Requisition_Record requisition, string requesterID, DateTime date)
+        {
+            requisition.requesterID = requesterID;
+            requisition.deptCode = userService.FindDeptCodeByID(requesterID);
+            requisition.requestDate = date;
+
+            try
+            {
+                rDAO.SubmitNewRequisition(requisition);
+                return true;
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
+
+
         public List<Requisition_Record> GetRecordsByRequesterID(string requesterID)
         {
             return rDAO.GetRecordsByRequesterID(requesterID);
