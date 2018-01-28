@@ -229,6 +229,8 @@ namespace Inventory_mvc.DAO
                 var A = itemCodes[i];
                 disbursement.itemDescription = entity.Stationeries.Where(x => x.itemCode == A).First().description;
                 disbursement.quantity = Qty[i];
+                disbursement.actualQty = 0;
+                disbursement.departmentCode = deptCode;
                 disbursementList.Add(disbursement);
             }
             return disbursementList;

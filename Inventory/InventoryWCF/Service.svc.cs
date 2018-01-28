@@ -474,6 +474,7 @@ namespace InventoryWCF
         public void UpdateDisbursement(string itemCode, string needQty, string actualQty, string DepartmentCode, string count, string staffID)
         {
             requisitionRecordService.UpdateDisbursement(itemCode, Convert.ToInt32(actualQty), DepartmentCode, Convert.ToInt32(needQty), Convert.ToInt32(count), staffID);
+            HttpContext.Current.Application["tempDisbursement"] = null;
         }
 
         //public List<WCFDisbursement> GetCodeFromName(string name)

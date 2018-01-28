@@ -62,13 +62,15 @@
             <input type="number" id="ActualQty[@i]" class="form-control" min="0" max="@Model.ToList()[i].quantity" required />
         </td>
         <td>
-            <input type="button" name="button" class="form-control" value="Confirm" onclick="SaveData(@i)" />
+            <input type="button" name="button" class="form-control" value="Save" onclick="SaveData(@i)" />
         </td>
     </tr>
 }
 
 </table>
-
+<div>
+    <input type="button" name="button" class="form-control" value="Submit" onclick="update()" />
+</div>
 Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
 @Html.PagedListPager(Model, page => Url.Action("DisbursementList",
                      new { page }))
@@ -81,15 +83,15 @@ Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.Page
         var ActualQty = document.getElementById("ActualQty["+ i +"]").value; // convert form to array
         var itemCode = document.getElementById(i).value; // convert form to array
         var AllocateQty = document.getElementById("AllocateQty[" + i + "]").value;
-        if (parseInt(ActualQty) < 0) {
-            alert("ActualQty should more than 0.")
+        if (parseInt(ActualQty) <= 0) {
+            alert("ActualQty should more than 0.");
         }
         else if (parseInt(ActualQty) > 0 || parseInt(ActualQty) <= 0) {
             if (parseInt(ActualQty) < parseInt(AllocateQty)) {
                 var remarks = prompt("discripency reason:");
-                window.location.href = '@Url.Action("updateFulfilledQty", "ManageRequisitions")?key1=' + ActualQty + "&key2=" + itemCode + "&key3=" + AllocateQty + "&key4=" + remarks;
+                window.location.href = '@Url.Action("SaveDisbursementList", "ManageRequisitions")?key1=' + ActualQty + "&key2=" + itemCode + "&key3=" + AllocateQty + "&key4=" + remarks;
             } else {
-                window.location.href = '@Url.Action("updateFulfilledQty", "ManageRequisitions")?key1=' + ActualQty + "&key2=" + itemCode + "&key3=" + AllocateQty;
+                window.location.href = '@Url.Action("SaveDisbursementList", "ManageRequisitions")?key1=' + ActualQty + "&key2=" + itemCode + "&key3=" + AllocateQty;
             }
         }
         else {
@@ -101,5 +103,9 @@ Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.Page
             //success: function () {
             //alert("success");
             //}
-        }
+    }
+
+    function update() {
+        window.location.href = '@Url.Action("UpdateDisbursement", "ManageRequisitions")'; 
+    }
 </script>
