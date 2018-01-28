@@ -465,6 +465,8 @@
     <Content Include="Views\Report\_RequisitionCumulativeBar.cshtml" />
     <Content Include="Views\Report\Index.cshtml" />
     <Content Include="Views\Report\RequisitionCumulativeChart.cshtml" />
+    <Content Include="Views\Report\_DeptMonthlyReorder.cshtml" />
+    <Content Include="Views\Report\MonthlyReorderAmount.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -477,6 +477,13 @@ namespace InventoryWCF
             HttpContext.Current.Application["tempDisbursement"] = null;
         }
 
+        public void UpdateRequisitionDetail(WCFRequisitionDetail reqDetail)
+        {
+
+            requisitionRecordService.UpdateDetails(reqDetail.ItemCode, reqDetail.RequisitionNo, reqDetail.AllocateQty);
+
+        }
+
         //public List<WCFDisbursement> GetCodeFromName(string name)
         //{
         //    stationeryService.GetAllStationery();

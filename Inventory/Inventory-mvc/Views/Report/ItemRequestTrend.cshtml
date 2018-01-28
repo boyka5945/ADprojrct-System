@@ -13,20 +13,27 @@
 
 <hr />
 
-<form id="trendForm">
+<form id="chartForm">
 
     <div class="row form-inline">
+        <div class="col-sm-1"><label>Category:</label></div>
+        <div class="col-sm-2">
+            <!-- Combobox -->
+            <select class="form-control" id="categoryCombobox" style="width: 100%" name="categoryID" required>
+                <option></option>
+            </select>
+        </div>
         <div class="col-sm-1"><label>Stationery:</label></div>
         <div class="col-sm-4">
             <!-- Combobox -->
-            <select class="js-data-example-ajax form-control" style="width: 100%" name="itemCode" required>
+            <select class="form-control" id="stationeryCombobox" style="width: 100%" name="itemCode" disabled required>
              <option></option>
             </select>
         </div>
-        <div class="col-sm-1"><label class="pull-right">Year:</label></div>
-        <div class="col-sm-3">
+        <div class="col-sm-1"><label>Year:</label></div>
+        <div class="col-sm-2">
             <!-- Combobox -->
-            <select class="js-example-basic-multiple form-control" style="width: 100%" name="years" multiple="multiple" required>
+            <select class="form-control" id="yearCombobox" style="width: 100%" name="years" multiple="multiple" required>
                 <option></option>
             </select>
         </div>
@@ -38,7 +45,7 @@
 
 <br />
 
-<div id="progressBar" class="hidden">
+<div id="progressBar" class="text-center hidden">
     Generating chart <progress id="p"></progress>
 </div>
 <div class="container" id="chartContainer"></div>
@@ -49,29 +56,73 @@
 
     function LoadData()
     {
-        $.ajax({
-            url: '@Url.Action("ItemRequestTrend", "Report")',
-            data: $('#trendForm').serialize(),
-            type: 'POST',
-            //beforeSend: function(){
-                //$('#progressBar').removeClass('hidden'); 
-            //},
-            success: function (data) {
-                $("#chartContainer").html(data);
-                //$('#progressBar').addClass('hidden');
-            },
-            error: function () {
-                alert("Opps. Some error occurs. Please try again.");
-            }
-        });
+        var form = document.getElementById("chartForm");
+        
+        if (!form.checkValidity())
+        {
+            // To trigger html5 form validation - Create a temporary button, click and remove it
+            const tmpSubmit = document.createElement('button');
+            form.appendChild(tmpSubmit);
+            tmpSubmit.click();
+            form.removeChild(tmpSubmit);
+        }
+        else
+        {
+            $.ajax({
+                url: '@Url.Action("ItemRequestTrend", "Report")',
+                data: $('#chartForm').serialize(),
+                type: 'POST',
+                beforeSend: function(){
+                $('#progressBar').removeClass('hidden'); 
+                },
+                success: function (data) {
+                    $("#chartContainer").html(data);
+                    $('#progressBar').addClass('hidden');
+                },
+                error: function () {
+                    alert("Opps. Some error occurs. Please try again.");
+                }
+            });
+        }
     }
 
-    // for stationery selection
+
+    // for category selection
     $(document).ready(function () {
-        $('.js-data-example-ajax').select2({
+        $('#categoryCombobox').select2({
 
             ajax: {
-                url: '@Url.Action("GetStationeryListJSON", "Report")',
+                url: '@Url.Action("GetCategoryListJSON", "Report")',
+                delay: 250,
+                dataType: 'json',
+                processResults: function (data) {
+                    return {
+                        results: data
+                    };
+                },
+            },
+            placeholder: "Select a category",
+            selectOnClose: true,
+        });
+    })
+
+    // allow stationery selection after category is selected
+    $('#categoryCombobox').change(function () {
+        var selectedCategory = $('#categoryCombobox').val();
+
+        if (this.value < -1)
+        {
+            $("#stationeryCombobox").prop("disabled", true);
+        }
+        else
+        {
+            $("#stationeryCombobox").prop("disabled", false);
+            $("#stationeryCombobox").val("-2"); // reset selected value if category is changed
+        }
+
+        $('#stationeryCombobox').select2({
+            ajax: {
+                url: '@Url.Action("GetStationeryListBasedOnCategoryJSON", "Report")?categoryID=' + selectedCategory,
                 delay: 250,
                 dataType: 'json',
                 processResults: function (data) {
@@ -82,13 +133,12 @@
             },
             placeholder: "Input item code",
             selectOnClose: true,
-            //allowClear: true,
         });
-    })
+    });
 
     // for year selection
     $(document).ready(function() {
-        $('.js-example-basic-multiple').select2({
+        $('#yearCombobox').select2({
 
             maximumSelectionLength: 2,
 
@@ -104,7 +154,6 @@
             },
             placeholder: "Max 2 years",
             selectOnClose: true,
-            //allowClear: true,
         });
     });
 </script>

@@ -17,9 +17,9 @@ namespace Inventory_mvc.Service
         IUserService userService = new UserService();
         IRequisitionRecordService requisitionService = new RequisitionRecordService();
 
-        public List<ReportViewModel> GetItemRequestTrend(string itemCode, int[] years)
+        public List<ReportViewModel> GetItemRequestTrend(string categoryID, string itemCode, int[] years)
         {
-            List<Requisition_Detail> details = reportDAO.GetApprovedRequisitionDetailsByItemCodeAndYear(itemCode, years);
+            List<Requisition_Detail> details = reportDAO.GetApprovedRequisitionDetailsByCriteria(categoryID, itemCode, years);
 
             List<ReportViewModel> vmList = new List<ReportViewModel>();
 
@@ -40,6 +40,14 @@ namespace Inventory_mvc.Service
         public List<ReportViewModel> GetApprovedRequisitionsOfYear(int year)
         {
             List<Requisition_Detail> details = reportDAO.GetApprovedRequisitionDetailsOfYear(year);
+            List<ReportViewModel> vmList = new List<ReportViewModel>();
+            vmList.AddRange(ConvertToReportViewModel(details));
+            return vmList;
+        }
+
+        public List<ReportViewModel> GetApprovedRequisitionDetialsBasedOnYearAndMonth(int year, int month)
+        {
+            List<Requisition_Detail> details = reportDAO.GetApprovedRequisitionDetialsBasedOnYearAndMonth(year, month);
             List<ReportViewModel> vmList = new List<ReportViewModel>();
             vmList.AddRange(ConvertToReportViewModel(details));
             return vmList;
@@ -152,6 +160,11 @@ namespace Inventory_mvc.Service
             }
         }
 
+        public int GetEarliestYear()
+        {
+            return reportDAO.GetEarliestYear();
+        }
+
         public List<int> GetSelectableYears(int baseYear)
         {
             List<int> years = new List<int>();
@@ -165,5 +178,29 @@ namespace Inventory_mvc.Service
             return years;
         }
 
+        public List<int> GetSelectableMonths(int year)
+        {
+            int currentMonths = DateTime.Today.Month;
+            int currentYear = DateTime.Today.Year;
+
+            List<int> months = new List<int>();
+
+            if(year < currentYear)
+            {
+                for(int i = 1; i <= 12; i++)
+                {
+                    months.Add(i);
+                }
+            }
+            else if (year == currentYear)
+            {
+                for(int i = 1; i <= currentMonths; i++)
+                {
+                    months.Add(i);
+                }
+            }
+
+            return months;
+        }
     }
 }
