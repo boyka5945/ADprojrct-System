@@ -133,6 +133,12 @@ namespace InventoryWCF
 
 
 
+        [OperationContract]
+        [WebInvoke(UriTemplate = "/UpdateRequisition", Method = "POST",
+            RequestFormat = WebMessageFormat.Json,
+            ResponseFormat = WebMessageFormat.Json)]
+        void Update(WCFRequisitionDetail reqDetail);
+
         //[OperationContract]
         //[WebGet(UriTemplate = "/GetCodeFromName/{name}", ResponseFormat = WebMessageFormat.Json)]
         //List<WCFDisbursement> GetCodeFromName(string name);
@@ -436,6 +442,8 @@ namespace InventoryWCF
         DateTime? retrievedDate;
         int allocateQty;
         DateTime? nextCollectionDate;
+    string status;
+
 
         [DataMember]
         public int RequisitionNo
@@ -514,7 +522,14 @@ namespace InventoryWCF
             get { return nextCollectionDate; }
             set { nextCollectionDate = value; }
         }
+
+    [DataMember]
+    public string Status
+    {
+        get { return status; }
+        set { status = value; }
     }
+}
 
     [DataContract]
     public class WCFCategory
