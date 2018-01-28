@@ -15,6 +15,7 @@ namespace Inventory_mvc.Controllers
     {
         IReportService reportService = new ReportService();
         IStationeryService stationeryService = new StationeryService();
+        IDepartmentService departmentService = new DepartmentService();
 
         private string[] months = new string[]{ "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" };
 
@@ -44,20 +45,33 @@ namespace Inventory_mvc.Controllers
         }
 
         [HttpPost]
-        public ActionResult GetRequisitionCumulativeBar(int year)
+        public ActionResult GetRequisitionCumulativeBar(int year, string deptCode)
         {
             ViewBag.Year = year.ToString();
 
-            List<ReportViewModel> vmList = reportService.GetApprovedRequisitionsOfYear(year);
+            if(deptCode == "-1")
+            {
+                ViewBag.Dept = "All Departments";
+            }
+            else
+            {
+                string deptName = departmentService.GetDepartmentByCode(deptCode).departmentName;
+                ViewBag.Dept = (deptCode == "-1") ? "All Departments" : deptName;
+            }
+
+            List<ReportViewModel> vmList = reportService.GetDepartmentApprovedRequisitionsOfYear(year, deptCode);
 
             var results = (from vm in vmList
                            group vm by new { vm.Year, vm.Month } into g
-                           select new { Year = g.Key.Year, Month = g.Key.Month, Sum = g.Sum(v => v.RequestQuantity) });
+                           select new { Year = g.Key.Year,
+                                        Month = g.Key.Month,
+                                        Sum = g.Sum(v => v.RequestQuantity),
+                                        Amount = g.Sum(v => v.RequestQuantity * v.Cost) }).OrderBy(r => r.Month); ;
 
             ViewBag.XLabels = months;
 
             // Get data for bar chart
-            ViewBag.YBarLabel = "Monthly";
+            ViewBag.YBarLabel = "Monthly Quantity";
             int[] monthlyQuantity = new int[12];
             foreach (var r in results)
             {
@@ -66,15 +80,22 @@ namespace Inventory_mvc.Controllers
             ViewBag.YBarData = monthlyQuantity;
 
             // Get data for line
-            ViewBag.YLineLabel = "Cumulative";
-            int[] cumulative = new int[12];
-            int cumulativeQuantity = 0;
-            for (int i = 0; i < monthlyQuantity.Length; i++)
+            ViewBag.YLineLabel = "Cumulative Amount";
+            decimal[] cumulativeAmount = new decimal[12];
+            decimal cumulative = 0.00M;
+            foreach (var r in results)
             {
-                cumulativeQuantity += monthlyQuantity[i];
-                cumulative[i] = cumulativeQuantity;
+                cumulative = Math.Round((cumulative + r.Amount), 2);
+                cumulativeAmount[r.Month - 1] = cumulative;
             }
-            ViewBag.YLineData = cumulative;
+            for(int i = 1; i < cumulativeAmount.Length; i++) // to let zero amount same as previous month
+            {
+                if(cumulativeAmount[i] == 0)
+                {
+                    cumulativeAmount[i] = cumulativeAmount[i - 1];
+                }
+            }
+            ViewBag.YLineData = cumulativeAmount;
 
             return PartialView("_RequisitionCumulativeBar");
         }
@@ -115,10 +136,26 @@ namespace Inventory_mvc.Controllers
                 value[r.Month - 1] = r.Sum; // put sum into corresponding month
             }
 
-            //Stationery s = stationeryService.FindStationeryByItemCode(itemCode);
 
-            //ViewBag.ItemCode = String.Format("{0} ({1})", itemCode, s.description);
-            ViewBag.ItemCode = itemCode;
+            if(categoryID != "-1") // prepare display title for chart
+            {
+                ViewBag.Category = stationeryService.GetAllCategory().Find(x => x.categoryID.ToString() == categoryID).categoryName;
+            }
+            else
+            {
+                ViewBag.Category = "";
+            }
+
+            if(itemCode != "-1") // prepare display title for chart
+            {
+                Stationery s = stationeryService.FindStationeryByItemCode(itemCode);
+                ViewBag.ItemCode = String.Format("{0} ({1})", itemCode, s.description);            
+            }
+            else
+            {
+                ViewBag.ItemCode = "All Items";
+            }
+
 
             ViewBag.XLabels = months;
 
@@ -238,14 +275,19 @@ namespace Inventory_mvc.Controllers
                 options.Add(option);
             }
 
-            if (!String.IsNullOrEmpty(term))
-            {
-                // used for select2 combobox filtering search result
-                options = (from o in options
-                           where o.text.ToString().ToLower().Contains(term) || o.id.ToString().ToLower().Contains(term)
-                           select o).ToList();
-            }
 
+            if (!String.IsNullOrEmpty(term))  // used for select2 combobox filtering search result
+            {
+                string[] searchStringArray = term.Split();
+                foreach (string s in searchStringArray)
+                {
+                    string search = s.ToLower().Trim();
+                    if (!String.IsNullOrEmpty(search))
+                    {
+                        options = options.Where(x => (x.text.ToLower().Contains(search) || x.id.ToLower().Contains(search))).ToList();
+                    }
+                }
+            }
 
             return Json(options, JsonRequestBehavior.AllowGet);
         }
@@ -309,6 +351,33 @@ namespace Inventory_mvc.Controllers
             return Json(options, JsonRequestBehavior.AllowGet);
         }
 
+
+        public JsonResult GetDepartmentListJSON(string term = null)
+        {
+            List<JSONForCombobox> options = new List<JSONForCombobox>();
+
+            List<Department> departments = departmentService.GetAllDepartment();
+
+            options.Add(new JSONForCombobox("-1", "All"));
+       
+            foreach (var d in departments)
+            {
+                JSONForCombobox option = new JSONForCombobox();
+                option.id = d.departmentCode.ToString();
+                option.text = d.departmentName;
+                options.Add(option);
+            }
+
+            if (!String.IsNullOrEmpty(term))
+            {
+                // used for select2 combobox filtering search result
+                options = (from o in options
+                           where o.text.ToString().ToLower().Contains(term) || o.id.ToString().ToLower().Contains(term)
+                           select o).ToList();
+            }
+
+            return Json(options, JsonRequestBehavior.AllowGet);
+        }
 
 
 

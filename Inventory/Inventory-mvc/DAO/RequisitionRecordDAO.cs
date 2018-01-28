@@ -19,6 +19,12 @@ namespace Inventory_mvc.DAO
             return entity.Requisition_Records.ToList();
         }
 
+        public List<Requisition_Record> GetRequisitionRecordByDept(string deptCode)
+        {
+            StationeryModel entity = new StationeryModel();
+            return entity.Requisition_Records.Where(x => x.deptCode == deptCode && x.status== "Pending Approval").ToList();
+        }
+
         public Requisition_Record FindByRequisitionNo(int requisitionNo)
         {
             StationeryModel entity = new StationeryModel();

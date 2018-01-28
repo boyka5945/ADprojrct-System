@@ -12,13 +12,18 @@ namespace Inventory_mvc.DAO
     {
         List<Purchase_Detail> RetrieveQty(DateTime ds, DateTime de);
 
-        List<Requisition_Detail> GetApprovedRequisitionDetailsByItemCodeAndYear(string itemCode, int[] years);
-
-        List<Requisition_Detail> GetApprovedRequisitionDetailsOfYear(int year);
-
-        List<Requisition_Detail> GetApprovedRequisitionDetialsBasedOnYearAndMonth(int year, int month);
         int GetEarliestYear();
 
-        List<Requisition_Detail> GetApprovedRequisitionDetailsByCriteria(string categoryID, string itemCode, int[] years);
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="categoryID"> "-1" for all categories </param>
+        /// <param name="itemCode"> "-1" for all items </param>
+        /// <param name="deptCode"> null for all departments </param>
+        /// <param name="years"> null for all </param>
+        /// <param name="months"> nul for all </param>
+        /// <returns></returns>
+        List<Requisition_Detail> GetApprovedRequisitionDetailsByCriteria(string categoryID, string itemCode, string deptCode, int[] years, int[] months);
+
     }
 }
