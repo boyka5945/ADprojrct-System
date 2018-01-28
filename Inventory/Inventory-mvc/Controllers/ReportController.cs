@@ -197,17 +197,7 @@ namespace Inventory_mvc.Controllers
 
             List<Category> categories = stationeryService.GetAllCategory();
 
-            if(!String.IsNullOrEmpty(term))
-            {
-                // used for select2 combobox filtering search result
-                categories = (from c in categories
-                              where c.categoryName.ToLower().Contains(term)
-                              select c).ToList();
-            }
-            else
-            {
-                options.Add(new JSONForCombobox("-1", "All"));
-            }
+            options.Add(new JSONForCombobox("-1", "All"));
 
             foreach (var c in categories)
             {
@@ -216,6 +206,15 @@ namespace Inventory_mvc.Controllers
                 option.text = c.categoryName;
                 options.Add(option);
             }
+
+            if (!String.IsNullOrEmpty(term))
+            {
+                // used for select2 combobox filtering search result
+                options = (from o in options
+                           where o.text.ToString().ToLower().Contains(term) || o.id.ToString().ToLower().Contains(term)
+                           select o).ToList();
+            }
+
             return Json(options, JsonRequestBehavior.AllowGet);
         }
 
@@ -225,15 +224,7 @@ namespace Inventory_mvc.Controllers
 
             List<Stationery> stationeries = stationeryService.GetStationeriesBasedOnCriteria(null, categoryID);
 
-            if (!String.IsNullOrEmpty(term))
-            {
-                // used for select2 combobox filtering search result
-                stationeries = (from s in stationeries
-                                where s.description.ToLower().Contains(term) || s.itemCode.ToLower().Contains(term)
-                                select s).ToList();
-            }
-     
-            if (categoryID != "-1" && String.IsNullOrEmpty(term)) 
+            if (categoryID != "-1") 
             {
                 // only allow All if a specific category is chosen
                 options.Add(new JSONForCombobox("-1", "All"));
@@ -246,6 +237,16 @@ namespace Inventory_mvc.Controllers
                 option.text = String.Format("{0} ({1})", s.itemCode, s.description);
                 options.Add(option);
             }
+
+            if (!String.IsNullOrEmpty(term))
+            {
+                // used for select2 combobox filtering search result
+                options = (from o in options
+                           where o.text.ToString().ToLower().Contains(term) || o.id.ToString().ToLower().Contains(term)
+                           select o).ToList();
+            }
+
+
             return Json(options, JsonRequestBehavior.AllowGet);
         }
 
@@ -257,13 +258,6 @@ namespace Inventory_mvc.Controllers
             int baseYear = reportService.GetEarliestYear();
             List<int> years = reportService.GetSelectableYears(baseYear);
 
-            if (!String.IsNullOrEmpty(term))
-            {
-                // used for select2 combobox filtering search result
-                years = (from y in years
-                         where y.ToString().ToLower().Contains(term)
-                         select y).ToList();
-            }
 
             foreach (var y in years)
             {
@@ -272,6 +266,15 @@ namespace Inventory_mvc.Controllers
                 option.text = y.ToString();
                 options.Add(option);
             }
+
+            if (!String.IsNullOrEmpty(term))
+            {
+                // used for select2 combobox filtering search result
+                options = (from o in options
+                           where o.text.ToString().ToLower().Contains(term) || o.id.ToString().ToLower().Contains(term)
+                           select o).ToList();
+            }
+
 
             return Json(options, JsonRequestBehavior.AllowGet);
         }
@@ -284,17 +287,7 @@ namespace Inventory_mvc.Controllers
 
             List<int> selectableMonths = reportService.GetSelectableMonths(year);
 
-            if (!String.IsNullOrEmpty(term))
-            {
-                // used for select2 combobox filtering search result
-                selectableMonths = (from m in selectableMonths
-                                    where months[m - 1].ToString().ToLower().Contains(term)
-                                    select m).ToList();
-            }
-            else
-            {
-                options.Add(new JSONForCombobox("-1", "All"));
-            }
+            options.Add(new JSONForCombobox("-1", "All"));
 
 
             foreach (var m in selectableMonths)
@@ -303,6 +296,14 @@ namespace Inventory_mvc.Controllers
                 option.id = m.ToString();
                 option.text = months[m - 1];
                 options.Add(option);
+            }
+
+            if (!String.IsNullOrEmpty(term))
+            {
+                // used for select2 combobox filtering search result
+                options = (from o in options
+                           where o.text.ToString().ToLower().Contains(term) || o.id.ToString().ToLower() == term
+                           select o).ToList();
             }
 
             return Json(options, JsonRequestBehavior.AllowGet);
