@@ -85,8 +85,8 @@ namespace InventoryWCF
         [WebGet(UriTemplate = "/SaveTmpDisbursement/{itemCode}/{needQty}/{stationeryDescription}/{actualQty}/{deptCode}", ResponseFormat = WebMessageFormat.Json)]
         bool SaveActualQty(string itemCode, string needQty, string stationeryDescription, string actualQty, string deptCode);
 
-        //[OperationContract]
-        //Boolean updateRequisitionDetails(int requisitionNo, string ItemCode, int allocateQty);
+        [OperationContract]
+        Boolean updateRequisitionDetails(int requisitionNo, string ItemCode, int allocateQty);
 
         //// TODO: Add your service operations here
 
