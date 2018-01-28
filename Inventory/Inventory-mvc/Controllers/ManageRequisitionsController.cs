@@ -385,117 +385,120 @@ namespace Inventory_mvc.Controllers
             var itemCode = Request.QueryString["key2"];
             var allocateQty = Convert.ToInt32(Request.QueryString["key3"]);
             var remarks1 = Request.QueryString["key4"];
-            using (StationeryModel model = new StationeryModel())
-            {
-                Stationery s = model.Stationeries.Where(x => x.itemCode == itemCode).First();
-                s.stockQty = s.stockQty - actualQty;
-                model.SaveChanges();
-            }
-            List<Requisition_Record> list = new List<Requisition_Record>();
-            var a = Session["deptCode"];
-
-            if (Session["deptCode"] != null)
-            {
-                list = rs.GetRecordByItemCode(itemCode).Where(x => x.Department.departmentCode == Session["deptCode"].ToString() && (x.status == RequisitionStatus.APPROVED_PROCESSING || x.status == RequisitionStatus.PARTIALLY_FULFILLED)).ToList();
-            }
-            list.Sort();
-            for (int i = 0; actualQty > 0 && i < list.Count(); i++)
-            {
-                var b = list[i].Requisition_Detail.Where(x => x.itemCode == itemCode).First();
-                if (b.allocatedQty > 0)
-                {
-                    if (actualQty - b.allocatedQty >= 0)
-                    {
-                        actualQty = actualQty - (int)b.allocatedQty;
-                        rs.UpdateDetails(itemCode, list[i].requisitionNo, 0, b.allocatedQty + b.fulfilledQty);
-                    }
-                    else
-                    {
-                        rs.UpdateDetails(itemCode, list[i].requisitionNo, 0, actualQty + b.fulfilledQty);
-                        actualQty = 0;
-                    }
-                }
-            }
-
-            for (int i = 0; i < list.Count(); i++)
-            {
-                int status = 1;//Collected
-                int sum = 0;
-                StationeryModel entity = new StationeryModel();
-
-                var NO = list[i].requisitionNo;
-                var detailslist = entity.Requisition_Detail.Where(x => x.requisitionNo == NO).ToList();
-                foreach (var l in detailslist)
-                {
-                    sum = sum + (int)l.fulfilledQty;
-                    if (l.fulfilledQty == l.qty)
-                    {
 
 
-                    }
-                    else
-                    {
-                        status = 2;//partially fulfilled
-                    }
-                }
-                if (status == 2)
-                {
-                    if (sum == 0)
-                    {
-                        status = 3;
-                    }
-                }
-                rs.updatestatus(list[i].requisitionNo, status);
-            }
-            var number = (int)HttpContext.Application["NumberOfDisbursement"];
 
-            if (number == (int)HttpContext.Application["NumberOfDisbursement2"])
-            {
-                using (StationeryModel model = new StationeryModel())
-                {
-                    Adjustment_Voucher_Record adjustment = new Adjustment_Voucher_Record();
-                    adjustment.voucherID = model.Adjustment_Voucher_Records.ToList().Count() + 1;
-                    adjustment.issueDate = DateTime.Now;
-                    adjustment.status = AdjustmentVoucherStatus.PENDING;
-                    adjustment.remarks = "NA";
-                    adjustment.handlingStaffID = HttpContext.User.Identity.Name;
-                    model.Adjustment_Voucher_Records.Add(adjustment);
+            //using (StationeryModel model = new StationeryModel())
+            //{
+            //    Stationery s = model.Stationeries.Where(x => x.itemCode == itemCode).First();
+            //    s.stockQty = s.stockQty - actualQty;
+            //    model.SaveChanges();
+            //}
+            //List<Requisition_Record> list = new List<Requisition_Record>();
+            //var a = Session["deptCode"];
 
-                    Transaction_Record tr = new Transaction_Record();
-                    tr.clerkID = HttpContext.User.Identity.Name;
-                    tr.date = DateTime.Now;
-                    tr.type = TransactionTypes.DISBURSEMENT;
-                    model.Transaction_Records.Add(tr);
-                    model.SaveChanges();
-                }
+            //if (Session["deptCode"] != null)
+            //{
+            //    list = rs.GetRecordByItemCode(itemCode).Where(x => x.Department.departmentCode == Session["deptCode"].ToString() && (x.status == RequisitionStatus.APPROVED_PROCESSING || x.status == RequisitionStatus.PARTIALLY_FULFILLED)).ToList();
+            //}
+            //list.Sort();
+            //for (int i = 0; actualQty > 0 && i < list.Count(); i++)
+            //{
+            //    var b = list[i].Requisition_Detail.Where(x => x.itemCode == itemCode).First();
+            //    if (b.allocatedQty > 0)
+            //    {
+            //        if (actualQty - b.allocatedQty >= 0)
+            //        {
+            //            actualQty = actualQty - (int)b.allocatedQty;
+            //            rs.UpdateDetails(itemCode, list[i].requisitionNo, 0, b.allocatedQty + b.fulfilledQty);
+            //        }
+            //        else
+            //        {
+            //            rs.UpdateDetails(itemCode, list[i].requisitionNo, 0, actualQty + b.fulfilledQty);
+            //            actualQty = 0;
+            //        }
+            //    }
+            //}
 
-            }
-            using (StationeryModel model = new StationeryModel())
-            {
-                if (remarks1 != null)
-                {
-                    var no = model.Transaction_Records.ToList().Count() - 1;
-                    var no2 = model.Adjustment_Voucher_Records.ToList().Count() - 1;
-                    Voucher_Detail voucher = new Voucher_Detail();
-                    voucher.voucherID = model.Adjustment_Voucher_Records.ToList()[no2].voucherID;
-                    voucher.itemCode = itemCode;
-                    voucher.adjustedQty = allocateQty - actualQtytemp;
-                    voucher.remarks = remarks1;
-                    model.Voucher_Details.Add(voucher);
-                    Transaction_Detail detail = new Transaction_Detail();
-                    detail.transactionNo = model.Transaction_Records.ToList()[no].transactionNo;
-                    detail.itemCode = itemCode;
-                    detail.adjustedQty = actualQtytemp;
-                    detail.balanceQty = model.Stationeries.Where(x => x.itemCode == itemCode).First().stockQty;
-                    detail.remarks = "";
-                    model.Transaction_Details.Add(detail);
-                    model.SaveChanges();
-                }
-            }
+            //for (int i = 0; i < list.Count(); i++)
+            //{
+            //    int status = 1;//Collected
+            //    int sum = 0;
+            //    StationeryModel entity = new StationeryModel();
 
-            number--;
+            //    var NO = list[i].requisitionNo;
+            //    var detailslist = entity.Requisition_Detail.Where(x => x.requisitionNo == NO).ToList();
+            //    foreach (var l in detailslist)
+            //    {
+            //        sum = sum + (int)l.fulfilledQty;
+            //        if (l.fulfilledQty == l.qty)
+            //        {
 
-            HttpContext.Application["NumberOfDisbursement"] = number;
+
+            //        }
+            //        else
+            //        {
+            //            status = 2;//partially fulfilled
+            //        }
+            //    }
+            //    if (status == 2)
+            //    {
+            //        if (sum == 0)
+            //        {
+            //            status = 3;
+            //        }
+            //    }
+            //    rs.updatestatus(list[i].requisitionNo, status);
+            //}
+            //var number = (int)HttpContext.Application["NumberOfDisbursement"];
+
+            //if (number == (int)HttpContext.Application["NumberOfDisbursement2"])
+            //{
+            //    using (StationeryModel model = new StationeryModel())
+            //    {
+            //        Adjustment_Voucher_Record adjustment = new Adjustment_Voucher_Record();
+            //        adjustment.voucherID = model.Adjustment_Voucher_Records.ToList().Count() + 1;
+            //        adjustment.issueDate = DateTime.Now;
+            //        adjustment.status = AdjustmentVoucherStatus.PENDING;
+            //        adjustment.remarks = "NA";
+            //        adjustment.handlingStaffID = HttpContext.User.Identity.Name;
+            //        model.Adjustment_Voucher_Records.Add(adjustment);
+
+            //        Transaction_Record tr = new Transaction_Record();
+            //        tr.clerkID = HttpContext.User.Identity.Name;
+            //        tr.date = DateTime.Now;
+            //        tr.type = TransactionTypes.DISBURSEMENT;
+            //        model.Transaction_Records.Add(tr);
+            //        model.SaveChanges();
+            //    }
+
+            //}
+            //using (StationeryModel model = new StationeryModel())
+            //{
+            //    if (remarks1 != null)
+            //    {
+            //        var no = model.Transaction_Records.ToList().Count() - 1;
+            //        var no2 = model.Adjustment_Voucher_Records.ToList().Count() - 1;
+            //        Voucher_Detail voucher = new Voucher_Detail();
+            //        voucher.voucherID = model.Adjustment_Voucher_Records.ToList()[no2].voucherID;
+            //        voucher.itemCode = itemCode;
+            //        voucher.adjustedQty = allocateQty - actualQtytemp;
+            //        voucher.remarks = remarks1;
+            //        model.Voucher_Details.Add(voucher);
+            //        Transaction_Detail detail = new Transaction_Detail();
+            //        detail.transactionNo = model.Transaction_Records.ToList()[no].transactionNo;
+            //        detail.itemCode = itemCode;
+            //        detail.adjustedQty = actualQtytemp;
+            //        detail.balanceQty = model.Stationeries.Where(x => x.itemCode == itemCode).First().stockQty;
+            //        detail.remarks = "";
+            //        model.Transaction_Details.Add(detail);
+            //        model.SaveChanges();
+            //    }
+            //}
+
+            //number--;
+
+            //HttpContext.Application["NumberOfDisbursement"] = number;
             HttpContext.Application["retrieveform"] = null;
             return RedirectToAction("DisbursementList");
         }

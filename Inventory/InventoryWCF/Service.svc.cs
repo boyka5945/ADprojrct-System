@@ -267,10 +267,10 @@ namespace InventoryWCF
             List<Requisition_Detail> reqDetail = requisitionRecordService.GetDetailsByNo(no);
             return WCFModelConvertUtility.ConvertToWCFRequestionDetails(reqDetail);
         }
-        //public Boolean updateRequisitionDetails(int requisitionNo, string ItemCode, int allocateQty)
-        //{
-        //    return BusinessLogic.updateRequisitionDetails(requisitionNo, ItemCode, allocateQty);
-        //}
+        public Boolean updateRequisitionDetails(int requisitionNo, string ItemCode, int allocateQty)
+        {
+            return BusinessLogic.updateRequisitionDetails(requisitionNo, ItemCode, allocateQty);
+        }
 
         public List<WCFRetrievalForm> getRetrievalList()
         {
@@ -301,6 +301,25 @@ namespace InventoryWCF
 
             return WCFModelConvertUtility.ConvertToWCFRetrievalList(list);
             
+        }
+
+        public WCFRetrievalForm GetRetrievalForm(string itemCode)
+        {
+            List<RetrieveForm> list = new List<RetrieveForm>();
+
+            if (HttpContext.Current.Application["retrieveList"] != null)
+            {
+                list = (List<RetrieveForm>)HttpContext.Current.Application["retrieveList"];
+            }
+            else
+            {
+                //can be assumed no items have been retrieved yet since there is no retrieval list generated
+            }
+
+            WCFRetrievalForm item = WCFModelConvertUtility.ConvertToWCFRetrieval(list.Where(x => x.ItemCode == itemCode).First());
+
+            return item;
+
         }
 
         public bool UpdateRetrieval(WCFRetrievalForm wcfr)
@@ -351,17 +370,38 @@ namespace InventoryWCF
             }
 
             return allocationList;
+        }
 
-
-
-
+        public void UpdateReqDetail(string NO, string itemCode, string quantity)
+        {
+            int requisitionNo = Convert.ToInt32(NO);
+            int qty = Convert.ToInt32(quantity);
+            using (StationeryModel entity = new StationeryModel())
+            {
+                entity.Requisition_Detail.Where(x => x.itemCode == itemCode && x.requisitionNo == requisitionNo).First().qty = (int)qty;
+                entity.SaveChanges();
+            }
+            //Requisition_Detail requisitionDetail = new Requisition_Detail
+            //{
+            //    requisitionNo = reqDetail.RequisitionNo,
+            //    itemCode = reqDetail.ItemCode,
+            //    remarks = reqDetail.Remarks,
+            //    qty = reqDetail.Qty,
+            //    fulfilledQty = reqDetail.FulfilledQty,
+            //    clerkID = reqDetail.ClerkID,
+            //    retrievedDate = reqDetail.RetrievedDate,
+            //    allocatedQty = reqDetail.AllocateQty,
+            //    nextCollectionDate = reqDetail.NextCollectionDate
+            //};
+            //WCFModelConvertUtility.ConvertToWCFRequestionDetails(UpdateReqDetail(requisitionDetail));
+            //requisitionRecordService.up UpdateReqDetail(WCFModelConvertUtility.ConvertToWCFRequestionDetails(requisitionDetail);
         }
 
         public List<WCFDisbursement> GetPendingItemsToBeProcessedByDepartmentByItems(string deptCode)
         {
 
             List<Disbursement> pendingItemsByItem = requisitionRecordService.GetPendingDisbursementByDept(deptCode);
-            return WCFModelConvertUtility.ConvertToWCFDisbursement(pendingItemsByItem,"");
+            return WCFModelConvertUtility.ConvertToWCFDisbursement(pendingItemsByItem,deptCode);
         }
 
 
@@ -431,15 +471,16 @@ namespace InventoryWCF
             return (List<WCFDisbursement>)HttpContext.Current.Application["tempDisbursement"];
         }
 
-        public void UpdateStationery(WCFStationery w)
+        public void UpdateDisbursement(string itemCode, string needQty, string actualQty, string DepartmentCode, string count, string staffID)
         {
-            using (StationeryModel entity = new StationeryModel())
-            {
-                 entity.Stationeries.Where(x => x.itemCode == w.ItemCode).First().stockQty -= w.ActualQty;
-                    
-                 entity.SaveChanges();
-            }
-            
+            requisitionRecordService.UpdateDisbursement(itemCode, Convert.ToInt32(actualQty), DepartmentCode, Convert.ToInt32(needQty), Convert.ToInt32(count), staffID);
+        }
+
+        public void UpdateRequisitionDetail(WCFRequisitionDetail reqDetail)
+        {
+
+            requisitionRecordService.UpdateDetails(reqDetail.ItemCode, reqDetail.RequisitionNo, reqDetail.AllocateQty);
+
         }
 
         //public List<WCFDisbursement> GetCodeFromName(string name)
