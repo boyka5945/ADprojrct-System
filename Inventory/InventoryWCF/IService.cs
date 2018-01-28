@@ -129,7 +129,7 @@ namespace InventoryWCF
 
         [OperationContract]
         [WebGet(UriTemplate = "/UpdateDisbursement/{itemCode}/{needQty}/{actualQty}/{DepartmentCode}", ResponseFormat = WebMessageFormat.Json)]
-        void UpdateDisbursement(string itemCode, int needQty, int actualQty, string DepartmentCode);
+        void UpdateDisbursement(string itemCode, string needQty, string actualQty, string DepartmentCode);
 
 
 
