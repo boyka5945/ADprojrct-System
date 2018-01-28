@@ -127,6 +127,18 @@ namespace InventoryWCF
         [WebGet(UriTemplate = "/GetPendingItemsByItem/{deptCode}", ResponseFormat = WebMessageFormat.Json)]
         List<WCFDisbursement> GetPendingItemsToBeProcessedByDepartmentByItems(string deptCode);
 
+        [OperationContract]
+        [WebGet(UriTemplate = "/UpdateDisbursement/{itemCode}/{needQty}/{actualQty}/{DepartmentCode}", ResponseFormat = WebMessageFormat.Json)]
+        void UpdateDisbursement(string itemCode, string needQty, string actualQty, string DepartmentCode);
+
+
+
+        //[OperationContract]
+        //[WebInvoke(UriTemplate = "/UpdateRequisitionDetail", Method = "POST",
+        //    RequestFormat = WebMessageFormat.Json,
+        //    ResponseFormat = WebMessageFormat.Json)]
+        //void Update(WCFRequisitionDetail reqDetail);
+
         //[OperationContract]
         //[WebGet(UriTemplate = "/GetCodeFromName/{name}", ResponseFormat = WebMessageFormat.Json)]
         //List<WCFDisbursement> GetCodeFromName(string name);
@@ -181,7 +193,7 @@ namespace InventoryWCF
             get { return needQty; }
             set { needQty = value; }
         }
-
+        [DataMember]
         public string DeptCode
         {
             get { return deptCode;}
@@ -242,6 +254,7 @@ namespace InventoryWCF
         string uom;
         string categoryName;
         string location;
+        int actualQty;
 
         [DataMember]
         public string ItemCode
@@ -278,6 +291,14 @@ namespace InventoryWCF
             get { return location; }
             set { location = value; }
         }
+
+        [DataMember]
+        public int ActualQty
+        {
+            get { return actualQty; }
+            set { actualQty = value; }
+        }
+
     }
 
     [DataContract]
@@ -421,6 +442,8 @@ namespace InventoryWCF
         DateTime? retrievedDate;
         int allocateQty;
         DateTime? nextCollectionDate;
+    string status;
+
 
         [DataMember]
         public int RequisitionNo
@@ -499,7 +522,14 @@ namespace InventoryWCF
             get { return nextCollectionDate; }
             set { nextCollectionDate = value; }
         }
+
+    [DataMember]
+    public string Status
+    {
+        get { return status; }
+        set { status = value; }
     }
+}
 
     [DataContract]
     public class WCFCategory

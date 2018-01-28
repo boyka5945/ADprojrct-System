@@ -4,21 +4,54 @@ using System.Linq;
 using System.Web;
 using Inventory_mvc.Models;
 using Inventory_mvc.ViewModel;
+using Inventory_mvc.Utilities;
 using System.Data.Entity;
 
 namespace Inventory_mvc.DAO
 {
     public class ReportDAO : IReportDAO
     {
+        public List<Requisition_Detail> GetApprovedRequisitionDetailsByItemCodeAndYear(string itemCode, int[] years)
+        {
+            using (StationeryModel context = new StationeryModel())
+            {
+                string[] status = { RequisitionStatus.PENDING_APPROVAL, RequisitionStatus.REJECTED };
+
+                var details = (from d in context.Requisition_Detail
+                               where d.itemCode == itemCode
+                               select d);
+
+                details = (from d in details
+                           where years.Contains(d.Requisition_Record.requestDate.Value.Year)
+                           && !status.Contains(d.Requisition_Record.status)
+                           select d);
+
+                return details.Include(d => d.Requisition_Record).ToList();                                        
+            }
+        }
+
+        public List<Requisition_Detail> GetApprovedRequisitionDetailsOfYear(int year)
+        {
+            using (StationeryModel context = new StationeryModel())
+            {
+                string[] status = { RequisitionStatus.PENDING_APPROVAL, RequisitionStatus.REJECTED };
+
+                var details = (from d in context.Requisition_Detail
+                               where d.Requisition_Record.requestDate.Value.Year == year
+                               && !status.Contains(d.Requisition_Record.status)
+                               select d);
+
+                return details.Include(d => d.Requisition_Record).ToList();
+            }
+        }
+
         public List<Purchase_Detail> RetrieveQty(DateTime ds, DateTime de)
         {
             using (StationeryModel entity = new StationeryModel())
             {
-                // TODO - FIX DATE
                 DateTime dateStart = ds;
                 DateTime dateEnd = de;
-                //DateTime dateStart = DateTime.Parse("2018-01-24");
-                //DateTime dateEnd = DateTime.Parse("2018-01-25");
+                
                 var purchaseRecords = (from x in entity.Purchase_Order_Records
                                        where x.date >= dateStart && x.date <= dateEnd
                                        select x).Include(x => x.Purchase_Detail).ToList();

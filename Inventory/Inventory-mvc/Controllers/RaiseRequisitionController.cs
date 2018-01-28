@@ -221,12 +221,12 @@ namespace Inventory_mvc.Controllers
         
         public ActionResult GetStationeryListJSON(string term = null)
         {
-            List<StationeryJSONForCombobox> options = new List<StationeryJSONForCombobox>();
+            List<JSONForCombobox> options = new List<JSONForCombobox>();
 
             List<Stationery> stationeries = stationeryService.GetStationeriesBasedOnCriteria(term);
             foreach (var s in stationeries)
             {
-                StationeryJSONForCombobox option = new StationeryJSONForCombobox();
+                JSONForCombobox option = new JSONForCombobox();
                 option.id = s.itemCode;
                 option.text = String.Format("{0} ({1})", s.description, s.unitOfMeasure);
                 options.Add(option);

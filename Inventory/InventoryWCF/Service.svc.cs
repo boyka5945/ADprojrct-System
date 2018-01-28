@@ -351,17 +351,31 @@ namespace InventoryWCF
             }
 
             return allocationList;
+        }
 
-
-
-
+        public void UpdateReqDetail(WCFRequisitionDetail reqDetail)
+        {
+            Requisition_Detail requisitionDetail = new Requisition_Detail
+            {
+                requisitionNo = reqDetail.RequisitionNo,
+                itemCode = reqDetail.ItemCode,
+                remarks = reqDetail.Remarks,
+                qty = reqDetail.Qty,
+                fulfilledQty = reqDetail.FulfilledQty,
+                clerkID = reqDetail.ClerkID,
+                retrievedDate = reqDetail.RetrievedDate,
+                allocatedQty = reqDetail.AllocateQty,
+                nextCollectionDate = reqDetail.NextCollectionDate
+            };
+            //WCFModelConvertUtility.ConvertToWCFRequestionDetails(UpdateReqDetail(requisitionDetail));
+            //UpdateReqDetail(WCFModelConvertUtility.ConvertToWCFRequestionDetails(requisitionDetail);
         }
 
         public List<WCFDisbursement> GetPendingItemsToBeProcessedByDepartmentByItems(string deptCode)
         {
 
             List<Disbursement> pendingItemsByItem = requisitionRecordService.GetPendingDisbursementByDept(deptCode);
-            return WCFModelConvertUtility.ConvertToWCFDisbursement(pendingItemsByItem,"");
+            return WCFModelConvertUtility.ConvertToWCFDisbursement(pendingItemsByItem,deptCode);
         }
 
 
@@ -429,6 +443,11 @@ namespace InventoryWCF
         public List<WCFDisbursement> GetTMP()
         {
             return (List<WCFDisbursement>)HttpContext.Current.Application["tempDisbursement"];
+        }
+
+        public void UpdateDisbursement(string itemCode, string needQty, string actualQty, string DepartmentCode)
+        {
+            requisitionRecordService.UpdateDisbursement(itemCode, Convert.ToInt32(actualQty), DepartmentCode, Convert.ToInt32(needQty));
         }
 
         //public List<WCFDisbursement> GetCodeFromName(string name)
