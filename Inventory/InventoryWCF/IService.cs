@@ -127,6 +127,13 @@ namespace InventoryWCF
         [WebGet(UriTemplate = "/GetPendingItemsByItem/{deptCode}", ResponseFormat = WebMessageFormat.Json)]
         List<WCFDisbursement> GetPendingItemsToBeProcessedByDepartmentByItems(string deptCode);
 
+        [OperationContract]
+        [WebInvoke(Method = "POST",
+            UriTemplate = "/UpdateStationery",
+            RequestFormat = WebMessageFormat.Json,
+            ResponseFormat = WebMessageFormat.Json)]
+        void UpdateStationery(WCFStationery w);
+
         //[OperationContract]
         //[WebGet(UriTemplate = "/GetCodeFromName/{name}", ResponseFormat = WebMessageFormat.Json)]
         //List<WCFDisbursement> GetCodeFromName(string name);
@@ -181,7 +188,7 @@ namespace InventoryWCF
             get { return needQty; }
             set { needQty = value; }
         }
-
+        [DataMember]
         public string DeptCode
         {
             get { return deptCode;}
@@ -242,6 +249,7 @@ namespace InventoryWCF
         string uom;
         string categoryName;
         string location;
+        int actualQty;
 
         [DataMember]
         public string ItemCode
@@ -278,6 +286,14 @@ namespace InventoryWCF
             get { return location; }
             set { location = value; }
         }
+
+        [DataMember]
+        public int ActualQty
+        {
+            get { return actualQty; }
+            set { actualQty = value; }
+        }
+
     }
 
     [DataContract]
