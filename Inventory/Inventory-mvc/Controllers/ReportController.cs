@@ -18,152 +18,73 @@ namespace Inventory_mvc.Controllers
 
         private string[] months = new string[]{ "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" };
 
+
+        public ActionResult Index()
+        {
+            return View();
+        }
+
+
         // GET: Report
         public ActionResult Report()
-        {
-            //DateTime todayDate = DateTime.Now.Date;
-            //List<ReportViewModel> vmList = reportService.RetrieveQty(todayDate,todayDate);
-            //List<ReportViewModel> result = new List<ReportViewModel>();
-            //foreach (var vm in vmList)
-            //{
-            //    ReportViewModel i = new ReportViewModel();
-            //    i.CategoryName = vm.CategoryName;
-            //    i.RequestQuantity = vm.RequestQuantity;
-
-            //    bool contain = false;
-
-            //    foreach (var j in result)
-            //    {
-            //        if (i.CategoryName == j.CategoryName)
-            //        {
-            //            j.RequestQuantity += i.RequestQuantity;
-            //            contain = true;
-            //            break;
-            //        }
-            //    }
-
-            //    if (!contain)
-            //    {
-            //        result.Add(i);
-            //    }
-            //}
-
-            //List<Category> categoryList = stationeryService.GetAllCategory();
-            //List<string> categoryArray = new List<string>();
-            //List<int> quantity = new List<int>();
-
-
-
-            //foreach (var c in categoryList)
-            //{
-            //    categoryArray.Add(c.categoryName);
-            //}
-
-            //for (int i = 0; i < categoryArray.Count; i++)
-            //{
-            //    quantity.Add(0);
-            //}
-
-            //foreach (var item in result)
-            //{
-            //   for(int i = 0; i < categoryArray.Count; i++)
-            //    {
-            //        if(categoryArray[i] == item.CategoryName)
-            //        {
-            //            quantity[i] += item.RequestQuantity;
-            //        }
-            //    }
-            //}
-
-           
-
-            //var cat = categoryArray.ToArray();
-            //var qty = quantity.ToArray();
-
-          
-            //ViewBag.X = cat;
-            //ViewBag.Y = qty;
-           
-
+        {           
             return View();
         }
 
         [HttpPost]
         public ActionResult Report(DateTime from, DateTime toto)
         {
-
-            //List<ReportViewModel> vmList = reportService.RetrieveQty(from,toto);
-            //List<ReportViewModel> result = new List<ReportViewModel>();
-            //foreach (var vm in vmList)
-            //{
-            //    ReportViewModel i = new ReportViewModel();
-            //    i.CategoryName = vm.CategoryName;
-            //    i.RequestQuantity = vm.RequestQuantity;
-
-            //    bool contain = false;
-
-            //    foreach (var j in result)
-            //    {
-            //        if (i.CategoryName == j.CategoryName)
-            //        {
-            //            j.RequestQuantity += i.RequestQuantity;
-            //            contain = true;
-            //            break;
-            //        }
-            //    }
-
-            //    if (!contain)
-            //    {
-            //        result.Add(i);
-            //    }
-            //}
-
-            //List<Category> categoryList = stationeryService.GetAllCategory();
-            //List<string> categoryArray = new List<string>();
-            //List<int> quantity = new List<int>();
-
-
-
-            //foreach (var c in categoryList)
-            //{
-            //    categoryArray.Add(c.categoryName);
-            //}
-
-            //for (int i = 0; i < categoryArray.Count; i++)
-            //{
-            //    quantity.Add(0);
-            //}
-
-            //foreach (var item in result)
-            //{
-            //    for (int i = 0; i < categoryArray.Count; i++)
-            //    {
-            //        if (categoryArray[i] == item.CategoryName)
-            //        {
-            //            quantity[i] += item.RequestQuantity;
-            //        }
-            //    }
-            //}
-
-
-
-            //var cat = categoryArray.ToArray();
-            //var qty = quantity.ToArray();
-
-
-            //ViewBag.X = cat;
-            //ViewBag.Y = qty;
-
-
             return View();
         }
+
+        [HttpGet]
+        public ActionResult RequisitionCumulativeChart()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult GetRequisitionCumulativeBar(int year)
+        {
+            ViewBag.Year = year.ToString();
+
+            List<ReportViewModel> vmList = reportService.GetApprovedRequisitionsOfYear(year);
+
+            var results = (from vm in vmList
+                           group vm by new { vm.Year, vm.Month } into g
+                           select new { Year = g.Key.Year, Month = g.Key.Month, Sum = g.Sum(v => v.RequestQuantity) });
+
+            ViewBag.XLabels = months;
+
+            // Get data for bar chart
+            ViewBag.YBarLabel = "Monthly";
+            int[] monthlyQuantity = new int[12];
+            foreach (var r in results)
+            {
+                monthlyQuantity[r.Month - 1] = r.Sum;
+            }
+            ViewBag.YBarData = monthlyQuantity;
+
+            // Get data for line
+            ViewBag.YLineLabel = "Cumulative";
+            int[] cumulative = new int[12];
+            int cumulativeQuantity = 0;
+            for (int i = 0; i < monthlyQuantity.Length; i++)
+            {
+                cumulativeQuantity += monthlyQuantity[i];
+                cumulative[i] = cumulativeQuantity;
+            }
+            ViewBag.YLineData = cumulative;
+
+            return PartialView("_RequisitionCumulativeBar");
+        }
+
 
 
 
         [HttpGet]
         public ActionResult ItemRequestTrend()
         {
-            ViewBag.ItemCode = "";
             return View();
         }
 
@@ -171,7 +92,6 @@ namespace Inventory_mvc.Controllers
         [HttpPost]
         public ActionResult ItemRequestTrend(string itemCode, int[] years)
         {
-           
             if(itemCode != null & years.Length != 0 )
             {
                 years = years.OrderBy(x => x.ToString()).ToArray();
@@ -253,10 +173,10 @@ namespace Inventory_mvc.Controllers
 
 
         // TODO - REMOVE THIS METHOD 
-        public ActionResult GenerateRandomDataForRequisitionRecords()
-        {
-            reportService.GenerateRandomDataForRequisitionRecords();
-            return RedirectToAction("Login", "Home");
-        }
+        //public ActionResult GenerateRandomDataForRequisitionRecords()
+        //{
+        //    reportService.GenerateRandomDataForRequisitionRecords();
+        //    return RedirectToAction("Login", "Home");
+        //}
     }
 }

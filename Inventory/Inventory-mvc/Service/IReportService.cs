@@ -15,7 +15,11 @@ namespace Inventory_mvc.Service
 
         List<ReportViewModel> GetItemRequestTrend(string itemCode, int[] years);
 
+        List<ReportViewModel> GetApprovedRequisitionsOfYear(int year);
+
+
         List<int> GetSelectableYears(int baseYear);
+
 
         // TODO - REMOVE THIS METHOD
         void GenerateRandomDataForRequisitionRecords();

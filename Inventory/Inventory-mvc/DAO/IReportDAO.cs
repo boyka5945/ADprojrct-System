@@ -12,6 +12,8 @@ namespace Inventory_mvc.DAO
     {
         List<Purchase_Detail> RetrieveQty(DateTime ds, DateTime de);
 
-        List<Requisition_Detail> GetRequisitionDetailsByItemCodeAndYear(string itemCode, int[] years);
+        List<Requisition_Detail> GetApprovedRequisitionDetailsByItemCodeAndYear(string itemCode, int[] years);
+        List<Requisition_Detail> GetApprovedRequisitionDetailsOfYear(int year);
+
     }
 }

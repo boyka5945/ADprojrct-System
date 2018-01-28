@@ -19,7 +19,7 @@ namespace Inventory_mvc.Service
 
         public List<ReportViewModel> GetItemRequestTrend(string itemCode, int[] years)
         {
-            List<Requisition_Detail> details = reportDAO.GetRequisitionDetailsByItemCodeAndYear(itemCode, years);
+            List<Requisition_Detail> details = reportDAO.GetApprovedRequisitionDetailsByItemCodeAndYear(itemCode, years);
 
             List<ReportViewModel> vmList = new List<ReportViewModel>();
 
@@ -37,32 +37,19 @@ namespace Inventory_mvc.Service
             return vmList;
         }
 
-
-        //public List<ReportViewModel> RetrieveQty(DateTime ds,DateTime de)
-        //{
-        //    List<Purchase_Detail> details = reportDAO.RetrieveQty(ds,de);
-
-        //    List<ReportViewModel> vmList = new List<ReportViewModel>();
-        //    foreach (var d in details)
-        //    {
-        //        Stationery s = stationeryService.FindStationeryByItemCode(d.itemCode);
-
-        //        ReportViewModel vm = new ReportViewModel();             
-        //        vm.ItemCode = d.itemCode;
-        //        vm.RequestQuantity = d.qty;
-        //        vm.CategoryName = s.Category.categoryName;
-
-        //        vmList.Add(vm);
-        //    }
-        //    return vmList;
-        //}
+        public List<ReportViewModel> GetApprovedRequisitionsOfYear(int year)
+        {
+            List<Requisition_Detail> details = reportDAO.GetApprovedRequisitionDetailsOfYear(year);
+            List<ReportViewModel> vmList = new List<ReportViewModel>();
+            vmList.AddRange(ConvertToReportViewModel(details));
+            return vmList;
+        }
 
 
         private ReportViewModel ConvertToReportViewModel(Requisition_Detail detail)
         {
             Stationery stationery = stationeryService.FindStationeryByItemCode(detail.itemCode);
             Requisition_Record record = detail.Requisition_Record;
-            //Requisition_Record record = requisitionService.GetRequisitionByID(detail.requisitionNo);
             
             ReportViewModel vm = new ReportViewModel();
             vm.CategoryName = stationery.Category.categoryName;
@@ -78,6 +65,21 @@ namespace Inventory_mvc.Service
             return vm;
         }
 
+
+        private List<ReportViewModel> ConvertToReportViewModel(List<Requisition_Detail> details)
+        {
+            List<ReportViewModel> vmList = new List<ReportViewModel>();
+            foreach(var d in details)
+            {
+                vmList.Add(ConvertToReportViewModel(d));
+            }
+
+            return vmList;
+        }
+
+
+
+        // TODO - REMOVE THIS METHOD
         public void GenerateRandomDataForRequisitionRecords()
         {
             List<User> users = new List<User>();
@@ -162,5 +164,6 @@ namespace Inventory_mvc.Service
 
             return years;
         }
+
     }
 }

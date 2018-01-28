@@ -4,25 +4,44 @@ using System.Linq;
 using System.Web;
 using Inventory_mvc.Models;
 using Inventory_mvc.ViewModel;
+using Inventory_mvc.Utilities;
 using System.Data.Entity;
 
 namespace Inventory_mvc.DAO
 {
     public class ReportDAO : IReportDAO
     {
-        public List<Requisition_Detail> GetRequisitionDetailsByItemCodeAndYear(string itemCode, int[] years)
+        public List<Requisition_Detail> GetApprovedRequisitionDetailsByItemCodeAndYear(string itemCode, int[] years)
         {
             using (StationeryModel context = new StationeryModel())
             {
+                string[] status = { RequisitionStatus.PENDING_APPROVAL, RequisitionStatus.REJECTED };
+
                 var details = (from d in context.Requisition_Detail
                                where d.itemCode == itemCode
                                select d);
 
                 details = (from d in details
                            where years.Contains(d.Requisition_Record.requestDate.Value.Year)
+                           && !status.Contains(d.Requisition_Record.status)
                            select d);
 
                 return details.Include(d => d.Requisition_Record).ToList();                                        
+            }
+        }
+
+        public List<Requisition_Detail> GetApprovedRequisitionDetailsOfYear(int year)
+        {
+            using (StationeryModel context = new StationeryModel())
+            {
+                string[] status = { RequisitionStatus.PENDING_APPROVAL, RequisitionStatus.REJECTED };
+
+                var details = (from d in context.Requisition_Detail
+                               where d.Requisition_Record.requestDate.Value.Year == year
+                               && !status.Contains(d.Requisition_Record.status)
+                               select d);
+
+                return details.Include(d => d.Requisition_Record).ToList();
             }
         }
 
