@@ -22,7 +22,7 @@ namespace Inventory_mvc.DAO
                            where years.Contains(d.Requisition_Record.requestDate.Value.Year)
                            select d);
 
-                return details.ToList();                                        
+                return details.Include(d => d.Requisition_Record).ToList();                                        
             }
         }
 

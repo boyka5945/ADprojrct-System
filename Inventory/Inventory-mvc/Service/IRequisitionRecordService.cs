@@ -64,7 +64,7 @@ namespace Inventory_mvc.Service
         bool IsUserValidToSubmitRequisition(string requesterID);
 
         // TODO - REMOVE THIS METHOD
-        bool SubmitNewRequisition(Requisition_Record requisition, string requesterID, DateTime date);
+        bool GenerateRandomRequisition(Requisition_Record requisition, string requesterID, DateTime date);
 
     }
 }

@@ -6,6 +6,7 @@ using Inventory_mvc.DAO;
 using System.Web.Mvc;
 using Inventory_mvc.Models;
 using Inventory_mvc.ViewModel;
+using Inventory_mvc.Utilities;
 
 namespace Inventory_mvc.Service
 {
@@ -24,6 +25,12 @@ namespace Inventory_mvc.Service
 
             foreach (var d in details)
             {
+                // Get only approved and processed record
+                string status = d.Requisition_Record.status;
+                if(status == RequisitionStatus.PENDING_APPROVAL || status == RequisitionStatus.REJECTED)
+                {
+                    continue; // skip
+                }
                 vmList.Add(ConvertToReportViewModel(d));
             }
 
@@ -54,7 +61,8 @@ namespace Inventory_mvc.Service
         private ReportViewModel ConvertToReportViewModel(Requisition_Detail detail)
         {
             Stationery stationery = stationeryService.FindStationeryByItemCode(detail.itemCode);
-            Requisition_Record record = requisitionService.GetRequisitionByID(detail.requisitionNo);
+            Requisition_Record record = detail.Requisition_Record;
+            //Requisition_Record record = requisitionService.GetRequisitionByID(detail.requisitionNo);
             
             ReportViewModel vm = new ReportViewModel();
             vm.CategoryName = stationery.Category.categoryName;
@@ -65,6 +73,7 @@ namespace Inventory_mvc.Service
             vm.RequestQuantity = (detail.qty == null) ? 0 : (int)detail.qty;
             vm.RequesterDepartment = userService.FindDeptCodeByID(record.requesterID);
             vm.Year = record.requestDate.Value.Year;
+            vm.Status = record.status;
 
             return vm;
         }
@@ -80,15 +89,22 @@ namespace Inventory_mvc.Service
             List<string> items = stationeryService.GetListOfItemCodes();
             Random stationeryR = new Random(888);
 
+            string[] status = { RequisitionStatus.PENDING_APPROVAL, RequisitionStatus.APPROVED_PROCESSING, RequisitionStatus.REJECTED, RequisitionStatus.PARTIALLY_FULFILLED, RequisitionStatus.COLLECTED };
+            Random statusR = new Random(75);
+
             Random detailR = new Random(16);
             Random quantityR = new Random(115);
-            Random monthlyR = new Random(369);
+            Random dailyR = new Random(369);
+
+            Random dayR = new Random(4568);
 
             var startTime = DateTime.Parse("2017-01-01");
             var endTime = startTime.AddYears(1);
+            endTime = endTime.AddMonths(1);
+
             while (startTime <= endTime)
             {
-                int no_of_record = monthlyR.Next(180, 250);
+                int no_of_record = dailyR.Next(8, 15);
 
                 for(int i = 0; i <= no_of_record; i++)
                 {
@@ -96,6 +112,7 @@ namespace Inventory_mvc.Service
                     string requesterID = users.ElementAt(index).userID;
 
                     Requisition_Record record = new Requisition_Record();
+                    record.status = status[statusR.Next(status.Length)];
                     record.Requisition_Detail = new List<Requisition_Detail>();
 
                     int number_of_detail = detailR.Next(1, 11);
@@ -126,9 +143,10 @@ namespace Inventory_mvc.Service
 
                     }
 
-                    requisitionService.SubmitNewRequisition(record, requesterID, startTime);
+                    requisitionService.GenerateRandomRequisition(record, requesterID, startTime);
                 }
-                startTime = startTime.AddMonths(1);
+                int day = dayR.Next(1, 4);
+                startTime = startTime.AddDays(day);
             }
         }
 
