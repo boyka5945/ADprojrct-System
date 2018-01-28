@@ -188,7 +188,7 @@ namespace InventoryWCF
             get { return needQty; }
             set { needQty = value; }
         }
-
+        [DataMember]
         public string DeptCode
         {
             get { return deptCode;}
@@ -556,7 +556,7 @@ namespace InventoryWCF
         {
             get; set;
         }
-    }
+    
 }
 
 

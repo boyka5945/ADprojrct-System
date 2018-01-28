@@ -239,6 +239,8 @@ namespace InventoryWCF
             return WCFModelConvertUtility.ConvertToWCFRequisitionRecord(reqByDept);
         }
 
+        
+
         public bool AddNewRequest(string requesterID, WCFRequisitionDetail[] newRequisition)
         {
             Requisition_Record newRecord = new Requisition_Record();
