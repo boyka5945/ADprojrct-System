@@ -7,7 +7,6 @@
 
 @{
     ViewBag.Title = "ItemRequestTrend";
-    //string item = (string) ViewBag.ItemCode; 
 }
 
 <h2>Stationery Requisition Trend</h2>
@@ -39,7 +38,9 @@
 
 <br />
 
-
+<div id="progressBar" class="hidden">
+    Generating chart <progress id="p"></progress>
+</div>
 <div class="container" id="chartContainer"></div>
    
     
@@ -52,8 +53,12 @@
             url: '@Url.Action("ItemRequestTrend", "Report")',
             data: $('#trendForm').serialize(),
             type: 'POST',
+            //beforeSend: function(){
+                //$('#progressBar').removeClass('hidden'); 
+            //},
             success: function (data) {
-                $("#chartContainer").html(data)
+                $("#chartContainer").html(data);
+                //$('#progressBar').addClass('hidden');
             },
             error: function () {
                 alert("Opps. Some error occurs. Please try again.");
