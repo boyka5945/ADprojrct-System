@@ -311,8 +311,12 @@ namespace Inventory_mvc.DAO
             for (int i = 0; i < itemCodes.Count; i++)
             {
                 Disbursement disbursement = new Disbursement();
-                disbursement.itemDescription = itemCodes[i];
+                disbursement.itemCode = itemCodes[i];
+                var A = itemCodes[i];
+                disbursement.itemDescription = entity.Stationeries.Where(x => x.itemCode == A).First().description;
                 disbursement.quantity = Qty[i];
+                
+                disbursement.departmentCode = deptCode;
                 disbursementList.Add(disbursement);
             }
             return disbursementList;
