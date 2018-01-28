@@ -375,7 +375,7 @@ namespace InventoryWCF
         {
 
             List<Disbursement> pendingItemsByItem = requisitionRecordService.GetPendingDisbursementByDept(deptCode);
-            return WCFModelConvertUtility.ConvertToWCFDisbursement(pendingItemsByItem,"");
+            return WCFModelConvertUtility.ConvertToWCFDisbursement(pendingItemsByItem,deptCode);
         }
 
 
