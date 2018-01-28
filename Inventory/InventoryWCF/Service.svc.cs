@@ -353,22 +353,29 @@ namespace InventoryWCF
             return allocationList;
         }
 
-        public void UpdateReqDetail(WCFRequisitionDetail reqDetail)
+        public void UpdateReqDetail(string NO, string itemCode, string quantity)
         {
-            Requisition_Detail requisitionDetail = new Requisition_Detail
+            int requisitionNo = Convert.ToInt32(NO);
+            int qty = Convert.ToInt32(quantity);
+            using (StationeryModel entity = new StationeryModel())
             {
-                requisitionNo = reqDetail.RequisitionNo,
-                itemCode = reqDetail.ItemCode,
-                remarks = reqDetail.Remarks,
-                qty = reqDetail.Qty,
-                fulfilledQty = reqDetail.FulfilledQty,
-                clerkID = reqDetail.ClerkID,
-                retrievedDate = reqDetail.RetrievedDate,
-                allocatedQty = reqDetail.AllocateQty,
-                nextCollectionDate = reqDetail.NextCollectionDate
-            };
+                entity.Requisition_Detail.Where(x => x.itemCode == itemCode && x.requisitionNo == requisitionNo).First().qty = (int)qty;
+                entity.SaveChanges();
+            }
+            //Requisition_Detail requisitionDetail = new Requisition_Detail
+            //{
+            //    requisitionNo = reqDetail.RequisitionNo,
+            //    itemCode = reqDetail.ItemCode,
+            //    remarks = reqDetail.Remarks,
+            //    qty = reqDetail.Qty,
+            //    fulfilledQty = reqDetail.FulfilledQty,
+            //    clerkID = reqDetail.ClerkID,
+            //    retrievedDate = reqDetail.RetrievedDate,
+            //    allocatedQty = reqDetail.AllocateQty,
+            //    nextCollectionDate = reqDetail.NextCollectionDate
+            //};
             //WCFModelConvertUtility.ConvertToWCFRequestionDetails(UpdateReqDetail(requisitionDetail));
-            //UpdateReqDetail(WCFModelConvertUtility.ConvertToWCFRequestionDetails(requisitionDetail);
+            //requisitionRecordService.up UpdateReqDetail(WCFModelConvertUtility.ConvertToWCFRequestionDetails(requisitionDetail);
         }
 
         public List<WCFDisbursement> GetPendingItemsToBeProcessedByDepartmentByItems(string deptCode)

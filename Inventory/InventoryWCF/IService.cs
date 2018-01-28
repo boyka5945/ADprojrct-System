@@ -133,11 +133,10 @@ namespace InventoryWCF
 
 
 
-        //[OperationContract]
-        //[WebInvoke(UriTemplate = "/UpdateRequisitionDetail", Method = "POST",
-        //    RequestFormat = WebMessageFormat.Json,
-        //    ResponseFormat = WebMessageFormat.Json)]
-        //void Update(WCFRequisitionDetail reqDetail);
+        [OperationContract]
+        [WebGet(UriTemplate = "/UpdateRequisitionDetail/{NO}/{itemCode}/{quantity}",
+            ResponseFormat = WebMessageFormat.Json)]
+        void UpdateReqDetail(string NO, string itemCode, string quantity);
 
         //[OperationContract]
         //[WebGet(UriTemplate = "/GetCodeFromName/{name}", ResponseFormat = WebMessageFormat.Json)]
