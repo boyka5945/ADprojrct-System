@@ -469,6 +469,13 @@ namespace InventoryWCF
             requisitionRecordService.UpdateDisbursement(itemCode, Convert.ToInt32(actualQty), DepartmentCode, Convert.ToInt32(needQty));
         }
 
+        public void UpdateRequisitionDetail(WCFRequisitionDetail reqDetail)
+        {
+
+            requisitionRecordService.UpdateDetails(reqDetail.ItemCode, reqDetail.RequisitionNo, reqDetail.AllocateQty);
+
+        }
+
         //public List<WCFDisbursement> GetCodeFromName(string name)
         //{
         //    stationeryService.GetAllStationery();
