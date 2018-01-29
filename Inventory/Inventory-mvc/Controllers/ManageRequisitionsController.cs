@@ -387,7 +387,7 @@ namespace Inventory_mvc.Controllers
             HttpContext.Application["retrieveList"] = null;
             HttpContext.Application["retrieveform"] = null;
 
-            return View("DisbursementList");
+            return RedirectToAction("DisbursementList");
         }
 
         [HttpGet]
@@ -417,7 +417,7 @@ namespace Inventory_mvc.Controllers
 
             l.Add(d);
             HttpContext.Application["DisbursementQty"] = l;
-            return View("DisbursementList");
+            return RedirectToAction("DisbursementList");
         }
 
         [HttpGet]
