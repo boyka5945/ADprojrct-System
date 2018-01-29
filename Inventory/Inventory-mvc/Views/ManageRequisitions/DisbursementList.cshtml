@@ -100,17 +100,17 @@ Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.Page
         var itemCode = document.getElementById(i).value; // convert form to array
         var AllocateQty = document.getElementById("AllocateQty[" + i + "]").value;
         if (parseInt(ActualQty) < 0) {
-            window.location.href = '@Url.Action("SaveDisbursementList", "ManageRequisitions")?ErrorMessage=' + "the ActualQty can not less than 0.";
+            window.location.href = '@Url.Action("SaveDisbursementList", "ManageRequisitions")?ErrorMessage=' + "the ActualQty can not less than 0." + "&dept=" + document.getElementById("ID").value;
         }
         else if (parseInt(ActualQty) > parseInt(AllocateQty)) {
-            window.location.href = '@Url.Action("SaveDisbursementList", "ManageRequisitions")?ErrorMessage=' + "the ActualQty can not more than AllocateQty.";
+            window.location.href = '@Url.Action("SaveDisbursementList", "ManageRequisitions")?ErrorMessage=' + "the ActualQty can not more than AllocateQty." + "&dept=" + document.getElementById("ID").value;
         }
         else if (parseInt(ActualQty) > 0 || parseInt(ActualQty) <= 0) {
             if (parseInt(ActualQty) < parseInt(AllocateQty)) {
                 var remarks = prompt("discripency reason:");
-                window.location.href = '@Url.Action("SaveDisbursementList", "ManageRequisitions")?key1=' + ActualQty + "&key2=" + itemCode + "&key3=" + AllocateQty + "&key4=" + remarks;
+                window.location.href = '@Url.Action("SaveDisbursementList", "ManageRequisitions")?key1=' + ActualQty + "&key2=" + itemCode + "&key3=" + AllocateQty + "&key4=" + remarks + "&dept=" + document.getElementById("ID").value;
             } else {
-                window.location.href = '@Url.Action("SaveDisbursementList", "ManageRequisitions")?key1=' + ActualQty + "&key2=" + itemCode + "&key3=" + AllocateQty;
+                window.location.href = '@Url.Action("SaveDisbursementList", "ManageRequisitions")?key1=' + ActualQty + "&key2=" + itemCode + "&key3=" + AllocateQty + "&dept=" + document.getElementById("ID").value;
             }
         }
         else {
