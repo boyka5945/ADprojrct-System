@@ -403,6 +403,12 @@ namespace Inventory_mvc.Service
                 model.SaveChanges();
             }
         }
-
+         
+        public List<Requisition_Record> GetRequestByReqID(string reqid)
+        {
+            return rDAO.GetRequestByReqID(reqid);
+        }
     }
+
+   
 }

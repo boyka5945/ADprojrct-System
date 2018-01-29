@@ -79,6 +79,10 @@ namespace InventoryWCF
         List<WCFRequisitionDetail> GetPendingRequestByDept(string deptCode);
 
         [OperationContract]
+        [WebGet(UriTemplate = "/GetRequisitionRecordByRequesterID/{reqByReqID}", ResponseFormat = WebMessageFormat.Json)]
+        List<WCFRequisitionRecord> GetRequisitionRecordByRequesterID(string reqByReqID);
+
+        [OperationContract]
         [WebGet(UriTemplate = "/GetDetailByReqNo/{reqNo}", ResponseFormat = WebMessageFormat.Json)]
         List<WCFRequisitionDetail> GetDetailsByReqNo(string reqNo);
 
@@ -86,9 +90,13 @@ namespace InventoryWCF
         [WebGet(UriTemplate = "/SaveTmpDisbursement/{itemCode}/{needQty}/{stationeryDescription}/{actualQty}/{deptCode}", ResponseFormat = WebMessageFormat.Json)]
         bool SaveActualQty(string itemCode, string needQty, string stationeryDescription, string actualQty, string deptCode);
 
-        //[OperationContract]
-        //[WebGet(UriTemplate = "/updateRequisitionDetails/{requisitionNo}/{ItemCode}/{allocateQty}", ResponseFormat = WebMessageFormat.Json)]
-        //Boolean updateRequisitionDetails(int requisitionNo, string ItemCode, int allocateQty);
+        [OperationContract]
+        [WebGet(UriTemplate = "/updateRequisitionDetails/{requisitionNo}/{ItemCode}/{allocateQty}", ResponseFormat = WebMessageFormat.Json)]
+        Boolean updateRequisitionDetails(string requisitionNo, string ItemCode, string allocateQty);
+
+        [OperationContract]
+        [WebGet(UriTemplate = "/UpdateRequisition/{requisitionNo}/{status}/{approvestaff_id}", ResponseFormat = WebMessageFormat.Json)]
+        void UpdateRequisition(string requisitionNo, string status, string approvestaff_id);
 
         //// TODO: Add your service operations here
 

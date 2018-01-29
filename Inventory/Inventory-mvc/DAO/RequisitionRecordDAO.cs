@@ -520,5 +520,11 @@ namespace Inventory_mvc.DAO
         {
             throw new NotImplementedException();
         }
+
+        public List<Requisition_Record> GetRequestByReqID(string id)
+        {
+            StationeryModel entity = new StationeryModel();
+            return (from req in entity.Requisition_Records where req.requesterID == id select req).ToList();
+        }
     }
 }
