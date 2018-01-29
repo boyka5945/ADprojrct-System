@@ -8,11 +8,12 @@ using Inventory_mvc.ViewModel;
 
 namespace Inventory_mvc.Service
 {
-    interface ICollectionPointService
+    public interface ICollectionPointService
     {
         bool isExistingCode(int collectionPointID);
 
         List<CollectionPointViewModel> GetAllCollectionPoints();
+        List<Collection_Point> GetAllCollectionPoints2();
 
         CollectionPointViewModel GetCollectionPointByID(int collectionPointID);
 

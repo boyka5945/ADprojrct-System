@@ -21,7 +21,7 @@ namespace InventoryWCF
         IStationeryService stationeryService = new StationeryService();
         IRequisitionRecordService requisitionRecordService = new RequisitionRecordService();
         DepartmentService departmentService = new DepartmentService();
-        CollectionPointService cpService = new CollectionPointService();
+        ICollectionPointService cpService = new CollectionPointService();
 
 
 
@@ -354,13 +354,13 @@ namespace InventoryWCF
 
         }
 
-        //public List<WCFCollectionPoint> GetAllCollectionPoints()
-        //{
-        //    List<Collection_Point> cpList = cpService.();
-        //    return WCFModelConvertUtility.ConvertToWCFDepartments(departmentList);
+        public List<WCFCollectionPoint> GetAllCollectionPoints()
+        {
+            List<Collection_Point> cpList = cpService.GetAllCollectionPoints2();
+            return WCFModelConvertUtility.convertToWCFCollectionPoints(cpList);
 
 
-        //}
+        }
 
         public List<WCFDisbursement> GetDisbursementByDept(string deptCode)
         {
