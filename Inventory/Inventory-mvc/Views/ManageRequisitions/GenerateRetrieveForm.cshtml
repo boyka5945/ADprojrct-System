@@ -8,23 +8,19 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>@ViewBag.Message</h2>
-
-@Html.ActionLink("Allocate", "ClerkRequisition", "ManageRequisitions")
-<div>
-
-    @using (Html.BeginForm())
-    {
-        <p>
-            EndDate: <input type="text" id="delstart" name="from"> 
-        </p>
-        <div class="ui-button-text-icons">
-            <div class="col-md-offset-8 col-md-10">
-                <input type="submit" value="Confirm" class="btn btn-danger" />
-            </div>
-        </div>
-    }
-</div>
+<h2>Retrieved List</h2>
+@if (TempData["Successful"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["Successful"].ToString()
+    </div>
+}
+else if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["ErrorMessage"].ToString()
+    </div>
+}
 @if (Model != null)
 {
     using (Html.BeginForm("GetApplication", "ManageRequisitions", new { }, FormMethod.Post, new { @class = "form", @id = "checkForm" }))
@@ -36,9 +32,9 @@
         </th>
         <th></th>
         <th>
-            Need
+            @Html.Label("Required Quantity")
         </th>
-        <th>RetrieveQty</th>
+        <th>@Html.Label("Retrieve Quantity")</th>
         <th>
             
         </th><th></th>
@@ -67,21 +63,33 @@
                 <input type="hidden" id="e[@i]" name="[@i].Qty" value="@Model.ToList()[i].StockQty" />
             </td>
             <td>
-                <input type="button" name ="button" class="form-control" value="Confirm" onclick="SaveData(@i,@Model.PageNumber)" />
+                <input type="button" name ="button" class="btn btn-success" value="Confirm" onclick="SaveData(@i,@Model.PageNumber)" />
             </td>
         </tr>
     }
-
+   
 </table>
     }
-    
-    <div>
-            Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
-            @Html.PagedListPager(Model, page => Url.Action("GenerateRetrieveForm",
+    <table class="table" style="border:hidden">
+        <tr>
+            <td style="float:right;border-top-width:0px">
+
+  
+        @Html.ActionLink("Go to Allocate", "ClerkRequisition", "ManageRequisitions", new { @class = "btn btn-primary" })
+   
+</td>
+        </tr>
+        <tr>
+            <td>
+                <div>
+                    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+                    @Html.PagedListPager(Model, page => Url.Action("GenerateRetrieveForm",
                      new { page }))
-        
-    </div>
-            }
+
+                </div>
+            </td>
+        </tr>
+    </table>      }
 
 <script>
     $(function () {
@@ -106,19 +114,24 @@
         var description = document.getElementById("c[" + i + "]").value;
         var stock = document.getElementById("e[" + i + "]").value;
         if (retrievedQty == null || retrievedQty == "") {
-            alert("RetrieveQty format is not correct.");
+            window.location.href = '@Url.Action("updateRetrieve", "ManageRequisitions")?ErrorMessage=' + "RetrieveQty format is not correct.";
+            //alert("RetrieveQty format is not correct.");
         } else if (parseInt(retrievedQty) > parseInt(Qty)) {
-            alert("RetrieveQty can not more than Need.");
+            window.location.href = '@Url.Action("updateRetrieve", "ManageRequisitions")?ErrorMessage=' + "RetrieveQty can not more than Need.";
+            //alert("RetrieveQty can not more than Need.");
         } else if (parseInt(retrievedQty) > parseInt(stock)) {
-            alert("RetrieveQty can not more than Stock.");
+            window.location.href = '@Url.Action("updateRetrieve", "ManageRequisitions")?ErrorMessage=' + "RetrieveQty can not more than Stock.";
+            //alert("RetrieveQty can not more than Stock.");
         } else if (parseInt(retrievedQty) <= 0) {
-            alert("RetrieveQty can not less than 0.")
+            window.location.href = '@Url.Action("updateRetrieve", "ManageRequisitions")?ErrorMessage=' + "RetrieveQty can not less than 0.";
+            //alert("RetrieveQty can not less than 0.")
         }
         else {
             if (parseInt(retrievedQty) > 0 || parseInt(retrievedQty) <= 0) {
                 window.location.href = '@Url.Action("updateRetrieve", "ManageRequisitions")?key1=' + retrievedQty + "&key2=" + itemCode + "&key3=" + Qty + "&key4=" + description + "&key5=" + j + "&key6=" + stock;
             } else {
-                alert("please input a number.");
+                window.location.href = '@Url.Action("updateRetrieve", "ManageRequisitions")?ErrorMessage=' + "please input a number.";
+                //alert("please input a number.");
             }
 
         }

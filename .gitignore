@@ -266,3 +266,6 @@ __pycache__/
 
 # PublishProfiles
 PublishProfiles/
+/Inventory/InventoryWCF/Service2.svc.cs
+/Inventory/InventoryWCF/Service2.svc
+/Inventory/InventoryWCF/IService2.cs

@@ -16,10 +16,13 @@ namespace Inventory_mvc.Models
         }
 
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
+
+        [Display(Name = "Category ID")]
         public int categoryID { get; set; }
 
         [Required]
         [StringLength(50)]
+        [Display(Name = "Category Name")]
         public string categoryName { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

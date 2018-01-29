@@ -85,9 +85,9 @@ namespace InventoryWCF
         [WebGet(UriTemplate = "/SaveTmpDisbursement/{itemCode}/{needQty}/{stationeryDescription}/{actualQty}/{deptCode}", ResponseFormat = WebMessageFormat.Json)]
         bool SaveActualQty(string itemCode, string needQty, string stationeryDescription, string actualQty, string deptCode);
 
-        [OperationContract]
-        [WebGet(UriTemplate = "/updateRequisitionDetails/{requisitionNo}/{ItemCode}/{allocateQty}", ResponseFormat = WebMessageFormat.Json)]
-        Boolean updateRequisitionDetails(int requisitionNo, string ItemCode, int allocateQty);
+        //[OperationContract]
+        //[WebGet(UriTemplate = "/updateRequisitionDetails/{requisitionNo}/{ItemCode}/{allocateQty}", ResponseFormat = WebMessageFormat.Json)]
+        //Boolean updateRequisitionDetails(int requisitionNo, string ItemCode, int allocateQty);
 
         //// TODO: Add your service operations here
 
@@ -109,6 +109,10 @@ namespace InventoryWCF
         [OperationContract]
         [WebGet(UriTemplate = "/GetAllDepartments", ResponseFormat = WebMessageFormat.Json)]
         List<WCFDepartment> GetAllDepartments();
+
+        [OperationContract]
+        [WebGet(UriTemplate = "/GetAllCollectionPoints", ResponseFormat = WebMessageFormat.Json)]
+        List<WCFCollectionPoint> GetAllCollectionPoints();
 
         [OperationContract]
         [WebGet(UriTemplate = "/GetDisbursementByDept/{deptCode}", ResponseFormat = WebMessageFormat.Json)]
@@ -139,6 +143,11 @@ namespace InventoryWCF
             RequestFormat = WebMessageFormat.Json,
             ResponseFormat = WebMessageFormat.Json)]
         void UpdateRequisitionDetail(WCFRequisitionDetail reqDetail);
+
+        [OperationContract]
+        [WebGet(UriTemplate = "/GetRetrievalForm/{itemCode}", ResponseFormat = WebMessageFormat.Json)]
+        WCFRetrievalForm GetRetrievalForm(string itemCode);
+        
 
         //[OperationContract]
         //[WebGet(UriTemplate = "/GetCodeFromName/{name}", ResponseFormat = WebMessageFormat.Json)]
@@ -588,6 +597,28 @@ namespace InventoryWCF
             get; set;
         }
     
+    }
+
+[DataContract]
+public class WCFCollectionPoint
+{
+    [DataMember]
+    public string Collection_Point_Name
+    {
+        get; set;
+    }
+
+    [DataMember]
+    public int Collection_Point_ID
+    {
+        get; set;
+    }
+
+    public string Collection_Point_Department
+    {
+        get; set;
+    }
+
 }
 
 

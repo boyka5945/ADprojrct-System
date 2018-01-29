@@ -16,24 +16,30 @@ namespace Inventory_mvc.Models
         }
 
         [Key]
+        [Display(Name = "Order Number")]
         public int orderNo { get; set; }
 
         [Required]
+        [Display(Name = "Supplier Code")]
         [StringLength(50)]
         public string supplierCode { get; set; }
 
         [Column(TypeName = "date")]
+        [Display(Name = "Date")]
         public DateTime date { get; set; }
 
         [Required]
         [StringLength(50)]
+        [Display(Name = "Clerk ID")]
         public string clerkID { get; set; }
 
         [Required]
         [StringLength(50)]
+        [Display(Name = "Status")]
         public string status { get; set; }
 
         [Column(TypeName = "date")]
+        [Display(Name = "Expected Delivery Date")]
         public DateTime expectedDeliveryDate { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

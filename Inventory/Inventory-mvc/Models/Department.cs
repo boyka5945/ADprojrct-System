@@ -18,23 +18,31 @@ namespace Inventory_mvc.Models
 
         [Key]
         [Required]
+        [Display(Name ="Department Code")]
         [StringLength(50)]
         public string departmentCode { get; set; }
 
         [Required]
+        [Display(Name = "Department Name")]
         [StringLength(50)]
         public string departmentName { get; set; }
 
         [Required]
+        [Display(Name = "Contact Name")]
         [StringLength(50)]
         public string contactName { get; set; }
 
+        [Display(Name = "Phone Number")]
         public int phoneNo { get; set; }
 
+
+        [Display(Name = "Fax Number")]
         public int faxNo { get; set; }
 
+        [Display(Name = "Collection Point ID")]
         public int collectionPointID { get; set; }
 
+        [Display(Name = "Collection Point")]
         public virtual Collection_Point Collection_Point { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

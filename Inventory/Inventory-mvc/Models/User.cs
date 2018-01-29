@@ -22,7 +22,7 @@ namespace Inventory_mvc.Models
 
         [Required]
         [StringLength(50)]
-        [Display(Name = "UserID")]
+        [Display(Name = "User ID")]
         public string userID { get; set; }
 
         [Required]
@@ -45,6 +45,7 @@ namespace Inventory_mvc.Models
         public string address { get; set; }
 
         [Required]
+        [Display(Name = "Role")]
         public int role { get; set; }
 
         //[Required]
@@ -58,11 +59,13 @@ namespace Inventory_mvc.Models
         public string userEmail { get; set; }
 
         [Column(TypeName = "date")]
+        [Display(Name = "Delegation Start")]
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         public DateTime? delegationStart { get; set; }
 
         [Column(TypeName = "date")]
+        [Display(Name = "Delegation End")]
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         public DateTime? delegationEnd { get; set; }
@@ -84,6 +87,7 @@ namespace Inventory_mvc.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Requisition_Record> Requisition_Record1 { get; set; }
 
+        [Display(Name = "Role Info")]
         public virtual roleInfo roleInfo { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

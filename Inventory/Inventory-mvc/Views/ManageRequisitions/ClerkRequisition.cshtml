@@ -9,92 +9,121 @@
 }
 
 <h2>Allocate requisition</h2>
+<div>
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger">
+            @TempData["ErrorMessage"].ToString()
+        </div>
+    }
+    else if (TempData["Successful"] != null)
+    {
+        <div class="alert alert-success">
+            @TempData["Successful"].ToString()
+        </div>
+    }
+</div>
+
 @using (Html.BeginForm("AllocateRequisition", "ManageRequisitions", new { }, FormMethod.Post, new { @class = "form", @id = "checkForm" }))
 {
-<table class="table">
-    <tr>
-        <th>
-            @Html.Label("Item Code")
-        </th>
-        <th>
-            @Html.Label("Description")
-        </th>
-        <th>
-            @Html.Label("Retrieved Quantity")
-        </th>
-        <th>
-            requisitionNo
-        </th>
-        <th>
-            departmentName
-        </th>
-        <th>
-            requestDate
-        </th>
-        <th>
-            @Html.Label("Unfulfilled Quantity")
-        </th>
-        <th>
-            allocateQty
-        </th>
-    </tr>
+    <table class="table">
+        <tr>
+            <th>
+                @Html.Label("Item Code")
+            </th>
+            <th>
+                @Html.Label("Description")
+            </th>
+            <th>
+                @Html.Label("Retrieved Quantity")
+            </th>
+            <th>
+                requisitionNo
+            </th>
+            <th>
+                departmentName
+            </th>
+            <th>
+                requestDate
+            </th>
+            <th>
+                @Html.Label("Unfulfilled Quantity")
+            </th>
+            <th>
+                allocateQty
+            </th>
+        </tr>
 
-@for (int i = 0; i < Model.Count(); i++)
-{ 
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => Model.ToList()[i].itemCode)
-            <input type="hidden" name="[@i].itemCode" value="@Model.ToList()[i].itemCode" />
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => Model.ToList()[i].description)
-            <input type="hidden" name="[@i].description" value="@Model.ToList()[i].description" />
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => Model.ToList()[i].retrievedQuantity)
-            <input type="hidden" name="[@i].retrievedQuantity" value="@Model.ToList()[i].retrievedQuantity" />
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => Model.ToList()[i].requisitionRecord.requisitionNo)
-            <input type="hidden" name="[@i].requisitionRecord.requisitionNo" value="@Model.ToList()[i].requisitionRecord.requisitionNo" />
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => Model.ToList()[i].requisitionRecord.Department.departmentName)
-            <input type="hidden" name="[@i].requisitionRecord.Department.departmentName" value="@Model.ToList()[i].requisitionRecord.Department.departmentName" />
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => Model.ToList()[i].requisitionRecord.requestDate)
-            <input type="hidden" name="[@i].requisitionRecord.requestDate" value="@Model.ToList()[i].requisitionRecord.requestDate" />
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => Model.ToList()[i].unfulfilledQty)
-            <input type="hidden" id="a[@i]" name="[@i].unfulfilledQty" value="@Model.ToList()[i].unfulfilledQty" />
-        </td>
-        <td>
-            <input type="number" id ="@i" name="[@i].allocateQty" value="@Model.ToList()[i].allocateQty" class="form-control" min="0" max="@Model.ToList()[i].unfulfilledQty" onchange="SaveData(@i)" required />
-        </td>
-    </tr>
+        @for (int i = 0; i < Model.Count(); i++)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => Model.ToList()[i].itemCode)
+                    <input type="hidden" name="[@i].itemCode" value="@Model.ToList()[i].itemCode" />
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => Model.ToList()[i].description)
+                    <input type="hidden" name="[@i].description" value="@Model.ToList()[i].description" />
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => Model.ToList()[i].retrievedQuantity)
+                    <input type="hidden" name="[@i].retrievedQuantity" value="@Model.ToList()[i].retrievedQuantity" />
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => Model.ToList()[i].requisitionRecord.requisitionNo)
+                    <input type="hidden" name="[@i].requisitionRecord.requisitionNo" value="@Model.ToList()[i].requisitionRecord.requisitionNo" />
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => Model.ToList()[i].requisitionRecord.Department.departmentName)
+                    <input type="hidden" name="[@i].requisitionRecord.Department.departmentName" value="@Model.ToList()[i].requisitionRecord.Department.departmentName" />
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => Model.ToList()[i].requisitionRecord.requestDate)
+                    <input type="hidden" name="[@i].requisitionRecord.requestDate" value="@Model.ToList()[i].requisitionRecord.requestDate" />
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => Model.ToList()[i].unfulfilledQty)
+                    <input type="hidden" id="a[@i]" name="[@i].unfulfilledQty" value="@Model.ToList()[i].unfulfilledQty" />
+                </td>
+                <td>
+                    <input type="number" id="@i" name="[@i].allocateQty" value="@Model.ToList()[i].allocateQty" class="form-control" min="0" max="@Model.ToList()[i].unfulfilledQty" onchange="SaveData(@i)" required />
+                </td>
+            </tr>
+        }
+
+
+    </table>
+    <table class="table" style="border:hidden">
+        <tr>
+            <td>
+                Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+                @Html.PagedListPager(Model, page => Url.Action("ClerkRequisition",
+                      new { page }))
+            </td>
+            <td style="float:right;border-top-width:0px">
+
+                <div class="col-md-offset-2 col-md-0">
+                    <input type="submit" value="Allocate" class="btn btn-success" />
+                </div></td>
+            <td style="float:right;border-top-width:0px">
+                <div>
+                    @Html.ActionLink("Go to Disbursement", "DisbursementList", "ManageRequisitions", new { @class = "btn btn-primary" })
+                </div>
+            </td>
+        </tr>
+        
+        
+        
+    </table>
 }
-
-
-</table>
-<div class="col-md-offset-2 col-md-0">
-    <input type="submit" value="Allocate" class="btn btn-success" />
-</div>
-@Html.ActionLink("Disbursement", "DisbursementList", "ManageRequisitions");
-}
-Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
-
-@Html.PagedListPager(Model, page => Url.Action("ClerkRequisition",
-                     new { page }))
-
-<script>
+    <script>
     function SaveData(i)
     {
         if (parseInt(document.getElementById(i).value) > parseInt(document.getElementById("a[" + i + "]").value)) {
-            alert("AllocateQty can not more than unfulfilledQty.");
-        } else if (parseInt(document.getElementById(i).value) < 0){
-            alert("AllocateQty can not less than 0.");
+            window.location.href = '@Url.Action("ClerkRequisition", "ManageRequisitions")?ErrorMessage=' + "AllocateQty can not more than unfulfilledQty.";
+        } else if (parseInt(document.getElementById(i).value) < 0) {
+            window.location.href = '@Url.Action("ClerkRequisition", "ManageRequisitions")?ErrorMessage=' + "AllocateQty can not less than 0.";
         } else {
             var myformdata = $("#checkForm").serializeArray(); // convert form to array
 
@@ -103,11 +132,11 @@ Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.Page
                 url: '@Url.Action("KeepTempData", "ManageRequisitions")',
                 data: $.param(myformdata), // convert to url-encoded form
                 //success: function () {
-                    //alert("success");
+                //alert("success");
                 //}
-        });
-        }
-        //alert(i);
+            });
+            }
+            //alert(i);
 
-    }
-</script>
+        }
+    </script>
