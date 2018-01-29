@@ -26,5 +26,8 @@ namespace Inventory_mvc.Service
         /// <param name="supplierCode"></param>
         /// <returns></returns>
         bool isExistingCode(string supplierCode);
+
+       List<Supplier> GetSupplierList();
+
     }
 }

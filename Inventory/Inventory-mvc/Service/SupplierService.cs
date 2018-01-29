@@ -12,6 +12,12 @@ namespace Inventory_mvc.Service
     {
         private ISupplierDAO supplierDAO = new SupplierDAO();
 
+        public List<Supplier> GetSupplierList()
+        {
+            return supplierDAO.GetAllSupplier();
+        }
+
+
 
         public List<SupplierViewModel> GetAllSuppliers()
         {

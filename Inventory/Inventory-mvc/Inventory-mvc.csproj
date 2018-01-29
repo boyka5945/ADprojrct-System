@@ -369,6 +369,7 @@
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <None Include="Scripts\jquery-3.2.1.intellisense.js" />
     <Content Include="Scripts\chart-colors.js" />
+    <Content Include="Scripts\Chart.PieceLabel.js" />
     <Content Include="Scripts\jquery-3.2.1.js" />
     <Content Include="Scripts\jquery-3.2.1.min.js" />
     <Content Include="Scripts\jquery-3.2.1.slim.js" />
@@ -465,8 +466,16 @@
     <Content Include="Views\Report\_RequisitionCumulativeBar.cshtml" />
     <Content Include="Views\Report\Index.cshtml" />
     <Content Include="Views\Report\RequisitionCumulativeChart.cshtml" />
-    <Content Include="Views\Report\_DeptMonthlyReorder.cshtml" />
-    <Content Include="Views\Report\MonthlyReorderAmount.cshtml" />
+    <Content Include="Views\Report\_DeptMonthlyRequisition.cshtml" />
+    <Content Include="Views\Report\DeptMonthlyRequisitionAmount.cshtml" />
+    <Content Include="Views\Report\_CategoryMonthlyRequisition.cshtml" />
+    <Content Include="Views\Report\CategoryMonthlyRequisitionAmount.cshtml" />
+    <Content Include="Views\Report\CategoryMonthlyReorderAmount.cshtml" />
+    <Content Include="Views\Report\_CategoryMonthlyReorder.cshtml" />
+    <Content Include="Views\Report\_SupplierMonthlyReorder.cshtml" />
+    <Content Include="Views\Report\SupplierMonthlyReorderAmount.cshtml" />
+    <Content Include="Views\Report\_ReorderAmountCumulativeBar.cshtml" />
+    <Content Include="Views\Report\ReorderAmountCumulativeChart.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
