@@ -373,7 +373,7 @@ namespace Inventory_mvc.Controllers
         }
 
         [HttpGet]
-        public void UpdateDisbursement()
+        public ActionResult UpdateDisbursement()
         {
             if (HttpContext.Application["DisbursementQty"] != null)
             {
@@ -384,10 +384,14 @@ namespace Inventory_mvc.Controllers
                 }
             }
             HttpContext.Application["DisbursementQty"] = null;
+            HttpContext.Application["retrieveList"] = null;
+            HttpContext.Application["retrieveform"] = null;
+
+            return RedirectToAction("DisbursementList");
         }
 
         [HttpGet]
-        public void SaveDisbursementList()
+        public ActionResult SaveDisbursementList()
         {
             var actualQty = Convert.ToInt32((Request.QueryString["key1"]));
             var itemCode = Request.QueryString["key2"];
@@ -413,7 +417,7 @@ namespace Inventory_mvc.Controllers
 
             l.Add(d);
             HttpContext.Application["DisbursementQty"] = l;
-            RedirectToAction("DisbursementList");
+            return RedirectToAction("DisbursementList");
         }
 
         [HttpGet]
