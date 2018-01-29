@@ -349,7 +349,6 @@ namespace Inventory_mvc.Service
                 using (StationeryModel model = new StationeryModel())
                 {
                     Adjustment_Voucher_Record adjustment = new Adjustment_Voucher_Record();
-                    adjustment.voucherID = model.Adjustment_Voucher_Records.ToList().Count() + 1;
                     adjustment.issueDate = DateTime.Now;
                     adjustment.status = AdjustmentVoucherStatus.PENDING;
                     adjustment.remarks = "NA";
@@ -367,22 +366,37 @@ namespace Inventory_mvc.Service
 
             using (StationeryModel model = new StationeryModel())
             {
+                int max = 0;
                 if (needQty - actualTmp > 0)
-                { 
-                    var no2 = model.Adjustment_Voucher_Records.ToList().Count() - 1;
+                {
+                    max = 0;
+                    foreach(var item in model.Adjustment_Voucher_Records.ToList())
+                    {
+                        if (item.voucherID > max)
+                        {
+                            max = item.voucherID;
+                        }
+                    }
                     Voucher_Detail voucher = new Voucher_Detail();
-                    voucher.voucherID = model.Adjustment_Voucher_Records.ToList()[no2].voucherID;
+                    voucher.voucherID = max;
                     voucher.itemCode = itemCode;
-                    voucher.adjustedQty = needQty - actualQty;
+                    voucher.adjustedQty = actualTmp - needQty;
                     voucher.remarks = "";
                     model.Voucher_Details.Add(voucher);
                     model.SaveChanges();
                 }
-                var no = model.Transaction_Records.ToList().Count() - 1;
+                max = 0;
+                foreach (var item in model.Transaction_Records.ToList())
+                {
+                    if (item.transactionNo > max)
+                    {
+                        max = item.transactionNo;
+                    }
+                }
                 Transaction_Detail detail = new Transaction_Detail();
-                detail.transactionNo = model.Transaction_Records.ToList()[no].transactionNo;
+                detail.transactionNo = max;
                 detail.itemCode = itemCode;
-                detail.adjustedQty = actualTmp;
+                detail.adjustedQty = -actualTmp;
                 detail.balanceQty = model.Stationeries.Where(x => x.itemCode == itemCode).First().stockQty;
                 detail.remarks = "";
                 model.Transaction_Details.Add(detail);

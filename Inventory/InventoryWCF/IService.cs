@@ -12,10 +12,10 @@ namespace InventoryWCF
     [ServiceContract]
     public interface IService
     {
-        //[OperationContract]
-        // TODO change to post method
-        //[WebGet(UriTemplate = "/ValidateUser/{userid}/{password}", ResponseFormat = WebMessageFormat.Json)]
-        //Boolean ValidateUser(string userid, string password);
+        [OperationContract]
+        //TODO change to post method
+       [WebInvoke(Method = "Post", UriTemplate = "/ValidateUser", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+       Boolean ValidateUser(WCFUser user);
 
         [OperationContract]
         // TODO change to post method
@@ -25,6 +25,7 @@ namespace InventoryWCF
         [OperationContract]
         [WebGet(UriTemplate = "/GetUser/{userid}/{password}", ResponseFormat = WebMessageFormat.Json)]
         WCFUser GetUser(string userid, string password);
+
 
         //[OperationContract]
         //[WebGet(UriTemplate = "/All", ResponseFormat = WebMessageFormat.Json)]
@@ -97,6 +98,17 @@ namespace InventoryWCF
         [WebGet(UriTemplate = "/UpdateRequisition/{requisitionNo}/{status}/{approvestaff_id}", ResponseFormat = WebMessageFormat.Json)]
         void UpdateRequisition(string requisitionNo, string status, string approvestaff_id);
 
+        [OperationContract]
+        [WebGet(UriTemplate = "/updateRequisitionDetails/{requisitionNo}/{ItemCode}/{allocateQty}", ResponseFormat = WebMessageFormat.Json)]
+        Boolean updateRequisitionDetails(string requisitionNo, string ItemCode, string allocateQty);
+
+        [OperationContract]
+        [WebGet(UriTemplate = "/UpdateRequisition/{requisitionNo}/{status}/{approvestaff_id}", ResponseFormat = WebMessageFormat.Json)]
+        void UpdateRequisition(string requisitionNo, string status, string approvestaff_id);
+
+        [OperationContract]
+        [WebGet(UriTemplate = "/updateRequisitionDetails/{requisitionNo}/{ItemCode}/{allocateQty}", ResponseFormat = WebMessageFormat.Json)]
+        Boolean updateRequisitionDetails(int requisitionNo, string ItemCode, int allocateQty);
 
         //// TODO: Add your service operations here
 
@@ -109,7 +121,7 @@ namespace InventoryWCF
             UriTemplate = "/UpdateRetrieval",
             RequestFormat = WebMessageFormat.Json,
             ResponseFormat = WebMessageFormat.Json)]
-        bool UpdateRetrieval(WCFRetrievalForm wcfr);
+        string UpdateRetrieval(WCFRetrievalForm wcfr);
 
         //[OperationContract]
         //[WebGet(UriTemplate = "/GetRetrievalItemByName", ResponseFormat = WebMessageFormat.Json)]
@@ -118,6 +130,10 @@ namespace InventoryWCF
         [OperationContract]
         [WebGet(UriTemplate = "/GetAllDepartments", ResponseFormat = WebMessageFormat.Json)]
         List<WCFDepartment> GetAllDepartments();
+
+        [OperationContract]
+        [WebGet(UriTemplate = "/GetAllCollectionPoints", ResponseFormat = WebMessageFormat.Json)]
+        List<WCFCollectionPoint> GetAllCollectionPoints();
 
         [OperationContract]
         [WebGet(UriTemplate = "/GetDisbursementByDept/{deptCode}", ResponseFormat = WebMessageFormat.Json)]
@@ -148,6 +164,11 @@ namespace InventoryWCF
             RequestFormat = WebMessageFormat.Json,
             ResponseFormat = WebMessageFormat.Json)]
         void UpdateRequisitionDetail(WCFRequisitionDetail reqDetail);
+
+        [OperationContract]
+        [WebGet(UriTemplate = "/GetRetrievalForm/{itemCode}", ResponseFormat = WebMessageFormat.Json)]
+        WCFRetrievalForm GetRetrievalForm(string itemCode);
+        
 
         //[OperationContract]
         //[WebGet(UriTemplate = "/GetCodeFromName/{name}", ResponseFormat = WebMessageFormat.Json)]
@@ -597,6 +618,28 @@ namespace InventoryWCF
             get; set;
         }
     
+    }
+
+[DataContract]
+public class WCFCollectionPoint
+{
+    [DataMember]
+    public string Collection_Point_Name
+    {
+        get; set;
+    }
+
+    [DataMember]
+    public int Collection_Point_ID
+    {
+        get; set;
+    }
+
+    public string Collection_Point_Department
+    {
+        get; set;
+    }
+
 }
 
 

@@ -13,10 +13,17 @@
 
 <form id="chartForm">
     <div class="row form-inline">
-        <div class="col-sm-1"><label class="pull-right">Year:</label></div>
+        <div class="col-sm-1"><label>Year:</label></div>
         <div class="col-sm-3">
             <!-- Combobox -->
-            <select class="js-data-example-ajax form-control" style="width: 100%" name="year" required>
+            <select class="form-control" id="yearCombobox" style="width: 100%" name="year" required>
+                <option></option>
+            </select>
+        </div>
+        <div class="col-sm-1"><label>Department:</label></div>
+        <div class="col-sm-3">
+            <!-- Combobox -->
+            <select class="form-control" id="deptCombobox" style="width: 100%" name="deptCode" required>
                 <option></option>
             </select>
         </div>
@@ -76,8 +83,7 @@
 
     // for year selection
     $(document).ready(function () {
-        $('.js-data-example-ajax').select2({
-
+        $('#yearCombobox').select2({
             ajax: {
                 url: '@Url.Action("GetSelectableYearsJSON", "Report")',
                 delay: 250,
@@ -89,6 +95,24 @@
                 },
             },
             placeholder: "Select a year",
+            selectOnClose: true,
+        });
+    });
+
+    // for deparment selection
+    $(document).ready(function () {
+        $('#deptCombobox').select2({
+            ajax: {
+                url: '@Url.Action("GetDepartmentListJSON", "Report")',
+                delay: 250,
+                dataType: 'json',
+                processResults: function (data) {
+                    return {
+                        results: data
+                    };
+                },
+            },
+            placeholder: "Select a department",
             selectOnClose: true,
         });
     });

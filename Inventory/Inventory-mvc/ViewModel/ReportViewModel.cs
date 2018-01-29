@@ -7,6 +7,7 @@ namespace Inventory_mvc.ViewModel
 {
     public class ReportViewModel
     {
+         
         public string ItemCode { get; set; }
 
         public string ItemDescription { get; set; }
@@ -19,9 +20,9 @@ namespace Inventory_mvc.ViewModel
 
         public string RequesterDepartment { get; set; }
 
-        public List<string> Suppliers { get; set; }
+        public string Supplier { get; set; }
 
-        public List<int> OrderQuantity { get; set; }
+        public int OrderQuantity { get; set; }
 
         public int Year { get; set; }
 

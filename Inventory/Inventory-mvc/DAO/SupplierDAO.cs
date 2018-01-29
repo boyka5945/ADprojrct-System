@@ -58,8 +58,10 @@ namespace Inventory_mvc.DAO
         {
             using (StationeryModel context = new StationeryModel())
             {
-                return (from s in context.Suppliers
-                        select s).ToList();
+                return (from s in context.Suppliers select s)
+                        .Include(s => s.Stationeries)
+                        .Include(s => s.Stationeries1)
+                        .Include(S => S.Stationeries2).ToList();
             }
         }
 

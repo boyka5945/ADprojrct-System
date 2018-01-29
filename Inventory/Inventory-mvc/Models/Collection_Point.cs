@@ -17,10 +17,12 @@ namespace Inventory_mvc.Models
 
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        [Display(Name = "Collection Point ID")]
         public int collectionPointID { get; set; }
 
         [Required]
         [StringLength(50)]
+        [Display(Name = "Collection Point Name")]
         public string collectionPointName { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

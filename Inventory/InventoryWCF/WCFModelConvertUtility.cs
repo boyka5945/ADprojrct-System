@@ -200,6 +200,26 @@ namespace InventoryWCF
             return wcf_departments;
         }
 
+        public static WCFCollectionPoint convertToWCFCollectionPoint(Collection_Point cp)
+        {
+            WCFCollectionPoint wcfcp = new WCFCollectionPoint();
+            wcfcp.Collection_Point_Name = cp.collectionPointName;
+            wcfcp.Collection_Point_ID = cp.collectionPointID;
+           
+
+            return wcfcp;
+        }
+
+        public static List<WCFCollectionPoint> convertToWCFCollectionPoints(List<Collection_Point> cps)
+        {
+            List<WCFCollectionPoint> wcf_cp = new List<WCFCollectionPoint>();
+            foreach (Collection_Point cp in cps)
+            {
+                wcf_cp.Add(convertToWCFCollectionPoint(cp));
+            }
+            return wcf_cp;
+        }
+
         public static WCFRetrievalForm ConvertToWCFRetrieval (RetrieveForm retrieval)
         {
             WCFRetrievalForm wcfR = new WCFRetrievalForm();

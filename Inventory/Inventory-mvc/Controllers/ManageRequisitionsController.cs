@@ -61,6 +61,11 @@ namespace Inventory_mvc.Controllers
         [HttpGet]
         public ActionResult ClerkRequisition(int? page)
         {
+            if (Request.QueryString["ErrorMessage"] != null)
+            {
+                TempData["ErrorMessage"] = Request.QueryString["ErrorMessage"];
+                return RedirectToAction("ClerkRequisition");
+            }
             List<BigModelView> blist = new List<BigModelView>();
             List<string> itemCodes = rs.GetItemCodeList();
             if (HttpContext.Application["BigModel"] != null)
@@ -125,11 +130,11 @@ namespace Inventory_mvc.Controllers
         [HttpPost]
         public ActionResult AllocateRequisition(IEnumerable<BigModelView> model, int? page)
         {
-            if (HttpContext.Application["retrieveform"] == null)
-            {
-                ViewBag.Message = "have not retrieved yet";
-                return View("Error");
-            }
+            //if (HttpContext.Application["retrieveform"] == null)
+            //{
+            //    TempData["ErrorMessage"] = "Have not retrieve yet.";
+            //    return RedirectToAction("ClerkRequisition");
+            //}
             var page1 = (int)Session["page"];
             List<string> itemCodes = rs.GetItemCodeList();
             var ls = (List<RetrieveForm>)HttpContext.Application["retrieveform"];
@@ -151,37 +156,40 @@ namespace Inventory_mvc.Controllers
                         }
                         if (l2[check].retrievedQuantity == "")
                         {
-                            ViewBag.Message = "have not retrieve yet.";
-                            return View("Error");
+                            TempData["ErrorMessage"] = l2[check].description + " have not retrieve yet.";
+                            return RedirectToAction("ClerkRequisition");
                         }
                         if (qty > Convert.ToInt32(l2[check].retrievedQuantity))
                         {
-                            ViewBag.Message = "Allocated quantity more than retrieved quantity.";
-                            return View("Error");
+                            ViewBag.Message = "";
+                            TempData["ErrorMessage"] = l2[check].description + " allocated quantity more than retrieved quantity.";
+                            return RedirectToAction("ClerkRequisition");
+       
                         }
                     }
                 }
             }
-            for (int i = 0; i < model.Count(); i++)
+            for (int i = 0; i < l2.Count(); i++)
             {
-                if (l2[i + (int)(page1 - 1) * 4].itemCode == "")
+                if (l2[i].itemCode == "")
                 {
-                    for (int j = i + (int)(page1 - 1) * 4; j >= 0; j--)
+                    for (int j = i; j >= 0; j--)
                     {
                         if (l2[j].itemCode != "")
                         {
-                            rs.UpdateDetails(l2[j].itemCode, l2[i + (int)(page1 - 1) * 4].requisitionRecord.requisitionNo, l2[i + (int)(page1 - 1) * 4].allocateQty);
+                            rs.UpdateDetails(l2[j].itemCode, l2[i].requisitionRecord.requisitionNo, l2[i].allocateQty);
                             break;
                         }
                     }
                 }
                 else
                 {
-                    rs.UpdateDetails(l2[i + (int)(page1 - 1) * 4].itemCode, l2[i + (int)(page1 - 1) * 4].requisitionRecord.requisitionNo, l2[i + (int)(page1 - 1) * 4].allocateQty);
+                    rs.UpdateDetails(l2[i].itemCode, l2[i].requisitionRecord.requisitionNo, l2[i].allocateQty);
                 }
             }
             int pageSize = 4;
             int pageNumber = (page ?? 1);
+            TempData["Successful"] = " Allocated quantity successful";
             //return View(model.ToPagedList(pageNumber, pageSize));
             return RedirectToAction("ClerkRequisition", l2.ToPagedList(pageNumber, pageSize));
 
@@ -239,6 +247,20 @@ namespace Inventory_mvc.Controllers
             }
             List<Disbursement> list;
             list = rs.GetRequisitionByDept(deptCode);
+            if (HttpContext.Application["DisbursementQty"] != null)
+            {
+                List<Disbursement> l = (List<Disbursement>)HttpContext.Application["DisbursementQty"];
+                foreach (var item in list)
+                {
+                    foreach (var i in l)
+                    {
+                        if (item.itemCode == i.itemCode)
+                        {
+                            item.actualQty = i.actualQty;
+                        }
+                    }
+                }
+            }
             HttpContext.Application["TotalItem"] = list.Count();
             StationeryModel entity = new StationeryModel();
             var user = entity.Users.Where(x => x.departmentCode == deptCode).First();
@@ -303,7 +325,20 @@ namespace Inventory_mvc.Controllers
             }
             ViewData["list"] = departmentlist;
             var list = rs.GetRequisitionByDept(deptCode);
-            
+            if (HttpContext.Application["DisbursementQty"] != null)
+            {
+                List<Disbursement> l = (List<Disbursement>)HttpContext.Application["DisbursementQty"];
+                foreach (var item in list)
+                {
+                    foreach (var i in l)
+                    {
+                        if (item.itemCode == i.itemCode)
+                        {
+                            item.actualQty = i.actualQty;
+                        }
+                    }
+                }
+            }
             //return View(list);
             int pageSize = 10;
             int pageNumber = (page ?? 1);
@@ -334,8 +369,13 @@ namespace Inventory_mvc.Controllers
         }
 
         [HttpGet]
-        public void updateRetrieve()
+        public ActionResult updateRetrieve()
         {
+            if (Request.QueryString["ErrorMessage"] != null)
+            {
+                TempData["ErrorMessage"] = Request.QueryString["ErrorMessage"];
+                return RedirectToAction("GenerateRetrieveForm");
+            }
             var RetrieveQty = Convert.ToInt32((Request.QueryString["key1"]));
             var itemCode = Request.QueryString["key2"];
             var description = Request.QueryString["key4"];
@@ -368,12 +408,14 @@ namespace Inventory_mvc.Controllers
                 list.Add(rf);
                 HttpContext.Application["retrieveform"] = list;
             }
-
-            Response.Redirect(Url.Action("GenerateRetrieveForm", "ManageRequisitions") + "?pagee=" + page);
+            TempData["Successful"] = "Retrieve successfully.";
+            //Session["pagee"] = page;
+            //return RedirectToAction("GenerateRetrieveForm");
+            return RedirectToAction("GenerateRetrieveForm", new { pagenumber = page }) ;
         }
 
         [HttpGet]
-        public void UpdateDisbursement()
+        public ActionResult UpdateDisbursement()
         {
             if (HttpContext.Application["DisbursementQty"] != null)
             {
@@ -384,11 +426,21 @@ namespace Inventory_mvc.Controllers
                 }
             }
             HttpContext.Application["DisbursementQty"] = null;
+            HttpContext.Application["retrieveList"] = null;
+            HttpContext.Application["retrieveform"] = null;
+            TempData["Successful"] = "submit successful.";
+            return RedirectToAction("DisbursementList");
         }
 
         [HttpGet]
-        public void SaveDisbursementList()
+        public ActionResult SaveDisbursementList()
         {
+            if (Request.QueryString["ErrorMessage"] != null)
+            {
+                TempData["ErrorMessage"] = Request.QueryString["ErrorMessage"];
+                ViewBag.Select = Session["deptCode"].ToString();
+                return RedirectToAction("DisbursementList");
+            }
             var actualQty = Convert.ToInt32((Request.QueryString["key1"]));
             var itemCode = Request.QueryString["key2"];
             var allocateQty = Convert.ToInt32(Request.QueryString["key3"]);
@@ -413,21 +465,27 @@ namespace Inventory_mvc.Controllers
 
             l.Add(d);
             HttpContext.Application["DisbursementQty"] = l;
-            RedirectToAction("DisbursementList");
+            TempData["Successful"] = "Save disbursement successful.";
+            ViewBag.Select = deptCode;
+            return RedirectToAction("DisbursementList");
         }
 
         [HttpGet]
-        public ActionResult GenerateRetrieveForm(int? page)
+        public ActionResult GenerateRetrieveForm(int? page, string pagenumber)
         {
-            if (Request.QueryString["pagee"] != null)
+            if (pagenumber != null)
             {
-                page = Convert.ToInt32(Request.QueryString["pagee"]);
+                page = Convert.ToInt32(pagenumber);
             }
-            if (page == null)
+            if (HttpContext.Application["retrieveList"] == null)
             {
-                return View();
+                List<RetrieveForm> model = rs.GetRetrieveFormByDateTime(DateTime.Now);
+                HttpContext.Application["retrieveList"] = model;
+                int pageSize = 4;
+                int pageNumber = (page ?? 1);
+                return View(model.ToPagedList(pageNumber, pageSize));
             }
-            if (HttpContext.Application["retrieveList"] != null)
+            else if (HttpContext.Application["retrieveList"] != null)
             {
                 List<RetrieveForm> model = (List<RetrieveForm>)HttpContext.Application["retrieveList"];
                 int pageSize = 4;
@@ -440,16 +498,16 @@ namespace Inventory_mvc.Controllers
         [HttpPost]
         public ActionResult GenerateRetrieveForm(FormCollection form, int? page)
         {
-            DateTime s = new DateTime();
-            if (form["from"] == null)
-            {
-                return View("GenerateRetrieveForm");
-            }
-            if (!DateTime.TryParse(form["from"], out s))
-            {
-                return View();
-            }
-            DateTime? from = Convert.ToDateTime(form["from"]);
+            //DateTime s = new DateTime();
+            //if (form["from"] == null)
+            //{
+            //    return View("GenerateRetrieveForm");
+            //}
+            //if (!DateTime.TryParse(form["from"], out s))
+            //{
+            //    return View();
+            //}
+            DateTime? from = DateTime.Now;
             RetrieveForm rf = new RetrieveForm();
             List<RetrieveForm> model = new List<RetrieveForm>();
             Session["date"] = from;

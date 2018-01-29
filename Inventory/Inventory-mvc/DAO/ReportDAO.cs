@@ -13,25 +13,8 @@ namespace Inventory_mvc.DAO
     {
         private string[] criteria = { RequisitionStatus.PENDING_APPROVAL, RequisitionStatus.REJECTED };
 
-        public List<Requisition_Detail> GetApprovedRequisitionDetailsByItemCodeAndYear(string itemCode, int[] years)
-        {
-            using (StationeryModel context = new StationeryModel())
-            {
-                var details = (from d in context.Requisition_Detail
-                               where d.itemCode == itemCode
-                               select d);
 
-                details = (from d in details
-                           where years.Contains(d.Requisition_Record.requestDate.Value.Year)
-                           && !criteria.Contains(d.Requisition_Record.status)
-                           select d);
-
-                return details.Include(d => d.Requisition_Record).ToList();                                        
-            }
-        }
-
-
-        public List<Requisition_Detail> GetApprovedRequisitionDetailsByCriteria(string categoryID, string itemCode, int[] years)
+        public List<Requisition_Detail> GetApprovedRequisitionDetailsByCriteria(string categoryID, string itemCode, string deptCode, int[] years, int[] months)
         {
             using (StationeryModel context = new StationeryModel())
             {
@@ -47,42 +30,34 @@ namespace Inventory_mvc.DAO
                     details = (from d in details where d.itemCode == itemCode select d);
                 }
 
+                if(!String.IsNullOrEmpty(deptCode))
+                {
+                    details = (from d in details
+                               where d.Requisition_Record.User.departmentCode == deptCode
+                               select d);
+                }
+
+                if(years != null)
+                {
+                    details = (from d in details
+                               where years.Contains(d.Requisition_Record.requestDate.Value.Year)
+                               select d);
+                }
+
+                if (months != null)
+                {
+                    details = (from d in details
+                               where months.Contains(d.Requisition_Record.requestDate.Value.Month)
+                               select d);
+                }
+
                 details = (from d in details
-                           where years.Contains(d.Requisition_Record.requestDate.Value.Year)
-                           && !criteria.Contains(d.Requisition_Record.status)
+                           where !criteria.Contains(d.Requisition_Record.status)
                            select d);
 
                 return details.Include(d => d.Requisition_Record).ToList();
             }
 
-        }
-
-
-        public List<Requisition_Detail> GetApprovedRequisitionDetailsOfYear(int year)
-        {
-            using (StationeryModel context = new StationeryModel())
-            {
-                var details = (from d in context.Requisition_Detail
-                               where d.Requisition_Record.requestDate.Value.Year == year
-                               && !criteria.Contains(d.Requisition_Record.status)
-                               select d);
-
-                return details.Include(d => d.Requisition_Record).ToList();
-            }
-        }
-
-        public List<Requisition_Detail> GetApprovedRequisitionDetialsBasedOnYearAndMonth(int year, int month)
-        {
-            using (StationeryModel context = new StationeryModel())
-            {
-                var details = (from d in context.Requisition_Detail
-                               where d.Requisition_Record.requestDate.Value.Year == year
-                               && d.Requisition_Record.requestDate.Value.Month == month
-                               && !criteria.Contains(d.Requisition_Record.status)
-                               select d);
-
-                return details.Include(d => d.Requisition_Record).ToList();
-            }
         }
 
         public int GetEarliestYear()
@@ -96,52 +71,45 @@ namespace Inventory_mvc.DAO
             }
         }
 
-        public List<Purchase_Detail> RetrieveQty(DateTime ds, DateTime de)
+        public List<Purchase_Detail> GetPurchaseDetailsByCriteria(string categoryID, string itemCode, string supplierCode, int[] years, int[] months)
         {
-            using (StationeryModel entity = new StationeryModel())
+            using (StationeryModel context = new StationeryModel())
             {
-                DateTime dateStart = ds;
-                DateTime dateEnd = de;
-                
-                var purchaseRecords = (from x in entity.Purchase_Order_Records
-                                       where x.date >= dateStart && x.date <= dateEnd
-                                       select x).Include(x => x.Purchase_Detail).ToList();
+                var details = (from d in context.Purchase_Detail select d);
 
-                List<Purchase_Detail> details = new List<Purchase_Detail>();
-
-                foreach (var record in purchaseRecords)
+                if(categoryID != "-1") // -1 => retrieve from all category
                 {
-                    details.AddRange(record.Purchase_Detail);
+                    details = (from d in details where d.Stationery.categoryID.ToString() == categoryID select d);
                 }
 
-
-
-                return details; 
-            }
-        }
-
-        public List<Purchase_Detail> RetrieveQtyByEachSupplier(DateTime ds, DateTime de,string suppCode)
-        {
-            using (StationeryModel entity = new StationeryModel())
-            {
-                // TODO - FIX DATE
-                DateTime dateStart = ds;
-                DateTime dateEnd = de;
-
-                var purchaseRecords = (from x in entity.Purchase_Order_Records
-                                       where x.date >= dateStart && x.date <= dateEnd && x.supplierCode == suppCode
-                                       select x).Include(x => x.Purchase_Detail).ToList();
-
-                List<Purchase_Detail> details = new List<Purchase_Detail>();
-
-                foreach (var record in purchaseRecords)
+                if (itemCode != "-1") // -1 => retrieve all stationery from the same category
                 {
-                    details.AddRange(record.Purchase_Detail);
+                    details = (from d in details where d.itemCode == itemCode select d);
                 }
 
+                if (!String.IsNullOrEmpty(supplierCode))
+                {
+                    details = (from d in details
+                               where d.Purchase_Order_Record.supplierCode == supplierCode
+                               select d);
+                }
 
+                if (years != null)
+                {
+                    details = (from d in details
+                               where years.Contains(d.Purchase_Order_Record.date.Year)
+                               select d);
+                }
 
-                return details;
+                if (months != null)
+                {
+                    details = (from d in details
+                               where months.Contains(d.Purchase_Order_Record.date.Month)
+                               select d);
+                }
+
+               
+                return details.Include(d => d.Purchase_Order_Record).ToList();
             }
         }
     }

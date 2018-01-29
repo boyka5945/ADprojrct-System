@@ -10,12 +10,13 @@ namespace Inventory_mvc.ViewModel
     {
         [Key]
         [Required]
-        [Display(Name = "collectionPointID")]
+        [Display(Name = "Collection Point ID")]
         public int collectionPointID { get; set; }
 
         [Required]
+        
         [StringLength(50)]
-        [Display(Name = "Collection_Point")]
+        [Display(Name = "Collection Point")]
         public string collectionPointName { get; set; }
 
     }

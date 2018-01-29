@@ -23,6 +23,7 @@ namespace Inventory_mvc.ViewModel
         [Display(Name = "Category")]
         public string CategoryName { get; set; }
 
+        [Display(Name = "Category ID")]
         public int CategoryID { get; set; }
 
         // QUANTITY RECORD

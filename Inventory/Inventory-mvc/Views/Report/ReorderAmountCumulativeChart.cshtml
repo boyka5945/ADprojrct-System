@@ -1,0 +1,117 @@
+﻿<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
+<script src="~/Scripts/chart-colors.js"></script>
+<script src="~/Scripts/select2.min.js"></script>
+<link href="~/Content/select2.min.css" rel="stylesheet" />
+
+<h2>Reorder Amount Cumulative Chart</h2>
+
+<hr />
+
+<form id="chartForm">
+    <div class="row form-inline">
+        <div class="col-sm-1"><label>Year:</label></div>
+        <div class="col-sm-3">
+            <!-- Combobox -->
+            <select class="form-control" id="yearCombobox" style="width: 100%" name="year" required>
+                <option></option>
+            </select>
+        </div>
+        <div class="col-sm-1"><label>Supplier:</label></div>
+        <div class="col-sm-3">
+            <!-- Combobox -->
+            <select class="form-control" id="supplierCombobox" style="width: 100%" name="supplierCode" required>
+                <option></option>
+            </select>
+        </div>
+        <div class="col-sm-1">
+            <input type="button" class="btn btn-primary" onclick="LoadData()" value="Generate Chart" />
+        </div>
+    </div>
+</form>
+
+<br />
+
+
+
+<div id="progressBar" class="text-center hidden">
+   <label>Generating chart</label>   <progress id="p"></progress>
+</div>
+
+
+<div class="container" id="chartContainer"></div>
+
+
+<script>
+    // for requisition cumulative graph
+    function LoadData()
+    {
+        var form = document.getElementById("chartForm");
+
+        if (!form.checkValidity())
+        {
+            // To trigger html5 form validation - Create a temporary button, click and remove it
+            const tmpSubmit = document.createElement('button');
+            form.appendChild(tmpSubmit);
+            tmpSubmit.click();
+            form.removeChild(tmpSubmit);
+        }
+        else
+        {
+            $('#progressBar').removeClass('hidden');
+
+            $.ajax({
+                url: '@Url.Action("GetReorderAmountCumulativeBar", "Report")',
+                type: 'POST',
+                data: $('#chartForm').serialize(),
+                success: function (data) {
+                    $("#chartContainer").html(data),
+                    $('#progressBar').addClass('hidden');
+
+                },
+                error: function () {
+                    alert("Opps. Some error occurs. Please try again."),
+                    $('#progressBar').addClass('hidden');
+                }
+            });
+
+        }
+    }
+
+    // for year selection
+    $(document).ready(function () {
+        $('#yearCombobox').select2({
+            ajax: {
+                url: '@Url.Action("GetSelectableYearsJSON", "Report")',
+                delay: 250,
+                dataType: 'json',
+                processResults: function (data) {
+                    return {
+                        results: data
+                    };
+                },
+            },
+            placeholder: "Select a year",
+            selectOnClose: true,
+        });
+    });
+
+    // for deparment selection
+    $(document).ready(function () {
+        $('#supplierCombobox').select2({
+            ajax: {
+                url: '@Url.Action("GetSupplierListJSON", "Report")',
+                delay: 250,
+                dataType: 'json',
+                processResults: function (data) {
+                    return {
+                        results: data
+                    };
+                },
+            },
+            placeholder: "Select a supplier",
+            selectOnClose: true,
+        });
+    });
+
+
+</script>
