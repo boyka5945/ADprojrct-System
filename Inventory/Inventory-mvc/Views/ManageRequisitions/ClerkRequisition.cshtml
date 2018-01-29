@@ -9,6 +9,21 @@
 }
 
 <h2>Allocate requisition</h2>
+<div>
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger">
+            @TempData["ErrorMessage"].ToString()
+        </div>
+    }
+    else if(TempData["Successful"] != null) 
+    {
+        <div class="alert alert-success">
+            @TempData["Successful"].ToString()
+        </div>
+    }
+</div>
+
 @using (Html.BeginForm("AllocateRequisition", "ManageRequisitions", new { }, FormMethod.Post, new { @class = "form", @id = "checkForm" }))
 {
 <table class="table">
