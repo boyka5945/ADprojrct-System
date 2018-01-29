@@ -26,6 +26,7 @@ namespace InventoryWCF
         [WebGet(UriTemplate = "/GetUser/{userid}/{password}", ResponseFormat = WebMessageFormat.Json)]
         WCFUser GetUser(string userid, string password);
 
+
         //[OperationContract]
         //[WebGet(UriTemplate = "/All", ResponseFormat = WebMessageFormat.Json)]
         //List<string> GetAllItemCode();
