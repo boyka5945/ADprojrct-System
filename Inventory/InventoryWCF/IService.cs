@@ -593,6 +593,28 @@ namespace InventoryWCF
             get; set;
         }
     
+    }
+
+[DataContract]
+public class WCFCollectionPoint
+{
+    [DataMember]
+    public string Collection_Point_Name
+    {
+        get; set;
+    }
+
+    [DataMember]
+    public int Collection_Point_ID
+    {
+        get; set;
+    }
+
+    public string Collection_Point_Department
+    {
+        get; set;
+    }
+
 }
 
 
