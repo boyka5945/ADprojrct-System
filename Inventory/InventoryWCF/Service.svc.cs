@@ -330,6 +330,12 @@ namespace InventoryWCF
                 List<RetrieveForm> list = (List<RetrieveForm>)HttpContext.Current.Application["retrieveForm"];
                 //RetrieveForm rf = list.Where(x => x.description == description).First();
                 //rf.retrieveQty = Int32.Parse(qty);
+                Stationery item = stationeryService.FindStationeryByItemCode(wcfr.ItemCode);
+                if(wcfr.QtyRetrieved > item.stockQty)
+                {
+                    return "Value of Retrieved Qty cannot exceed Stock Qty.";
+                }
+
                 var index = list.FindIndex(x => x.description == wcfr.Description);
                 list[index].retrieveQty = wcfr.QtyRetrieved;
 
