@@ -111,6 +111,10 @@ namespace InventoryWCF
         List<WCFDepartment> GetAllDepartments();
 
         [OperationContract]
+        [WebGet(UriTemplate = "/GetDepartment/{deptCode}", ResponseFormat = WebMessageFormat.Json)]
+        WCFDepartment GetDepartment (string deptCode);
+
+        [OperationContract]
         [WebGet(UriTemplate = "/GetAllCollectionPoints", ResponseFormat = WebMessageFormat.Json)]
         List<WCFCollectionPoint> GetAllCollectionPoints();
 
@@ -324,6 +328,7 @@ namespace InventoryWCF
         string userid;
         string password;
         string departmentCode;
+        string name;
         int role;
         //need to add departmentCode
 
@@ -355,9 +360,17 @@ namespace InventoryWCF
             set { departmentCode = value; }
         }
 
+    [DataMember]
+    public string Name
+    {
+        get { return name; }
+        set { name = value; }
     }
 
-    [DataContract]
+
+}
+
+[DataContract]
     public class WCFRequisitionRecord
     {
         int requisitionNo;
@@ -596,8 +609,14 @@ namespace InventoryWCF
         {
             get; set;
         }
-    
-    }
+
+        [DataMember]
+        public string CollectionPointName
+        {
+           get; set;
+        }
+
+}
 
 [DataContract]
 public class WCFCollectionPoint

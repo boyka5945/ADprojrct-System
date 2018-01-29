@@ -515,5 +515,31 @@ namespace InventoryWCF
         //    throw new NotImplementedException();
         //}
 
+        public WCFDepartment GetDepartment(string departmentCode)
+        {
+            string deptCode = departmentCode.ToUpper().Trim();
+            try
+            {
+
+                Department d = departmentService.GetDepartmentByCode(deptCode);
+                if (d.departmentCode == deptCode)
+                {
+                    WCFDepartment WCFD = WCFModelConvertUtility.convertToWCFDepartment(d);
+                    return WCFD;
+                }
+                else
+                {
+                    WCFDepartment invalid = new WCFDepartment();
+                    return invalid;
+                }
+            }
+            catch(Exception e)
+            {
+                WCFDepartment invalid = new WCFDepartment();
+                return invalid;
+            }
+
+        }
+
     }
 }

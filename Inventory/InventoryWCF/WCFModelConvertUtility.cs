@@ -136,6 +136,7 @@ namespace InventoryWCF
             wUser.UserID = user.userID;
             wUser.DepartmentCode = user.departmentCode;
             wUser.Role = user.role;
+            wUser.Name = user.name;
 
             return wUser;
  
@@ -169,6 +170,7 @@ namespace InventoryWCF
             wcfd.DepartmentName = d.departmentName;
             wcfd.ContactName = d.contactName;
             wcfd.CollectionPointID = d.collectionPointID;
+            wcfd.CollectionPointName = d.Collection_Point.collectionPointName;
 
             return wcfd;
         }
