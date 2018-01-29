@@ -19,9 +19,9 @@ namespace Inventory_mvc.ViewModel
 
         public string RequesterDepartment { get; set; }
 
-        public List<string> Suppliers { get; set; }
+        public string Supplier { get; set; }
 
-        public List<int> OrderQuantity { get; set; }
+        public int OrderQuantity { get; set; }
 
         public int Year { get; set; }
 
