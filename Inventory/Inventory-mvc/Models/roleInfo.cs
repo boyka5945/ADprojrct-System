@@ -18,12 +18,15 @@ namespace Inventory_mvc.Models
 
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        [Display(Name = "Role ID")]
         public int roleID { get; set; }
 
         [StringLength(50)]
+        [Display(Name = "Role Name")]
         public string roleName { get; set; }
 
         [StringLength(50)]
+        [Display(Name = "Description")]
         public string description { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

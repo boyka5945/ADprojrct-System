@@ -23,7 +23,7 @@ namespace Inventory_mvc.Models
         public string supplierCode { get; set; }
 
         [Required]
-        [Display(Name = "GST Number")]
+        [Display(Name = "GST Registration No.")]
         [StringLength(50)]
         public string GSTNo { get; set; }
 
