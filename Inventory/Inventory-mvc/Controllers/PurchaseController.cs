@@ -245,9 +245,7 @@ namespace Inventory_mvc.Controllers
                 List<string> suppliers = details.Values.Distinct().ToList();
 
                 for (int i = 0; i < suppliers.Count; i++)
-                {
-               
-
+                {              
                     Purchase_Order_Record p = new Purchase_Order_Record();
                     p.clerkID = loggedInUser; 
                     p.date = DateTime.Now;

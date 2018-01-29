@@ -3,11 +3,7 @@
 <script src="~/Scripts/select2.min.js"></script>
 <link href="~/Content/select2.min.css" rel="stylesheet" />
 
-@{
-    ViewBag.Title = "RequisitionCumulativeChart";
-}
-
-<h2>Requisition Cumulative Chart</h2>
+<h2>Reorder Amount Cumulative Chart</h2>
 
 <hr />
 
@@ -20,10 +16,10 @@
                 <option></option>
             </select>
         </div>
-        <div class="col-sm-1"><label>Department:</label></div>
+        <div class="col-sm-1"><label>Supplier:</label></div>
         <div class="col-sm-3">
             <!-- Combobox -->
-            <select class="form-control" id="deptCombobox" style="width: 100%" name="deptCode" required>
+            <select class="form-control" id="supplierCombobox" style="width: 100%" name="supplierCode" required>
                 <option></option>
             </select>
         </div>
@@ -64,7 +60,7 @@
             $('#progressBar').removeClass('hidden');
 
             $.ajax({
-                url: '@Url.Action("GetRequisitionCumulativeBar", "Report")',
+                url: '@Url.Action("GetReorderAmountCumulativeBar", "Report")',
                 type: 'POST',
                 data: $('#chartForm').serialize(),
                 success: function (data) {
@@ -101,9 +97,9 @@
 
     // for deparment selection
     $(document).ready(function () {
-        $('#deptCombobox').select2({
+        $('#supplierCombobox').select2({
             ajax: {
-                url: '@Url.Action("GetDepartmentListJSON", "Report")',
+                url: '@Url.Action("GetSupplierListJSON", "Report")',
                 delay: 250,
                 dataType: 'json',
                 processResults: function (data) {
@@ -112,7 +108,7 @@
                     };
                 },
             },
-            placeholder: "Select a department",
+            placeholder: "Select a supplier",
             selectOnClose: true,
         });
     });
