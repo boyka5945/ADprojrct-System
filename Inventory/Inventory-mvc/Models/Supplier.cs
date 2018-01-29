@@ -19,25 +19,32 @@ namespace Inventory_mvc.Models
 
         [Key]
         [StringLength(50)]
+        [Display(Name = "Supplier Code")]
         public string supplierCode { get; set; }
 
         [Required]
+        [Display(Name = "GST Number")]
         [StringLength(50)]
         public string GSTNo { get; set; }
 
         [Required]
+        [Display(Name = "Supplier Name")]
         [StringLength(50)]
         public string supplierName { get; set; }
 
         [Required]
+        [Display(Name = "Contact Name")]
         [StringLength(50)]
         public string contactName { get; set; }
 
+        [Display(Name = "Phone Number")]
         public int phoneNo { get; set; }
 
+        [Display(Name = "Fax Number")]
         public int? faxNo { get; set; }
 
         [Required]
+        [Display(Name = "Address")]
         [StringLength(200)]
         public string address { get; set; }
 
