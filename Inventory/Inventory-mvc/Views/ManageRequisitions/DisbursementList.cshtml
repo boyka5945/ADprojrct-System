@@ -13,7 +13,7 @@
     
     @using (Html.BeginForm())
     {
-        @Html.Label("DepartmentName : ")
+        @Html.Label("Department Name : ")
         if (ViewBag.Select != null)
         {
             @Html.DropDownList("ID", (List<SelectListItem>)ViewData["list"], (string)ViewBag.Select, new { onchange = "form.submit();" })
@@ -23,7 +23,7 @@
             @Html.DropDownList("ID", (List<SelectListItem>)ViewData["list"], "Zoology Dept", new { onchange = "form.submit();" })
         }
         <br/>
-        @Html.Label("CollectionPoint:")
+        @Html.Label("Collection Point:")
         @Html.Label((string)ViewBag.Point)
     }
 </div>
@@ -37,7 +37,7 @@
             @Html.Label("Quantity")
         </th>
         <th>
-            Actual RetrievedQty
+            @Html.Label("Actual Retrieved Quantity")
         </th>
         <th>
 
