@@ -7,6 +7,7 @@ namespace Inventory_mvc.ViewModel
 {
     public class ReportViewModel
     {
+         
         public string ItemCode { get; set; }
 
         public string ItemDescription { get; set; }

@@ -12,7 +12,7 @@ namespace Inventory_mvc.ViewModel
         [Key]
         [Required]
         [StringLength(50)]
-        [Display(Name = "Code")]
+        [Display(Name = "Item Code")]
         public string ItemCode { get; set; }
 
         [Required]
@@ -46,17 +46,17 @@ namespace Inventory_mvc.ViewModel
 
         [Required]
         [StringLength(50)]
-        [Display(Name = "1st Supplier")]
+        [Display(Name = "First Supplier")]
         public string FirstSupplierCode { get; set; }
 
        
         [StringLength(50)]
-        [Display(Name = "2nd Supplier")]
+        [Display(Name = "Second Supplier")]
         public string SecondSupplierCode { get; set; }
 
         
         [StringLength(50)]
-        [Display(Name = "3rd Supplier")]
+        [Display(Name = "Third Supplier")]
         public string ThirdSupplierCode { get; set; }
 
         [Required]

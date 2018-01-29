@@ -17,15 +17,19 @@ namespace Inventory_mvc.Models
 
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        [Display(Name = "Permission ID")]
         public int permissionID { get; set; }
 
         [StringLength(50)]
+        [Display(Name = "Controller")]
         public string controller { get; set; }
 
         [StringLength(50)]
+        [Display(Name = "Action")]
         public string action { get; set; }
 
         [StringLength(50)]
+        [Display(Name = "Description")]
         public string description { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
