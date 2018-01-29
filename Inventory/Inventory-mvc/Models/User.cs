@@ -22,7 +22,7 @@ namespace Inventory_mvc.Models
 
         [Required]
         [StringLength(50)]
-        [Display(Name = "UserID")]
+        [Display(Name = "User ID")]
         public string userID { get; set; }
 
         [Required]
