@@ -13,25 +13,8 @@ namespace Inventory_mvc.DAO
     {
         private string[] criteria = { RequisitionStatus.PENDING_APPROVAL, RequisitionStatus.REJECTED };
 
-        public List<Requisition_Detail> GetApprovedRequisitionDetailsByItemCodeAndYear(string itemCode, int[] years)
-        {
-            using (StationeryModel context = new StationeryModel())
-            {
-                var details = (from d in context.Requisition_Detail
-                               where d.itemCode == itemCode
-                               select d);
 
-                details = (from d in details
-                           where years.Contains(d.Requisition_Record.requestDate.Value.Year)
-                           && !criteria.Contains(d.Requisition_Record.status)
-                           select d);
-
-                return details.Include(d => d.Requisition_Record).ToList();                                        
-            }
-        }
-
-
-        public List<Requisition_Detail> GetApprovedRequisitionDetailsByCriteria(string categoryID, string itemCode, int[] years)
+        public List<Requisition_Detail> GetApprovedRequisitionDetailsByCriteria(string categoryID, string itemCode, string deptCode, int[] years, int[] months)
         {
             using (StationeryModel context = new StationeryModel())
             {
@@ -47,42 +30,34 @@ namespace Inventory_mvc.DAO
                     details = (from d in details where d.itemCode == itemCode select d);
                 }
 
+                if(!String.IsNullOrEmpty(deptCode))
+                {
+                    details = (from d in details
+                               where d.Requisition_Record.User.departmentCode == deptCode
+                               select d);
+                }
+
+                if(years != null)
+                {
+                    details = (from d in details
+                               where years.Contains(d.Requisition_Record.requestDate.Value.Year)
+                               select d);
+                }
+
+                if (months != null)
+                {
+                    details = (from d in details
+                               where months.Contains(d.Requisition_Record.requestDate.Value.Month)
+                               select d);
+                }
+
                 details = (from d in details
-                           where years.Contains(d.Requisition_Record.requestDate.Value.Year)
-                           && !criteria.Contains(d.Requisition_Record.status)
+                           where !criteria.Contains(d.Requisition_Record.status)
                            select d);
 
                 return details.Include(d => d.Requisition_Record).ToList();
             }
 
-        }
-
-
-        public List<Requisition_Detail> GetApprovedRequisitionDetailsOfYear(int year)
-        {
-            using (StationeryModel context = new StationeryModel())
-            {
-                var details = (from d in context.Requisition_Detail
-                               where d.Requisition_Record.requestDate.Value.Year == year
-                               && !criteria.Contains(d.Requisition_Record.status)
-                               select d);
-
-                return details.Include(d => d.Requisition_Record).ToList();
-            }
-        }
-
-        public List<Requisition_Detail> GetApprovedRequisitionDetialsBasedOnYearAndMonth(int year, int month)
-        {
-            using (StationeryModel context = new StationeryModel())
-            {
-                var details = (from d in context.Requisition_Detail
-                               where d.Requisition_Record.requestDate.Value.Year == year
-                               && d.Requisition_Record.requestDate.Value.Month == month
-                               && !criteria.Contains(d.Requisition_Record.status)
-                               select d);
-
-                return details.Include(d => d.Requisition_Record).ToList();
-            }
         }
 
         public int GetEarliestYear()

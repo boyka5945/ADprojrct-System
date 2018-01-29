@@ -19,27 +19,15 @@ namespace Inventory_mvc.Service
 
         public List<ReportViewModel> GetItemRequestTrend(string categoryID, string itemCode, int[] years)
         {
-            List<Requisition_Detail> details = reportDAO.GetApprovedRequisitionDetailsByCriteria(categoryID, itemCode, years);
-
+            List<Requisition_Detail> details = reportDAO.GetApprovedRequisitionDetailsByCriteria(categoryID, itemCode, null, years, null);
             List<ReportViewModel> vmList = new List<ReportViewModel>();
-
-            foreach (var d in details)
-            {
-                // Get only approved and processed record
-                string status = d.Requisition_Record.status;
-                if(status == RequisitionStatus.PENDING_APPROVAL || status == RequisitionStatus.REJECTED)
-                {
-                    continue; // skip
-                }
-                vmList.Add(ConvertToReportViewModel(d));
-            }
-
+            vmList.AddRange(ConvertToReportViewModel(details));
             return vmList;
         }
 
         public List<ReportViewModel> GetApprovedRequisitionsOfYear(int year)
         {
-            List<Requisition_Detail> details = reportDAO.GetApprovedRequisitionDetailsOfYear(year);
+            List<Requisition_Detail> details = reportDAO.GetApprovedRequisitionDetailsByCriteria("-1", "-1", null, new int[] { year }, null);
             List<ReportViewModel> vmList = new List<ReportViewModel>();
             vmList.AddRange(ConvertToReportViewModel(details));
             return vmList;
@@ -47,7 +35,7 @@ namespace Inventory_mvc.Service
 
         public List<ReportViewModel> GetApprovedRequisitionDetialsBasedOnYearAndMonth(int year, int month)
         {
-            List<Requisition_Detail> details = reportDAO.GetApprovedRequisitionDetialsBasedOnYearAndMonth(year, month);
+            List<Requisition_Detail> details = reportDAO.GetApprovedRequisitionDetailsByCriteria("-1", "-1", null, new int[] { year }, new int[] { month });
             List<ReportViewModel> vmList = new List<ReportViewModel>();
             vmList.AddRange(ConvertToReportViewModel(details));
             return vmList;
@@ -201,6 +189,25 @@ namespace Inventory_mvc.Service
             }
 
             return months;
+        }
+
+        public List<ReportViewModel> GetDepartmentApprovedRequisitionsOfYear(int year, string deptCode)
+        {
+            List<Requisition_Detail> details = new List<Requisition_Detail>();
+
+            if(deptCode == "-1")
+            {
+                details = reportDAO.GetApprovedRequisitionDetailsByCriteria("-1", "-1", null, new int[] { year }, null);
+            }
+            else
+            {
+                details = reportDAO.GetApprovedRequisitionDetailsByCriteria("-1", "-1", deptCode, new int[] { year }, null);
+            }
+
+            List<ReportViewModel> vmList = new List<ReportViewModel>();
+            vmList.AddRange(ConvertToReportViewModel(details));
+            return vmList;
+
         }
     }
 }

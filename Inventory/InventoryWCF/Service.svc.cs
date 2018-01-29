@@ -233,6 +233,14 @@ namespace InventoryWCF
             return WCFModelConvertUtility.ConvertToWCFRequisitionRecord(requisitionRecords);
         }
 
+        public List<WCFRequisitionRecord> GetRequsitionRecordByDept(string deptCode)
+        {
+            List<Requisition_Record> reqByDept = requisitionRecordService.GetRequisitionRecordByDept(deptCode);
+            return WCFModelConvertUtility.ConvertToWCFRequisitionRecord(reqByDept);
+        }
+
+        
+
         public bool AddNewRequest(string requesterID, WCFRequisitionDetail[] newRequisition)
         {
             Requisition_Record newRecord = new Requisition_Record();
@@ -489,6 +497,7 @@ namespace InventoryWCF
         //    stationeryService.GetAllStationery();
 
         //}
+
 
         //public List<Disbursement> getDisbursementList()
         //{
