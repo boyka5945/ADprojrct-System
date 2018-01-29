@@ -27,7 +27,7 @@ namespace InventoryWCF
 
 
 
-        public Boolean ValidateUser(WCFUser User)
+        public string ValidateUser(WCFUser User)
         {
             //return BusinessLogic.validateUser(userid, password);
 
@@ -38,22 +38,22 @@ namespace InventoryWCF
                 {
                     if (User.PassWord == Encrypt.DecryptMethod(user.password))
                     {
-                        return true;
+                        return "true";
                     } else
                     {
-                        return false;
+                        return "false";
                     }
                 }
                 else
                 {
-                    return false;
+                    return "false";
                 }
 
             }
             catch (Exception e)
             {
                 // non existing userID
-                return false;
+                return "false";
             }           
         }
 
@@ -92,7 +92,7 @@ namespace InventoryWCF
             //return BusinessLogic.changePassWord(userid, currentpassword, newpassword);
             try
             {
-                if(ValidateUser(u))
+                if(ValidateUser(u) == "false")
                 {
                     throw new NotImplementedException();
                 }
