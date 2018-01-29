@@ -96,6 +96,32 @@ namespace InventoryWCF
             }
         }
 
+        public static void updateRequisition(int requisitionNo, string status, string approveStaffID)
+        {
+            using (StationeryModel entity = new StationeryModel())
+            {
+                if (entity.Requisition_Records.Where(x => x.requisitionNo == requisitionNo).Count() > 0)
+                {
+                    var model = entity.Requisition_Records.Where(x => x.requisitionNo == requisitionNo).First();
+                    model.status = status;
+
+                    if (approveStaffID == "")
+                    {
+                        model.approvingStaffID = null;
+                        model.approveDate = null;
+                    }
+                    else
+                    {
+                        model.approvingStaffID = approveStaffID;
+                        model.approveDate = DateTime.Now;
+                    }
+                    
+                    entity.SaveChanges();
+                    
+                }
+                
+            }
+        }
 
 
     }

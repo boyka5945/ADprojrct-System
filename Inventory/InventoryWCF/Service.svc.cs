@@ -239,7 +239,12 @@ namespace InventoryWCF
             return WCFModelConvertUtility.ConvertToWCFRequisitionRecord(reqByDept);
         }
 
-        
+        public List<WCFRequisitionRecord> GetRequisitionRecordByRequesterID(string requesterID)
+        {
+            List<Requisition_Record> reqByReqID = requisitionRecordService.GetRequestByReqID(requesterID);
+            return WCFModelConvertUtility.ConvertToWCFRequisitionRecord(reqByReqID);
+        }
+
 
         public bool AddNewRequest(string requesterID, WCFRequisitionDetail[] newRequisition)
         {
@@ -275,9 +280,17 @@ namespace InventoryWCF
             List<Requisition_Detail> reqDetail = requisitionRecordService.GetDetailsByNo(no);
             return WCFModelConvertUtility.ConvertToWCFRequestionDetails(reqDetail);
         }
-        public Boolean updateRequisitionDetails(int requisitionNo, string ItemCode, int allocateQty)
+        public Boolean updateRequisitionDetails(string requisitionNo, string ItemCode, string allocateQty)
         {
-            return BusinessLogic.updateRequisitionDetails(requisitionNo, ItemCode, allocateQty);
+            int no = Int32.Parse(requisitionNo);
+            int qty = Int32.Parse(allocateQty);
+            return BusinessLogic.updateRequisitionDetails(no, ItemCode, qty);
+        }
+
+        public void UpdateRequisition (string requisitionNo, string status, string approveStaffID)
+        {
+
+            BusinessLogic.updateRequisition(Convert.ToInt32(requisitionNo) , status, approveStaffID);
         }
 
         public List<WCFRetrievalForm> getRetrievalList()

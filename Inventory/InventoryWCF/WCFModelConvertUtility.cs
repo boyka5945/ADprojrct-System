@@ -90,6 +90,23 @@ namespace InventoryWCF
             return wcf_requisitionRecord;
         }
 
+        public static Requisition_Record ConvertFromRequisitionRecord(WCFRequisitionRecord wcfRecRecord)
+        {
+            Requisition_Record recRecord = new Requisition_Record();
+            recRecord.requisitionNo = wcfRecRecord.RequisitionNo;
+            recRecord.deptCode = wcfRecRecord.DeptCode;
+            recRecord.Department.departmentName = wcfRecRecord.DeptName;
+            recRecord.requesterID = wcfRecRecord.RequesterID;
+            recRecord.User.name = wcfRecRecord.RequesterName;
+            recRecord.approvingStaffID = wcfRecRecord.ApprovingStaffID;
+            recRecord.User.name = wcfRecRecord.ApprovingStaffName;
+            recRecord.approveDate = wcfRecRecord.ApproveDate;
+            recRecord.status = wcfRecRecord.Status;
+            recRecord.requestDate = wcfRecRecord.RequestDate;
+
+            return recRecord;
+        }
+
         public static List<WCFRequisitionRecord> ConvertToWCFRequisitionRecord(List<Requisition_Record> requisitionRecords)
         {
             List<WCFRequisitionRecord> wcf_requisitionRecords = new List<WCFRequisitionRecord>();
