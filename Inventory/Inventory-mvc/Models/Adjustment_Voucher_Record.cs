@@ -16,26 +16,33 @@ namespace Inventory_mvc.Models
         }
 
         [Key]
+        [Display(Name = "Voucher ID")]
         public int voucherID { get; set; }
 
         [Column(TypeName = "date")]
+        [Display(Name = "Issue Date")]
         public DateTime issueDate { get; set; }
 
         [Required]
+        [Display(Name = "Handling Staff ID")]
         [StringLength(50)]
         public string handlingStaffID { get; set; }
 
         [StringLength(50)]
+        [Display(Name = "Authorising Staff ID")]
         public string authorisingStaffID { get; set; }
 
         [Required]
         [StringLength(50)]
+        [Display(Name = "Status")]
         public string status { get; set; }
 
         [StringLength(200)]
+        [Display(Name = "Remarks")]
         public string remarks { get; set; }
 
         [Column(TypeName = "date")]
+        [Display(Name = "Approval Date")]
         public DateTime? approvalDate { get; set; }
 
         [Display(Name = "Requester")]

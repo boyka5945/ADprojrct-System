@@ -31,6 +31,12 @@ namespace Inventory_mvc.Service
             return viewModelList;
         }
 
+        List<Collection_Point> ICollectionPointService.GetAllCollectionPoints2()
+        {
+           
+            return collectionPointDAO.GetAllCollectionPoint();
+        }
+
         public CollectionPointViewModel GetCollectionPointByID(int collectionPointID)
         {
             int id = collectionPointID;

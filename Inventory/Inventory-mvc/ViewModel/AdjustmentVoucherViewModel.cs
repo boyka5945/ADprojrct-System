@@ -48,7 +48,7 @@ namespace Inventory_mvc.ViewModel
         [Display(Name = "Processed By")]
         public string Approver { get; set; }
 
-        [Display(Name = "Process Date")]
+        [Display(Name = "Processed Date")]
         [DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:dd/MM/yy}", ApplyFormatInEditMode = true)]
         public DateTime? ApprovalDate { get; set; }
 

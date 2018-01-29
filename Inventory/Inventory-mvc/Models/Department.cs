@@ -42,6 +42,7 @@ namespace Inventory_mvc.Models
         [Display(Name = "Collection Point ID")]
         public int collectionPointID { get; set; }
 
+        [Display(Name = "Collection Point")]
         public virtual Collection_Point Collection_Point { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
