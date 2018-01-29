@@ -483,8 +483,17 @@ namespace Inventory_mvc.DAO
 
         public int DetailsCountOfOneItemcode(string itemCode)
         {
+            int count = 0;
             StationeryModel entity = new StationeryModel();
-            return entity.Requisition_Detail.Where(x => x.itemCode == itemCode).Count();
+            List<Requisition_Detail> l = entity.Requisition_Detail.Where(x => x.itemCode == itemCode).ToList();
+            foreach(var item in l)
+            {
+                if(item.Requisition_Record.status == RequisitionStatus.APPROVED_PROCESSING || item.Requisition_Record.status == RequisitionStatus.PARTIALLY_FULFILLED)
+                {
+                    count++;
+                }
+            }
+            return count;
         }
 
         public void updatestatus(int requisitionNo, int status)

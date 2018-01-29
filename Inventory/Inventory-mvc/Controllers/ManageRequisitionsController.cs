@@ -239,6 +239,20 @@ namespace Inventory_mvc.Controllers
             }
             List<Disbursement> list;
             list = rs.GetRequisitionByDept(deptCode);
+            if (HttpContext.Application["DisbursementQty"] != null)
+            {
+                List<Disbursement> l = (List<Disbursement>)HttpContext.Application["DisbursementQty"];
+                foreach (var item in list)
+                {
+                    foreach (var i in l)
+                    {
+                        if (item.itemCode == i.itemCode)
+                        {
+                            item.actualQty = i.actualQty;
+                        }
+                    }
+                }
+            }
             HttpContext.Application["TotalItem"] = list.Count();
             StationeryModel entity = new StationeryModel();
             var user = entity.Users.Where(x => x.departmentCode == deptCode).First();
@@ -303,7 +317,20 @@ namespace Inventory_mvc.Controllers
             }
             ViewData["list"] = departmentlist;
             var list = rs.GetRequisitionByDept(deptCode);
-            
+            if (HttpContext.Application["DisbursementQty"] != null)
+            {
+                List<Disbursement> l = (List<Disbursement>)HttpContext.Application["DisbursementQty"];
+                foreach (var item in list)
+                {
+                    foreach (var i in l)
+                    {
+                        if (item.itemCode == i.itemCode)
+                        {
+                            item.actualQty = i.actualQty;
+                        }
+                    }
+                }
+            }
             //return View(list);
             int pageSize = 10;
             int pageNumber = (page ?? 1);
