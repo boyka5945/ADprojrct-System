@@ -11,6 +11,7 @@ namespace Inventory_mvc.DAO
     {
         List<Collection_Point> GetAllCollectionPoint();
 
+        
         Collection_Point FindByCollectionPointID(int id);
 
         List<int> GetAllCollectionID();
