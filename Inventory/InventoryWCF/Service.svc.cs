@@ -342,16 +342,32 @@ namespace InventoryWCF
 
         }
 
-        public bool UpdateRetrieval(WCFRetrievalForm wcfr)
+        public string UpdateRetrieval(WCFRetrievalForm wcfr)
         {
-            List<RetrieveForm> list = (List<RetrieveForm>)HttpContext.Current.Application["retrieveForm"];
-            //RetrieveForm rf = list.Where(x => x.description == description).First();
-            //rf.retrieveQty = Int32.Parse(qty);
-            var index = list.FindIndex(x => x.description == wcfr.Description);
-            list[index].retrieveQty = wcfr.QtyRetrieved;
+            try
+            {
+                List<RetrieveForm> list = (List<RetrieveForm>)HttpContext.Current.Application["retrieveForm"];
+                //RetrieveForm rf = list.Where(x => x.description == description).First();
+                //rf.retrieveQty = Int32.Parse(qty);
+                Stationery item = stationeryService.FindStationeryByItemCode(wcfr.ItemCode);
+                if(wcfr.QtyRetrieved > item.stockQty)
+                {
+                    return "Value of Retrieved Qty cannot exceed Stock Qty.";
+                }
 
-            HttpContext.Current.Application["retrieveForm"] = list;
-            return true;
+                var index = list.FindIndex(x => x.description == wcfr.Description);
+                list[index].retrieveQty = wcfr.QtyRetrieved;
+
+                HttpContext.Current.Application["retrieveForm"] = list;
+                return "true";
+            }
+
+            catch(Exception e)
+            {
+                String error = e.Message;
+
+                return error;
+            }
 
 
         }

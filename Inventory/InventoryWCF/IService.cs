@@ -101,7 +101,7 @@ namespace InventoryWCF
             UriTemplate = "/UpdateRetrieval",
             RequestFormat = WebMessageFormat.Json,
             ResponseFormat = WebMessageFormat.Json)]
-        bool UpdateRetrieval(WCFRetrievalForm wcfr);
+        string UpdateRetrieval(WCFRetrievalForm wcfr);
 
         //[OperationContract]
         //[WebGet(UriTemplate = "/GetRetrievalItemByName", ResponseFormat = WebMessageFormat.Json)]
