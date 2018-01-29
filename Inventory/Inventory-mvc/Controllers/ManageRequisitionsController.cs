@@ -61,6 +61,11 @@ namespace Inventory_mvc.Controllers
         [HttpGet]
         public ActionResult ClerkRequisition(int? page)
         {
+            if (Request.QueryString["ErrorMessage"] != null)
+            {
+                TempData["ErrorMessage"] = Request.QueryString["ErrorMessage"];
+                return RedirectToAction("ClerkRequisition");
+            }
             List<BigModelView> blist = new List<BigModelView>();
             List<string> itemCodes = rs.GetItemCodeList();
             if (HttpContext.Application["BigModel"] != null)
@@ -364,8 +369,13 @@ namespace Inventory_mvc.Controllers
         }
 
         [HttpGet]
-        public void updateRetrieve()
+        public ActionResult updateRetrieve()
         {
+            if (Request.QueryString["ErrorMessage"] != null)
+            {
+                TempData["ErrorMessage"] = Request.QueryString["ErrorMessage"];
+                return RedirectToAction("GenerateRetrieveForm");
+            }
             var RetrieveQty = Convert.ToInt32((Request.QueryString["key1"]));
             var itemCode = Request.QueryString["key2"];
             var description = Request.QueryString["key4"];
@@ -398,8 +408,10 @@ namespace Inventory_mvc.Controllers
                 list.Add(rf);
                 HttpContext.Application["retrieveform"] = list;
             }
-
-            Response.Redirect(Url.Action("GenerateRetrieveForm", "ManageRequisitions") + "?pagee=" + page);
+            TempData["Successful"] = "Retrieve successfully.";
+            //Session["pagee"] = page;
+            //return RedirectToAction("GenerateRetrieveForm");
+            return RedirectToAction("GenerateRetrieveForm", page);
         }
 
         [HttpGet]
@@ -416,13 +428,18 @@ namespace Inventory_mvc.Controllers
             HttpContext.Application["DisbursementQty"] = null;
             HttpContext.Application["retrieveList"] = null;
             HttpContext.Application["retrieveform"] = null;
-
+            TempData["Successful"] = "submit successful.";
             return RedirectToAction("DisbursementList");
         }
 
         [HttpGet]
         public ActionResult SaveDisbursementList()
         {
+            if (Request.QueryString["ErrorMessage"] != null)
+            {
+                TempData["ErrorMessage"] = Request.QueryString["ErrorMessage"];
+                return RedirectToAction("DisbursementList");
+            }
             var actualQty = Convert.ToInt32((Request.QueryString["key1"]));
             var itemCode = Request.QueryString["key2"];
             var allocateQty = Convert.ToInt32(Request.QueryString["key3"]);
@@ -447,15 +464,17 @@ namespace Inventory_mvc.Controllers
 
             l.Add(d);
             HttpContext.Application["DisbursementQty"] = l;
+            TempData["Successful"] = "Save disbursement successful.";
+
             return RedirectToAction("DisbursementList");
         }
 
         [HttpGet]
         public ActionResult GenerateRetrieveForm(int? page)
         {
-            if (Request.QueryString["pagee"] != null)
+            if (ControllerContext.RouteData.Values["page"] != null)
             {
-                page = Convert.ToInt32(Request.QueryString["pagee"]);
+                page = Convert.ToInt32(ControllerContext.RouteData.Values["page"].ToString());
             }
             if (HttpContext.Application["retrieveList"] == null)
             {

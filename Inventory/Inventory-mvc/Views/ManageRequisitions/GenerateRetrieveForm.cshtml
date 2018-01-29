@@ -9,6 +9,18 @@
 }
 
 <h2>Retrieved List</h2>
+@if (TempData["Successful"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["Successful"].ToString()
+    </div>
+}
+else if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["ErrorMessage"].ToString()
+    </div>
+}
 @if (Model != null)
 {
     using (Html.BeginForm("GetApplication", "ManageRequisitions", new { }, FormMethod.Post, new { @class = "form", @id = "checkForm" }))
@@ -63,7 +75,7 @@
             <td style="float:right;border-top-width:0px">
 
   
-        @Html.ActionLink("Allocate", "ClerkRequisition", "ManageRequisitions", new { @class = "btn btn-primary" })
+        @Html.ActionLink("Go to Allocate", "ClerkRequisition", "ManageRequisitions", new { @class = "btn btn-primary" })
    
 </td>
         </tr>
@@ -102,19 +114,24 @@
         var description = document.getElementById("c[" + i + "]").value;
         var stock = document.getElementById("e[" + i + "]").value;
         if (retrievedQty == null || retrievedQty == "") {
-            alert("RetrieveQty format is not correct.");
+            window.location.href = '@Url.Action("updateRetrieve", "ManageRequisitions")?ErrorMessage=' + "RetrieveQty format is not correct.";
+            //alert("RetrieveQty format is not correct.");
         } else if (parseInt(retrievedQty) > parseInt(Qty)) {
-            alert("RetrieveQty can not more than Need.");
+            window.location.href = '@Url.Action("updateRetrieve", "ManageRequisitions")?ErrorMessage=' + "RetrieveQty can not more than Need.";
+            //alert("RetrieveQty can not more than Need.");
         } else if (parseInt(retrievedQty) > parseInt(stock)) {
-            alert("RetrieveQty can not more than Stock.");
+            window.location.href = '@Url.Action("updateRetrieve", "ManageRequisitions")?ErrorMessage=' + "RetrieveQty can not more than Stock.";
+            //alert("RetrieveQty can not more than Stock.");
         } else if (parseInt(retrievedQty) <= 0) {
-            alert("RetrieveQty can not less than 0.")
+            window.location.href = '@Url.Action("updateRetrieve", "ManageRequisitions")?ErrorMessage=' + "RetrieveQty can not less than 0.";
+            //alert("RetrieveQty can not less than 0.")
         }
         else {
             if (parseInt(retrievedQty) > 0 || parseInt(retrievedQty) <= 0) {
                 window.location.href = '@Url.Action("updateRetrieve", "ManageRequisitions")?key1=' + retrievedQty + "&key2=" + itemCode + "&key3=" + Qty + "&key4=" + description + "&key5=" + j + "&key6=" + stock;
             } else {
-                alert("please input a number.");
+                window.location.href = '@Url.Action("updateRetrieve", "ManageRequisitions")?ErrorMessage=' + "please input a number.";
+                //alert("please input a number.");
             }
 
         }
