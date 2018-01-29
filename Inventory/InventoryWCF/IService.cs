@@ -12,10 +12,10 @@ namespace InventoryWCF
     [ServiceContract]
     public interface IService
     {
-        //[OperationContract]
-        // TODO change to post method
-        //[WebGet(UriTemplate = "/ValidateUser/{userid}/{password}", ResponseFormat = WebMessageFormat.Json)]
-        //Boolean ValidateUser(string userid, string password);
+        [OperationContract]
+        //TODO change to post method
+       [WebInvoke(Method = "Post", UriTemplate = "/ValidateUser/{userid}/{password}", ResponseFormat = WebMessageFormat.Json)]
+       Boolean ValidateUser(string userid, string password);
 
         [OperationContract]
         // TODO change to post method
