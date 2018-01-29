@@ -10,6 +10,7 @@ using Inventory_mvc.Models;
 using Inventory_mvc.ViewModel;
 using System.Web;
 using Inventory_mvc.Utilities;
+using Inventory_mvc.Function;
 
 namespace InventoryWCF
 {
@@ -26,14 +27,28 @@ namespace InventoryWCF
 
 
 
-        public Boolean ValidateUser(string userid, string password)
+        public Boolean ValidateUser(WCFUser User)
         {
             //return BusinessLogic.validateUser(userid, password);
 
             try
             {
-                User user = userService.FindByUserID(userid);
-                return (user.password == password); // wrong password
+                User user = userService.FindByUserID(User.UserID);
+                if (user != null)
+                {
+                    if (User.PassWord == Encrypt.DecryptMethod(user.password))
+                    {
+                        return true;
+                    } else
+                    {
+                        return false;
+                    }
+                }
+                else
+                {
+                    return false;
+                }
+
             }
             catch (Exception e)
             {
@@ -69,11 +84,15 @@ namespace InventoryWCF
 
         public Boolean ChangePassword(string userid, string currentpassword, string newpassword)
         {
+            WCFUser u = new WCFUser();
+            u.UserID = userid;
+            u.PassWord = currentpassword;
+            
             // TODO : IMPLEMENT METHOD
             //return BusinessLogic.changePassWord(userid, currentpassword, newpassword);
             try
             {
-                if(ValidateUser(userid, currentpassword))
+                if(ValidateUser(u))
                 {
                     throw new NotImplementedException();
                 }
