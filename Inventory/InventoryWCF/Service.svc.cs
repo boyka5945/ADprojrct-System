@@ -284,15 +284,7 @@ namespace InventoryWCF
         {
             StationeryModel entity = new StationeryModel();
             List<RetrieveForm> list = new List<RetrieveForm>();
-             //need the list for the next delivery, a.k.a for next monday
-             //must have been approved before this week's wednesday?
-
-             //next delivery date supposedly is:
              DateTime date = DateTime.Now;
-            //while(date.DayOfWeek != DayOfWeek.Monday)
-            //{
-            //    date.AddDays(1);
-            //}
             if (HttpContext.Current.Application["retrieveForm"] != null)
             {
                 list = (List<RetrieveForm>)HttpContext.Current.Application["retrieveForm"];
@@ -304,7 +296,7 @@ namespace InventoryWCF
             }
 
             //generate list of requisition records for allocation at the same time
-            List<Requisition_Record> rr = entity.Requisition_Records.Where(x => x.approveDate < date && (x.status == RequisitionStatus.APPROVED_PROCESSING || x.status == RequisitionStatus.PARTIALLY_FULFILLED)).ToList();
+            List<Requisition_Record> rr = entity.Requisition_Records.Where(x => x.status == RequisitionStatus.APPROVED_PROCESSING || x.status == RequisitionStatus.PARTIALLY_FULFILLED).ToList();
             HttpContext.Current.Application["requisitionRecordList_allocation"] = rr;
 
             return WCFModelConvertUtility.ConvertToWCFRetrievalList(list);
