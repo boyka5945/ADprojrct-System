@@ -98,18 +98,6 @@ namespace InventoryWCF
         [WebGet(UriTemplate = "/UpdateRequisition/{requisitionNo}/{status}/{approvestaff_id}", ResponseFormat = WebMessageFormat.Json)]
         void UpdateRequisition(string requisitionNo, string status, string approvestaff_id);
 
-        [OperationContract]
-        [WebGet(UriTemplate = "/updateRequisitionDetails/{requisitionNo}/{ItemCode}/{allocateQty}", ResponseFormat = WebMessageFormat.Json)]
-        Boolean updateRequisitionDetails(string requisitionNo, string ItemCode, string allocateQty);
-
-        [OperationContract]
-        [WebGet(UriTemplate = "/UpdateRequisition/{requisitionNo}/{status}/{approvestaff_id}", ResponseFormat = WebMessageFormat.Json)]
-        void UpdateRequisition(string requisitionNo, string status, string approvestaff_id);
-
-        [OperationContract]
-        [WebGet(UriTemplate = "/updateRequisitionDetails/{requisitionNo}/{ItemCode}/{allocateQty}", ResponseFormat = WebMessageFormat.Json)]
-        Boolean updateRequisitionDetails(int requisitionNo, string ItemCode, int allocateQty);
-
         //// TODO: Add your service operations here
 
         [OperationContract]
