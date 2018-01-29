@@ -8,7 +8,22 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Allocate requisition</h2>
+<h2>Allocate Requisition</h2>
+<div>
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger">
+            @TempData["ErrorMessage"].ToString()
+        </div>
+    }
+    else if(TempData["Successful"] != null) 
+    {
+        <div class="alert alert-success">
+            @TempData["Successful"].ToString()
+        </div>
+    }
+</div>
+
 @using (Html.BeginForm("AllocateRequisition", "ManageRequisitions", new { }, FormMethod.Post, new { @class = "form", @id = "checkForm" }))
 {
 <table class="table">
@@ -79,7 +94,7 @@
 
 </table>
 <div class="col-md-offset-2 col-md-0">
-    <input type="submit" value="Allocate" class="btn btn-success" />
+    <input type="submit" value="Allocate" class="btn btn-primary" />
 </div>
 @Html.ActionLink("Disbursement", "DisbursementList", "ManageRequisitions");
 }
