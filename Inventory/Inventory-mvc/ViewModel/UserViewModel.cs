@@ -11,7 +11,7 @@ namespace Inventory_mvc.ViewModel
         [Key]
         [Required]
         [StringLength(50)]
-        [Display(Name = "UserID")]
+        [Display(Name = "User ID")]
         public string UserID { get; set; }
 
         [Required]
@@ -24,7 +24,7 @@ namespace Inventory_mvc.ViewModel
         public string Name { get; set; }
 
         [Required]
-        [Display(Name = "Contact No")]
+        [Display(Name = "Contact Number")]
         public int ContactNo { get; set; }
 
         [Required]

@@ -20,7 +20,7 @@ namespace Inventory_mvc.Models
         [Display(Name = "Password")]
         public string Password { get; set; }
 
-        [Display(Name = "remember me?")]
+        [Display(Name = "Remember Me?")]
         public bool RememberMe { get; set; }
 
 
