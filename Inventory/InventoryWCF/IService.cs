@@ -14,7 +14,7 @@ namespace InventoryWCF
     {
         [OperationContract]
         //TODO change to post method
-       [WebInvoke(Method = "Post", UriTemplate = "/ValidateUser/{userid}/{password}", ResponseFormat = WebMessageFormat.Json)]
+       [WebInvoke(Method = "Post", UriTemplate = "/ValidateUser", ResponseFormat = WebMessageFormat.Json)]
        Boolean ValidateUser(string userid, string password);
 
         [OperationContract]
