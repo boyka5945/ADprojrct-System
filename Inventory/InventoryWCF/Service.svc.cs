@@ -276,10 +276,10 @@ namespace InventoryWCF
             List<Requisition_Detail> reqDetail = requisitionRecordService.GetDetailsByNo(no);
             return WCFModelConvertUtility.ConvertToWCFRequestionDetails(reqDetail);
         }
-        public Boolean updateRequisitionDetails(int requisitionNo, string ItemCode, int allocateQty)
-        {
-            return BusinessLogic.updateRequisitionDetails(requisitionNo, ItemCode, allocateQty);
-        }
+        //public Boolean updateRequisitionDetails(int requisitionNo, string ItemCode, int allocateQty)
+        //{
+        //    return BusinessLogic.updateRequisitionDetails(requisitionNo, ItemCode, allocateQty);
+        //}
 
         public List<WCFRetrievalForm> getRetrievalList()
         {
