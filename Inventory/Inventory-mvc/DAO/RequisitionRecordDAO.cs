@@ -379,7 +379,7 @@ namespace Inventory_mvc.DAO
         public List<RetrieveForm> GetRetrieveFormByDateTime(DateTime? time)
         {
             StationeryModel entity = new StationeryModel();
-            List<Requisition_Record> rr = entity.Requisition_Records.Where(x => x.approveDate < time && (x.status == RequisitionStatus.APPROVED_PROCESSING || x.status == RequisitionStatus.PARTIALLY_FULFILLED)).ToList();
+            List<Requisition_Record> rr = entity.Requisition_Records.Where(x => x.status == RequisitionStatus.APPROVED_PROCESSING || x.status == RequisitionStatus.PARTIALLY_FULFILLED).ToList();
             List<RetrieveForm> retrieveList = new List<RetrieveForm>();
             List<string> ItemCodes = new List<string>();
             List<int?> Qty = new List<int?>();

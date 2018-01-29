@@ -8,23 +8,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>@ViewBag.Message</h2>
-
-@Html.ActionLink("Allocate", "ClerkRequisition", "ManageRequisitions")
-<div>
-
-    @using (Html.BeginForm())
-    {
-        <p>
-            EndDate: <input type="text" id="delstart" name="from"> 
-        </p>
-        <div class="ui-button-text-icons">
-            <div class="col-md-offset-8 col-md-10">
-                <input type="submit" value="Confirm" class="btn btn-danger" />
-            </div>
-        </div>
-    }
-</div>
+<h2>Retrieved List</h2>
 @if (Model != null)
 {
     using (Html.BeginForm("GetApplication", "ManageRequisitions", new { }, FormMethod.Post, new { @class = "form", @id = "checkForm" }))
@@ -71,17 +55,29 @@
             </td>
         </tr>
     }
-
+   
 </table>
     }
-    
-    <div>
-            Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
-            @Html.PagedListPager(Model, page => Url.Action("GenerateRetrieveForm",
+    <table class="table" style="border:hidden">
+        <tr>
+            <td style="float:right;border-top-width:0px">
+
+  
+        @Html.ActionLink("Allocate", "ClerkRequisition", "ManageRequisitions", new { @class = "btn btn-primary" })
+   
+</td>
+        </tr>
+        <tr>
+            <td>
+                <div>
+                    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+                    @Html.PagedListPager(Model, page => Url.Action("GenerateRetrieveForm",
                      new { page }))
-        
-    </div>
-            }
+
+                </div>
+            </td>
+        </tr>
+    </table>      }
 
 <script>
     $(function () {

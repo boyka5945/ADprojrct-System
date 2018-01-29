@@ -373,7 +373,7 @@ namespace Inventory_mvc.Service
                     Voucher_Detail voucher = new Voucher_Detail();
                     voucher.voucherID = model.Adjustment_Voucher_Records.ToList()[no2].voucherID;
                     voucher.itemCode = itemCode;
-                    voucher.adjustedQty = needQty - actualQty;
+                    voucher.adjustedQty = actualTmp - needQty;
                     voucher.remarks = "";
                     model.Voucher_Details.Add(voucher);
                     model.SaveChanges();
@@ -382,7 +382,7 @@ namespace Inventory_mvc.Service
                 Transaction_Detail detail = new Transaction_Detail();
                 detail.transactionNo = model.Transaction_Records.ToList()[no].transactionNo;
                 detail.itemCode = itemCode;
-                detail.adjustedQty = actualTmp;
+                detail.adjustedQty = -actualTmp;
                 detail.balanceQty = model.Stationeries.Where(x => x.itemCode == itemCode).First().stockQty;
                 detail.remarks = "";
                 model.Transaction_Details.Add(detail);

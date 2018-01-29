@@ -62,14 +62,14 @@
             <input type="number" id="ActualQty[@i]" class="form-control" value="@Model.ToList()[i].actualQty" min="0" max="@Model.ToList()[i].quantity" required />
         </td>
         <td>
-            <input type="button" name="button" class="form-control" value="Save" onclick="SaveData(@i)" />
+            <input type="button" name="button" class="btn btn-success" value="Save" onclick="SaveData(@i)"/>
         </td>
     </tr>
 }
 
 </table>
 <div>
-    <input type="button" name="button" class="form-control" value="Submit" onclick="update()" />
+    <input type="button" name="button" class="btn btn-success"  value="Submit" onclick="update()"/>
 </div>
 Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
 @Html.PagedListPager(Model, page => Url.Action("DisbursementList",

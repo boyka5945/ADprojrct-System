@@ -294,14 +294,14 @@ namespace InventoryWCF
             //{
             //    date.AddDays(1);
             //}
-            if (HttpContext.Current.Application["retrieveList"] != null)
+            if (HttpContext.Current.Application["retrieveForm"] != null)
             {
-                list = (List<RetrieveForm>)HttpContext.Current.Application["retrieveList"];
+                list = (List<RetrieveForm>)HttpContext.Current.Application["retrieveForm"];
             }
             else
             {
                 list = requisitionRecordService.GetRetrieveFormByDateTime(date); //newly generated list
-                HttpContext.Current.Application["retrieveList"] = list;
+                HttpContext.Current.Application["retrieveForm"] = list;
             }
 
             //generate list of requisition records for allocation at the same time
@@ -316,9 +316,9 @@ namespace InventoryWCF
         {
             List<RetrieveForm> list = new List<RetrieveForm>();
 
-            if (HttpContext.Current.Application["retrieveList"] != null)
+            if (HttpContext.Current.Application["retrieveForm"] != null)
             {
-                list = (List<RetrieveForm>)HttpContext.Current.Application["retrieveList"];
+                list = (List<RetrieveForm>)HttpContext.Current.Application["retrieveForm"];
             }
             else
             {
@@ -333,13 +333,13 @@ namespace InventoryWCF
 
         public bool UpdateRetrieval(WCFRetrievalForm wcfr)
         {
-            List<RetrieveForm> list = (List<RetrieveForm>)HttpContext.Current.Application["retrieveList"];
+            List<RetrieveForm> list = (List<RetrieveForm>)HttpContext.Current.Application["retrieveForm"];
             //RetrieveForm rf = list.Where(x => x.description == description).First();
             //rf.retrieveQty = Int32.Parse(qty);
             var index = list.FindIndex(x => x.description == wcfr.Description);
             list[index].retrieveQty = wcfr.QtyRetrieved;
 
-            HttpContext.Current.Application["retrieveList"] = list;
+            HttpContext.Current.Application["retrieveForm"] = list;
             return true;
 
 
