@@ -465,8 +465,9 @@ namespace Inventory_mvc.Controllers
                 ViewBag.Dept = deptName;
             }
 
+            int[] m = (month == -1) ? null : new int[] { month }; // -1 for all months
             deptCode = (deptCode == "-1") ? null : deptCode; // null to get all department
-            List<ReportViewModel> vmList = reportService.GetApprovedRequisitionDetialsBasedCriteria("-1", "-1", deptCode, new int[] { year }, new int[] { month });
+            List<ReportViewModel> vmList = reportService.GetApprovedRequisitionDetialsBasedCriteria("-1", "-1", deptCode, new int[] { year }, m );
                 
             var results = (from vm in vmList
                            group vm by vm.CategoryName into g
