@@ -267,9 +267,9 @@ namespace InventoryWCF
             List<Requisition_Detail> reqDetail = requisitionRecordService.GetDetailsByNo(no);
             return WCFModelConvertUtility.ConvertToWCFRequestionDetails(reqDetail);
         }
-        public Boolean updateRequisitionDetails(int requisitionNo, string ItemCode, int allocateQty)
+        public Boolean updateRequisitionDetails(string requisitionNo, string ItemCode, string allocateQty)
         {
-            return BusinessLogic.updateRequisitionDetails(requisitionNo, ItemCode, allocateQty);
+            return BusinessLogic.updateRequisitionDetails(Convert.ToInt32(requisitionNo), ItemCode, Convert.ToInt32(allocateQty));
         }
 
         public List<WCFRetrievalForm> getRetrievalList()
@@ -380,21 +380,22 @@ namespace InventoryWCF
             {
                 entity.Requisition_Detail.Where(x => x.itemCode == itemCode && x.requisitionNo == requisitionNo).First().qty = (int)qty;
                 entity.SaveChanges();
+            }            
+        }
+
+        public void RemovePendingRequisition(string NO)
+        {
+            int requisitionNo = Convert.ToInt32(NO);
+            using (StationeryModel entity = new StationeryModel())
+            {
+                Requisition_Record record = (from r in entity.Requisition_Records
+                                             where r.requisitionNo == requisitionNo
+                                             select r).FirstOrDefault();
+
+                entity.Requisition_Detail.RemoveRange(record.Requisition_Detail);
+                entity.Requisition_Records.Remove(record);
+                entity.SaveChanges();
             }
-            //Requisition_Detail requisitionDetail = new Requisition_Detail
-            //{
-            //    requisitionNo = reqDetail.RequisitionNo,
-            //    itemCode = reqDetail.ItemCode,
-            //    remarks = reqDetail.Remarks,
-            //    qty = reqDetail.Qty,
-            //    fulfilledQty = reqDetail.FulfilledQty,
-            //    clerkID = reqDetail.ClerkID,
-            //    retrievedDate = reqDetail.RetrievedDate,
-            //    allocatedQty = reqDetail.AllocateQty,
-            //    nextCollectionDate = reqDetail.NextCollectionDate
-            //};
-            //WCFModelConvertUtility.ConvertToWCFRequestionDetails(UpdateReqDetail(requisitionDetail));
-            //requisitionRecordService.up UpdateReqDetail(WCFModelConvertUtility.ConvertToWCFRequestionDetails(requisitionDetail);
         }
 
         public List<WCFDisbursement> GetPendingItemsToBeProcessedByDepartmentByItems(string deptCode)
