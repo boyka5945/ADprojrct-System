@@ -27,7 +27,7 @@ namespace InventoryWCF
 
 
 
-        public string ValidateUser(WCFUser User)
+        public WCFUser ValidateUser(WCFUser User)
         {
             //return BusinessLogic.validateUser(userid, password);
 
@@ -38,22 +38,22 @@ namespace InventoryWCF
                 {
                     if (User.PassWord == Encrypt.DecryptMethod(user.password))
                     {
-                        return "true";
+                        return WCFModelConvertUtility.ConvertToWCFUser(user);
                     } else
                     {
-                        return "false";
+                        return null;
                     }
                 }
                 else
                 {
-                    return "false";
+                    return null;
                 }
 
             }
             catch (Exception e)
             {
                 // non existing userID
-                return "false";
+                return null;
             }           
         }
 
@@ -63,7 +63,7 @@ namespace InventoryWCF
             try
             {
                 User user = userService.FindByUserID(userID);
-                if (user.password == password)
+                if (Encrypt.DecryptMethod(user.password) == password)
                 {
                     WCFUser wcfUser = WCFModelConvertUtility.ConvertToWCFUser(user);
                     return wcfUser;
@@ -90,7 +90,7 @@ namespace InventoryWCF
             
             try
             {
-                if(ValidateUser(u) == "false")
+                if(ValidateUser(u) != null)
                 {
                     throw new NotImplementedException();
                 }
