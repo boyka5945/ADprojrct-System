@@ -1,0 +1,66 @@
+﻿<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+@model IEnumerable<Inventory_mvc.ViewModel.InventoryCheckViewModel>
+
+@{
+    Layout = null;
+    Inventory_mvc.ViewModel.InventoryCheckViewModel first = Model.First();
+    string stockCheckDate = Model.First().StockCheckDate.ToLongDateString();
+}
+
+<h2 style="text-align: center">Logic University</h2>
+<h3 style="text-align: center">Stationery Inventory Checklist</h3>
+<h3 style="text-align: center">on @stockCheckDate</h3>
+<hr />
+
+<br />
+<table class="table">
+    <thead>
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.CategoryName)</th>
+            <th>@Html.DisplayNameFor(model => model.ItemCode)</th>
+            <th>@Html.DisplayNameFor(model => model.StationeryDescription)</th>
+            <th>@Html.DisplayNameFor(model => model.UOM)</th>
+            <th>@Html.DisplayNameFor(model => model.Location)</th>
+            <th>@Html.DisplayNameFor(model => model.StockQuantity)</th>
+            <th>@Html.DisplayNameFor(model => model.ActualQuantity)</th>
+        </tr>
+    </thead>
+    <tbody>
+        @for (int i = 0; i < Model.Count(); i++)
+        {
+            var item = Model.ElementAt(i);
+            <tr>
+                <td>
+                    @Html.DisplayFor(p => item.CategoryName)
+                    <input type="hidden" name="[@i].CategoryName" value="@item.CategoryName" />
+                    <input type="hidden" name="[@i].CategoryID" value="@item.CategoryID" />
+                </td>
+                <td>
+                    @Html.DisplayFor(p => item.ItemCode)
+                    <input type="hidden" name="[@i].ItemCode" value="@item.ItemCode" />
+                </td>
+                <td>
+                    @Html.DisplayFor(p => item.StationeryDescription)
+                    <input type="hidden" name="[@i].StationeryDescription" value="@item.StationeryDescription" />
+                </td>
+                <td>
+                    @Html.DisplayFor(p => item.UOM)
+                    <input type="hidden" name="[@i].UOM" value="@item.UOM" />
+                </td>
+                <td>
+                    @Html.DisplayFor(p => item.Location)
+                    <input type="hidden" name="[@i].Location" value="@item.Location" />
+                </td>
+                <td>
+                    @Html.DisplayFor(p => item.StockQuantity)
+                    <input type="hidden" name="[@i].StockQuantity" value="@item.StockQuantity" />
+                </td>
+                <td>
+                    <input type="text" value="" class="form-control"/>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

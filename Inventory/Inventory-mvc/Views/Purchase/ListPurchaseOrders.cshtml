@@ -97,7 +97,9 @@
                 </td>
                 <td>
 
-                    @Html.ActionLink("Details", "gen", "POGenerator", new { id = item.orderNo }, null)
+                    @Html.ActionLink("Details", "gen", "POGenerator", new { id = item.orderNo }, null) |
+                    @Html.ActionLink("PDF", "GeneratePDF", "POGenerator", new { id = item.orderNo }, null) 
+
                     @*@Html.ActionLink("Delete", "Delete", "Purchase", new { id = item.orderNo }, null)*@
                 </td>
             </tr>
