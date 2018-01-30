@@ -5,6 +5,7 @@
 <script src="~/Scripts/select2.min.js"></script>
 <link href="~/Content/select2.min.css" rel="stylesheet" />
 
+
 @{
     ViewBag.Title = "Reorder Amount";
 }
@@ -45,7 +46,6 @@
 <br />
 
 
-
 <div id="progressBar" class="text-center hidden">
     <label>Generating chart</label>   <progress id="p"></progress>
 </div>
@@ -55,7 +55,8 @@
 
 
 <script>
-    // for requisition cumulative graph
+    
+    // to generate chart
     function LoadData()
     {
         var form = document.getElementById("chartForm");

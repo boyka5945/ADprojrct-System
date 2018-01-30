@@ -14,7 +14,7 @@ namespace InventoryWCF
     {
         [OperationContract]
        [WebInvoke(Method = "POST", UriTemplate = "/ValidateUser", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
-       string ValidateUser(WCFUser user);
+       WCFUser ValidateUser(WCFUser user);
 
         [OperationContract]
         // TODO change to post method
@@ -153,6 +153,11 @@ namespace InventoryWCF
             RequestFormat = WebMessageFormat.Json,
             ResponseFormat = WebMessageFormat.Json)]
         void UpdateRequisitionDetail(WCFRequisitionDetail reqDetail);
+
+        [OperationContract]
+        [WebGet(UriTemplate = "/UpdateRequisitionDetail/{NO}/{itemCode}/{quantity}",
+        ResponseFormat = WebMessageFormat.Json)]
+        void UpdateReqDetail(string NO, string itemCode, string quantity);
 
         [OperationContract]
         [WebGet(UriTemplate = "/RemovePendingRequisition/{NO}",

@@ -150,9 +150,6 @@ namespace Inventory_mvc.Controllers
             return PartialView("_ReorderAmountCumulativeBar");
         }
 
-
-
-
         [HttpGet]
         public ActionResult ItemRequestTrend()
         {
@@ -208,18 +205,18 @@ namespace Inventory_mvc.Controllers
 
             ViewBag.XLabels = monthsArray;
 
-            for(int i = 0; i < years.Length; i++) // create data array based on # of years
+            for(int i = 1; i <= years.Length; i++) // create data array based on # of years
             {
-                string labelName = String.Format("Label{0}", i+1);
-                string dataName = String.Format("Data{0}", i+1);
+                string labelName = String.Format("Label{0}", i);
+                string dataName = String.Format("Data{0}", i);
 
-                ViewData[labelName] = dataset.Keys.ToArray()[i];
-                ViewData[dataName] = dataset.Values.ToArray()[i];
+                string key = dataset.Keys.ToArray()[i-1];
+                ViewData[labelName] = key;
+                ViewData[dataName] = dataset[key];
             }
             
             return PartialView("_ItemRequestTrend");
         }
-
 
         [HttpGet]
         public ActionResult ItemReorderComparison()
@@ -305,7 +302,6 @@ namespace Inventory_mvc.Controllers
             return PartialView("_ItemReorderComparison");
         }
 
-
         [HttpGet]
         public ActionResult DeptMonthlyRequisitionAmount()
         {
@@ -354,7 +350,6 @@ namespace Inventory_mvc.Controllers
 
             return PartialView("_DeptMonthlyRequisition");
         }
-
 
         [HttpGet]
         public ActionResult SupplierYearlyReorderAmount()
@@ -425,8 +420,9 @@ namespace Inventory_mvc.Controllers
                 string labelName = String.Format("DatasetLabel{0}", i);
                 string dataName = String.Format("Data{0}", i);
 
-                ViewData[labelName] = dataset.Keys.ToArray()[i-1];
-                ViewData[dataName] = dataset.Values.ToArray()[i-1];
+                string key = dataset.Keys.ToArray()[i - 1];
+                ViewData[labelName] = key;
+                ViewData[dataName] = dataset[key];
             }
 
             ViewBag.NumberOfSupplier = dataset.Keys.Count;
@@ -435,14 +431,11 @@ namespace Inventory_mvc.Controllers
             return PartialView("_SupplierYearlyReorder");
         }
 
-
-
         [HttpGet]
         public ActionResult CategoryMonthlyRequisitionAmount()
         {
             return View();
         }
-
 
         [HttpPost]
         public ActionResult GetCategoryMonthlyRequisitionAmountDoughnutChart(int year, int month, string deptCode = "-1")
@@ -501,7 +494,6 @@ namespace Inventory_mvc.Controllers
             return View();
         }
 
-
         [HttpPost]
         public ActionResult GetCategoryMonthlyReorderAmountDoughnutChart(int year, int month, string supplierCode = "-1")
         {
@@ -553,6 +545,7 @@ namespace Inventory_mvc.Controllers
             return PartialView("_CategoryMonthlyReorder");
         }
 
+        // METHODS FOR SELECT2 COMBOBOX
         public JsonResult GetCategoryListJSON(string term = null)
         {
             List<JSONForCombobox> options = new List<JSONForCombobox>();
@@ -669,7 +662,6 @@ namespace Inventory_mvc.Controllers
             return Json(options, JsonRequestBehavior.AllowGet);
         }
 
-
         public JsonResult GetMonthListJSON(string term = null)
         {
             List<int> years = reportService.GetSelectableYears(reportService.GetEarliestYear());
@@ -709,7 +701,6 @@ namespace Inventory_mvc.Controllers
 
             return Json(options, JsonRequestBehavior.AllowGet);
         }
-
 
         public JsonResult GetDepartmentListJSON(string term = null)
         {

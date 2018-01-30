@@ -37,6 +37,9 @@
     </div>
 }
 
+@Html.ActionLink("Download Checklist as PDF", "GenerateStockCheckList")
+<br />
+<br />
 
 @using (Html.BeginForm("SubmitInventoryCheckResult", "InventoryCheck", new {  }, FormMethod.Post, new { @class = "form", @id="checkForm" }))
 {
@@ -116,6 +119,7 @@
             //}
         });
     }
+
 
     function CancelStockCheck()
     {

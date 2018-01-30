@@ -8,6 +8,7 @@ using Inventory_mvc.Models;
 using Inventory_mvc.ViewModel;
 using PagedList;
 using System.Transactions;
+using Rotativa.MVC;
 
 namespace Inventory_mvc.Controllers
 {
@@ -137,6 +138,24 @@ namespace Inventory_mvc.Controllers
             int pageNumber = (page ?? 1);
             return View(stockchecklist.ToPagedList(pageNumber, pageSize));
         }
+
+
+        [HttpGet]
+        public ActionResult GenerateStockCheckList()
+        {
+            HttpContext.Application.Lock();
+            List<InventoryCheckViewModel> stockchecklist = HttpContext.Application["InventoryChecklist"] as List<InventoryCheckViewModel>;
+            HttpContext.Application.UnLock();
+
+            if (stockchecklist == null) // not yet generate any list
+            {
+                return RedirectToAction("GenerateInventoryChecklist");
+            }
+
+            string fileName = String.Format("Inventory_Stock_Checklist_on_{0}.pdf", stockchecklist.First().StockCheckDate.ToLongDateString());
+            return new ViewAsPdf("_StockCheckListPDF", stockchecklist) { FileName = fileName };
+        }
+
 
         [HttpPost]
         public void SaveTemporaryValue(List<InventoryCheckViewModel> checklist)

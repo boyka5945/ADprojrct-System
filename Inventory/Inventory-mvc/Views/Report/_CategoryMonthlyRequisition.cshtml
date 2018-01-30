@@ -1,4 +1,5 @@
 ﻿<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.5/jspdf.debug.js"></script>
 <script src="~/Scripts/chart-colors.js"></script>
 <script src="~/Scripts/Chart.PieceLabel.js"></script>
 
@@ -11,10 +12,13 @@
 <input type="hidden" value="@year" name="year" id="year" />
 <input type="hidden" value="@month" name="month" id="month" />
 <input type="hidden" value="@dept" name="dept" id="dept" />
-
-<canvas id="myChart"> </canvas>
+<br />
+<a href="#" id="downloadPdf">Download Chart as PDF</a>
+<div id="reportPage"><canvas id="myChart"> </canvas></div>
 
 <script>
+
+
     var year = $('#year').val();
     var month = $('#month').val();
     var dept = $('#dept').val();
@@ -101,40 +105,43 @@
     });
 
 
+    $('#downloadPdf').click(function(event) {
+        // get size of report page
+        var reportPageHeight = $('#reportPage').innerHeight();
+        var reportPageWidth = $('#reportPage').innerWidth();
 
-    //// Define a plugin to provide data labels
-    //Chart.plugins.register({
-    //    afterDatasetsDraw: function(chart, easing) {
-    //        // To only draw at the end of animation, check for easing === 1
-    //        var ctx = chart.ctx;
+        // create a new canvas object that we will populate with all other canvas objects
+        var pdfCanvas = $('<canvas />').attr({
+            id: "canvaspdf",
+            width: reportPageWidth,
+            height: reportPageHeight
+        });
 
-    //        chart.data.datasets.forEach(function (dataset, i) {
-    //            var meta = chart.getDatasetMeta(i);
-    //            if (!meta.hidden) {
-    //                meta.data.forEach(function(element, index) {
-    //                    // Draw the text in black, with the specified font
-    //                    ctx.fillStyle = 'rgb(0, 0, 0)';
+        // keep track canvas position
+        var pdfctx = $(pdfCanvas)[0].getContext('2d');
+        var pdfctxX = 0;
+        var pdfctxY = 0;
+        var buffer = 100;
 
-    //                    var fontSize = 12;
-    //                    var fontStyle = 'normal';
-    //                    var fontFamily = 'Helvetica Neue';
-    //                    ctx.font = Chart.helpers.fontString(fontSize, fontStyle, fontFamily);
+        // for each chart.js chart
+        $("canvas").each(function(index) {
+            // get the chart height/width
+            var canvasHeight = $(this).innerHeight();
+            var canvasWidth = $(this).innerWidth();
 
-    //                    // Just naively convert to string for now
-    //                    var dataString = dataset.data[index].toString();
+            // draw the chart into the new canvas
+            pdfctx.drawImage($(this)[0], pdfctxX, pdfctxY, canvasWidth, canvasHeight);
+            pdfctxX += canvasWidth + buffer;
+        });
 
-    //                    // Make sure alignment settings are correct
-    //                    ctx.textAlign = 'center';
-    //                    ctx.textBaseline = 'middle';
+        // create new pdf and add our new canvas as an image
+        var pdf = new jsPDF('l', 'pt', [reportPageWidth, reportPageHeight]);
+        pdf.addImage($(pdfCanvas)[0], 'PNG', 50, 50);
 
-    //                    var padding = 5;
-    //                    var position = element.tooltipPosition();
-    //                    ctx.fillText(dataString, position.x, position.y - (fontSize / 2) - padding);
-    //                });
-    //            }
-    //        });
-    //    }
-    //});
+        // download the pdf
+        pdf.save(title + '.pdf');
+    });
+
 </script>
 
 
