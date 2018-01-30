@@ -292,6 +292,13 @@ namespace InventoryWCF
             BusinessLogic.updateRequisition(Convert.ToInt32(requisitionNo) , status, approveStaffID);
         }
 
+        public void UpdateCollectionPoint(string deptCode, string newcp)
+        {
+
+            BusinessLogic.updateCollectionPoint(deptCode,Convert.ToInt32(newcp));
+        }
+
+
         public List<WCFRetrievalForm> getRetrievalList()
         {
             StationeryModel entity = new StationeryModel();

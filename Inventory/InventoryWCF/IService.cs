@@ -162,11 +162,17 @@ namespace InventoryWCF
         [OperationContract]
         [WebGet(UriTemplate = "/GetRetrievalForm/{itemCode}", ResponseFormat = WebMessageFormat.Json)]
         WCFRetrievalForm GetRetrievalForm(string itemCode);
-        
+
+ 
+        [OperationContract]
+        [WebGet(UriTemplate = "/UpdateRequisition/{deptCode}/{CollectionPointID}", ResponseFormat = WebMessageFormat.Json)]
+        void UpdateCollectionPoint(string deptCode, string CollectionPointID);
+
 
         //[OperationContract]
         //[WebGet(UriTemplate = "/GetCodeFromName/{name}", ResponseFormat = WebMessageFormat.Json)]
         //List<WCFDisbursement> GetCodeFromName(string name);
+        [OperationContract]
         [WebGet(UriTemplate = "/GetRequisitionRecordByDept/{deptCode}", ResponseFormat = WebMessageFormat.Json)]
         List<WCFRequisitionRecord> GetRequsitionRecordByDept(string deptCode);
 
