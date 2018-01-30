@@ -1,0 +1,69 @@
+﻿<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+@model IEnumerable<Inventory_mvc.ViewModel.Disbursement>
+
+
+@{
+    Layout = null;
+    string collectionPoint = (string)ViewBag.Point;
+    string representative = (string)ViewBag.rp;
+    string department = (string)ViewBag.Dept;
+}
+
+<h2 style="text-align: center">Logic University</h2>
+<h3 style="text-align: center">Stationery Disbursement List of @department</h3>
+
+<br />
+<label>Collection Point:</label> @collectionPoint <br />
+<label>Representative:</label> @representative <br />
+<label>Disbursement Date:</label> @DateTime.Today.ToLongDateString()
+<br />
+
+<br />
+@if (Model.Count() == 0)
+{
+    <h4><i>There is no item.</i></h4>
+}
+else
+{
+
+    <table class="table">
+        <tr>
+            <th>
+                @Html.Label("Item Description")
+            </th>
+            <th></th>
+            <th>
+                @Html.Label("Quantity")
+            </th>
+            <th>
+                @Html.Label("Actual Retrieved Quantity")
+            </th>
+            <th>
+
+            </th>
+        </tr>
+        @for (int i = 0; i < Model.Count(); i++)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => Model.ToList()[i].itemDescription)
+                <input type="hidden" name="[@i].itemDescription" value="@Model.ToList()[i].itemDescription" />
+            </td>
+            <td>
+                @Html.HiddenFor(modelItem => Model.ToList()[i].itemCode)
+                <input type="hidden" id="@i" name="[@i].itemCode" value="@Model.ToList()[i].itemCode" />
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => Model.ToList()[i].quantity)
+                <input type="hidden" id="AllocateQty[@i]" name="[@i].quantity" value="@Model.ToList()[i].quantity" />
+            </td>
+            <td>
+                <input type="text" id="ActualQty[@i]" class="form-control" value="" />
+            </td>
+        </tr>
+        }
+    </table>
+}

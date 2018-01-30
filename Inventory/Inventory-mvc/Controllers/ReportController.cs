@@ -757,8 +757,6 @@ namespace Inventory_mvc.Controllers
         }
 
 
-
-
         // TODO - REMOVE THIS METHOD 
         //public ActionResult GenerateRandomDataForRequisitionRecords()
         //{

@@ -5,7 +5,6 @@ using System.Web;
 using System.Web.Mvc;
 using Inventory_mvc.Entity;
 using Inventory_mvc.Models;
-using Rotativa;
 using Rotativa.MVC;
 
 namespace Inventory_mvc.Service
@@ -36,7 +35,6 @@ namespace Inventory_mvc.Service
             List<Purchase_Detail> model = ctx.Purchase_Detail.Where(x => x.orderNo == orderNo).ToList();
 
             return View(model);
-            //return new ViewAsPdf("gen", model) { FileName = "TestViewAsPdf.pdf" };
         }
 
         [HttpGet]
