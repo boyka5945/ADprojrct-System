@@ -13,7 +13,6 @@ namespace InventoryWCF
     public interface IService
     {
         [OperationContract]
-        //TODO change to post method
        [WebInvoke(Method = "POST", UriTemplate = "/ValidateUser", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
        string ValidateUser(WCFUser user);
 
@@ -97,8 +96,6 @@ namespace InventoryWCF
         [OperationContract]
         [WebGet(UriTemplate = "/UpdateRequisition/{requisitionNo}/{status}/{approvestaff_id}", ResponseFormat = WebMessageFormat.Json)]
         void UpdateRequisition(string requisitionNo, string status, string approvestaff_id);
-
-        //// TODO: Add your service operations here
 
         [OperationContract]
         [WebGet(UriTemplate = "/GetRetrievalList", ResponseFormat = WebMessageFormat.Json)]

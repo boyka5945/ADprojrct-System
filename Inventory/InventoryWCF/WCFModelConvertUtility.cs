@@ -15,7 +15,6 @@ namespace InventoryWCF
 
         public static List<WCFDisbursement> ConvertToWCFDisbursement(List<Disbursement> disbursement, string deptCode)
         {
-            // TODO : IMPLEMENT METHOD
             List<WCFDisbursement> dl = new List<WCFDisbursement>();
             foreach (var list in disbursement)
             {

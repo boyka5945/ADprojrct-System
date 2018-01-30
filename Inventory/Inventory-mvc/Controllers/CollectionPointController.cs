@@ -125,9 +125,8 @@ namespace Inventory_mvc.Controllers
 
         public ActionResult UpdateCollectionPoint()
         {
-            // TODO: REMOVE HARDCODED USERID
-            //hardcoded value before login being implemented
-            string userID = "S1000";
+            string userID = HttpContext.User.Identity.Name;
+
             DepartmentService ds = new DepartmentService();
             TempData["CollectionPointList"] = collectionPointService.GetAllCollectionPoints();
             Department uVM = ds.GetDepartmentByCode(us.FindByUserID(userID).departmentCode);
@@ -135,7 +134,6 @@ namespace Inventory_mvc.Controllers
             //DepartmentService ds = new DepartmentService();
             //Department d = ds.GetDepartmentByCode(FindDeptCode);
             return View(uVM);
-
         }
 
 

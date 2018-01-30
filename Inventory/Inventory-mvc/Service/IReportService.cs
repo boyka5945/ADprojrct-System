@@ -56,6 +56,7 @@ namespace Inventory_mvc.Service
 
         // TODO - REMOVE THIS METHOD
         void GenerateRandomDataForRequisitionRecords();
+        // TODO - REMOVE THIS METHOD
         void GenerateRandomDataForPurchaseRecords();
 
     }

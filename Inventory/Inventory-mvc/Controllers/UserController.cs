@@ -200,14 +200,8 @@ namespace Inventory_mvc.Controllers
         [AllowAnonymous]
         public ActionResult ChangePassword()
         {
-            // TODO: REMOVE HARDCODED USERID
-
-            string name = HttpContext.User.Identity.Name;
-            //if(name=="")
-            //{
-            //    return RedirectToAction("Login", "Home");
-            //}
-            User user = userService.FindByUserID("S1015");
+            string userID = HttpContext.User.Identity.Name;
+            User user = userService.FindByUserID(userID);
             ChangePasswordViewModel viewModel = userService.changePasswordUser(user);
             return View(viewModel);
         }
@@ -216,11 +210,9 @@ namespace Inventory_mvc.Controllers
         [HttpPost]
         public ActionResult ChangePassword(ChangePasswordViewModel changePasswordVM)
         {
-            // TODO: REMOVE HARDCODED USERID
-
             ChangePasswordViewModel vm2 = changePasswordVM;
-            string name = HttpContext.User.Identity.Name;
-            User user = userService.FindByUserID("S1015");
+            string userID = HttpContext.User.Identity.Name;
+            User user = userService.FindByUserID(userID);
 
             string oldPassword = changePasswordVM.OldPassword;
             string newPassword = changePasswordVM.NewPassword;

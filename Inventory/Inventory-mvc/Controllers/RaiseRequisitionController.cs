@@ -168,10 +168,9 @@ namespace Inventory_mvc.Controllers
                 requisition.Requisition_Detail.Add(rd);
             }
 
-            // TODO : REMOVE THIS AFTER AUTHORITIZATION IMPLEMENTED
             if(!requisitionService.IsUserValidToSubmitRequisition(requesterID))
             {
-                TempData["ErrorMessage"] = "You are not allowed to submit stationery requisition.";
+                TempData["ErrorMessage"] = "Sorry, you are not allowed to submit stationery requisition.";
                 return RedirectToAction("NewRequisition");
             }
 

@@ -1,11 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27004.2008
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Inventory-mvc", "Inventory-mvc\Inventory-mvc.csproj", "{3A9B3F7C-39B3-4100-AEE0-43291E5F0092}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestProject1", "UnitTestProject1\UnitTestProject1.csproj", "{7E2528B2-6A55-4C3B-A334-582275DE8471}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InventoryWCF", "InventoryWCF\InventoryWCF.csproj", "{9017B240-725F-4371-A165-837200B28065}"
 EndProject
@@ -19,10 +17,6 @@ Global
 		{3A9B3F7C-39B3-4100-AEE0-43291E5F0092}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3A9B3F7C-39B3-4100-AEE0-43291E5F0092}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3A9B3F7C-39B3-4100-AEE0-43291E5F0092}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7E2528B2-6A55-4C3B-A334-582275DE8471}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7E2528B2-6A55-4C3B-A334-582275DE8471}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7E2528B2-6A55-4C3B-A334-582275DE8471}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7E2528B2-6A55-4C3B-A334-582275DE8471}.Release|Any CPU.Build.0 = Release|Any CPU
 		{9017B240-725F-4371-A165-837200B28065}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{9017B240-725F-4371-A165-837200B28065}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9017B240-725F-4371-A165-837200B28065}.Release|Any CPU.ActiveCfg = Release|Any CPU
