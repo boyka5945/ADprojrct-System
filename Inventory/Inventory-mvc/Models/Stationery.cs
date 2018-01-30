@@ -24,6 +24,7 @@ namespace Inventory_mvc.Models
         [Display(Name = "Item Code")]
         public string itemCode { get; set; }
 
+        [Display(Name = "Category ID")]
         public int categoryID { get; set; }
 
         [Required]
@@ -52,12 +53,15 @@ namespace Inventory_mvc.Models
 
         [Required]
         [StringLength(50)]
+        [Display(Name = "First Supplier Code")]
         public string firstSupplierCode { get; set; }
 
         [StringLength(50)]
+        [Display(Name = "Second Supplier Code")]
         public string secondSupplierCode { get; set; }
 
         [StringLength(50)]
+        [Display(Name = "Third Supplier Code")]
         public string thirdSupplierCode { get; set; }
 
         [Display(Name = "Price")]
@@ -76,8 +80,10 @@ namespace Inventory_mvc.Models
 
         public virtual Supplier Supplier { get; set; }
 
+        [Display(Name = "First Supplier")]
         public virtual Supplier Supplier1 { get; set; }
 
+        [Display(Name = "Second Supplier")]
         public virtual Supplier Supplier2 { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

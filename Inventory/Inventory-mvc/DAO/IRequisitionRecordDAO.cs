@@ -11,6 +11,8 @@ namespace Inventory_mvc.DAO
     {
         List<Requisition_Record> GetAllRequisition();
 
+        List<Requisition_Record> GetRequisitionRecordByDept(string deptCode);
+
         Requisition_Record FindByRequisitionNo(int requisitionNo);
 
         Boolean AddNewRequisition(Requisition_Record purchase_order_record);
@@ -40,9 +42,7 @@ namespace Inventory_mvc.DAO
         List<Disbursement> GetRequisitionByDept(string deptCode);
 
         List<Requisition_Detail> GetAllRequisitionByDept(string deptCode);
-
-        List<Requisition_Detail> GetPendingRequestByDeptCode(string deptCode);
-
+              
         List<Disbursement> GetPendingDisbursementByDept(string deptCode);
 
         List<Requisition_Detail> GetAllPendingDisbursementByDept(string deptCode);
@@ -55,5 +55,8 @@ namespace Inventory_mvc.DAO
 
         bool UpdateRequisitionDetails(Requisition_Detail requisitionDetail);
         List<Requisition_Record> GetSortedRecordsByRequesterID(string requesterID, string sortOrder);
+
+
+        List<Requisition_Record> GetRequestByReqID(string id);
     }
 }

@@ -7,7 +7,10 @@ namespace Inventory_mvc.ViewModel
 {
     public class Status
     {
+    
         public Boolean status;
+
+       
         public string itemCode;
 
         public Status(string itemCode)

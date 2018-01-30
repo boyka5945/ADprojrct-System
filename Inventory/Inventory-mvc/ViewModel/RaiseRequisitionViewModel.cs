@@ -11,6 +11,7 @@ namespace Inventory_mvc.ViewModel
     {
         [Key]
         [Required]
+        [Display(Name = "Item Code")]
         public string ItemCode { get; set; }
 
         public string Description { get; set; }

@@ -10,6 +10,7 @@ using Inventory_mvc.Models;
 using Inventory_mvc.ViewModel;
 using System.Web;
 using Inventory_mvc.Utilities;
+using Inventory_mvc.Function;
 
 namespace InventoryWCF
 {
@@ -21,23 +22,38 @@ namespace InventoryWCF
         IStationeryService stationeryService = new StationeryService();
         IRequisitionRecordService requisitionRecordService = new RequisitionRecordService();
         DepartmentService departmentService = new DepartmentService();
+        ICollectionPointService cpService = new CollectionPointService();
 
 
 
 
-        public Boolean ValidateUser(string userid, string password)
+        public string ValidateUser(WCFUser User)
         {
             //return BusinessLogic.validateUser(userid, password);
 
             try
             {
-                User user = userService.FindByUserID(userid);
-                return (user.password == password); // wrong password
+                User user = userService.FindByUserID(User.UserID);
+                if (user != null)
+                {
+                    if (User.PassWord == Encrypt.DecryptMethod(user.password))
+                    {
+                        return "true";
+                    } else
+                    {
+                        return "false";
+                    }
+                }
+                else
+                {
+                    return "false";
+                }
+
             }
             catch (Exception e)
             {
                 // non existing userID
-                return false;
+                return "false";
             }           
         }
 
@@ -68,11 +84,15 @@ namespace InventoryWCF
 
         public Boolean ChangePassword(string userid, string currentpassword, string newpassword)
         {
+            WCFUser u = new WCFUser();
+            u.UserID = userid;
+            u.PassWord = currentpassword;
+            
             // TODO : IMPLEMENT METHOD
             //return BusinessLogic.changePassWord(userid, currentpassword, newpassword);
             try
             {
-                if(ValidateUser(userid, currentpassword))
+                if(ValidateUser(u) == "false")
                 {
                     throw new NotImplementedException();
                 }
@@ -233,6 +253,19 @@ namespace InventoryWCF
             return WCFModelConvertUtility.ConvertToWCFRequisitionRecord(requisitionRecords);
         }
 
+        public List<WCFRequisitionRecord> GetRequsitionRecordByDept(string deptCode)
+        {
+            List<Requisition_Record> reqByDept = requisitionRecordService.GetRequisitionRecordByDept(deptCode);
+            return WCFModelConvertUtility.ConvertToWCFRequisitionRecord(reqByDept);
+        }
+
+        public List<WCFRequisitionRecord> GetRequisitionRecordByRequesterID(string requesterID)
+        {
+            List<Requisition_Record> reqByReqID = requisitionRecordService.GetRequestByReqID(requesterID);
+            return WCFModelConvertUtility.ConvertToWCFRequisitionRecord(reqByReqID);
+        }
+
+
         public bool AddNewRequest(string requesterID, WCFRequisitionDetail[] newRequisition)
         {
             Requisition_Record newRecord = new Requisition_Record();
@@ -269,34 +302,34 @@ namespace InventoryWCF
         }
         public Boolean updateRequisitionDetails(string requisitionNo, string ItemCode, string allocateQty)
         {
-            return BusinessLogic.updateRequisitionDetails(Convert.ToInt32(requisitionNo), ItemCode, Convert.ToInt32(allocateQty));
+            int no = Int32.Parse(requisitionNo);
+            int qty = Int32.Parse(allocateQty);
+            return BusinessLogic.updateRequisitionDetails(no, ItemCode, qty);
+        }
+
+        public void UpdateRequisition (string requisitionNo, string status, string approveStaffID)
+        {
+
+            BusinessLogic.updateRequisition(Convert.ToInt32(requisitionNo) , status, approveStaffID);
         }
 
         public List<WCFRetrievalForm> getRetrievalList()
         {
             StationeryModel entity = new StationeryModel();
             List<RetrieveForm> list = new List<RetrieveForm>();
-             //need the list for the next delivery, a.k.a for next monday
-             //must have been approved before this week's wednesday?
-
-             //next delivery date supposedly is:
              DateTime date = DateTime.Now;
-            //while(date.DayOfWeek != DayOfWeek.Monday)
-            //{
-            //    date.AddDays(1);
-            //}
-            if (HttpContext.Current.Application["retrieveList"] != null)
+            if (HttpContext.Current.Application["retrieveForm"] != null)
             {
-                list = (List<RetrieveForm>)HttpContext.Current.Application["retrieveList"];
+                list = (List<RetrieveForm>)HttpContext.Current.Application["retrieveForm"];
             }
             else
             {
                 list = requisitionRecordService.GetRetrieveFormByDateTime(date); //newly generated list
-                HttpContext.Current.Application["retrieveList"] = list;
+                HttpContext.Current.Application["retrieveForm"] = list;
             }
 
             //generate list of requisition records for allocation at the same time
-            List<Requisition_Record> rr = entity.Requisition_Records.Where(x => x.approveDate < date && (x.status == RequisitionStatus.APPROVED_PROCESSING || x.status == RequisitionStatus.PARTIALLY_FULFILLED)).ToList();
+            List<Requisition_Record> rr = entity.Requisition_Records.Where(x => x.status == RequisitionStatus.APPROVED_PROCESSING || x.status == RequisitionStatus.PARTIALLY_FULFILLED).ToList();
             HttpContext.Current.Application["requisitionRecordList_allocation"] = rr;
 
             return WCFModelConvertUtility.ConvertToWCFRetrievalList(list);
@@ -307,9 +340,9 @@ namespace InventoryWCF
         {
             List<RetrieveForm> list = new List<RetrieveForm>();
 
-            if (HttpContext.Current.Application["retrieveList"] != null)
+            if (HttpContext.Current.Application["retrieveForm"] != null)
             {
-                list = (List<RetrieveForm>)HttpContext.Current.Application["retrieveList"];
+                list = (List<RetrieveForm>)HttpContext.Current.Application["retrieveForm"];
             }
             else
             {
@@ -322,16 +355,32 @@ namespace InventoryWCF
 
         }
 
-        public bool UpdateRetrieval(WCFRetrievalForm wcfr)
+        public string UpdateRetrieval(WCFRetrievalForm wcfr)
         {
-            List<RetrieveForm> list = (List<RetrieveForm>)HttpContext.Current.Application["retrieveList"];
-            //RetrieveForm rf = list.Where(x => x.description == description).First();
-            //rf.retrieveQty = Int32.Parse(qty);
-            var index = list.FindIndex(x => x.description == wcfr.Description);
-            list[index].retrieveQty = wcfr.QtyRetrieved;
+            try
+            {
+                List<RetrieveForm> list = (List<RetrieveForm>)HttpContext.Current.Application["retrieveForm"];
+                //RetrieveForm rf = list.Where(x => x.description == description).First();
+                //rf.retrieveQty = Int32.Parse(qty);
+                Stationery item = stationeryService.FindStationeryByItemCode(wcfr.ItemCode);
+                if(wcfr.QtyRetrieved > item.stockQty)
+                {
+                    return "Value of Retrieved Qty cannot exceed Stock Qty.";
+                }
 
-            HttpContext.Current.Application["retrieveList"] = list;
-            return true;
+                var index = list.FindIndex(x => x.description == wcfr.Description);
+                list[index].retrieveQty = wcfr.QtyRetrieved;
+
+                HttpContext.Current.Application["retrieveForm"] = list;
+                return "true";
+            }
+
+            catch(Exception e)
+            {
+                String error = e.Message;
+
+                return error;
+            }
 
 
         }
@@ -341,6 +390,14 @@ namespace InventoryWCF
         {
             List<Department> departmentList = departmentService.GetAllDepartment();
             return WCFModelConvertUtility.ConvertToWCFDepartments(departmentList);
+
+
+        }
+
+        public List<WCFCollectionPoint> GetAllCollectionPoints()
+        {
+            List<Collection_Point> cpList = cpService.GetAllCollectionPoints2();
+            return WCFModelConvertUtility.convertToWCFCollectionPoints(cpList);
 
 
         }
@@ -475,6 +532,14 @@ namespace InventoryWCF
         public void UpdateDisbursement(string itemCode, string needQty, string actualQty, string DepartmentCode, string count, string staffID)
         {
             requisitionRecordService.UpdateDisbursement(itemCode, Convert.ToInt32(actualQty), DepartmentCode, Convert.ToInt32(needQty), Convert.ToInt32(count), staffID);
+            HttpContext.Current.Application["tempDisbursement"] = null;
+        }
+
+        public void UpdateRequisitionDetail(WCFRequisitionDetail reqDetail)
+        {
+
+            requisitionRecordService.UpdateDetails(reqDetail.ItemCode, reqDetail.RequisitionNo, reqDetail.AllocateQty);
+
         }
 
         //public List<WCFDisbursement> GetCodeFromName(string name)
@@ -482,6 +547,7 @@ namespace InventoryWCF
         //    stationeryService.GetAllStationery();
 
         //}
+
 
         //public List<Disbursement> getDisbursementList()
         //{
@@ -497,6 +563,32 @@ namespace InventoryWCF
         //{
         //    throw new NotImplementedException();
         //}
+
+        public WCFDepartment GetDepartment(string departmentCode)
+        {
+            string deptCode = departmentCode.ToUpper().Trim();
+            try
+            {
+
+                Department d = departmentService.GetDepartmentByCode(deptCode);
+                if (d.departmentCode == deptCode)
+                {
+                    WCFDepartment WCFD = WCFModelConvertUtility.convertToWCFDepartment(d);
+                    return WCFD;
+                }
+                else
+                {
+                    WCFDepartment invalid = new WCFDepartment();
+                    return invalid;
+                }
+            }
+            catch(Exception e)
+            {
+                WCFDepartment invalid = new WCFDepartment();
+                return invalid;
+            }
+
+        }
 
     }
 }

@@ -13,10 +13,17 @@
 
 <form id="chartForm">
     <div class="row form-inline">
-        <div class="col-sm-1"><label class="pull-right">Year:</label></div>
+        <div class="col-sm-1"><label>Year:</label></div>
         <div class="col-sm-3">
             <!-- Combobox -->
-            <select class="js-example-basic-multiple form-control" style="width: 100%" name="year" multiple="multiple" required>
+            <select class="form-control" id="yearCombobox" style="width: 100%" name="year" required>
+                <option></option>
+            </select>
+        </div>
+        <div class="col-sm-1"><label>Department:</label></div>
+        <div class="col-sm-3">
+            <!-- Combobox -->
+            <select class="form-control" id="deptCombobox" style="width: 100%" name="deptCode" required>
                 <option></option>
             </select>
         </div>
@@ -42,31 +49,41 @@
     // for requisition cumulative graph
     function LoadData()
     {
-        $('#progressBar').removeClass('hidden'); 
+        var form = document.getElementById("chartForm");
 
-        $.ajax({
-            url: '@Url.Action("GetRequisitionCumulativeBar", "Report")',
-            type: 'POST',
-            data: $('#chartForm').serialize(),
-            success: function (data) {
-                $("#chartContainer").html(data),
-                $('#progressBar').addClass('hidden');
+        if (!form.checkValidity())
+        {
+            // To trigger html5 form validation - Create a temporary button, click and remove it
+            const tmpSubmit = document.createElement('button');
+            form.appendChild(tmpSubmit);
+            tmpSubmit.click();
+            form.removeChild(tmpSubmit);
+        }
+        else
+        {
+            $('#progressBar').removeClass('hidden');
 
-            },
-            error: function () {
-                alert("Opps. Some error occurs. Please try again."),
-                $('#progressBar').addClass('hidden');
-            }
-        });
+            $.ajax({
+                url: '@Url.Action("GetRequisitionCumulativeBar", "Report")',
+                type: 'POST',
+                data: $('#chartForm').serialize(),
+                success: function (data) {
+                    $("#chartContainer").html(data),
+                    $('#progressBar').addClass('hidden');
+
+                },
+                error: function () {
+                    alert("Opps. Some error occurs. Please try again."),
+                    $('#progressBar').addClass('hidden');
+                }
+            });
+
+        }
     }
-
 
     // for year selection
     $(document).ready(function () {
-        $('.js-example-basic-multiple').select2({
-
-            maximumSelectionLength: 1,
-
+        $('#yearCombobox').select2({
             ajax: {
                 url: '@Url.Action("GetSelectableYearsJSON", "Report")',
                 delay: 250,
@@ -81,5 +98,24 @@
             selectOnClose: true,
         });
     });
+
+    // for deparment selection
+    $(document).ready(function () {
+        $('#deptCombobox').select2({
+            ajax: {
+                url: '@Url.Action("GetDepartmentListJSON", "Report")',
+                delay: 250,
+                dataType: 'json',
+                processResults: function (data) {
+                    return {
+                        results: data
+                    };
+                },
+            },
+            placeholder: "Select a department",
+            selectOnClose: true,
+        });
+    });
+
 
 </script>

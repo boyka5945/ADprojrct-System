@@ -2,16 +2,18 @@
 <script src="~/Scripts/chart-colors.js"></script>
 
 @{
-    string item = (string)ViewBag.ItemCode;
+    string category = (string) ViewBag.Category;
+    string item = (string) ViewBag.ItemCode;
 }
 
+    <input type="hidden" value="@category" name="category" id="category" />
     <input type="hidden" value="@item" name="itemCde" id="itemCode" />
     <canvas id="myChart"> </canvas>
 
 <script>
 
-    var itemCode = $('#itemCode').val(); // to solve situation where ViewBag cannot be retrieved in script
-
+    var category = $('#category').val(); // to solve situation where ViewBag cannot be retrieved in script
+    var itemCode = $('#itemCode').val(); 
 
     var labels = @Html.Raw(Json.Encode(ViewBag.XLabels));
     var label1 = @Html.Raw(Json.Encode(ViewData["Label1"]));
@@ -22,145 +24,151 @@
     var myChart = document.getElementById("myChart").getContext("2d");
     var color = Chart.helpers.color;
 
-    if(itemCode != "") // only show chart when item code is selected
+    var title = ['Stationery Requisition Trend of ' + itemCode];
+    
+    if(category != "")
     {
-        var title = 'Stationery Requisition Trend of ' + itemCode;
+        title.push('in Category: ' + category); 
+    }        
 
-        if (data2 == null) // only one year
-        {
-            var showQtyChart = new Chart("myChart", {
-                type: "line",
-                data: {
-                    labels: labels,
-                    datasets:
-                    [
-                        {
-                            label:label1,
-                            backgroundColor: window.chartColors.blue,
-                            borderColor: window.chartColors.blue,
-                            fill:false,
-                            strokeColor : "rgba(151,187,205,1)",
-                            data: data1,
-                        }
-                    ],
-                },
-                options:
+    if (data2 == null) // only one year is selected
+    {
+        var showQtyChart = new Chart("myChart", {
+            type: "line",
+            data: {
+                labels: labels,
+                datasets:
+                [
                     {
-                        legend:
-                        {
-                            display: true,
-                            labels:
-                            {
-                                fontColor: window.chartColors.black,
-                            }
-
-                        },
-                        title:
-                        {
-                            display: true,
-                            fontSize: 16,
-                            fontStyle: 'Bold',
-                            text: title,
-                        },
-                        scales:
-                        {
-                            yAxes:
-                            [{
-                                scaleLabel:
-                                {
-                                    display: true,
-                                    labelString: 'Quantity'
-                                },
-
-                                ticks:
-                                {
-                                    beginAtZero:true,
-                                }
-                            }],
-                            xAxes:
-                            [{
-                                scaleLabel:
-                                {
-                                    display: true,
-                                    labelString: 'Months'
-                                }
-                            }]
-                        }
+                        label:label1,
+                        backgroundColor: window.chartColors.blue,
+                        borderColor: window.chartColors.blue,
+                        fill:false,
+                        strokeColor : "rgba(151,187,205,1)",
+                        data: data1,
                     }
-            });
-        }
-        else // 2 years
-        {
-            var showQtyChart = new Chart("myChart", {
-                type: "line",
-                data: {
-                    labels: labels,
-                    datasets:
-                    [
-                        {
-                            label:label1,
-                            backgroundColor: color(chartColors.red).alpha(0.2).rgbString(),
-                            borderColor: window.chartColors.red,
-                            borderDash: [4, 2],
-                            fill:true,
-                            strokeColor : "rgba(151,187,205,1)",
-                            data: data1,
-                        },
-                        {
-                            label:label2,
-                            backgroundColor: window.chartColors.blue,
-                            borderColor: window.chartColors.blue,
-                            fill:true,
-                            strokeColor : "rgba(151,187,205,1)",
-                            data: data2,
-                        },
-                    ],
-                },
-                options:
+                ],
+            },
+            options:
+                {
+                    legend:
                     {
-                        legend:
+                        position: 'right',
+                        display: true,
+                        labels:
                         {
-                            display: true,
-                            labels:
-                            {
-                                fontColor: window.chartColors.black,
-                            }
-
-                        },
-                        title:
-                        {
-                            display: true,
-                            fontSize: 16,
-                            fontStyle: 'Bold',
-                            text: title,
-                        },
-                        scales:
-                        {
-                            yAxes:
-                            [{
-                                scaleLabel:
-                                {
-                                    display: true,
-                                    labelString: 'Quantity'
-                                },
-
-                                ticks:
-                                {
-                                    beginAtZero:true,
-                                }
-                            }],
-                            xAxes:
-                            [{
-                                scaleLabel:
-                                {
-                                    display: true,
-                                    labelString: 'Months'
-                                }
-                            }]
+                            fontColor: window.chartColors.black,
                         }
+
+                    },
+                    title:
+                    {
+                        display: true,
+                        fontSize: 16,
+                        fontStyle: 'Bold',
+                        text: title,
+                    },
+                    scales:
+                    {
+                        yAxes:
+                        [{
+                            scaleLabel:
+                            {
+                                display: true,
+                                labelString: 'Quantity',
+                                fontSize: 14,
+                            },
+
+                            ticks:
+                            {
+                                beginAtZero:true,
+                            }
+                        }],
+                        xAxes:
+                        [{
+                            scaleLabel:
+                            {
+                                display: true,
+                                labelString: 'Months',
+                                fontSize: 14,
+                            }
+                        }]
                     }
-            });
-        }
+                }
+        });
+    }
+    else // 2 years
+    {
+        var showQtyChart = new Chart("myChart", {
+            type: "line",
+            data: {
+                labels: labels,
+                datasets:
+                [
+                    {
+                        label:label1,
+                        backgroundColor: color(chartColors.red).alpha(0.2).rgbString(),
+                        borderColor: window.chartColors.red,
+                        borderDash: [4, 2],
+                        fill:true,
+                        strokeColor : "rgba(151,187,205,1)",
+                        data: data1,
+                    },
+                    {
+                        label:label2,
+                        backgroundColor: window.chartColors.blue,
+                        borderColor: window.chartColors.blue,
+                        fill:true,
+                        strokeColor : "rgba(151,187,205,1)",
+                        data: data2,
+                    },
+                ],
+            },
+            options:
+                {
+                    legend:
+                    {
+                        position: 'right',
+                        display: true,
+                        labels:
+                        {
+                            fontColor: window.chartColors.black,
+                        }
+
+                    },
+                    title:
+                    {
+                        display: true,
+                        fontSize: 16,
+                        fontStyle: 'Bold',
+                        text: title,
+                    },
+                    scales:
+                    {
+                        yAxes:
+                        [{
+                            scaleLabel:
+                            {
+                                display: true,
+                                labelString: 'Quantity'
+                            },
+
+                            ticks:
+                            {
+                                beginAtZero:true,
+                            }
+                        }],
+                        xAxes:
+                        [{
+                            scaleLabel:
+                            {
+                                display: true,
+                                labelString: 'Months'
+                            }
+                        }]
+                    }
+                }
+        });
     }
 
 

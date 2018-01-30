@@ -3,21 +3,27 @@
 
 @{
     string year = (string)ViewBag.Year;
+    string dept = (string)ViewBag.Dept;
 }
 
 <input type="hidden" value="@year" name="year" id="year" />
+<input type="hidden" value="@dept" name="dept" id="dept" />
+
 <canvas id="myChart"> </canvas>
 
 <script>
     var year = $('#year').val();
-    var title = 'Stationery Requisition Cumulative Chart of Year ' + year;
+    var dept = $('#dept').val();
+
+    var title = ['Stationery Requisition Cumulative Chart of'];
+    title.push(dept + ' in Year ' + year);
 
     var labels = @Html.Raw(Json.Encode(ViewBag.XLabels));
 
-    var LineLabel = @Html.Raw(Json.Encode(ViewBag.YLineLabel));
-    var LineData = @Html.Raw(Json.Encode(ViewBag.YLineData));
-    var BarLabel = @Html.Raw(Json.Encode(ViewBag.YBarLabel));
-    var BarData = @Html.Raw(Json.Encode(ViewBag.YBarData));
+    var lineLabel = @Html.Raw(Json.Encode(ViewBag.YLineLabel));
+    var lineData = @Html.Raw(Json.Encode(ViewBag.YLineData));
+    var barLabel = @Html.Raw(Json.Encode(ViewBag.YBarLabel));
+    var barData = @Html.Raw(Json.Encode(ViewBag.YBarData));
 
     var color = Chart.helpers.color;
     var myChart = document.getElementById("myChart").getContext("2d");
@@ -30,23 +36,23 @@
             [
                 {
                     type: 'line',
-                    label: LineLabel,
+                    label: lineLabel,
                     yAxisID: "y-axis-2",
                     borderColor: window.chartColors.red,
                     backgroundColor: window.chartColors.red,
                     borderWidth: 2,
                     fill: false,
-                    data: LineData,
+                    data: lineData,
                 },
 
                 {
                     type: "bar",  
-                    label:BarLabel,
+                    label:barLabel,
                     yAxisID: "y-axis-1",
-                    backgroundColor: window.chartColors.blue,
+                    backgroundColor: color(chartColors.blue).alpha(0.5).rgbString(),
                     borderColor: window.chartColors.blue,
                     borderWidth: 2,
-                    data: BarData,
+                    data: barData,
                 },
             ],
         },
@@ -54,6 +60,8 @@
             {
                 legend:
                 {
+                    position: 'right',
+                    reverse: true,
                     display: true,
                     labels:
                     {
@@ -84,7 +92,8 @@
                         scaleLabel:
                         {
                             display: true,
-                            labelString: 'Quantity'
+                            labelString: 'Quantity of item requested',
+                            fontSize: 14,
                         },
 
                         ticks:
@@ -101,7 +110,8 @@
                         scaleLabel:
                         {
                             display: true,
-                            labelString: 'Cumulative Quantity'
+                            labelString: 'Amount ($)',
+                            fontSize: 14,
                         },
 
                         ticks:
@@ -116,7 +126,8 @@
                         scaleLabel:
                         {
                             display: true,
-                            labelString: 'Months'
+                            labelString: 'Months',
+                            fontSize: 14,
                         }
                     }]
                 }

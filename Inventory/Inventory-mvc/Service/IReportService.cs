@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Inventory_mvc.DAO;
+using Inventory_mvc.Models;
 using Inventory_mvc.Service;
 using Inventory_mvc.ViewModel;
 
@@ -11,17 +12,40 @@ namespace Inventory_mvc.Service
 {
     interface IReportService
     {
-        //List<ReportViewModel> RetrieveQty(DateTime ds, DateTime de);
+        List<ReportViewModel> GetItemRequestTrend(string categoryID, string itemCode, int[] years);
 
-        List<ReportViewModel> GetItemRequestTrend(string itemCode, int[] years);
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="categoryID"> "-1" for all </param>
+        /// <param name="itemCode"> "-1" for all </param>
+        /// <param name="deptCode"> null for all </param>
+        /// <param name="years"> null for all </param>
+        /// <param name="months"> null for all </param>
+        /// <returns></returns>
+        List<ReportViewModel> GetApprovedRequisitionDetialsBasedCriteria(string categoryID, string itemCode, string deptCode, int[] years, int[] months);
 
-        List<ReportViewModel> GetApprovedRequisitionsOfYear(int year);
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="categoryID"> "-1" for all </param>
+        /// <param name="itemCode"> "-1" for all </param>
+        /// <param name="deptCode"> null for all </param>
+        /// <param name="years"> null for all </param>
+        /// <param name="months"> null for all </param>
+        /// <returns></returns>
+        List<ReportViewModel> GetReorderAmountBasedOnCriteria(string categoryID, string itemCode, string supplierCode, int[] years, int[] months);
 
         List<int> GetSelectableYears(int baseYear);
+
+        List<int> GetSelectableMonths(int year);
+
+        int GetEarliestYear();
 
 
         // TODO - REMOVE THIS METHOD
         void GenerateRandomDataForRequisitionRecords();
+        void GenerateRandomDataForPurchaseRecords();
+
     }
 }

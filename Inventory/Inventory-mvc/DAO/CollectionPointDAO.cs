@@ -31,6 +31,8 @@ namespace Inventory_mvc.DAO
             }
         }
 
+      
+
         List<int> ICollectionPointDAO.GetAllCollectionID()
         {
             using (StationeryModel context = new StationeryModel())

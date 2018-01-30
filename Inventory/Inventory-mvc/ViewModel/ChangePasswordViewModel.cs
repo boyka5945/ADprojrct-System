@@ -10,17 +10,21 @@ namespace Inventory_mvc.ViewModel
     {
         [Required]
         [StringLength(50)]
+        [Display(Name = "User ID")]
         public string UserID { get; set; }
 
         [Required]
+        [Display(Name = "Old Password")]
         [StringLength(50)]
         public string OldPassword { get; set; }
 
         [Required]
+        [Display(Name = "New Password")]
         [StringLength(50)]
         public string NewPassword { get; set; }
 
         [Required]
+        [Display(Name = "Confirm New Password")]
         [StringLength(50)]
         public string ConfirmPassword { get; set; }
 

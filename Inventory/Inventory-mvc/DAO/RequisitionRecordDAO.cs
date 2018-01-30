@@ -19,6 +19,12 @@ namespace Inventory_mvc.DAO
             return entity.Requisition_Records.ToList();
         }
 
+        public List<Requisition_Record> GetRequisitionRecordByDept(string deptCode)
+        {
+            StationeryModel entity = new StationeryModel();
+            return entity.Requisition_Records.Where(x => x.deptCode == deptCode && x.status== "Pending Approval").ToList();
+        }
+
         public Requisition_Record FindByRequisitionNo(int requisitionNo)
         {
             StationeryModel entity = new StationeryModel();
@@ -229,6 +235,8 @@ namespace Inventory_mvc.DAO
                 var A = itemCodes[i];
                 disbursement.itemDescription = entity.Stationeries.Where(x => x.itemCode == A).First().description;
                 disbursement.quantity = Qty[i];
+                disbursement.actualQty = 0;
+                disbursement.departmentCode = deptCode;
                 disbursementList.Add(disbursement);
             }
             return disbursementList;
@@ -309,8 +317,12 @@ namespace Inventory_mvc.DAO
             for (int i = 0; i < itemCodes.Count; i++)
             {
                 Disbursement disbursement = new Disbursement();
-                disbursement.itemDescription = itemCodes[i];
+                disbursement.itemCode = itemCodes[i];
+                var A = itemCodes[i];
+                disbursement.itemDescription = entity.Stationeries.Where(x => x.itemCode == A).First().description;
                 disbursement.quantity = Qty[i];
+                
+                disbursement.departmentCode = deptCode;
                 disbursementList.Add(disbursement);
             }
             return disbursementList;
@@ -367,7 +379,7 @@ namespace Inventory_mvc.DAO
         public List<RetrieveForm> GetRetrieveFormByDateTime(DateTime? time)
         {
             StationeryModel entity = new StationeryModel();
-            List<Requisition_Record> rr = entity.Requisition_Records.Where(x => x.approveDate < time && (x.status == RequisitionStatus.APPROVED_PROCESSING || x.status == RequisitionStatus.PARTIALLY_FULFILLED)).ToList();
+            List<Requisition_Record> rr = entity.Requisition_Records.Where(x => x.status == RequisitionStatus.APPROVED_PROCESSING || x.status == RequisitionStatus.PARTIALLY_FULFILLED).ToList();
             List<RetrieveForm> retrieveList = new List<RetrieveForm>();
             List<string> ItemCodes = new List<string>();
             List<int?> Qty = new List<int?>();
@@ -471,8 +483,17 @@ namespace Inventory_mvc.DAO
 
         public int DetailsCountOfOneItemcode(string itemCode)
         {
+            int count = 0;
             StationeryModel entity = new StationeryModel();
-            return entity.Requisition_Detail.Where(x => x.itemCode == itemCode).Count();
+            List<Requisition_Detail> l = entity.Requisition_Detail.Where(x => x.itemCode == itemCode).ToList();
+            foreach(var item in l)
+            {
+                if(item.Requisition_Record.status == RequisitionStatus.APPROVED_PROCESSING || item.Requisition_Record.status == RequisitionStatus.PARTIALLY_FULFILLED)
+                {
+                    count++;
+                }
+            }
+            return count;
         }
 
         public void updatestatus(int requisitionNo, int status)
@@ -498,6 +519,12 @@ namespace Inventory_mvc.DAO
         public void updatestatus(int requisitionNo)
         {
             throw new NotImplementedException();
+        }
+
+        public List<Requisition_Record> GetRequestByReqID(string id)
+        {
+            StationeryModel entity = new StationeryModel();
+            return (from req in entity.Requisition_Records where req.requesterID == id select req).ToList();
         }
     }
 }

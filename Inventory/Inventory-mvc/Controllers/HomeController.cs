@@ -28,34 +28,36 @@ namespace Inventory_mvc.Controllers
             //var check = Request["checkV"].ToString();
             //if (check == "BBB")
             //{
-                if (!UserService.isExistingID(model.UserName))
+            if (String.IsNullOrEmpty(model.UserName) || !UserService.isExistingID(model.UserName))
+            {
+                ViewBag.errorMessage = "UserName is not correct.";
+            }
+            else
+            {
+                if (Encrypt.DecryptMethod(UserService.FindByUserID(model.UserName).password) == model.Password)
                 {
-                    ViewBag.errorMessage = "UserName is not correct.";
-                }
-                else {
-                    if (UserService.FindByUserID(model.UserName).password == model.Password)
+                    int roleID = UserService.GetRoleByID(model.UserName);
+                    string identity = model.UserName;
+                    HttpContext.Application["role"] = roleID;
+                    AuthorizationManager.SetTicket(Response, model.RememberMe, identity.ToUpper(), roleID);
+                    if (!string.IsNullOrEmpty(returnUrl))
                     {
-                        int roleID = UserService.GetRoleByID(model.UserName);
-                        string identity = model.UserName;
-                        HttpContext.Application["role"] = roleID;
-                        AuthorizationManager.SetTicket(Response, model.RememberMe, identity.ToUpper(), roleID);
-                        if (!string.IsNullOrEmpty(returnUrl))
-                        {
-                            return Redirect(returnUrl);
-                        }
-                        else//null
-                        {
-                            return RedirectToAction("Index", "Home");
-                        }
+                        return Redirect(returnUrl);
                     }
-                    else
+                    else//null
                     {
-                        ViewBag.errorMessage = "PassWord is not correct.";
-                    }   
+                        return RedirectToAction("Index", "Home");
+                    }
+                }
+                else
+                {
+                    ViewBag.errorMessage = "PassWord is not correct.";
+
+                }
                 //}   
             }
-        
-        return View(model);
+
+            return View(model);
         }
 
         [RoleAuthorize]
@@ -82,6 +84,6 @@ namespace Inventory_mvc.Controllers
         }
 
 
-        
+
     }
 }
