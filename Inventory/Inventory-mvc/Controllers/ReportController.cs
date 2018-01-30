@@ -386,10 +386,13 @@ namespace Inventory_mvc.Controllers
             Dictionary<string, decimal[]> dataset = new Dictionary<string, decimal[]>(); // key = supplier, value = decimal[]
 
             foreach(var r in results)
-            {
+            {              
                 string key = r.Supplier; // user supplier for dict key
-                decimal[] value = new decimal[12]; // 12 months
-                dataset.Add(key, value);
+                if (!dataset.ContainsKey(key)) // add new key only
+                {
+                    decimal[] value = new decimal[12]; // 12 months
+                    dataset.Add(key, value);
+                }
             }
 
 
@@ -423,15 +426,16 @@ namespace Inventory_mvc.Controllers
 
             ViewBag.XLabels = monthsArray;
 
-            for (int i = 1; i <= dataset.Keys.Count; i++) // create data array based on # of years
+            for (int i = 1; i <= dataset.Keys.Count; i++) // create data array based on # of suppliers
             {
-                string labelName = String.Format("Label{0}", i);
+                string labelName = String.Format("DatasetLabel{0}", i);
                 string dataName = String.Format("Data{0}", i);
 
                 ViewData[labelName] = dataset.Keys.ToArray()[i-1];
                 ViewData[dataName] = dataset.Values.ToArray()[i-1];
             }
 
+            ViewBag.NumberOfSupplier = dataset.Keys.Count;
 
 
             return PartialView("_SupplierYearlyReorder");
