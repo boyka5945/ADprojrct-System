@@ -10,6 +10,7 @@ using Inventory_mvc.Models;
 using Inventory_mvc.ViewModel;
 using System.Web;
 using Inventory_mvc.Utilities;
+using Inventory_mvc.Function;
 
 namespace InventoryWCF
 {
@@ -26,19 +27,33 @@ namespace InventoryWCF
 
 
 
-        public Boolean ValidateUser(string userid, string password)
+        public string ValidateUser(WCFUser User)
         {
             //return BusinessLogic.validateUser(userid, password);
 
             try
             {
-                User user = userService.FindByUserID(userid);
-                return (user.password == password); // wrong password
+                User user = userService.FindByUserID(User.UserID);
+                if (user != null)
+                {
+                    if (User.PassWord == Encrypt.DecryptMethod(user.password))
+                    {
+                        return "true";
+                    } else
+                    {
+                        return "false";
+                    }
+                }
+                else
+                {
+                    return "false";
+                }
+
             }
             catch (Exception e)
             {
                 // non existing userID
-                return false;
+                return "false";
             }           
         }
 
@@ -69,11 +84,15 @@ namespace InventoryWCF
 
         public Boolean ChangePassword(string userid, string currentpassword, string newpassword)
         {
+            WCFUser u = new WCFUser();
+            u.UserID = userid;
+            u.PassWord = currentpassword;
+            
             // TODO : IMPLEMENT METHOD
             //return BusinessLogic.changePassWord(userid, currentpassword, newpassword);
             try
             {
-                if(ValidateUser(userid, currentpassword))
+                if(ValidateUser(u) == "false")
                 {
                     throw new NotImplementedException();
                 }
@@ -240,7 +259,12 @@ namespace InventoryWCF
             return WCFModelConvertUtility.ConvertToWCFRequisitionRecord(reqByDept);
         }
 
-        
+        public List<WCFRequisitionRecord> GetRequisitionRecordByRequesterID(string requesterID)
+        {
+            List<Requisition_Record> reqByReqID = requisitionRecordService.GetRequestByReqID(requesterID);
+            return WCFModelConvertUtility.ConvertToWCFRequisitionRecord(reqByReqID);
+        }
+
 
         public bool AddNewRequest(string requesterID, WCFRequisitionDetail[] newRequisition)
         {
@@ -276,10 +300,18 @@ namespace InventoryWCF
             List<Requisition_Detail> reqDetail = requisitionRecordService.GetDetailsByNo(no);
             return WCFModelConvertUtility.ConvertToWCFRequestionDetails(reqDetail);
         }
-        //public Boolean updateRequisitionDetails(int requisitionNo, string ItemCode, int allocateQty)
-        //{
-        //    return BusinessLogic.updateRequisitionDetails(requisitionNo, ItemCode, allocateQty);
-        //}
+        public Boolean updateRequisitionDetails(string requisitionNo, string ItemCode, string allocateQty)
+        {
+            int no = Int32.Parse(requisitionNo);
+            int qty = Int32.Parse(allocateQty);
+            return BusinessLogic.updateRequisitionDetails(no, ItemCode, qty);
+        }
+
+        public void UpdateRequisition (string requisitionNo, string status, string approveStaffID)
+        {
+
+            BusinessLogic.updateRequisition(Convert.ToInt32(requisitionNo) , status, approveStaffID);
+        }
 
         public List<WCFRetrievalForm> getRetrievalList()
         {
@@ -323,16 +355,32 @@ namespace InventoryWCF
 
         }
 
-        public bool UpdateRetrieval(WCFRetrievalForm wcfr)
+        public string UpdateRetrieval(WCFRetrievalForm wcfr)
         {
-            List<RetrieveForm> list = (List<RetrieveForm>)HttpContext.Current.Application["retrieveForm"];
-            //RetrieveForm rf = list.Where(x => x.description == description).First();
-            //rf.retrieveQty = Int32.Parse(qty);
-            var index = list.FindIndex(x => x.description == wcfr.Description);
-            list[index].retrieveQty = wcfr.QtyRetrieved;
+            try
+            {
+                List<RetrieveForm> list = (List<RetrieveForm>)HttpContext.Current.Application["retrieveForm"];
+                //RetrieveForm rf = list.Where(x => x.description == description).First();
+                //rf.retrieveQty = Int32.Parse(qty);
+                Stationery item = stationeryService.FindStationeryByItemCode(wcfr.ItemCode);
+                if(wcfr.QtyRetrieved > item.stockQty)
+                {
+                    return "Value of Retrieved Qty cannot exceed Stock Qty.";
+                }
 
-            HttpContext.Current.Application["retrieveForm"] = list;
-            return true;
+                var index = list.FindIndex(x => x.description == wcfr.Description);
+                list[index].retrieveQty = wcfr.QtyRetrieved;
+
+                HttpContext.Current.Application["retrieveForm"] = list;
+                return "true";
+            }
+
+            catch(Exception e)
+            {
+                String error = e.Message;
+
+                return error;
+            }
 
 
         }
@@ -389,21 +437,22 @@ namespace InventoryWCF
             {
                 entity.Requisition_Detail.Where(x => x.itemCode == itemCode && x.requisitionNo == requisitionNo).First().qty = (int)qty;
                 entity.SaveChanges();
+            }            
+        }
+
+        public void RemovePendingRequisition(string NO)
+        {
+            int requisitionNo = Convert.ToInt32(NO);
+            using (StationeryModel entity = new StationeryModel())
+            {
+                Requisition_Record record = (from r in entity.Requisition_Records
+                                             where r.requisitionNo == requisitionNo
+                                             select r).FirstOrDefault();
+
+                entity.Requisition_Detail.RemoveRange(record.Requisition_Detail);
+                entity.Requisition_Records.Remove(record);
+                entity.SaveChanges();
             }
-            //Requisition_Detail requisitionDetail = new Requisition_Detail
-            //{
-            //    requisitionNo = reqDetail.RequisitionNo,
-            //    itemCode = reqDetail.ItemCode,
-            //    remarks = reqDetail.Remarks,
-            //    qty = reqDetail.Qty,
-            //    fulfilledQty = reqDetail.FulfilledQty,
-            //    clerkID = reqDetail.ClerkID,
-            //    retrievedDate = reqDetail.RetrievedDate,
-            //    allocatedQty = reqDetail.AllocateQty,
-            //    nextCollectionDate = reqDetail.NextCollectionDate
-            //};
-            //WCFModelConvertUtility.ConvertToWCFRequestionDetails(UpdateReqDetail(requisitionDetail));
-            //requisitionRecordService.up UpdateReqDetail(WCFModelConvertUtility.ConvertToWCFRequestionDetails(requisitionDetail);
         }
 
         public List<WCFDisbursement> GetPendingItemsToBeProcessedByDepartmentByItems(string deptCode)
@@ -514,6 +563,32 @@ namespace InventoryWCF
         //{
         //    throw new NotImplementedException();
         //}
+
+        public WCFDepartment GetDepartment(string departmentCode)
+        {
+            string deptCode = departmentCode.ToUpper().Trim();
+            try
+            {
+
+                Department d = departmentService.GetDepartmentByCode(deptCode);
+                if (d.departmentCode == deptCode)
+                {
+                    WCFDepartment WCFD = WCFModelConvertUtility.convertToWCFDepartment(d);
+                    return WCFD;
+                }
+                else
+                {
+                    WCFDepartment invalid = new WCFDepartment();
+                    return invalid;
+                }
+            }
+            catch(Exception e)
+            {
+                WCFDepartment invalid = new WCFDepartment();
+                return invalid;
+            }
+
+        }
 
     }
 }

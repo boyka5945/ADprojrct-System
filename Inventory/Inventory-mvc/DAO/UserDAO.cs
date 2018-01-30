@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using Inventory_mvc.Utilities;
 using Inventory_mvc.Models;
+using Inventory_mvc.Function;
 
 namespace Inventory_mvc.DAO
 {
@@ -34,8 +35,9 @@ namespace Inventory_mvc.DAO
         public bool AddNewUser(User user)
         {
             StationeryModel entity = new StationeryModel();
-
-            entity.Users.Add(user);
+            User u = user;
+            u.password = Encrypt.EncryptMethod(u.password);
+            entity.Users.Add(u);
             int rowAffected = entity.SaveChanges();
 
             if (rowAffected == 1)
