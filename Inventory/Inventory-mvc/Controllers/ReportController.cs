@@ -18,13 +18,7 @@ namespace Inventory_mvc.Controllers
         IDepartmentService departmentService = new DepartmentService();
         ISupplierService supplierService = new SupplierService();
 
-        private string[] months = new string[]{ "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" };
-
-
-        public ActionResult Index()
-        {
-            return View();
-        }
+        private string[] monthsArray = new string[]{ "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" };
 
 
         [HttpGet]
@@ -58,7 +52,7 @@ namespace Inventory_mvc.Controllers
                                         Sum = g.Sum(v => v.RequestQuantity),
                                         Amount = g.Sum(v => v.RequestQuantity * v.Cost) }).OrderBy(r => r.Month); ;
 
-            ViewBag.XLabels = months;
+            ViewBag.XLabels = monthsArray;
 
             // Get data for bar chart
             ViewBag.YBarLabel = "Monthly Quantity";
@@ -124,7 +118,7 @@ namespace Inventory_mvc.Controllers
                                Amount = g.Sum(v => v.OrderQuantity * v.Cost)
                            }).OrderBy(r => r.Month); ;
 
-            ViewBag.XLabels = months;
+            ViewBag.XLabels = monthsArray;
 
             // Get data for bar chart
             ViewBag.YBarLabel = "Reorder Quantity";
@@ -165,11 +159,10 @@ namespace Inventory_mvc.Controllers
             return View();
         }
 
-
         [HttpPost]
         public ActionResult ItemRequestTrend(string categoryID, string itemCode, int[] years)
         {
-            years = years.OrderBy(x => x.ToString()).ToArray();
+            years = years.OrderBy(x => x).ToArray();
             List<ReportViewModel> vmList = reportService.GetItemRequestTrend(categoryID, itemCode, years);
                
             var results = (from vm in vmList
@@ -213,7 +206,7 @@ namespace Inventory_mvc.Controllers
             }
 
 
-            ViewBag.XLabels = months;
+            ViewBag.XLabels = monthsArray;
 
             for(int i = 0; i < years.Length; i++) // create data array based on # of years
             {
@@ -227,6 +220,92 @@ namespace Inventory_mvc.Controllers
             return PartialView("_ItemRequestTrend");
         }
 
+
+        [HttpGet]
+        public ActionResult ItemReorderComparison()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult GetItemReorderComparisonChart(string[] yearAndMonths, string itemCode)
+        {
+            // Split('-')[0] give month & Split('-')[1] give year
+            yearAndMonths = yearAndMonths.OrderBy(x => Int32.Parse(x.Split('-')[0])).OrderBy(x => Int32.Parse(x.Split('-')[1])).ToArray();
+            // order by year and month
+
+            if (itemCode != "-1")
+            {
+                Stationery s = stationeryService.FindStationeryByItemCode(itemCode);
+                ViewBag.ItemCode = String.Format("{0} ({1})", itemCode, s.description);
+            }
+            else
+            {
+                ViewBag.ItemCode = "All Stationeries";
+            }
+
+            List<ReportViewModel> vmList = reportService.GetReorderAmountBasedOnCriteria("-1", itemCode, null, yearAndMonths);
+
+            var results = (from vm in vmList
+                           group vm by new { vm.Supplier, vm.Year, vm.Month } into g
+                           select new { Supplier = g.Key.Supplier, Year = g.Key.Year, Month = g.Key.Month, Cost = g.Sum(v => v.OrderQuantity * v.Cost) })
+                           .OrderBy(r => r.Year)
+                           .OrderBy(r => r.Month);
+
+            //string[] coordinate = new string[years.Length * months.Length]; 
+            string[] xLabels = new string[yearAndMonths.Length];
+            int index = 0;
+            foreach (string ym in yearAndMonths) // eg: ["5-2017", "12-2017", "1-2018"]
+            {
+                int month = Int32.Parse(ym.Split('-')[0]); // eg: 5, 12, 1
+                string year = ym.Split('-')[1]; // eg: 2017, 2017, 2018
+
+                xLabels[index] = String.Format("{0} {1}", monthsArray[month - 1], year); // Jan 2017, May 2017, Jun 2017
+                index++;
+            }
+            ViewBag.XLabels = xLabels;
+
+            // Get suppliers for the item
+            HashSet<string> suppliers = new HashSet<string>();
+            foreach(var r in results)
+            {
+                suppliers.Add(r.Supplier);
+            }
+            List<string> supplierList = suppliers.ToList();
+            supplierList.Sort();
+
+            // create data array based on # of supplier
+            for (int i = 1; i <= supplierList.Count; i++) 
+            {
+                string supplier = supplierList.ElementAt(i-1);
+
+                string labelName = String.Format("DatasetLabel{0}", i); // eg: DatasetLabel1, DatasetLabel2...
+                ViewData[labelName] = supplier;
+
+                decimal[] data = new decimal[yearAndMonths.Length];
+                var resultOfsupplier = (from r in results where r.Supplier == supplier select r); // get result of particular supplier
+                foreach(var r in resultOfsupplier)
+                {
+                    for(int xy = 0; xy < yearAndMonths.Length; xy++) // use month-year as coordinate
+                    {
+                        string coord = yearAndMonths[xy];
+                        if((r.Month.ToString() + "-" + r.Year.ToString()) == coord) // 1-2017 == 1-2017
+                        {
+                            data[xy] = r.Cost; // put data in corresponding position
+                        }
+                    }
+                }
+
+                string dataName = String.Format("Data{0}", i); // eg: Data1, Data2, Data3....
+                ViewData[dataName] = data;
+            }
+
+            ViewBag.NumberOfSupplier = supplierList.Count;
+
+            return PartialView("_ItemReorderComparison");
+        }
+
+
         [HttpGet]
         public ActionResult DeptMonthlyRequisitionAmount()
         {
@@ -237,7 +316,7 @@ namespace Inventory_mvc.Controllers
         public ActionResult GetDeptMonthlyRequisitionAmount(int year, int month = -1)
         {
             ViewBag.Year = year.ToString();
-            ViewBag.Month = (month == -1) ? "" : months[month - 1]; // get string representation of months
+            ViewBag.Month = (month == -1) ? "" : monthsArray[month - 1]; // get string representation of months
 
 
             int[] m = (month == -1) ? null : new int[] { month }; // -1 for all months
@@ -278,52 +357,82 @@ namespace Inventory_mvc.Controllers
 
 
         [HttpGet]
-        public ActionResult SupplierMonthlyReorderAmount()
+        public ActionResult SupplierYearlyReorderAmount()
         {
             return View();
         }
 
         [HttpPost]
-        public ActionResult GetSupplierMonthlyReorderAmount(int year, int month = -1)
+        public ActionResult GetSupplierYearlyReorderAmount(int year, string categoryID, string itemCode)
         {
             ViewBag.Year = year.ToString();
-            ViewBag.Month = (month == -1) ? "" : months[month - 1]; // get string representation of months
 
-
-            int[] m = (month == -1) ? null : new int[] { month }; // -1 for all months
-            List<ReportViewModel> vmList = reportService.GetReorderAmountBasedOnCriteria("-1", "-1", null, new int[] { year }, m);
+            List <ReportViewModel> vmList = reportService.GetReorderAmountBasedOnCriteria(categoryID, itemCode, null, new int[] { year }, null);
 
             var results = (from vm in vmList
-                           group vm by vm.Supplier into g
-                           select new { Supplier = g.Key, Cost = g.Sum(v => v.OrderQuantity * v.Cost) });
+                           group vm by new { vm.Supplier, vm.Month } into g
+                           select new { Supplier = g.Key.Supplier,
+                                        Month = g.Key.Month,
+                                        Cost = g.Sum(v => v.OrderQuantity * v.Cost) })
+                           .OrderBy(r => r.Supplier);
 
-            List<string> supplier = new List<string>();
-            List<decimal> cost = new List<decimal>();
 
-            foreach (var r in results)
-            {
-                supplier.Add(r.Supplier);
-            }
+            Dictionary<string, decimal[]> dataset = new Dictionary<string, decimal[]>(); // key = supplier, value = decimal[]
 
-            supplier.Sort(); // fix the position of department showing on chart
-
-            foreach (string s in supplier)
-            {
-                foreach (var r in results)
+            foreach(var r in results)
+            {              
+                string key = r.Supplier; // user supplier for dict key
+                if (!dataset.ContainsKey(key)) // add new key only
                 {
-                    if (r.Supplier == s)
-                    {
-                        cost.Add(Math.Round(r.Cost, 2));
-                        break;
-                    }
+                    decimal[] value = new decimal[12]; // 12 months
+                    dataset.Add(key, value);
                 }
             }
 
 
-            ViewBag.XLabels = supplier.ToArray();
-            ViewBag.YBarData = cost.ToArray();
+            foreach (var r in results)
+            {
+                string key = r.Supplier.ToString();
+                var value = dataset[key]; // get values based on supplier
+                value[r.Month - 1] = r.Cost; // put cost into corresponding month
+            }
 
-            return PartialView("_SupplierMonthlyReorder");
+
+            if (categoryID != "-1") // prepare display title for chart
+            {
+                ViewBag.Category = stationeryService.GetAllCategory().Find(x => x.categoryID.ToString() == categoryID).categoryName;
+            }
+            else
+            {
+                ViewBag.Category = "";
+            }
+
+            if (itemCode != "-1") // prepare display title for chart
+            {
+                Stationery s = stationeryService.FindStationeryByItemCode(itemCode);
+                ViewBag.ItemCode = String.Format("{0} ({1})", itemCode, s.description);
+            }
+            else
+            {
+                ViewBag.ItemCode = "All Items";
+            }
+
+
+            ViewBag.XLabels = monthsArray;
+
+            for (int i = 1; i <= dataset.Keys.Count; i++) // create data array based on # of suppliers
+            {
+                string labelName = String.Format("DatasetLabel{0}", i);
+                string dataName = String.Format("Data{0}", i);
+
+                ViewData[labelName] = dataset.Keys.ToArray()[i-1];
+                ViewData[dataName] = dataset.Values.ToArray()[i-1];
+            }
+
+            ViewBag.NumberOfSupplier = dataset.Keys.Count;
+
+
+            return PartialView("_SupplierYearlyReorder");
         }
 
 
@@ -339,7 +448,7 @@ namespace Inventory_mvc.Controllers
         public ActionResult GetCategoryMonthlyRequisitionAmountDoughnutChart(int year, int month, string deptCode = "-1")
         {
             ViewBag.Year = year.ToString();
-            ViewBag.Month = (month == -1) ? "" : months[month - 1]; // get string representation of months
+            ViewBag.Month = (month == -1) ? "" : monthsArray[month - 1]; // get string representation of months
 
             if (deptCode == "-1")
             {
@@ -397,7 +506,7 @@ namespace Inventory_mvc.Controllers
         public ActionResult GetCategoryMonthlyReorderAmountDoughnutChart(int year, int month, string supplierCode = "-1")
         {
             ViewBag.Year = year.ToString();
-            ViewBag.Month = (month == -1) ? "" : months[month - 1]; // get string representation of months
+            ViewBag.Month = (month == -1) ? "" : monthsArray[month - 1]; // get string representation of months
 
             if (supplierCode == "-1")
             {
@@ -477,11 +586,7 @@ namespace Inventory_mvc.Controllers
 
             List<Stationery> stationeries = stationeryService.GetStationeriesBasedOnCriteria(null, categoryID);
 
-            if (categoryID != "-1") 
-            {
-                // only allow All if a specific category is chosen
-                options.Add(new JSONForCombobox("-1", "All"));
-            }
+            options.Add(new JSONForCombobox("-1", "All"));
 
             foreach (var s in stationeries)
             {
@@ -549,7 +654,7 @@ namespace Inventory_mvc.Controllers
             {
                 JSONForCombobox option = new JSONForCombobox();
                 option.id = m.ToString();
-                option.text = months[m - 1];
+                option.text = monthsArray[m - 1];
                 options.Add(option);
             }
 
@@ -563,6 +668,48 @@ namespace Inventory_mvc.Controllers
 
             return Json(options, JsonRequestBehavior.AllowGet);
         }
+
+
+        public JsonResult GetMonthListJSON(string term = null)
+        {
+            List<int> years = reportService.GetSelectableYears(reportService.GetEarliestYear());
+            years.Reverse();
+
+            List<JSONForCombobox> options = new List<JSONForCombobox>();
+            foreach(int y in years)
+            {
+                List<int> selectableMonth = reportService.GetSelectableMonths(y);
+                foreach(int m in selectableMonth)
+                {
+                    JSONForCombobox option = new JSONForCombobox();
+                    option.id = String.Format("{0}-{1}", m, y); // eg: 1-2017, 2-2017
+                    option.text = String.Format("{0} {1}", monthsArray[m - 1], y); // eg: Jan 2017, Feb 2017
+                    options.Add(option);
+                }
+
+                
+            }
+
+
+            if (!String.IsNullOrEmpty(term))
+            {
+                // used for select2 combobox filtering search result
+                string[] searchStringArray = term.Split();
+                foreach (string s in searchStringArray)
+                {
+                    string search = s.ToLower().Trim();
+                    if (!String.IsNullOrEmpty(search))
+                    {
+                        options = (from o in options
+                                   where o.text.ToString().ToLower().Contains(search) || o.id.ToString().ToLower().Contains(search)
+                                   select o).ToList();
+                    }
+                }
+            }
+
+            return Json(options, JsonRequestBehavior.AllowGet);
+        }
+
 
         public JsonResult GetDepartmentListJSON(string term = null)
         {

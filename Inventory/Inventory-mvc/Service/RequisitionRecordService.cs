@@ -77,7 +77,6 @@ namespace Inventory_mvc.Service
             try
             {
                 rDAO.SubmitNewRequisition(requisition);
-                // TODO: TEST EMAIL NOTIFICATION
                 // send email notification       
                 EmailNotification.EmailNotificatioForNewRequisition(requisition.requesterID);
                 return true;

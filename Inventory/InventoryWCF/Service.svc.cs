@@ -88,8 +88,6 @@ namespace InventoryWCF
             u.UserID = userid;
             u.PassWord = currentpassword;
             
-            // TODO : IMPLEMENT METHOD
-            //return BusinessLogic.changePassWord(userid, currentpassword, newpassword);
             try
             {
                 if(ValidateUser(u) == "false")
@@ -129,26 +127,7 @@ namespace InventoryWCF
         public List<WCFRequisitionDetail> GetRequisitionDetailsByItemCode(string itemCode)
         {
             // TODO : IMPLEMENT METHOD
-
             throw new NotImplementedException();
-
-            //List<WCFRequisitionDetail> list = new List<WCFRequisitionDetail>();
-            //var rr = BusinessLogic.getRequisitionDetailsByItemCode(itemCode);
-            //foreach (var item in rr)
-            //{
-            //    WCFRequisitionDetail r = new WCFRequisitionDetail();
-            //    r.RequisitonNo = item.requisitionNo;
-            //    r.RetrievedDate = item.retrievedDate;
-            //    r.ItemCode = item.itemCode;
-            //    r.NextCollectionDate = item.nextCollectionDate;
-            //    r.Qty = (int) item.qty;
-            //    r.ClerkID = item.clerkID;
-            //    r.AllocateQty = (int)item.allocatedQty;
-            //    r.FulfilledQty = (int)item.fulfilledQty;
-            //    r.Remarks = item.remarks;
-            //    list.Add(r);
-            //}
-            //return list;
         }
 
         public WCFRequisitionDetail GetRequisitionDetailsBy2Keys(string itemCode, string requisitionNO)
@@ -313,6 +292,13 @@ namespace InventoryWCF
             BusinessLogic.updateRequisition(Convert.ToInt32(requisitionNo) , status, approveStaffID);
         }
 
+        public void UpdateCollectionPoint(string deptCode, string newcp)
+        {
+
+            BusinessLogic.updateCollectionPoint(deptCode,Convert.ToInt32(newcp));
+        }
+
+
         public List<WCFRetrievalForm> getRetrievalList()
         {
             StationeryModel entity = new StationeryModel();
@@ -363,7 +349,7 @@ namespace InventoryWCF
                 //RetrieveForm rf = list.Where(x => x.description == description).First();
                 //rf.retrieveQty = Int32.Parse(qty);
                 Stationery item = stationeryService.FindStationeryByItemCode(wcfr.ItemCode);
-                if(wcfr.QtyRetrieved > item.stockQty)
+                if(wcfr.QtyRetrieved.Value > item.stockQty)
                 {
                     return "Value of Retrieved Qty cannot exceed Stock Qty.";
                 }

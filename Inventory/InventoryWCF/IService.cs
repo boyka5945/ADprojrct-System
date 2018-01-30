@@ -13,7 +13,6 @@ namespace InventoryWCF
     public interface IService
     {
         [OperationContract]
-        //TODO change to post method
        [WebInvoke(Method = "POST", UriTemplate = "/ValidateUser", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
        string ValidateUser(WCFUser user);
 
@@ -98,8 +97,6 @@ namespace InventoryWCF
         [WebGet(UriTemplate = "/UpdateRequisition/{requisitionNo}/{status}/{approvestaff_id}", ResponseFormat = WebMessageFormat.Json)]
         void UpdateRequisition(string requisitionNo, string status, string approvestaff_id);
 
-        //// TODO: Add your service operations here
-
         [OperationContract]
         [WebGet(UriTemplate = "/GetRetrievalList", ResponseFormat = WebMessageFormat.Json)]
         List<WCFRetrievalForm> getRetrievalList();
@@ -170,11 +167,17 @@ namespace InventoryWCF
         [OperationContract]
         [WebGet(UriTemplate = "/GetRetrievalForm/{itemCode}", ResponseFormat = WebMessageFormat.Json)]
         WCFRetrievalForm GetRetrievalForm(string itemCode);
-        
+
+ 
+        [OperationContract]
+        [WebGet(UriTemplate = "/UpdateRequisition/{deptCode}/{CollectionPointID}", ResponseFormat = WebMessageFormat.Json)]
+        void UpdateCollectionPoint(string deptCode, string CollectionPointID);
+
 
         //[OperationContract]
         //[WebGet(UriTemplate = "/GetCodeFromName/{name}", ResponseFormat = WebMessageFormat.Json)]
         //List<WCFDisbursement> GetCodeFromName(string name);
+        [OperationContract]
         [WebGet(UriTemplate = "/GetRequisitionRecordByDept/{deptCode}", ResponseFormat = WebMessageFormat.Json)]
         List<WCFRequisitionRecord> GetRequsitionRecordByDept(string deptCode);
 

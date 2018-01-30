@@ -81,7 +81,6 @@ namespace Inventory_mvc.Controllers
         [HttpGet]
         public ActionResult UpdateReceived(string DONumber, string ReceivedDate, string PONumber, string supplier, string sbutton)
         {
-            // TODO: REMOVE HARDCODED USERID
 
             string clerkID = HttpContext.User.Identity.Name;
 

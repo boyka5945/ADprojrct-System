@@ -461,11 +461,9 @@
     <Content Include="Views\CollectionPoint\Collect_ItemByItem.cshtml" />
     <Content Include="Views\CollectionPoint\Pending_ItemByItem.cshtml" />
     <Content Include="Views\CollectionPoint\Pending_ItemByRequest.cshtml" />
-    <Content Include="Views\Report\Report.cshtml" />
     <Content Include="Views\Report\ItemRequestTrend.cshtml" />
     <Content Include="Views\Report\_ItemRequestTrend.cshtml" />
     <Content Include="Views\Report\_RequisitionCumulativeBar.cshtml" />
-    <Content Include="Views\Report\Index.cshtml" />
     <Content Include="Views\Report\RequisitionCumulativeChart.cshtml" />
     <Content Include="Views\Report\_DeptMonthlyRequisition.cshtml" />
     <Content Include="Views\Report\DeptMonthlyRequisitionAmount.cshtml" />
@@ -473,10 +471,12 @@
     <Content Include="Views\Report\CategoryMonthlyRequisitionAmount.cshtml" />
     <Content Include="Views\Report\CategoryMonthlyReorderAmount.cshtml" />
     <Content Include="Views\Report\_CategoryMonthlyReorder.cshtml" />
-    <Content Include="Views\Report\_SupplierMonthlyReorder.cshtml" />
-    <Content Include="Views\Report\SupplierMonthlyReorderAmount.cshtml" />
+    <Content Include="Views\Report\_SupplierYearlyReorder.cshtml" />
+    <Content Include="Views\Report\SupplierYearlyReorderAmount.cshtml" />
     <Content Include="Views\Report\_ReorderAmountCumulativeBar.cshtml" />
     <Content Include="Views\Report\ReorderAmountCumulativeChart.cshtml" />
+    <Content Include="Views\Report\ItemReorderComparison.cshtml" />
+    <Content Include="Views\Report\_ItemReorderComparison.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -44,6 +44,16 @@ namespace Inventory_mvc.Service
         }
 
 
+        public List<ReportViewModel> GetReorderAmountBasedOnCriteria(string categoryID, string itemCode, string supplierCode, string[] yearAndMonths)
+        {
+            List<Purchase_Detail> details = reportDAO.GetPurchaseDetailsByCriteria(categoryID, itemCode, supplierCode, yearAndMonths);
+            List<ReportViewModel> vmList = new List<ReportViewModel>();
+            vmList.AddRange(ConvertToReportViewModel(details));
+            return vmList;
+        }
+
+
+
         private ReportViewModel ConvertToReportViewModel(Requisition_Detail detail)
         {
             Stationery stationery = stationeryService.FindStationeryByItemCode(detail.itemCode);

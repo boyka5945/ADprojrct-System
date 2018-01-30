@@ -2,28 +2,31 @@
 <script src="~/Scripts/chart-colors.js"></script>
 <script src="~/Scripts/select2.min.js"></script>
 <link href="~/Content/select2.min.css" rel="stylesheet" />
+@*@Scripts.Render("~/bundles/Chart")*@
 
 @{
     ViewBag.Title = "Reorder Amount";
 }
 
-<h2>Reorder Amount Cumulative Chart</h2>
+
+<h2>Reorder Amount Chart</h2>
 
 <hr />
 
 <form id="chartForm">
+
     <div class="row form-inline">
-        <div class="col-sm-1"><label>Year:</label></div>
-        <div class="col-sm-3">
+        <div class="col-sm-1"><label>Months:</label></div>
+        <div class="col-sm-4">
             <!-- Combobox -->
-            <select class="form-control" id="yearCombobox" style="width: 100%" name="year" required>
+            <select class="form-control" id="monthCombobox" style="width: 100%" name="yearAndMonths" multiple="multiple" required>
                 <option></option>
             </select>
         </div>
-        <div class="col-sm-1"><label>Supplier:</label></div>
-        <div class="col-sm-3">
+        <div class="col-sm-1"><label>Stationery:</label></div>
+        <div class="col-sm-4">
             <!-- Combobox -->
-            <select class="form-control" id="supplierCombobox" style="width: 100%" name="supplierCode" required>
+            <select class="form-control" id="stationeryCombobox" style="width: 100%" name="itemCode" required>
                 <option></option>
             </select>
         </div>
@@ -35,18 +38,15 @@
 
 <br />
 
-
-
 <div id="progressBar" class="text-center hidden">
-   <label>Generating chart</label>   <progress id="p"></progress>
+    Generating chart <progress id="p"></progress>
 </div>
-
-
 <div class="container" id="chartContainer"></div>
 
 
+
 <script>
-    // for requisition cumulative graph
+
     function LoadData()
     {
         var form = document.getElementById("chartForm");
@@ -61,31 +61,30 @@
         }
         else
         {
-            $('#progressBar').removeClass('hidden');
-
             $.ajax({
-                url: '@Url.Action("GetReorderAmountCumulativeBar", "Report")',
-                type: 'POST',
+                url: '@Url.Action("GetItemReorderComparisonChart", "Report")',
                 data: $('#chartForm').serialize(),
+                type: 'POST',
+                beforeSend: function(){
+                $('#progressBar').removeClass('hidden');
+                },
                 success: function (data) {
-                    $("#chartContainer").html(data),
+                    $("#chartContainer").html(data);
                     $('#progressBar').addClass('hidden');
-
                 },
                 error: function () {
-                    alert("Opps. Some error occurs. Please try again."),
-                    $('#progressBar').addClass('hidden');
+                    alert("Opps. Some error occurs. Please try again.");
                 }
             });
-
         }
     }
 
-    // for year selection
+
+    // for stationery selection
     $(document).ready(function () {
-        $('#yearCombobox').select2({
+        $('#stationeryCombobox').select2({
             ajax: {
-                url: '@Url.Action("GetSelectableYearsJSON", "Report")',
+                url: '@Url.Action("GetStationeryListBasedOnCategoryJSON", "Report")?categoryID=-1',
                 delay: 250,
                 dataType: 'json',
                 processResults: function (data) {
@@ -94,16 +93,20 @@
                     };
                 },
             },
-            placeholder: "Select a year",
+            placeholder: "Input item code",
             selectOnClose: true,
         });
-    });
+    })
 
-    // for deparment selection
+
+    // for months selection
     $(document).ready(function () {
-        $('#supplierCombobox').select2({
+        $('#monthCombobox').select2({
+
+            maximumSelectionLength: 3,
+
             ajax: {
-                url: '@Url.Action("GetSupplierListJSON", "Report")',
+                url: '@Url.Action("GetMonthListJSON", "Report")',
                 delay: 250,
                 dataType: 'json',
                 processResults: function (data) {
@@ -112,10 +115,9 @@
                     };
                 },
             },
-            placeholder: "Select a supplier",
+            placeholder: "Max 3 months",
             selectOnClose: true,
         });
     });
-
 
 </script>
