@@ -158,6 +158,11 @@ namespace InventoryWCF
         void UpdateRequisitionDetail(WCFRequisitionDetail reqDetail);
 
         [OperationContract]
+        [WebGet(UriTemplate = "/UpdateRequisitionDetail/{NO}/{itemCode}/{quantity}",
+        ResponseFormat = WebMessageFormat.Json)]
+        void UpdateReqDetail(string NO, string itemCode, string quantity);
+
+        [OperationContract]
         [WebGet(UriTemplate = "/RemovePendingRequisition/{NO}",
             ResponseFormat = WebMessageFormat.Json)]
         void RemovePendingRequisition(string NO);
