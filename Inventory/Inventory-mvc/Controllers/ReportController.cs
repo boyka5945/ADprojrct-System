@@ -21,12 +21,6 @@ namespace Inventory_mvc.Controllers
         private string[] monthsArray = new string[]{ "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" };
 
 
-        public ActionResult Index()
-        {
-            return View();
-        }
-
-
         [HttpGet]
         public ActionResult RequisitionCumulativeChart()
         {
