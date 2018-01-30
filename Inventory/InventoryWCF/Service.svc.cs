@@ -363,7 +363,7 @@ namespace InventoryWCF
                 //RetrieveForm rf = list.Where(x => x.description == description).First();
                 //rf.retrieveQty = Int32.Parse(qty);
                 Stationery item = stationeryService.FindStationeryByItemCode(wcfr.ItemCode);
-                if(wcfr.QtyRetrieved > item.stockQty)
+                if(wcfr.QtyRetrieved.Value > item.stockQty)
                 {
                     return "Value of Retrieved Qty cannot exceed Stock Qty.";
                 }
