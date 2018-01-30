@@ -292,6 +292,13 @@ namespace InventoryWCF
             BusinessLogic.updateRequisition(Convert.ToInt32(requisitionNo) , status, approveStaffID);
         }
 
+        public void UpdateCollectionPoint(string deptCode, string newcp)
+        {
+
+            BusinessLogic.updateCollectionPoint(deptCode,Convert.ToInt32(newcp));
+        }
+
+
         public List<WCFRetrievalForm> getRetrievalList()
         {
             StationeryModel entity = new StationeryModel();
@@ -408,16 +415,19 @@ namespace InventoryWCF
             return allocationList;
         }
 
-        public void UpdateReqDetail(string NO, string itemCode, string quantity)
+
+        public void UpdateReqDetail(string No, string itemCode, string quantity)
         {
-            int requisitionNo = Convert.ToInt32(NO);
+            int requisitionNo = Convert.ToInt32(No);
             int qty = Convert.ToInt32(quantity);
             using (StationeryModel entity = new StationeryModel())
             {
                 entity.Requisition_Detail.Where(x => x.itemCode == itemCode && x.requisitionNo == requisitionNo).First().qty = (int)qty;
                 entity.SaveChanges();
-            }            
+            }
         }
+
+       
 
         public void RemovePendingRequisition(string NO)
         {

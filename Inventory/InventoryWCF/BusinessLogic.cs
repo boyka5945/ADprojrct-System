@@ -123,6 +123,24 @@ namespace InventoryWCF
             }
         }
 
+        public static void updateCollectionPoint(string deptCode, int newcp)
+        {
+            using (StationeryModel entity = new StationeryModel())
+            {
+                if (entity.Departments.Where(x => x.departmentCode == deptCode).Count() > 0)
+                {
+                    var model = entity.Departments.Where(x => x.departmentCode == deptCode).First();
+                             
+
+                    model.collectionPointID = newcp;
+                                       
+                    entity.SaveChanges();
+
+                }
+
+            }
+        }
+
 
     }
 }
