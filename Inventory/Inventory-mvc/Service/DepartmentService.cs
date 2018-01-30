@@ -19,8 +19,9 @@ namespace Inventory_mvc.Service
 
         public Department GetDepartmentByCode(string deptCode)
         {
+            string dCode = deptCode.ToUpper().Trim();
             DepartmentDAO dDAO = new DepartmentDAO();
-            return dDAO.FindByDepartmentCode(deptCode);
+            return dDAO.FindByDepartmentCode(dCode);
         }
 
         public int UpdateDepartmentByCode(Department dept)

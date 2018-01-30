@@ -14,8 +14,8 @@ namespace InventoryWCF
     {
         [OperationContract]
         //TODO change to post method
-       [WebInvoke(Method = "Post", UriTemplate = "/ValidateUser", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
-       Boolean ValidateUser(WCFUser user);
+       [WebInvoke(Method = "POST", UriTemplate = "/ValidateUser", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+       string ValidateUser(WCFUser user);
 
         [OperationContract]
         // TODO change to post method
@@ -79,6 +79,10 @@ namespace InventoryWCF
         List<WCFRequisitionDetail> GetPendingRequestByDept(string deptCode);
 
         [OperationContract]
+        [WebGet(UriTemplate = "/GetRequisitionRecordByRequesterID/{reqByReqID}", ResponseFormat = WebMessageFormat.Json)]
+        List<WCFRequisitionRecord> GetRequisitionRecordByRequesterID(string reqByReqID);
+
+        [OperationContract]
         [WebGet(UriTemplate = "/GetDetailByReqNo/{reqNo}", ResponseFormat = WebMessageFormat.Json)]
         List<WCFRequisitionDetail> GetDetailsByReqNo(string reqNo);
 
@@ -86,9 +90,13 @@ namespace InventoryWCF
         [WebGet(UriTemplate = "/SaveTmpDisbursement/{itemCode}/{needQty}/{stationeryDescription}/{actualQty}/{deptCode}", ResponseFormat = WebMessageFormat.Json)]
         bool SaveActualQty(string itemCode, string needQty, string stationeryDescription, string actualQty, string deptCode);
 
-        //[OperationContract]
-        //[WebGet(UriTemplate = "/updateRequisitionDetails/{requisitionNo}/{ItemCode}/{allocateQty}", ResponseFormat = WebMessageFormat.Json)]
-        //Boolean updateRequisitionDetails(int requisitionNo, string ItemCode, int allocateQty);
+        [OperationContract]
+        [WebGet(UriTemplate = "/updateRequisitionDetails/{requisitionNo}/{ItemCode}/{allocateQty}", ResponseFormat = WebMessageFormat.Json)]
+        Boolean updateRequisitionDetails(string requisitionNo, string ItemCode, string allocateQty);
+
+        [OperationContract]
+        [WebGet(UriTemplate = "/UpdateRequisition/{requisitionNo}/{status}/{approvestaff_id}", ResponseFormat = WebMessageFormat.Json)]
+        void UpdateRequisition(string requisitionNo, string status, string approvestaff_id);
 
         //// TODO: Add your service operations here
 
@@ -110,6 +118,10 @@ namespace InventoryWCF
         [OperationContract]
         [WebGet(UriTemplate = "/GetAllDepartments", ResponseFormat = WebMessageFormat.Json)]
         List<WCFDepartment> GetAllDepartments();
+
+        [OperationContract]
+        [WebGet(UriTemplate = "/GetDepartment/{deptCode}", ResponseFormat = WebMessageFormat.Json)]
+        WCFDepartment GetDepartment (string deptCode);
 
         [OperationContract]
         [WebGet(UriTemplate = "/GetAllCollectionPoints", ResponseFormat = WebMessageFormat.Json)]
@@ -325,6 +337,7 @@ namespace InventoryWCF
         string userid;
         string password;
         string departmentCode;
+        string name;
         int role;
         //need to add departmentCode
 
@@ -356,9 +369,17 @@ namespace InventoryWCF
             set { departmentCode = value; }
         }
 
+    [DataMember]
+    public string Name
+    {
+        get { return name; }
+        set { name = value; }
     }
 
-    [DataContract]
+
+}
+
+[DataContract]
     public class WCFRequisitionRecord
     {
         int requisitionNo;
@@ -597,8 +618,14 @@ namespace InventoryWCF
         {
             get; set;
         }
-    
-    }
+
+        [DataMember]
+        public string CollectionPointName
+        {
+           get; set;
+        }
+
+}
 
 [DataContract]
 public class WCFCollectionPoint

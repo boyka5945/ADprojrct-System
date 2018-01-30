@@ -68,5 +68,7 @@ namespace Inventory_mvc.Service
 
         void UpdateDisbursement(string itemCode, int actualQty, string deptCode, int needQty, int count, string staffID);
 
+
+        List<Requisition_Record> GetRequestByReqID(string reqid);
     }
 }

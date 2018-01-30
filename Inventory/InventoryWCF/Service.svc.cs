@@ -27,7 +27,7 @@ namespace InventoryWCF
 
 
 
-        public Boolean ValidateUser(WCFUser User)
+        public string ValidateUser(WCFUser User)
         {
             //return BusinessLogic.validateUser(userid, password);
 
@@ -38,22 +38,22 @@ namespace InventoryWCF
                 {
                     if (User.PassWord == Encrypt.DecryptMethod(user.password))
                     {
-                        return true;
+                        return "true";
                     } else
                     {
-                        return false;
+                        return "false";
                     }
                 }
                 else
                 {
-                    return false;
+                    return "false";
                 }
 
             }
             catch (Exception e)
             {
                 // non existing userID
-                return false;
+                return "false";
             }           
         }
 
@@ -92,7 +92,7 @@ namespace InventoryWCF
             //return BusinessLogic.changePassWord(userid, currentpassword, newpassword);
             try
             {
-                if(ValidateUser(u))
+                if(ValidateUser(u) == "false")
                 {
                     throw new NotImplementedException();
                 }
@@ -259,7 +259,12 @@ namespace InventoryWCF
             return WCFModelConvertUtility.ConvertToWCFRequisitionRecord(reqByDept);
         }
 
-        
+        public List<WCFRequisitionRecord> GetRequisitionRecordByRequesterID(string requesterID)
+        {
+            List<Requisition_Record> reqByReqID = requisitionRecordService.GetRequestByReqID(requesterID);
+            return WCFModelConvertUtility.ConvertToWCFRequisitionRecord(reqByReqID);
+        }
+
 
         public bool AddNewRequest(string requesterID, WCFRequisitionDetail[] newRequisition)
         {
@@ -295,10 +300,18 @@ namespace InventoryWCF
             List<Requisition_Detail> reqDetail = requisitionRecordService.GetDetailsByNo(no);
             return WCFModelConvertUtility.ConvertToWCFRequestionDetails(reqDetail);
         }
-        //public Boolean updateRequisitionDetails(int requisitionNo, string ItemCode, int allocateQty)
-        //{
-        //    return BusinessLogic.updateRequisitionDetails(requisitionNo, ItemCode, allocateQty);
-        //}
+        public Boolean updateRequisitionDetails(string requisitionNo, string ItemCode, string allocateQty)
+        {
+            int no = Int32.Parse(requisitionNo);
+            int qty = Int32.Parse(allocateQty);
+            return BusinessLogic.updateRequisitionDetails(no, ItemCode, qty);
+        }
+
+        public void UpdateRequisition (string requisitionNo, string status, string approveStaffID)
+        {
+
+            BusinessLogic.updateRequisition(Convert.ToInt32(requisitionNo) , status, approveStaffID);
+        }
 
         public List<WCFRetrievalForm> getRetrievalList()
         {
@@ -549,6 +562,32 @@ namespace InventoryWCF
         //{
         //    throw new NotImplementedException();
         //}
+
+        public WCFDepartment GetDepartment(string departmentCode)
+        {
+            string deptCode = departmentCode.ToUpper().Trim();
+            try
+            {
+
+                Department d = departmentService.GetDepartmentByCode(deptCode);
+                if (d.departmentCode == deptCode)
+                {
+                    WCFDepartment WCFD = WCFModelConvertUtility.convertToWCFDepartment(d);
+                    return WCFD;
+                }
+                else
+                {
+                    WCFDepartment invalid = new WCFDepartment();
+                    return invalid;
+                }
+            }
+            catch(Exception e)
+            {
+                WCFDepartment invalid = new WCFDepartment();
+                return invalid;
+            }
+
+        }
 
     }
 }

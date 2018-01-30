@@ -90,6 +90,23 @@ namespace InventoryWCF
             return wcf_requisitionRecord;
         }
 
+        public static Requisition_Record ConvertFromRequisitionRecord(WCFRequisitionRecord wcfRecRecord)
+        {
+            Requisition_Record recRecord = new Requisition_Record();
+            recRecord.requisitionNo = wcfRecRecord.RequisitionNo;
+            recRecord.deptCode = wcfRecRecord.DeptCode;
+            recRecord.Department.departmentName = wcfRecRecord.DeptName;
+            recRecord.requesterID = wcfRecRecord.RequesterID;
+            recRecord.User.name = wcfRecRecord.RequesterName;
+            recRecord.approvingStaffID = wcfRecRecord.ApprovingStaffID;
+            recRecord.User.name = wcfRecRecord.ApprovingStaffName;
+            recRecord.approveDate = wcfRecRecord.ApproveDate;
+            recRecord.status = wcfRecRecord.Status;
+            recRecord.requestDate = wcfRecRecord.RequestDate;
+
+            return recRecord;
+        }
+
         public static List<WCFRequisitionRecord> ConvertToWCFRequisitionRecord(List<Requisition_Record> requisitionRecords)
         {
             List<WCFRequisitionRecord> wcf_requisitionRecords = new List<WCFRequisitionRecord>();
@@ -136,6 +153,7 @@ namespace InventoryWCF
             wUser.UserID = user.userID;
             wUser.DepartmentCode = user.departmentCode;
             wUser.Role = user.role;
+            wUser.Name = user.name;
 
             return wUser;
  
@@ -169,6 +187,7 @@ namespace InventoryWCF
             wcfd.DepartmentName = d.departmentName;
             wcfd.ContactName = d.contactName;
             wcfd.CollectionPointID = d.collectionPointID;
+            wcfd.CollectionPointName = d.Collection_Point.collectionPointName;
 
             return wcfd;
         }
