@@ -428,6 +428,7 @@ namespace Inventory_mvc.Controllers
             HttpContext.Application["DisbursementQty"] = null;
             HttpContext.Application["retrieveList"] = null;
             HttpContext.Application["retrieveform"] = null;
+            HttpContext.Application["BigModel"] = null;
             TempData["Successful"] = "submit successful.";
             return RedirectToAction("DisbursementList");
         }
