@@ -33,5 +33,15 @@ namespace Inventory_mvc.DAO
         /// <param name="months"> null for all </param>
         /// <returns></returns>
         List<Purchase_Detail> GetPurchaseDetailsByCriteria(string categoryID, string itemCode, string supplierCode, int[] years, int[] months);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="categoryID"> "-1" for all </param>
+        /// <param name="itemCode"> "-1" for all </param>
+        /// <param name="supplierCode"> null for all </param>
+        /// <param name="yearAndMonths"> eg "5-2017" for May 2017 </param>
+        /// <returns></returns>
+        List<Purchase_Detail> GetPurchaseDetailsByCriteria(string categoryID, string itemCode, string supplierCode, string[] yearAndMonths);
     }
 }

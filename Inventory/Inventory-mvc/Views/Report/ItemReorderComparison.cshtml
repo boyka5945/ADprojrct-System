@@ -5,43 +5,32 @@
 @*@Scripts.Render("~/bundles/Chart")*@
 
 
-@{
-    ViewBag.Title = "ItemRequestTrend";
-}
-
-<h2>Stationery Requisition Trend</h2>
+<h2>Reorder Amount Chart</h2>
 
 <hr />
 
 <form id="chartForm">
 
     <div class="row form-inline">
-        <div class="col-sm-1"><label>Year:</label></div>
-        <div class="col-sm-2">
+        <div class="col-sm-1"><label>Months:</label></div>
+        <div class="col-sm-4">
             <!-- Combobox -->
-            <select class="form-control" id="yearCombobox" style="width: 100%" name="years" multiple="multiple" required>
-                <option></option>
-            </select>
-        </div>
-        <div class="col-sm-1"><label>Category:</label></div>
-        <div class="col-sm-2">
-            <!-- Combobox -->
-            <select class="form-control" id="categoryCombobox" style="width: 100%" name="categoryID" required>
+            <select class="form-control" id="monthCombobox" style="width: 100%" name="yearAndMonths" multiple="multiple" required>
                 <option></option>
             </select>
         </div>
         <div class="col-sm-1"><label>Stationery:</label></div>
         <div class="col-sm-4">
             <!-- Combobox -->
-            <select class="form-control" id="stationeryCombobox" style="width: 100%" name="itemCode" disabled required>
-             <option></option>
+            <select class="form-control" id="stationeryCombobox" style="width: 100%" name="itemCode" required>
+                <option></option>
             </select>
         </div>
         <div class="col-sm-1">
             <input type="button" class="btn btn-primary" onclick="LoadData()" value="Generate Chart" />
         </div>
     </div>
-</form>      
+</form>
 
 <br />
 
@@ -49,15 +38,15 @@
     Generating chart <progress id="p"></progress>
 </div>
 <div class="container" id="chartContainer"></div>
-   
-    
+
+
 
 <script>
 
     function LoadData()
     {
         var form = document.getElementById("chartForm");
-        
+
         if (!form.checkValidity())
         {
             // To trigger html5 form validation - Create a temporary button, click and remove it
@@ -69,11 +58,11 @@
         else
         {
             $.ajax({
-                url: '@Url.Action("ItemRequestTrend", "Report")',
+                url: '@Url.Action("GetItemReorderComparisonChart", "Report")',
                 data: $('#chartForm').serialize(),
                 type: 'POST',
                 beforeSend: function(){
-                $('#progressBar').removeClass('hidden'); 
+                $('#progressBar').removeClass('hidden');
                 },
                 success: function (data) {
                     $("#chartContainer").html(data);
@@ -87,42 +76,11 @@
     }
 
 
-    // for category selection
+    // for stationery selection
     $(document).ready(function () {
-        $('#categoryCombobox').select2({
-
-            ajax: {
-                url: '@Url.Action("GetCategoryListJSON", "Report")',
-                delay: 250,
-                dataType: 'json',
-                processResults: function (data) {
-                    return {
-                        results: data
-                    };
-                },
-            },
-            placeholder: "Select a category",
-            selectOnClose: true,
-        });
-    })
-
-    // allow stationery selection after category is selected
-    $('#categoryCombobox').change(function () {
-        var selectedCategory = $('#categoryCombobox').val();
-
-        if (this.value < -1)
-        {
-            $("#stationeryCombobox").prop("disabled", true);
-        }
-        else
-        {
-            $("#stationeryCombobox").prop("disabled", false);
-            $("#stationeryCombobox").val("-2"); // reset selected value if category is changed
-        }
-
         $('#stationeryCombobox').select2({
             ajax: {
-                url: '@Url.Action("GetStationeryListBasedOnCategoryJSON", "Report")?categoryID=' + selectedCategory,
+                url: '@Url.Action("GetStationeryListBasedOnCategoryJSON", "Report")?categoryID=-1',
                 delay: 250,
                 dataType: 'json',
                 processResults: function (data) {
@@ -134,16 +92,17 @@
             placeholder: "Input item code",
             selectOnClose: true,
         });
-    });
+    })
 
-    // for year selection
-    $(document).ready(function() {
-        $('#yearCombobox').select2({
 
-            maximumSelectionLength: 2,
+    // for months selection
+    $(document).ready(function () {
+        $('#monthCombobox').select2({
+
+            maximumSelectionLength: 3,
 
             ajax: {
-                url: '@Url.Action("GetSelectableYearsJSON", "Report")',
+                url: '@Url.Action("GetMonthListJSON", "Report")',
                 delay: 250,
                 dataType: 'json',
                 processResults: function (data) {
@@ -152,8 +111,9 @@
                     };
                 },
             },
-            placeholder: "Max 2 years",
+            placeholder: "Max 3 months",
             selectOnClose: true,
         });
     });
+
 </script>

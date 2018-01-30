@@ -112,5 +112,51 @@ namespace Inventory_mvc.DAO
                 return details.Include(d => d.Purchase_Order_Record).ToList();
             }
         }
+
+
+        public List<Purchase_Detail> GetPurchaseDetailsByCriteria(string categoryID, string itemCode, string supplierCode, string[] yearAndMonths)
+        {
+            using (StationeryModel context = new StationeryModel())
+            {
+                var details = (from d in context.Purchase_Detail select d);
+
+                if (categoryID != "-1") // -1 => retrieve from all category
+                {
+                    details = (from d in details where d.Stationery.categoryID.ToString() == categoryID select d);
+                }
+
+                if (itemCode != "-1") // -1 => retrieve all stationery from the same category
+                {
+                    details = (from d in details where d.itemCode == itemCode select d);
+                }
+
+                if (!String.IsNullOrEmpty(supplierCode))
+                {
+                    details = (from d in details
+                               where d.Purchase_Order_Record.supplierCode == supplierCode
+                               select d);
+                }
+
+                List<Purchase_Detail> resultList = new List<Purchase_Detail>();
+
+                foreach(string ym in yearAndMonths) // eg: ["5-2017", "12-2017", "1-2018"]
+                {
+                    string month = ym.Split('-')[0]; // eg: 5, 12, 1
+                    string year = ym.Split('-')[1]; // eg: 2017, 2017, 2018
+
+                    List<Purchase_Detail> results = new List<Purchase_Detail>();
+                    results = (from d in details
+                               where d.Purchase_Order_Record.date.Month.ToString() == month
+                               && d.Purchase_Order_Record.date.Year.ToString() == year
+                               select d).Include(d => d.Purchase_Order_Record).ToList();
+
+                    resultList.AddRange(results);
+                }
+
+                return resultList;
+            }
+
+        }
+
     }
 }

@@ -472,10 +472,12 @@
     <Content Include="Views\Report\CategoryMonthlyRequisitionAmount.cshtml" />
     <Content Include="Views\Report\CategoryMonthlyReorderAmount.cshtml" />
     <Content Include="Views\Report\_CategoryMonthlyReorder.cshtml" />
-    <Content Include="Views\Report\_SupplierMonthlyReorder.cshtml" />
-    <Content Include="Views\Report\SupplierMonthlyReorderAmount.cshtml" />
+    <Content Include="Views\Report\_SupplierYearlyReorder.cshtml" />
+    <Content Include="Views\Report\SupplierYearlyReorderAmount.cshtml" />
     <Content Include="Views\Report\_ReorderAmountCumulativeBar.cshtml" />
     <Content Include="Views\Report\ReorderAmountCumulativeChart.cshtml" />
+    <Content Include="Views\Report\ItemReorderComparison.cshtml" />
+    <Content Include="Views\Report\_ItemReorderComparison.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
