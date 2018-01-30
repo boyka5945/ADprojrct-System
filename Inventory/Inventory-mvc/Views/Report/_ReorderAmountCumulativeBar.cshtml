@@ -15,7 +15,7 @@
     var year = $('#year').val();
     var supplier = $('#supplier').val();
 
-    var title = ['Stationery Requisition Cumulative Chart of'];
+    var title = ['Stationery Reorder Cumulative Chart of'];
     title.push(supplier + ' in Year ' + year);
 
     var labels = @Html.Raw(Json.Encode(ViewBag.XLabels));

@@ -1,0 +1,129 @@
+﻿<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
+<script src="~/Scripts/chart-colors.js"></script>
+
+@{
+    int numberOfSupplier = (int)ViewBag.NumberOfSupplier;
+    string year = (string)ViewBag.Year;
+    string itemCode = (string)ViewBag.ItemCode;
+    string category = (string)ViewBag.Category;
+
+}
+
+<input type="hidden" value="@numberOfSupplier" name="numberOfSupplier" id="numberOfSupplier" />
+<input type="hidden" value="@year" name="year" id="year" />
+<input type="hidden" value="@itemCode" name="itemCode" id="itemCode" />
+<input type="hidden" value="@category" name="category" id="category" />
+
+
+@for (int i = 1; i <= numberOfSupplier; i++)
+{
+    string datasetLabel = "DatasetLabel" + (i).ToString();
+    <span id="@datasetLabel" class="hidden">@Html.Raw(Json.Encode(ViewData[datasetLabel]))</span>
+
+    string dataName = "Data" + (i).ToString();
+    <span id="@dataName" class="hidden">@Html.Raw(Json.Encode(ViewData[dataName]))</span>
+}
+
+
+<canvas id="myChart"> </canvas>
+
+<script>
+    var colorNames = Object.keys(window.chartColors);
+    var color = Chart.helpers.color;
+
+    var Xlabels = @Html.Raw(Json.Encode(ViewBag.XLabels));
+
+    var numberOfSupplier = $('#numberOfSupplier').val();
+    var itemCode = $('#itemCode').val();
+    var category = $('#category').val();
+    var year = $('#year').val();
+
+    var title = ['Reorder Amount of ' + itemCode];
+    if(category != "")
+    {
+        title.push('in Category: ' + category + ' in Year ' + year);
+    }
+    else
+    {
+        title.push('in Year ' + year);
+    }
+
+    var config =
+    {
+        type: 'line',
+        data:
+        {
+            datasets: [],
+            labels: Xlabels,
+        },
+        options:
+        {
+            responsive: true,
+            legend:
+            {
+                position: 'right',
+            },
+            title:
+            {
+                display: true,
+                text: title,
+                fontSize: 16,
+            },
+            scales:
+            {
+                yAxes:
+                [{
+                    scaleLabel:
+                    {
+                        display: true,
+                        labelString: 'Amount ($)',
+                        fontSize: 14,
+                    },
+
+                    ticks:
+                    {
+                        beginAtZero:true,
+                    },
+                }],
+                xAxes:
+                [{
+                    scaleLabel:
+                    {
+                        display: true,
+                        labelString: 'Months',
+                        fontSize: 14,
+                    },
+                }]
+            },
+        }
+    };
+
+    for(var i = 1; i <= numberOfSupplier; i++)
+    {
+        var labelVal = $('#DatasetLabel' + i.toString()).text(); // get "OMEG"
+        labelVal = labelVal.substring(1, labelVal.length-1); // remove " "
+        var dataVal = $('#Data' + i.toString()).text(); // get [1,2,3,4,5]
+        dataVal = dataVal.substring(1, dataVal.length-1).split(','); // remove [ ] from text & split
+
+        var colorName = colorNames[(i) % colorNames.length];
+        var newColor = window.chartColors[colorName];
+
+        var newDataset =
+        {
+             label: labelVal,
+             backgroundColor: newColor,
+             borderColor: newColor,
+             data: dataVal,
+             fill:false,
+             strokeColor : "rgba(151,187,205,1)",
+        };
+
+        config.data.datasets.push(newDataset);
+    }
+
+    var myChart = document.getElementById("myChart").getContext("2d");
+    var showQtyChart = new Chart("myChart", config);
+
+
+</script>
+

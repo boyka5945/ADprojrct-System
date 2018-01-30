@@ -4,9 +4,8 @@
 <link href="~/Content/select2.min.css" rel="stylesheet" />
 @*@Scripts.Render("~/bundles/Chart")*@
 
-
 @{
-    ViewBag.Title = "ItemRequestTrend";
+    ViewBag.Title = "Requisition Trend";
 }
 
 <h2>Stationery Requisition Trend</h2>
@@ -16,6 +15,13 @@
 <form id="chartForm">
 
     <div class="row form-inline">
+        <div class="col-sm-1"><label>Year:</label></div>
+        <div class="col-sm-2">
+            <!-- Combobox -->
+            <select class="form-control" id="yearCombobox" style="width: 100%" name="years" multiple="multiple" required>
+                <option></option>
+            </select>
+        </div>
         <div class="col-sm-1"><label>Category:</label></div>
         <div class="col-sm-2">
             <!-- Combobox -->
@@ -28,13 +34,6 @@
             <!-- Combobox -->
             <select class="form-control" id="stationeryCombobox" style="width: 100%" name="itemCode" disabled required>
              <option></option>
-            </select>
-        </div>
-        <div class="col-sm-1"><label>Year:</label></div>
-        <div class="col-sm-2">
-            <!-- Combobox -->
-            <select class="form-control" id="yearCombobox" style="width: 100%" name="years" multiple="multiple" required>
-                <option></option>
             </select>
         </div>
         <div class="col-sm-1">

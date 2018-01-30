@@ -63,12 +63,12 @@ namespace Inventory_mvc.Service
 
         bool IsUserValidToSubmitRequisition(string requesterID);
 
-        // TODO - REMOVE THIS METHOD
-        bool GenerateRandomRequisition(Requisition_Record requisition, string requesterID, DateTime date);
 
         void UpdateDisbursement(string itemCode, int actualQty, string deptCode, int needQty, int count, string staffID);
 
-
         List<Requisition_Record> GetRequestByReqID(string reqid);
+
+        // TODO - REMOVE THIS METHOD
+        bool GenerateRandomRequisition(Requisition_Record requisition, string requesterID, DateTime date);
     }
 }

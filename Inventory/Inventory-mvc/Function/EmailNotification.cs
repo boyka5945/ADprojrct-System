@@ -20,7 +20,7 @@ namespace Inventory_mvc.Function
             { (int) UserRoles.RoleID.StoreSupervisor, new int[] { (int) UserRoles.RoleID.StoreManager} }
         };
 
-
+        // TODO - UNCOMMENT ALL THE EMAIL SEND
         private static IUserService userService = new UserService();
         private static IRequisitionRecordService requisitionService = new RequisitionRecordService();
         private static IAdjustmentVoucherService adjustmentVoucherService = new AdjustmentVoucherService();
@@ -31,8 +31,7 @@ namespace Inventory_mvc.Function
             int userRole = userService.GetRoleByID(requesterID);
             string[] emailReciever = userService.FindApprovingStaffsEmailByRequesterID(requesterID, RequisitionApprovingStaffsRoleID[userRole]);
 
-            // TODO : WRITE EMAIL CONTENT TEMPLATE
-            string content = "Some message";
+            string content = String.Format("There is one new stationery requisition from {0} pending your approval.", userService.FindNameByID(requesterID));
             foreach (var emailaddress in emailReciever)
             {
                 sendEmail email = new sendEmail(emailaddress, "New Stationery Requisition", content);
@@ -54,17 +53,17 @@ namespace Inventory_mvc.Function
 
             if(status == RequisitionStatus.APPROVED_PROCESSING)
             {
-                // TODO : WRITE EMAIL CONTENT TEMPLATE
+                string title = String.Format("Your stationery requisition (no: {0}) has been approved.", requisitionNo);
                 string content = remarks;
-                sendEmail email = new sendEmail(emailAddress, "Stationery requisition has been approved", content);
+                sendEmail email = new sendEmail(emailAddress, title, content);
                 //email.send();
 
             }
             else if (status == RequisitionStatus.REJECTED)
             {
-                // TODO : WRITE EMAIL CONTENT TEMPLATE
+                string title = String.Format("Your stationery requisition (no: {0}) has been rejected.", requisitionNo);
                 string content = remarks;
-                sendEmail email = new sendEmail(emailAddress, "Stationery requisition has been rejected", content);
+                sendEmail email = new sendEmail(emailAddress, title, content);
                 //email.send();
             }
         }
@@ -76,7 +75,7 @@ namespace Inventory_mvc.Function
 
             if((voucherAmount *-1) <= 250)
             {
-                // supervisor               
+                // send email notification to supervisor               
                 foreach(var i in userService.FindUsersByRole((int) UserRoles.RoleID.StoreSupervisor))
                 {
                     emailAddress.Add(i.userEmail);
@@ -84,16 +83,15 @@ namespace Inventory_mvc.Function
             }
             else
             {
-                // manager
+                // send email notification to store manager
                 foreach (var i in userService.FindUsersByRole((int)UserRoles.RoleID.StoreManager))
                 {
                     emailAddress.Add(i.userEmail);
                 }
             }
 
-            // TODO : WRITE EMAIL CONTENT TEMPLATE
-            string content = "Some content";
-            foreach(string e in emailAddress)
+            string content = String.Format("There is one new adjustment voucher from {0} pending your approval.", userService.FindNameByID(requesterID));
+            foreach (string e in emailAddress)
             {
                 sendEmail email = new sendEmail(e, "New adjustment voucher pending approval", content);
                 //email.send();
@@ -116,17 +114,17 @@ namespace Inventory_mvc.Function
 
             if (status == AdjustmentVoucherStatus.APPROVED)
             {
-                // TODO : WRITE EMAIL CONTENT TEMPLATE
+                string title = String.Format("Your adjustment voucher (no: {0}) has been approved.", voucherNo);
                 string content = remarks;
-                sendEmail email = new sendEmail(emailAddress, "Adjustment voucher has been approved", content);
+                sendEmail email = new sendEmail(emailAddress, title, content);
                 //email.send();
 
             }
             else if (status == AdjustmentVoucherStatus.REJECTED)
             {
-                // TODO : WRITE EMAIL CONTENT TEMPLATE
+                string title = String.Format("Your adjustment voucher (no: {0}) has been rejected.", voucherNo);
                 string content = remarks;
-                sendEmail email = new sendEmail(emailAddress, "Adjustment voucher has been rejected", content);
+                sendEmail email = new sendEmail(emailAddress, title, content);
                 //email.send();
             }
         }
@@ -141,12 +139,11 @@ namespace Inventory_mvc.Function
                 emailAddress.Add(i.userEmail);
             }
 
-            // TODO : WRITE EMAIL CONTENT TEMPLATE
-            string content = "Some message";
+            string content = String.Format("Kindly be informed that the coming stationery collection date will be on {0}.", collectionDate.ToLongDateString());
 
             foreach (var e in emailAddress)
             {
-                sendEmail email = new sendEmail(e, "Stationery pending collection", content);
+                sendEmail email = new sendEmail(e, "Stationery collection date", content);
                 //email.send();
             }
         }
@@ -160,8 +157,7 @@ namespace Inventory_mvc.Function
                 emailAddress.Add(i.userEmail);
             }
 
-            // TODO : WRITE EMAIL CONTENT TEMPLATE
-            string content = "Some message";
+            string content = String.Format("Kindly be informed that the collection point of Dept {0} has been changed at {1}.", userService.FindDeptCodeByID(userRepID), DateTime.Today.ToLongDateString());
 
             foreach (var e in emailAddress)
             {

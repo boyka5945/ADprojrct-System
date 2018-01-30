@@ -3,24 +3,35 @@
 <script src="~/Scripts/select2.min.js"></script>
 <link href="~/Content/select2.min.css" rel="stylesheet" />
 
+@{
+    ViewBag.Title = "Reorder Amount";
+}
 
-<h2>Reorder Amount Chart</h2>
+
+<h2>Reorder Amount Chart Based on Suppliers</h2>
 
 <hr />
 
 <form id="chartForm">
     <div class="row form-inline">
         <div class="col-sm-1"><label>Year:</label></div>
-        <div class="col-sm-3">
+        <div class="col-sm-2">
             <!-- Combobox -->
             <select class="js-data-example-ajax form-control" id="yearCombobox" style="width: 100%" name="year" required>
                 <option></option>
             </select>
         </div>
-        <div class="col-sm-1"><label>Month:</label></div>
-        <div class="col-sm-3">
+        <div class="col-sm-1"><label>Category:</label></div>
+        <div class="col-sm-2">
             <!-- Combobox -->
-            <select class="js-data-example-ajax form-control" id="monthCombobox" style="width: 100%" name="month" disabled required>
+            <select class="form-control" id="categoryCombobox" style="width: 100%" name="categoryID" required>
+                <option></option>
+            </select>
+        </div>
+        <div class="col-sm-1"><label>Stationery:</label></div>
+        <div class="col-sm-4">
+            <!-- Combobox -->
+            <select class="form-control" id="stationeryCombobox" style="width: 100%" name="itemCode" disabled required>
                 <option></option>
             </select>
         </div>
@@ -43,7 +54,6 @@
 
 
 <script>
-    // for requisition cumulative graph
     function LoadData()
     {
         var form = document.getElementById("chartForm");
@@ -61,7 +71,7 @@
             $('#progressBar').removeClass('hidden');
 
             $.ajax({
-                url: '@Url.Action("GetSupplierMonthlyReorderAmount", "Report")',
+                url: '@Url.Action("GetSupplierYearlyReorderAmount", "Report")',
                 type: 'POST',
                 data: $('#chartForm').serialize(),
                 success: function (data) {
@@ -77,9 +87,61 @@
     }
 
 
-    // for year selection
+    // for category selection
     $(document).ready(function () {
+        $('#categoryCombobox').select2({
+
+            ajax: {
+                url: '@Url.Action("GetCategoryListJSON", "Report")',
+                delay: 250,
+                dataType: 'json',
+                processResults: function (data) {
+                    return {
+                        results: data
+                    };
+                },
+            },
+            placeholder: "Select a category",
+            selectOnClose: true,
+        });
+    })
+
+    // allow stationery selection after category is selected
+    $('#categoryCombobox').change(function () {
+        var selectedCategory = $('#categoryCombobox').val();
+
+        if (this.value < -1)
+        {
+            $("#stationeryCombobox").prop("disabled", true);
+        }
+        else
+        {
+            $("#stationeryCombobox").prop("disabled", false);
+            $("#stationeryCombobox").val("-2"); // reset selected value if category is changed
+        }
+
+        $('#stationeryCombobox').select2({
+            ajax: {
+                url: '@Url.Action("GetStationeryListBasedOnCategoryJSON", "Report")?categoryID=' + selectedCategory,
+                delay: 250,
+                dataType: 'json',
+                processResults: function (data) {
+                    return {
+                        results: data
+                    };
+                },
+            },
+            placeholder: "Input item code",
+            selectOnClose: true,
+        });
+    });
+
+    // for year selection
+    $(document).ready(function() {
         $('#yearCombobox').select2({
+
+            maximumSelectionLength: 2,
+
             ajax: {
                 url: '@Url.Action("GetSelectableYearsJSON", "Report")',
                 delay: 250,
@@ -91,37 +153,6 @@
                 },
             },
             placeholder: "Select a year",
-            selectOnClose: true,
-        });
-    });
-
-    // allow month selection after year is selected
-    $('#yearCombobox').change(function()
-    {
-        var selectedYear = $('#yearCombobox').val();
-
-        if(this.value == -1)
-        {
-            $("#monthCombobox").prop("disabled", true);
-        }
-        else
-        {
-            $("#monthCombobox").prop("disabled", false);
-            $("#monthCombobox").val("-1"); // reset selected month value if year is changed
-        }
-
-        $('#monthCombobox').select2({
-            ajax: {
-                url: '@Url.Action("GetSelectableMonthsJSON", "Report")?year=' + selectedYear,
-                delay: 250,
-                dataType: 'json',
-                processResults: function (data) {
-                    return {
-                        results: data
-                    };
-                },
-            },
-            placeholder: "Select a month",
             selectOnClose: true,
         });
     });
