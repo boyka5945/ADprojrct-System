@@ -25,12 +25,9 @@ namespace Inventory_mvc.Controllers
         [AllowAnonymous]
         public ActionResult Login(AccountLoginModels model, string returnUrl)
         {
-            //var check = Request["checkV"].ToString();
-            //if (check == "BBB")
-            //{
             if (String.IsNullOrEmpty(model.UserName) || !UserService.isExistingID(model.UserName))
             {
-                ViewBag.errorMessage = "UserName is not correct.";
+                ViewBag.errorMessage = "Username is not correct.";
             }
             else
             {
@@ -40,27 +37,27 @@ namespace Inventory_mvc.Controllers
                     string identity = model.UserName;
                     HttpContext.Application["role"] = roleID;
                     AuthorizationManager.SetTicket(Response, model.RememberMe, identity.ToUpper(), roleID);
+
                     if (!string.IsNullOrEmpty(returnUrl))
                     {
                         return Redirect(returnUrl);
                     }
-                    else//null
+                    else
                     {
                         return RedirectToAction("Index", "Home");
                     }
                 }
                 else
                 {
-                    ViewBag.errorMessage = "PassWord is not correct.";
+                    ViewBag.errorMessage = "Password is not correct.";
 
                 }
-                //}   
             }
 
             return View(model);
         }
 
-        [RoleAuthorize]
+        //[RoleAuthorize]
         [AllowAnonymous]
         public ActionResult Index()
         {
@@ -70,6 +67,7 @@ namespace Inventory_mvc.Controllers
         [AllowAnonymous]
         public ActionResult Logout()
         {
+            // TODO - CHANGE TO SESSION STATE
             //HttpContext.Application.Clear();
             HttpContext.Application["role"] = null;
             FormsAuthentication.SignOut();
