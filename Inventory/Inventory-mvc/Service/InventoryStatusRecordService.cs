@@ -96,14 +96,9 @@ namespace Inventory_mvc.Service
                 vmList.Add(vm);          
             }
 
-            if(adjustmentVoucherService.SubmitNewAdjustmentVoucher(vmList, AdjustmentVoucherRemarks.INV_CHECK, requesterID))
-            {
-                return true;
-            }
-            else
-            {
-                throw new Exception("Error when submitting adjustment voucher");
-            }
+            adjustmentVoucherService.SubmitNewAdjustmentVoucher(vmList, AdjustmentVoucherRemarks.INV_CHECK, requesterID);
+            
+            return true;
         }
 
         public List<DateTime> ListAllStockCheckDate()

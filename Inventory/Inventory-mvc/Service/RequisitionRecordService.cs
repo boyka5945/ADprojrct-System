@@ -77,13 +77,18 @@ namespace Inventory_mvc.Service
             try
             {
                 rDAO.SubmitNewRequisition(requisition);
-                // send email notification       
+                // send email notification
                 EmailNotification.EmailNotificatioForNewRequisition(requisition.requesterID);
+
                 return true;
             }
-            catch (Exception e)
+            catch (EmailException e)
             {
-                throw new Exception(e.Message);
+                throw new EmailException(e.Message);
+            }
+            catch (Exception e1)
+            {
+                throw new Exception(e1.Message);
             }
         }
 

@@ -8,9 +8,20 @@
 @{
     ViewBag.Title = "View";
     Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var warningMessage = TempData["WarningMessage"];
+
 }
 
 <h2>Manage Requisition</h2>
+<br />
+@if (warningMessage != null)
+{
+    <div class="alert alert-warning">
+        @warningMessage.ToString()
+    </div>
+}
+<br />
 <table class="table">
     <tr>
         <th>
