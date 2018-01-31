@@ -189,9 +189,35 @@ footer {
                     <li class="dropdown">
                         <a class="btn btn-primary dropdown-toggle" style="width:120px" type="button" data-toggle="dropdown" href="#">Reports</a>
                         <ul class="dropdown-menu">
-                            <li>@Html.ActionLink("Reorder Report", "Report", "Report")</li>
-                            <li>@Html.ActionLink("Inventory Status Report", "", "")</li>
-                            <li>@Html.ActionLink("Trend Analysis Report", "", "")</li>
+                            <li class="dropdown-submenu">
+                                <a class="test" href="#">Requisition Analysis<span class="caret"></span></a>
+                                <ul class="dropdown-menu" style="top:20%;left:100%;margin-top:1px">
+                                    <li>@Html.ActionLink("Monthly Requisition Amount by Department", "DeptMonthlyRequisitionAmount", "Report")</li>
+
+                                    <li>@Html.ActionLink("Monthly Requisition Amount by Category", "CategoryMonthlyRequisitionAmount", "Report")</li>
+
+                                    <li>@Html.ActionLink("Cumulative Request by Department", "RequisitionCumulativeChart", "Report")</li>
+
+                                    <li>@Html.ActionLink("Requisition Trend by Item", "ItemRequestTrend", "Report")</li>
+                                </ul>
+                            </li>
+                            <li class="dropdown-submenu">
+                                <a class="test" href="#">Reorder Analysis<span class="caret"></span></a>
+                                <ul class="dropdown-menu" style="top:20%;left:100%;margin-top:1px">
+                                    <li>@Html.ActionLink("Yearly Reorder from Supplier", "SupplierYearlyReorderAmount", "Report")</li>
+
+                                    <li>@Html.ActionLink("Monthly Reorder Amount by Category", "CategoryMonthlyReorderAmount", "Report")</li>
+
+                                    <li>@Html.ActionLink("Cumulative Reorder from Supplier", "ReorderAmountCumulativeChart", "Report")</li>
+
+                                    <li>@Html.ActionLink("Comparison of Reorder Items by Supplier", "ItemReorderComparison", "Report")</li>
+
+                                    
+
+                                    
+                                </ul>
+                            </li>
+                            
                         </ul>
                     </li>
                 }
