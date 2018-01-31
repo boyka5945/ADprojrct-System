@@ -51,7 +51,7 @@ namespace Inventory_mvc.Controllers
                 }
                 else
                 {
-                    ViewBag.errorMessage = "PassWord is not correct.";
+                    ViewBag.errorMessage = "Password is not correct.";
 
                 }
                 //}   
