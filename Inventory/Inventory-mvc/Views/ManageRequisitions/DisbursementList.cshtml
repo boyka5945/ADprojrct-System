@@ -10,121 +10,134 @@
 
 
 <h2>@ViewBag.Message</h2>
-@if(TempData["Successful"] != null)
+<h2>Disbursement List</h2>
+@if (TempData["Successful"] != null)
 {
     <div class="alert alert-success">
         @TempData["Successful"].ToString()
     </div>
-}else if (TempData["ErrorMessage"] != null)
+}
+else if (TempData["ErrorMessage"] != null)
 {
     <div class="alert alert-danger">
         @TempData["ErrorMessage"].ToString()
     </div>
 }
 <div>
-    
+
     @using (Html.BeginForm())
     {
         @Html.Label("Department Name : ")
-        if (ViewBag.Select != null)
-        {
-            @Html.DropDownList("ID", (List<SelectListItem>)ViewData["list"], (string)ViewBag.Select, new { onchange = "form.submit();" })
-        }
-        else
-        {
-            @Html.DropDownList("ID", (List<SelectListItem>)ViewData["list"], "Zoology Dept", new { onchange = "form.submit();" })
-        }
-        <br/>
-        @Html.Label("Collection Point:")
+        @Html.DropDownList("ID", (List<SelectListItem>)ViewData["list"], new { onchange = "form.submit();", id = "deptCode" })
+        <br />
+        @Html.Label("Collection Point: ")
         @Html.Label((string)ViewBag.Point)
-    }
-</div>
-<table class="table">
-    <tr>
-        <th>
-            @Html.Label("Item Description")
-        </th>
-        <th></th>
-        <th>
-            @Html.Label("Quantity")
-        </th>
-        <th>
-            @Html.Label("Actual Retrieved Quantity")
-        </th>
-        <th>
 
-        </th>
-    </tr>
-    @if (Model.Count() == 0)
-    {
-        <h4><i>There is no item.</i></h4>
-    }
-@for (int i = 0; i < Model.Count(); i++)
-{
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => Model.ToList()[i].itemDescription)
-            <input type="hidden" name="[@i].itemDescription" value="@Model.ToList()[i].itemDescription" />
-        </td>
-        <td>
-            @Html.HiddenFor(modelItem => Model.ToList()[i].itemCode)
-            <input type="hidden" id="@i" name="[@i].itemCode" value="@Model.ToList()[i].itemCode" />
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => Model.ToList()[i].quantity)
-            <input type="hidden" id="AllocateQty[@i]" name="[@i].quantity" value="@Model.ToList()[i].quantity" />
-        </td>
-        <td>
-            <input type="number" id="ActualQty[@i]" class="form-control" value="@Model.ToList()[i].actualQty" min="0" max="@Model.ToList()[i].quantity" required />
-        </td>
-        <td>
-            <input type="button" name="button" class="btn btn-success" value="Save" onclick="SaveData(@i)"/>
-        </td>
-    </tr>
-}
-
-</table>
-<div>
-    <input type="button" name="button" class="btn btn-success"  value="Submit" onclick="update()"/>
-</div>
-Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
-@Html.PagedListPager(Model, page => Url.Action("DisbursementList",
-                     new { page }))
-
-
+        <br />
         @Html.Label("Representative :")
         @Html.Label((string)ViewBag.rp)
-<script>
-    function SaveData(i) {
-        var ActualQty = document.getElementById("ActualQty["+ i +"]").value; // convert form to array
-        var itemCode = document.getElementById(i).value; // convert form to array
-        var AllocateQty = document.getElementById("AllocateQty[" + i + "]").value;
-        if (parseInt(ActualQty) < 0) {
-            window.location.href = '@Url.Action("SaveDisbursementList", "ManageRequisitions")?ErrorMessage=' + "the ActualQty can not less than 0." + "&dept=" + document.getElementById("ID").value;
+<br /><br />
+        <a href="#" id="printAsPDF" onclick="downloadAsPDF()">Download List as PDF</a>
+    }
+</div>
+<br />
+@if (Model.Count() == 0)
+{
+    <h4><i>There is no item.</i></h4>
+}
+else
+{
+
+    <table class="table">
+        <tr>
+            <th>
+                @Html.Label("Item Description")
+            </th>
+            <th></th>
+            <th>
+                @Html.Label("Quantity")
+            </th>
+            <th>
+                @Html.Label("Actual Retrieved Quantity")
+            </th>
+            <th>
+
+            </th>
+        </tr>
+        @for (int i = 0; i < Model.Count(); i++)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => Model.ToList()[i].itemDescription)
+                    <input type="hidden" name="[@i].itemDescription" value="@Model.ToList()[i].itemDescription" />
+                </td>
+                <td>
+                    @Html.HiddenFor(modelItem => Model.ToList()[i].itemCode)
+                    <input type="hidden" id="@i" name="[@i].itemCode" value="@Model.ToList()[i].itemCode" />
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => Model.ToList()[i].quantity)
+                    <input type="hidden" id="AllocateQty[@i]" name="[@i].quantity" value="@Model.ToList()[i].quantity" />
+                </td>
+                <td>
+                    <input type="number" id="ActualQty[@i]" class="form-control" value="@Model.ToList()[i].actualQty" min="0" max="@Model.ToList()[i].quantity" required />
+                </td>
+                <td>
+                    <input type="button" name="button" class="btn btn-success" value="Save" onclick="SaveData(@i)" />
+                </td>
+            </tr>
         }
-        else if (parseInt(ActualQty) > parseInt(AllocateQty)) {
-            window.location.href = '@Url.Action("SaveDisbursementList", "ManageRequisitions")?ErrorMessage=' + "the ActualQty can not more than AllocateQty." + "&dept=" + document.getElementById("ID").value;
+    </table>
+
+    <div>
+        <input type="button" name="button" class="btn btn-success" value="Submit" onclick="update()" />
+    </div>
+
+    @:Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+    @Html.PagedListPager(Model, page => Url.Action("DisbursementList",
+                     new { page }))
+
+}
+
+    <script>
+
+        var deptCode = $('#deptCode').val();
+
+
+        function downloadAsPDF() {
+            window.location.href = '@Url.Action("GenerateDisbursementListPDF", "ManageRequisitions")?ID=' + deptCode;
         }
-        else if (parseInt(ActualQty) > 0 || parseInt(ActualQty) <= 0) {
-            if (parseInt(ActualQty) < parseInt(AllocateQty)) {
-                var remarks = prompt("discripency reason:");
-                window.location.href = '@Url.Action("SaveDisbursementList", "ManageRequisitions")?key1=' + ActualQty + "&key2=" + itemCode + "&key3=" + AllocateQty + "&key4=" + remarks + "&dept=" + document.getElementById("ID").value;
-            } else {
-                window.location.href = '@Url.Action("SaveDisbursementList", "ManageRequisitions")?key1=' + ActualQty + "&key2=" + itemCode + "&key3=" + AllocateQty + "&dept=" + document.getElementById("ID").value;
+
+        function SaveData(i) {
+            var ActualQty = document.getElementById("ActualQty[" + i + "]").value; // convert form to array
+            var itemCode = document.getElementById(i).value; // convert form to array
+            var AllocateQty = document.getElementById("AllocateQty[" + i + "]").value;
+            if (parseInt(ActualQty) < 0) {
+                window.location.href = '@Url.Action("SaveDisbursementList", "ManageRequisitions")?ErrorMessage=' + "the ActualQty can not less than 0." + "&dept=" + document.getElementById("ID").value;
             }
-        }
-        else {
-            alert("please input a number.");
-        }
+            else if (parseInt(ActualQty) > parseInt(AllocateQty)) {
+                window.location.href = '@Url.Action("SaveDisbursementList", "ManageRequisitions")?ErrorMessage=' + "the ActualQty can not more than AllocateQty." + "&dept=" + document.getElementById("ID").value;
+            }
+            else if (parseInt(ActualQty) > 0 || parseInt(ActualQty) <= 0) {
+                if (parseInt(ActualQty) < parseInt(AllocateQty)) {
+                    var remarks = prompt("discripency reason:");
+                    window.location.href = '@Url.Action("SaveDisbursementList", "ManageRequisitions")?key1=' + ActualQty + "&key2=" + itemCode + "&key3=" + AllocateQty + "&key4=" + remarks + "&dept=" + document.getElementById("ID").value;
+                } else {
+                    window.location.href = '@Url.Action("SaveDisbursementList", "ManageRequisitions")?key1=' + ActualQty + "&key2=" + itemCode + "&key3=" + AllocateQty + "&dept=" + document.getElementById("ID").value;
+                }
+            }
+            else {
+                alert("please input a number.");
+            }
 
             //}
             // convert to url-encoded form
             //success: function () {
             //alert("success");
             //}
-    }
+        }
 
-    function update() {
-        window.location.href = '@Url.Action("UpdateDisbursement", "ManageRequisitions")';
-    }
-</script>
+        function update() {
+            window.location.href = '@Url.Action("UpdateDisbursement", "ManageRequisitions")';
+        }
+    </script>

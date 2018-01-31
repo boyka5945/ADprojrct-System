@@ -18,7 +18,7 @@ namespace Inventory_mvc.Controllers
         IRequisitionRecordService requisitionService = new RequisitionRecordService();
         IUserService userService = new UserService();
 
-        // GET: RaiseRequisition/BrowseCatalogue
+        // CK - Employee | User Representative | Store Clerk | Store Supervisor
         public ActionResult BrowseCatalogue(string searchString, int? page, string categoryID = "-1")
         {
             List<Stationery> stationeries = stationeryService.GetStationeriesBasedOnCriteria(searchString, categoryID);
@@ -34,11 +34,13 @@ namespace Inventory_mvc.Controllers
             return View(stationeries.ToPagedList(pageNumber, pageSize));
         }
 
+        // CK - Employee | User Representative | Store Clerk | Store Supervisor
         public ActionResult ResetCatalogue()
         {
             return RedirectToAction("BrowseCatalogue", new { searchString = "", categoryID = "All" });
         }
 
+        // CK - Employee | User Representative | Store Clerk | Store Supervisor
         public ActionResult NewRequisition(string type, string itemCode = null)
         {
             List<RaiseRequisitionViewModel> requestList = Session["RequestList"] as List<RaiseRequisitionViewModel>;
@@ -59,6 +61,7 @@ namespace Inventory_mvc.Controllers
             return View(requestList);
         }
 
+        // CK - Employee | User Representative | Store Clerk | Store Supervisor
         [HttpPost]
         public void SaveTemporaryValue(List<RaiseRequisitionViewModel> requestList)
         {
@@ -69,7 +72,7 @@ namespace Inventory_mvc.Controllers
             }
         }
 
-
+        // CK - Employee | User Representative | Store Clerk | Store Supervisor
         [HttpPost]
         public ActionResult AddNewRequestItem(string itemCode, int quantity, string searchString, int? page, string categoryID)
         {
@@ -136,6 +139,7 @@ namespace Inventory_mvc.Controllers
             }
         }
 
+        // CK - Employee | User Representative | Store Clerk | Store Supervisor
         [HttpPost]
         public ActionResult RemoveRequestItem(string itemCode, List<RaiseRequisitionViewModel> requestList)
         {
@@ -149,7 +153,7 @@ namespace Inventory_mvc.Controllers
             return RedirectToAction("NewRequisition");
         }
 
-
+        // CK - Employee | User Representative | Store Clerk | Store Supervisor
         [HttpPost]
         public ActionResult SubmitRequisition(List<RaiseRequisitionViewModel> requestList)
         {
@@ -188,11 +192,23 @@ namespace Inventory_mvc.Controllers
                     // go to user requisition list
                     return RedirectToAction("Index", "ListRequisitions");
                 }
-                catch (Exception e)
+                catch (EmailException e)
+                {
+                    // submit requisition successfully but email throw exception
+
+                    // clear requestlist
+                    Session["RequestList"] = new List<RaiseRequisitionViewModel>();
+                    TempData["SuccessMessage"] = "New stationery requisition has been submitted.";
+                    TempData["WarningMessage"] = "Failure to send email notification. Kindly contact IT personnel.";
+
+                    // go to user requisition list
+                    return RedirectToAction("Index", "ListRequisitions");
+                }
+                catch (Exception e1)
                 {
                     // error
                     Session["RequestList"] = requestList;
-                    TempData["ErrorMessage"] = e.Message;
+                    TempData["ErrorMessage"] = e1.Message;
                 }
             }
             else
@@ -206,6 +222,7 @@ namespace Inventory_mvc.Controllers
             return RedirectToAction("NewRequisition");
         }
 
+        // CK - Employee | User Representative | Store Clerk | Store Supervisor
         public ActionResult ClearAllRequestItem()
         {
             List<RaiseRequisitionViewModel> requestList = Session["RequestList"] as List<RaiseRequisitionViewModel>;
@@ -217,7 +234,7 @@ namespace Inventory_mvc.Controllers
             return RedirectToAction("NewRequisition");
         }
 
-        
+        // CK - Employee | User Representative | Store Clerk | Store Supervisor
         public ActionResult GetStationeryListJSON(string term = null)
         {
             List<JSONForCombobox> options = new List<JSONForCombobox>();

@@ -1,5 +1,6 @@
 ﻿@*@model IEnumerable<Inventory_mvc.Models.Department>*@
 @model PagedList.IPagedList<Inventory_mvc.Models.Department>
+@using Inventory_mvc.Utilities;
 @using PagedList.Mvc;
 <link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 
@@ -11,10 +12,12 @@
 }
 
 <h2>Department List</h2>
-
+@if (ViewBag.RoleID != (int)UserRoles.RoleID.StoreClerk)
+{
 <p>
     @Html.ActionLink("Create New Department", "CreateDepartment")
 </p>
+}
 <table class="table">
     <tr>
         <th>

@@ -67,6 +67,14 @@
       <HintPath>..\packages\PagedList.Mvc.4.5.0.0\lib\net40\PagedList.Mvc.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Rotativa.Core, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Rotativa.Core.2.0.0\lib\net45\Rotativa.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Rotativa.MVC, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Rotativa.MVC.2.0.3\lib\net45\Rotativa.MVC.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -216,6 +224,7 @@
     <Compile Include="DAO\SupplierDAO.cs" />
     <Compile Include="DAO\TransactionRecordDAO.cs" />
     <Compile Include="DAO\UserDAO.cs" />
+    <Compile Include="Function\EmailException.cs" />
     <Compile Include="Function\EmailNotification.cs" />
     <Compile Include="Function\Encrypt.cs" />
     <Compile Include="Models\Adjustment_Voucher_Record.cs" />
@@ -353,6 +362,7 @@
     <Content Include="Content\Site.css" />
     <Content Include="Images\LogicLogoT3.PNG" />
     <Content Include="Images\TopLogo.jpg" />
+    <Content Include="Rotativa\wkhtmltopdf.exe" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="ApplicationInsights.config">
@@ -366,6 +376,7 @@
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
+    <Content Include="App_Browsers\qt.browser" />
     <None Include="Properties\PublishProfiles\AD_Inventory.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <None Include="Scripts\jquery-3.2.1.intellisense.js" />
@@ -477,6 +488,9 @@
     <Content Include="Views\Report\ReorderAmountCumulativeChart.cshtml" />
     <Content Include="Views\Report\ItemReorderComparison.cshtml" />
     <Content Include="Views\Report\_ItemReorderComparison.cshtml" />
+    <Content Include="Views\POGenerator\_GeneratePDF.cshtml" />
+    <Content Include="Views\InventoryCheck\_StockCheckListPDF.cshtml" />
+    <Content Include="Views\ManageRequisitions\_GeneratePDF.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

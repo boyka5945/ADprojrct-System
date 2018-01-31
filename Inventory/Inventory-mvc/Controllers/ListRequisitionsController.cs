@@ -18,7 +18,7 @@ namespace Inventory_mvc.Controllers
         IRequisitionRecordService requisitionService = new RequisitionRecordService();
         IUserService userService = new UserService();
 
-        // GET: ListRequisitions
+        // CK - Employee | User Representative | Store Clerk | Store Supervisor
         public ActionResult Index(int? page, string sortOrder)
         {
             // Retrieve all requisitions made by current user
@@ -41,6 +41,7 @@ namespace Inventory_mvc.Controllers
             return View(records.ToPagedList(pageNumber, pageSize));
         }
 
+        // CK - Employee | User Representative | Store Clerk | Store Supervisor
         public ActionResult RemoveRecord(int? id)
         {
             int recordNo = (id == null) ? -1 : (int)id;
@@ -81,6 +82,7 @@ namespace Inventory_mvc.Controllers
             return RedirectToAction("Index");
         }
 
+        // CK - Employee | User Representative | Store Clerk | Store Supervisor
         [HttpGet]
         public ActionResult EditRecord(int? id)
         {
@@ -120,6 +122,7 @@ namespace Inventory_mvc.Controllers
             return View(vmList);
         }
 
+        // CK - Employee | User Representative | Store Clerk | Store Supervisor
         [HttpPost]
         public ActionResult EditRecord(List<RequisitionDetailViewModel> vmList)
         {
@@ -172,6 +175,7 @@ namespace Inventory_mvc.Controllers
         //    return RedirectToAction("EditRecord", new { id = id });
         //}
 
+        // CK - Employee | User Representative | Store Clerk | Store Supervisor
         public ActionResult ShowDetail(int? id)
         {
             int recordNo = (id == null) ? -1 : (int) id;

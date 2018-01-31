@@ -31,6 +31,7 @@ namespace Inventory_mvc.Service
                 vm.StockQuantity = s.stockQty;
                 vm.UOM = s.unitOfMeasure;
                 vm.ActualQuantity = s.stockQty;
+                vm.StockCheckDate = DateTime.Today;
 
                 vmList.Add(vm);
             }
@@ -95,14 +96,9 @@ namespace Inventory_mvc.Service
                 vmList.Add(vm);          
             }
 
-            if(adjustmentVoucherService.SubmitNewAdjustmentVoucher(vmList, AdjustmentVoucherRemarks.INV_CHECK, requesterID))
-            {
-                return true;
-            }
-            else
-            {
-                throw new Exception("Error when submitting adjustment voucher");
-            }
+            adjustmentVoucherService.SubmitNewAdjustmentVoucher(vmList, AdjustmentVoucherRemarks.INV_CHECK, requesterID);
+            
+            return true;
         }
 
         public List<DateTime> ListAllStockCheckDate()

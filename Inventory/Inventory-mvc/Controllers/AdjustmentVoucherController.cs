@@ -18,7 +18,7 @@ namespace Inventory_mvc.Controllers
         IUserService userService = new UserService();
         IAdjustmentVoucherService adjustmentVoucherService = new AdjustmentVoucherService();
 
-        // GET: AdjustmentVoucherRecord
+        // CK - Store Supervisor | Store Manager
         public ActionResult Index(string status, int? page, string sortOrder)
         {
             string approverID = HttpContext.User.Identity.Name;
@@ -56,6 +56,7 @@ namespace Inventory_mvc.Controllers
             return View(vouchers.ToPagedList(pageNumber, pageSize));
         }
 
+        // CK - Store Clerk | Store Supervisor | Store Manager
         public ActionResult NewVoucher(string type, string itemCode = null)
         {
             List<AdjustmentVoucherViewModel> vmList = Session["NewVoucher"] as List<AdjustmentVoucherViewModel>;
@@ -74,6 +75,7 @@ namespace Inventory_mvc.Controllers
             return View(vmList);
         }
 
+        // CK - Store Clerk | Store Supervisor | Store Manager
         [HttpPost]
         public ActionResult AddItemIntoVoucher(string itemCode, int quantity, string reason)
         {
@@ -123,6 +125,7 @@ namespace Inventory_mvc.Controllers
             return RedirectToAction("NewVoucher");
         }
 
+        // CK - Store Clerk | Store Supervisor | Store Manager
         [HttpPost]
         public void SaveTemporaryValue(List<AdjustmentVoucherViewModel> vmList)
         {
@@ -134,6 +137,7 @@ namespace Inventory_mvc.Controllers
         }
 
 
+        // CK - Store Clerk | Store Supervisor | Store Manager
         [HttpPost]
         public ActionResult RemoveVoucherItem(string itemCode, List<AdjustmentVoucherViewModel> vmList)
         {
@@ -146,6 +150,7 @@ namespace Inventory_mvc.Controllers
             return RedirectToAction("NewVoucher");
         }
 
+        // CK - Store Clerk | Store Supervisor | Store Manager
         [HttpPost]
         public ActionResult SubmitVoucher(List<AdjustmentVoucherViewModel> vmList)
         {
@@ -155,13 +160,23 @@ namespace Inventory_mvc.Controllers
             if (adjustmentVoucherService.ValidateNewAdjustmentVoucher(vmList, out errorMessage))
             {
                 // Valid voucher
-                if (adjustmentVoucherService.SubmitNewAdjustmentVoucher(vmList, AdjustmentVoucherRemarks.RECONCILE, requesterID))
+                try
+                {
+                    adjustmentVoucherService.SubmitNewAdjustmentVoucher(vmList, AdjustmentVoucherRemarks.RECONCILE, requesterID);
+                    
+                    // clear list
+                    Session["NewVoucher"] = new List<AdjustmentVoucherViewModel>();
+                    TempData["SuccessMessage"] = String.Format("Discrepancy report has been submitted for approval.");                   
+                }
+                catch(EmailException e)
                 {
                     // clear list
                     Session["NewVoucher"] = new List<AdjustmentVoucherViewModel>();
                     TempData["SuccessMessage"] = String.Format("Discrepancy report has been submitted for approval.");
+
+                    TempData["WarningMessage"] = "Failure to send email notification. Kindly contact IT personnel.";
                 }
-                else
+                catch (Exception e1)
                 {
                     TempData["ErrorMessage"] = String.Format("Error writing new adjustment voucher into database");
                 }
@@ -174,7 +189,7 @@ namespace Inventory_mvc.Controllers
             return RedirectToAction("NewVoucher");
         }
 
-
+        // CK - Store Clerk | Store Supervisor | Store Manager
         public ActionResult ClearAllItemInVoucher()
         {
             List<AdjustmentVoucherViewModel> vmList = Session["NewVoucher"] as List<AdjustmentVoucherViewModel>;
@@ -186,7 +201,7 @@ namespace Inventory_mvc.Controllers
             return RedirectToAction("NewVoucher");
         }
 
-
+        // CK - Store Clerk | Store Supervisor | Store Manager
         public ActionResult GetStationeryListJSON(string term = null)
         {
             List<JSONForCombobox> options = new List<JSONForCombobox>();
@@ -202,7 +217,7 @@ namespace Inventory_mvc.Controllers
             return Json(options, JsonRequestBehavior.AllowGet);
         }
 
-
+        // CK - Store Supervisor | Store Manager
         public ActionResult ShowDetail(int? id)
         {
             int voucherNo = (id == null) ? -1 : (int)id;
@@ -227,6 +242,7 @@ namespace Inventory_mvc.Controllers
             return View(vmList);
         }
 
+        // CK - Store Supervisor | Store Manager
         [HttpGet]
         public ActionResult MakeApproval(int? id)
         {
@@ -252,6 +268,7 @@ namespace Inventory_mvc.Controllers
 
         }
 
+        // CK - Store Supervisor | Store Manager
         /// <summary>
         /// 
         /// </summary>
@@ -276,6 +293,10 @@ namespace Inventory_mvc.Controllers
                             // valid voucher
                             adjustmentVoucherService.ApproveVoucherRecord(id, approverID, remark);
                         }
+                        catch (EmailException e)
+                        {
+                            TempData["WarningMessage"] = "Failure to send email notification. Kindly contact IT personnel.";
+                        }
                         catch (Exception e) // catch exception from ApproveVoucherRecord method
                         {
                             errorMessage = e.Message;
@@ -288,7 +309,11 @@ namespace Inventory_mvc.Controllers
                     {
                         adjustmentVoucherService.RejectVoucherRecord(id, approverID, remark);
                     }
-                    catch(Exception e)
+                    catch (EmailException e)
+                    {
+                        TempData["WarningMessage"] = "Failure to send email notification. Kindly contact IT personnel.";
+                    }
+                    catch (Exception e)
                     {
                         errorMessage = String.Format("Error occur while updating voucher detail. Please try again later. ({0})", e.Message);
                     }
