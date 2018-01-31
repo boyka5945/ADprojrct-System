@@ -245,9 +245,18 @@ footer {
                         </ul>
                     </li>
                 }
-                <li style="position:absolute;right:0px">
-                    @Html.ActionLink("Logout", "Logout", "Home", null, new { @style = "color:#000aaa;" })
-                </li>
+                @if (HttpContext.Current.Application["role"] != null)
+                {
+                    <li style="position:absolute;right:0px">
+                        @Html.ActionLink("Logout", "Logout", "Home", null, new { @style = "color:#000aaa;" })
+                    </li>
+                }
+                else
+                {
+                    <li style="position:absolute;right:0px">
+                        @Html.ActionLink("Login", "Login", "Home", null, new { @style = "color:#000aaa;" })
+                    </li>
+                }
             </ul>
         </div>
     </nav>
