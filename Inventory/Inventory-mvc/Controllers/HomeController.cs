@@ -70,7 +70,6 @@ namespace Inventory_mvc.Controllers
         public ActionResult Logout()
         {
             //HttpContext.Application.Clear();
-            HttpContext.Application["role"] = null;
             FormsAuthentication.SignOut();
             return RedirectToAction("Login", "Home");
         }
