@@ -5,8 +5,10 @@ using System.Web;
 using System.Web.Mvc;
 using Inventory_mvc.Entity;
 using Inventory_mvc.Models;
+using Inventory_mvc.Service;
+using Inventory_mvc.Function;
 
-namespace Inventory_mvc.Service
+namespace Inventory_mvc.Controllers
 {
     public class POGeneratorController : Controller
     {
