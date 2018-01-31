@@ -80,7 +80,7 @@ namespace Inventory_mvc.Controllers
                 {
                     BigModelView bigModel;
                     List<Requisition_Record> list = rs.GetRecordByItemCode(itemCode).Where(x => x.status == RequisitionStatus.APPROVED_PROCESSING || x.status == RequisitionStatus.PARTIALLY_FULFILLED).ToList();
-                    var retrieve = (List<RetrieveForm>)(HttpContext.Application["retrieveform"]);
+                    var retrieve = (List<RetrieveForm>)(HttpContext.Application["retrieveList"]);
                     for (int i = 0; i < list.Count; i++)
                     {
                         bigModel = new BigModelView();
