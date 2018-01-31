@@ -152,14 +152,15 @@
                                                     fulfilled = 0;
 
                                                 }
-                                                string qtyOutstanding = (item.qty - fulfilled).ToString();
+                                                int unfulfilled = item.qty - fulfilled;
+                                                string Unreceived = unfulfilled.ToString();
                                             }
-                                            @Html.Label(qtyOutstanding)
+                                            @Html.Label(Unreceived)
                                         </td>
                                         <td>
                                             @*//input for received*@
                                             <div class="form-inline">
-                                                <input type="number" name="num-@item.itemCode" value="0" min="0" class="form-control" placeholder="FulfilledQty" />
+                                                <input type="number" name="num-@item.itemCode" value="0" min="0" max=@unfulfilled class="form-control" placeholder="0" />
 
                                             </div>
                                         </td>
@@ -168,7 +169,7 @@
                                         </td>
                                         <td>
                                             @*//input for remarks*@
-                                            <input type="text" name="rem-@item.itemCode" />
+                                            <input type="text" name="rem-@item.itemCode" class="form-control" />
                                         </td>
                                     </tr>
                                                 }

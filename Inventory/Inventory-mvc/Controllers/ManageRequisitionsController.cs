@@ -29,7 +29,7 @@ namespace Inventory_mvc.Controllers
             return View();
         }
 
-        //for manager
+        //Manager
         [HttpGet]
         public ActionResult ManagerRequisition(int? page)
         {
@@ -59,7 +59,7 @@ namespace Inventory_mvc.Controllers
             return View(model1.ToPagedList(pageNumber, pageSize));
         }
 
-        //for clerk
+        //Clerk
         [HttpGet]
         public ActionResult ClerkRequisition(int? page)
         {
@@ -80,7 +80,7 @@ namespace Inventory_mvc.Controllers
                 {
                     BigModelView bigModel;
                     List<Requisition_Record> list = rs.GetRecordByItemCode(itemCode).Where(x => x.status == RequisitionStatus.APPROVED_PROCESSING || x.status == RequisitionStatus.PARTIALLY_FULFILLED).ToList();
-                    var retrieve = (List<RetrieveForm>)(HttpContext.Application["retrieveform"]);
+                    var retrieve = (List<RetrieveForm>)(HttpContext.Application["retrieveList"]);
                     for (int i = 0; i < list.Count; i++)
                     {
                         bigModel = new BigModelView();
@@ -129,17 +129,12 @@ namespace Inventory_mvc.Controllers
             //return View(blist);
         }
 
+        //Clerk
         [HttpPost]
         public ActionResult AllocateRequisition(IEnumerable<BigModelView> model, int? page)
         {
-            //if (HttpContext.Application["retrieveform"] == null)
-            //{
-            //    TempData["ErrorMessage"] = "Have not retrieve yet.";
-            //    return RedirectToAction("ClerkRequisition");
-            //}
             var page1 = (int)Session["page"];
             List<string> itemCodes = rs.GetItemCodeList();
-            var ls = (List<RetrieveForm>)HttpContext.Application["retrieveform"];
             List<BigModelView> l = model.ToList();
             List<BigModelView> l2 = (List<BigModelView>)HttpContext.Application["BigModel"];
             int qty = 0;
@@ -198,6 +193,7 @@ namespace Inventory_mvc.Controllers
 
         }
 
+        //Clerk
         [HttpGet]
         public ActionResult AllocateRequisition()
         {
@@ -205,6 +201,7 @@ namespace Inventory_mvc.Controllers
             return RedirectToAction("ClerkRequisition");
         }
 
+        //Manager
         [HttpGet]
         public ActionResult ApproveRequisition(int id)
         {
@@ -224,6 +221,7 @@ namespace Inventory_mvc.Controllers
             return RedirectToAction("ManagerRequisition");
         }
 
+        //Clerk | Manager
         [HttpGet]
         public ActionResult RequisitionDetails(int id)
         {
@@ -233,6 +231,7 @@ namespace Inventory_mvc.Controllers
             return View(model);
         }
 
+        //Maneger
         [HttpGet]
         public ActionResult RejectRequisition(int id)
         {
@@ -251,7 +250,7 @@ namespace Inventory_mvc.Controllers
             return RedirectToAction("ManagerRequisition");
         }
 
-
+        //Clerk
         [HttpGet]
         public ActionResult DisbursementList(int? page)
         {
@@ -324,7 +323,7 @@ namespace Inventory_mvc.Controllers
             return View(list.ToPagedList(pageNumber, pageSize));
         }
 
-
+        //Clerk
         [HttpGet]
         public ActionResult GenerateDisbursementListPDF(string ID) // id = departmentCode
         {
@@ -364,7 +363,7 @@ namespace Inventory_mvc.Controllers
             return new ViewAsPdf("_GeneratePDF", list) { FileName = fileName };
         }
 
-
+        //Clerk
         [HttpPost]
         public ActionResult DisbursementList(FormCollection form, int? page)
         {
@@ -435,7 +434,7 @@ namespace Inventory_mvc.Controllers
             return View(list.ToPagedList(pageNumber, pageSize));
         }
 
-
+        //Clerk
         [HttpPost]
         public void KeepTempData(List<BigModelView> list)
         {
@@ -458,6 +457,7 @@ namespace Inventory_mvc.Controllers
             }
         }
 
+        //Clerk
         [HttpGet]
         public ActionResult updateRetrieve()
         {
@@ -486,24 +486,13 @@ namespace Inventory_mvc.Controllers
             var rlist = (List<RetrieveForm>)HttpContext.Application["retrieveList"];
             rlist.Where(x => x.ItemCode == itemCode).First().retrieveQty = RetrieveQty;
             HttpContext.Application["retrieveList"] = rlist;
-            if (HttpContext.Application["retrieveform"] == null)
-            {
-                List<RetrieveForm> list = new List<RetrieveForm>();
-                list.Add(rf);
-                HttpContext.Application["retrieveform"] = list;
-            }
-            else
-            {
-                List<RetrieveForm> list = (List<RetrieveForm>)HttpContext.Application["retrieveform"];
-                list.Add(rf);
-                HttpContext.Application["retrieveform"] = list;
-            }
             TempData["Successful"] = "Retrieve successfully.";
             //Session["pagee"] = page;
             //return RedirectToAction("GenerateRetrieveForm");
             return RedirectToAction("GenerateRetrieveForm", new { pagenumber = page }) ;
         }
 
+        //Clerk
         [HttpGet]
         public ActionResult UpdateDisbursement()
         {
@@ -517,12 +506,12 @@ namespace Inventory_mvc.Controllers
             }
             HttpContext.Application["DisbursementQty"] = null;
             HttpContext.Application["retrieveList"] = null;
-            HttpContext.Application["retrieveform"] = null;
             HttpContext.Application["BigModel"] = null;
             TempData["Successful"] = "submit successful.";
             return RedirectToAction("DisbursementList");
         }
 
+        //Clerk
         [HttpGet]
         public ActionResult SaveDisbursementList()
         {
@@ -561,6 +550,7 @@ namespace Inventory_mvc.Controllers
             return RedirectToAction("DisbursementList");
         }
 
+        //Clerk
         [HttpGet]
         public ActionResult GenerateRetrieveForm(int? page, string pagenumber)
         {
@@ -586,6 +576,7 @@ namespace Inventory_mvc.Controllers
             return View();
         }
 
+        //Clerk
         [HttpPost]
         public ActionResult GenerateRetrieveForm(FormCollection form, int? page)
         {
