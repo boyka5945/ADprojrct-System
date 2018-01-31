@@ -61,13 +61,6 @@ namespace Inventory_mvc.Controllers
         }
 
         [RoleAuthorize]
-        public ActionResult Contact()
-        {
-            ViewBag.UserID = HttpContext.User.Identity.Name;
-            return View();
-        }
-
-
         [AllowAnonymous]
         public ActionResult Index()
         {
