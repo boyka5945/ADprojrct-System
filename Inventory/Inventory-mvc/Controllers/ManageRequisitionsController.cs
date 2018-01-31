@@ -121,7 +121,7 @@ namespace Inventory_mvc.Controllers
                     HttpContext.Application["BigModel"] = blist;
                 }
             }
-            int pageSize = 4;
+            int pageSize = 13;
             int pageNumber = (page ?? 1);
 
             Session["page"] = (page ?? 1);
@@ -189,7 +189,7 @@ namespace Inventory_mvc.Controllers
                     rs.UpdateDetails(l2[i].itemCode, l2[i].requisitionRecord.requisitionNo, l2[i].allocateQty);
                 }
             }
-            int pageSize = 4;
+            int pageSize = 13;
             int pageNumber = (page ?? 1);
             TempData["Successful"] = " Allocated quantity successful";
             //return View(model.ToPagedList(pageNumber, pageSize));
@@ -557,14 +557,14 @@ namespace Inventory_mvc.Controllers
             {
                 List<RetrieveForm> model = rs.GetRetrieveFormByDateTime(DateTime.Now);
                 HttpContext.Application["retrieveList"] = model;
-                int pageSize = 4;
+                int pageSize = 8;
                 int pageNumber = (page ?? 1);
                 return View(model.ToPagedList(pageNumber, pageSize));
             }
             else if (HttpContext.Application["retrieveList"] != null)
             {
                 List<RetrieveForm> model = (List<RetrieveForm>)HttpContext.Application["retrieveList"];
-                int pageSize = 4;
+                int pageSize = 8;
                 int pageNumber = (page ?? 1);
                 return View(model.ToPagedList(pageNumber, pageSize));
             }
@@ -598,7 +598,7 @@ namespace Inventory_mvc.Controllers
                 model = (List<RetrieveForm>)HttpContext.Application["retrieveList"];
             }
             HttpContext.Application["page3"] = (page ?? 1);
-            int pageSize = 4;
+            int pageSize = 8;
             int pageNumber = (page ?? 1);
             return View(model.ToPagedList(pageNumber, pageSize));
         }
