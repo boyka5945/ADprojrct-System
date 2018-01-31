@@ -21,7 +21,7 @@ namespace Inventory_mvc.Controllers
         Dictionary<Purchase_Detail, string> details = new Dictionary<Purchase_Detail, string>();
         StationeryModel ctx = new StationeryModel();
         ISupplierService supplierService = new SupplierService();
-
+        
         public ActionResult Index()
         {
             return View();
