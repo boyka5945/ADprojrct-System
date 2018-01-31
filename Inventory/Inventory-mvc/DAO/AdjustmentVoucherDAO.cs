@@ -14,16 +14,9 @@ namespace Inventory_mvc.DAO
         {
             using (StationeryModel context = new StationeryModel())
             {
-                try
-                {
-                    context.Adjustment_Voucher_Records.Add(voucher);
-                    context.SaveChanges();
-                    return true;
-                }
-                catch(Exception e)
-                {
-                    return false;
-                }
+                context.Adjustment_Voucher_Records.Add(voucher);
+                context.SaveChanges();
+                return true;
             }
         }
 

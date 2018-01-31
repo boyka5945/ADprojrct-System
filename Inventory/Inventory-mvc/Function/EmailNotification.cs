@@ -20,7 +20,6 @@ namespace Inventory_mvc.Function
             { (int) UserRoles.RoleID.StoreSupervisor, new int[] { (int) UserRoles.RoleID.StoreManager} }
         };
 
-        // TODO - UNCOMMENT ALL THE EMAIL SEND
         private static IUserService userService = new UserService();
         private static IRequisitionRecordService requisitionService = new RequisitionRecordService();
         private static IAdjustmentVoucherService adjustmentVoucherService = new AdjustmentVoucherService();
@@ -65,15 +64,30 @@ namespace Inventory_mvc.Function
                 string title = String.Format("Your stationery requisition (no: {0}) has been approved.", requisitionNo);
                 string content = remarks;
                 sendEmail email = new sendEmail(emailAddress, title, content);
-                //email.send();
 
+                try
+                {
+                    email.send();
+                }
+                catch (Exception e)
+                {
+                    throw new EmailException(e.ToString());
+                }
             }
             else if (status == RequisitionStatus.REJECTED)
             {
                 string title = String.Format("Your stationery requisition (no: {0}) has been rejected.", requisitionNo);
                 string content = remarks;
                 sendEmail email = new sendEmail(emailAddress, title, content);
-                //email.send();
+
+                try
+                {
+                    email.send();
+                }
+                catch (Exception e)
+                {
+                    throw new EmailException(e.ToString());
+                }
             }
         }
 
@@ -100,11 +114,20 @@ namespace Inventory_mvc.Function
             }
 
             string content = String.Format("There is one new adjustment voucher from {0} pending your approval.", userService.FindNameByID(requesterID));
-            foreach (string e in emailAddress)
+
+            try
             {
-                sendEmail email = new sendEmail(e, "New adjustment voucher pending approval", content);
-                //email.send();
+                foreach (string e in emailAddress)
+                {
+                    sendEmail email = new sendEmail(e, "New adjustment voucher pending approval", content);
+                    email.send();
+                }
             }
+            catch (Exception e)
+            {
+                throw new EmailException(e.ToString());
+            }
+
         }
 
 
@@ -126,7 +149,14 @@ namespace Inventory_mvc.Function
                 string title = String.Format("Your adjustment voucher (no: {0}) has been approved.", voucherNo);
                 string content = remarks;
                 sendEmail email = new sendEmail(emailAddress, title, content);
-                //email.send();
+                try
+                {
+                    email.send();
+                }
+                catch (Exception e)
+                {
+                    throw new EmailException(e.ToString());
+                }
 
             }
             else if (status == AdjustmentVoucherStatus.REJECTED)
@@ -134,7 +164,14 @@ namespace Inventory_mvc.Function
                 string title = String.Format("Your adjustment voucher (no: {0}) has been rejected.", voucherNo);
                 string content = remarks;
                 sendEmail email = new sendEmail(emailAddress, title, content);
-                //email.send();
+                try
+                {
+                    email.send();
+                }
+                catch (Exception e)
+                {
+                    throw new EmailException(e.ToString());
+                }
             }
         }
 
@@ -150,10 +187,17 @@ namespace Inventory_mvc.Function
 
             string content = String.Format("Kindly be informed that the coming stationery collection date will be on {0}.", collectionDate.ToLongDateString());
 
-            foreach (var e in emailAddress)
+            try
             {
-                sendEmail email = new sendEmail(e, "Stationery collection date", content);
-                //email.send();
+                foreach (var e in emailAddress)
+                {
+                    sendEmail email = new sendEmail(e, "Stationery collection date", content);
+                    email.send();
+                }
+            }
+            catch  (Exception e)
+            {
+                throw new EmailException(e.ToString());
             }
         }
 
@@ -168,10 +212,17 @@ namespace Inventory_mvc.Function
 
             string content = String.Format("Kindly be informed that the collection point of Dept {0} has been changed at {1}.", userService.FindDeptCodeByID(userRepID), DateTime.Today.ToLongDateString());
 
-            foreach (var e in emailAddress)
+            try
             {
-                sendEmail email = new sendEmail(e, "Collection point changes", content);
-                //email.send();
+                foreach (var e in emailAddress)
+                {
+                    sendEmail email = new sendEmail(e, "Collection point changes", content);
+                    email.send();
+                }
+            }
+            catch  (Exception e)
+            {
+                throw new EmailException(e.ToString());
             }
         }
 

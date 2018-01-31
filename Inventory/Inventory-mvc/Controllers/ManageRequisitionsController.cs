@@ -212,7 +212,14 @@ namespace Inventory_mvc.Controllers
             Requisition_Record model = new Requisition_Record();
             model = rs.GetRequisitionByID(id);
             rs.UpdateRequisition(model, RequisitionStatus.APPROVED_PROCESSING, userID);
-            EmailNotification.EmailNotificatioForRequisitionApprovalStatus(id, RequisitionStatus.APPROVED_PROCESSING, "no reason");
+            try
+            {
+                EmailNotification.EmailNotificatioForRequisitionApprovalStatus(id, RequisitionStatus.APPROVED_PROCESSING, "no reason");
+            }
+            catch (Exception e)
+            {
+                TempData["WarningMessage"] = "Failure to send email notification. Kindly contact IT personnel.";
+            }
 
             return RedirectToAction("ManagerRequisition");
         }
@@ -232,7 +239,15 @@ namespace Inventory_mvc.Controllers
             Requisition_Record model = new Requisition_Record();
             model = rs.GetRequisitionByID(id);
             rs.UpdateRequisition(model, RequisitionStatus.REJECTED, "");
-            EmailNotification.EmailNotificatioForRequisitionApprovalStatus(id, RequisitionStatus.REJECTED, "no reason");
+            try
+            {
+                EmailNotification.EmailNotificatioForRequisitionApprovalStatus(id, RequisitionStatus.REJECTED, "no reason");
+            }
+            catch (Exception e)
+            {
+                TempData["WarningMessage"] = "Failure to send email notification. Kindly contact IT personnel.";
+            }
+
             return RedirectToAction("ManagerRequisition");
         }
 
