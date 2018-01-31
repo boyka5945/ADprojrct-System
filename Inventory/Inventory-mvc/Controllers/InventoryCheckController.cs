@@ -9,6 +9,7 @@ using Inventory_mvc.ViewModel;
 using PagedList;
 using System.Transactions;
 using Rotativa.MVC;
+using Inventory_mvc.Function;
 
 namespace Inventory_mvc.Controllers
 {
@@ -257,7 +258,15 @@ namespace Inventory_mvc.Controllers
             {
                 try
                 {
-                    invetoryCheckService.SubmitAdjustmentVoucherForInventoryCheckDiscrepancy(stockchecklist, requesterID);
+                    try
+                    {
+                        invetoryCheckService.SubmitAdjustmentVoucherForInventoryCheckDiscrepancy(stockchecklist, requesterID);
+                    }
+                    catch (EmailException e)
+                    {
+                        TempData["WarningMessage"] = "Failure to send email notification. Kindly contact IT personnel.";
+                    }
+
                     invetoryCheckService.SaveInventoryCheckResult(stockchecklist);
 
                     HttpContext.Application.Lock();
@@ -269,9 +278,9 @@ namespace Inventory_mvc.Controllers
                     TempData["SuccessMessage"] = "Stock check result has been submitted.";
                     return RedirectToAction("Index");
                 }
-                catch (Exception e)
+                catch (Exception e1)
                 {
-                    TempData["ErrorMessage"] = e.Message;
+                    TempData["ErrorMessage"] = "Error when submitting adjustment voucher";
                 }
             }
 

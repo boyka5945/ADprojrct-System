@@ -43,16 +43,9 @@ namespace Inventory_mvc.Service
             vourcherRecord.Voucher_Details = details;
             decimal voucherAmount = GetVoucherRecordTotalAmount(vourcherRecord);
 
-            if (adjustmentVoucherDAO.AddNewAdjustmentVoucher(vourcherRecord))
-            {
-                // send email notification
-                EmailNotification.EmailNotificationForNewAdjustmentVoucher(requesterID, voucherAmount);
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            adjustmentVoucherDAO.AddNewAdjustmentVoucher(vourcherRecord);
+            EmailNotification.EmailNotificationForNewAdjustmentVoucher(requesterID, voucherAmount);
+            return true;
         }
 
         public bool ValidateNewAdjustmentVoucher(List<AdjustmentVoucherViewModel> vmList, out string errorMessage)
@@ -229,17 +222,10 @@ namespace Inventory_mvc.Service
             record.status = AdjustmentVoucherStatus.REJECTED;
             record.approvalDate = DateTime.Today;
 
-            try
-            {
-                adjustmentVoucherDAO.UpdateAdjustmentVoucherInfo(record);
+            adjustmentVoucherDAO.UpdateAdjustmentVoucherInfo(record);
 
-                EmailNotification.EmailNotificatioForAdjustmentVoucherApprovalStatus(voucherNo, AdjustmentVoucherStatus.REJECTED, remark);
-                return true;
-            }
-            catch (Exception e)
-            {
-                throw new Exception(e.Message);
-            }
+            EmailNotification.EmailNotificatioForAdjustmentVoucherApprovalStatus(voucherNo, AdjustmentVoucherStatus.REJECTED, remark);
+            return true;
         }
 
         public bool ApproveVoucherRecord(int voucherNo, string approverID, string remark)
@@ -285,18 +271,22 @@ namespace Inventory_mvc.Service
                     // throw Exception if error occur when writing to database 
                     transactionService.AddNewTransactionRecord(transRecord);
 
-                    // send email notification
-                    EmailNotification.EmailNotificatioForAdjustmentVoucherApprovalStatus(voucherNo, AdjustmentVoucherStatus.APPROVED, remark);
+                    ts.Complete();
                     result = true;
                 }
                 catch (Exception e)
                 {
                     throw new Exception(e.Message);
                 }
-
-                ts.Complete();
-                return result;
             }
+
+            if (result)
+            {
+                // send email notification
+                EmailNotification.EmailNotificatioForAdjustmentVoucherApprovalStatus(voucherNo, AdjustmentVoucherStatus.APPROVED, remark);
+            }
+
+            return result;
         }
 
 
