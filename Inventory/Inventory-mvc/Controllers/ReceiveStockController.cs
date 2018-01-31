@@ -27,7 +27,7 @@ namespace Inventory_mvc.Controllers
             return View();
 
         }
-
+        //Clerk
         [HttpGet]
         public ActionResult StockReceive()
         {
@@ -50,7 +50,7 @@ namespace Inventory_mvc.Controllers
 
 
         }
-
+        //CLERK
         [HttpPost]
         public ActionResult StockReceive(string searchPONumber)
         {
@@ -78,6 +78,9 @@ namespace Inventory_mvc.Controllers
         //update POR status
         //update PD fulfilled qty, remarks,deliveryNo
         //update transaction table
+
+
+        //CLERK
         [HttpGet]
         public ActionResult UpdateReceived(string DONumber, string ReceivedDate, string PONumber, string supplier, string sbutton)
         {
@@ -222,7 +225,7 @@ namespace Inventory_mvc.Controllers
         }
 
 
-
+        //CLERK
         //helper methods
         public int findNextTransactionNo()
         {
@@ -247,7 +250,7 @@ namespace Inventory_mvc.Controllers
                 return 1;
             }
         }
-
+        //CLERK
         //transfer this code to transactionDAO
         public bool AddNewTransactionDetail(Transaction_Detail td)
         {
@@ -258,7 +261,7 @@ namespace Inventory_mvc.Controllers
                 return true;
             }
         }
-
+        //CLERK
         //transfer to transactionDAO
 
         public bool AddNewTransactionRecord(Transaction_Record tr)

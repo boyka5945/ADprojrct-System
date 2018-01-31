@@ -23,12 +23,13 @@ namespace Inventory_mvc.Controllers
         Dictionary<Purchase_Detail, string> details = new Dictionary<Purchase_Detail, string>();
 
 
-
+        //CLERK
         public ActionResult Index()
         {
             return View();
         }
 
+        //Clerk //store supervisor 
         [HttpGet]
         public ActionResult List(int? page)
         {
@@ -40,7 +41,7 @@ namespace Inventory_mvc.Controllers
             int pageNumber = (page ?? 1);
             return View(model.ToPagedList(pageNumber, pageSize));
         }
-
+        //Clerk //store supervisor 
         [HttpGet]
         public ActionResult AddSelected(string checker)
         {
@@ -133,7 +134,7 @@ namespace Inventory_mvc.Controllers
         }
 
 
-
+        //CLERK
         //helper method
         public int findNextOrderNo()
         {
@@ -156,7 +157,7 @@ namespace Inventory_mvc.Controllers
             }
 
         }
-
+        //CLERK
         //very important helper method
         public List<StationeryViewModel> shortFallList()
         {

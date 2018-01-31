@@ -27,6 +27,7 @@ namespace Inventory_mvc.Controllers
             return View();
         }
 
+        //CLERK
         [HttpGet]
         //FormCollection form
         public ActionResult ListPurchaseOrders(string search, string searchBy, int? page)
@@ -81,6 +82,7 @@ namespace Inventory_mvc.Controllers
 
         //}
 
+        //CLERK
         [HttpGet]
         public ActionResult RaisePurchaseOrder()
         {
@@ -107,7 +109,7 @@ namespace Inventory_mvc.Controllers
 
         }
 
-
+        //CLERK
         [HttpPost]
         public ActionResult RaisePurchaseOrder([Bind(Include = "orderNo, itemCode, qty, remarks, price")]Purchase_Detail pd, string supplierCode)
         {
@@ -226,6 +228,8 @@ namespace Inventory_mvc.Controllers
 
         //gets the purchase details and supplier to order from - which are bundled together as key-value pairs, then creates a new purchase order for each supplier
         //then creates purchase detail with order num matching the supplier which user has chosen
+
+        //CLERK
         [HttpGet]
         public ActionResult GeneratePO(int? page)
         {
@@ -280,7 +284,7 @@ namespace Inventory_mvc.Controllers
             }
 
         }
-
+        //CLERK
         //delete purchase order record
         [HttpGet]
         public ActionResult Delete(string id, int? page)
@@ -298,7 +302,7 @@ namespace Inventory_mvc.Controllers
 
 
         }
-
+        //CLERK
         //delete purchase detail record
         [HttpGet]
         public ActionResult DeletePD(string id)
@@ -326,7 +330,7 @@ namespace Inventory_mvc.Controllers
             return View("RaisePurchaseOrder", model);
 
         }
-
+        //CLERK
         [HttpGet]
         public ActionResult ClearSession()
         {
@@ -339,7 +343,7 @@ namespace Inventory_mvc.Controllers
 
             return View("RaisePurchaseOrder", model);
         }
-
+        //CLERK
         [HttpPost]
         public ActionResult UpdatePD()
         {
@@ -394,7 +398,7 @@ namespace Inventory_mvc.Controllers
             return View("RaisePurchaseOrder", model);
 
         }
-
+        //CLERK
         //for refreshing the values of price and description whenever drop down list value is changed
         [HttpGet]
         public ActionResult GetDescrpAndPrice(string itemcode)
@@ -419,6 +423,7 @@ namespace Inventory_mvc.Controllers
 
         }
 
+        //CLERK
         //helper method
         public int findNextOrderNo()
         {

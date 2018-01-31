@@ -16,6 +16,7 @@ namespace Inventory_mvc.Controllers
         IUserService userService = new UserService();
 
         // GET: Supplier
+        //Store Manager, Store Supervisor, Store Clerk
         public ActionResult Index()
         {
             string userID = HttpContext.User.Identity.Name;
@@ -27,12 +28,14 @@ namespace Inventory_mvc.Controllers
         }
 
         // GET: Supplier/Create
+        //Store Manager, Store Supervisor
         public ActionResult Create()
         {
             return View(new SupplierViewModel());
         }
 
         // POST: Supplier/Create
+        //Store Manager, Store Supervisor
         [HttpPost]
         public ActionResult Create(SupplierViewModel supplierVM)
         {
@@ -63,6 +66,7 @@ namespace Inventory_mvc.Controllers
 
 
         // GET: Supplier/Edit/{id}
+        //Store Manager, Store Supervisor
         public ActionResult Edit(string id)
         {
             if(String.IsNullOrEmpty(id))
@@ -76,6 +80,7 @@ namespace Inventory_mvc.Controllers
 
 
         // POST: Supplier/Edit/{id}
+        //Store Manager, Store Supervisor
         [HttpPost]
         public ActionResult Edit(SupplierViewModel supplierVM)
         {
@@ -107,6 +112,7 @@ namespace Inventory_mvc.Controllers
 
 
         // GET: Supplier/Delete/{id}
+        //Store Manager, Store Supervisor
         public ActionResult Delete(string id)
         {
             if(String.IsNullOrEmpty(id))

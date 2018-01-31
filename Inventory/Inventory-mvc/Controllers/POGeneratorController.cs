@@ -17,7 +17,7 @@ namespace Inventory_mvc.Controllers
         PurchaseOrderService pos = new PurchaseOrderService();
 
         // GET: POGenerator
-
+        //CLERK
         [HttpGet]
         public ActionResult gen(string id) //id is purchase order number
         {
@@ -39,6 +39,7 @@ namespace Inventory_mvc.Controllers
             return View(model);
         }
 
+        //CLERK
         [HttpGet]
         public ActionResult GeneratePDF(string id) //id is purchase order number
         {
