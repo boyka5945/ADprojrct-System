@@ -170,7 +170,7 @@ namespace InventoryWCF
 
  
         [OperationContract]
-        [WebGet(UriTemplate = "/UpdateRequisition/{deptCode}/{CollectionPointID}", ResponseFormat = WebMessageFormat.Json)]
+        [WebGet(UriTemplate = "/UpdateCollectionPoint/{deptCode}/{CollectionPointID}", ResponseFormat = WebMessageFormat.Json)]
         void UpdateCollectionPoint(string deptCode, string CollectionPointID);
 
 
@@ -198,7 +198,7 @@ namespace InventoryWCF
 
 
 
-}
+
 
 
 
@@ -382,15 +382,15 @@ namespace InventoryWCF
             set { departmentCode = value; }
         }
 
-    [DataMember]
-    public string Name
-    {
+       [DataMember]
+        public string Name
+        {
         get { return name; }
         set { name = value; }
+        }
+
+
     }
-
-
-}
 
 [DataContract]
     public class WCFRequisitionRecord
@@ -664,3 +664,4 @@ public class WCFCollectionPoint
 
 
 
+}

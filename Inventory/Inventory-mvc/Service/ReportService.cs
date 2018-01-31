@@ -173,7 +173,7 @@ namespace Inventory_mvc.Service
             List<string> items = stationeryService.GetListOfItemCodes();
             Random stationeryR = new Random(888);
 
-            string[] status = { RequisitionStatus.PENDING_APPROVAL, RequisitionStatus.APPROVED_PROCESSING, RequisitionStatus.REJECTED, RequisitionStatus.PARTIALLY_FULFILLED, RequisitionStatus.COLLECTED };
+            string[] status = { RequisitionStatus.REJECTED, RequisitionStatus.COLLECTED };
             Random statusR = new Random(75);
 
             Random detailR = new Random(16);
@@ -206,7 +206,15 @@ namespace Inventory_mvc.Service
                         d.itemCode = items.ElementAt(stationeryR.Next(items.Count));
                         d.qty = quantityR.Next(1, 10);
                         d.allocatedQty = 0;
-                        d.fulfilledQty = 0;
+
+                        if(record.status != RequisitionStatus.REJECTED)
+                        {
+                            d.fulfilledQty = d.qty;
+                        }
+                        else
+                        {
+                            d.fulfilledQty = 0;
+                        }
 
                         bool contain = false;
 

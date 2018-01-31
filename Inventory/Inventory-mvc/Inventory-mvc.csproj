@@ -489,6 +489,7 @@
     <Content Include="Views\Report\_ItemReorderComparison.cshtml" />
     <Content Include="Views\POGenerator\_GeneratePDF.cshtml" />
     <Content Include="Views\InventoryCheck\_StockCheckListPDF.cshtml" />
+    <Content Include="Views\ManageRequisitions\_GeneratePDF.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
