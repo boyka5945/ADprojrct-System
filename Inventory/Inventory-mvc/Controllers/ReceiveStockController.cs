@@ -100,37 +100,42 @@ namespace Inventory_mvc.Controllers
 
             List<Purchase_Detail> model = pos.GetPurchaseDetailsByOrderNo(Int32.Parse(PONumber));
             List<string> filledItems = new List<string>();
+            List<string> unfilledItems = new List<string>();
 
-            //validation - fulfilled items cannot be filled beyond requested limit
+            ////validation - fulfilled items cannot be filled beyond requested limit
+            //foreach (Purchase_Detail pd in model)
+            //{
+            //    if (pd.fulfilledQty == pd.qty)
+            //    {
+            //        filledItems.Add(pd.Stationery.description);
+
+            //    }
+
+            //}
+            ////confirm that the form is invalid
+            //if (filledItems.Count > 0)
+            //{
+            //    TempData["icodesFilled"] = filledItems;
+            //    //return the existing form values back to the view
+            //    TempData["DOnumRedirect"] = DONumber;
+            //    TempData["PONumRedirect"] = PONumber;
+            //    TempData["SupplierRedirect"] = supplier;
+            //    TempData["ReceivedDateRedirect"] = ReceivedDate;
+
+            //    return RedirectToAction("StockReceive");
+
+            //}
+
+            //total number of rows updated
+            int totalItemsUpdated = 0;
+
             foreach (Purchase_Detail pd in model)
             {
-                if (pd.fulfilledQty == pd.qty)
-                {
-                    filledItems.Add(pd.Stationery.description);
 
-                }
-
-            }
-            //confirm that the form is invalid
-            if (filledItems.Count > 0)
-            {
-                TempData["icodesFilled"] = filledItems;
-                //return the existing form values back to the view
-                TempData["DOnumRedirect"] = DONumber;
-                TempData["PONumRedirect"] = PONumber;
-                TempData["SupplierRedirect"] = supplier;
-                TempData["ReceivedDateRedirect"] = ReceivedDate;
-           
-                return RedirectToAction("StockReceive");
-
-            }
-
-            foreach (Purchase_Detail pd in model)
-            {
-
-                int receivedNum;
                 string ic = pd.itemCode;
                 string received = Request.QueryString.GetValues("num-" + ic).First();
+                int receivedNum = Int32.Parse(received);
+
 
                 //condition check if option for button" all received"
                 if (sbutton == "Submit All")
@@ -143,76 +148,86 @@ namespace Inventory_mvc.Controllers
                     receivedNum = pd.qty - pd.fulfilledQty.Value;
 
                 }
-                else
+
+                if (receivedNum != 0)
                 {
-                    receivedNum = Int32.Parse(received);
+
+
+                    //else
+                    //{
+                    //    receivedNum = Int32.Parse(received);
+                    //}
+                    string remarks = Request.QueryString.GetValues("rem-" + ic).First();
+                    pd.fulfilledQty += receivedNum;
+
+                    pd.remarks = remarks; //delete?
+
+                    //update stationery table
+                    Stationery s = (from x in ctx.Stationeries
+                                    where x.itemCode == ic
+                                    select x).First();
+                    s.stockQty += receivedNum;
+
+                    ctx.SaveChanges();
+                    totalItemsUpdated++; //update number of rows updated
+
+                    //update transaction details table
+                    Transaction_Detail td = new Transaction_Detail();
+                    td.itemCode = pd.itemCode;
+                    td.adjustedQty = receivedNum;
+                    td.balanceQty = s.stockQty + receivedNum;
+                    td.remarks = remarks; //delete?
+                    td.transactionNo = nextTransactionNo;
+                    AddNewTransactionDetail(td);
+
+                    //update purchase details table
+                    pos.UpdatePurchaseDetailsInfo(pd);
+
+
+
+
+                    //if (pd.deliveryOrderNo.HasValue) //append to existing DO numbers
+                    //{
+                    //    pd.deliveryOrderNo = pd.deliveryOrderNo 
+
+                    //}
+                    //else 
+                    //{
+                    //    pd.deliveryOrderNo = Int32.Parse(DONumber);
+
+                    //}
+
+                    pd.deliveryOrderNo = Int32.Parse(DONumber); //need to update this code once DB is altered
+
+                    //need to validate, to ensure that qty received is not higher than qty ordered
+
+
+
+                    //update purchase order record to partially fulfilled
+                    por.status = "partially fulfilled";
+                    pos.UpdatePurchaseOrderInfo(por);
+
+
+
+                    if (pd.qty == pd.fulfilledQty)
+                    {
+                        pdOutstanding--;
+
+                    }
                 }
-                string remarks = Request.QueryString.GetValues("rem-" + ic).First();
-                pd.fulfilledQty += receivedNum;
-
-                pd.remarks = remarks; //delete?
-
-                //update stationery table
-                Stationery s = (from x in ctx.Stationeries
-                                where x.itemCode == ic
-                                select x).First();
-                s.stockQty += receivedNum;
-
-                ctx.SaveChanges();
-
-
-                //update transaction details table
-                Transaction_Detail td = new Transaction_Detail();
-                td.itemCode = pd.itemCode;
-                td.adjustedQty = receivedNum;
-                td.balanceQty = s.stockQty + receivedNum;
-                td.remarks = remarks; //delete?
-                td.transactionNo = nextTransactionNo;
-                AddNewTransactionDetail(td);
-
-
-
-
-
-                //if (pd.deliveryOrderNo.HasValue) //append to existing DO numbers
-                //{
-                //    pd.deliveryOrderNo = pd.deliveryOrderNo 
-
-                //}
-                //else 
-                //{
-                //    pd.deliveryOrderNo = Int32.Parse(DONumber);
-
-                //}
-
-                pd.deliveryOrderNo = Int32.Parse(DONumber); //need to update this code once DB is altered
-
-                //need to validate, to ensure that qty received is not higher than qty ordered
-
-                //update purchase details table
-                pos.UpdatePurchaseDetailsInfo(pd);
-
-                //update purchase order record to partially fulfilled
-                por.status = "partially fulfilled";
-                pos.UpdatePurchaseOrderInfo(por);
-
-
-
-                if (pd.qty == pd.fulfilledQty)
-                {
-                    pdOutstanding--;
-
-                }
-
             }
+
+            if(totalItemsUpdated == 0)
+            {
+                TempData["Items updated"] = "No records saved";
+            }
+
             //check if all pd in por are fulfilled, and update por table
             if (pdOutstanding == 0)
             {
                 por.status = "completed";
                 pos.UpdatePurchaseOrderInfo(por);
             }
-
-
 
 
             ViewBag.Supplier = supplier;

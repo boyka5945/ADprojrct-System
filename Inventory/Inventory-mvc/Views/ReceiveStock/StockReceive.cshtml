@@ -27,7 +27,7 @@
 
 <body>
 
-    <h2>StockReceive</h2>
+    <h2>Stock Receive</h2>
     <div>
         @if (fulfilledItemError != null)
         {
@@ -152,14 +152,15 @@
                                                     fulfilled = 0;
 
                                                 }
-                                                string qtyOutstanding = (item.qty - fulfilled).ToString();
+                                                int unfulfilled = item.qty - fulfilled;
+                                                string Unreceived = unfulfilled.ToString();
                                             }
-                                            @Html.Label(qtyOutstanding)
+                                            @Html.Label(Unreceived)
                                         </td>
                                         <td>
                                             @*//input for received*@
                                             <div class="form-inline">
-                                                <input type="number" name="num-@item.itemCode" value="0" min="0" class="form-control" placeholder="FulfilledQty" />
+                                                <input type="number" name="num-@item.itemCode" value="0" min="0" max=@unfulfilled class="form-control" placeholder="0" />
 
                                             </div>
                                         </td>
@@ -168,7 +169,7 @@
                                         </td>
                                         <td>
                                             @*//input for remarks*@
-                                            <input type="text" name="rem-@item.itemCode" />
+                                            <input type="text" name="rem-@item.itemCode" class="form-control" />
                                         </td>
                                     </tr>
                                                 }
@@ -178,9 +179,9 @@
                             <div class="form-group">
                                 <div class="col-md-offset-2 col-md-10">
                                     @*@Html.ActionLink("Submit All as Received", "UpdateReceived", "ReceiveStock", new { @class = "all", checker = "allReceived" }, null)*@
-                                    <input type="submit" name="sbutton" value="Submit All" class="btn btn-danger" />
+                                    <input type="submit" name="sbutton" value="Submit All" class="btn btn-primary" />
                                     @*<input type="submit" value="Fill in all unreceived quantity"  class="btn btn-default" />*@
-                                    <input type="submit" name="sbutton" value="Submit" class="btn btn-danger" />
+                                    <input type="submit" name="sbutton" value="Submit" class="btn btn-primary" />
                                 </div>
                             </div>
                             }

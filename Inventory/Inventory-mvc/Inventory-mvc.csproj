@@ -224,6 +224,7 @@
     <Compile Include="DAO\SupplierDAO.cs" />
     <Compile Include="DAO\TransactionRecordDAO.cs" />
     <Compile Include="DAO\UserDAO.cs" />
+    <Compile Include="Function\EmailException.cs" />
     <Compile Include="Function\EmailNotification.cs" />
     <Compile Include="Function\Encrypt.cs" />
     <Compile Include="Models\Adjustment_Voucher_Record.cs" />

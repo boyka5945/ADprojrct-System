@@ -29,7 +29,7 @@ namespace Inventory_mvc.Controllers
             ViewBag.SearchString = searchString;
             ViewBag.Page = page;
 
-            int pageSize = 4;
+            int pageSize = 13;
             int pageNumber = (page ?? 1);
             return View(stationeries.ToPagedList(pageNumber, pageSize));
         }
@@ -192,11 +192,23 @@ namespace Inventory_mvc.Controllers
                     // go to user requisition list
                     return RedirectToAction("Index", "ListRequisitions");
                 }
-                catch (Exception e)
+                catch (EmailException e)
+                {
+                    // submit requisition successfully but email throw exception
+
+                    // clear requestlist
+                    Session["RequestList"] = new List<RaiseRequisitionViewModel>();
+                    TempData["SuccessMessage"] = "New stationery requisition has been submitted.";
+                    TempData["WarningMessage"] = "Failure to send email notification. Kindly contact IT personnel.";
+
+                    // go to user requisition list
+                    return RedirectToAction("Index", "ListRequisitions");
+                }
+                catch (Exception e1)
                 {
                     // error
                     Session["RequestList"] = requestList;
-                    TempData["ErrorMessage"] = e.Message;
+                    TempData["ErrorMessage"] = e1.Message;
                 }
             }
             else

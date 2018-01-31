@@ -14,11 +14,26 @@ namespace Inventory_mvc.Controllers
     public class InstallerController : Controller
     {
         private static int permissionID = 0;
+        private static RoleService roleService = new RoleService();
         public ActionResult Index()
-        {
-            var roleService = new RoleService();
-
-            createPermission(new HomeController());
+        { 
+            createPermission(new List<Controller>{new HomeController(),
+                                                  new AdjustmentVoucherController(),
+                                                  new CheckShortfallController(),
+                                                  new CollectionPointController(),
+                                                  new DepartmentController(),
+                                                  new InventoryCheckController(),
+                                                  new ListRequisitionsController(),
+                                                  new ManageRequisitionsController(),
+                                                  new POGeneratorController(),
+                                                  new PurchaseController(),
+                                                  new RaiseRequisitionController(),
+                                                  new ReceiveStockController(),
+                                                  new ReportController(),
+                                                  new StationeryController(),
+                                                  new SupplierController(),
+                                                  new UserController()
+            });
 
             //get all defined permission from db
             var allDefinedPermissions = roleService.GetDefinedPermissions();
@@ -32,27 +47,30 @@ namespace Inventory_mvc.Controllers
             roleService.AddRole(new RoleInfos
             {
                 RoleId = 1,
-                RoleName = "superAdmin",
+                RoleName = "SuperAdmin",
                 Description = "All permission reserved.",
                 Permissions = adminPermissions
             });
 
             return RedirectToAction("Success");
         }
-        private void createPermission(Controller customController)
+        private static void createPermission(List<Controller> customController)
         {
-            var roleService = new RoleService();
-
             var controller = "";
-            var action = ""; 
-
-            var controllerType = customController.GetType();
-            controller = controllerType.Name.Replace("Controller", "");//remobe controller posfix
-            //get action from a controller
-            for (; permissionID < controllerType.GetMethods(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly).Length; permissionID ++)
+            var action = "";
+            foreach (var i in customController)
             {
-                action = controllerType.GetMethods()[permissionID].Name;
-                roleService.CreatePermissions(permissionID, controller, action);
+                var controllerType = i.GetType();
+                controller = controllerType.Name.Replace("Controller", "");//remobe controller posfix
+                                                                           //get action from a controller
+                int length = controllerType.GetMethods(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly).Length;
+                var list = controllerType.GetMethods(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly);
+                int add = permissionID;
+                for (; permissionID < length + add; permissionID++)
+                {
+                    action = list[permissionID - add].Name;
+                    roleService.CreatePermissions(permissionID, controller, action);
+                }
             }
     
         }

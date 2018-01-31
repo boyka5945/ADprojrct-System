@@ -38,7 +38,7 @@ namespace Inventory_mvc.Controllers
                 {
                     int roleID = UserService.GetRoleByID(model.UserName);
                     string identity = model.UserName;
-                    HttpContext.Application["role"] = roleID;
+                    Session["role"] = roleID;
                     AuthorizationManager.SetTicket(Response, model.RememberMe, identity.ToUpper(), roleID);
                     if (!string.IsNullOrEmpty(returnUrl))
                     {
@@ -60,14 +60,6 @@ namespace Inventory_mvc.Controllers
             return View(model);
         }
 
-        [RoleAuthorize]
-        public ActionResult Contact()
-        {
-            ViewBag.UserID = HttpContext.User.Identity.Name;
-            return View();
-        }
-
-
         [AllowAnonymous]
         public ActionResult Index()
         {
@@ -78,7 +70,6 @@ namespace Inventory_mvc.Controllers
         public ActionResult Logout()
         {
             //HttpContext.Application.Clear();
-            HttpContext.Application["role"] = null;
             FormsAuthentication.SignOut();
             return RedirectToAction("Login", "Home");
         }

@@ -86,7 +86,9 @@ namespace Inventory_mvc.DAO
             //start of code added by alex//
             //deduct retrieve qty after doing allocation
             int difference = rd.allocatedQty.Value - allocateQty.Value;
-            List<RetrieveForm> retrievalList = (List<RetrieveForm>)HttpContext.Current.Application["retrievelist"];
+            List<RetrieveForm> retrievalList = new List<RetrieveForm>();
+            List<RetrieveForm> temp = (List<RetrieveForm>)HttpContext.Current.Application["retrieveList"];
+            retrievalList.AddRange(temp);
             int index = retrievalList.FindIndex(x=> x.ItemCode == itemcode);
             retrievalList[index].retrieveQty += difference;
             HttpContext.Current.Application["retrieveForm"] = retrievalList;
