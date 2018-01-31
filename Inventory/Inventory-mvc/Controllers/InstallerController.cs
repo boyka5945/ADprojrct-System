@@ -15,6 +15,7 @@ namespace Inventory_mvc.Controllers
     {
         private static int permissionID = 0;
         private static RoleService roleService = new RoleService();
+
         public ActionResult Index()
         { 
             createPermission(new List<Controller>{new HomeController(),

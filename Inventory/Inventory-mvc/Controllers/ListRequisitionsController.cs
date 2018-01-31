@@ -8,6 +8,7 @@ using Inventory_mvc.Models;
 using Inventory_mvc.ViewModel;
 using Inventory_mvc.Utilities;
 using PagedList;
+using Inventory_mvc.Function;
 
 
 namespace Inventory_mvc.Controllers
@@ -18,6 +19,7 @@ namespace Inventory_mvc.Controllers
         IRequisitionRecordService requisitionService = new RequisitionRecordService();
         IUserService userService = new UserService();
 
+        [RoleAuthorize]
         // CK - Employee | User Representative | Store Clerk | Store Supervisor
         public ActionResult Index(int? page, string sortOrder)
         {
@@ -41,6 +43,7 @@ namespace Inventory_mvc.Controllers
             return View(records.ToPagedList(pageNumber, pageSize));
         }
 
+        [RoleAuthorize]
         // CK - Employee | User Representative | Store Clerk | Store Supervisor
         public ActionResult RemoveRecord(int? id)
         {
@@ -82,6 +85,7 @@ namespace Inventory_mvc.Controllers
             return RedirectToAction("Index");
         }
 
+        [RoleAuthorize]
         // CK - Employee | User Representative | Store Clerk | Store Supervisor
         [HttpGet]
         public ActionResult EditRecord(int? id)
@@ -122,6 +126,7 @@ namespace Inventory_mvc.Controllers
             return View(vmList);
         }
 
+        [RoleAuthorize]
         // CK - Employee | User Representative | Store Clerk | Store Supervisor
         [HttpPost]
         public ActionResult EditRecord(List<RequisitionDetailViewModel> vmList)
@@ -175,6 +180,7 @@ namespace Inventory_mvc.Controllers
         //    return RedirectToAction("EditRecord", new { id = id });
         //}
 
+        [RoleAuthorize]
         // CK - Employee | User Representative | Store Clerk | Store Supervisor
         public ActionResult ShowDetail(int? id)
         {

@@ -8,6 +8,7 @@ using Inventory_mvc.Entity;
 using Inventory_mvc.Service;
 using Inventory_mvc.ViewModel;
 using PagedList;
+using Inventory_mvc.Function;
 
 
 namespace Inventory_mvc.Controllers
@@ -30,6 +31,8 @@ namespace Inventory_mvc.Controllers
             return View();
         }
 
+        [RoleAuthorize]
+        //Clerk //store supervisor 
         [HttpGet]
         public ActionResult List(int? page)
         {
@@ -42,6 +45,8 @@ namespace Inventory_mvc.Controllers
             return View(model.ToPagedList(pageNumber, pageSize));
         }
 
+        [RoleAuthorize]
+        //Clerk //store supervisor 
         [HttpGet]
         public ActionResult AddSelected(string checker)
         {
@@ -133,8 +138,8 @@ namespace Inventory_mvc.Controllers
             return RedirectToAction("RaisePurchaseOrder", "Purchase", model);
         }
 
-
-
+        [RoleAuthorize]
+        //CLERK
         //helper method
         public int findNextOrderNo()
         {
@@ -158,6 +163,8 @@ namespace Inventory_mvc.Controllers
 
         }
 
+        [RoleAuthorize]
+        //CLERK
         //very important helper method
         public List<StationeryViewModel> shortFallList()
         {

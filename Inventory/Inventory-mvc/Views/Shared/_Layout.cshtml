@@ -71,7 +71,7 @@ footer {
 
             <ul class="nav nav-tabs">
                 <li>@Html.ActionLink("Home", "Index", "Home", null, new { @style = "color:#000aaa;" })</li>
-                @if (Convert.ToInt32(HttpContext.Current.Session["role"]) == 2 || Convert.ToInt32(HttpContext.Current.Session["role"]) == 3 || Convert.ToInt32(HttpContext.Current.Session["role"]) == 4 || Convert.ToInt32(HttpContext.Current.Session["role"]) == 5 || Convert.ToInt32(HttpContext.Current.Session["role"]) == 6 || Convert.ToInt32(HttpContext.Current.Session["role"]) == 7 || Convert.ToInt32(HttpContext.Current.Session["role"]) == 8)
+                @if (Convert.ToInt32(HttpContext.Current.Session["role"]) == 3 || Convert.ToInt32(HttpContext.Current.Session["role"]) == 4 || Convert.ToInt32(HttpContext.Current.Session["role"]) == 5 || Convert.ToInt32(HttpContext.Current.Session["role"]) == 6 || Convert.ToInt32(HttpContext.Current.Session["role"]) == 7)
                 {
 
                     <li class="dropdown">
@@ -120,7 +120,7 @@ footer {
                             }
                         </ul>
                     </li>}
-                @if (Convert.ToInt32(HttpContext.Current.Session["role"]) == 5 || Convert.ToInt32(HttpContext.Current.Session["role"]) == 6 || Convert.ToInt32(HttpContext.Current.Session["role"]) == 7 || Convert.ToInt32(HttpContext.Current.Session["role"]) == 8)
+                @if (Convert.ToInt32(HttpContext.Current.Session["role"]) == 5 || Convert.ToInt32(HttpContext.Current.Session["role"]) == 6 || Convert.ToInt32(HttpContext.Current.Session["role"]) == 7)
                 {
                     <li class="dropdown">
                         <a class="btn btn-primary dropdown-toggle" style="width:120px" type="button" data-toggle="dropdown" href="#">
@@ -184,7 +184,7 @@ footer {
 
                     </li>
                 }
-                @if (Convert.ToInt32(HttpContext.Current.Session["role"]) == 5 || Convert.ToInt32(HttpContext.Current.Session["role"]) == 6 || Convert.ToInt32(HttpContext.Current.Session["role"]) == 7 || Convert.ToInt32(HttpContext.Current.Session["role"]) == 8)
+                @if (Convert.ToInt32(HttpContext.Current.Session["role"]) == 5 || Convert.ToInt32(HttpContext.Current.Session["role"]) == 6 || Convert.ToInt32(HttpContext.Current.Session["role"]) == 7)
                 {
                     <li class="dropdown">
                         <a class="btn btn-primary dropdown-toggle" style="width:120px" type="button" data-toggle="dropdown" href="#">Reports</a>
@@ -222,7 +222,7 @@ footer {
                     </li>
                 }
 
-                @if (Convert.ToInt32(HttpContext.Current.Session["role"]) == 5 || Convert.ToInt32(HttpContext.Current.Session["role"]) == 6 || Convert.ToInt32(HttpContext.Current.Session["role"]) == 7 || Convert.ToInt32(HttpContext.Current.Session["role"]) == 8)
+                @if (Convert.ToInt32(HttpContext.Current.Session["role"]) == 5 || Convert.ToInt32(HttpContext.Current.Session["role"]) == 6 || Convert.ToInt32(HttpContext.Current.Session["role"]) == 7)
                 {
                     <li class="dropdown">
                         <a class="btn btn-primary dropdown-toggle" style="width:120px" type="button" data-toggle="dropdown" href="#">Stocks</a>

@@ -60,16 +60,24 @@ namespace Inventory_mvc.Controllers
             return View(model);
         }
 
+        public ActionResult Error()
+        {
+            return View();
+        }
+
+        [RoleAuthorize]
         [AllowAnonymous]
         public ActionResult Index()
         {
             return View();
         }
 
+        [RoleAuthorize]
         [AllowAnonymous]
         public ActionResult Logout()
         {
             //HttpContext.Application.Clear();
+            Session["role"] = null;
             FormsAuthentication.SignOut();
             return RedirectToAction("Login", "Home");
         }

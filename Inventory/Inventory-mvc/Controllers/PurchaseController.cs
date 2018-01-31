@@ -8,6 +8,7 @@ using Inventory_mvc.Models;
 using Inventory_mvc.DAO;
 using Inventory_mvc.ViewModel;
 using PagedList;
+using Inventory_mvc.Function;
 
 namespace Inventory_mvc.Controllers
 {
@@ -21,12 +22,15 @@ namespace Inventory_mvc.Controllers
         Dictionary<Purchase_Detail, string> details = new Dictionary<Purchase_Detail, string>();
         StationeryModel ctx = new StationeryModel();
         ISupplierService supplierService = new SupplierService();
-        
+
+        [RoleAuthorize]
         public ActionResult Index()
         {
             return View();
         }
 
+        [RoleAuthorize]
+        //CLERK
         [HttpGet]
         //FormCollection form
         public ActionResult ListPurchaseOrders(string search, string searchBy, int? page)
@@ -81,6 +85,8 @@ namespace Inventory_mvc.Controllers
 
         //}
 
+        [RoleAuthorize]
+        //CLERK
         [HttpGet]
         public ActionResult RaisePurchaseOrder()
         {
@@ -107,7 +113,8 @@ namespace Inventory_mvc.Controllers
 
         }
 
-
+        [RoleAuthorize]
+        //CLERK
         [HttpPost]
         public ActionResult RaisePurchaseOrder([Bind(Include = "orderNo, itemCode, qty, remarks, price")]Purchase_Detail pd, string supplierCode)
         {
@@ -161,6 +168,9 @@ namespace Inventory_mvc.Controllers
 
         //gets the purchase details and supplier to order from - which are bundled together as key-value pairs, then creates a new purchase order for each supplier
         //then creates purchase detail with order num matching the supplier which user has chosen
+
+        [RoleAuthorize]
+        //CLERK
         [HttpGet]
         public ActionResult GeneratePO(int? page)
         {
@@ -216,6 +226,8 @@ namespace Inventory_mvc.Controllers
 
         }
 
+        [RoleAuthorize]
+        //CLERK
         //delete purchase order record
         [HttpGet]
         public ActionResult Delete(string id, int? page)
@@ -234,6 +246,8 @@ namespace Inventory_mvc.Controllers
 
         }
 
+        [RoleAuthorize]
+        //CLERK
         //delete purchase detail record
         [HttpGet]
         public ActionResult DeletePD(string id)
@@ -262,6 +276,8 @@ namespace Inventory_mvc.Controllers
 
         }
 
+        [RoleAuthorize]
+        //CLERK
         [HttpGet]
         public ActionResult ClearSession()
         {
@@ -275,6 +291,8 @@ namespace Inventory_mvc.Controllers
             return View("RaisePurchaseOrder", model);
         }
 
+        [RoleAuthorize]
+        //CLERK
         [HttpPost]
         public ActionResult UpdatePD()
         {
@@ -335,6 +353,8 @@ namespace Inventory_mvc.Controllers
 
         }
 
+        [RoleAuthorize]
+        //CLERK
         //for refreshing the values of price and description whenever drop down list value is changed
         [HttpGet]
         public ActionResult GetDescrpAndPrice(string itemcode)
@@ -371,6 +391,8 @@ namespace Inventory_mvc.Controllers
 
         }
 
+        [RoleAuthorize]
+        //CLERK
         //helper method
         public int findNextOrderNo()
         {

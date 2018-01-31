@@ -19,6 +19,7 @@ namespace Inventory_mvc.Controllers
         IAdjustmentVoucherService adjustmentVoucherService = new AdjustmentVoucherService();
 
         // CK - Store Supervisor | Store Manager
+        [RoleAuthorize]
         public ActionResult Index(string status, int? page, string sortOrder)
         {
             string approverID = HttpContext.User.Identity.Name;
@@ -56,6 +57,7 @@ namespace Inventory_mvc.Controllers
             return View(vouchers.ToPagedList(pageNumber, pageSize));
         }
 
+        [RoleAuthorize]
         // CK - Store Clerk | Store Supervisor | Store Manager
         public ActionResult NewVoucher(string type, string itemCode = null)
         {
@@ -75,6 +77,7 @@ namespace Inventory_mvc.Controllers
             return View(vmList);
         }
 
+        [RoleAuthorize]
         // CK - Store Clerk | Store Supervisor | Store Manager
         [HttpPost]
         public ActionResult AddItemIntoVoucher(string itemCode, int quantity, string reason)
@@ -125,6 +128,7 @@ namespace Inventory_mvc.Controllers
             return RedirectToAction("NewVoucher");
         }
 
+        [RoleAuthorize]
         // CK - Store Clerk | Store Supervisor | Store Manager
         [HttpPost]
         public void SaveTemporaryValue(List<AdjustmentVoucherViewModel> vmList)
@@ -136,7 +140,7 @@ namespace Inventory_mvc.Controllers
             }
         }
 
-
+        [RoleAuthorize]
         // CK - Store Clerk | Store Supervisor | Store Manager
         [HttpPost]
         public ActionResult RemoveVoucherItem(string itemCode, List<AdjustmentVoucherViewModel> vmList)
@@ -150,6 +154,7 @@ namespace Inventory_mvc.Controllers
             return RedirectToAction("NewVoucher");
         }
 
+        [RoleAuthorize]
         // CK - Store Clerk | Store Supervisor | Store Manager
         [HttpPost]
         public ActionResult SubmitVoucher(List<AdjustmentVoucherViewModel> vmList)
@@ -189,6 +194,7 @@ namespace Inventory_mvc.Controllers
             return RedirectToAction("NewVoucher");
         }
 
+        [RoleAuthorize]
         // CK - Store Clerk | Store Supervisor | Store Manager
         public ActionResult ClearAllItemInVoucher()
         {
@@ -201,6 +207,7 @@ namespace Inventory_mvc.Controllers
             return RedirectToAction("NewVoucher");
         }
 
+        [RoleAuthorize]
         // CK - Store Clerk | Store Supervisor | Store Manager
         public ActionResult GetStationeryListJSON(string term = null)
         {
@@ -217,6 +224,7 @@ namespace Inventory_mvc.Controllers
             return Json(options, JsonRequestBehavior.AllowGet);
         }
 
+        [RoleAuthorize]
         // CK - Store Supervisor | Store Manager
         public ActionResult ShowDetail(int? id)
         {
@@ -242,6 +250,7 @@ namespace Inventory_mvc.Controllers
             return View(vmList);
         }
 
+        [RoleAuthorize]
         // CK - Store Supervisor | Store Manager
         [HttpGet]
         public ActionResult MakeApproval(int? id)
@@ -276,6 +285,7 @@ namespace Inventory_mvc.Controllers
         /// <param name="submitButton"></param>
         /// <param name="remark">For email notifcation</param>
         /// <returns></returns>
+        [RoleAuthorize]
         [HttpPost]
         public ActionResult MakeApproval(int id, string submitButton, string remark)
         {
