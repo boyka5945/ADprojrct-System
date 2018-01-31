@@ -15,7 +15,7 @@ namespace Inventory_mvc.Controllers
     {
         IUserService userService = new UserService();
         // GET: User
-        public ActionResult UserList()
+        public ActionResult UserList()   //DeptHead
         {
             string name = HttpContext.User.Identity.Name;
             //if(name=="")
@@ -29,7 +29,7 @@ namespace Inventory_mvc.Controllers
             return View(model);
         }
 
-        public ActionResult SMUserList()
+        public ActionResult SMUserList()   //StoreManager
         {
             string name = HttpContext.User.Identity.Name;
             //if(name=="")
@@ -44,7 +44,7 @@ namespace Inventory_mvc.Controllers
         }
 
         [HttpGet]
-        public ActionResult Delegate(string id)
+        public ActionResult Delegate(string id)    //DeptHead
         {
             List<int> roles = userService.FindAllRole(id);
             foreach(int r in roles)
@@ -60,7 +60,7 @@ namespace Inventory_mvc.Controllers
             return View(u);
         }
         [HttpPost]
-        public ActionResult Delegate(string userID,string from, string toto )
+        public ActionResult Delegate(string userID,string from, string toto )  //DeptHead
         {           
             DateTime start = DateTime.ParseExact(from, "dd-MM-yyyy", CultureInfo.InvariantCulture);
             DateTime end = DateTime.ParseExact(toto, "dd-MM-yyyy", CultureInfo.InvariantCulture);
@@ -79,7 +79,7 @@ namespace Inventory_mvc.Controllers
         }
 
         [HttpGet]
-        public ActionResult Remove_Delegate(string id)
+        public ActionResult Remove_Delegate(string id)  //DeptHead
         {
             if(userService.AlrDelegated(id))
             {
@@ -100,7 +100,7 @@ namespace Inventory_mvc.Controllers
         }
 
 
-        public ActionResult Edit()
+        public ActionResult Edit()   //AllUsers
         {
             string name = HttpContext.User.Identity.Name;
             //if(name=="")
@@ -112,7 +112,7 @@ namespace Inventory_mvc.Controllers
         }
 
         [HttpPost]
-        public ActionResult Edit(User userVM)
+        public ActionResult Edit(User userVM)  //AllUsers
         {
             string uid = userVM.userID;
 
@@ -141,7 +141,7 @@ namespace Inventory_mvc.Controllers
             return View(userVM);
         }
 
-        public ActionResult Create()
+        public ActionResult Create()  //StoreManager
         {
             ViewBag.RoleList = UserRoles.GetCreatableRolesForDepartment["Store"];
             User newUser = new User();
@@ -150,7 +150,7 @@ namespace Inventory_mvc.Controllers
         }
 
         [HttpPost]
-        public ActionResult Create(User user)
+        public ActionResult Create(User user)    //StoreManager
         {
             string id = user.userID;
 
@@ -177,8 +177,10 @@ namespace Inventory_mvc.Controllers
             //return RedirectToAction("SMUserList");
             return View(user);
         }
+
+
         [HttpGet]
-        public ActionResult Assign_Rep(string id)
+        public ActionResult Assign_Rep(string id)   //DeptHead
         {
            
                 if (userService.AssignRep(id))
@@ -196,9 +198,9 @@ namespace Inventory_mvc.Controllers
         }
 
 
-        //ps
+        
         [AllowAnonymous]
-        public ActionResult ChangePassword()
+        public ActionResult ChangePassword()  //AllUsers
         {
             string userID = HttpContext.User.Identity.Name;
             User user = userService.FindByUserID(userID);
@@ -206,9 +208,9 @@ namespace Inventory_mvc.Controllers
             return View(viewModel);
         }
 
-        // POST: Login/ChangePassword/{id}
+        
         [HttpPost]
-        public ActionResult ChangePassword(ChangePasswordViewModel changePasswordVM)
+        public ActionResult ChangePassword(ChangePasswordViewModel changePasswordVM)  //AllUsers
         {
             ChangePasswordViewModel vm2 = changePasswordVM;
             string userID = HttpContext.User.Identity.Name;
@@ -277,7 +279,7 @@ namespace Inventory_mvc.Controllers
             
         }
 
-        public ActionResult Promote(string id)
+        public ActionResult Promote(string id)   //StoreManager
         {
             if (userService.Promote(id))
             {

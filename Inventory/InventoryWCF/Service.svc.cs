@@ -261,6 +261,11 @@ namespace InventoryWCF
                 requisitionRecordService.SubmitNewRequisition(newRecord, requesterID);
                 return true;
             }
+            catch (EmailException e)
+            {
+                // success submitssion 
+                return true;
+            }
             catch (Exception e)
             {
                 throw new Exception(e.Message);
