@@ -19,6 +19,8 @@ namespace Inventory_mvc.Service
 
         bool UpdateSupplierInfo(SupplierViewModel supplierVM);
 
+        List<Supplier> FindSuppliersForStationery(Stationery s);
+
 
         /// <summary>
         /// Return true if the code has already been used

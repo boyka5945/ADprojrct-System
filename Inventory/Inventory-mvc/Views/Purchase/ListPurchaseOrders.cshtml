@@ -19,13 +19,10 @@
     <h1 style="">Purchase Order Record</h1>
     <br />
 
-    <div class="form-group">
+
   
-        @Html.ActionLink("Create New", "RaisePurchaseOrder", "Purchase", new { @class = "btn btn-primary col-md-2" })
+        @Html.ActionLink("Create New", "RaisePurchaseOrder", "Purchase", new { @class = "btn btn-success ", @style="margin-bottom: 10px;" })
  
-</div>
-    <br />
-    <br />
 
 
 
@@ -34,14 +31,15 @@
         {
 
 
-            <div style= "float: left;">
+            <div >
+
                 @Html.DropDownList("searchBy", new List<SelectListItem> {
             new SelectListItem{Text = "PO Number", Value="orderNo",},
             new SelectListItem{ Text= "Status", Value="status"},
-            new SelectListItem{ Text= "Supplier", Value= "supplier"} }, "Show All")
+            new SelectListItem{ Text= "Supplier", Value= "supplier"} }, "Show All", new {@class="form-control", @style="display: inline; width:200px;" })
 
-                <input type="text" name="search" />
-                <input type="submit" value="search" class="btn btn-primary"/>
+                <input type="text" name="search" style="display:inline; width: 200px; " class="form-control"  />
+                <input type="submit" value="search"style="display:inline"  class="btn btn-primary"/>
 
             </div>
 
