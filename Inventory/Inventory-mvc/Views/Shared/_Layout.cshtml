@@ -70,7 +70,7 @@ footer {
         <div class="container-fluid">
 
             <ul class="nav nav-tabs">
-                <li>@Html.ActionLink("Home", "Contact", "Home", null, new { @style = "color:#000aaa;" })</li>
+                <li>@Html.ActionLink("Home", "Index", "Home", null, new { @style = "color:#000aaa;" })</li>
                 @if (Convert.ToInt32(HttpContext.Current.Application["role"]) == 2 || Convert.ToInt32(HttpContext.Current.Application["role"]) == 3 || Convert.ToInt32(HttpContext.Current.Application["role"]) == 4 || Convert.ToInt32(HttpContext.Current.Application["role"]) == 5 || Convert.ToInt32(HttpContext.Current.Application["role"]) == 6 || Convert.ToInt32(HttpContext.Current.Application["role"]) == 7 || Convert.ToInt32(HttpContext.Current.Application["role"]) == 8)
                 {
 
@@ -114,7 +114,7 @@ footer {
                             {
                                 <li>@Html.ActionLink("Manage Employee", "SMUserList", "User")</li>
                             }
-                            @if (Convert.ToInt32(HttpContext.Current.Application["role"]) == 2 || Convert.ToInt32(HttpContext.Current.Application["role"]) == 5)
+                            @if (Convert.ToInt32(HttpContext.Current.Application["role"]) == 5|| Convert.ToInt32(HttpContext.Current.Application["role"]) == 6)
                             {
                                 <li>@Html.ActionLink("Department List", "ListDepartment", "Department")</li>
                             }
