@@ -7,6 +7,7 @@ using Inventory_mvc.Service;
 using Inventory_mvc.Models;
 using Inventory_mvc.ViewModel;
 using Inventory_mvc.Utilities;
+using Inventory_mvc.Function;
 
 namespace Inventory_mvc.Controllers
 {
@@ -15,6 +16,7 @@ namespace Inventory_mvc.Controllers
         ISupplierService supplierService = new SupplierService();
         IUserService userService = new UserService();
 
+        [RoleAuthorize]
         // GET: Supplier
         //Store Manager, Store Supervisor, Store Clerk
         public ActionResult Index()
@@ -27,6 +29,7 @@ namespace Inventory_mvc.Controllers
             return View(supplierService.GetAllSuppliers());
         }
 
+        [RoleAuthorize]
         // GET: Supplier/Create
         //Store Manager, Store Supervisor
         public ActionResult Create()
@@ -34,6 +37,7 @@ namespace Inventory_mvc.Controllers
             return View(new SupplierViewModel());
         }
 
+        [RoleAuthorize]
         // POST: Supplier/Create
         //Store Manager, Store Supervisor
         [HttpPost]
@@ -64,7 +68,7 @@ namespace Inventory_mvc.Controllers
             return View(supplierVM);
         }
 
-
+        [RoleAuthorize]
         // GET: Supplier/Edit/{id}
         //Store Manager, Store Supervisor
         public ActionResult Edit(string id)
@@ -78,7 +82,7 @@ namespace Inventory_mvc.Controllers
             return View(supplierVM);
         }
 
-
+        [RoleAuthorize]
         // POST: Supplier/Edit/{id}
         //Store Manager, Store Supervisor
         [HttpPost]
@@ -110,7 +114,7 @@ namespace Inventory_mvc.Controllers
             return View(supplierVM);
         }
 
-
+        [RoleAuthorize]
         // GET: Supplier/Delete/{id}
         //Store Manager, Store Supervisor
         public ActionResult Delete(string id)

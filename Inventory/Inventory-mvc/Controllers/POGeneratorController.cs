@@ -18,6 +18,7 @@ namespace Inventory_mvc.Controllers
 
         // GET: POGenerator
         //CLERK
+        [RoleAuthorize]
         [HttpGet]
         public ActionResult gen(string id) //id is purchase order number
         {
@@ -40,6 +41,7 @@ namespace Inventory_mvc.Controllers
         }
 
         //CLERK
+        [RoleAuthorize]
         [HttpGet]
         public ActionResult GeneratePDF(string id) //id is purchase order number
         {

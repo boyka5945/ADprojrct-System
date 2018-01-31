@@ -24,11 +24,14 @@ namespace Inventory_mvc.Controllers
         IInventoryStatusRecordService Is = new InventoryStatusRecordService();
         IAdjustmentVoucherService ivs = new AdjustmentVoucherService();
         // GET: RequisitionRecord
+
+        [RoleAuthorize]
         public ActionResult Index()
         {
             return View();
         }
 
+        [RoleAuthorize]
         //DEPTHEAD
         [HttpGet]
         public ActionResult ManagerRequisition(int? page)
@@ -59,6 +62,7 @@ namespace Inventory_mvc.Controllers
             return View(model1.ToPagedList(pageNumber, pageSize));
         }
 
+        [RoleAuthorize]
         //Clerk
         [HttpGet]
         public ActionResult ClerkRequisition(int? page)
@@ -132,6 +136,7 @@ namespace Inventory_mvc.Controllers
             //return View(blist);
         }
 
+        [RoleAuthorize]
         //Clerk
         [HttpPost]
         public ActionResult AllocateRequisition(IEnumerable<BigModelView> model, int? page)
@@ -196,6 +201,7 @@ namespace Inventory_mvc.Controllers
 
         }
 
+        [RoleAuthorize]
         //Clerk
         [HttpGet]
         public ActionResult AllocateRequisition()
@@ -204,6 +210,7 @@ namespace Inventory_mvc.Controllers
             return RedirectToAction("ClerkRequisition");
         }
 
+        [RoleAuthorize]
         //DEPTDEAD
         [HttpGet]
         public ActionResult ApproveRequisition(int id)
@@ -224,6 +231,7 @@ namespace Inventory_mvc.Controllers
             return RedirectToAction("ManagerRequisition");
         }
 
+        [RoleAuthorize]
         //Clerk | DEPTHEAD
         [HttpGet]
         public ActionResult RequisitionDetails(int id)
@@ -234,6 +242,7 @@ namespace Inventory_mvc.Controllers
             return View(model);
         }
 
+        [RoleAuthorize]
         //DEPTHEAD
         [HttpGet]
         public ActionResult RejectRequisition(int id)
@@ -253,6 +262,7 @@ namespace Inventory_mvc.Controllers
             return RedirectToAction("ManagerRequisition");
         }
 
+        [RoleAuthorize]
         //Clerk
         [HttpGet]
         public ActionResult DisbursementList(int? page)
@@ -326,6 +336,7 @@ namespace Inventory_mvc.Controllers
             return View(list.ToPagedList(pageNumber, pageSize));
         }
 
+        [RoleAuthorize]
         //Clerk
         [HttpGet]
         public ActionResult GenerateDisbursementListPDF(string ID) // id = departmentCode
@@ -366,6 +377,7 @@ namespace Inventory_mvc.Controllers
             return new ViewAsPdf("_GeneratePDF", list) { FileName = fileName };
         }
 
+        [RoleAuthorize]
         //Clerk
         [HttpPost]
         public ActionResult DisbursementList(FormCollection form, int? page)
@@ -437,6 +449,7 @@ namespace Inventory_mvc.Controllers
             return View(list.ToPagedList(pageNumber, pageSize));
         }
 
+        [RoleAuthorize]
         //Clerk
         [HttpPost]
         public void KeepTempData(List<BigModelView> list)
@@ -460,6 +473,7 @@ namespace Inventory_mvc.Controllers
             }
         }
 
+        [RoleAuthorize]
         //Clerk
         [HttpGet]
         public ActionResult updateRetrieve()
@@ -488,6 +502,7 @@ namespace Inventory_mvc.Controllers
             return RedirectToAction("GenerateRetrieveForm", new { pagenumber = page });
         }
 
+        [RoleAuthorize]
         //Clerk
         [HttpGet]
         public ActionResult UpdateDisbursement()
@@ -507,6 +522,7 @@ namespace Inventory_mvc.Controllers
             return RedirectToAction("DisbursementList");
         }
 
+        [RoleAuthorize]
         //Clerk
         [HttpGet]
         public ActionResult SaveDisbursementList()
@@ -546,6 +562,7 @@ namespace Inventory_mvc.Controllers
             return RedirectToAction("DisbursementList");
         }
 
+        [RoleAuthorize]
         //Clerk
         [HttpGet]
         public ActionResult GenerateRetrieveForm(int? page, string pagenumber)
@@ -572,6 +589,7 @@ namespace Inventory_mvc.Controllers
             return View();
         }
 
+        [RoleAuthorize]
         //Clerk
         [HttpPost]
         public ActionResult GenerateRetrieveForm(FormCollection form, int? page)

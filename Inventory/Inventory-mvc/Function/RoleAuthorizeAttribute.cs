@@ -43,7 +43,7 @@ namespace Inventory_mvc.Function
             }
             if (!isAuth)
             {
-                filterContext.Result = new RedirectToRouteResult(new RouteValueDictionary(new { controller = "Home", action = "Login", returnUrl = filterContext.HttpContext.Request.Url, returnMessage = "can not be accessiable." }));
+                filterContext.Result = new RedirectToRouteResult(new RouteValueDictionary(new { controller = "Home", action = "Error", returnUrl = filterContext.HttpContext.Request.Url, returnMessage = "can not be accessiable." }));
                 return;
             }
             else

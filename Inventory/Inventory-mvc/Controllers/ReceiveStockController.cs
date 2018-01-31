@@ -5,7 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using Inventory_mvc.Models;
 using Inventory_mvc.Service;
-
+using Inventory_mvc.Function;
 
 
 namespace Inventory_mvc.Controllers
@@ -21,12 +21,14 @@ namespace Inventory_mvc.Controllers
         ITransactionRecordService trs = new TransactionRecordService();
 
 
-
+        [RoleAuthorize]
         public ActionResult Index()
         {
             return View();
 
         }
+
+        [RoleAuthorize]
         //Clerk
         [HttpGet]
         public ActionResult StockReceive()
@@ -50,6 +52,8 @@ namespace Inventory_mvc.Controllers
 
 
         }
+
+        [RoleAuthorize]
         //CLERK
         [HttpPost]
         public ActionResult StockReceive(string searchPONumber)
@@ -79,7 +83,7 @@ namespace Inventory_mvc.Controllers
         //update PD fulfilled qty, remarks,deliveryNo
         //update transaction table
 
-
+        [RoleAuthorize]
         //CLERK
         [HttpGet]
         public ActionResult UpdateReceived(string DONumber, string ReceivedDate, string PONumber, string supplier, string sbutton)
@@ -239,7 +243,7 @@ namespace Inventory_mvc.Controllers
 
         }
 
-
+        [RoleAuthorize]
         //CLERK
         //helper methods
         public int findNextTransactionNo()
@@ -265,6 +269,8 @@ namespace Inventory_mvc.Controllers
                 return 1;
             }
         }
+
+        [RoleAuthorize]
         //CLERK
         //transfer this code to transactionDAO
         public bool AddNewTransactionDetail(Transaction_Detail td)
@@ -276,6 +282,8 @@ namespace Inventory_mvc.Controllers
                 return true;
             }
         }
+
+        [RoleAuthorize]
         //CLERK
         //transfer to transactionDAO
 

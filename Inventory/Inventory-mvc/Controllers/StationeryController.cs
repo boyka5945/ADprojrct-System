@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using Inventory_mvc.Function;
 
 namespace Inventory_mvc.Controllers
 {
@@ -18,6 +19,7 @@ namespace Inventory_mvc.Controllers
         IUserService userService = new UserService();
         ITransactionRecordService transactionService = new TransactionRecordService();
 
+        [RoleAuthorize]
         // Manager, Store Clerk, Store Supervisor
         // GET: Stationery
         public ActionResult Index(string searchString, int? page, string categoryID = "-1")
@@ -41,7 +43,7 @@ namespace Inventory_mvc.Controllers
         }
 
 
-
+        [RoleAuthorize]
         // GET: Supplier/Edit/{id}
         //Store Manager, Store Supervisor
         public ActionResult Edit(string id)
@@ -67,7 +69,7 @@ namespace Inventory_mvc.Controllers
             return View(stationeryVM);
         }
 
-
+        [RoleAuthorize]
         // POST: Supplier/Edit/{id}
         //Store Manager, Store Supervisor
         [HttpPost]
@@ -151,6 +153,7 @@ namespace Inventory_mvc.Controllers
             return View(stationeryVM);
         }
 
+        [RoleAuthorize]
         // GET: Stationery/Create
         //Store Manager, Store Supervisor
         public ActionResult Create()
@@ -171,6 +174,7 @@ namespace Inventory_mvc.Controllers
             return View();
         }
 
+        [RoleAuthorize]
         // POST: Stationery/Create
         //Store Manager, Store Supervisor
         [HttpPost]
@@ -253,7 +257,7 @@ namespace Inventory_mvc.Controllers
 
             return View(stationeryVM);
         }
-
+        [RoleAuthorize]
         // GET: Stationery/Delete/{id}
         //Store Manager, Store Supervisor
         public ActionResult Delete(string id)
@@ -275,7 +279,7 @@ namespace Inventory_mvc.Controllers
             return RedirectToAction("Index");
         }
 
-
+        [RoleAuthorize]
         // GET: Stationery/Details
         //Store Manager, Store Supervisor, Store Clerk
         public ActionResult ViewStockCard(string id)
@@ -298,7 +302,7 @@ namespace Inventory_mvc.Controllers
             return View(stationeryService.FindStationeryViewModelByItemCode(id));
         }
 
-
+        [RoleAuthorize]
         //Store Manager, Store Supervisor, Store Clerk
         public ActionResult ResetCatalogue()
         {
@@ -312,7 +316,7 @@ namespace Inventory_mvc.Controllers
 
         //    return View();
         //}
-
+        [RoleAuthorize]
         //Manager
         [HttpPost]
         public ActionResult ViewTransaction(string id, int selectedYear, int selectedMonth)

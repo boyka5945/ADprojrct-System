@@ -20,6 +20,7 @@ namespace Inventory_mvc.Controllers
 
         private string[] monthsArray = new string[]{ "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" };
 
+        [RoleAuthorize]
         // CK - Store Clerk | Store Supervisor | Store Manager
         [HttpGet]
         public ActionResult RequisitionCumulativeChart()
@@ -27,6 +28,7 @@ namespace Inventory_mvc.Controllers
             return View();
         }
 
+        [RoleAuthorize]
         // CK - Store Clerk | Store Supervisor | Store Manager
         [HttpPost]
         public ActionResult GetRequisitionCumulativeBar(int year, string deptCode)
@@ -85,6 +87,7 @@ namespace Inventory_mvc.Controllers
             return PartialView("_RequisitionCumulativeBar");
         }
 
+        [RoleAuthorize]
         // CK - Store Clerk | Store Supervisor | Store Manager
         [HttpGet]
         public ActionResult ReorderAmountCumulativeChart()
@@ -92,6 +95,7 @@ namespace Inventory_mvc.Controllers
             return View();
         }
 
+        [RoleAuthorize]
         // CK - Store Clerk | Store Supervisor | Store Manager
         [HttpPost]
         public ActionResult GetReorderAmountCumulativeBar(int year, string supplierCode)
@@ -152,6 +156,7 @@ namespace Inventory_mvc.Controllers
             return PartialView("_ReorderAmountCumulativeBar");
         }
 
+        [RoleAuthorize]
         // CK - Store Clerk | Store Supervisor | Store Manager
         [HttpGet]
         public ActionResult ItemRequestTrend()
@@ -159,6 +164,7 @@ namespace Inventory_mvc.Controllers
             return View();
         }
 
+        [RoleAuthorize]
         // CK - Store Clerk | Store Supervisor | Store Manager
         [HttpPost]
         public ActionResult ItemRequestTrend(string categoryID, string itemCode, int[] years)
@@ -222,6 +228,7 @@ namespace Inventory_mvc.Controllers
             return PartialView("_ItemRequestTrend");
         }
 
+        [RoleAuthorize]
         // CK - Store Clerk | Store Supervisor | Store Manager
         [HttpGet]
         public ActionResult ItemReorderComparison()
@@ -229,6 +236,7 @@ namespace Inventory_mvc.Controllers
             return View();
         }
 
+        [RoleAuthorize]
         // CK - Store Clerk | Store Supervisor | Store Manager
         [HttpPost]
         public ActionResult GetItemReorderComparisonChart(string[] yearAndMonths, string itemCode)
@@ -308,6 +316,7 @@ namespace Inventory_mvc.Controllers
             return PartialView("_ItemReorderComparison");
         }
 
+        [RoleAuthorize]
         // CK - Store Clerk | Store Supervisor | Store Manager
         [HttpGet]
         public ActionResult DeptMonthlyRequisitionAmount()
@@ -315,6 +324,7 @@ namespace Inventory_mvc.Controllers
             return View();
         }
 
+        [RoleAuthorize]
         // CK - Store Clerk | Store Supervisor | Store Manager
         [HttpPost]
         public ActionResult GetDeptMonthlyRequisitionAmount(int year, int month = -1)
@@ -359,6 +369,7 @@ namespace Inventory_mvc.Controllers
             return PartialView("_DeptMonthlyRequisition");
         }
 
+        [RoleAuthorize]
         // CK - Store Clerk | Store Supervisor | Store Manager
         [HttpGet]
         public ActionResult SupplierYearlyReorderAmount()
@@ -366,6 +377,7 @@ namespace Inventory_mvc.Controllers
             return View();
         }
 
+        [RoleAuthorize]
         // CK - Store Clerk | Store Supervisor | Store Manager
         [HttpPost]
         public ActionResult GetSupplierYearlyReorderAmount(int year, string categoryID, string itemCode)
@@ -441,6 +453,7 @@ namespace Inventory_mvc.Controllers
             return PartialView("_SupplierYearlyReorder");
         }
 
+        [RoleAuthorize]
         // CK - Store Clerk | Store Supervisor | Store Manager
         [HttpGet]
         public ActionResult CategoryMonthlyRequisitionAmount()
@@ -448,6 +461,7 @@ namespace Inventory_mvc.Controllers
             return View();
         }
 
+        [RoleAuthorize]
         // CK - Store Clerk | Store Supervisor | Store Manager
         [HttpPost]
         public ActionResult GetCategoryMonthlyRequisitionAmountDoughnutChart(int year, int month, string deptCode = "-1")
@@ -501,6 +515,8 @@ namespace Inventory_mvc.Controllers
             return PartialView("_CategoryMonthlyRequisition");
         }
 
+
+        [RoleAuthorize]
         // CK - Store Clerk | Store Supervisor | Store Manager
         [HttpGet]
         public ActionResult CategoryMonthlyReorderAmount()
@@ -508,6 +524,8 @@ namespace Inventory_mvc.Controllers
             return View();
         }
 
+
+        [RoleAuthorize]
         // CK - Store Clerk | Store Supervisor | Store Manager
         [HttpPost]
         public ActionResult GetCategoryMonthlyReorderAmountDoughnutChart(int year, int month, string supplierCode = "-1")
@@ -560,6 +578,8 @@ namespace Inventory_mvc.Controllers
             return PartialView("_CategoryMonthlyReorder");
         }
 
+
+        [RoleAuthorize]
         // METHODS FOR SELECT2 COMBOBOX
         // CK - Store Clerk | Store Supervisor | Store Manager
         public JsonResult GetCategoryListJSON(string term = null)
@@ -589,6 +609,8 @@ namespace Inventory_mvc.Controllers
             return Json(options, JsonRequestBehavior.AllowGet);
         }
 
+
+        [RoleAuthorize]
         // CK - Store Clerk | Store Supervisor | Store Manager
         public JsonResult GetStationeryListBasedOnCategoryJSON(string categoryID, string term = null)
         {
@@ -623,6 +645,8 @@ namespace Inventory_mvc.Controllers
             return Json(options, JsonRequestBehavior.AllowGet);
         }
 
+
+        [RoleAuthorize]
         // CK - Store Clerk | Store Supervisor | Store Manager
         public JsonResult GetSelectableYearsJSON(string term = null)
         {
@@ -652,6 +676,8 @@ namespace Inventory_mvc.Controllers
             return Json(options, JsonRequestBehavior.AllowGet);
         }
 
+
+        [RoleAuthorize]
         // CK - Store Clerk | Store Supervisor | Store Manager
         public JsonResult GetSelectableMonthsJSON(int year, string term = null)
         {
@@ -681,6 +707,8 @@ namespace Inventory_mvc.Controllers
             return Json(options, JsonRequestBehavior.AllowGet);
         }
 
+
+        [RoleAuthorize]
         // CK - Store Clerk | Store Supervisor | Store Manager
         public JsonResult GetMonthListJSON(string term = null)
         {
@@ -722,6 +750,8 @@ namespace Inventory_mvc.Controllers
             return Json(options, JsonRequestBehavior.AllowGet);
         }
 
+
+        [RoleAuthorize]
         // CK - Store Clerk | Store Supervisor | Store Manager
         public JsonResult GetDepartmentListJSON(string term = null)
         {
@@ -750,6 +780,8 @@ namespace Inventory_mvc.Controllers
             return Json(options, JsonRequestBehavior.AllowGet);
         }
 
+
+        [RoleAuthorize]
         // CK - Store Clerk | Store Supervisor | Store Manager
         public JsonResult GetSupplierListJSON(string term = null)
         {

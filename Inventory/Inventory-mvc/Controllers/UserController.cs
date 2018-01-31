@@ -8,6 +8,7 @@ using Inventory_mvc.Models;
 using Inventory_mvc.ViewModel;
 using System.Globalization;
 using Inventory_mvc.Utilities;
+using Inventory_mvc.Function;
 
 namespace Inventory_mvc.Controllers
 {
@@ -15,6 +16,7 @@ namespace Inventory_mvc.Controllers
     {
         IUserService userService = new UserService();
         // GET: User
+        [RoleAuthorize]
         public ActionResult UserList()   //DeptHead
         {
             string name = HttpContext.User.Identity.Name;
@@ -29,6 +31,7 @@ namespace Inventory_mvc.Controllers
             return View(model);
         }
 
+        [RoleAuthorize]
         public ActionResult SMUserList()   //StoreManager
         {
             string name = HttpContext.User.Identity.Name;
@@ -43,6 +46,7 @@ namespace Inventory_mvc.Controllers
             return View(model);
         }
 
+        [RoleAuthorize]
         [HttpGet]
         public ActionResult Delegate(string id)    //DeptHead
         {
@@ -59,6 +63,8 @@ namespace Inventory_mvc.Controllers
             User u = userService.FindByUserID(id);
             return View(u);
         }
+
+        [RoleAuthorize]
         [HttpPost]
         public ActionResult Delegate(string userID,string from, string toto )  //DeptHead
         {           
@@ -78,6 +84,7 @@ namespace Inventory_mvc.Controllers
             
         }
 
+        [RoleAuthorize]
         [HttpGet]
         public ActionResult Remove_Delegate(string id)  //DeptHead
         {
@@ -99,7 +106,7 @@ namespace Inventory_mvc.Controllers
 
         }
 
-
+        [RoleAuthorize]
         public ActionResult Edit()   //AllUsers
         {
             string name = HttpContext.User.Identity.Name;
@@ -111,6 +118,7 @@ namespace Inventory_mvc.Controllers
             return View(user);
         }
 
+        [RoleAuthorize]
         [HttpPost]
         public ActionResult Edit(User userVM)  //AllUsers
         {
@@ -141,6 +149,7 @@ namespace Inventory_mvc.Controllers
             return View(userVM);
         }
 
+        [RoleAuthorize]
         public ActionResult Create()  //StoreManager
         {
             ViewBag.RoleList = UserRoles.GetCreatableRolesForDepartment["Store"];
@@ -149,6 +158,7 @@ namespace Inventory_mvc.Controllers
             return View(newUser);
         }
 
+        [RoleAuthorize]
         [HttpPost]
         public ActionResult Create(User user)    //StoreManager
         {
@@ -178,7 +188,7 @@ namespace Inventory_mvc.Controllers
             return View(user);
         }
 
-
+        [RoleAuthorize]
         [HttpGet]
         public ActionResult Assign_Rep(string id)   //DeptHead
         {
@@ -208,7 +218,7 @@ namespace Inventory_mvc.Controllers
             return View(viewModel);
         }
 
-        
+        [RoleAuthorize]
         [HttpPost]
         public ActionResult ChangePassword(ChangePasswordViewModel changePasswordVM)  //AllUsers
         {
@@ -279,6 +289,7 @@ namespace Inventory_mvc.Controllers
             
         }
 
+        [RoleAuthorize]
         public ActionResult Promote(string id)   //StoreManager
         {
             if (userService.Promote(id))
