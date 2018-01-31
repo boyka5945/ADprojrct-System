@@ -20,6 +20,7 @@ namespace Inventory_mvc.Controllers
             return View();
         }
 
+        //ACCESS BY Store Clerk, Store Manager, Store Supervisor
         public ActionResult ListDepartment(int? page)
         {
             DepartmentService ds = new DepartmentService();
@@ -32,6 +33,7 @@ namespace Inventory_mvc.Controllers
 
         }
 
+        //ACCESS BY Store Manager, Store Supervisor
         [HttpGet]
         public ActionResult EditDepartment(string deptCode)
         {
@@ -44,6 +46,7 @@ namespace Inventory_mvc.Controllers
             return View(model);
         }
 
+        //ACCESS BY Store Manager, Store Supervisor
         [HttpPost]
         public ActionResult EditDepartment(Department dept)
         {
@@ -71,6 +74,7 @@ namespace Inventory_mvc.Controllers
             
         }
 
+        //ACCESS BY Store Manager, Store Supervisor
         [HttpGet]
         public ActionResult CreateDepartment()
         {
@@ -82,6 +86,7 @@ namespace Inventory_mvc.Controllers
             return View();
         }
 
+        //ACCESS BY Store Manager, Store Supervisor
         [HttpPost]
         public ActionResult CreateDepartment(Department dept, FormCollection form)
         {

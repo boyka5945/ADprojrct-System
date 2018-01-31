@@ -9,6 +9,8 @@ using Inventory_mvc.ViewModel;
 using Inventory_mvc.Utilities;
 using PagedList;
 using Inventory_mvc.Function;
+using Rotativa.MVC;
+
 
 namespace Inventory_mvc.Controllers
 {
@@ -263,7 +265,19 @@ namespace Inventory_mvc.Controllers
             }
             HttpContext.Application["TotalItem"] = list.Count();
             StationeryModel entity = new StationeryModel();
-            var user = entity.Users.Where(x => x.departmentCode == deptCode).First();
+
+            User user = null;
+
+            try
+            {
+                user = entity.Users.Where(x => x.departmentCode == deptCode && x.role == (int)UserRoles.RoleID.UserRepresentative).First();
+            }
+            catch (Exception e)
+            {
+                // get depthead as UR if not assign
+                user = entity.Users.Where(x => x.departmentCode == deptCode && x.role == (int)UserRoles.RoleID.DepartmentHead).First();
+            }
+
             foreach (var a in ds.GetAllDepartment().ToList())
             {
                 if (a.departmentCode == deptCode)
@@ -277,7 +291,14 @@ namespace Inventory_mvc.Controllers
             var departments = ds.GetAllDepartment();
             foreach (var b in departments)
             {
-                departmentlist.Add(new SelectListItem { Value = b.departmentCode.ToString(), Text = b.departmentName.ToString() });
+                SelectListItem item = new SelectListItem();
+                item.Value = b.departmentCode.ToString();
+                item.Text = b.departmentName.ToString();
+                if (b.departmentCode == deptCode)
+                {
+                    item.Selected = true;
+                }
+                departmentlist.Add(item);
             }
             Session["deptCode"] = "ZOOL";
             ViewData["list"] = departmentlist;
@@ -288,21 +309,68 @@ namespace Inventory_mvc.Controllers
             return View(list.ToPagedList(pageNumber, pageSize));
         }
 
+
+        [HttpGet]
+        public ActionResult GenerateDisbursementListPDF(string ID) // id = departmentCode
+        {
+            string deptCode = ID;
+
+            List<Disbursement> list = rs.GetRequisitionByDept(deptCode);
+
+            HttpContext.Application["TotalItem"] = list.Count();
+
+            StationeryModel entity = new StationeryModel();
+
+            User user = null;
+
+            try
+            {
+                user = entity.Users.Where(x => x.departmentCode == deptCode && x.role == (int)UserRoles.RoleID.UserRepresentative).First();
+            }
+            catch (Exception e)
+            {
+                // get depthead as UR if not assign
+                user = entity.Users.Where(x => x.departmentCode == deptCode && x.role == (int)UserRoles.RoleID.DepartmentHead).First();
+            }
+
+
+            foreach (var a in ds.GetAllDepartment().ToList())
+            {
+                if (a.departmentCode == deptCode)
+                {
+                    ViewBag.Point = a.Collection_Point.collectionPointName;
+                    ViewBag.rp = user.name;
+                    ViewBag.Dept = a.departmentName;
+                    break;
+                }
+            }
+            
+            string fileName = String.Format("Disbursement_List_of_{0}_on_{1}.pdf", deptCode, DateTime.Today.ToShortDateString());
+            return new ViewAsPdf("_GeneratePDF", list) { FileName = fileName };
+        }
+
+
         [HttpPost]
         public ActionResult DisbursementList(FormCollection form, int? page)
         {
             Session["deptCode"] = form["ID"];
             var deptCode = form["ID"].ToString();
             StationeryModel entity = new StationeryModel();
-            User user;
-            if (entity.Users.Where(x => x.departmentCode == deptCode).ToList().Count != 0)
+
+
+            User user = null;
+
+            try
             {
-                user = entity.Users.Where(x => x.departmentCode == deptCode).First();
+                user = entity.Users.Where(x => x.departmentCode == deptCode && x.role == (int)UserRoles.RoleID.UserRepresentative).First();
             }
-            else
+            catch (Exception e)
             {
-                user = null;
+                // get depthead as UR if not assign
+                user = entity.Users.Where(x => x.departmentCode == deptCode && x.role == (int)UserRoles.RoleID.DepartmentHead).First();
             }
+
+
             foreach (var a in ds.GetAllDepartment().ToList())
             {
                 if (a.departmentCode == deptCode)
@@ -321,7 +389,14 @@ namespace Inventory_mvc.Controllers
             var departments = ds.GetAllDepartment();
             foreach (var b in departments)
             {
-                departmentlist.Add(new SelectListItem { Value = b.departmentCode.ToString(), Text = b.departmentName.ToString() });
+                SelectListItem item = new SelectListItem();
+                item.Value = b.departmentCode.ToString();
+                item.Text = b.departmentName.ToString();
+                if (b.departmentCode == deptCode)
+                {
+                    item.Selected = true;
+                }
+                departmentlist.Add(item);
             }
             ViewData["list"] = departmentlist;
             var list = rs.GetRequisitionByDept(deptCode);

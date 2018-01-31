@@ -18,7 +18,7 @@ namespace Inventory_mvc.Controllers
         IAdjustmentVoucherService adjustmentVoucherService = new AdjustmentVoucherService();
         IInventoryStatusRecordService invetoryCheckService = new InventoryStatusRecordService();
 
-        // GET: InventoryCheck
+        // CK - Store Clerk | Store Supervisor | Store Manager
         public ActionResult Index()
         {
             List<DateTime> dates = invetoryCheckService.ListAllStockCheckDate();
@@ -27,7 +27,7 @@ namespace Inventory_mvc.Controllers
             return View();
         }
 
-
+        // CK - Store Clerk | Store Supervisor | Store Manager
         public ActionResult ShowDetails(DateTime? date = null)
         {
             if (date == null)
@@ -45,6 +45,7 @@ namespace Inventory_mvc.Controllers
             return View(vmList);
         }
 
+        // CK - Store Clerk
         [HttpGet]
         public ActionResult GenerateInventoryChecklist()
         {
@@ -77,6 +78,7 @@ namespace Inventory_mvc.Controllers
         }
 
 
+        // CK - Store Clerk
         [HttpPost]
         public ActionResult GenerateInventoryChecklist(int[] categorylistbox = null)
         {
@@ -120,6 +122,7 @@ namespace Inventory_mvc.Controllers
         }
 
 
+        // CK - Store Clerk
         [HttpGet]
         public ActionResult ProcessInventoryCheck(int? page)
         {
@@ -139,7 +142,7 @@ namespace Inventory_mvc.Controllers
             return View(stockchecklist.ToPagedList(pageNumber, pageSize));
         }
 
-
+        // CK - Store Clerk
         [HttpGet]
         public ActionResult GenerateStockCheckList()
         {
@@ -157,6 +160,7 @@ namespace Inventory_mvc.Controllers
         }
 
 
+        // CK - Store Clerk
         [HttpPost]
         public void SaveTemporaryValue(List<InventoryCheckViewModel> checklist)
         {
@@ -179,6 +183,7 @@ namespace Inventory_mvc.Controllers
 
         }
 
+        // CK - Store Clerk
         [HttpGet]
         public ActionResult CancelCurrentStockCheck()
         {
@@ -190,6 +195,7 @@ namespace Inventory_mvc.Controllers
             return RedirectToAction("GenerateInventoryChecklist");
         }
 
+        // CK - Store Clerk
         [HttpPost]
         public ActionResult SubmitInventoryCheckResult()
         {
@@ -227,7 +233,7 @@ namespace Inventory_mvc.Controllers
             }
         }
 
-
+        // CK - Store Clerk
         [HttpPost]
         public ActionResult ConfirmInventoryCheckResult(List<InventoryCheckViewModel> discrepancylist)
         {
