@@ -39,7 +39,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
+    <Optimize>false</Optimize>
     <OutputPath>bin\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
@@ -65,6 +65,14 @@
     </Reference>
     <Reference Include="PagedList.Mvc, Version=4.5.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
       <HintPath>..\packages\PagedList.Mvc.4.5.0.0\lib\net40\PagedList.Mvc.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Rotativa.Core, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Rotativa.Core.2.0.0\lib\net45\Rotativa.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Rotativa.MVC, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Rotativa.MVC.2.0.3\lib\net45\Rotativa.MVC.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -353,6 +361,7 @@
     <Content Include="Content\Site.css" />
     <Content Include="Images\LogicLogoT3.PNG" />
     <Content Include="Images\TopLogo.jpg" />
+    <Content Include="Rotativa\wkhtmltopdf.exe" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="ApplicationInsights.config">
@@ -366,6 +375,7 @@
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
+    <Content Include="App_Browsers\qt.browser" />
     <None Include="Properties\PublishProfiles\AD_Inventory.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <None Include="Scripts\jquery-3.2.1.intellisense.js" />
@@ -461,11 +471,9 @@
     <Content Include="Views\CollectionPoint\Collect_ItemByItem.cshtml" />
     <Content Include="Views\CollectionPoint\Pending_ItemByItem.cshtml" />
     <Content Include="Views\CollectionPoint\Pending_ItemByRequest.cshtml" />
-    <Content Include="Views\Report\Report.cshtml" />
     <Content Include="Views\Report\ItemRequestTrend.cshtml" />
     <Content Include="Views\Report\_ItemRequestTrend.cshtml" />
     <Content Include="Views\Report\_RequisitionCumulativeBar.cshtml" />
-    <Content Include="Views\Report\Index.cshtml" />
     <Content Include="Views\Report\RequisitionCumulativeChart.cshtml" />
     <Content Include="Views\Report\_DeptMonthlyRequisition.cshtml" />
     <Content Include="Views\Report\DeptMonthlyRequisitionAmount.cshtml" />
@@ -473,10 +481,15 @@
     <Content Include="Views\Report\CategoryMonthlyRequisitionAmount.cshtml" />
     <Content Include="Views\Report\CategoryMonthlyReorderAmount.cshtml" />
     <Content Include="Views\Report\_CategoryMonthlyReorder.cshtml" />
-    <Content Include="Views\Report\_SupplierMonthlyReorder.cshtml" />
-    <Content Include="Views\Report\SupplierMonthlyReorderAmount.cshtml" />
+    <Content Include="Views\Report\_SupplierYearlyReorder.cshtml" />
+    <Content Include="Views\Report\SupplierYearlyReorderAmount.cshtml" />
     <Content Include="Views\Report\_ReorderAmountCumulativeBar.cshtml" />
     <Content Include="Views\Report\ReorderAmountCumulativeChart.cshtml" />
+    <Content Include="Views\Report\ItemReorderComparison.cshtml" />
+    <Content Include="Views\Report\_ItemReorderComparison.cshtml" />
+    <Content Include="Views\POGenerator\_GeneratePDF.cshtml" />
+    <Content Include="Views\InventoryCheck\_StockCheckListPDF.cshtml" />
+    <Content Include="Views\ManageRequisitions\_GeneratePDF.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

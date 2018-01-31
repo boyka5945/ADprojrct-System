@@ -77,7 +77,6 @@ namespace Inventory_mvc.Service
             try
             {
                 rDAO.SubmitNewRequisition(requisition);
-                // TODO: TEST EMAIL NOTIFICATION
                 // send email notification       
                 EmailNotification.EmailNotificatioForNewRequisition(requisition.requesterID);
                 return true;
@@ -295,7 +294,7 @@ namespace Inventory_mvc.Service
             list = GetRecordByItemCode(itemCode).Where(x => x.Department.departmentCode == deptCode && (x.status == RequisitionStatus.APPROVED_PROCESSING || x.status == RequisitionStatus.PARTIALLY_FULFILLED)).ToList();
 
             list.Sort();
-            for (int i = 0; actualQty > 0 && i < list.Count(); i++)
+            for (int i = 0; i < list.Count(); i++)
             {
                 var b = list[i].Requisition_Detail.Where(x => x.itemCode == itemCode).First();
                 if (b.allocatedQty > 0)

@@ -1,0 +1,160 @@
+﻿<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
+<script src="~/Scripts/chart-colors.js"></script>
+<script src="~/Scripts/select2.min.js"></script>
+<link href="~/Content/select2.min.css" rel="stylesheet" />
+
+@{
+    ViewBag.Title = "Reorder Amount";
+}
+
+
+<h2>Reorder Amount Chart Based on Suppliers</h2>
+
+<hr />
+
+<form id="chartForm">
+    <div class="row form-inline">
+        <div class="col-sm-1"><label>Year:</label></div>
+        <div class="col-sm-2">
+            <!-- Combobox -->
+            <select class="js-data-example-ajax form-control" id="yearCombobox" style="width: 100%" name="year" required>
+                <option></option>
+            </select>
+        </div>
+        <div class="col-sm-1"><label>Category:</label></div>
+        <div class="col-sm-2">
+            <!-- Combobox -->
+            <select class="form-control" id="categoryCombobox" style="width: 100%" name="categoryID" required>
+                <option></option>
+            </select>
+        </div>
+        <div class="col-sm-1"><label>Stationery:</label></div>
+        <div class="col-sm-4">
+            <!-- Combobox -->
+            <select class="form-control" id="stationeryCombobox" style="width: 100%" name="itemCode" disabled required>
+                <option></option>
+            </select>
+        </div>
+        <div class="col-sm-1">
+            <input type="button" class="btn btn-primary" onclick="LoadData()" value="Generate Chart" />
+        </div>
+    </div>
+</form>
+
+<br />
+
+
+
+<div id="progressBar" class="text-center hidden">
+    <label>Generating chart</label>   <progress id="p"></progress>
+</div>
+
+
+<div class="container" id="chartContainer"></div>
+
+
+<script>
+    function LoadData()
+    {
+        var form = document.getElementById("chartForm");
+
+        if (!form.checkValidity())
+        {
+            // To trigger html5 form validation - Create a temporary button, click and remove it
+            const tmpSubmit = document.createElement('button');
+            form.appendChild(tmpSubmit);
+            tmpSubmit.click();
+            form.removeChild(tmpSubmit);
+        }
+        else
+        {
+            $('#progressBar').removeClass('hidden');
+
+            $.ajax({
+                url: '@Url.Action("GetSupplierYearlyReorderAmount", "Report")',
+                type: 'POST',
+                data: $('#chartForm').serialize(),
+                success: function (data) {
+                    $("#chartContainer").html(data),
+                    $('#progressBar').addClass('hidden');
+                },
+                error: function () {
+                    alert("Opps. Some error occurs. Please try again."),
+                    $('#progressBar').addClass('hidden');
+                }
+            });
+        }
+    }
+
+
+    // for category selection
+    $(document).ready(function () {
+        $('#categoryCombobox').select2({
+
+            ajax: {
+                url: '@Url.Action("GetCategoryListJSON", "Report")',
+                delay: 250,
+                dataType: 'json',
+                processResults: function (data) {
+                    return {
+                        results: data
+                    };
+                },
+            },
+            placeholder: "Select a category",
+            selectOnClose: true,
+        });
+    })
+
+    // allow stationery selection after category is selected
+    $('#categoryCombobox').change(function () {
+        var selectedCategory = $('#categoryCombobox').val();
+
+        if (this.value < -1)
+        {
+            $("#stationeryCombobox").prop("disabled", true);
+        }
+        else
+        {
+            $("#stationeryCombobox").prop("disabled", false);
+            $("#stationeryCombobox").val("-2"); // reset selected value if category is changed
+        }
+
+        $('#stationeryCombobox').select2({
+            ajax: {
+                url: '@Url.Action("GetStationeryListBasedOnCategoryJSON", "Report")?categoryID=' + selectedCategory,
+                delay: 250,
+                dataType: 'json',
+                processResults: function (data) {
+                    return {
+                        results: data
+                    };
+                },
+            },
+            placeholder: "Input item code",
+            selectOnClose: true,
+        });
+    });
+
+    // for year selection
+    $(document).ready(function() {
+        $('#yearCombobox').select2({
+
+            maximumSelectionLength: 2,
+
+            ajax: {
+                url: '@Url.Action("GetSelectableYearsJSON", "Report")',
+                delay: 250,
+                dataType: 'json',
+                processResults: function (data) {
+                    return {
+                        results: data
+                    };
+                },
+            },
+            placeholder: "Select a year",
+            selectOnClose: true,
+        });
+    });
+
+</script>

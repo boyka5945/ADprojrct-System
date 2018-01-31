@@ -44,6 +44,16 @@ namespace Inventory_mvc.Service
         }
 
 
+        public List<ReportViewModel> GetReorderAmountBasedOnCriteria(string categoryID, string itemCode, string supplierCode, string[] yearAndMonths)
+        {
+            List<Purchase_Detail> details = reportDAO.GetPurchaseDetailsByCriteria(categoryID, itemCode, supplierCode, yearAndMonths);
+            List<ReportViewModel> vmList = new List<ReportViewModel>();
+            vmList.AddRange(ConvertToReportViewModel(details));
+            return vmList;
+        }
+
+
+
         private ReportViewModel ConvertToReportViewModel(Requisition_Detail detail)
         {
             Stationery stationery = stationeryService.FindStationeryByItemCode(detail.itemCode);
@@ -163,7 +173,7 @@ namespace Inventory_mvc.Service
             List<string> items = stationeryService.GetListOfItemCodes();
             Random stationeryR = new Random(888);
 
-            string[] status = { RequisitionStatus.PENDING_APPROVAL, RequisitionStatus.APPROVED_PROCESSING, RequisitionStatus.REJECTED, RequisitionStatus.PARTIALLY_FULFILLED, RequisitionStatus.COLLECTED };
+            string[] status = { RequisitionStatus.REJECTED, RequisitionStatus.COLLECTED };
             Random statusR = new Random(75);
 
             Random detailR = new Random(16);
@@ -196,7 +206,15 @@ namespace Inventory_mvc.Service
                         d.itemCode = items.ElementAt(stationeryR.Next(items.Count));
                         d.qty = quantityR.Next(1, 10);
                         d.allocatedQty = 0;
-                        d.fulfilledQty = 0;
+
+                        if(record.status != RequisitionStatus.REJECTED)
+                        {
+                            d.fulfilledQty = d.qty;
+                        }
+                        else
+                        {
+                            d.fulfilledQty = 0;
+                        }
 
                         bool contain = false;
 

@@ -1,0 +1,184 @@
+﻿<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.5/jspdf.debug.js"></script>
+<script src="~/Scripts/chart-colors.js"></script>
+<script src="~/Scripts/Chart.PieceLabel.js"></script>
+
+@{
+    int numberOfSupplier = (int)ViewBag.NumberOfSupplier;
+    string itemCode = (string)ViewBag.ItemCode;
+}
+
+    <input type="hidden" value="@numberOfSupplier" name="numberOfSupplier" id="numberOfSupplier" />
+    <input type="hidden" value="@itemCode" name="itemCode" id="itemCode" />
+
+
+    @for (int i = 1; i <= numberOfSupplier; i++)
+    {
+        string datasetLabel = "DatasetLabel" + (i).ToString();
+        <span id="@datasetLabel" class="hidden">@Html.Raw(Json.Encode(ViewData[datasetLabel]))</span>
+
+        string dataName = "Data" + (i).ToString();
+        <span id="@dataName" class="hidden">@Html.Raw(Json.Encode(ViewData[dataName]))</span>
+    }
+
+<br />
+<a href="#" id="downloadPdf">Download Chart as PDF</a>
+<div id="reportPage"><canvas id="myChart"> </canvas></div>
+
+<script>
+
+    var colorNames = Object.keys(window.chartColors);
+    var color = Chart.helpers.color;
+
+    var numberOfSupplier = $('#numberOfSupplier').val();
+    var Xlabels = @Html.Raw(Json.Encode(ViewBag.XLabels));
+
+    var itemCode = $('#itemCode').val();
+    var title = 'Reorder Amount of ' + itemCode;
+
+    var config = 
+    {
+        type: 'bar',
+        data: 
+        {
+            datasets: [],
+            labels: Xlabels,
+        },
+        options: 
+        {
+            responsive: true,
+            legend: 
+            {
+                position: 'right',
+            },
+            title: 
+            {
+                display: true,
+                text: title,
+                fontSize: 16,
+            },
+            scales:
+            {
+                yAxes:
+                [{
+                    scaleLabel:
+                    {
+                        display: true,
+                        labelString: 'Amount ($)',
+                        fontSize: 14,
+                    },
+
+                    ticks:
+                    {
+                        beginAtZero:true,
+                    },
+                }],
+                xAxes:
+                [{
+                    scaleLabel:
+                    {
+                        display: true,
+                        labelString: 'Months',
+                        fontSize: 14,
+                    },
+                }]
+            },
+        }
+    };
+
+    for(var i = 1; i <= numberOfSupplier; i++)
+    {
+        var labelVal = $('#DatasetLabel' + i.toString()).text();
+        labelVal = labelVal.substring(1, labelVal.length-1); // remove " "
+        var dataVal = $('#Data' + i.toString()).text(); // get [1,2,3,4,5]
+        dataVal = dataVal.substring(1, dataVal.length-1).split(','); // remove [ ] from text & split
+    
+        var colorName = colorNames[(i) % colorNames.length];
+        var newColor = window.chartColors[colorName];
+
+        var newDataset =
+        {
+             backgroundColor: newColor,
+             data: dataVal,
+             label: labelVal,
+        };
+
+        config.data.datasets.push(newDataset);
+    }
+
+    var myChart = document.getElementById("myChart").getContext("2d");
+    var showQtyChart = new Chart("myChart", config);
+        
+
+    // Define a plugin to provide data labels
+    Chart.plugins.register({
+        afterDatasetsDraw: function(chart, easing) {
+            // To only draw at the end of animation, check for easing === 1
+            var ctx = chart.ctx;
+
+            chart.data.datasets.forEach(function (dataset, i) {
+                var meta = chart.getDatasetMeta(i);
+                if (!meta.hidden) {
+                    meta.data.forEach(function(element, index) {
+                        // Draw the text in black, with the specified font
+                        ctx.fillStyle = 'rgb(0, 0, 0)';
+
+                        var fontSize = 14;
+                        var fontStyle = 'normal';
+                        var fontFamily = 'Helvetica Neue';
+                        ctx.font = Chart.helpers.fontString(fontSize, fontStyle, fontFamily);
+
+                        // Just naively convert to string for now
+                        var dataString = '$ ' + dataset.data[index].toString();
+
+                        // Make sure alignment settings are correct
+                        ctx.textAlign = 'center';
+                        ctx.textBaseline = 'middle';
+
+                        var padding = 5;
+                        var position = element.tooltipPosition();
+                        ctx.fillText(dataString, position.x, position.y - (fontSize / 2) - padding);
+                    });
+                }
+            });
+        }
+    });
+
+    $('#downloadPdf').click(function(event) {
+        // get size of report page
+        var reportPageHeight = $('#reportPage').innerHeight();
+        var reportPageWidth = $('#reportPage').innerWidth();
+
+        // create a new canvas object that we will populate with all other canvas objects
+        var pdfCanvas = $('<canvas />').attr({
+            id: "canvaspdf",
+            width: reportPageWidth,
+            height: reportPageHeight
+        });
+
+        // keep track canvas position
+        var pdfctx = $(pdfCanvas)[0].getContext('2d');
+        var pdfctxX = 0;
+        var pdfctxY = 0;
+        var buffer = 100;
+
+        // for each chart.js chart
+        $("canvas").each(function(index) {
+            // get the chart height/width
+            var canvasHeight = $(this).innerHeight();
+            var canvasWidth = $(this).innerWidth();
+
+            // draw the chart into the new canvas
+            pdfctx.drawImage($(this)[0], pdfctxX, pdfctxY, canvasWidth, canvasHeight);
+            pdfctxX += canvasWidth + buffer;
+        });
+
+        // create new pdf and add our new canvas as an image
+        var pdf = new jsPDF('l', 'pt', [reportPageWidth, reportPageHeight]);
+        pdf.addImage($(pdfCanvas)[0], 'PNG', 50, 50);
+
+        // download the pdf
+        pdf.save(title + '.pdf');
+    });
+
+</script>

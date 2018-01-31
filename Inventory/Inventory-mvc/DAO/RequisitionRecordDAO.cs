@@ -83,6 +83,15 @@ namespace Inventory_mvc.DAO
             StationeryModel entity = new StationeryModel();
             Requisition_Detail rd = new Requisition_Detail();
             rd = entity.Requisition_Detail.Where(x => x.itemCode == itemcode && x.requisitionNo == requisitionNo).First();
+            //start of code added by alex//
+            //deduct retrieve qty after doing allocation
+            int difference = rd.allocatedQty.Value - allocateQty.Value;
+            List<RetrieveForm> retrievalList = (List<RetrieveForm>)HttpContext.Current.Application["retrieveForm"];
+            int index = retrievalList.FindIndex(x=> x.ItemCode == itemcode);
+            retrievalList[index].retrieveQty += difference;
+            HttpContext.Current.Application["retrieveForm"] = retrievalList;
+
+            //end of code//
             rd.allocatedQty = allocateQty;
             entity.SaveChanges();
             return 0;

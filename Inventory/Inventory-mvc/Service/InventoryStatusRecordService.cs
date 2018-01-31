@@ -31,6 +31,7 @@ namespace Inventory_mvc.Service
                 vm.StockQuantity = s.stockQty;
                 vm.UOM = s.unitOfMeasure;
                 vm.ActualQuantity = s.stockQty;
+                vm.StockCheckDate = DateTime.Today;
 
                 vmList.Add(vm);
             }

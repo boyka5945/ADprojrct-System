@@ -45,7 +45,6 @@ namespace Inventory_mvc.Service
 
             if (adjustmentVoucherDAO.AddNewAdjustmentVoucher(vourcherRecord))
             {
-                // TODO: TEST EMAIL NOTIFICATION
                 // send email notification
                 EmailNotification.EmailNotificationForNewAdjustmentVoucher(requesterID, voucherAmount);
                 return true;
@@ -234,7 +233,6 @@ namespace Inventory_mvc.Service
             {
                 adjustmentVoucherDAO.UpdateAdjustmentVoucherInfo(record);
 
-                // TODO: TEST EMAIL NOTIFICATION
                 EmailNotification.EmailNotificatioForAdjustmentVoucherApprovalStatus(voucherNo, AdjustmentVoucherStatus.REJECTED, remark);
                 return true;
             }
@@ -287,8 +285,7 @@ namespace Inventory_mvc.Service
                     // throw Exception if error occur when writing to database 
                     transactionService.AddNewTransactionRecord(transRecord);
 
-                    // Email notification
-                    // TODO: TEST EMAIL NOTIFICATION
+                    // send email notification
                     EmailNotification.EmailNotificatioForAdjustmentVoucherApprovalStatus(voucherNo, AdjustmentVoucherStatus.APPROVED, remark);
                     result = true;
                 }

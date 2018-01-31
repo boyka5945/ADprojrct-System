@@ -27,7 +27,7 @@ namespace InventoryWCF
 
 
 
-        public string ValidateUser(WCFUser User)
+        public WCFUser ValidateUser(WCFUser User)
         {
             //return BusinessLogic.validateUser(userid, password);
 
@@ -38,22 +38,22 @@ namespace InventoryWCF
                 {
                     if (User.PassWord == Encrypt.DecryptMethod(user.password))
                     {
-                        return "true";
+                        return WCFModelConvertUtility.ConvertToWCFUser(user);
                     } else
                     {
-                        return "false";
+                        return null;
                     }
                 }
                 else
                 {
-                    return "false";
+                    return null;
                 }
 
             }
             catch (Exception e)
             {
                 // non existing userID
-                return "false";
+                return null;
             }           
         }
 
@@ -63,7 +63,7 @@ namespace InventoryWCF
             try
             {
                 User user = userService.FindByUserID(userID);
-                if (user.password == password)
+                if (Encrypt.DecryptMethod(user.password) == password)
                 {
                     WCFUser wcfUser = WCFModelConvertUtility.ConvertToWCFUser(user);
                     return wcfUser;
@@ -88,11 +88,9 @@ namespace InventoryWCF
             u.UserID = userid;
             u.PassWord = currentpassword;
             
-            // TODO : IMPLEMENT METHOD
-            //return BusinessLogic.changePassWord(userid, currentpassword, newpassword);
             try
             {
-                if(ValidateUser(u) == "false")
+                if(ValidateUser(u) != null)
                 {
                     throw new NotImplementedException();
                 }
@@ -129,26 +127,7 @@ namespace InventoryWCF
         public List<WCFRequisitionDetail> GetRequisitionDetailsByItemCode(string itemCode)
         {
             // TODO : IMPLEMENT METHOD
-
             throw new NotImplementedException();
-
-            //List<WCFRequisitionDetail> list = new List<WCFRequisitionDetail>();
-            //var rr = BusinessLogic.getRequisitionDetailsByItemCode(itemCode);
-            //foreach (var item in rr)
-            //{
-            //    WCFRequisitionDetail r = new WCFRequisitionDetail();
-            //    r.RequisitonNo = item.requisitionNo;
-            //    r.RetrievedDate = item.retrievedDate;
-            //    r.ItemCode = item.itemCode;
-            //    r.NextCollectionDate = item.nextCollectionDate;
-            //    r.Qty = (int) item.qty;
-            //    r.ClerkID = item.clerkID;
-            //    r.AllocateQty = (int)item.allocatedQty;
-            //    r.FulfilledQty = (int)item.fulfilledQty;
-            //    r.Remarks = item.remarks;
-            //    list.Add(r);
-            //}
-            //return list;
         }
 
         public WCFRequisitionDetail GetRequisitionDetailsBy2Keys(string itemCode, string requisitionNO)
@@ -313,6 +292,13 @@ namespace InventoryWCF
             BusinessLogic.updateRequisition(Convert.ToInt32(requisitionNo) , status, approveStaffID);
         }
 
+        public void UpdateCollectionPoint(string deptCode, string newcp)
+        {
+
+            BusinessLogic.updateCollectionPoint(deptCode,Convert.ToInt32(newcp));
+        }
+
+
         public List<WCFRetrievalForm> getRetrievalList()
         {
             StationeryModel entity = new StationeryModel();
@@ -363,7 +349,7 @@ namespace InventoryWCF
                 //RetrieveForm rf = list.Where(x => x.description == description).First();
                 //rf.retrieveQty = Int32.Parse(qty);
                 Stationery item = stationeryService.FindStationeryByItemCode(wcfr.ItemCode);
-                if(wcfr.QtyRetrieved > item.stockQty)
+                if(wcfr.QtyRetrieved.Value > item.stockQty)
                 {
                     return "Value of Retrieved Qty cannot exceed Stock Qty.";
                 }
@@ -429,29 +415,33 @@ namespace InventoryWCF
             return allocationList;
         }
 
-        public void UpdateReqDetail(string NO, string itemCode, string quantity)
+
+        public void UpdateReqDetail(string No, string itemCode, string quantity)
         {
-            int requisitionNo = Convert.ToInt32(NO);
+            int requisitionNo = Convert.ToInt32(No);
             int qty = Convert.ToInt32(quantity);
             using (StationeryModel entity = new StationeryModel())
             {
                 entity.Requisition_Detail.Where(x => x.itemCode == itemCode && x.requisitionNo == requisitionNo).First().qty = (int)qty;
                 entity.SaveChanges();
             }
-            //Requisition_Detail requisitionDetail = new Requisition_Detail
-            //{
-            //    requisitionNo = reqDetail.RequisitionNo,
-            //    itemCode = reqDetail.ItemCode,
-            //    remarks = reqDetail.Remarks,
-            //    qty = reqDetail.Qty,
-            //    fulfilledQty = reqDetail.FulfilledQty,
-            //    clerkID = reqDetail.ClerkID,
-            //    retrievedDate = reqDetail.RetrievedDate,
-            //    allocatedQty = reqDetail.AllocateQty,
-            //    nextCollectionDate = reqDetail.NextCollectionDate
-            //};
-            //WCFModelConvertUtility.ConvertToWCFRequestionDetails(UpdateReqDetail(requisitionDetail));
-            //requisitionRecordService.up UpdateReqDetail(WCFModelConvertUtility.ConvertToWCFRequestionDetails(requisitionDetail);
+        }
+
+       
+
+        public void RemovePendingRequisition(string NO)
+        {
+            int requisitionNo = Convert.ToInt32(NO);
+            using (StationeryModel entity = new StationeryModel())
+            {
+                Requisition_Record record = (from r in entity.Requisition_Records
+                                             where r.requisitionNo == requisitionNo
+                                             select r).FirstOrDefault();
+
+                entity.Requisition_Detail.RemoveRange(record.Requisition_Detail);
+                entity.Requisition_Records.Remove(record);
+                entity.SaveChanges();
+            }
         }
 
         public List<WCFDisbursement> GetPendingItemsToBeProcessedByDepartmentByItems(string deptCode)
