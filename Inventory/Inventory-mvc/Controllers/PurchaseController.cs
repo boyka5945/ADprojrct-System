@@ -21,7 +21,7 @@ namespace Inventory_mvc.Controllers
         Dictionary<Purchase_Detail, string> details = new Dictionary<Purchase_Detail, string>();
         StationeryModel ctx = new StationeryModel();
         ISupplierService supplierService = new SupplierService();
-
+        
         public ActionResult Index()
         {
             return View();
@@ -68,7 +68,7 @@ namespace Inventory_mvc.Controllers
                 //return empty list if nothing can be found
 
             }
-            int pageSize = 10;
+            int pageSize = 6;
             int pageNumber = (page ?? 1);
             return View(model.ToPagedList(pageNumber, pageSize));
             //return View(model);
@@ -274,7 +274,7 @@ namespace Inventory_mvc.Controllers
                 Session["detailsBundle"] = null; //clear the orderCart
                 List<Purchase_Order_Record> model = pos.GetAllPurchaseOrder();
                 //return View("ListPurchaseOrders", model);
-                int pageSize = 10;
+                int pageSize = 6;
                 int pageNumber = (page ?? 1);
                 return View("ListPurchaseOrders", model.ToPagedList(pageNumber, pageSize));
             }
@@ -290,7 +290,7 @@ namespace Inventory_mvc.Controllers
             List<Purchase_Order_Record> model = pos.GetAllPurchaseOrder();
 
             //return View("ListPurchaseOrders");
-            int pageSize = 10;
+            int pageSize = 6;
             int pageNumber = (page ?? 1);
 
 
