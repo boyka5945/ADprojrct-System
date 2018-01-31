@@ -60,7 +60,6 @@ namespace Inventory_mvc.Controllers
             return View(model);
         }
 
-        [RoleAuthorize]
         [AllowAnonymous]
         public ActionResult Index()
         {
