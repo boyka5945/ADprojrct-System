@@ -20,6 +20,7 @@ namespace Inventory_mvc.Controllers
         
      
         // GET: CollectionPoint
+        // *********ACCESS LEVEL: Store Manager
         public ActionResult Index()
         {
             return View(collectionPointService.GetAllCollectionPoints());
@@ -33,12 +34,14 @@ namespace Inventory_mvc.Controllers
         //}
 
         // GET: CollectionPoint/Create
+        // *********ACCESS LEVEL: Store Manager********
         public ActionResult Create()
         {
             return View(new CollectionPointViewModel());
         }
 
         // POST: CollectionPoint/Create
+        // *********ACCESS LEVEL: Store Manager*******
         [HttpPost]
         public ActionResult Create(CollectionPointViewModel collectionPointVM)
         {
@@ -67,6 +70,7 @@ namespace Inventory_mvc.Controllers
         }
 
         // GET: CollectionPoint/Edit/{id}
+        // *********ACCESS LEVEL: Store Manager********
         public ActionResult Edit(int id)
         {
             CollectionPointViewModel cpVM = collectionPointService.GetCollectionPointByID(id);
@@ -75,6 +79,7 @@ namespace Inventory_mvc.Controllers
 
 
         // POST: CollectionPoint/Edit/{id}
+        // *********ACCESS LEVEL: Store Manager********
         [HttpPost]
         public ActionResult Edit(CollectionPointViewModel cpVM)
         {
@@ -105,6 +110,7 @@ namespace Inventory_mvc.Controllers
         }
 
         // GET: CollectionPoint/Delete/{id}
+        // *********ACCESS LEVEL: Store Manager********
         public ActionResult Delete(int id)
         {
             if (collectionPointService.DeleteCollectionPoint(id))
@@ -122,6 +128,7 @@ namespace Inventory_mvc.Controllers
 
 
         //    GET: CollectionPoint/UpdateCollectionPoint/{department}
+        // *********ACCESS LEVEL: Dept Head/Acting Dept Head/User Representative/Store Manager/********
 
         public ActionResult UpdateCollectionPoint()
         {
@@ -136,7 +143,7 @@ namespace Inventory_mvc.Controllers
             return View(uVM);
         }
 
-
+        // *********ACCESS LEVEL: Dept Head/Acting Dept Head/User Representative/Store Manager/********
         [HttpPost]
         public ActionResult UpdateCollectionPoint(FormCollection form)
         {
@@ -169,6 +176,7 @@ namespace Inventory_mvc.Controllers
 
         }
 
+        // *********ACCESS LEVEL: Dept Head/Acting Dept Head/User Representative/Store Manager/********
         [HttpGet]
         public ActionResult Collect_Item(int? page)
         {
@@ -206,7 +214,7 @@ namespace Inventory_mvc.Controllers
             int pageNumber = (page ?? 1);
             return View(list.ToPagedList(pageNumber, pageSize));
         }
-
+        // *********ACCESS LEVEL: Dept Head/Acting Dept Head/User Representative/Store Manager/********
         [HttpGet]
         public PartialViewResult Collect_Item2(int id)
         {
@@ -248,7 +256,7 @@ namespace Inventory_mvc.Controllers
 
             return null;
         }
-
+        // *********ACCESS LEVEL: Dept Head/Acting Dept Head/User Representative/Store Manager/********
         [HttpGet]
         public ActionResult Pending_Item(int? page)
         {
@@ -283,7 +291,7 @@ namespace Inventory_mvc.Controllers
             int pageNumber = (page ?? 1);
             return View(list.ToPagedList(pageNumber, pageSize));
         }
-
+        // *********ACCESS LEVEL: Dept Head/Acting Dept Head/User Representative/Store Manager/********
         [HttpGet]
         public PartialViewResult Pending_Item2(int id)
         {

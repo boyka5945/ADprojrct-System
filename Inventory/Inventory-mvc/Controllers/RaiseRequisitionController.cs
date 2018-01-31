@@ -29,7 +29,7 @@ namespace Inventory_mvc.Controllers
             ViewBag.SearchString = searchString;
             ViewBag.Page = page;
 
-            int pageSize = 4;
+            int pageSize = 13;
             int pageNumber = (page ?? 1);
             return View(stationeries.ToPagedList(pageNumber, pageSize));
         }
