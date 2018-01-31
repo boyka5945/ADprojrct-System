@@ -32,11 +32,20 @@ namespace Inventory_mvc.Function
             string[] emailReciever = userService.FindApprovingStaffsEmailByRequesterID(requesterID, RequisitionApprovingStaffsRoleID[userRole]);
 
             string content = String.Format("There is one new stationery requisition from {0} pending your approval.", userService.FindNameByID(requesterID));
-            foreach (var emailaddress in emailReciever)
+
+            try
             {
-                sendEmail email = new sendEmail(emailaddress, "New Stationery Requisition", content);
-                //email.send();
+                foreach (var emailaddress in emailReciever)
+                {
+                    sendEmail email = new sendEmail(emailaddress, "New Stationery Requisition", content);
+                    email.send();
+                }
             }
+            catch (Exception e)
+            {
+                throw new EmailException(e.ToString());
+            }
+
         }
 
         /// <summary>
@@ -165,7 +174,6 @@ namespace Inventory_mvc.Function
                 //email.send();
             }
         }
-
 
     }
 }
