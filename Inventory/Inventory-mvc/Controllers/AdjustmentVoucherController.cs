@@ -19,6 +19,7 @@ namespace Inventory_mvc.Controllers
         IAdjustmentVoucherService adjustmentVoucherService = new AdjustmentVoucherService();
 
         // CK - Store Supervisor | Store Manager
+
         public ActionResult Index(string status, int? page, string sortOrder)
         {
             string approverID = HttpContext.User.Identity.Name;

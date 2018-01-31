@@ -119,7 +119,7 @@ namespace Inventory_mvc.Controllers
             List<BigModelView> blist2 = new List<BigModelView>();
             foreach (var item in blist)
             {
-                if (item.retrievedQuantity != "" && item.retrievedQuantity != "0" && item.unfulfilledQty > 0)
+                if (item.unfulfilledQty > 0)
                 {
                     blist2.Add(item);
                 }
