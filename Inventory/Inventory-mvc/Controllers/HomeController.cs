@@ -38,7 +38,7 @@ namespace Inventory_mvc.Controllers
                 {
                     int roleID = UserService.GetRoleByID(model.UserName);
                     string identity = model.UserName;
-                    HttpContext.Application["role"] = roleID;
+                    Session["role"] = roleID;
                     AuthorizationManager.SetTicket(Response, model.RememberMe, identity.ToUpper(), roleID);
                     if (!string.IsNullOrEmpty(returnUrl))
                     {
