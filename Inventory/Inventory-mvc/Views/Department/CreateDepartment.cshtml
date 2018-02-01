@@ -69,7 +69,7 @@
             <div class="col-md-10">
                 @*@Html.HiddenFor(model => model.collectionPointID, new { htmlAttributes = new { @class = "form-control" } })
                     @Html.DropDownListFor(x => Model.collectionPointID, new SelectList(Model.CollPointID, "Value", "Text"), htmlAttributes: new { @class = "form-control", id = "collectionPointID" })*@
-                <select name="PointID" class="custom-select my-1 mr-sm-2">
+                <select name="PointID" class="form-control">
                     <option value="--Select--" selected="selected">--Select--</option>
                     
                     @foreach (var collectionPoint in collectionPointLists)

@@ -31,15 +31,14 @@
         {
 
 
-            <div >
-
+            <div class="form-inline">
                 @Html.DropDownList("searchBy", new List<SelectListItem> {
             new SelectListItem{Text = "PO Number", Value="orderNo",},
             new SelectListItem{ Text= "Status", Value="status"},
-            new SelectListItem{ Text= "Supplier", Value= "supplier"} }, "Show All", new {@class="form-control", @style="display: inline; width:200px;" })
+            new SelectListItem{ Text= "Supplier", Value= "supplier"} }, "Show All", new { @class = "form-control" })
 
-                <input type="text" name="search" style="display:inline; width: 200px; " class="form-control"  />
-                <input type="submit" value="search"style="display:inline"  class="btn btn-primary"/>
+                <input type="text" name="search" class="form-control" />
+                <input type="submit" value="search" class="btn btn-primary"/>
 
             </div>
 

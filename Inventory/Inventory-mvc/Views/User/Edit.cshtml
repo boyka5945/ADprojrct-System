@@ -118,7 +118,14 @@
 </div>
 
 <div>
-    @Html.ActionLink("Done", "UserList")
+    @if (Convert.ToInt32(HttpContext.Current.Session["role"]) == 5)
+    {
+        @Html.ActionLink("Cancel", "SMUserList")
+    }
+    else
+    {
+        @Html.ActionLink("Cancel", "UserList")
+    }
 </div>
 
 @section Scripts {

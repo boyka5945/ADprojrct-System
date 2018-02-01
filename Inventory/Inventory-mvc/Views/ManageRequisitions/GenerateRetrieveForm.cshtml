@@ -8,7 +8,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Retrieved List</h2>
+<h2>Stationery Retrieval Form</h2>
 @if (TempData["Successful"] != null)
 {
     <div class="alert alert-success">
@@ -22,7 +22,10 @@ else if (TempData["ErrorMessage"] != null)
     </div>
 }
 @if (Model != null)
-{
+{<br />
+    <a href="#" id="printAsPDF" onclick="downloadAsPDF()">Download as PDF</a>
+            <br />
+            <br/>
     using (Html.BeginForm("GetApplication", "ManageRequisitions", new { }, FormMethod.Post, new { @class = "form", @id = "checkForm" }))
     {
         <table class="table">
@@ -132,6 +135,11 @@ else if (TempData["ErrorMessage"] != null)
         }
 
     }
+
+    function downloadAsPDF() {
+        window.location.href = '@Url.Action("GenerateRetrieveFormPDF", "ManageRequisitions")';
+    }
+
 
 </script>
 

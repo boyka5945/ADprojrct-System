@@ -11,7 +11,7 @@
     var warningMessage = TempData["WarningMessage"];
 }
 
-<h2>Discrepancy Report</h2>
+<h2>Adjustment Voucher</h2>
 
 <br />
 <button type="button" class="btn btn-success" id="addItemBtn" data-toggle="modal" data-target="#addItemModal">Add New Item</button>
@@ -44,7 +44,7 @@
 
 @if (Model.Count() == 0)
 {
-    <h4><i>There is not item in disprecancy report.</i></h4>
+    <h4><i>There is not item in adjustment voucher.</i></h4>
 }
 else
 {
@@ -95,7 +95,7 @@ else
         </table>
 
         <br />
-        <input type="submit" value="Submit Discrepancy Report" class="btn btn-success" />
+        <input type="submit" value="Submit Adjustment Voucher" class="btn btn-success" />
         <a href="@Url.Action("ClearAllItemInVoucher", "AdjustmentVoucher" )">
             <input type="button" value="Clear All" class="btn btn-danger" />
         </a>

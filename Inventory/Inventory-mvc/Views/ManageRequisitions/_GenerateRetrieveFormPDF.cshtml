@@ -1,0 +1,44 @@
+﻿<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+@model IEnumerable<Inventory_mvc.ViewModel.RetrieveForm>
+
+
+@{
+    Layout = null;
+}
+
+<h2 style="text-align: center">Logic University</h2>
+<h3 style="text-align: center">Stationery Retrieval Form on @DateTime.Today.ToLongDateString()</h3>
+<br />
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.Label("Description")
+        </th>
+        <th>
+            @Html.Label("Required Quantity")
+        </th>
+        <th>@Html.Label("Retrieve Quantity")</th>
+    </tr>
+    @for (int i = 0; i < Model.Count(); i++)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => Model.ToList()[i].description)
+                <input type="hidden" id="c[@i]" name="[@i].description" value="@Model.ToList()[i].description" />
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => Model.ToList()[i].Qty)
+                <input type="hidden" id="a[@i]" name="[@i].Qty" value="@Model.ToList()[i].Qty" />
+            </td>
+            <td>
+                <input type="text" id="@i" name="[@i].retrieveQty" value="" class="form-control" required />
+            </td>
+        </tr>
+    }
+</table>
+

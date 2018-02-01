@@ -150,25 +150,25 @@
                 <div class="form-group">
 
                     @Html.Label("Quantity", htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        <input type="number" name="qty" min="1" class="form-control" style="width: 200px;"  required />
-                        @*@Html.Editor("qty")*@
-                        @Html.ValidationMessage("qty", "", new { @class = "text-danger", required = "required" })
+                    <div class="col-xs-4">
+
+                        <input type="number" name="qty" value="" required class="form-control"/>
+                        @Html.ValidationMessage("qty", "", new { @class = "text-danger" })
                     </div>
                 </div>
 
                 <div class="form-group">
 
                     @Html.Label("Price", htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
+                    <div class="col-xs-4">
                         @if (Session["pd"] != null)
                         {
                             decimal price = (decimal)Session["price"];
-                            <input name="price" value=@price class="form-control" style="width: 200px;"  required />
+                            <input name="price" value=@price class="form-control" required />
                         }
                         else
                         {
-                            <input name="price" type="text" class="form-control" style="width: 200px;"  value=@ViewBag.price required />
+                            <input name="price" type="text" value=@ViewBag.price class="form-control" required/>
                         }
                         @*@Html.Editor("price", new {@id="defaultPrice" })*@
                         @Html.ValidationMessage("price", "", new { @class = "text-danger" })
@@ -177,7 +177,7 @@
 
                 <div class="form-group">
                     @Html.Label("Supplier", htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
+                    <div class="col-xs-4">
 
                         @if (ViewBag.supplierList != null)
                         {
@@ -195,9 +195,9 @@
 
                     </div>
                     @Html.Label("Remarks", htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
+                    <div class="col-xs-4">
 
-                        <input type="text" name="remarks" value="" class="form-control" style="width: 200px;" readonly />
+                        <input type="text" value="" placeholder="Input remark here" name="remarks" class="form-control"/>
                         @*@Html.ValidationMessage("remarks")*@
                     </div>
                 </div>
@@ -300,6 +300,8 @@
                             }
 
         </table>
+        @Html.ActionLink("Generate Purchase Order", "GeneratePO", "Purchase", null, new { @class = "btn btn-success" })
+
 
         <div>
             @Html.ActionLink("Clear", "ClearSession", "Purchase", new { @class = "btn btn-danger" })
@@ -330,19 +332,24 @@
         <div id="myModal" class="modal">
 
             <!-- Modal content -->
-            <div class="modal-content">
+            <div class="modal-content" style="width: 40%">
                 @using (Html.BeginForm("UpdatePD", "Purchase", FormMethod.Post))
             {
-                <p>Item Code</p>
-                <input class="form-control" style="width: 200px" type="text" name="ditemCode" />
-                <p>Price</p>
-                <input class="form-control"  style="width: 200px" type="number" name="dprice" min="1" required />
-                <p>Quantity</p>
-                <input class="form-control"  style="width: 200px" type="number" name="dqty" min="1" required />
-                <p>Remarks</p>
-                <input class="form-control" style="width: 200px" type="text" name="dremarks" />
+                <label>Item Code</label>
+                <input type="text" name="ditemCode" class="form-control" />
                 <br />
-                <input class="btn btn-primary" style="margin-top: 10px;" type="submit" value="Update" id="modalSubmit" onclick="modalSubmitButtonClick" />
+                <label>Price</label>
+                <input type="number" name="dprice" min="0.01" required class="form-control" />
+                <br />
+
+                <label>Quantity</label>
+                <input type="number" name="dqty" min="1" required class="form-control" />
+                <br />
+
+                <label>Remarks</label>
+                <input type="text" name="dremarks" class="form-control" />
+                <br />
+                <input type="submit" value="Update" id="modalSubmit" onclick="modalSubmitButtonClick"  class="btn btn-success"/>
                 <br />
                 <span class="close" onclick="close">&times;</span>
             }

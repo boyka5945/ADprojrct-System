@@ -114,10 +114,6 @@ footer {
                             {
                                 <li>@Html.ActionLink("Manage Employee", "SMUserList", "User")</li>
                             }
-                            @if (Convert.ToInt32(HttpContext.Current.Session["role"]) == 5|| Convert.ToInt32(HttpContext.Current.Session["role"]) == 6)
-                            {
-                                <li>@Html.ActionLink("Department List", "ListDepartment", "Department")</li>
-                            }
                         </ul>
                     </li>}
                 @if (Convert.ToInt32(HttpContext.Current.Session["role"]) == 5 || Convert.ToInt32(HttpContext.Current.Session["role"]) == 6 || Convert.ToInt32(HttpContext.Current.Session["role"]) == 7)
@@ -130,7 +126,7 @@ footer {
                             <li>@Html.ActionLink("Stationery List", "Index", "Stationery")</li>
                             <li>@Html.ActionLink("Supplier List", "Index", "Supplier")</li>
                             <li>@Html.ActionLink("Collection Point List", "Index", "CollectionPoint")</li>
-
+                            <li>@Html.ActionLink("Department List", "ListDepartment", "Department")</li>
                         </ul>
                     </li>}
                 @if (Convert.ToInt32(HttpContext.Current.Session["role"]) == 2 || Convert.ToInt32(HttpContext.Current.Session["role"]) == 5 || Convert.ToInt32(HttpContext.Current.Session["role"]) == 6 || Convert.ToInt32(HttpContext.Current.Session["role"]) == 7 || Convert.ToInt32(HttpContext.Current.Session["role"]) == 8)
@@ -157,7 +153,7 @@ footer {
                             @if (Convert.ToInt32(HttpContext.Current.Session["role"]) == 5 || Convert.ToInt32(HttpContext.Current.Session["role"]) == 6 || Convert.ToInt32(HttpContext.Current.Session["role"]) == 7)
                 {
                                 <li>
-                                    @Html.ActionLink("Stationery Requisition Form", "ClerkRequisition", "ManageRequisitions")
+                                    @Html.ActionLink("Allocate Stationery", "ClerkRequisition", "ManageRequisitions")
                                 </li>
                             }
 
@@ -228,14 +224,14 @@ footer {
                         <a class="btn btn-primary dropdown-toggle" style="width:120px" type="button" data-toggle="dropdown" href="#">Stocks</a>
                         <ul class="dropdown-menu">
 
-
-                            <li>@Html.ActionLink("View Stock Card", "Index", "Stationery")</li>
+                            @* remove repeated menu item *@
+                            @*<li>@Html.ActionLink("View Stock Card", "Index", "Stationery")</li>*@
                             <li class="dropdown-submenu">
                                 <a class="test" href="#">Inventory Check<span class="caret"></span></a>
                                 <ul class="dropdown-menu" style="top:20%;left:100%;margin-top:1px">
                                     <li>@Html.ActionLink("Generate Inventory Checklist", "GenerateInventoryChecklist", "InventoryCheck")</li>
 
-                                    <li>@Html.ActionLink("Inventory CheckList Report", "ShowDetails", "InventoryCheck")</li>
+                                    <li>@Html.ActionLink("Inventory Check Report", "ShowDetails", "InventoryCheck")</li>
                                 </ul>
                             </li>
                             <li>@Html.ActionLink("View Shortfall List", "List", "CheckShortfall")</li>
