@@ -478,6 +478,7 @@ namespace Inventory_mvc.Controllers
         [HttpGet]
         public ActionResult updateRetrieve()
         {
+            StationeryModel entity = new StationeryModel();
             if (Request.QueryString["ErrorMessage"] != null)
             {
                 TempData["ErrorMessage"] = Request.QueryString["ErrorMessage"];
@@ -489,6 +490,17 @@ namespace Inventory_mvc.Controllers
             var Qty = Convert.ToInt32(Request.QueryString["key3"]);
             var page = Convert.ToInt32(Request.QueryString["key5"]);
             var stock = Convert.ToInt32(Request.QueryString["key6"]);
+            var status = Request.QueryString["key7"];
+            if (status != null)
+            {
+                List<Requisition_Detail> list = entity.Requisition_Detail.Where(x => x.itemCode == itemCode).ToList();
+                foreach (var item in list)
+                {
+                    item.allocatedQty = 0;
+                }
+                entity.SaveChanges();
+
+            }
             //StationeryViewModel stationery = ss.FindStationeryViewModelByItemCode(itemCode);
 
             //stationery.StockQty -= RetrieveQty;
