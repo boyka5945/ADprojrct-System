@@ -107,5 +107,10 @@ namespace Inventory_mvc.Service
             return supplier;
         }
 
+        public List<Supplier> FindSuppliersForStationery(Stationery s)
+        {
+
+            return supplierDAO.FindSuppliersForStationery(s);
+        }
     }
 }

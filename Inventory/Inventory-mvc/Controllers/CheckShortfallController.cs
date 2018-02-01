@@ -23,8 +23,9 @@ namespace Inventory_mvc.Controllers
 
         Dictionary<Purchase_Detail, string> details = new Dictionary<Purchase_Detail, string>();
 
-        [RoleAuthorize]
-        //CLERK
+        IRequisitionRecordService rrs = new RequisitionRecordService();
+
+
         public ActionResult Index()
         {
             return View();
@@ -167,24 +168,38 @@ namespace Inventory_mvc.Controllers
         //very important helper method
         public List<StationeryViewModel> shortFallList()
         {
-            //condition for finding items to reorder
+
             List<StationeryViewModel> items = stationeryService.GetAllStationeryViewModel();
-            List<StationeryViewModel> model = items.Where(x => x.StockQty < x.ReorderLevel).ToList(); //TO DO: USE THE SERVICE METHOD 
+
+            List<Requisition_Detail> allUnfulfilledRequestDetails = ctx.Requisition_Detail.Where(x => x.fulfilledQty < x.qty).ToList();
+
+
+            foreach (StationeryViewModel svm in items)
+            {
+
+                int unfulfilled = allUnfulfilledRequestDetails.Where(x => x.itemCode == svm.ItemCode && (x.Requisition_Record.status != "Pending Approval" && x.Requisition_Record.status != "Rejected")).Sum(x => x.qty - x.fulfilledQty).Value;
+                int index = items.FindIndex(x => x.ItemCode == svm.ItemCode);
+
+                items[index].unFulfilledQty = unfulfilled;
+                 
+            }
+
+            List<StationeryViewModel> model = items.Where(x => x.StockQty < x.ReorderLevel + x.unFulfilledQty).ToList(); 
 
             //calculating the suggested qty to order per item
             foreach (StationeryViewModel s in model)
             {
                 //suggsted = requested qty(from user) still outstanding + reorder level - qty alrdy ordered
                 string itemCode = s.ItemCode;
-                int requestQty = 0;
+                int unfulfilledQty = s.unFulfilledQty;
                 int purchasedAndPendingQty = 0;
                 int suggested;
-                List<Requisition_Detail> userRequests = ctx.Requisition_Detail.Where(x => x.itemCode == itemCode && x.qty.Value > (x.fulfilledQty ?? 0)).ToList();
+                //List<Requisition_Detail> userRequests = ctx.Requisition_Detail.Where(x => x.itemCode == itemCode && x.qty.Value > (x.fulfilledQty ?? 0)).ToList();
 
-                foreach (Requisition_Detail rd in userRequests)
-                {
-                    requestQty += (rd.qty.Value - (rd.fulfilledQty ?? 0));
-                }
+                //foreach (Requisition_Detail rd in userRequests)
+                //{
+                //    unfulfilledQty += (rd.qty.Value - (rd.fulfilledQty ?? 0)); //unfulfilled qty actually
+                //}
 
                 int diffBetweenQtyAndMin = s.ReorderLevel - s.StockQty;
 
@@ -198,8 +213,12 @@ namespace Inventory_mvc.Controllers
                     purchasedAndPendingQty += (pd.qty - pd.fulfilledQty ?? 0);
                 }
 
-                suggested = requestQty + (s.ReorderLevel - s.StockQty) - purchasedAndPendingQty;
+                suggested = unfulfilledQty + (s.ReorderLevel - s.StockQty) - purchasedAndPendingQty;
 
+                if (suggested < s.ReorderQty)
+                {
+                    suggested = s.ReorderQty;
+                }
                 s.Suggested = suggested;
 
 

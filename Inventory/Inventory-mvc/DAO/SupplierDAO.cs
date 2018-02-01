@@ -54,6 +54,26 @@ namespace Inventory_mvc.DAO
             }
         }
 
+        public List<Supplier> FindSuppliersForStationery(Stationery s)
+        {
+            List<Supplier> list = new List<Supplier>();
+            StationeryModel context = new StationeryModel();
+
+            List<string> codes = new List<string>();
+
+            codes.Add(s.firstSupplierCode);
+            codes.Add(s.secondSupplierCode);
+            codes.Add(s.thirdSupplierCode);
+
+            foreach(string code in codes)
+            {
+                list.Add(FindBySupplierCode(code));
+            }
+
+            return list;
+            
+        }
+
         public List<Supplier> GetAllSupplier()
         {
             using (StationeryModel context = new StationeryModel())

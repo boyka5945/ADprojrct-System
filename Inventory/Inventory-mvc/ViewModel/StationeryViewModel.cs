@@ -66,6 +66,9 @@ namespace Inventory_mvc.ViewModel
         [Display(Name = "Suggested")]
         public int Suggested { get; set; }
 
+        [Display(Name = "Unfulfilled Qty")]
+        public int unFulfilledQty { get; set; }
+
         public virtual Category Category { get; set; }
     }
 }
