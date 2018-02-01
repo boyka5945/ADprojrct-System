@@ -7,6 +7,7 @@ using Inventory_mvc.Service;
 using Inventory_mvc.Models;
 using Inventory_mvc.ViewModel;
 using PagedList;
+using Inventory_mvc.Function;
 
 namespace Inventory_mvc.Controllers
 {
@@ -17,10 +18,11 @@ namespace Inventory_mvc.Controllers
         IUserService us = new UserService();
         IStationeryService ss = new StationeryService();
         IRequisitionRecordService rs = new RequisitionRecordService();
-        
-     
+
+
         // GET: CollectionPoint
         // *********ACCESS LEVEL: Store Manager
+        [RoleAuthorize]
         public ActionResult Index()
         {
             return View(collectionPointService.GetAllCollectionPoints());
@@ -33,6 +35,7 @@ namespace Inventory_mvc.Controllers
         //    return View(model);
         //}
 
+        [RoleAuthorize]
         // GET: CollectionPoint/Create
         // *********ACCESS LEVEL: Store Manager********
         public ActionResult Create()
@@ -40,6 +43,7 @@ namespace Inventory_mvc.Controllers
             return View(new CollectionPointViewModel());
         }
 
+        [RoleAuthorize]
         // POST: CollectionPoint/Create
         // *********ACCESS LEVEL: Store Manager*******
         [HttpPost]
@@ -69,6 +73,7 @@ namespace Inventory_mvc.Controllers
             return View(collectionPointVM);
         }
 
+        [RoleAuthorize]
         // GET: CollectionPoint/Edit/{id}
         // *********ACCESS LEVEL: Store Manager********
         public ActionResult Edit(int id)
@@ -77,7 +82,7 @@ namespace Inventory_mvc.Controllers
             return View(cpVM);
         }
 
-
+        [RoleAuthorize]
         // POST: CollectionPoint/Edit/{id}
         // *********ACCESS LEVEL: Store Manager********
         [HttpPost]
@@ -109,6 +114,7 @@ namespace Inventory_mvc.Controllers
             return View(cpVM);
         }
 
+        [RoleAuthorize]
         // GET: CollectionPoint/Delete/{id}
         // *********ACCESS LEVEL: Store Manager********
         public ActionResult Delete(int id)
@@ -129,7 +135,7 @@ namespace Inventory_mvc.Controllers
 
         //    GET: CollectionPoint/UpdateCollectionPoint/{department}
         // *********ACCESS LEVEL: Dept Head/Acting Dept Head/User Representative/Store Manager/********
-
+        [RoleAuthorize]
         public ActionResult UpdateCollectionPoint()
         {
             string userID = HttpContext.User.Identity.Name;
@@ -143,6 +149,7 @@ namespace Inventory_mvc.Controllers
             return View(uVM);
         }
 
+        [RoleAuthorize]
         // *********ACCESS LEVEL: Dept Head/Acting Dept Head/User Representative/Store Manager/********
         [HttpPost]
         public ActionResult UpdateCollectionPoint(FormCollection form)
@@ -176,6 +183,7 @@ namespace Inventory_mvc.Controllers
 
         }
 
+        [RoleAuthorize]
         // *********ACCESS LEVEL: Dept Head/Acting Dept Head/User Representative/Store Manager/********
         [HttpGet]
         public ActionResult Collect_Item(int? page)
@@ -214,6 +222,8 @@ namespace Inventory_mvc.Controllers
             int pageNumber = (page ?? 1);
             return View(list.ToPagedList(pageNumber, pageSize));
         }
+
+        [RoleAuthorize]
         // *********ACCESS LEVEL: Dept Head/Acting Dept Head/User Representative/Store Manager/********
         [HttpGet]
         public PartialViewResult Collect_Item2(int id)
@@ -256,6 +266,8 @@ namespace Inventory_mvc.Controllers
 
             return null;
         }
+
+        [RoleAuthorize]
         // *********ACCESS LEVEL: Dept Head/Acting Dept Head/User Representative/Store Manager/********
         [HttpGet]
         public ActionResult Pending_Item(int? page)
@@ -291,6 +303,8 @@ namespace Inventory_mvc.Controllers
             int pageNumber = (page ?? 1);
             return View(list.ToPagedList(pageNumber, pageSize));
         }
+
+        [RoleAuthorize]
         // *********ACCESS LEVEL: Dept Head/Acting Dept Head/User Representative/Store Manager/********
         [HttpGet]
         public PartialViewResult Pending_Item2(int id)

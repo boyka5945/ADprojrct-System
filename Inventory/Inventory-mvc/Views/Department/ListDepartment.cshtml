@@ -61,10 +61,13 @@
         <td>
             @Html.DisplayFor(modelItem => item.Collection_Point.collectionPointName)
         </td>
+@if (ViewBag.RoleID != (int)UserRoles.RoleID.StoreClerk)
+{
         <td>
             @Html.ActionLink("Edit", "EditDepartment", new { deptCode = item.departmentCode }) 
             
         </td>
+}
     </tr>
 }
 

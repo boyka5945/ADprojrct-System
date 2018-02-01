@@ -34,7 +34,7 @@
 <body>
     <h2>Shortfall List</h2>
 
-    @using (Html.BeginForm("AddSelected", "CheckShortfall", FormMethod.Get ))
+    @using (Html.BeginForm("AddSelected", "CheckShortfall", FormMethod.Get))
     {
         <table class="table">
             <tr>
@@ -64,6 +64,11 @@
                 </th>
 
                 <th>
+                    @*@Html.DisplayNameFor(model => model.StockQty)*@
+                    @Html.Label("Unfulfilled Qty")
+                </th>
+
+                <th>
                     @*@Html.DisplayNameFor(model => model.Price)*@
                     @Html.Label("Price")
                 </th>
@@ -72,7 +77,7 @@
             </tr>
 
             @foreach (var item in Model)
-            {
+                {
                 <tr>
                     <td>
                         @Html.DisplayFor(modelItem => item.ItemCode)
@@ -95,6 +100,10 @@
                     </td>
 
                     <td>
+                        @Html.DisplayFor(modelItem => item.unFulfilledQty)
+                    </td>
+
+                    <td>
                         @Html.DisplayFor(modelItem => item.Price)
                     </td>
                     <td>
@@ -103,10 +112,10 @@
                         }
 
 
-                        <input type="number" value="@suggestedQty" />
+                        <input type="number" value="@suggestedQty" class="form-control" />
                     </td>
                     <td>
-                 
+
                         <input type="checkbox" value="@item.Suggested" name="@item.ItemCode" />
                     </td>
                 </tr>
@@ -117,21 +126,23 @@
         </table>
         <input type="submit" value="Generate PO" class="btn btn-primary"/>
 
+
+
+
+
+
+
+        </table>
+                            @:Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+                            @Html.PagedListPager(Model, page => Url.Action("List", new { searchString = ViewBag.SearchString, categoryID = ViewBag.CategoryID, page }))
+
+
+                            <input type="submit" value="Generate PO" class="btn btn-primary" />
+
+
+                            @Html.ActionLink("Generate PO for All Items", "AddSelected", new { checker = "addAll" }, new { @class = "btn btn-success" })
                             }
-
-
-
-
-    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
-
-    @Html.PagedListPager(Model, page => Url.Action("List",
-                     new { searchString = ViewBag.SearchString, categoryID = ViewBag.CategoryID, page }))
-
-
-
-
-
-    @Html.ActionLink("Generate PO for All Items", "AddSelected", new { checker = "addAll" }, null)
 
     <br />
     <br />

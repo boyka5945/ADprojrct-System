@@ -18,6 +18,7 @@ namespace Inventory_mvc.Controllers
         IRequisitionRecordService requisitionService = new RequisitionRecordService();
         IUserService userService = new UserService();
 
+        [RoleAuthorize]
         // CK - Employee | User Representative | Store Clerk | Store Supervisor
         public ActionResult BrowseCatalogue(string searchString, int? page, string categoryID = "-1")
         {
@@ -34,12 +35,14 @@ namespace Inventory_mvc.Controllers
             return View(stationeries.ToPagedList(pageNumber, pageSize));
         }
 
+        [RoleAuthorize]
         // CK - Employee | User Representative | Store Clerk | Store Supervisor
         public ActionResult ResetCatalogue()
         {
             return RedirectToAction("BrowseCatalogue", new { searchString = "", categoryID = "All" });
         }
 
+        [RoleAuthorize]
         // CK - Employee | User Representative | Store Clerk | Store Supervisor
         public ActionResult NewRequisition(string type, string itemCode = null)
         {
@@ -61,6 +64,7 @@ namespace Inventory_mvc.Controllers
             return View(requestList);
         }
 
+        [RoleAuthorize]
         // CK - Employee | User Representative | Store Clerk | Store Supervisor
         [HttpPost]
         public void SaveTemporaryValue(List<RaiseRequisitionViewModel> requestList)
@@ -72,6 +76,7 @@ namespace Inventory_mvc.Controllers
             }
         }
 
+        [RoleAuthorize]
         // CK - Employee | User Representative | Store Clerk | Store Supervisor
         [HttpPost]
         public ActionResult AddNewRequestItem(string itemCode, int quantity, string searchString, int? page, string categoryID)
@@ -139,6 +144,7 @@ namespace Inventory_mvc.Controllers
             }
         }
 
+        [RoleAuthorize]
         // CK - Employee | User Representative | Store Clerk | Store Supervisor
         [HttpPost]
         public ActionResult RemoveRequestItem(string itemCode, List<RaiseRequisitionViewModel> requestList)
@@ -153,6 +159,7 @@ namespace Inventory_mvc.Controllers
             return RedirectToAction("NewRequisition");
         }
 
+        [RoleAuthorize]
         // CK - Employee | User Representative | Store Clerk | Store Supervisor
         [HttpPost]
         public ActionResult SubmitRequisition(List<RaiseRequisitionViewModel> requestList)
@@ -222,6 +229,7 @@ namespace Inventory_mvc.Controllers
             return RedirectToAction("NewRequisition");
         }
 
+        [RoleAuthorize]
         // CK - Employee | User Representative | Store Clerk | Store Supervisor
         public ActionResult ClearAllRequestItem()
         {
@@ -234,6 +242,7 @@ namespace Inventory_mvc.Controllers
             return RedirectToAction("NewRequisition");
         }
 
+        [RoleAuthorize]
         // CK - Employee | User Representative | Store Clerk | Store Supervisor
         public ActionResult GetStationeryListJSON(string term = null)
         {

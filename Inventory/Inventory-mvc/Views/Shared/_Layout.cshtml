@@ -70,8 +70,8 @@ footer {
         <div class="container-fluid">
 
             <ul class="nav nav-tabs">
-                <li>@Html.ActionLink("Home", "Contact", "Home", null, new { @style = "color:#000aaa;" })</li>
-                @if (Convert.ToInt32(HttpContext.Current.Application["role"]) == 2 || Convert.ToInt32(HttpContext.Current.Application["role"]) == 3 || Convert.ToInt32(HttpContext.Current.Application["role"]) == 4 || Convert.ToInt32(HttpContext.Current.Application["role"]) == 5 || Convert.ToInt32(HttpContext.Current.Application["role"]) == 6 || Convert.ToInt32(HttpContext.Current.Application["role"]) == 7 || Convert.ToInt32(HttpContext.Current.Application["role"]) == 8)
+                <li>@Html.ActionLink("Home", "Index", "Home", null, new { @style = "color:#000aaa;" })</li>
+                @if (Convert.ToInt32(HttpContext.Current.Session["role"]) == 3 || Convert.ToInt32(HttpContext.Current.Session["role"]) == 4 || Convert.ToInt32(HttpContext.Current.Session["role"]) == 5 || Convert.ToInt32(HttpContext.Current.Session["role"]) == 6 || Convert.ToInt32(HttpContext.Current.Session["role"]) == 7)
                 {
 
                     <li class="dropdown">
@@ -85,7 +85,7 @@ footer {
 
                         </ul>
                     </li>}
-                @if (Convert.ToInt32(HttpContext.Current.Application["role"]) == 5 || Convert.ToInt32(HttpContext.Current.Application["role"]) == 4 || Convert.ToInt32(HttpContext.Current.Application["role"]) == 2 || Convert.ToInt32(HttpContext.Current.Application["role"]) == 8)
+                @if (Convert.ToInt32(HttpContext.Current.Session["role"]) == 5 || Convert.ToInt32(HttpContext.Current.Session["role"]) == 4 || Convert.ToInt32(HttpContext.Current.Session["role"]) == 2 || Convert.ToInt32(HttpContext.Current.Session["role"]) == 8)
                 {
                     <li class="dropdown">
                         <a class="btn btn-primary dropdown-toggle" style="width:120px" type="button" data-toggle="dropdown" href="#">
@@ -98,29 +98,25 @@ footer {
                         </ul>
                     </li>
                 }
-                @if (Convert.ToInt32(HttpContext.Current.Application["role"]) == 2 || Convert.ToInt32(HttpContext.Current.Application["role"]) == 3 || Convert.ToInt32(HttpContext.Current.Application["role"]) == 4 || Convert.ToInt32(HttpContext.Current.Application["role"]) == 5 || Convert.ToInt32(HttpContext.Current.Application["role"]) == 6 || Convert.ToInt32(HttpContext.Current.Application["role"]) == 7 || Convert.ToInt32(HttpContext.Current.Application["role"]) == 8)
+                @if (Convert.ToInt32(HttpContext.Current.Session["role"]) == 2 || Convert.ToInt32(HttpContext.Current.Session["role"]) == 3 || Convert.ToInt32(HttpContext.Current.Session["role"]) == 4 || Convert.ToInt32(HttpContext.Current.Session["role"]) == 5 || Convert.ToInt32(HttpContext.Current.Session["role"]) == 6 || Convert.ToInt32(HttpContext.Current.Session["role"]) == 7 || Convert.ToInt32(HttpContext.Current.Session["role"]) == 8)
                 {
                     <li class="dropdown">
                         <a class="btn btn-primary dropdown-toggle" style="width:120px" type="button" data-toggle="dropdown" href="#">
                             Employee
                         </a>
                         <ul class="dropdown-menu">
-                            @if (Convert.ToInt32(HttpContext.Current.Application["role"]) == 2 || Convert.ToInt32(HttpContext.Current.Application["role"]) == 3 || Convert.ToInt32(HttpContext.Current.Application["role"]) == 4 || Convert.ToInt32(HttpContext.Current.Application["role"]) == 6 || Convert.ToInt32(HttpContext.Current.Application["role"]) == 7 || Convert.ToInt32(HttpContext.Current.Application["role"]) == 8)
+                            @if (Convert.ToInt32(HttpContext.Current.Session["role"]) == 2 || Convert.ToInt32(HttpContext.Current.Session["role"]) == 3 || Convert.ToInt32(HttpContext.Current.Session["role"]) == 4 || Convert.ToInt32(HttpContext.Current.Session["role"]) == 6 || Convert.ToInt32(HttpContext.Current.Session["role"]) == 7 || Convert.ToInt32(HttpContext.Current.Session["role"]) == 8)
                             {
                                 <li>@Html.ActionLink("View Employee", "UserList", "User")</li>
                             }
 
-                            @if (Convert.ToInt32(HttpContext.Current.Application["role"]) == 5)
+                            @if (Convert.ToInt32(HttpContext.Current.Session["role"]) == 5)
                             {
                                 <li>@Html.ActionLink("Manage Employee", "SMUserList", "User")</li>
                             }
-                            @if (Convert.ToInt32(HttpContext.Current.Application["role"]) == 2 || Convert.ToInt32(HttpContext.Current.Application["role"]) == 5)
-                            {
-                                <li>@Html.ActionLink("Department List", "ListDepartment", "Department")</li>
-                            }
                         </ul>
                     </li>}
-                @if (Convert.ToInt32(HttpContext.Current.Application["role"]) == 5 || Convert.ToInt32(HttpContext.Current.Application["role"]) == 6 || Convert.ToInt32(HttpContext.Current.Application["role"]) == 7 || Convert.ToInt32(HttpContext.Current.Application["role"]) == 8)
+                @if (Convert.ToInt32(HttpContext.Current.Session["role"]) == 5 || Convert.ToInt32(HttpContext.Current.Session["role"]) == 6 || Convert.ToInt32(HttpContext.Current.Session["role"]) == 7)
                 {
                     <li class="dropdown">
                         <a class="btn btn-primary dropdown-toggle" style="width:120px" type="button" data-toggle="dropdown" href="#">
@@ -130,10 +126,10 @@ footer {
                             <li>@Html.ActionLink("Stationery List", "Index", "Stationery")</li>
                             <li>@Html.ActionLink("Supplier List", "Index", "Supplier")</li>
                             <li>@Html.ActionLink("Collection Point List", "Index", "CollectionPoint")</li>
-
+                            <li>@Html.ActionLink("Department List", "ListDepartment", "Department")</li>
                         </ul>
                     </li>}
-                @if (Convert.ToInt32(HttpContext.Current.Application["role"]) == 2 || Convert.ToInt32(HttpContext.Current.Application["role"]) == 5 || Convert.ToInt32(HttpContext.Current.Application["role"]) == 6 || Convert.ToInt32(HttpContext.Current.Application["role"]) == 7 || Convert.ToInt32(HttpContext.Current.Application["role"]) == 8)
+                @if (Convert.ToInt32(HttpContext.Current.Session["role"]) == 2 || Convert.ToInt32(HttpContext.Current.Session["role"]) == 5 || Convert.ToInt32(HttpContext.Current.Session["role"]) == 6 || Convert.ToInt32(HttpContext.Current.Session["role"]) == 7 || Convert.ToInt32(HttpContext.Current.Session["role"]) == 8)
                 {
                     <li class="dropdown">
                         <a class="btn btn-primary dropdown-toggle" style="width:120px" type="button" data-toggle="dropdown" href="#">Forms</a>
@@ -143,35 +139,35 @@ footer {
 
 
 
-                            @if (Convert.ToInt32(HttpContext.Current.Application["role"]) == 2 || Convert.ToInt32(HttpContext.Current.Application["role"]) == 5 || Convert.ToInt32(HttpContext.Current.Application["role"]) == 8)
+                            @if (Convert.ToInt32(HttpContext.Current.Session["role"]) == 2 || Convert.ToInt32(HttpContext.Current.Session["role"]) == 5 || Convert.ToInt32(HttpContext.Current.Session["role"]) == 8)
                 {
                                 <li>
                                     @Html.ActionLink("Approve Stationery Request", "ManagerRequisition", "ManageRequisitions")
                                 </li>
                             }
 
-                            @if (Convert.ToInt32(HttpContext.Current.Application["role"]) == 5 || Convert.ToInt32(HttpContext.Current.Application["role"]) == 6 || Convert.ToInt32(HttpContext.Current.Application["role"]) == 7)
+                            @if (Convert.ToInt32(HttpContext.Current.Session["role"]) == 5 || Convert.ToInt32(HttpContext.Current.Session["role"]) == 6 || Convert.ToInt32(HttpContext.Current.Session["role"]) == 7)
                 {
                                 <li>@Html.ActionLink("Stationery Retrieval Form", "GenerateRetrieveForm", "ManageRequisitions")</li>
                             }
-                            @if (Convert.ToInt32(HttpContext.Current.Application["role"]) == 5 || Convert.ToInt32(HttpContext.Current.Application["role"]) == 6 || Convert.ToInt32(HttpContext.Current.Application["role"]) == 7)
+                            @if (Convert.ToInt32(HttpContext.Current.Session["role"]) == 5 || Convert.ToInt32(HttpContext.Current.Session["role"]) == 6 || Convert.ToInt32(HttpContext.Current.Session["role"]) == 7)
                 {
                                 <li>
-                                    @Html.ActionLink("Stationery Requisition Form", "ClerkRequisition", "ManageRequisitions")
+                                    @Html.ActionLink("Allocate Stationery", "ClerkRequisition", "ManageRequisitions")
                                 </li>
                             }
 
-                            @if (Convert.ToInt32(HttpContext.Current.Application["role"]) == 5 || Convert.ToInt32(HttpContext.Current.Application["role"]) == 6 || Convert.ToInt32(HttpContext.Current.Application["role"]) == 7)
+                            @if (Convert.ToInt32(HttpContext.Current.Session["role"]) == 5 || Convert.ToInt32(HttpContext.Current.Session["role"]) == 6 || Convert.ToInt32(HttpContext.Current.Session["role"]) == 7)
                 {
                                 <li>@Html.ActionLink("Disbursement List", "DisbursementList", "ManageRequisitions")</li>
                             }
-                            @if (Convert.ToInt32(HttpContext.Current.Application["role"]) == 5 || Convert.ToInt32(HttpContext.Current.Application["role"]) == 6 || Convert.ToInt32(HttpContext.Current.Application["role"]) == 7)
+                            @if (Convert.ToInt32(HttpContext.Current.Session["role"]) == 5 || Convert.ToInt32(HttpContext.Current.Session["role"]) == 6 || Convert.ToInt32(HttpContext.Current.Session["role"]) == 7)
                             {
                                 <li class="dropdown-submenu">
                                     <a class="test" href="#">Inventory Adjustment Voucher<span class="caret"></span></a>
                                     <ul class="dropdown-menu" style="top:20%;left:100%;margin-top:1px">
                                         <li>@Html.ActionLink("Submit Voucher", "NewVoucher", "AdjustmentVoucher")</li>
-                                        @if (Convert.ToInt32(HttpContext.Current.Application["role"]) == 5 || Convert.ToInt32(HttpContext.Current.Application["role"]) == 6)
+                                        @if (Convert.ToInt32(HttpContext.Current.Session["role"]) == 5 || Convert.ToInt32(HttpContext.Current.Session["role"]) == 6)
                                         {
                                             <li>@Html.ActionLink("Approve Voucher", "Index", "AdjustmentVoucher")</li>}
                                     </ul>
@@ -184,7 +180,7 @@ footer {
 
                     </li>
                 }
-                @if (Convert.ToInt32(HttpContext.Current.Application["role"]) == 5 || Convert.ToInt32(HttpContext.Current.Application["role"]) == 6 || Convert.ToInt32(HttpContext.Current.Application["role"]) == 7 || Convert.ToInt32(HttpContext.Current.Application["role"]) == 8)
+                @if (Convert.ToInt32(HttpContext.Current.Session["role"]) == 5 || Convert.ToInt32(HttpContext.Current.Session["role"]) == 6 || Convert.ToInt32(HttpContext.Current.Session["role"]) == 7)
                 {
                     <li class="dropdown">
                         <a class="btn btn-primary dropdown-toggle" style="width:120px" type="button" data-toggle="dropdown" href="#">Reports</a>
@@ -222,20 +218,20 @@ footer {
                     </li>
                 }
 
-                @if (Convert.ToInt32(HttpContext.Current.Application["role"]) == 5 || Convert.ToInt32(HttpContext.Current.Application["role"]) == 6 || Convert.ToInt32(HttpContext.Current.Application["role"]) == 7 || Convert.ToInt32(HttpContext.Current.Application["role"]) == 8)
+                @if (Convert.ToInt32(HttpContext.Current.Session["role"]) == 5 || Convert.ToInt32(HttpContext.Current.Session["role"]) == 6 || Convert.ToInt32(HttpContext.Current.Session["role"]) == 7)
                 {
                     <li class="dropdown">
                         <a class="btn btn-primary dropdown-toggle" style="width:120px" type="button" data-toggle="dropdown" href="#">Stocks</a>
                         <ul class="dropdown-menu">
 
-
-                            <li>@Html.ActionLink("View Stock Card", "Index", "Stationery")</li>
+                            @* remove repeated menu item *@
+                            @*<li>@Html.ActionLink("View Stock Card", "Index", "Stationery")</li>*@
                             <li class="dropdown-submenu">
                                 <a class="test" href="#">Inventory Check<span class="caret"></span></a>
                                 <ul class="dropdown-menu" style="top:20%;left:100%;margin-top:1px">
                                     <li>@Html.ActionLink("Generate Inventory Checklist", "GenerateInventoryChecklist", "InventoryCheck")</li>
 
-                                    <li>@Html.ActionLink("Inventory CheckList Report", "ShowDetails", "InventoryCheck")</li>
+                                    <li>@Html.ActionLink("Inventory Check Report", "ShowDetails", "InventoryCheck")</li>
                                 </ul>
                             </li>
                             <li>@Html.ActionLink("View Shortfall List", "List", "CheckShortfall")</li>
@@ -245,9 +241,18 @@ footer {
                         </ul>
                     </li>
                 }
-                <li style="position:absolute;right:0px">
-                    @Html.ActionLink("Logout", "Logout", "Home", null, new { @style = "color:#000aaa;" })
-                </li>
+                @if (HttpContext.Current.Session["role"] != null)
+                {
+                    <li style="position:absolute;right:0px">
+                        @Html.ActionLink("Logout", "Logout", "Home", null, new { @style = "color:#000aaa;" })
+                    </li>
+                }
+                else
+                {
+                    <li style="position:absolute;right:0px">
+                        @Html.ActionLink("Login", "Login", "Home", null, new { @style = "color:#000aaa;" })
+                    </li>
+                }
             </ul>
         </div>
     </nav>

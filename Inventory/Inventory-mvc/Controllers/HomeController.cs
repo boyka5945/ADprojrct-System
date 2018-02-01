@@ -38,7 +38,7 @@ namespace Inventory_mvc.Controllers
                 {
                     int roleID = UserService.GetRoleByID(model.UserName);
                     string identity = model.UserName;
-                    HttpContext.Application["role"] = roleID;
+                    Session["role"] = roleID;
                     AuthorizationManager.SetTicket(Response, model.RememberMe, identity.ToUpper(), roleID);
                     if (!string.IsNullOrEmpty(returnUrl))
                     {
@@ -51,13 +51,18 @@ namespace Inventory_mvc.Controllers
                 }
                 else
                 {
-                    ViewBag.errorMessage = "PassWord is not correct.";
+                    ViewBag.errorMessage = "Password is not correct.";
 
                 }
                 //}   
             }
 
             return View(model);
+        }
+
+        public ActionResult Error()
+        {
+            return View();
         }
 
         [RoleAuthorize]
@@ -67,11 +72,12 @@ namespace Inventory_mvc.Controllers
             return View();
         }
 
+        [RoleAuthorize]
         [AllowAnonymous]
         public ActionResult Logout()
         {
             //HttpContext.Application.Clear();
-            HttpContext.Application["role"] = null;
+            Session["role"] = null;
             FormsAuthentication.SignOut();
             return RedirectToAction("Login", "Home");
         }

@@ -457,10 +457,11 @@ namespace InventoryWCF
         }
 
 
-        public bool SaveActualQty(string itemCode, string needQty, string stationeryDescription, string actualQty, string deptCode)
+        public bool SaveActualQty(string itemCode, string needQty, string actualQty, string deptCode)
         {
             int aneedQty = Convert.ToInt32(needQty);
             int aactualQty = Convert.ToInt32(actualQty);
+            Boolean status = true;
             try
             {
                 List<WCFDisbursement> list = new List<WCFDisbursement>();
@@ -468,17 +469,36 @@ namespace InventoryWCF
                 {
 
                     list = (List<WCFDisbursement>)HttpContext.Current.Application["tempDisbursement"];
-
+                    for (int i = 0;i<list.Count;i++)
+                    {
+                        if (list[i].DeptCode == deptCode && list[i].ItemCode == itemCode)
+                        {
+                            list[i].ActualQty = aactualQty;
+                            status = false;
+                            break;
+                        }
+                    }
+                    if (status)
+                    {
+                        WCFDisbursement d = new WCFDisbursement();
+                        d.ItemCode = itemCode;
+                        d.NeedQty = aneedQty;
+                        d.DeptCode = deptCode;
+                        d.ActualQty = aactualQty;
+                        list.Add(d);
+                    }
+                }else
+                {
+                    WCFDisbursement d = new WCFDisbursement();
+                    d.ItemCode = itemCode;
+                    d.NeedQty = aneedQty;
+                    d.DeptCode = deptCode;
+                    d.ActualQty = aactualQty;
+                    list.Add(d);
                 }
-                WCFDisbursement d = new WCFDisbursement();
-                d.ItemCode = itemCode;
-                d.NeedQty = aneedQty;
-                d.StationeryDescription = stationeryDescription;
-                d.DeptCode = deptCode;
-                d.ActualQty = aactualQty;
-                list.Add(d);
                 HttpContext.Current.Application["tempDisbursement"] = list;
                 return true;
+
             }
             catch
             {

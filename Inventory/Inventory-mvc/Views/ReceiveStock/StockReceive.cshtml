@@ -2,9 +2,9 @@
 
 @{
     ViewBag.Title = "StockReceive";
-    var errorMessage = TempData["searchError"];
-    var fulfilledItemError = TempData["icodesFilled"];
-    List<string> fulfilledItemList = (List<string>)fulfilledItemError;
+    var errorMessage = TempData["Items updated"];
+    //var fulfilledItemError = TempData["icodesFilled"];
+    //List<string> fulfilledItemList = (List<string>)fulfilledItemError;
 
 }
 
@@ -19,7 +19,7 @@
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script>
   $( function() {
-    $( "#datepicker" ).datepicker();
+      $("#datepicker").datepicker();
   } );
     </script>
 
@@ -27,16 +27,13 @@
 
 <body>
 
-    <h2>Stock Receive</h2>
+    <h2 style="margin-bottom:20px;">Stock Receive</h2>
     <div>
-        @if (fulfilledItemError != null)
+        @if (errorMessage != null)
         {
-            <p style="color: red;">The following items have already been fulfilled. </p>
-            foreach (string s in fulfilledItemList)
-            {
-                <p style="color: red;">@s</p>
-            }
-
+            <div class="alert alert-danger">
+                No records have been saved.
+            </div>
         }
     </div>
             @using (Html.BeginForm("StockReceive", "ReceiveStock", FormMethod.Post))
@@ -48,7 +45,7 @@
                             @Html.Label("PO Number", htmlAttributes: new { @class = "control-label" })
                             </div>
                             <div class="col-md-10">
-                                <input type="text" value="@ViewBag.PONumber" name="searchPONumber" required/>
+                                <input type="text" value="@ViewBag.PONumber" name="searchPONumber" class="form-control" style="width: 200px; display: inline;" required/>
                                 @*@Html.TextBox("searchPONumber", ViewBag.PONumber as string)*@
                                 <input type="submit" value="Search" class="btn btn-primary" style=" margin-left:10px;" />
                                 @*@if (errorMessage != null)
@@ -64,7 +61,7 @@
                             @Html.Label("Supplier", htmlAttributes: new { @class = "control-label" })
                             </div>
                             <div class="col-md-10">
-                                @Html.TextBox("showSupplier", ViewBag.Supplier as string, new { @readonly = "readonly" })
+                                @Html.TextBox("showSupplier", ViewBag.Supplier as string, new { @class="form-control", @style= "width: 200px; display: inline;", @readonly = "readonly" })
                             </div>
                         </div>
 
@@ -80,7 +77,7 @@
                                     @Html.Label("DO Number", htmlAttributes: new { @class = "control-label" })
                                     </div>
                                     <div class="col-md-10">
-                                        <input type="number" name="DONumber" value="@ViewBag.DOnumber" required />
+                                        <input type="text" name="DONumber" value="@ViewBag.DOnumber"  class="form-control" style="width: 200px; display: inline;" required />
                                         @*@Html.TextBox("DONumber")*@
                                     </div>
                                 </div>
@@ -91,7 +88,7 @@
                                     </div>
                                     @*@Html.TextBox("ReceivedDate")*@
                                     <div class="col-md-10">
-                                        <input type="text" id="datepicker" name="ReceivedDate" value="@ViewBag.ReceivedDate" required />
+                                        <input type="text" id="datepicker" name="ReceivedDate" value="@ViewBag.ReceivedDate"  class="form-control" style="width: 200px; display: inline; margin-bottom:30px;" required />
                                     </div>
                                 </div>
 
@@ -152,14 +149,15 @@
                                                     fulfilled = 0;
 
                                                 }
-                                                string qtyOutstanding = (item.qty - fulfilled).ToString();
+                                                int unfulfilled = item.qty - fulfilled;
+                                                string Unreceived = unfulfilled.ToString();
                                             }
-                                            @Html.Label(qtyOutstanding)
+                                            @Html.Label(Unreceived)
                                         </td>
                                         <td>
                                             @*//input for received*@
                                             <div class="form-inline">
-                                                <input type="number" name="num-@item.itemCode" value="0" min="0" class="form-control" placeholder="FulfilledQty" />
+                                                <input type="number" name="num-@item.itemCode" value="0" min="0" max=@unfulfilled class="form-control" placeholder="0" />
 
                                             </div>
                                         </td>
@@ -168,7 +166,7 @@
                                         </td>
                                         <td>
                                             @*//input for remarks*@
-                                            <input type="text" name="rem-@item.itemCode" />
+                                            <input type="text" name="rem-@item.itemCode" class="form-control" value="@item.remarks" />
                                         </td>
                                     </tr>
                                                 }
@@ -176,12 +174,12 @@
 
                             </table>
                             <div class="form-group">
-                                <div class="col-md-offset-2 col-md-10">
+                        
                                     @*@Html.ActionLink("Submit All as Received", "UpdateReceived", "ReceiveStock", new { @class = "all", checker = "allReceived" }, null)*@
                                     <input type="submit" name="sbutton" value="Submit All" class="btn btn-primary" />
                                     @*<input type="submit" value="Fill in all unreceived quantity"  class="btn btn-default" />*@
-                                    <input type="submit" name="sbutton" value="Submit" class="btn btn-primary" />
-                                </div>
+                                    <input type="submit" name="sbutton" value="Submit" class="btn btn-primary" style="margin-left: 10px" />
+                               
                             </div>
                             }
 

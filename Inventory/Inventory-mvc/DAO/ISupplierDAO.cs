@@ -19,5 +19,7 @@ namespace Inventory_mvc.DAO
         int UpdateSupplierInfo(Supplier supplier);
 
         bool DeleteSupplier(string supplierCode);
+
+        List<Supplier> FindSuppliersForStationery(Stationery s);
     }
 }
