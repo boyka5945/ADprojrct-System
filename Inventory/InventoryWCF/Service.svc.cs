@@ -473,6 +473,7 @@ namespace InventoryWCF
                         if (item.DeptCode == deptCode && item.ItemCode == itemCode)
                         {
                             item.ActualQty = aactualQty;
+                            break;
                         }
                         else
                         {
