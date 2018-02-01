@@ -22,7 +22,7 @@ namespace Inventory_mvc.Service
 
         bool AddNewPurchaseOrder(Purchase_Order_Record purchase_order_record);
 
-        bool AddPurchaseDetail(int deliveryOrderNo, string itemCode, int qty, string remarks, decimal price);
+        bool AddPurchaseDetail(string deliveryOrderNo, string itemCode, int qty, string remarks, decimal price);
 
         bool AddPurchaseDetail(Purchase_Detail pd);
 

@@ -39,7 +39,7 @@ namespace Inventory_mvc.Models
         public decimal price { get; set; }
 
         [Display(Name = "Delivery Order No.")]
-        public int? deliveryOrderNo { get; set; }
+        public string deliveryOrderNo { get; set; }
 
         [Display(Name = "Purchase Order Record")]
         public virtual Purchase_Order_Record Purchase_Order_Record { get; set; }
