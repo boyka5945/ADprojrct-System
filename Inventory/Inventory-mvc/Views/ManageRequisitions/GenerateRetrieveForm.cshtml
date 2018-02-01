@@ -39,7 +39,7 @@ else if (TempData["ErrorMessage"] != null)
         </th>
         <th>@Html.Label("Retrieve Quantity")</th>
         <th>
-            
+            Stock Quantity
         </th><th></th>
     </tr>
     @for (int i = 0;i<Model.Count();i++)
@@ -62,7 +62,7 @@ else if (TempData["ErrorMessage"] != null)
                 <input type="number"  id="@i" name="[@i].retrieveQty" value="@Model.ToList()[i].retrieveQty" class="form-control" min="0" max="@Model.ToList()[i].Qty" required />
             </td> 
             <td>
-                @Html.HiddenFor(modelItem => Model.ToList()[i].StockQty)
+                @Html.DisplayFor(modelItem => Model.ToList()[i].StockQty)
                 <input type="hidden" id="e[@i]" name="[@i].Qty" value="@Model.ToList()[i].StockQty" />
             </td>
             <td>

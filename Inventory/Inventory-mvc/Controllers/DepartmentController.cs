@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using Inventory_mvc.Service;
 using Inventory_mvc.Models;
 using PagedList;
+using Inventory_mvc.Function;
 
 namespace Inventory_mvc.Controllers
 {
@@ -17,11 +18,14 @@ namespace Inventory_mvc.Controllers
         IUserService userService = new UserService();
 
         // GET: Department
+
+        [RoleAuthorize]
         public ActionResult Index()
         {
             return View();
         }
 
+        [RoleAuthorize]
         //ACCESS BY Store Clerk, Store Manager, Store Supervisor
         public ActionResult ListDepartment(int? page)
         {
@@ -37,6 +41,7 @@ namespace Inventory_mvc.Controllers
 
         }
 
+        [RoleAuthorize]
         //ACCESS BY Store Manager, Store Supervisor
         [HttpGet]
         public ActionResult EditDepartment(string deptCode)
@@ -50,6 +55,7 @@ namespace Inventory_mvc.Controllers
             return View(model);
         }
 
+        [RoleAuthorize]
         //ACCESS BY Store Manager, Store Supervisor
         [HttpPost]
         public ActionResult EditDepartment(Department dept)
@@ -78,6 +84,7 @@ namespace Inventory_mvc.Controllers
             
         }
 
+        [RoleAuthorize]
         //ACCESS BY Store Manager, Store Supervisor
         [HttpGet]
         public ActionResult CreateDepartment()
@@ -90,6 +97,7 @@ namespace Inventory_mvc.Controllers
             return View();
         }
 
+        [RoleAuthorize]
         //ACCESS BY Store Manager, Store Supervisor
         [HttpPost]
         public ActionResult CreateDepartment(Department dept, FormCollection form)

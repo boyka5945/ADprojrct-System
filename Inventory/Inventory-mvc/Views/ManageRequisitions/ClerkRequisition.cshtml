@@ -24,7 +24,10 @@
         </div>
     }
 </div>
-
+@if (Model.Count() == 0)
+{
+    <h4><i>There is no item to allocate.</i></h4>
+}
 @using (Html.BeginForm("AllocateRequisition", "ManageRequisitions", new { }, FormMethod.Post, new { @class = "form", @id = "checkForm" }))
 {
     <table class="table">
@@ -57,39 +60,39 @@
 
         @for (int i = 0; i < Model.Count(); i++)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => Model.ToList()[i].itemCode)
-                    <input type="hidden" name="[@i].itemCode" value="@Model.ToList()[i].itemCode" />
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => Model.ToList()[i].description)
-                    <input type="hidden" name="[@i].description" value="@Model.ToList()[i].description" />
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => Model.ToList()[i].retrievedQuantity)
-                    <input type="hidden" name="[@i].retrievedQuantity" value="@Model.ToList()[i].retrievedQuantity" />
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => Model.ToList()[i].requisitionRecord.requisitionNo)
-                    <input type="hidden" name="[@i].requisitionRecord.requisitionNo" value="@Model.ToList()[i].requisitionRecord.requisitionNo" />
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => Model.ToList()[i].requisitionRecord.Department.departmentName)
-                    <input type="hidden" name="[@i].requisitionRecord.Department.departmentName" value="@Model.ToList()[i].requisitionRecord.Department.departmentName" />
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => Model.ToList()[i].requisitionRecord.requestDate)
-                    <input type="hidden" name="[@i].requisitionRecord.requestDate" value="@Model.ToList()[i].requisitionRecord.requestDate" />
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => Model.ToList()[i].unfulfilledQty)
-                    <input type="hidden" id="a[@i]" name="[@i].unfulfilledQty" value="@Model.ToList()[i].unfulfilledQty" />
-                </td>
-                <td>
-                    <input type="number" id="@i" name="[@i].allocateQty" value="@Model.ToList()[i].allocateQty" class="form-control" min="0" max="@Model.ToList()[i].unfulfilledQty" onchange="SaveData(@i)" required />
-                </td>
-            </tr>
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => Model.ToList()[i].itemCode)
+                            <input type="hidden" name="[@i].itemCode" value="@Model.ToList()[i].itemCode" />
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => Model.ToList()[i].description)
+                            <input type="hidden" name="[@i].description" value="@Model.ToList()[i].description" />
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => Model.ToList()[i].retrievedQuantity)
+                            <input type="hidden" name="[@i].retrievedQuantity" value="@Model.ToList()[i].retrievedQuantity" />
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => Model.ToList()[i].requisitionRecord.requisitionNo)
+                            <input type="hidden" name="[@i].requisitionRecord.requisitionNo" value="@Model.ToList()[i].requisitionRecord.requisitionNo" />
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => Model.ToList()[i].requisitionRecord.Department.departmentName)
+                            <input type="hidden" name="[@i].requisitionRecord.Department.departmentName" value="@Model.ToList()[i].requisitionRecord.Department.departmentName" />
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => Model.ToList()[i].requisitionRecord.requestDate)
+                            <input type="hidden" name="[@i].requisitionRecord.requestDate" value="@Model.ToList()[i].requisitionRecord.requestDate" />
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => Model.ToList()[i].unfulfilledQty)
+                            <input type="hidden" id="a[@i]" name="[@i].unfulfilledQty" value="@Model.ToList()[i].unfulfilledQty" />
+                        </td>
+                        <td>
+                            <input type="number" id="@i" name="[@i].allocateQty" value="@Model.ToList()[i].allocateQty" class="form-control" min="0" max="@Model.ToList()[i].unfulfilledQty" onchange="SaveData(@i)" required />
+                        </td>
+                    </tr>
         }
 
 
@@ -106,19 +109,20 @@
 
                 <div class="col-md-offset-2 col-md-0">
                     <input type="submit" value="Allocate" class="btn btn-success" />
-                </div></td>
+                </div>
+            </td>
             <td style="float:right;border-top-width:0px">
                 <div>
                     @Html.ActionLink("Go to Disbursement", "DisbursementList", "ManageRequisitions", new { @class = "btn btn-primary" })
                 </div>
             </td>
         </tr>
-        
-        
-        
+
+
+
     </table>
 }
-    <script>
+<script>
     function SaveData(i)
     {
         if (parseInt(document.getElementById(i).value) > parseInt(document.getElementById("a[" + i + "]").value)) {
@@ -140,4 +144,4 @@
             //alert(i);
 
         }
-    </script>
+</script>

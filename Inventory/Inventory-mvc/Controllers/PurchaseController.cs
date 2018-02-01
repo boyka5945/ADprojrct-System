@@ -8,6 +8,7 @@ using Inventory_mvc.Models;
 using Inventory_mvc.DAO;
 using Inventory_mvc.ViewModel;
 using PagedList;
+using Inventory_mvc.Function;
 
 namespace Inventory_mvc.Controllers
 {
@@ -21,12 +22,15 @@ namespace Inventory_mvc.Controllers
         Dictionary<Purchase_Detail, string> details = new Dictionary<Purchase_Detail, string>();
         StationeryModel ctx = new StationeryModel();
         ISupplierService supplierService = new SupplierService();
-        
+
+        [RoleAuthorize]
         public ActionResult Index()
         {
             return View();
         }
 
+        [RoleAuthorize]
+        //CLERK
         [HttpGet]
         //FormCollection form
         public ActionResult ListPurchaseOrders(string search, string searchBy, int? page)
@@ -81,6 +85,8 @@ namespace Inventory_mvc.Controllers
 
         //}
 
+        [RoleAuthorize]
+        //CLERK
         [HttpGet]
         public ActionResult RaisePurchaseOrder()
         {
@@ -90,9 +96,9 @@ namespace Inventory_mvc.Controllers
             ViewBag.orderNo = orderNo;
 
             List<Purchase_Detail> model = new List<Purchase_Detail>();
-            ViewBag.itemCodeList = ss.GetAllItemCodes();
+            ViewBag.itemCodeList = new SelectList(ss.GetAllStationery(), "itemCode", "description");
             ViewBag.AllItems = ss.GetAllStationery();
-            ViewBag.supplierList = supplierService.GetAllSuppliers();
+           
 
             if (Session["detailsBundle"] != null)
             {
@@ -102,12 +108,13 @@ namespace Inventory_mvc.Controllers
 
             }
 
-
+            ModelState.Clear();
             return View(model);
 
         }
 
-
+        [RoleAuthorize]
+        //CLERK
         [HttpPost]
         public ActionResult RaisePurchaseOrder([Bind(Include = "orderNo, itemCode, qty, remarks, price")]Purchase_Detail pd, string supplierCode)
         {
@@ -118,8 +125,8 @@ namespace Inventory_mvc.Controllers
             List<Purchase_Detail> model = new List<Purchase_Detail>();
             Dictionary<Purchase_Detail, string> details = new Dictionary<Purchase_Detail, string>();
 
-            ViewBag.itemCodeList = ss.GetAllItemCodes();
-            ViewBag.supplierList = supplierService.GetAllSuppliers();
+            ViewBag.itemCodeList = new SelectList(ss.GetAllStationery(), "itemCode", "description");
+            ViewBag.supplierList = null;
 
 
             if (Session["detailsBundle"] != null)
@@ -129,66 +136,7 @@ namespace Inventory_mvc.Controllers
                 model = details.Keys.ToList<Purchase_Detail>();
 
             }
-
-            if (pd.itemCode != "--Select--")
-            {
-                Session["pd"] = pd;
-                Session["description"] = ss.FindStationeryByItemCode(pd.itemCode).description;
-                var a = ss.FindStationeryByItemCode(pd.itemCode).price;
-                    Session["price"] = ss.FindStationeryByItemCode(pd.itemCode).price;
-                //Session["SupplierCode"] = supplierCode;
-                //return View(model);
-            }
-
-            if (supplierCode != "--Select--")
-            {
-                Session["SupplierCode"] = supplierCode;
-                Session["sup"] = supplierService.FindBySupplierCode(supplierCode).SupplierName;
-                
-            }
-
-            //validation
-            if (pd.qty < 1)
-            {
-                TempData["QtyErrorMessage"] = "Quantity should be greater than 0";
-                string qtyError = "Quantity should be greater than 0";
-                ModelState.AddModelError("qty", qtyError);
-
-            }
-            if (pd.price <= 0)
-            {
-                TempData["PriceErrorMessage"] = "Price cannot be 0 or less than 0.";
-                string priceError = "Price cannot be 0 or less than 0. ";
-                ModelState.AddModelError("price", priceError);
-            }
-
-            if (supplierCode == "--Select--")
-            {
-                TempData["SupplierCodeErrorMessage"] = "SupplierCode must be selected.";
-                string supplierCodeError = "SupplierCode must be selected. ";
-                ModelState.AddModelError("supplierCode", supplierCodeError);
-            }
-
-            if (pd.itemCode == "--Select--")
-            {
-                TempData["ItemCodeErrorMessage"] = "ItemCode must be selected.";
-                string itemCodeError = "ItemCode must be selected. ";
-                ModelState.AddModelError("itemCode", itemCodeError);
-                return View(model);
-            }
-
-            if (pd.qty == 0)
-            {
-                return View(model);
-            }
-
-            if (pd.price <= 0)
-            {
-                return View(model);
-            }
-
-
-
+            
 
             //only save to session if itemcode, price and qty are entered
             if (pd.price > 0 && pd.qty > 0 && pd.itemCode != ("--Select--") && supplierCode != ("--Select--"))
@@ -206,15 +154,9 @@ namespace Inventory_mvc.Controllers
                     //pd.price = ctx.Stationeries.Where(x => x.itemCode == pd.itemCode).First().price;
                     details.Add(pd, supplierCode);
                     model.Add(pd);
-                    if (Session["pd"] != null)
-                    {
-                        Session["pd"] = null;
-                        Session["description"] = null;
-                        Session["price"] = null;
-                        Session["SupplierCode"] = null;
-                    }
                     Session["detailsBundle"] = details;
                 }
+
                 ModelState.Clear();
                 return View("RaisePurchaseOrder", model);
 
@@ -226,6 +168,9 @@ namespace Inventory_mvc.Controllers
 
         //gets the purchase details and supplier to order from - which are bundled together as key-value pairs, then creates a new purchase order for each supplier
         //then creates purchase detail with order num matching the supplier which user has chosen
+
+        [RoleAuthorize]
+        //CLERK
         [HttpGet]
         public ActionResult GeneratePO(int? page)
         {
@@ -281,6 +226,8 @@ namespace Inventory_mvc.Controllers
 
         }
 
+        [RoleAuthorize]
+        //CLERK
         //delete purchase order record
         [HttpGet]
         public ActionResult Delete(string id, int? page)
@@ -299,14 +246,16 @@ namespace Inventory_mvc.Controllers
 
         }
 
+        [RoleAuthorize]
+        //CLERK
         //delete purchase detail record
         [HttpGet]
         public ActionResult DeletePD(string id)
         {
             Dictionary<Purchase_Detail, string> details = (Dictionary<Purchase_Detail, string>)Session["detailsBundle"];
             List<Purchase_Detail> model = details.Keys.ToList<Purchase_Detail>();
-            ViewBag.itemCodeList = ss.GetAllItemCodes();
-            ViewBag.supplierList = supplierService.GetAllSuppliers();
+            ViewBag.itemCodeList = new SelectList(ss.GetAllStationery(), "itemCode", "description");
+            ViewBag.supplierList = null;
 
 
 
@@ -327,11 +276,13 @@ namespace Inventory_mvc.Controllers
 
         }
 
+        [RoleAuthorize]
+        //CLERK
         [HttpGet]
         public ActionResult ClearSession()
         {
-            ViewBag.itemCodeList = ss.GetAllItemCodes();
-            ViewBag.supplierList = supplierService.GetAllSuppliers();
+            ViewBag.itemCodeList = new SelectList(ss.GetAllStationery(), "itemCode", "description");
+            ViewBag.supplierList = null;
 
             Session["detailsBundle"] = null;
 
@@ -340,6 +291,8 @@ namespace Inventory_mvc.Controllers
             return View("RaisePurchaseOrder", model);
         }
 
+        [RoleAuthorize]
+        //CLERK
         [HttpPost]
         public ActionResult UpdatePD()
         {
@@ -348,13 +301,18 @@ namespace Inventory_mvc.Controllers
 
             Dictionary<Purchase_Detail, string> details = (Dictionary<Purchase_Detail, string>)Session["detailsBundle"];
             List<Purchase_Detail> model = details.Keys.ToList<Purchase_Detail>();
-            ViewBag.itemCodeList = ss.GetAllItemCodes();
-            ViewBag.supplierList = supplierService.GetAllSuppliers();
+            ViewBag.itemCodeList = new SelectList(ss.GetAllStationery(), "itemCode", "description");
 
             string itemCode = Request.Params.Get("ditemCode");
             var index = model.FindIndex(c => c.itemCode == itemCode);
+            Stationery s = ss.FindStationeryByItemCode(itemCode);
+            ViewBag.supplierList = ViewBag.supplierList = new SelectList(supplierService.FindSuppliersForStationery(s), "supplierCode", "supplierName");
 
-            
+            if (qty == 0)
+            {
+
+                TempData["dQtyErrorMessage"] = "Quantity field is required";
+            }
             qty = Int32.Parse(Request.Params.Get("dqty"));
             if (qty < 1)
             {
@@ -362,12 +320,14 @@ namespace Inventory_mvc.Controllers
                 //return View("UpdatePD", "Purchase", FormMethod.Post);
 
             }
+
+
             else
             {
                 model[index].qty = qty;
             }
 
-             price = Int32.Parse(Request.Params.Get("dprice"));
+             price = Decimal.Parse(Request.Params.Get("dprice"));
             if (price <= 0)
             {
                 TempData["dPriceErrorMessage"] = "Price cannot be 0 or less than 0.";
@@ -387,38 +347,52 @@ namespace Inventory_mvc.Controllers
             //save changes to the dictionary and to session state
             details.Remove(model[index]);
             details.Add(model[index], supplier);
-
             Session["detailsBundle"] = details;
-
 
             return View("RaisePurchaseOrder", model);
 
         }
 
+        [RoleAuthorize]
+        //CLERK
         //for refreshing the values of price and description whenever drop down list value is changed
         [HttpGet]
         public ActionResult GetDescrpAndPrice(string itemcode)
         {
-            Dictionary<Purchase_Detail, string> details = new Dictionary<Purchase_Detail, string>();
-            List<Purchase_Detail> model = new List<Purchase_Detail>();
+           
+                Dictionary<Purchase_Detail, string> details = new Dictionary<Purchase_Detail, string>();
+                List<Purchase_Detail> model = new List<Purchase_Detail>();
+            ViewBag.itemCodeList = new SelectList(ss.GetAllStationery(), "itemCode", "description");
             if (Session["detailsBundle"] != null)
-            {
-                details = (Dictionary<Purchase_Detail, string>)Session["detailsBundle"];
-                model = details.Keys.ToList<Purchase_Detail>();
+                {
+                    details = (Dictionary<Purchase_Detail, string>)Session["detailsBundle"];
+                    model = details.Keys.ToList<Purchase_Detail>();
+
             }
-            ViewBag.itemCodeList = ss.GetAllItemCodes();
-            ViewBag.supplierList = supplierService.GetAllSuppliers();
+            if (itemcode == "")
+            {
 
-            Stationery s = ss.FindStationeryByItemCode(itemcode);
-            ViewBag.price = s.price;
-            ViewBag.descrp = s.description;
-            ViewBag.itemcode = itemcode;
+                //do nothing, just return to view
+            }
+            else
+            {
+            
+                Stationery s = ss.FindStationeryByItemCode(itemcode);
+                ViewBag.supplierList = new SelectList(supplierService.FindSuppliersForStationery(s), "supplierCode", "supplierName");
 
 
+                ViewBag.price = s.price;
+                ViewBag.descrp = s.description;
+                ViewBag.itemcode = itemcode;
+                ViewBag.firstSupplier = s.Supplier.supplierName;
+
+            }
             return View("RaisePurchaseOrder", model);
 
         }
 
+        [RoleAuthorize]
+        //CLERK
         //helper method
         public int findNextOrderNo()
         {
