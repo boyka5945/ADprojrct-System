@@ -27,19 +27,28 @@ else if (TempData["ErrorMessage"] != null)
 
     @using (Html.BeginForm())
     {
-        @Html.Label("Department Name : ")
-        @Html.DropDownList("ID", (List<SelectListItem>)ViewData["list"], new { onchange = "form.submit();", id = "deptCode" })
-        <br />
-        @Html.Label("Collection Point: ")
-        @Html.Label((string)ViewBag.Point)
+        <div class="form-inline">
+            @Html.Label("Department Name : ")
 
-        <br />
-        @Html.Label("Representative :")
-        @Html.Label((string)ViewBag.rp)
-<br /><br />
-        <a href="#" id="printAsPDF" onclick="downloadAsPDF()">Download List as PDF</a>
-    }
-</div>
+            @Html.DropDownList("ID", (List<SelectListItem>)ViewData["list"], new { onchange = "form.submit();", id = "deptCode", @class = "form-control", style = "width: 20%" })
+
+        </div>
+
+        <div class="form-inline">
+
+            @Html.Label("Collection Point: ")
+            @Html.Label((string)ViewBag.Point)
+            </div>
+
+            <div class="form-inline">
+
+                @Html.Label("Representative :")
+                @Html.Label((string)ViewBag.rp)
+                </div>
+             <br />
+                <a href="#" id="printAsPDF" onclick="downloadAsPDF()">Download List as PDF</a>
+                }
+            </div>
 <br />
 @if (Model.Count() == 0)
 {
@@ -58,7 +67,7 @@ else
                 @Html.Label("Quantity")
             </th>
             <th>
-                @Html.Label("Actual Retrieved Quantity")
+                @Html.Label("Actual Disbursed Quantity")
             </th>
             <th>
 
@@ -80,7 +89,7 @@ else
                     <input type="hidden" id="AllocateQty[@i]" name="[@i].quantity" value="@Model.ToList()[i].quantity" />
                 </td>
                 <td>
-                    <input type="number" id="ActualQty[@i]" class="form-control" value="@Model.ToList()[i].actualQty" min="0" max="@Model.ToList()[i].quantity" required />
+                    <input type="number" id="ActualQty[@i]" class="form-control"  value="@Model.ToList()[i].actualQty" min="0" max="@Model.ToList()[i].quantity" required />
                 </td>
                 <td>
                     <input type="button" name="button" class="btn btn-success" value="Save" onclick="SaveData(@i)" />
@@ -89,13 +98,14 @@ else
         }
     </table>
 
-    <div>
-        <input type="button" name="button" class="btn btn-success" value="Submit" onclick="update()" />
-    </div>
 
     @:Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
     @Html.PagedListPager(Model, page => Url.Action("DisbursementList",
                      new { page }))
+
+    <div>
+        <input type="button" name="button" class="btn btn-success" value="Submit" onclick="update()" />
+    </div>
 
 }
 
@@ -120,7 +130,7 @@ else
             }
             else if (parseInt(ActualQty) > 0 || parseInt(ActualQty) <= 0) {
                 if (parseInt(ActualQty) < parseInt(AllocateQty)) {
-                    var remarks = prompt("discripency reason:");
+                    var remarks = prompt("discrepancy reason:");
                     window.location.href = '@Url.Action("SaveDisbursementList", "ManageRequisitions")?key1=' + ActualQty + "&key2=" + itemCode + "&key3=" + AllocateQty + "&key4=" + remarks + "&dept=" + document.getElementById("deptCode").value;
                 } else {
                     window.location.href = '@Url.Action("SaveDisbursementList", "ManageRequisitions")?key1=' + ActualQty + "&key2=" + itemCode + "&key3=" + AllocateQty + "&dept=" + document.getElementById("deptCode").value;
