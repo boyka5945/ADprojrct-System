@@ -276,14 +276,14 @@ namespace Inventory_mvc.Controllers
             }
             List<Disbursement> list;
             list = rs.GetRequisitionByDept(deptCode);
-            if (HttpContext.Application["DisbursementQty"] != null)
+            if (HttpContext.Application["tempDisbursement"] != null)
             {
-                List<Disbursement> l = (List<Disbursement>)HttpContext.Application["DisbursementQty"];
+                List<Disbursement> l = (List<Disbursement>)HttpContext.Application["tempDisbursement"];
                 foreach (var item in list)
                 {
                     foreach (var i in l)
                     {
-                        if (item.itemCode == i.itemCode)
+                        if (item.itemCode == i.itemCode && item.departmentCode == i.departmentCode)
                         {
                             item.actualQty = i.actualQty;
                         }
@@ -429,14 +429,14 @@ namespace Inventory_mvc.Controllers
             }
             ViewData["list"] = departmentlist;
             var list = rs.GetRequisitionByDept(deptCode);
-            if (HttpContext.Application["DisbursementQty"] != null)
+            if (HttpContext.Application["tempDisbursement"] != null)
             {
-                List<Disbursement> l = (List<Disbursement>)HttpContext.Application["DisbursementQty"];
+                List<Disbursement> l = (List<Disbursement>)HttpContext.Application["tempDisbursement"];
                 foreach (var item in list)
                 {
                     foreach (var i in l)
                     {
-                        if (item.itemCode == i.itemCode)
+                        if (item.itemCode == i.itemCode && item.departmentCode == i.departmentCode)
                         {
                             item.actualQty = i.actualQty;
                         }
@@ -519,15 +519,15 @@ namespace Inventory_mvc.Controllers
         [HttpGet]
         public ActionResult UpdateDisbursement()
         {
-            if (HttpContext.Application["DisbursementQty"] != null)
+            if (HttpContext.Application["tempDisbursement"] != null)
             {
-                List<Disbursement> l = (List<Disbursement>)HttpContext.Application["DisbursementQty"];
+                List<Disbursement> l = (List<Disbursement>)HttpContext.Application["tempDisbursement"];
                 for (int i = 0; i < l.Count; i++)
                 {
                     rs.UpdateDisbursement(l[i].itemCode, (int)l[i].actualQty, l[i].departmentCode, (int)l[i].quantity, i, HttpContext.User.Identity.Name);
                 }
             }
-            HttpContext.Application["DisbursementQty"] = null;
+            HttpContext.Application["tempDisbursement"] = null;
             HttpContext.Application["retrieveList"] = null;
             HttpContext.Application["BigModel"] = null;
             TempData["Successful"] = "submit successful.";
@@ -550,25 +550,42 @@ namespace Inventory_mvc.Controllers
             var allocateQty = Convert.ToInt32(Request.QueryString["key3"]);
             var remarks1 = Request.QueryString["key4"];
             var deptCode = Session["deptCode"].ToString();
-
-            List<Disbursement> l;
-            if (HttpContext.Application["DisbursementQty"] == null)
+            Boolean status = true;
+            List<Disbursement> list = new List<Disbursement>();
+            if (HttpContext.Application["tempDisbursement"] != null)
             {
-                l = new List<Disbursement>();
+
+                list = (List<Disbursement>)HttpContext.Application["tempDisbursement"];
+                for (int i = 0; i < list.Count; i++)
+                {
+                    if (list[i].departmentCode == deptCode && list[i].itemCode == itemCode)
+                    {
+                        list[i].actualQty = actualQty;
+                        status = false;
+                        break;
+                    }
+                }
+                if (status)
+                {
+                    Disbursement d = new Disbursement();
+                    d.itemCode = itemCode;
+                    d.quantity = allocateQty;
+                    d.departmentCode = deptCode;
+                    d.actualQty = actualQty;
+                    list.Add(d);
+                }
             }
             else
             {
-                l = (List<Disbursement>)HttpContext.Application["DisbursementQty"];
+                Disbursement d = new Disbursement();
+                d.itemCode = itemCode;
+                d.quantity = allocateQty;
+                d.departmentCode = deptCode;
+                d.actualQty = actualQty;
+                list.Add(d);
             }
+            HttpContext.Application["tempDisbursement"] = list;
 
-            Disbursement d = new Disbursement();
-            d.itemCode = itemCode;
-            d.actualQty = actualQty;
-            d.quantity = allocateQty;
-            d.departmentCode = deptCode;
-
-            l.Add(d);
-            HttpContext.Application["DisbursementQty"] = l;
             TempData["Successful"] = "Save disbursement successful.";
             ViewBag.Select = deptCode;
             return RedirectToAction("DisbursementList");
