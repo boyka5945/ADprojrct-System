@@ -461,6 +461,7 @@ namespace InventoryWCF
         {
             int aneedQty = Convert.ToInt32(needQty);
             int aactualQty = Convert.ToInt32(actualQty);
+            Boolean status = true;
             try
             {
                 List<WCFDisbursement> list = new List<WCFDisbursement>();
@@ -468,26 +469,25 @@ namespace InventoryWCF
                 {
 
                     list = (List<WCFDisbursement>)HttpContext.Current.Application["tempDisbursement"];
-                    foreach(var item in list)
+                    for (int i = 0;i<list.Count;i++)
                     {
-                        if (item.DeptCode == deptCode && item.ItemCode == itemCode)
+                        if (list[i].DeptCode == deptCode && list[i].ItemCode == itemCode)
                         {
-                            item.ActualQty = aactualQty;
+                            list[i].ActualQty = aactualQty;
+                            status = false;
                             break;
                         }
-                        else
-                        {
-                            WCFDisbursement d = new WCFDisbursement();
-                            d.ItemCode = itemCode;
-                            d.NeedQty = aneedQty;
-                            d.DeptCode = deptCode;
-                            d.ActualQty = aactualQty;
-                            list.Add(d);
-                        }
                     }
-
-                }
-                else
+                    if (status)
+                    {
+                        WCFDisbursement d = new WCFDisbursement();
+                        d.ItemCode = itemCode;
+                        d.NeedQty = aneedQty;
+                        d.DeptCode = deptCode;
+                        d.ActualQty = aactualQty;
+                        list.Add(d);
+                    }
+                }else
                 {
                     WCFDisbursement d = new WCFDisbursement();
                     d.ItemCode = itemCode;
