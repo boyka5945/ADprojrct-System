@@ -252,7 +252,7 @@ namespace Inventory_mvc.Service
             List<Supplier> suppliers = supplierSerivce.GetSupplierList();
             Random supplierR = new Random(651);
 
-            string[] status = { "incomplete", "delivered", "partially delivered"};
+            string[] status = { "delivered" };
             Random statusR = new Random(75);
 
             Random stationeryR = new Random(888);
@@ -266,11 +266,7 @@ namespace Inventory_mvc.Service
             endTime = endTime.AddMonths(1);
 
             while (startTime <= endTime)
-            {
-                if(startTime.Year == 2017)
-                {
-                    status = new string[] { "delivered" };
-                }
+            {           
 
                 int no_of_record = dailyR.Next(1, 5);
 

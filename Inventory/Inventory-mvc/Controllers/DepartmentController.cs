@@ -14,6 +14,8 @@ namespace Inventory_mvc.Controllers
 
         IDepartmentService departmentService = new DepartmentService();
         ICollectionPointService collectionPointService = new CollectionPointService();
+        IUserService userService = new UserService();
+
         // GET: Department
         public ActionResult Index()
         {
@@ -25,7 +27,9 @@ namespace Inventory_mvc.Controllers
         {
             DepartmentService ds = new DepartmentService();
             List<Department> model = ds.GetAllDepartment();
-            
+
+            string userID = HttpContext.User.Identity.Name;
+            ViewBag.RoleID = userService.GetRoleByID(userID);
 
             int pageSize = 4;
             int pageNumber = (page ?? 1);

@@ -12,7 +12,7 @@
 }
 
 <h2>Department List</h2>
-@if (ViewBag.RoleID == (int)UserRoles.RoleID.StoreManager)
+@if (ViewBag.RoleID != (int)UserRoles.RoleID.StoreClerk)
 {
 <p>
     @Html.ActionLink("Create New Department", "CreateDepartment")

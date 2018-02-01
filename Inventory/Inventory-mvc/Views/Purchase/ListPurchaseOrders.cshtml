@@ -34,13 +34,13 @@
         {
 
 
-            <div style= "float: left;">
+            <div class="form-inline">
                 @Html.DropDownList("searchBy", new List<SelectListItem> {
             new SelectListItem{Text = "PO Number", Value="orderNo",},
             new SelectListItem{ Text= "Status", Value="status"},
-            new SelectListItem{ Text= "Supplier", Value= "supplier"} }, "Show All")
+            new SelectListItem{ Text= "Supplier", Value= "supplier"} }, "Show All", new { @class = "form-control" })
 
-                <input type="text" name="search" />
+                <input type="text" name="search" class="form-control" />
                 <input type="submit" value="search" class="btn btn-primary"/>
 
             </div>

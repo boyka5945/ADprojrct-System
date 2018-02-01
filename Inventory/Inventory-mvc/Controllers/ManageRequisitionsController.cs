@@ -576,6 +576,15 @@ namespace Inventory_mvc.Controllers
             return View();
         }
 
+        public ActionResult GenerateRetrieveFormPDF()
+        {
+            List<RetrieveForm> model = (List<RetrieveForm>) HttpContext.Application["retrieveList"];
+
+            string fileName = String.Format("Stationery_Retrieval_List_of_on_{0}.pdf", DateTime.Today.ToShortDateString());
+            return new ViewAsPdf("_GenerateRetrieveFormPDF", model) { FileName = fileName };
+        }
+
+
         //Clerk
         [HttpPost]
         public ActionResult GenerateRetrieveForm(FormCollection form, int? page)

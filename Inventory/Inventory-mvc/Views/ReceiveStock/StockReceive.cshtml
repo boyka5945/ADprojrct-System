@@ -19,7 +19,7 @@
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script>
   $( function() {
-    $( "#datepicker" ).datepicker();
+      $("#datepicker").datepicker();
   } );
     </script>
 
@@ -31,8 +31,9 @@
     <div>
         @if (errorMessage != null)
         {
-            <p style="color: black; background-color:lightpink; border-radius:5px;">No records have been saved. </p>
-
+            <div class="alert alert-danger">
+                No records have been saved.
+            </div>
         }
     </div>
             @using (Html.BeginForm("StockReceive", "ReceiveStock", FormMethod.Post))
@@ -76,7 +77,7 @@
                                     @Html.Label("DO Number", htmlAttributes: new { @class = "control-label" })
                                     </div>
                                     <div class="col-md-10">
-                                        <input type="number" name="DONumber" value="@ViewBag.DOnumber"  class="form-control" style="width: 200px; display: inline;" required />
+                                        <input type="text" name="DONumber" value="@ViewBag.DOnumber"  class="form-control" style="width: 200px; display: inline;" required />
                                         @*@Html.TextBox("DONumber")*@
                                     </div>
                                 </div>
