@@ -250,7 +250,7 @@ namespace Inventory_mvc.Controllers
         //CLERK
         //delete purchase detail record
         [HttpGet]
-        public ActionResult DeletePD(string id)
+        public ActionResult DeletePD(string delItemCode)
         {
             Dictionary<Purchase_Detail, string> details = (Dictionary<Purchase_Detail, string>)Session["detailsBundle"];
             List<Purchase_Detail> model = details.Keys.ToList<Purchase_Detail>();
@@ -259,7 +259,7 @@ namespace Inventory_mvc.Controllers
 
 
 
-            Purchase_Detail pd = model.Where(x => x.itemCode == id).First();
+            Purchase_Detail pd = model.Where(x => x.itemCode == delItemCode).First();
 
             //remove from model
             model.Remove(pd);
