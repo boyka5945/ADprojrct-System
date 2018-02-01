@@ -40,7 +40,7 @@ namespace Inventory_mvc.Controllers
 
             List<StationeryViewModel> model = shortFallList();
 
-            int pageSize = 11;
+            int pageSize = 8;
             int pageNumber = (page ?? 1);
             return View(model.ToPagedList(pageNumber, pageSize));
         }
