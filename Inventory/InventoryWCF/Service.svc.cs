@@ -468,17 +468,38 @@ namespace InventoryWCF
                 {
 
                     list = (List<WCFDisbursement>)HttpContext.Current.Application["tempDisbursement"];
+                    foreach(var item in list)
+                    {
+                        if (item.DeptCode == deptCode && item.ItemCode == itemCode)
+                        {
+                            item.ActualQty = aactualQty;
+                        }
+                        else
+                        {
+                            WCFDisbursement d = new WCFDisbursement();
+                            d.ItemCode = itemCode;
+                            d.NeedQty = aneedQty;
+                            d.StationeryDescription = stationeryDescription;
+                            d.DeptCode = deptCode;
+                            d.ActualQty = aactualQty;
+                            list.Add(d);
+                        }
+                    }
 
                 }
-                WCFDisbursement d = new WCFDisbursement();
-                d.ItemCode = itemCode;
-                d.NeedQty = aneedQty;
-                d.StationeryDescription = stationeryDescription;
-                d.DeptCode = deptCode;
-                d.ActualQty = aactualQty;
-                list.Add(d);
+                else
+                {
+                    WCFDisbursement d = new WCFDisbursement();
+                    d.ItemCode = itemCode;
+                    d.NeedQty = aneedQty;
+                    d.StationeryDescription = stationeryDescription;
+                    d.DeptCode = deptCode;
+                    d.ActualQty = aactualQty;
+                    list.Add(d);
+                }
                 HttpContext.Current.Application["tempDisbursement"] = list;
                 return true;
+
             }
             catch
             {
