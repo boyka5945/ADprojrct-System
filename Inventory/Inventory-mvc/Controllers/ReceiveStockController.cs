@@ -168,6 +168,7 @@ namespace Inventory_mvc.Controllers
                     pd.fulfilledQty += receivedNum;
 
                     pd.remarks = remarks; //delete?
+                    pd.deliveryOrderNo = DONumber;
 
                     //update stationery table
                     Stationery s = (from x in ctx.Stationeries
@@ -204,7 +205,7 @@ namespace Inventory_mvc.Controllers
 
                     //}
 
-                    pd.deliveryOrderNo = Int32.Parse(DONumber); //need to update this code once DB is altered
+                    pd.deliveryOrderNo = DONumber; //need to update this code once DB is altered
 
                     //need to validate, to ensure that qty received is not higher than qty ordered
 

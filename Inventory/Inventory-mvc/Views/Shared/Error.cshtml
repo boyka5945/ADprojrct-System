@@ -7,10 +7,26 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>Error</title>
+    <style>
+        .error {
+            background-color: dodgerblue;
+            text-align: center;
+            vertical-align: middle;
+            font-family: Arial;
+            padding: 50px;
+            margin: 0px;
+        }
+
+
+
+    </style>
 </head>
-<body>
-    <hgroup>
-        <h1>Sorry, You can not access this page. please login</h1>
-    </hgroup>
+<body style= "margin: 0px;">
+    <div class="error">
+       
+            <p>Sorry, You cannot access this page. Please @Html.ActionLink("log in.", "Login", "Home")</p>
+
+       
+    </div>
 </body>
 </html>

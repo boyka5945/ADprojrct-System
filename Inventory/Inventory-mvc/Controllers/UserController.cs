@@ -67,18 +67,31 @@ namespace Inventory_mvc.Controllers
         [RoleAuthorize]
         [HttpPost]
         public ActionResult Delegate(string userID,string from, string toto )  //DeptHead
-        {           
-            DateTime start = DateTime.ParseExact(from, "dd-MM-yyyy", CultureInfo.InvariantCulture);
-            DateTime end = DateTime.ParseExact(toto, "dd-MM-yyyy", CultureInfo.InvariantCulture);
-            userService.DelegateEmp(Request["userID"].ToString(), start.Date, end.Date);
+        {
+            string startDate = from;
+            string endDate = toto;
+                 
+            if (startDate.Equals("") || endDate.Equals(null) || endDate.Equals(""))
+            {
+                User u = userService.FindByUserID(userID);
+                TempData["NO_Date_ERROR_MESSAGE"] = String.Format("Please choose both start date and end date.");
+                return View(u);
+            }
+            else
+            {
+                DateTime start = DateTime.ParseExact(from, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                DateTime end = DateTime.ParseExact(toto, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                userService.DelegateEmp(Request["userID"].ToString(), start.Date, end.Date);
 
-            HttpContext.Application["EndDate"] = end;
+                HttpContext.Application["EndDate"] = end;
 
-            User user = userService.FindByUserID(userID);
-            //if (user.departmentCode=="STORE")
-            //{
-            //    return RedirectToAction("SMUserList");
-            //}      
+                User user = userService.FindByUserID(userID);
+                //if (user.departmentCode=="STORE")
+                //{
+                //    return RedirectToAction("SMUserList");
+                //}      
+            }
+
             return RedirectToAction("UserList");
            
             
@@ -91,13 +104,14 @@ namespace Inventory_mvc.Controllers
             if(userService.AlrDelegated(id))
             {
                 userService.Remove_Delegate(id);
+                TempData["RemoveDelegationdMessage"] = String.Format("Delegation Removed");
             }
             else
             {
                 TempData["RmvDelMessage"] = String.Format("Employee is not delegated");
             }
 
-            User user = userService.FindByUserID(id);
+           // User user = userService.FindByUserID(id);
             //if (user.departmentCode == "STORE")
             //{
             //    return RedirectToAction("SMUserList");

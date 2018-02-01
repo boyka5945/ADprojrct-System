@@ -6,6 +6,7 @@
     var removeDelegateMessage = TempData["RmvDelMessage"];
     var assignRepMessage = TempData["AssignRepMessage"];
     var assignRepErrorMessage = TempData["AssignRepErrorMessage"];
+    var removedDelegation = TempData["RemoveDelegationdMessage"];
 
 }
 
@@ -84,7 +85,7 @@
 
         @if (removeDelegateMessage != null)
         {
-            <div class="alert alert-success">
+            <div class="alert alert-warning">
                 @removeDelegateMessage.ToString()
             </div>
         }
@@ -100,6 +101,12 @@
         {
             <div class="alert alert-danger">
                 @assignRepErrorMessage.ToString()
+            </div>
+        }
+        @if (removedDelegation != null)
+        {
+            <div class="alert alert-success">
+                @removedDelegation.ToString()
             </div>
         }
 
