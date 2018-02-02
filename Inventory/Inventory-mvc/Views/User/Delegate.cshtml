@@ -4,6 +4,17 @@
     ViewBag.Title = "Delegate";
     var NO_DATE_ERROR_MESSAGE = TempData["NO_Date_ERROR_MESSAGE"];
 }
+<link type="text/css" rel="Stylesheet"
+      href="http://ajax.microsoft.com/ajax/jquery.ui/1.8.6/themes/
+smoothness/jquery-ui.css" />
+
+<style type="text/css">
+    .ui-datepicker {
+        background: #0b4478;
+        border: 1px solid #555;
+        color: #EE9;
+    }
+</style>
 
 <h2>Delegate</h2>
 <script>
@@ -14,7 +25,7 @@
     //    $("#delend").datepicker({ dateFormat: 'dd-mm-yy' });
     //});
 
-
+   
     $(document).ready(function(){
 $("#delend").attr("disabled", "disable");// add end date to disable
 
