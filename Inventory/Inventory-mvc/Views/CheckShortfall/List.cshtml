@@ -27,6 +27,9 @@
         });
 
 
+        $(function () {
+            $(document).tooltip();
+        });
 
     </script>
 </head>
@@ -46,18 +49,21 @@
                     @*@Html.DisplayNameFor(model => model.Description)*@
                     @Html.Label("Description")
                 </th>
+
+                <th>
+                    @*@Html.DisplayNameFor(model => model.ReorderQty)*@
+                    @Html.Label("Minimum Reorder")
+                </th>
                 <th>
                     @*@Html.DisplayNameFor(model => model.ReorderLevel)*@
                     @Html.Label("Reorder Level")
                 </th>
+
                 <th>
-                    @*@Html.DisplayNameFor(model => model.ReorderQty)*@
-                    @Html.Label("Reorder Qty")
+                    @*@Html.DisplayNameFor(model => model.StockQty)*@
+                    @Html.Label("Requested Qty")
                 </th>
-                <th>
-                    @*@Html.DisplayNameFor(model => model.UnitOfMeasure)*@
-                    @Html.Label("UoM")
-                </th>
+
                 <th>
                     @*@Html.DisplayNameFor(model => model.StockQty)*@
                     @Html.Label("Stock Qty")
@@ -65,15 +71,12 @@
 
                 <th>
                     @*@Html.DisplayNameFor(model => model.StockQty)*@
-                    @Html.Label("Unfulfilled Qty")
+                    @Html.Label("Pending Restock Qty")
                 </th>
 
-                <th>
-                    @*@Html.DisplayNameFor(model => model.Price)*@
-                    @Html.Label("Price")
-                </th>
 
-                <th>@Html.Label("Suggested Qty")</th>
+
+                <th><label for="formula">@Html.Label("Suggested Qty", new { title= "Suggested = [ReorderLevel + Requested Qty] - [StockQty + PendingStockQty]" })</label></th>
             </tr>
 
             @foreach (var item in Model)
@@ -86,17 +89,12 @@
                     <td>
                         @Html.DisplayFor(modelItem => item.Description)
                     </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.ReorderLevel)
-                    </td>
+
                     <td>
                         @Html.DisplayFor(modelItem => item.ReorderQty)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.UnitOfMeasure)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.StockQty)
+                        @Html.DisplayFor(modelItem => item.ReorderLevel)
                     </td>
 
                     <td>
@@ -104,8 +102,13 @@
                     </td>
 
                     <td>
-                        @Html.DisplayFor(modelItem => item.Price)
+                        @Html.DisplayFor(modelItem => item.StockQty)
                     </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.pendingRestockQty)
+                    </td>
+
                     <td>
                         @{
                             int suggestedQty = item.Suggested;
@@ -124,7 +127,7 @@
 
 
         </table>
-        <input type="submit" value="Generate PO" class="btn btn-primary"/>
+   
 
 
 

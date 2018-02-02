@@ -69,6 +69,9 @@ namespace Inventory_mvc.ViewModel
         [Display(Name = "Unfulfilled Qty")]
         public int unFulfilledQty { get; set; }
 
+        [Display(Name = "Pending Restock Qty")]
+        public int pendingRestockQty { get; set; }
+
         public virtual Category Category { get; set; }
     }
 }

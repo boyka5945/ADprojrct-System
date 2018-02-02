@@ -54,18 +54,17 @@ namespace Inventory_mvc.Controllers
             List<string> itemCodes = new List<string>();
             List<Purchase_Detail> model = new List<Purchase_Detail>();
             Dictionary<string, string> kv = new Dictionary<string, string>(); //kv pair of itemcode and sggestedqty
-            List<StationeryViewModel> modelAll = new List<StationeryViewModel>(); // used if generate all is chosen
+            List<StationeryViewModel> modelAll = shortFallList(); // used if generate all is chosen
 
             if (checker == "addAll") //add all
             {
-                List<StationeryViewModel> items = stationeryService.GetAllStationeryViewModel();
-                List<StationeryViewModel> itemsToReorder = items.Where(x => x.StockQty < x.ReorderLevel).ToList();
-                foreach(StationeryViewModel svm in itemsToReorder)
+
+              
+                foreach(StationeryViewModel svm in modelAll)
                 {
                     itemCodes.Add(svm.ItemCode);
                 }
 
-                modelAll = shortFallList();
 
             }
 
@@ -166,7 +165,7 @@ namespace Inventory_mvc.Controllers
         [RoleAuthorize]
         //CLERK
         //very important helper method
-        public List<StationeryViewModel> shortFallList()
+        private List<StationeryViewModel> shortFallList()
         {
 
             List<StationeryViewModel> items = stationeryService.GetAllStationeryViewModel();
@@ -192,7 +191,7 @@ namespace Inventory_mvc.Controllers
                 //suggsted = requested qty(from user) still outstanding + reorder level - qty alrdy ordered
                 string itemCode = s.ItemCode;
                 int unfulfilledQty = s.unFulfilledQty;
-                int purchasedAndPendingQty = 0;
+                s.pendingRestockQty = 0;
                 int suggested;
                 //List<Requisition_Detail> userRequests = ctx.Requisition_Detail.Where(x => x.itemCode == itemCode && x.qty.Value > (x.fulfilledQty ?? 0)).ToList();
 
@@ -210,20 +209,35 @@ namespace Inventory_mvc.Controllers
 
                 foreach (Purchase_Detail pd in existingPurchases)
                 {
-                    purchasedAndPendingQty += (pd.qty - pd.fulfilledQty ?? 0);
+                    if(pd.fulfilledQty == null)
+                    {
+                        pd.fulfilledQty = 0;
+                    }
+                    s.pendingRestockQty += (pd.qty - pd.fulfilledQty ?? 0);
                 }
 
-                suggested = unfulfilledQty + (s.ReorderLevel - s.StockQty) - purchasedAndPendingQty;
+                suggested = unfulfilledQty + (s.ReorderLevel - s.StockQty) - s.pendingRestockQty;
 
-                if (suggested < s.ReorderQty)
+                if (suggested > 0 && suggested < s.ReorderQty)
                 {
                     suggested = s.ReorderQty;
+                }
+
+                if(suggested < 0)
+                {
+                    suggested = 0;
                 }
                 s.Suggested = suggested;
 
 
-
             }
+
+
+            //remove all those with suggested value = 0
+            model.RemoveAll(x => x.Suggested == 0);
+
+
+
             return model;
         }
     }
