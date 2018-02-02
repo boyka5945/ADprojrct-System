@@ -119,15 +119,24 @@ namespace Inventory_mvc.Controllers
         // *********ACCESS LEVEL: Store Manager********
         public ActionResult Delete(int id)
         {
-            if (collectionPointService.DeleteCollectionPoint(id))
+            try
             {
-                TempData["DeleteMessage"] = String.Format("Collection Point '{0}' has been deleted", id);
+                if (collectionPointService.DeleteCollectionPoint(id))
+                {
+                    TempData["DeleteMessage"] = String.Format("Collection Point '{0}' has been deleted", id);
+                }
+                else
+                {
+                    TempData["DeleteErrorMessage"] = String.Format("Cannot delete collection point '{0}'", id);
+                }
+
+               
             }
-            else
+            catch(Exception e)
             {
                 TempData["DeleteErrorMessage"] = String.Format("Cannot delete collection point '{0}'", id);
+              
             }
-
             return RedirectToAction("Index");
         }
 
