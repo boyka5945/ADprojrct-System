@@ -37,7 +37,7 @@ namespace Inventory_mvc.Controllers
             ViewBag.SearchString = searchString;
             ViewBag.Page = page;
 
-            int pageSize = 13;
+            int pageSize = 8;
             int pageNumber = (page ?? 1);
             return View(stationeries.ToPagedList(pageNumber, pageSize));
         }
@@ -306,7 +306,7 @@ namespace Inventory_mvc.Controllers
         //Store Manager, Store Supervisor, Store Clerk
         public ActionResult ResetCatalogue()
         {
-            return RedirectToAction("Index", new { searchString = "", categoryID = "All" });
+            return RedirectToAction("Index", new { searchString = "", categoryID = "-1" });
         }
 
         // GET: Stationery/Browse

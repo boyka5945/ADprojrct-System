@@ -171,13 +171,13 @@ namespace Inventory_mvc.Controllers
                     
                     // clear list
                     Session["NewVoucher"] = new List<AdjustmentVoucherViewModel>();
-                    TempData["SuccessMessage"] = String.Format("Discrepancy report has been submitted for approval.");                   
+                    TempData["SuccessMessage"] = String.Format("Adjustment voucher has been submitted for approval.");                   
                 }
                 catch(EmailException e)
                 {
                     // clear list
                     Session["NewVoucher"] = new List<AdjustmentVoucherViewModel>();
-                    TempData["SuccessMessage"] = String.Format("Discrepancy report has been submitted for approval.");
+                    TempData["SuccessMessage"] = String.Format("Adjustment voucher has been submitted for approval.");
 
                     TempData["WarningMessage"] = "Failure to send email notification. Kindly contact IT personnel.";
                 }

@@ -2,6 +2,7 @@
 
 @{
     ViewBag.Title = "Delegate";
+    var NO_DATE_ERROR_MESSAGE = TempData["NO_Date_ERROR_MESSAGE"];
 }
 
 <h2>Delegate</h2>
@@ -98,3 +99,13 @@ $("#delend").attr("disabled", "disable");// add end date to disable
     
     @Html.ActionLink("Back to List", "UserList")
 </p>
+<div>
+    <p>
+        @if (NO_DATE_ERROR_MESSAGE != null)
+        {
+            <div class="alert alert-warning">
+                @NO_DATE_ERROR_MESSAGE.ToString()
+            </div>
+        }
+    </p>
+</div>

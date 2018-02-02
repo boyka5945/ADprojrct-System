@@ -6,6 +6,7 @@
     var removeDelegateMessage = TempData["RmvDelMessage"];
     var assignRepMessage = TempData["AssignRepMessage"];
     var assignRepErrorMessage = TempData["AssignRepErrorMessage"];
+    var removedDelegation = TempData["RemoveDelegationdMessage"];
 
 }
 
@@ -66,7 +67,7 @@
             @if (Convert.ToInt32(HttpContext.Current.Session["role"]) == 2 || Convert.ToInt32(HttpContext.Current.Session["role"]) == 5)
             { 
             @Html.ActionLink("Remove Delegate", "Remove_Delegate", new { id = item.userID },
-                new { onclick = "return confirm('Are you sure you wish to delete Representative to this staff?');" })
+                new { onclick = "return confirm('Are you sure you wish to remove delegation to this staff?');" })
             }
         </td>
     </tr>
@@ -84,7 +85,7 @@
 
         @if (removeDelegateMessage != null)
         {
-            <div class="alert alert-success">
+            <div class="alert alert-warning">
                 @removeDelegateMessage.ToString()
             </div>
         }
@@ -100,6 +101,12 @@
         {
             <div class="alert alert-danger">
                 @assignRepErrorMessage.ToString()
+            </div>
+        }
+        @if (removedDelegation != null)
+        {
+            <div class="alert alert-success">
+                @removedDelegation.ToString()
             </div>
         }
 

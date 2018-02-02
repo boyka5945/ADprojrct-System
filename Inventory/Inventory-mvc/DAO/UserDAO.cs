@@ -125,11 +125,15 @@ namespace Inventory_mvc.DAO
             using (StationeryModel entity = new StationeryModel())
             {
                 bool temp = false;
-                List<User> users = (from u in entity.Users select u).ToList();
+                User user = (from u in entity.Users where u.userID == userID select u).First();
+                List<User> users = (from u in entity.Users where u.departmentCode==user.departmentCode select u).ToList();
                 foreach (User u in users)
                 {
                     if (u.role == (int)UserRoles.RoleID.UserRepresentative)
+                    {
                         temp = true;
+                        //break;
+                    }
 
                 }
                 if (temp)
@@ -138,7 +142,7 @@ namespace Inventory_mvc.DAO
                     rep.role = (int)UserRoles.RoleID.Employee;
                 }
 
-                User user = (from u in entity.Users where u.userID == userID select u).First();
+                //User user = (from u in entity.Users where u.userID == userID select u).First();
                 if (user.role != (int)UserRoles.RoleID.ActingDepartmentHead)
                 {
                     user.role = (int)UserRoles.RoleID.UserRepresentative;
