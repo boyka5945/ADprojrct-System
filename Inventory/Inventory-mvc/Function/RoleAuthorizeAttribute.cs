@@ -44,12 +44,15 @@ namespace Inventory_mvc.Function
             if (!isAuth)
             {
                 filterContext.Result = new RedirectToRouteResult(new RouteValueDictionary(new { controller = "Home", action = "Error", returnUrl = filterContext.HttpContext.Request.Url, returnMessage = "can not be accessiable." }));
+                HttpContext.Current.Session["auth"] = isAuth;
                 return;
             }
             else
             {
                 base.OnAuthorization(filterContext);
             }
+            HttpContext.Current.Session["auth"] = isAuth;
+
         }
     }
 }

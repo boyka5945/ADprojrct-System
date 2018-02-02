@@ -305,6 +305,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\select2.min.css" />
+    <Content Include="Images\dribble_1x.jpg" />
     <Content Include="Images\pinyin.txt" />
     <Content Include="Images\test1.jpg" />
     <Content Include="Images\test2.jpg" />
