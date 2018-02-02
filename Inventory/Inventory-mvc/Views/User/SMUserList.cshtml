@@ -1,12 +1,17 @@
 ﻿@model IEnumerable<Inventory_mvc.Models.User>
 
+@using Inventory_mvc.Utilities;
+
+            
 @{
-    ViewBag.Title = "SMUserList";
+                 ViewBag.Title = "SMUserList";
     var delegateMessage = TempData["DelegateMessage"];
     var removeDelegateMessage = TempData["RmvDelMessage"];
     var createMessage = TempData["CreateMessage"];
     var promoteMessage = TempData["PromoteMessage"];
     var promoteErrorMessage = TempData["PromoteErrorMessage"];
+    var demoteErrorMessage = TempData["DemoteErrorMessage"];
+    var demoteMessage = TempData["DemoteMessage"];
 }
 
 <h2>User List</h2>
@@ -38,8 +43,18 @@
         </td>       
        
         <td>
-            @Html.ActionLink("Promote", "Promote", new { id = item.userID },
-    new { onclick = "return confirm('Are you sure you wish to promote this staff?');" })            
+            @if (item.roleInfo.roleID == (int)UserRoles.RoleID.StoreSupervisor)
+            {
+                @Html.ActionLink("Demote", "Demote", new { id = item.userID },
+    new { onclick = "return confirm('Are you sure you wish to demote this staff?');" })
+
+            }
+            else if (item.roleInfo.roleID == (int)UserRoles.RoleID.StoreClerk)
+            {
+                @Html.ActionLink("Promote", "Promote", new { id = item.userID },
+    new { onclick = "return confirm('Are you sure you wish to promote this staff?');" })
+            }
+            <p> </p>
             @*@Html.ActionLink("Remove Delegate", "Remove_Delegate", new { id = item.userID })*@
             
         </td>
@@ -81,6 +96,20 @@
         {
             <div class="alert alert-danger">
                 @promoteErrorMessage.ToString()
+            </div>
+        }
+
+        @if (demoteMessage != null)
+        {
+            <div class="alert alert-danger">
+                @demoteMessage.ToString()
+            </div>
+        }
+
+        @if (demoteErrorMessage != null)
+        {
+            <div class="alert alert-danger">
+                @demoteErrorMessage.ToString()
             </div>
         }
     </p>

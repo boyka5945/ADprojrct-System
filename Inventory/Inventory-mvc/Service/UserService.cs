@@ -242,5 +242,10 @@ namespace Inventory_mvc.Service
         {
             return userDAO.Promote(uid);
         }
+
+        public bool Demote(string uid)
+        {
+            return userDAO.Demote(uid);
+        }
     }
 }

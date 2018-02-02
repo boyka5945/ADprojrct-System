@@ -280,14 +280,14 @@ namespace Inventory_mvc.DAO
             using (StationeryModel entity = new StationeryModel())
             {
                 int UR = 0;
-                int supervisor = 0;
+              //  int supervisor = 0;
                 User actDeptHead = new User();
                 actDeptHead = null;
                 List<User> users = (from u in entity.Users where u.departmentCode==user.departmentCode select u).ToList<User>();
 
                 foreach(User check in users)
                 {
-                    if(check.role==8)
+                    if(check.role==(int)UserRoles.RoleID.ActingDepartmentHead)
                     {
                         actDeptHead = (from user1 in entity.Users where (user1.role == 8 && user1.departmentCode == user.departmentCode) select user1).First();
                     }
@@ -302,33 +302,33 @@ namespace Inventory_mvc.DAO
                         {
                             switch (u.role)
                             {
-                                case 4:
+                                case (int)UserRoles.RoleID.UserRepresentative:
                                     UR++;
                                     break;
-                                case 6:
-                                    supervisor++;
-                                    break;
+                                //case 6:
+                                //    supervisor++;
+                                //    break;
                             }
                         }
 
-                        if (user.role == 2) // if otherdepts
+                        //if (user.role == 2) // if otherdepts
+                        //{
+                        if (UR < 1) // no userrepresentative in list
                         {
-                            if (UR < 1) // no userrepresentative in list
-                            {
-                                actDeptHead.role = 4; //assign as ur
-                            }
-                            else
-                                actDeptHead.role = 3; //assign as employee
+                            actDeptHead.role = (int) UserRoles.RoleID.UserRepresentative; //assign as ur
                         }
-                        else        // if store
-                        {
-                            if (supervisor < 1)
-                            {
-                                actDeptHead.role = 6;
-                            }
-                            else
-                                actDeptHead.role = 7;
-                        }
+                        else
+                            actDeptHead.role = (int) UserRoles.RoleID.Employee; //assign as employee
+                        //}
+                        //else        // if store
+                        //{
+                        //    if (supervisor < 1)
+                        //    {
+                        //        actDeptHead.role = 6;
+                        //    }
+                        //    else
+                        //        actDeptHead.role = 7;
+                        //}
 
                         actDeptHead.delegationStart = null;
                         actDeptHead.delegationEnd = null;
@@ -374,10 +374,29 @@ namespace Inventory_mvc.DAO
             using (StationeryModel context = new StationeryModel())
             {
                 User user = (from u in context.Users where u.userID == uid select u).First();
-                user.role = 6;
+                user.role = (int) UserRoles.RoleID.StoreSupervisor;
                 int rowAffected = context.SaveChanges();
 
-                if (rowAffected <= 2)
+                if (rowAffected < 2)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
+
+        public bool Demote(string uid)
+        {
+            using (StationeryModel context = new StationeryModel())
+            {
+                User user = (from u in context.Users where u.userID == uid select u).First();
+                user.role = (int) UserRoles.RoleID.StoreClerk;
+                int rowAffected = context.SaveChanges();
+
+                if (rowAffected < 2)
                 {
                     return true;
                 }

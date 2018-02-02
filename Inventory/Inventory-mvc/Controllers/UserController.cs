@@ -318,5 +318,19 @@ namespace Inventory_mvc.Controllers
             return RedirectToAction("SMUserList");
         }
 
+        [RoleAuthorize]
+        public ActionResult Demote(string id)   //StoreManager
+        {
+            if (userService.Demote(id))
+            {
+                TempData["DemoteMessage"] = String.Format("'{0}' has been demoted as Employee", id);
+            }
+            else
+            {
+                TempData["DemoteErrorMessage"] = String.Format("Cannot demote");
+            }
+            return RedirectToAction("SMUserList");
+        }
+
     }
 }
