@@ -120,19 +120,11 @@ namespace Inventory_mvc.Controllers
                 }
                 HttpContext.Application["BigModel"] = blist;
             }
-            List<BigModelView> blist2 = new List<BigModelView>();
-            foreach (var item in blist)
-            {
-                if (item.unfulfilledQty > 0)
-                {
-                    blist2.Add(item);
-                }
-            }
             int pageSize = 13;
             int pageNumber = (page ?? 1);
 
             Session["page"] = (page ?? 1);
-            return View(blist2.ToPagedList(pageNumber, pageSize));
+            return View(blist.ToPagedList(pageNumber, pageSize));
             //return View(blist);
         }
 
@@ -221,7 +213,7 @@ namespace Inventory_mvc.Controllers
             rs.UpdateRequisition(model, RequisitionStatus.APPROVED_PROCESSING, userID);
             try
             {
-                EmailNotification.EmailNotificatioForRequisitionApprovalStatus(id, RequisitionStatus.APPROVED_PROCESSING, "no reason");
+                EmailNotification.EmailNotificatioForRequisitionApprovalStatus(id, RequisitionStatus.APPROVED_PROCESSING, "");
             }
             catch (Exception e)
             {
@@ -525,11 +517,13 @@ namespace Inventory_mvc.Controllers
                 for (int i = 0; i < l.Count; i++)
                 {
                     rs.UpdateDisbursement(l[i].itemCode, (int)l[i].actualQty, l[i].departmentCode, (int)l[i].quantity, i, HttpContext.User.Identity.Name);
+                    
                 }
             }
+            HttpContext.Application.Lock();
             HttpContext.Application["tempDisbursement"] = null;
             HttpContext.Application["retrieveList"] = null;
-            HttpContext.Application["BigModel"] = null;
+            HttpContext.Application.UnLock();
             TempData["Successful"] = "submit successful.";
             return RedirectToAction("DisbursementList");
         }
@@ -584,7 +578,10 @@ namespace Inventory_mvc.Controllers
                 d.actualQty = actualQty;
                 list.Add(d);
             }
+
+            HttpContext.Application.Lock();
             HttpContext.Application["tempDisbursement"] = list;
+            HttpContext.Application.UnLock();
 
             TempData["Successful"] = "Save disbursement successful.";
             ViewBag.Select = deptCode;
