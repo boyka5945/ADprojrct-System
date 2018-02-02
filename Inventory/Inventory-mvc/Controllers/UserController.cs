@@ -209,7 +209,7 @@ namespace Inventory_mvc.Controllers
            
                 if (userService.AssignRep(id))
                 {
-                    TempData["AssignRepMessage"] = String.Format("'{0}' has been updated", id);
+                    TempData["AssignRepMessage"] = String.Format("Employee already assigned as representative", id);
                 }
                 else
                 {
