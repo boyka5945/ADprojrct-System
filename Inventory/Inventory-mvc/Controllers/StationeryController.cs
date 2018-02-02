@@ -306,7 +306,7 @@ namespace Inventory_mvc.Controllers
         //Store Manager, Store Supervisor, Store Clerk
         public ActionResult ResetCatalogue()
         {
-            return RedirectToAction("Index", new { searchString = "", categoryID = "All" });
+            return RedirectToAction("Index", new { searchString = "", categoryID = "-1" });
         }
 
         // GET: Stationery/Browse

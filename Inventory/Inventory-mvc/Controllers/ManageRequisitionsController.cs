@@ -57,7 +57,7 @@ namespace Inventory_mvc.Controllers
             }
 
             //return View(model1);
-            int pageSize = 10;
+            int pageSize = 8;
             int pageNumber = (page ?? 1);
             return View(model1.ToPagedList(pageNumber, pageSize));
         }
@@ -184,7 +184,7 @@ namespace Inventory_mvc.Controllers
                     rs.UpdateDetails(l2[i].itemCode, l2[i].requisitionRecord.requisitionNo, l2[i].allocateQty);
                 }
             }
-            int pageSize = 13;
+            int pageSize = 8;
             int pageNumber = (page ?? 1);
             TempData["Successful"] = " Allocated quantity successful";
             //return View(model.ToPagedList(pageNumber, pageSize));
@@ -323,7 +323,7 @@ namespace Inventory_mvc.Controllers
             ViewData["list"] = departmentlist;
 
             //return View(list);
-            int pageSize = 10;
+            int pageSize = 8;
             int pageNumber = (page ?? 1);
             return View(list.ToPagedList(pageNumber, pageSize));
         }
@@ -436,7 +436,7 @@ namespace Inventory_mvc.Controllers
                 }
             }
             //return View(list);
-            int pageSize = 10;
+            int pageSize = 8;
             int pageNumber = (page ?? 1);
             return View(list.ToPagedList(pageNumber, pageSize));
         }

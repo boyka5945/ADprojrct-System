@@ -39,7 +39,7 @@ namespace Inventory_mvc.Controllers
         // CK - Employee | User Representative | Store Clerk | Store Supervisor
         public ActionResult ResetCatalogue()
         {
-            return RedirectToAction("BrowseCatalogue", new { searchString = "", categoryID = "All" });
+            return RedirectToAction("BrowseCatalogue", new { searchString = "", categoryID = "-1" });
         }
 
         [RoleAuthorize]
