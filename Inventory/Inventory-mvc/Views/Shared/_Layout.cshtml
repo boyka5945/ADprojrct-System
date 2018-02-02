@@ -290,9 +290,15 @@ footer {
     <script>
         $(document).ready(function () {
             $('.dropdown-submenu a.test').on("click", function (e) {
-                $(this).next('ul').toggle();
+                //$(this).next('ul').toggle();
+                //e.stopPropagation();
+                //e.preventDefault();
+
                 e.stopPropagation();
                 e.preventDefault();
+                var $parentli = $(this).closest('li');
+                $parentli.siblings('li').find('ul:visible').hide();
+                $parentli.find('> ul').stop().toggle();
             });
         });
     </script>

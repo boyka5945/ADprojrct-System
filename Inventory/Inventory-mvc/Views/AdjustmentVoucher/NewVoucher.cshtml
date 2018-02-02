@@ -95,9 +95,9 @@ else
         </table>
 
         <br />
-        <input type="submit" value="Submit Adjustment Voucher" class="btn btn-success" />
+        <input type="submit" value="Submit Adjustment Voucher" class="btn btn-success" onclick = "return confirm('Are you sure you want to submit the adjustment voucher?');"/>
         <a href="@Url.Action("ClearAllItemInVoucher", "AdjustmentVoucher" )">
-            <input type="button" value="Clear All" class="btn btn-danger" />
+            <input type="button" value="Clear All" class="btn btn-danger" onclick = "return confirm('Are you sure you want to claer all items in the voucher?');"/>
         </a>
         <br />
 
