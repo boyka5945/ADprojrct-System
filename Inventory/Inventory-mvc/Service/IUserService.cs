@@ -59,5 +59,7 @@ namespace Inventory_mvc.Service
         List<User> FindUsersByRole(int roleID);
 
         bool Promote(string uid);
+
+        bool Demote(string uid);
     }
 }

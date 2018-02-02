@@ -1,4 +1,5 @@
 ﻿@model IEnumerable<Inventory_mvc.Models.User>
+@using Inventory_mvc.Utilities;
 
 @{
     ViewBag.Title = "UserList";
@@ -54,20 +55,21 @@
         </td>
 
         <td>
-            @if (Convert.ToInt32(HttpContext.Current.Session["role"]) == 2 || Convert.ToInt32(HttpContext.Current.Session["role"]) == 5)
+
+            @if (item.roleInfo.roleID != (int)UserRoles.RoleID.ActingDepartmentHead)
             {
                 @*@Html.ActionLink("Edit", "Edit", new { id = item.userID }) |*@
                 @Html.ActionLink("Delegate", "Delegate", new { id = item.userID })
             }<p> </p> 
-            @if (Convert.ToInt32(HttpContext.Current.Session["role"]) == 2 || Convert.ToInt32(HttpContext.Current.Session["role"]) == 5)
-            {
+           @if (item.roleInfo.roleID != (int)UserRoles.RoleID.UserRepresentative)
+           {
                 @Html.ActionLink("Assign Rep", "Assign_Rep", new { id = item.userID },
                 new { onclick = "return confirm('Are you sure you wish to Assign Representative to this staff?');" })
             }<p> </p> 
-            @if (Convert.ToInt32(HttpContext.Current.Session["role"]) == 2 || Convert.ToInt32(HttpContext.Current.Session["role"]) == 5)
-            { 
+            @if (item.roleInfo.roleID == (int)UserRoles.RoleID.ActingDepartmentHead)
+            {
             @Html.ActionLink("Remove Delegate", "Remove_Delegate", new { id = item.userID },
-                new { onclick = "return confirm('Are you sure you wish to delete Representative to this staff?');" })
+                new { onclick = "return confirm('Are you sure you wish to remove delegation to this staff?');" })
             }
         </td>
     </tr>

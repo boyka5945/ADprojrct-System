@@ -209,7 +209,7 @@ namespace Inventory_mvc.Controllers
            
                 if (userService.AssignRep(id))
                 {
-                    TempData["AssignRepMessage"] = String.Format("'{0}' has been updated", id);
+                    TempData["AssignRepMessage"] = String.Format("Employee already assigned as representative", id);
                 }
                 else
                 {
@@ -250,7 +250,7 @@ namespace Inventory_mvc.Controllers
             
             if (ModelState.IsValid)
             {
-                bool cond1 = userService.isSame(password, oldPassword);
+                bool cond1 = userService.isSame(Encrypt.DecryptMethod(password), oldPassword);
                 if (cond1)
                 {
                     //string errorMessage = String.Format("{0} Incorrect", oldPassword);
@@ -258,7 +258,7 @@ namespace Inventory_mvc.Controllers
 
                     TempData["IncorrectPassword"] = String.Format("Incorrect Password.");
                 }
-                bool cond2 = userService.isSame(password, newPassword);
+                bool cond2 = userService.isSame(Encrypt.DecryptMethod(password), newPassword);
                 if (!cond2)
                 {
                     TempData["SameWithOldPassword"] = String.Format("Same With Password.");
@@ -272,8 +272,9 @@ namespace Inventory_mvc.Controllers
                 {
                     try
                     {
+
                         bool t = userService.changePassword(changePasswordVM);
-                        if (userService.changePassword(changePasswordVM))
+                        if (!t)
                         {
                             TempData["ErrorMessage"] = String.Format("There is not change to '{0}'.", code);
                             
@@ -313,6 +314,20 @@ namespace Inventory_mvc.Controllers
             else
             {
                 TempData["PromoteErrorMessage"] = String.Format("Cannot promote");
+            }
+            return RedirectToAction("SMUserList");
+        }
+
+        [RoleAuthorize]
+        public ActionResult Demote(string id)   //StoreManager
+        {
+            if (userService.Demote(id))
+            {
+                TempData["DemoteMessage"] = String.Format("'{0}' has been demoted as Employee", id);
+            }
+            else
+            {
+                TempData["DemoteErrorMessage"] = String.Format("Cannot demote");
             }
             return RedirectToAction("SMUserList");
         }

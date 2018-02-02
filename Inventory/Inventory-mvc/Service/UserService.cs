@@ -6,6 +6,7 @@ using Inventory_mvc.Models;
 using Inventory_mvc.DAO;
 using Inventory_mvc.ViewModel;
 using Inventory_mvc.Utilities;
+using Inventory_mvc.Function;
 
 namespace Inventory_mvc.Service
 {
@@ -70,7 +71,7 @@ namespace Inventory_mvc.Service
             User user = new User();
 
             user.userID = userVM.UserID;
-            user.password = userVM.ConfirmPassword;
+            user.password = Encrypt.EncryptMethod(userVM.ConfirmPassword);
             //user.userEmail = userVM.UserEmail;
             //user.role = userVM.Role;
             //user.name = userVM.Name;
@@ -240,6 +241,11 @@ namespace Inventory_mvc.Service
         public bool Promote(string uid)
         {
             return userDAO.Promote(uid);
+        }
+
+        public bool Demote(string uid)
+        {
+            return userDAO.Demote(uid);
         }
     }
 }
