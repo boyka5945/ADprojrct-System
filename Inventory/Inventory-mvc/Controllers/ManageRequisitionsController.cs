@@ -207,13 +207,20 @@ namespace Inventory_mvc.Controllers
         [HttpGet]
         public ActionResult ApproveRequisition(int id)
         {
+            var RequisitionNO = Convert.ToInt32(Request.QueryString["ID"]); 
+            var remarks = Request.QueryString["remark"];
+            if (remarks == "")
+            {
+                TempData["WarningMessage"] = "please input the remarks.";
+                return RedirectToAction("ManagerRequisition");
+            }
             var userID = HttpContext.User.Identity.Name;
             Requisition_Record model = new Requisition_Record();
-            model = rs.GetRequisitionByID(id);
+            model = rs.GetRequisitionByID(RequisitionNO);
             rs.UpdateRequisition(model, RequisitionStatus.APPROVED_PROCESSING, userID);
             try
             {
-                EmailNotification.EmailNotificatioForRequisitionApprovalStatus(id, RequisitionStatus.APPROVED_PROCESSING, "");
+                EmailNotification.EmailNotificatioForRequisitionApprovalStatus(RequisitionNO, RequisitionStatus.APPROVED_PROCESSING, remarks);
             }
             catch (Exception e)
             {
@@ -228,9 +235,10 @@ namespace Inventory_mvc.Controllers
         [HttpGet]
         public ActionResult RequisitionDetails(int id)
         {
+            var RequisitionNO = Convert.ToInt32(Request.QueryString["ID"]);
             RequisitionRecordService rs = new RequisitionRecordService();
             List<Requisition_Detail> model = new List<Requisition_Detail>();
-            model = rs.GetDetailsByNo(id);
+            model = rs.GetDetailsByNo(RequisitionNO);
             return View(model);
         }
 
@@ -239,12 +247,19 @@ namespace Inventory_mvc.Controllers
         [HttpGet]
         public ActionResult RejectRequisition(int id)
         {
+            var RequisitionNO = Convert.ToInt32(Request.QueryString["ID"]);
+            var remarks = Request.QueryString["remark"];
+            if (remarks == "")
+            {
+                TempData["WarningMessage"] = "please input the remarks.";
+                return RedirectToAction("ManagerRequisition");
+            }
             Requisition_Record model = new Requisition_Record();
-            model = rs.GetRequisitionByID(id);
+            model = rs.GetRequisitionByID(RequisitionNO);
             rs.UpdateRequisition(model, RequisitionStatus.REJECTED, "");
             try
             {
-                EmailNotification.EmailNotificatioForRequisitionApprovalStatus(id, RequisitionStatus.REJECTED, "no reason");
+                EmailNotification.EmailNotificatioForRequisitionApprovalStatus(RequisitionNO, RequisitionStatus.REJECTED, remarks);
             }
             catch (Exception e)
             {
