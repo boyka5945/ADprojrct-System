@@ -294,7 +294,7 @@
                         @*@Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |*@
                         <button name="@item.itemCode" onclick="showModal(self)" class="btn btn-primary" style="margin-right: 5px;">Edit</button>
 
-                        @Html.ActionLink("Delete", "DeletePD", null, new { id = item.itemCode, @class = "btn btn-danger" })
+                        @Html.ActionLink("Delete", "DeletePD",  new { delItemCode = item.itemCode }, new{ @class = "btn btn-danger" })
                     </td>
                 </tr>
                             }
@@ -338,7 +338,7 @@
                 <input type="text" name="ditemCode" class="form-control" />
                 <br />
                 <label>Price</label>
-                <input type="number" name="dprice" min="0.01" required class="form-control" />
+                <input type="number" name="dprice" min="0.01" step="any" required class="form-control" />
                 <br />
 
                 <label>Quantity</label>

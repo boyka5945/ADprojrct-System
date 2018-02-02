@@ -88,7 +88,16 @@ namespace Inventory_mvc.DAO
             int difference = rd.allocatedQty.Value - allocateQty.Value;
             List<RetrieveForm> retrievalList = new List<RetrieveForm>();
             List<RetrieveForm> temp = (List<RetrieveForm>)HttpContext.Current.Application["retrieveList"];
-            retrievalList.AddRange(temp);
+            foreach (var item in temp)
+            {
+                RetrieveForm newR = new RetrieveForm();
+                newR.ItemCode = item.ItemCode;
+                newR.Qty = item.Qty;
+                newR.retrieveQty = item.retrieveQty;
+                newR.StockQty = item.StockQty;
+                newR.description = item.description;
+                retrievalList.Add(newR);
+            }
             int index = retrievalList.FindIndex(x=> x.ItemCode == itemcode);
             retrievalList[index].retrieveQty += difference;
             HttpContext.Current.Application["retrieveForm"] = retrievalList;

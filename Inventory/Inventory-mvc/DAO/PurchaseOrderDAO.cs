@@ -112,7 +112,7 @@ namespace Inventory_mvc.DAO
 
                 purchd.fulfilledQty = pd.fulfilledQty;
                 purchd.price = pd.price;
-                purchd.deliveryOrderNo = pd.deliveryOrderNo;
+                purchd.deliveryOrderNo += " /" +pd.deliveryOrderNo;
                 purchd.remarks = pd.remarks;
 
                 int rowAffected = Entity.SaveChanges();
@@ -148,7 +148,7 @@ namespace Inventory_mvc.DAO
             }
         }
 
-        public bool AddPurchaseDetail(int deliveryOrderNo, string itemCode, int qty, string remarks, decimal price)
+        public bool AddPurchaseDetail(string deliveryOrderNo, string itemCode, int qty, string remarks, decimal price)
         {
             using (StationeryModel Entity = new StationeryModel())
             {

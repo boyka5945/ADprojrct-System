@@ -97,7 +97,7 @@
 
       var selectedID = ($('#ddl1 option:selected').val());
       //alert(selectedID);
-      $.get('/CollectionPoint/Collect_Item2/' + selectedID, function (data) {
+      $.get('@Url.Action("Collect_Item2", "CollectionPoint")/' + selectedID, function (data) {
 
           /* data is the pure html returned from action method, load it to your page */
           $('#partialPlaceHolder').html(data);
