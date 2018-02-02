@@ -108,6 +108,8 @@ namespace InventoryWCF
             ResponseFormat = WebMessageFormat.Json)]
         string UpdateRetrieval(WCFRetrievalForm wcfr);
 
+       
+
         //[OperationContract]
         //[WebGet(UriTemplate = "/GetRetrievalItemByName", ResponseFormat = WebMessageFormat.Json)]
         //List<WCFRetrievalForm> getRetrievalItemByName();
@@ -154,10 +156,10 @@ namespace InventoryWCF
             ResponseFormat = WebMessageFormat.Json)]
         void UpdateRequisitionDetail(WCFRequisitionDetail reqDetail);
 
-        [OperationContract]
-        [WebGet(UriTemplate = "/UpdateRequisitionDetail/{NO}/{itemCode}/{quantity}",
-        ResponseFormat = WebMessageFormat.Json)]
-        void UpdateReqDetail(string NO, string itemCode, string quantity);
+        //[OperationContract]
+        //[WebGet(UriTemplate = "/UpdateRequisitionDetail/{NO}/{itemCode}/{quantity}",
+        //ResponseFormat = WebMessageFormat.Json)]
+        //void UpdateReqDetail(string NO, string itemCode, string quantity);
 
         [OperationContract]
         [WebGet(UriTemplate = "/RemovePendingRequisition/{NO}",
@@ -172,6 +174,8 @@ namespace InventoryWCF
         [OperationContract]
         [WebGet(UriTemplate = "/UpdateCollectionPoint/{deptCode}/{CollectionPointID}", ResponseFormat = WebMessageFormat.Json)]
         void UpdateCollectionPoint(string deptCode, string CollectionPointID);
+
+
 
 
         //[OperationContract]
