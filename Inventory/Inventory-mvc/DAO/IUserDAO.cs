@@ -46,5 +46,7 @@ namespace Inventory_mvc.DAO
         List<User> FindUsersByRole(int roleID);
 
         bool Promote(string uid);
+
+        bool Demote(string uid);
     }
 }
