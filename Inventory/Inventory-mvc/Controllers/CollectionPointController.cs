@@ -201,6 +201,7 @@ namespace Inventory_mvc.Controllers
             string name = HttpContext.User.Identity.Name;
             string deptCode = us.FindDeptCodeByID(name);
             var deptName = entity.Departments.Where(x => x.departmentCode == deptCode).First().departmentName;
+            var rep = entity.Users.Where(x => x.departmentCode == deptCode).Where(x=> x.role == 4||x.role==3||x.role==7).First().name;
             
             ViewBag.deptName = deptName;
             if (Session["deptCode"] != null)
@@ -218,7 +219,7 @@ namespace Inventory_mvc.Controllers
                 if (a.departmentCode == deptCode)
                 {
                     ViewBag.Point = a.Collection_Point.collectionPointName;
-                    ViewBag.rp = user.name;
+                    ViewBag.rp = rep;
                     break;
                 }
             }
@@ -243,6 +244,7 @@ namespace Inventory_mvc.Controllers
             string name = HttpContext.User.Identity.Name;
             string deptCode = us.FindDeptCodeByID(name);
             var deptName = entity.Departments.Where(x => x.departmentCode == deptCode).First().departmentName;
+            var rep = entity.Users.Where(x => x.departmentCode == deptCode).Where(x => x.role == 4 || x.role == 3 || x.role == 7).First().name;
             ViewBag.deptName = deptName;
             var user = entity.Users.Where(x => x.departmentCode == deptCode).First();
             foreach (var a in departmentService.GetAllDepartment().ToList())
@@ -250,7 +252,7 @@ namespace Inventory_mvc.Controllers
                 if (a.departmentCode == deptCode)
                 {
                     ViewBag.Point = a.Collection_Point.collectionPointName;
-                    ViewBag.rp = user.name;
+                    ViewBag.rp = rep;
                     break;
                 }
             }
@@ -285,6 +287,7 @@ namespace Inventory_mvc.Controllers
             string name = HttpContext.User.Identity.Name;
             string deptCode = us.FindDeptCodeByID(name);
             var deptName = entity.Departments.Where(x => x.departmentCode == deptCode).First().departmentName;
+            var rep = entity.Users.Where(x => x.departmentCode == deptCode).Where(x => x.role == 4 || x.role == 3 || x.role == 7).First().name;
 
             ViewBag.deptName = deptName;
             if (Session["deptCode"] != null)
@@ -302,7 +305,7 @@ namespace Inventory_mvc.Controllers
                 if (a.departmentCode == deptCode)
                 {
                     ViewBag.Point = a.Collection_Point.collectionPointName;
-                    ViewBag.rp = user.name;
+                    ViewBag.rp = rep;
                     break;
                 }
             }
@@ -325,6 +328,7 @@ namespace Inventory_mvc.Controllers
             string name = HttpContext.User.Identity.Name;
             string deptCode = us.FindDeptCodeByID(name);
             var deptName = entity.Departments.Where(x => x.departmentCode == deptCode).First().departmentName;
+            var rep = entity.Users.Where(x => x.departmentCode == deptCode).Where(x => x.role == 4 || x.role == 3 || x.role == 7).First().name;
 
             ViewBag.deptName = deptName;
            
@@ -335,7 +339,7 @@ namespace Inventory_mvc.Controllers
                 if (a.departmentCode == deptCode)
                 {
                     ViewBag.Point = a.Collection_Point.collectionPointName;
-                    ViewBag.rp = user.name;
+                    ViewBag.rp = rep;
                     break;
                 }
             }
