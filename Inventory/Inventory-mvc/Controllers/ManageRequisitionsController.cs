@@ -403,7 +403,14 @@ namespace Inventory_mvc.Controllers
             catch (Exception e)
             {
                 // get depthead as UR if not assign
-                user = entity.Users.Where(x => x.departmentCode == deptCode && x.role == (int)UserRoles.RoleID.DepartmentHead).First();
+                if(deptCode != "STORE")
+                {
+                    user = entity.Users.Where(x => x.departmentCode == deptCode && x.role == (int)UserRoles.RoleID.DepartmentHead).First();
+                }
+                else
+                {
+                    user = entity.Users.Where(x => x.departmentCode == deptCode && x.role == (int)UserRoles.RoleID.StoreManager).First();
+                }
             }
 
 
