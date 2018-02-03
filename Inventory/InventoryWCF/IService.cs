@@ -176,6 +176,11 @@ namespace InventoryWCF
         void UpdateCollectionPoint(string deptCode, string CollectionPointID);
 
 
+        [OperationContract]
+        [WebGet(UriTemplate = "/GetConsolidatedRequisitionDetailsforAllocation", ResponseFormat = WebMessageFormat.Json)]
+        List<WCFRequisitionDetail> GetConsolidatedRequisitionDetailsforAllocation();
+        
+
 
 
         //[OperationContract]
@@ -291,6 +296,7 @@ namespace InventoryWCF
             get { return qtyRetrieved; }
             set { qtyRetrieved = value; }
         }
+
     }
 
     [DataContract]
