@@ -609,6 +609,13 @@ namespace InventoryWCF
 
         }
 
+        public void UpdateRequisitionDetailAndroid(WCFRequisitionDetail reqDetail)
+        {
+            
+            requisitionRecordService.UpdateDetailsAndroid(reqDetail.ItemCode, reqDetail.RequisitionNo, reqDetail.AllocateQty);
+
+        }
+
         //public List<WCFDisbursement> GetCodeFromName(string name)
         //{
         //    stationeryService.GetAllStationery();

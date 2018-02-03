@@ -115,6 +115,47 @@ namespace Inventory_mvc.DAO
                 return 0;
             }
         }
+        //for android: different cos of execution of rd.allocateQty += allocateQty
+        public int UpdateRequisitionDetailsAndroid(string itemcode, int requisitionNo, int? allocateQty)
+        {
+            try
+            {
+                StationeryModel entity = new StationeryModel();
+                Requisition_Detail rd = new Requisition_Detail();
+                rd = entity.Requisition_Detail.Where(x => x.itemCode == itemcode && x.requisitionNo == requisitionNo).First();
+                //start of code added by alex//
+                //deduct retrieve qty after doing allocation
+                //int difference = rd.allocatedQty.Value - allocateQty.Value;
+                List<RetrieveForm> retrievalList = (List<RetrieveForm>)HttpContext.Current.Application["retrieveForm"];
+                //List<RetrieveForm> temp = (List<RetrieveForm>)HttpContext.Current.Application["retrieveList"];
+                //foreach (var item in temp)
+                //{
+                //    RetrieveForm newR = new RetrieveForm();
+                //    newR.ItemCode = item.ItemCode;
+                //    newR.Qty = item.Qty;
+                //    newR.retrieveQty = item.retrieveQty;
+                //    newR.StockQty = item.StockQty;
+                //    newR.description = item.description;
+                //    retrievalList.Add(newR);
+                //}
+                int index = retrievalList.FindIndex(x => x.ItemCode == itemcode);
+                retrievalList[index].retrieveQty -= allocateQty;
+
+
+                HttpContext.Current.Application["retrieveForm"] = retrievalList;
+
+                //end of code//
+                rd.allocatedQty += allocateQty;
+                entity.SaveChanges();
+                return 0;
+            }
+            catch
+            {
+                return 0;
+            }
+
+
+        }
 
         public int UpdateRequisitionDetails(string itemcode, int requisitionNo, int? allocateQty, int? fulfilledQty)
         {

@@ -66,6 +66,11 @@ namespace Inventory_mvc.Service
             rDAO.UpdateRequisitionDetails(itemcode, requisitionNo, allocateQty);
         }
 
+        public void UpdateDetailsAndroid(string itemcode, int requisitionNo, int? allocateQty)
+        {
+            rDAO.UpdateRequisitionDetailsAndroid(itemcode, requisitionNo, allocateQty);
+        }
+
 
         public bool SubmitNewRequisition(Requisition_Record requisition, string requesterID)
         {
