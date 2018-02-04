@@ -37,8 +37,13 @@ namespace Inventory_mvc.Controllers
                 if (Encrypt.DecryptMethod(UserService.FindByUserID(model.UserName).password) == model.Password)
                 {
                     int roleID = UserService.GetRoleByID(model.UserName);
+                    
                     string identity = model.UserName;
                     Session["role"] = roleID;
+                    Session["Name"] = UserService.FindNameByID(identity);
+                    StationeryModel entity = new StationeryModel();
+
+                    Session["roleName"] = entity.Users.Where(x => x.userID == identity).First().roleInfo.roleName;
                     AuthorizationManager.SetTicket(Response, model.RememberMe, identity.ToUpper(), roleID);
                     if (!string.IsNullOrEmpty(returnUrl))
                     {

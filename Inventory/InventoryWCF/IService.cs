@@ -162,12 +162,12 @@ namespace InventoryWCF
     ResponseFormat = WebMessageFormat.Json)]
         void UpdateRequisitionDetailAndroid(WCFRequisitionDetail reqDetail);
 
-      
 
-        //[OperationContract]
-        //[WebGet(UriTemplate = "/UpdateRequisitionDetail/{NO}/{itemCode}/{quantity}",
-        //ResponseFormat = WebMessageFormat.Json)]
-        //void UpdateReqDetail(string NO, string itemCode, string quantity);
+
+        [OperationContract]
+        [WebGet(UriTemplate = "/UpdateRequisitionDetail/{NO}/{itemCode}/{quantity}",
+        ResponseFormat = WebMessageFormat.Json)]
+        void UpdateReqDetail(string NO, string itemCode, string quantity);
 
         [OperationContract]
         [WebGet(UriTemplate = "/RemovePendingRequisition/{NO}",
