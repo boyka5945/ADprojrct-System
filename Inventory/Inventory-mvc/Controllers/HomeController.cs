@@ -30,7 +30,7 @@ namespace Inventory_mvc.Controllers
             //{
             if (String.IsNullOrEmpty(model.UserName) || !UserService.isExistingID(model.UserName))
             {
-                ViewBag.errorMessage = "UserName is not correct.";
+                ViewBag.errorMessage = "UserName or Password is not correct.";
             }
             else
             {
@@ -51,7 +51,7 @@ namespace Inventory_mvc.Controllers
                 }
                 else
                 {
-                    ViewBag.errorMessage = "Password is not correct.";
+                    ViewBag.errorMessage = "UserName or Password is not correct.";
 
                 }
                 //}   
