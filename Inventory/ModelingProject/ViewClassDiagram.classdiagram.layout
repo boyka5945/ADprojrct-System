@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<logicalClassDesignerDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 17.75, 74.375" name="ViewClassDiagram">
+<logicalClassDesignerDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 17.75, 81.5" name="ViewClassDiagram">
   <logicalClassDesignerModelMoniker Id="5fb9a2b1-e4e5-4b5c-b00e-7b45fa7c3c02" />
   <nestedChildShapes>
     <classShape Id="6c489be7-72e3-43c3-b8f4-f973440fd260" absoluteBounds="0.5, 0.625, 2, 1.7031249602635703" hideQualifiedName="false" showFullSignature="true" increaseHeight="0" customColor="181, 193, 223">
@@ -513,18 +513,67 @@
         <OperationElementListCompartment Id="57319ac2-dc34-4f29-92d8-0ae55f3a9113" absoluteBounds="3.515, 73.046484357615313, 2.8449999999999998, 0.20117186754941951" name="OperationsCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="e45444da-b70d-47d6-a60b-dbdeac5ca864" absoluteBounds="6.75, 72.125, 2.625, 1.7031249602635654" hideQualifiedName="false" increaseHeight="0" customColor="181, 193, 223">
+    <classShape Id="e45444da-b70d-47d6-a60b-dbdeac5ca864" absoluteBounds="6.75, 72.125, 2.625, 1.8632812052965164" hideQualifiedName="false" increaseHeight="0" customColor="181, 193, 223">
       <classMoniker Id="b8fd2abf-12b0-4b2a-903a-3187c2d3391b" LastKnownName="AndroidDeptDisbursementListUI" />
       <nestedChildShapes>
-        <AttributeElementListCompartment Id="e20c3e9d-845b-4aa9-8a41-b2beedbcaf2b" absoluteBounds="6.765, 72.515, 2.5949999999999998, 1.0019530927141507" name="AttributesCompartment" titleTextColor="Black" itemTextColor="Black" />
-        <OperationElementListCompartment Id="d7d5b350-5d54-496d-b8d0-06fba2220fcb" absoluteBounds="6.765, 73.526953092714152, 2.5949999999999998, 0.20117186754941963" name="OperationsCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <AttributeElementListCompartment Id="e20c3e9d-845b-4aa9-8a41-b2beedbcaf2b" absoluteBounds="6.765, 72.515, 2.5949999999999998, 1.162109337747097" name="AttributesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <OperationElementListCompartment Id="d7d5b350-5d54-496d-b8d0-06fba2220fcb" absoluteBounds="6.765, 73.6871093377471, 2.5949999999999998, 0.20117186754941963" name="OperationsCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="30e5566e-55e9-45b9-bc4f-7fda57f4f97a" absoluteBounds="9.875, 72.125, 2.375, 2.0234374503294532" hideQualifiedName="false" increaseHeight="0" customColor="181, 193, 223">
+    <classShape Id="30e5566e-55e9-45b9-bc4f-7fda57f4f97a" absoluteBounds="12.375, 72.25, 2.375, 2.0234374503294532" hideQualifiedName="false" increaseHeight="0" customColor="181, 193, 223">
       <classMoniker Id="daf5f075-f0ec-446a-8222-1e0a9c00865d" LastKnownName="AndroidConfirmDisbursementUI" />
       <nestedChildShapes>
-        <AttributeElementListCompartment Id="4e3305d5-3ace-43c8-b7d9-e41dd25f9483" absoluteBounds="9.89, 72.515, 2.3449999999999998, 1.3222655827800431" name="AttributesCompartment" titleTextColor="Black" itemTextColor="Black" />
-        <OperationElementListCompartment Id="1c4b605b-bbcd-4382-8cbb-084fd38dbc6a" absoluteBounds="9.89, 73.847265582780039, 2.3449999999999998, 0.20117186754941963" name="OperationsCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <AttributeElementListCompartment Id="4e3305d5-3ace-43c8-b7d9-e41dd25f9483" absoluteBounds="12.39, 72.64, 2.3449999999999998, 1.3222655827800431" name="AttributesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <OperationElementListCompartment Id="1c4b605b-bbcd-4382-8cbb-084fd38dbc6a" absoluteBounds="12.39, 73.972265582780039, 2.3449999999999998, 0.20117186754941963" name="OperationsCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="1fd0be29-fc60-4be1-b5bc-ccd91eb05bbc" absoluteBounds="1, 74.75, 2.125, 1.5429687152306144" hideQualifiedName="false" increaseHeight="0" customColor="181, 193, 223">
+      <classMoniker Id="bc97a76d-b12d-4838-8485-7e0a6d14e4d2" LastKnownName="AndroidRetrievalFormUI" />
+      <nestedChildShapes>
+        <AttributeElementListCompartment Id="aca43532-5818-4da8-92a0-7139933eacd4" absoluteBounds="1.015, 75.14, 2.0949999999999998, 0.84179684768120444" name="AttributesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <OperationElementListCompartment Id="6fb043cd-1131-4e1b-a986-aa9a8aa5c588" absoluteBounds="1.015, 75.9917968476812, 2.0949999999999998, 0.20117186754941963" name="OperationsCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="29862fc0-878c-4e55-b405-8a4a31f243b2" absoluteBounds="3.5, 74.75, 2.25, 2.9843749205271308" hideQualifiedName="false" increaseHeight="0" customColor="181, 193, 223">
+      <classMoniker Id="6e934b0d-a227-4a7e-9e4c-707af12a64d6" LastKnownName="AndroidRetrievalDetailUI" />
+      <nestedChildShapes>
+        <AttributeElementListCompartment Id="f42d3343-15f9-4474-bf4d-a6a7e6d50f18" absoluteBounds="3.515, 75.14, 2.2199999999999998, 2.2832030529777207" name="AttributesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <OperationElementListCompartment Id="63609d2e-2a80-4c6e-8e5b-b955bf35f267" absoluteBounds="3.515, 77.433203052977717, 2.2199999999999998, 0.20117186754941985" name="OperationsCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="d65368c6-0d19-4e8a-ac3c-fb23922fd789" absoluteBounds="1, 78.125, 2.375, 1.7031249602635654" hideQualifiedName="false" increaseHeight="0" customColor="181, 193, 223">
+      <classMoniker Id="8b63af90-4ecc-4deb-a9da-acf78909f9fb" LastKnownName="AndroidAllocationUI" />
+      <nestedChildShapes>
+        <AttributeElementListCompartment Id="2976ae78-e309-49f9-98dc-85b3894af658" absoluteBounds="1.015, 78.515, 2.3449999999999998, 1.0019530927141505" name="AttributesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <OperationElementListCompartment Id="ee9eb277-ff26-4576-bc39-e2b9f7c3ddce" absoluteBounds="1.015, 79.526953092714152, 2.3449999999999998, 0.20117186754941963" name="OperationsCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="13c2cbb1-f2b1-45a2-894f-8b5d43d0408f" absoluteBounds="3.75, 78.125, 2.5, 2.3437499403953552" hideQualifiedName="false" increaseHeight="0" customColor="181, 193, 223">
+      <classMoniker Id="4f20d24f-4f42-4afc-be20-42856a7f96ac" LastKnownName="AndroidAllocationByItemUI" />
+      <nestedChildShapes>
+        <AttributeElementListCompartment Id="5490039e-8229-45d1-a4a7-8b6ccc0cc2dd" absoluteBounds="3.765, 78.515, 2.4699999999999998, 1.6425780728459358" name="AttributesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <OperationElementListCompartment Id="012797d3-a53e-441a-af8a-3265c00e0ae5" absoluteBounds="3.765, 80.167578072845942, 2.4699999999999998, 0.20117186754941985" name="OperationsCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="a2d6f17d-3e93-4113-8b5d-22b3585930dd" absoluteBounds="6.625, 78.125, 2.75, 3.1445311655600818" hideQualifiedName="false" increaseHeight="0" customColor="181, 193, 223">
+      <classMoniker Id="29ae5c82-74b3-4967-9814-4ee6e1f0ec02" LastKnownName="AndroidAllocationUpdateUI" />
+      <nestedChildShapes>
+        <AttributeElementListCompartment Id="e288c81d-987d-4157-8585-f0463bf1af7e" absoluteBounds="6.64, 78.515, 2.7199999999999998, 2.4433592980106669" name="AttributesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <OperationElementListCompartment Id="5a33e97b-4a98-47bc-a9d5-7809df2ea8ed" absoluteBounds="6.64, 80.968359298010668, 2.7199999999999998, 0.20117186754941985" name="OperationsCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="d5332820-16cb-4720-9817-b7a62cd32fd5" absoluteBounds="9.75, 72.25, 2.375, 1.3828124701976776" hideQualifiedName="false" increaseHeight="0" customColor="181, 193, 223">
+      <classMoniker Id="7ae15b08-d690-4ba3-aa07-d355971d08c8" LastKnownName="AndroidDisbursementListRow" />
+      <nestedChildShapes>
+        <AttributeElementListCompartment Id="43da3a75-3eab-4639-a430-5c69e87a27b8" absoluteBounds="9.765, 72.64, 2.3449999999999998, 0.68164060264825821" name="AttributesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <OperationElementListCompartment Id="44187e89-bcb1-4d76-98a8-2445fb543dd0" absoluteBounds="9.765, 73.331640602648264, 2.3449999999999998, 0.20117186754941963" name="OperationsCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="1cc72b1b-9057-412e-9d16-ce51bcec1e7a" absoluteBounds="15.125, 72.25, 2, 1.3828124701976776" hideQualifiedName="false" increaseHeight="0" customColor="181, 193, 223">
+      <classMoniker Id="aace1a66-a732-42de-b12f-1dbaf0264fc3" LastKnownName="AndroidInputActualReceivedQtyUI" />
+      <nestedChildShapes>
+        <AttributeElementListCompartment Id="bd21306d-fa22-4e7a-9751-85808c9b03b3" absoluteBounds="15.14, 72.64, 1.9700000000000002, 0.68164060264825832" name="AttributesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <OperationElementListCompartment Id="cbe90981-fcb9-4fa8-97d4-7f2d40f6e5e8" absoluteBounds="15.14, 73.331640602648264, 1.9700000000000002, 0.20117186754941963" name="OperationsCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
   </nestedChildShapes>

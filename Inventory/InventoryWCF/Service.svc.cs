@@ -303,8 +303,19 @@ namespace InventoryWCF
 
         public void UpdateCollectionPoint(string deptCode, string newcp)
         {
-
-            BusinessLogic.updateCollectionPoint(deptCode,Convert.ToInt32(newcp));
+            try
+            {
+                BusinessLogic.updateCollectionPoint(deptCode, Convert.ToInt32(newcp));
+                EmailNotification.EmailNotificationForCollectionPointChange(deptCode);
+            }
+            catch (EmailException e)
+            {
+                return;
+            }
+            catch (Exception e)
+            {
+                return;
+            }
         }
 
 

@@ -5,6 +5,7 @@ using System.Web;
 using Inventory_mvc.Models;
 using Inventory_mvc.DAO;
 using System.Web.Mvc;
+using Inventory_mvc.Function;
 
 namespace Inventory_mvc.Service
 {
@@ -27,7 +28,15 @@ namespace Inventory_mvc.Service
         public int UpdateDepartmentByCode(Department dept)
         {
             DepartmentDAO dDAO = new DepartmentDAO();
-            return dDAO.UpdateDepartmentInfo(dept);
+
+            int row = dDAO.UpdateDepartmentInfo(dept);
+
+            if (row != 0) // update successful
+            {
+                EmailNotification.EmailNotificationForCollectionPointChange(dept.departmentCode);
+            }
+
+            return row;
         }
 
         public Boolean CreateDepartment(Department dept)

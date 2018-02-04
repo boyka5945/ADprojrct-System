@@ -6229,6 +6229,12 @@
               <referencedTypeMoniker Id="58118404-27fd-4088-8e74-0da69aa61ac7" LastKnownName="Button" />
             </type_NamedElement>
           </property>
+          <property Id="247a675c-157e-4911-bdbd-07ec545b8d0f" name="lvItemList" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="fd175b8f-4d4a-425b-86f3-4405b9c31bb9" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="15b29639-7792-4a59-83a8-183d01069cd5" LastKnownName="ListView" />
+            </type_NamedElement>
+          </property>
         </ownedAttributesInternal>
       </class>
     </logicalClassDesignerModelHasTypes>
@@ -6296,6 +6302,366 @@
         <elementDefinition Id="2ae63e9e-ebed-4c6e-8969-1b2923fe8ec5" />
       </referencedType>
     </packageHasNamedElement>
+    <logicalClassDesignerModelHasTypes>
+      <class Id="bc97a76d-b12d-4838-8485-7e0a6d14e4d2" name="AndroidRetrievalFormUI" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="7928d69e-966a-403b-b8ff-fb3cae8b881f" />
+        <ownedAttributesInternal>
+          <property Id="77aa4816-45a8-42e1-9bed-9ab9fd0e0104" name="tvItemName" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="6806f3d9-ed0a-49d0-b971-3d689f967fc9" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="bf5d92cc-b483-43d6-800b-4ce9a43d85d3" LastKnownName="TextView" />
+            </type_NamedElement>
+          </property>
+          <property Id="4e957da2-7e94-40b5-84e0-a6c04b24075f" name="tvRequstedQty" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="3c4a0a07-8700-4860-a3f9-c76be547a605" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="bf5d92cc-b483-43d6-800b-4ce9a43d85d3" LastKnownName="TextView" />
+            </type_NamedElement>
+          </property>
+          <property Id="c94f0c74-6d08-4ea6-87d0-69a811200e8f" name="tvRetrievedQty" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="dcd1781f-cc9e-4e15-8cfd-58215a190fc6" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="bf5d92cc-b483-43d6-800b-4ce9a43d85d3" LastKnownName="TextView" />
+            </type_NamedElement>
+          </property>
+          <property Id="b1208638-17b9-4690-a2a1-a37d5f079ad8" name="lvItemList" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="ef1617ff-2c4b-48a7-b560-ea2aaa98c67d" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="15b29639-7792-4a59-83a8-183d01069cd5" LastKnownName="ListView" />
+            </type_NamedElement>
+          </property>
+        </ownedAttributesInternal>
+      </class>
+    </logicalClassDesignerModelHasTypes>
+    <logicalClassDesignerModelHasTypes>
+      <class Id="6e934b0d-a227-4a7e-9e4c-707af12a64d6" name="AndroidRetrievalDetailUI" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="86b6734e-4823-4cc7-ba41-b32bcf5f998f" />
+        <ownedAttributesInternal>
+          <property Id="b77af8ab-a88d-40f8-b879-144f564be01c" name="tvHeader" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="d7710717-5461-4c5c-9afd-8a6daec4e3fe" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="bf5d92cc-b483-43d6-800b-4ce9a43d85d3" LastKnownName="TextView" />
+            </type_NamedElement>
+          </property>
+          <property Id="b2a9b01a-b9c5-4169-b8bf-e6e944b850ea" name="tvDescription" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="d000fe1d-b7be-4e6b-ae86-80dc84abb884" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="bf5d92cc-b483-43d6-800b-4ce9a43d85d3" LastKnownName="TextView" />
+            </type_NamedElement>
+          </property>
+          <property Id="72e687fc-fa70-4b01-82d2-4772fbabb06b" name="tvDescriptionLabel" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="5ccb9f9b-9c46-479a-8dbe-870460080823" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="bf5d92cc-b483-43d6-800b-4ce9a43d85d3" LastKnownName="TextView" />
+            </type_NamedElement>
+          </property>
+          <property Id="3a2e8e90-a877-4a3d-96a6-2c5bafa80442" name="tvQuantityLabel" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="689c691e-f778-4ac6-90a5-250bcadef1eb" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="bf5d92cc-b483-43d6-800b-4ce9a43d85d3" LastKnownName="TextView" />
+            </type_NamedElement>
+          </property>
+          <property Id="23b69f6d-7f17-4e7d-88c6-99d6b893c1f3" name="tvQuantity" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="08f1234b-4200-4ac5-b385-a0349284e306" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="bf5d92cc-b483-43d6-800b-4ce9a43d85d3" LastKnownName="TextView" />
+            </type_NamedElement>
+          </property>
+          <property Id="66f927d9-b6c9-453b-bb79-7cf6aed2a550" name="tvLocation" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="5147bbd4-2096-40d7-9b1c-fbc6ade26932" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="bf5d92cc-b483-43d6-800b-4ce9a43d85d3" LastKnownName="TextView" />
+            </type_NamedElement>
+          </property>
+          <property Id="7605a931-55df-422a-86f6-3ee3f9f2a307" name="tvLocationLabel" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="c42203e4-7bd0-4029-8c1d-307dc62f9bd4" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="bf5d92cc-b483-43d6-800b-4ce9a43d85d3" LastKnownName="TextView" />
+            </type_NamedElement>
+          </property>
+          <property Id="7a0d8bbd-8363-4bba-bae0-1edfa0786742" name="tvRetrievedQty" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="dca51b9c-f207-4ef6-aec5-72fa63fddccf" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="bf5d92cc-b483-43d6-800b-4ce9a43d85d3" LastKnownName="TextView" />
+            </type_NamedElement>
+          </property>
+          <property Id="2ba4e92a-828e-42e0-b041-8a401e72299e" name="btnPlus" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="776df4cb-005e-4a48-b438-12509abad02b" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="58118404-27fd-4088-8e74-0da69aa61ac7" LastKnownName="Button" />
+            </type_NamedElement>
+          </property>
+          <property Id="e9c48ea6-d73a-4360-8c55-1182fe01a55d" name="btnMinus" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="783b7b89-5ef8-4633-b943-5931020600d3" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="58118404-27fd-4088-8e74-0da69aa61ac7" LastKnownName="Button" />
+            </type_NamedElement>
+          </property>
+          <property Id="52b063eb-936f-4b3e-a4ea-53504157d1f9" name="etRetrievedQty" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="f7dd3597-d604-448d-bb1f-b663e6d0eef4" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="445a7df5-e7db-4e35-9341-825b2d54fe8f" LastKnownName="EditText" />
+            </type_NamedElement>
+          </property>
+          <property Id="43c62091-208b-410b-9b29-2eb3052983dc" name="btnCancel" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="6d75c649-b8ce-4470-b520-729d9a47445e" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="58118404-27fd-4088-8e74-0da69aa61ac7" LastKnownName="Button" />
+            </type_NamedElement>
+          </property>
+          <property Id="e37927c8-c869-4f39-81e0-08f88fbd1060" name="btnConfirm" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="debfbf3a-cef5-4d39-97e9-a3a6c6a1dbe6" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="58118404-27fd-4088-8e74-0da69aa61ac7" LastKnownName="Button" />
+            </type_NamedElement>
+          </property>
+        </ownedAttributesInternal>
+      </class>
+    </logicalClassDesignerModelHasTypes>
+    <logicalClassDesignerModelHasTypes>
+      <class Id="8b63af90-4ecc-4deb-a9da-acf78909f9fb" name="AndroidAllocationUI" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="7c0c9061-59d5-462e-b1b4-a1189c9d66a5" />
+        <ownedAttributesInternal>
+          <property Id="6437fae8-3e06-4a3a-a973-1c64b58d72b3" name="tvTitle" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="87438508-102a-4119-ac8d-6d2263d124d9" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="bf5d92cc-b483-43d6-800b-4ce9a43d85d3" LastKnownName="TextView" />
+            </type_NamedElement>
+          </property>
+          <property Id="d2adf712-caf4-4a44-9d6b-ec5065dd9dcc" name="tvItemNameLabel" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="9daaa83c-11fd-4022-b964-2b4c2392f817" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="bf5d92cc-b483-43d6-800b-4ce9a43d85d3" LastKnownName="TextView" />
+            </type_NamedElement>
+          </property>
+          <property Id="1ded6491-b273-4166-96a3-8a8f5e1b07c7" name="tvPendingAllocationLabel" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="73edf4cf-5f97-466c-aa4d-cb105fbc1458" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="e877b175-28bd-4434-81d8-63fa7b8f416b" LastKnownName="TextView" />
+            </type_NamedElement>
+          </property>
+          <property Id="8a67002e-ce8c-41b5-bb2e-3d20bcfe2759" name="tvRetrievedQtyLabel" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="f4a5d4c1-d1a2-42c8-bc5d-015763049e4f" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="bf5d92cc-b483-43d6-800b-4ce9a43d85d3" LastKnownName="TextView" />
+            </type_NamedElement>
+          </property>
+          <property Id="993889fa-2926-4183-8837-2602be8ba360" name="lvItemList" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="17364297-fe6d-42a3-bc1b-4362fba4a0f8" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="15b29639-7792-4a59-83a8-183d01069cd5" LastKnownName="ListView" />
+            </type_NamedElement>
+          </property>
+        </ownedAttributesInternal>
+      </class>
+    </logicalClassDesignerModelHasTypes>
+    <packageHasNamedElement>
+      <referencedType Id="e877b175-28bd-4434-81d8-63fa7b8f416b" name="TextView" isAbstract="false" isLeaf="false" cachedFullName="TextView">
+        <elementDefinition Id="0b44f3b4-60fa-413a-a155-282bae18507d" />
+      </referencedType>
+    </packageHasNamedElement>
+    <logicalClassDesignerModelHasTypes>
+      <class Id="4f20d24f-4f42-4afc-be20-42856a7f96ac" name="AndroidAllocationByItemUI" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="be33a87e-af0d-4bba-b190-f1b183f2c04e" />
+        <ownedAttributesInternal>
+          <property Id="4abbf08c-bbb1-4ce9-b6fe-ad9eb426d1a9" name="tvItemCode" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="f09c4bd1-4d96-4b01-9254-b17732de842d" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="bf5d92cc-b483-43d6-800b-4ce9a43d85d3" LastKnownName="TextView" />
+            </type_NamedElement>
+          </property>
+          <property Id="0b616b5e-beb0-4363-8239-33aef0ee61fb" name="tvItemCodeLabel" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="bdc2886b-be60-4804-a229-e62316583968" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="bf5d92cc-b483-43d6-800b-4ce9a43d85d3" LastKnownName="TextView" />
+            </type_NamedElement>
+          </property>
+          <property Id="f7da69b5-1801-4a71-b624-9d28b1e66dad" name="tvDescription" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="fae9c156-8906-4a91-b218-238dbca1be91" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="bf5d92cc-b483-43d6-800b-4ce9a43d85d3" LastKnownName="TextView" />
+            </type_NamedElement>
+          </property>
+          <property Id="fe3f1e89-6a32-460b-bba1-ec3e851d6dd5" name="tvDescriptionLabel" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="86833b45-eb0b-4a20-99c6-2938e846fabe" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="bf5d92cc-b483-43d6-800b-4ce9a43d85d3" LastKnownName="TextView" />
+            </type_NamedElement>
+          </property>
+          <property Id="2330b6d7-8d0d-4a86-8a78-c0f3b3888e27" name="tvRetrievedQty" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="3966b9d2-0d7b-4576-a0db-8b2742affded" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="bf5d92cc-b483-43d6-800b-4ce9a43d85d3" LastKnownName="TextView" />
+            </type_NamedElement>
+          </property>
+          <property Id="5462ad38-c3d5-4fc4-9e1d-7dd85c95ebf0" name="tvRetrievedQtyLabel" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="cbef016b-eedb-451f-a41f-c3c6c535395f" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="bf5d92cc-b483-43d6-800b-4ce9a43d85d3" LastKnownName="TextView" />
+            </type_NamedElement>
+          </property>
+          <property Id="511d75b8-4d04-488c-a904-5b5229ae5551" name="tvReqNo" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="db7d2c31-c748-4ad6-ad56-39a26043db22" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="bf5d92cc-b483-43d6-800b-4ce9a43d85d3" LastKnownName="TextView" />
+            </type_NamedElement>
+          </property>
+          <property Id="695553a6-eb6a-4cb1-abd4-66297a01d727" name="tvDeptCode" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="95c16721-9c44-4083-9355-9d6eaa60162d" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="bf5d92cc-b483-43d6-800b-4ce9a43d85d3" LastKnownName="TextView" />
+            </type_NamedElement>
+          </property>
+          <property Id="953ee845-6196-4ca4-a78f-179b523544c9" name="tvUnfulfilledQty" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="4960f545-7a2f-4099-a5cf-047f688bae3c" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="bf5d92cc-b483-43d6-800b-4ce9a43d85d3" LastKnownName="TextView" />
+            </type_NamedElement>
+          </property>
+        </ownedAttributesInternal>
+      </class>
+    </logicalClassDesignerModelHasTypes>
+    <logicalClassDesignerModelHasTypes>
+      <class Id="29ae5c82-74b3-4967-9814-4ee6e1f0ec02" name="AndroidAllocationUpdateUI" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="bb4a1294-7cb1-4df3-8af7-ebe575579470" />
+        <ownedAttributesInternal>
+          <property Id="3f7a4ea9-02e6-4518-bf2c-393baa06afce" name="tvTitle" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="d7056850-2a7a-4471-9ef4-8b752c36b070" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="bf5d92cc-b483-43d6-800b-4ce9a43d85d3" LastKnownName="TextView" />
+            </type_NamedElement>
+          </property>
+          <property Id="6fec807f-d12f-4098-810b-61a021f366bf" name="tvItemCodeLabel" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="c1419c0a-754d-418d-9d09-ce10fd34aaf9" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="bf5d92cc-b483-43d6-800b-4ce9a43d85d3" LastKnownName="TextView" />
+            </type_NamedElement>
+          </property>
+          <property Id="1eda46d2-31b4-4860-ba2d-59e9c9556ea1" name="tvItemCode" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="02aaa38f-ba8b-4520-b48d-a46b9ce4ba3a" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="bf5d92cc-b483-43d6-800b-4ce9a43d85d3" LastKnownName="TextView" />
+            </type_NamedElement>
+          </property>
+          <property Id="be14d12e-b5aa-482c-9da3-031501813b36" name="tvRequestNo" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="aedf5c8f-7864-43d9-b125-57df1081a494" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="bf5d92cc-b483-43d6-800b-4ce9a43d85d3" LastKnownName="TextView" />
+            </type_NamedElement>
+          </property>
+          <property Id="e98d325a-6f02-457b-a6bb-9ca49dcba7a5" name="tvRequestNoLabel" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="a6caecd0-536a-4c44-8210-218b05270a11" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="bf5d92cc-b483-43d6-800b-4ce9a43d85d3" LastKnownName="TextView" />
+            </type_NamedElement>
+          </property>
+          <property Id="51457ee4-149d-421a-aa48-977d5c89aedd" name="tvDepartmentLabel" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="ee663550-33b0-445f-9a80-17af14e20496" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="bf5d92cc-b483-43d6-800b-4ce9a43d85d3" LastKnownName="TextView" />
+            </type_NamedElement>
+          </property>
+          <property Id="3108068d-10ef-458a-8d04-d42b75ec4bea" name="tvDepartment" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="618c934e-774a-41dd-a1f3-eefd6b743983" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="bf5d92cc-b483-43d6-800b-4ce9a43d85d3" LastKnownName="TextView" />
+            </type_NamedElement>
+          </property>
+          <property Id="0d08fdb0-31b1-4675-ba90-3c528291d869" name="tvUnfulfilledQty" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="cc1226bf-0cae-4adc-8911-ff77f1daa8ba" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="bf5d92cc-b483-43d6-800b-4ce9a43d85d3" LastKnownName="TextView" />
+            </type_NamedElement>
+          </property>
+          <property Id="9cd7ee50-69e0-4a73-9263-3ffee58485cf" name="tvUnfulfilledQtyLabel" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="e7a4bb60-41cc-4d1f-bb89-020918d769b9" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="bf5d92cc-b483-43d6-800b-4ce9a43d85d3" LastKnownName="TextView" />
+            </type_NamedElement>
+          </property>
+          <property Id="fd624b38-5fd7-40b3-be7d-58689e96c087" name="tvRetrievedQtyLabel" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="cce5788b-5507-441c-85ae-c18d293a1298" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="bf5d92cc-b483-43d6-800b-4ce9a43d85d3" LastKnownName="TextView" />
+            </type_NamedElement>
+          </property>
+          <property Id="0d49b687-b1eb-4298-9deb-3dbac4fef944" name="tvRetrievedQty" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="3b5b05bc-5215-49d9-865c-5b75a4fb1776" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="bf5d92cc-b483-43d6-800b-4ce9a43d85d3" LastKnownName="TextView" />
+            </type_NamedElement>
+          </property>
+          <property Id="4115ee34-eb5e-45e1-96b0-0ee2faa28705" name="tvAllocateQtyLabel" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="2a3ac2ac-245a-4774-b733-b8ae870ab633" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="bf5d92cc-b483-43d6-800b-4ce9a43d85d3" LastKnownName="TextView" />
+            </type_NamedElement>
+          </property>
+          <property Id="df32545f-f724-481f-9858-1bdf3fac0204" name="edAllocateQty" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="8616c7ab-1625-402a-8b07-0dd04a361160" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="445a7df5-e7db-4e35-9341-825b2d54fe8f" LastKnownName="EditText" />
+            </type_NamedElement>
+          </property>
+          <property Id="92ff95f5-8a1b-4f33-8e43-1bdf90243820" name="btnConfirm" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="2541ba46-afae-4482-8d6a-eec7a45652e4" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="58118404-27fd-4088-8e74-0da69aa61ac7" LastKnownName="Button" />
+            </type_NamedElement>
+          </property>
+        </ownedAttributesInternal>
+      </class>
+    </logicalClassDesignerModelHasTypes>
+    <logicalClassDesignerModelHasTypes>
+      <class Id="7ae15b08-d690-4ba3-aa07-d355971d08c8" name="AndroidDisbursementListRow" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="1da46405-dc05-44df-bd6d-e7b5f6fec725" />
+        <ownedAttributesInternal>
+          <property Id="66b26165-5939-4fef-afe8-0c587241071d" name="tvItemCode" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="61aa0f44-4159-4a1f-916b-a39017adf54b" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="bf5d92cc-b483-43d6-800b-4ce9a43d85d3" LastKnownName="TextView" />
+            </type_NamedElement>
+          </property>
+          <property Id="5ca45196-cb7c-4f2d-9e7a-9f40e5360ff0" name="tvAllocatedQty" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="44d9bd03-1565-4a88-bafe-121debc98ad7" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="bf5d92cc-b483-43d6-800b-4ce9a43d85d3" LastKnownName="TextView" />
+            </type_NamedElement>
+          </property>
+          <property Id="7736d081-b40c-4e9f-af8c-103a81e986eb" name="tvReceivedQty" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="ad10d357-206c-4cc8-8027-85d96ee2ddd9" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="bf5d92cc-b483-43d6-800b-4ce9a43d85d3" LastKnownName="TextView" />
+            </type_NamedElement>
+          </property>
+        </ownedAttributesInternal>
+      </class>
+    </logicalClassDesignerModelHasTypes>
+    <logicalClassDesignerModelHasTypes>
+      <class Id="aace1a66-a732-42de-b12f-1dbaf0264fc3" name="AndroidInputActualReceivedQtyUI" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="71deae0f-3f82-4984-9820-fb7bdcf748a7" />
+        <ownedAttributesInternal>
+          <property Id="8b694ea0-0ba6-4b50-b8e1-5106fd31269b" name="tvInstruction" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="01cff25e-465e-41c9-8e8e-e7c607a3b3b6" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="bf5d92cc-b483-43d6-800b-4ce9a43d85d3" LastKnownName="TextView" />
+            </type_NamedElement>
+          </property>
+          <property Id="a5cbbc36-ff7a-46ae-87dd-20320ce6f321" name="etReceivedQty" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="a38a080d-48d0-4907-b9c5-e18730d83f6c" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="445a7df5-e7db-4e35-9341-825b2d54fe8f" LastKnownName="EditText" />
+            </type_NamedElement>
+          </property>
+          <property Id="59d25196-461c-4961-891c-237d818bbfa4" name="btnSubtmit" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="c9b8aaeb-c6a6-4c58-9962-b1d639da388a" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="58118404-27fd-4088-8e74-0da69aa61ac7" LastKnownName="Button" />
+            </type_NamedElement>
+          </property>
+        </ownedAttributesInternal>
+      </class>
+    </logicalClassDesignerModelHasTypes>
   </packagedElements>
   <package Id="c5399720-16a7-4c0b-8a76-1dd6f75f1aec" name="ModelingProject">
     <elementDefinition Id="a075f9dd-8a02-4ded-b5b5-4365e2819543" />
