@@ -176,10 +176,13 @@ namespace Inventory_mvc.Controllers
             if (ModelState.IsValid)
                 try
                 {
-                    int row = ds.UpdateDepartmentByCode(d);
-
+                    int row = ds.UpdateDepartmentByCode(d);                                   
                     return RedirectToAction("UpdateCollectionPoint");
 
+                }
+                catch (EmailException e)
+                {
+                    TempData["ExceptionMessage"] = "Failure to send email notification. Kindly contact IT personnel.";
                 }
                 catch (Exception e)
                 {
@@ -188,8 +191,6 @@ namespace Inventory_mvc.Controllers
 
             TempData["CollectionPointList"] = collectionPointService.GetAllCollectionPoints();
             return RedirectToAction("UpdateCollectionPoint");
-
-
         }
 
         [RoleAuthorize]

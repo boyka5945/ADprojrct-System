@@ -206,7 +206,7 @@ namespace Inventory_mvc.Function
             }
         }
 
-        public static void EmailNotificationForCollectionPointChange(string userRepID)
+        public static void EmailNotificationForCollectionPointChange(string deptCode)
         {
             List<string> emailAddress = new List<string>();
 
@@ -215,7 +215,7 @@ namespace Inventory_mvc.Function
                 emailAddress.Add(i.userEmail);
             }
 
-            string content = String.Format("Kindly be informed that the collection point of Dept {0} has been changed at {1}.", userService.FindDeptCodeByID(userRepID), DateTime.Today.ToLongDateString());
+            string content = String.Format("Kindly be informed that the collection point of Dept {0} has been changed at {1}.", deptCode, DateTime.Today.ToLongDateString());
 
             try
             {

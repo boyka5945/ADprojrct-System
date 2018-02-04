@@ -129,12 +129,19 @@ namespace InventoryWCF
             {
                 if (entity.Departments.Where(x => x.departmentCode == deptCode).Count() > 0)
                 {
-                    var model = entity.Departments.Where(x => x.departmentCode == deptCode).First();
-                             
+                    try
+                    {
+                        var model = entity.Departments.Where(x => x.departmentCode == deptCode).First();
 
-                    model.collectionPointID = newcp;
-                                       
-                    entity.SaveChanges();
+
+                        model.collectionPointID = newcp;
+
+                        entity.SaveChanges();
+                    }
+                    catch
+                    {
+                        throw new Exception("Database Error.");
+                    }
 
                 }
 
