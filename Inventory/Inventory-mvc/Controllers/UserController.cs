@@ -26,6 +26,7 @@ namespace Inventory_mvc.Controllers
             //}
             User user = userService.FindByUserID(name);
             List<User> model = userService.GetUserByDept(user);
+            ViewBag.Role = user.role;
             userService.AutoRemove(user);
             
             return View(model);
