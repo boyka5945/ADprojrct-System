@@ -23,5 +23,9 @@ namespace Inventory_mvc.ViewModel
 
         [Display(Name = "Retrieved Quantity")]
         public int? retrieveQty { get; set; }
+
+        //[Display(Name = "allocated Quantity")]
+        //public int? allocatedQty { get; set; }
+
     }
 }

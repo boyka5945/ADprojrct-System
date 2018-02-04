@@ -55,7 +55,7 @@ namespace Inventory_mvc.DAO
 
         bool UpdateRequisitionDetails(Requisition_Detail requisitionDetail);
         List<Requisition_Record> GetSortedRecordsByRequesterID(string requesterID, string sortOrder);
-
+        int UpdateRequisitionDetailsAndroid(string itemcode, int requisitionNo, int? allocateQty);
 
         List<Requisition_Record> GetRequestByReqID(string id);
     }

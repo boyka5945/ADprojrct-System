@@ -269,3 +269,8 @@ PublishProfiles/
 /Inventory/InventoryWCF/Service2.svc.cs
 /Inventory/InventoryWCF/Service2.svc
 /Inventory/InventoryWCF/IService2.cs
+/Inventory/Inventory-mvc/Function/sqldep.cs
+/Inventory/test/test.csproj
+/Inventory/test/Properties/AssemblyInfo.cs
+/Inventory/test/Program.cs
+/Inventory/test/App.config

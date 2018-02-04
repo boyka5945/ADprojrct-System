@@ -126,8 +126,12 @@ namespace InventoryWCF
 
         public List<WCFRequisitionDetail> GetRequisitionDetailsByItemCode(string itemCode)
         {
-            // TODO : IMPLEMENT METHOD
-            throw new NotImplementedException();
+            using(StationeryModel entity = new StationeryModel())
+            {
+                List<Requisition_Detail> temp = entity.Requisition_Detail.Where(x => x.itemCode == itemCode).ToList();
+                return WCFModelConvertUtility.ConvertToWCFRequestionDetails(temp);
+            }
+      
         }
 
         public WCFRequisitionDetail GetRequisitionDetailsBy2Keys(string itemCode, string requisitionNO)
@@ -351,16 +355,22 @@ namespace InventoryWCF
             try
             {
                 List<RetrieveForm> list = (List<RetrieveForm>)HttpContext.Current.Application["retrieveForm"];
-                //RetrieveForm rf = list.Where(x => x.description == description).First();
-                //rf.retrieveQty = Int32.Parse(qty);
+                RetrieveForm rf = list.Where(x => x.ItemCode == wcfr.ItemCode).First();
+              
                 Stationery item = stationeryService.FindStationeryByItemCode(wcfr.ItemCode);
                 if(wcfr.QtyRetrieved.Value > item.stockQty)
                 {
                     return "Value of Retrieved Qty cannot exceed Stock Qty.";
                 }
 
+                if(wcfr.QtyRetrieved > rf.Qty)
+                {
+                    return "Value of Retrieved Qty cannot exceed requested qty.";
+                }
+
                 var index = list.FindIndex(x => x.description == wcfr.Description);
                 list[index].retrieveQty = wcfr.QtyRetrieved;
+              /*  list[index].Qty -= wcfr.QtyRetrieved;*/ //reduce amount that is still pending retrieval
 
                 HttpContext.Current.Application["retrieveForm"] = list;
                 return "true";
@@ -418,6 +428,49 @@ namespace InventoryWCF
             }
 
             return allocationList;
+        }
+
+        public List<WCFRequisitionDetail> GetConsolidatedRequisitionDetailsforAllocation()
+        {
+
+            List<string> itemCodes = stationeryService.GetListOfItemCodes();
+            List<WCFRequisitionDetail> model = new List<WCFRequisitionDetail>();
+            
+            foreach (String ic in itemCodes) {
+                
+                int fulfilled = 0;
+                int allocated = 0;
+                int requested = 0;
+          
+                WCFRequisitionDetail rd = new WCFRequisitionDetail();
+                List<WCFRequisitionDetail> list = GetRequisitionDetailsByItemCode(ic).Where(x => x.Status == "Approved and Processing" || x.Status == "Partially fulfilled").ToList();
+       
+                foreach(WCFRequisitionDetail itemRD in list)
+                {
+                    fulfilled += itemRD.FulfilledQty;
+                    allocated += itemRD.AllocateQty;
+                    requested += itemRD.Qty;
+                    rd.StationeryDescription = itemRD.StationeryDescription;
+
+
+                }
+                rd.ItemCode = ic;
+                rd.Qty = requested;
+                rd.AllocateQty = allocated;
+                rd.FulfilledQty = fulfilled;
+                if (rd.Qty > rd.FulfilledQty)
+                {
+                    model.Add(rd);
+                }
+
+
+            }
+
+           
+
+           
+
+            return model;
         }
 
 
@@ -553,6 +606,13 @@ namespace InventoryWCF
         {
 
             requisitionRecordService.UpdateDetails(reqDetail.ItemCode, reqDetail.RequisitionNo, reqDetail.AllocateQty);
+
+        }
+
+        public void UpdateRequisitionDetailAndroid(WCFRequisitionDetail reqDetail)
+        {
+            
+            requisitionRecordService.UpdateDetailsAndroid(reqDetail.ItemCode, reqDetail.RequisitionNo, reqDetail.AllocateQty);
 
         }
 
