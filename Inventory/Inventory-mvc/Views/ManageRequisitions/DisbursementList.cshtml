@@ -110,6 +110,8 @@ else
 }
 
     <script>
+        var selectedItem = sessionStorage.getItem("TmpDept");  
+        $('#ID').val(selectedItem);
 
         var deptCode = $('#deptCode').val();
 

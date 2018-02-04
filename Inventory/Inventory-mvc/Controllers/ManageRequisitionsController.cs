@@ -341,7 +341,7 @@ namespace Inventory_mvc.Controllers
                 }
                 departmentlist.Add(item);
             }
-            Session["deptCode"] = "ZOOL";
+            Session["deptCode"] = deptCode;
             ViewData["list"] = departmentlist;
 
             //return View(list);
@@ -643,7 +643,19 @@ namespace Inventory_mvc.Controllers
             }
             else if (HttpContext.Application["retrieveList"] != null)
             {
-                List<RetrieveForm> model = (List<RetrieveForm>)HttpContext.Application["retrieveList"];
+                List < RetrieveForm > list  = (List<RetrieveForm>)HttpContext.Application["retrieveList"];
+                List<RetrieveForm> model = rs.GetRetrieveFormByDateTime(DateTime.Now);
+                foreach (var item in model)
+                {
+                    foreach(var i in list)
+                    {
+                        if (i.ItemCode == item.ItemCode)
+                        {
+                            item.retrieveQty = i.retrieveQty;
+                        }
+                    }
+                }
+                HttpContext.Application["retrieveList"] = model;
                 int pageSize = 8;
                 int pageNumber = (page ?? 1);
                 return View(model.ToPagedList(pageNumber, pageSize));
