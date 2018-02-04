@@ -68,6 +68,8 @@ namespace Inventory_mvc.Service
 
         List<Requisition_Record> GetRequestByReqID(string reqid);
 
+        void UpdateDetailsAndroid(string itemcode, int requisitionNo, int? allocateQty);
+
         // TODO - REMOVE THIS METHOD
         bool GenerateRandomRequisition(Requisition_Record requisition, string requesterID, DateTime date);
     }

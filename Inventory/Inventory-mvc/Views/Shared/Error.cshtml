@@ -24,9 +24,17 @@
 <body style= "margin: 0px;">
     <div class="error">
        
-            <p>Sorry, You cannot access this page. Please @Html.ActionLink("log in.", "Login", "Home")</p>
+        @if ((bool)Session["auth"] == false && Session["role"] != null) {
 
-       
+            <p>You are not permitted to access this page. Please contact your friendly IT helpdesk.  </p>
+
+        }
+        else {
+            <p>Please @Html.ActionLink("log in.", "Login", "Home")</p>
+        }
+
+        <img style="margin: 0 auto;" src="~/Images/dribble_1x.jpg" />
+
     </div>
 </body>
 </html>

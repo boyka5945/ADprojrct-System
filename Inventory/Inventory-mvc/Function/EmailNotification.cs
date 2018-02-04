@@ -98,8 +98,13 @@ namespace Inventory_mvc.Function
 
             if((voucherAmount *-1) <= 250)
             {
-                // send email notification to supervisor               
+                // send email notification to supervisor, manager               
                 foreach(var i in userService.FindUsersByRole((int) UserRoles.RoleID.StoreSupervisor))
+                {
+                    emailAddress.Add(i.userEmail);
+                }
+
+                foreach (var i in userService.FindUsersByRole((int)UserRoles.RoleID.StoreManager))
                 {
                     emailAddress.Add(i.userEmail);
                 }

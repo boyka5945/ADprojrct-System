@@ -156,6 +156,14 @@ namespace InventoryWCF
             ResponseFormat = WebMessageFormat.Json)]
         void UpdateRequisitionDetail(WCFRequisitionDetail reqDetail);
 
+        [OperationContract]
+        [WebInvoke(UriTemplate = "/UpdateRequisitionDetailAndroid", Method = "POST",
+    RequestFormat = WebMessageFormat.Json,
+    ResponseFormat = WebMessageFormat.Json)]
+        void UpdateRequisitionDetailAndroid(WCFRequisitionDetail reqDetail);
+
+      
+
         //[OperationContract]
         //[WebGet(UriTemplate = "/UpdateRequisitionDetail/{NO}/{itemCode}/{quantity}",
         //ResponseFormat = WebMessageFormat.Json)]
@@ -175,6 +183,11 @@ namespace InventoryWCF
         [WebGet(UriTemplate = "/UpdateCollectionPoint/{deptCode}/{CollectionPointID}", ResponseFormat = WebMessageFormat.Json)]
         void UpdateCollectionPoint(string deptCode, string CollectionPointID);
 
+
+        [OperationContract]
+        [WebGet(UriTemplate = "/GetConsolidatedRequisitionDetailsforAllocation", ResponseFormat = WebMessageFormat.Json)]
+        List<WCFRequisitionDetail> GetConsolidatedRequisitionDetailsforAllocation();
+        
 
 
 
@@ -291,6 +304,7 @@ namespace InventoryWCF
             get { return qtyRetrieved; }
             set { qtyRetrieved = value; }
         }
+
     }
 
     [DataContract]

@@ -228,6 +228,7 @@ namespace InventoryWCF
             wcfR.Description = retrieval.description;
             wcfR.Qty = retrieval.Qty;
             wcfR.QtyRetrieved = retrieval.retrieveQty;
+            //wcfR.QtyAllocated = retrieval.allocatedQty;
             wcfR.ItemCode = retrieval.ItemCode;
             //add location to WCFRetrievalForm object
             StationeryModel entity = new StationeryModel();

@@ -107,9 +107,9 @@ namespace Inventory_mvc.Service
                         // manager => voucher amount > 250
                         vmList.Add(vm);
                     }
-                    else if(isSupervisor && vm.VoucherTotalAmount * -1 <= 250)
+                    else if((isSupervisor && vm.VoucherTotalAmount * -1 <= 250) || isManager)
                     {
-                        // supervisor => voucher amount <= 250
+                        // supervisor, manager => voucher amount <= 250
                         vmList.Add(vm);
                     }
                 }
@@ -164,7 +164,7 @@ namespace Inventory_mvc.Service
                 bool isManager = userService.IsStoreManager(userID);
                 bool isSupervisor = userService.IsStoreSupervisor(userID);
 
-                if ((isManager && !(voucherTotalAmount * -1 > 250)) || (isSupervisor && !(voucherTotalAmount * -1 <= 250)))
+                if (isSupervisor && !(voucherTotalAmount * -1 <= 250))
                 {
                     errorMessage = String.Format("You have not right to approve this voucher.");
                     return null;
