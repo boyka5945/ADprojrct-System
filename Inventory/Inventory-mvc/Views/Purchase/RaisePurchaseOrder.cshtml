@@ -148,11 +148,12 @@
                 </div>
 
                 <div class="form-group">
+                    
 
                     @Html.Label("Quantity", htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-xs-4">
 
-                        <input type="number" name="qty" value="" required class="form-control"/>
+                        <input type="number" name="qty" value="@ViewBag.qty" min="@ViewBag.qty" required class="form-control"/>
                         @Html.ValidationMessage("qty", "", new { @class = "text-danger" })
                     </div>
                 </div>

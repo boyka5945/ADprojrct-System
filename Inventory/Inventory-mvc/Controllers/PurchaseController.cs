@@ -385,6 +385,7 @@ namespace Inventory_mvc.Controllers
                 ViewBag.descrp = s.description;
                 ViewBag.itemcode = itemcode;
                 ViewBag.firstSupplier = s.Supplier.supplierName;
+                ViewBag.qty = s.reorderQty;
 
             }
             return View("RaisePurchaseOrder", model);
