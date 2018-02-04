@@ -2834,7 +2834,7 @@
       </referencedType>
     </packageHasNamedElement>
     <logicalClassDesignerModelHasTypes>
-      <class Id="a80a5d1d-aa69-4736-a3e5-1d0e2ceb05c1" name="CreateDepartmentUI1" isAbstract="false" isLeaf="false" isActiveClass="false">
+      <class Id="a80a5d1d-aa69-4736-a3e5-1d0e2ceb05c1" name="EditDepartmentUI1" isAbstract="false" isLeaf="false" isActiveClass="false">
         <elementDefinition Id="25065643-1674-41e8-83bc-055c65b5842d" />
         <ownedAttributesInternal>
           <property Id="08e5ed28-c429-4904-83a6-bdb929b69812" name="lbTitle" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
@@ -4324,10 +4324,1978 @@
       </class>
     </logicalClassDesignerModelHasTypes>
     <logicalClassDesignerModelHasTypes>
-      <class Id="bf2b0443-e2bd-4cb3-b453-32c75a96ca78" name="Class1" isAbstract="false" isLeaf="false" isActiveClass="false">
+      <class Id="bf2b0443-e2bd-4cb3-b453-32c75a96ca78" name="GenerateInventoryChecklistUI" isAbstract="false" isLeaf="false" isActiveClass="false">
         <elementDefinition Id="a4f9538e-8158-481c-87a6-0c5f54446ecd" />
+        <ownedAttributesInternal>
+          <property Id="157bcdd6-850f-4f94-94f7-9f41731cf4f7" name="lbTitle" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="32c4ab60-43bf-4567-b6b8-a3c4edc8e46b" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="0f432a3b-7716-4523-a651-ad4e73a11e4d" LastKnownName="Label" />
+            </type_NamedElement>
+          </property>
+          <property Id="f6393c70-a444-4ceb-b7ee-08b084c7e9a0" name="lbInstruction" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="dce21462-9067-4a05-9e81-04dddc10f29d" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="0f432a3b-7716-4523-a651-ad4e73a11e4d" LastKnownName="Label" />
+            </type_NamedElement>
+          </property>
+          <property Id="734b85ef-70e2-4b13-bb71-42d596c7faa2" name="listboxCategories" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="d4eed4bc-3b19-493d-97ee-d968b41336e9" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="311fe268-09cb-48e1-b7bc-9f6e728e5460" LastKnownName="Listbox" />
+            </type_NamedElement>
+          </property>
+          <property Id="26049984-0903-46ef-b457-57dfe88eb08b" name="btnGenerateList" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="12b9223c-ea31-4014-a905-a95bd3090bf2" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="58118404-27fd-4088-8e74-0da69aa61ac7" LastKnownName="Button" />
+            </type_NamedElement>
+          </property>
+        </ownedAttributesInternal>
       </class>
     </logicalClassDesignerModelHasTypes>
+    <packageHasNamedElement>
+      <referencedType Id="311fe268-09cb-48e1-b7bc-9f6e728e5460" name="Listbox" isAbstract="false" isLeaf="false" cachedFullName="Listbox">
+        <elementDefinition Id="6ccba5af-56f5-4453-a2d0-def9fc13ea7a" />
+      </referencedType>
+    </packageHasNamedElement>
+    <logicalClassDesignerModelHasTypes>
+      <class Id="fa879443-7327-429f-ad87-edc98c66df54" name="ProcessInventoryCheckResultUI" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="d8648c98-f561-4c12-9140-ef7042602e5a" />
+        <ownedAttributesInternal>
+          <property Id="3e1cd0d9-1e9d-463c-a6d2-4895e810487c" name="lbTitle" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="ce87be7e-ad41-48a0-b3a4-20a3019e67f5" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="0f432a3b-7716-4523-a651-ad4e73a11e4d" LastKnownName="Label" />
+            </type_NamedElement>
+          </property>
+          <property Id="1af58709-a825-4b31-ae8d-1a21dce2153a" name="lbCategory" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="72848f2b-113d-45a6-b710-7a5baf1f79ce" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="0f432a3b-7716-4523-a651-ad4e73a11e4d" LastKnownName="Label" />
+            </type_NamedElement>
+          </property>
+          <property Id="816ec62c-d4e8-4478-a119-7910e6ca244d" name="lbItemCode" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="b0a10e82-ee0d-463e-af81-6e1637abfe17" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="0f432a3b-7716-4523-a651-ad4e73a11e4d" LastKnownName="Label" />
+            </type_NamedElement>
+          </property>
+          <property Id="ad29e563-51e8-4147-a24d-6f89599018ff" name="lbDescription" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="27776505-67de-4457-93fd-8ae8ba4149f0" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="0f432a3b-7716-4523-a651-ad4e73a11e4d" LastKnownName="Label" />
+            </type_NamedElement>
+          </property>
+          <property Id="2474ee76-62ee-40f4-a6d3-87c8dbdc45fb" name="lbUOM" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="1a4b0d71-43a0-4464-bd24-5f15506e93d4" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="0f432a3b-7716-4523-a651-ad4e73a11e4d" LastKnownName="Label" />
+            </type_NamedElement>
+          </property>
+          <property Id="6d1568d6-f553-4fda-ad5b-2651dc588e29" name="lbLocation" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="0521c0a4-5423-47cc-b89f-f1b151f4ec13" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="0f432a3b-7716-4523-a651-ad4e73a11e4d" LastKnownName="Label" />
+            </type_NamedElement>
+          </property>
+          <property Id="ce3fd4ce-fe39-42ed-89c3-a1632a33142a" name="lbStockQuantity" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="b8e76474-5436-4d34-b5e3-bbb02e4f5c95" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="0f432a3b-7716-4523-a651-ad4e73a11e4d" LastKnownName="Label" />
+            </type_NamedElement>
+          </property>
+          <property Id="be354940-a996-4f50-aa81-76612ec7f040" name="lbActualQuantity" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="6fdee928-7c06-4f8d-8c6b-8af75ba5bd4e" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="0f432a3b-7716-4523-a651-ad4e73a11e4d" LastKnownName="Label" />
+            </type_NamedElement>
+          </property>
+          <property Id="be5e68ea-ef66-4c66-ae2f-97511029c826" name="txtCategory" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="0d99e0ff-feb1-471d-9f49-c95f2f36c2c4" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="b1e5ff6a-c39e-4ddd-b124-c266bfd3add6" LastKnownName="String" />
+            </type_NamedElement>
+          </property>
+          <property Id="475c67d3-391c-4163-8db5-edbd162ea7a2" name="txtItemCode" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="c7bc83f3-a3b2-454b-8b6f-aa3d7866563d" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="b1e5ff6a-c39e-4ddd-b124-c266bfd3add6" LastKnownName="String" />
+            </type_NamedElement>
+          </property>
+          <property Id="5879b28e-c3f8-4ae6-b3af-7974005a36b7" name="txtDescription" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="e57f8cb2-e159-4cbd-a12c-9138990893d8" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="b1e5ff6a-c39e-4ddd-b124-c266bfd3add6" LastKnownName="String" />
+            </type_NamedElement>
+          </property>
+          <property Id="2db84eea-faea-4722-827c-78df9fdb12e8" name="txtUOM" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="e812d9f2-69d0-4b0e-8e6f-9ff04496d8f6" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="b1e5ff6a-c39e-4ddd-b124-c266bfd3add6" LastKnownName="String" />
+            </type_NamedElement>
+          </property>
+          <property Id="ef430a75-6b06-4ce5-8532-6f9daf2da0e0" name="txtLocation" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="1ae30c6f-ceb9-4787-b245-0a0bf01a3097" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="b1e5ff6a-c39e-4ddd-b124-c266bfd3add6" LastKnownName="String" />
+            </type_NamedElement>
+          </property>
+          <property Id="84644227-bb90-4ad1-b69d-208fe4e932dc" name="txtStockQuantity" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="5e1473cd-3d24-44ee-8576-0622926b045a" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="b1e5ff6a-c39e-4ddd-b124-c266bfd3add6" LastKnownName="String" />
+            </type_NamedElement>
+          </property>
+          <property Id="583210ed-f28c-452b-8e29-4baf13e02144" name="txtActualQuantity" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="0031b615-49bf-45bf-aa62-e7a153030133" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="56ea6068-1795-47b7-9a6f-ea8ea7c644a0" LastKnownName="Textbox" />
+            </type_NamedElement>
+          </property>
+          <property Id="f1dac065-bbea-49ad-84ea-588389834323" name="btnDownloadAsPDF" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="312e3940-374f-46da-ad06-443fa14bfd51" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="58118404-27fd-4088-8e74-0da69aa61ac7" LastKnownName="Button" />
+            </type_NamedElement>
+          </property>
+          <property Id="97db618f-5be7-42a6-9aa0-a27081d81ee3" name="btnPagination" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="11efc6aa-35bc-420c-9877-1bb7d37418d3" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="58118404-27fd-4088-8e74-0da69aa61ac7" LastKnownName="Button" />
+            </type_NamedElement>
+          </property>
+          <property Id="6462ccd9-e2b5-4ca6-95c4-d7858ae2f986" name="btnSubmit" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="218d9b3e-0535-4e48-8c3a-681a6fdc605b" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="58118404-27fd-4088-8e74-0da69aa61ac7" LastKnownName="Button" />
+            </type_NamedElement>
+          </property>
+          <property Id="5305fc74-865b-4796-9f3b-1f3ecfe12af2" name="btnCancel" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="b45d7839-9c66-4e05-8b69-8c8d97cd094b" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="58118404-27fd-4088-8e74-0da69aa61ac7" LastKnownName="Button" />
+            </type_NamedElement>
+          </property>
+        </ownedAttributesInternal>
+      </class>
+    </logicalClassDesignerModelHasTypes>
+    <logicalClassDesignerModelHasTypes>
+      <class Id="86a20ba6-5b73-473b-a90d-9133cbe961e9" name="InventoryCheckDiscrepancyReportUI" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="8830a0e3-d8bc-477f-af9b-8de58aa08090" />
+        <ownedAttributesInternal>
+          <property Id="cc8271c6-008a-413c-bfb6-af136772861f" name="lbTitle" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="547c7027-0a76-49d9-b2ba-ee77f2a5068e" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="0f432a3b-7716-4523-a651-ad4e73a11e4d" LastKnownName="Label" />
+            </type_NamedElement>
+          </property>
+          <property Id="c567095c-b4f2-4801-a697-f637974276a0" name="lbItemCode" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="c1e00da1-cba2-4c54-8fb4-456cdc27db1c" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="0f432a3b-7716-4523-a651-ad4e73a11e4d" LastKnownName="Label" />
+            </type_NamedElement>
+          </property>
+          <property Id="856ae511-535b-4766-9c36-9754eda7b383" name="lbDescription" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="d8ef17ef-6233-469e-8426-5698b9a13bd7" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="0f432a3b-7716-4523-a651-ad4e73a11e4d" LastKnownName="Label" />
+            </type_NamedElement>
+          </property>
+          <property Id="59da27e4-e5d7-444d-bcf8-d0100d90e517" name="lbUOM" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="e1514789-ff16-4250-92ab-dd31cfae2e5b" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="0f432a3b-7716-4523-a651-ad4e73a11e4d" LastKnownName="Label" />
+            </type_NamedElement>
+          </property>
+          <property Id="a698a5c0-e15b-4d97-b86d-2e0f540bfbf7" name="lbStockQuantity" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="5ab76481-9a63-4cdc-b506-321b921b5429" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="0f432a3b-7716-4523-a651-ad4e73a11e4d" LastKnownName="Label" />
+            </type_NamedElement>
+          </property>
+          <property Id="94c354ec-3900-43f6-b62b-98b6f91d330d" name="lbActualQuantity" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="4c7940c9-f7ca-4de3-8762-26c4dfcc6168" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="0f432a3b-7716-4523-a651-ad4e73a11e4d" LastKnownName="Label" />
+            </type_NamedElement>
+          </property>
+          <property Id="e2c1a52d-b365-4c2b-aab2-acdafa34d060" name="lbDiscrepancy" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="f2200674-e770-4fdd-91f2-e577e3190a34" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="0f432a3b-7716-4523-a651-ad4e73a11e4d" LastKnownName="Label" />
+            </type_NamedElement>
+          </property>
+          <property Id="576800fd-5baa-4f6c-b501-a2db7dced655" name="lbRemarks" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="9fcc04ec-9878-43b9-9372-6f942949ed05" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="0f432a3b-7716-4523-a651-ad4e73a11e4d" LastKnownName="Label" />
+            </type_NamedElement>
+          </property>
+          <property Id="e813b65a-b469-46a8-83dd-f9a5a18a65b7" name="txtItemCode" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="49cd8f06-d63c-47e9-9315-7e4b88a5b181" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="b1e5ff6a-c39e-4ddd-b124-c266bfd3add6" LastKnownName="String" />
+            </type_NamedElement>
+          </property>
+          <property Id="3f3140c1-8df3-4a66-a3c1-b7fefa5bcb88" name="txtDescription" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="cf7c3c23-fb4c-4ea9-ac37-c27fa935418a" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="b1e5ff6a-c39e-4ddd-b124-c266bfd3add6" LastKnownName="String" />
+            </type_NamedElement>
+          </property>
+          <property Id="d81585b4-1232-4b9f-8f62-1730e4f84414" name="txtUOM" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="dfb18592-057d-4468-af0b-d966c95ca25e" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="b1e5ff6a-c39e-4ddd-b124-c266bfd3add6" LastKnownName="String" />
+            </type_NamedElement>
+          </property>
+          <property Id="61e1737f-47ff-4f8b-a315-4a3fff51475d" name="txtStockQuantity" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="6cfc4a75-baec-4d22-b77b-611376da5472" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="b1e5ff6a-c39e-4ddd-b124-c266bfd3add6" LastKnownName="String" />
+            </type_NamedElement>
+          </property>
+          <property Id="26e94542-0c80-433c-8fa3-db44dc6ae8bf" name="txtActualQuantity" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="f6102b7b-f2ce-4dae-a9e3-dfbf6a8e5862" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="b1e5ff6a-c39e-4ddd-b124-c266bfd3add6" LastKnownName="String" />
+            </type_NamedElement>
+          </property>
+          <property Id="8bc76a4f-13eb-4d79-b6c2-0185937125cf" name="txtDiscrepancy" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="5299099b-f969-4203-9434-fbe2ed9b230e" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="b1e5ff6a-c39e-4ddd-b124-c266bfd3add6" LastKnownName="String" />
+            </type_NamedElement>
+          </property>
+          <property Id="788403b0-a310-4701-ba8e-b51f266e1be8" name="txtRemarks" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="db6fd908-f965-41ba-ba10-112cbfe1f30d" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="56ea6068-1795-47b7-9a6f-ea8ea7c644a0" LastKnownName="Textbox" />
+            </type_NamedElement>
+          </property>
+          <property Id="e42a26ab-6eef-4b94-95b7-99527dd16965" name="btnConfirmAndSubmit" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="dbeee38c-2c29-459d-add6-1d2e54cff613" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="58118404-27fd-4088-8e74-0da69aa61ac7" LastKnownName="Button" />
+            </type_NamedElement>
+          </property>
+          <property Id="0a23e5a3-4c2c-44ee-9e91-370fb36ad193" name="btnBackToChecklist" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="1f861cd7-51b5-461b-a339-3e622adf2bde" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="58118404-27fd-4088-8e74-0da69aa61ac7" LastKnownName="Button" />
+            </type_NamedElement>
+          </property>
+        </ownedAttributesInternal>
+      </class>
+    </logicalClassDesignerModelHasTypes>
+    <logicalClassDesignerModelHasTypes>
+      <class Id="99c384af-2aed-4cc2-9fe2-1c7b644eb396" name="InventoryCheckRecordsUI" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="bf6ea867-08d4-47ca-9e1e-73f39c169d49" />
+        <ownedAttributesInternal>
+          <property Id="60da0128-455c-4d54-b83a-bb0b7166c005" name="lbTitle" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="96490498-32a3-4b78-90ad-4ccdfec5e8ab" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="0f432a3b-7716-4523-a651-ad4e73a11e4d" LastKnownName="Label" />
+            </type_NamedElement>
+          </property>
+          <property Id="987b8000-9c59-4e69-b1f5-a30189e5f958" name="lbStockCheckDates" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="b3e0c1d6-9ab2-4cd2-915f-68daf8c405ca" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="0f432a3b-7716-4523-a651-ad4e73a11e4d" LastKnownName="Label" />
+            </type_NamedElement>
+          </property>
+          <property Id="3ac3d2e7-4308-4ae5-837b-a2bde861dc8c" name="lbAction" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="13dc4e75-c73f-4707-98b2-e2912eb3f472" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="0f432a3b-7716-4523-a651-ad4e73a11e4d" LastKnownName="Label" />
+            </type_NamedElement>
+          </property>
+          <property Id="5ab6a5b7-a97c-4abd-90c5-7e27f4abe245" name="txtStockCheckDates" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="db20f22e-a2b5-41b1-b574-deef54a4a358" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="b1e5ff6a-c39e-4ddd-b124-c266bfd3add6" LastKnownName="String" />
+            </type_NamedElement>
+          </property>
+          <property Id="8482a086-5f31-4301-8255-db13844c6d1b" name="btnDetails" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="aded3293-19cf-4981-847d-bc90811f2b56" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="58118404-27fd-4088-8e74-0da69aa61ac7" LastKnownName="Button" />
+            </type_NamedElement>
+          </property>
+        </ownedAttributesInternal>
+      </class>
+    </logicalClassDesignerModelHasTypes>
+    <logicalClassDesignerModelHasTypes>
+      <class Id="d0e5362d-7b7a-4e1b-95af-84e394914f7a" name="InventoryCheckDetailsUI" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="83d59fc7-d042-49f0-af3f-742163a9a145" />
+        <ownedAttributesInternal>
+          <property Id="89a85309-4c11-4c89-b6e6-02d339d4e10b" name="lbTitle" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="d492ffe4-c981-4304-9afc-839a9939a1fd" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="0f432a3b-7716-4523-a651-ad4e73a11e4d" LastKnownName="Label" />
+            </type_NamedElement>
+          </property>
+          <property Id="9bb69703-2205-420e-a335-edc00af650e4" name="lbStockCheckDate" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="887c912b-dae6-408a-bb5e-c06f8ad1898a" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="0f432a3b-7716-4523-a651-ad4e73a11e4d" LastKnownName="Label" />
+            </type_NamedElement>
+          </property>
+          <property Id="51562460-60f7-4758-913e-622f2dac4d3f" name="lbItemCode" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="51888f08-4488-4d1b-8035-96bebd95dd96" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="0f432a3b-7716-4523-a651-ad4e73a11e4d" LastKnownName="Label" />
+            </type_NamedElement>
+          </property>
+          <property Id="f0854959-6219-46ae-9b24-ac17416b116d" name="lbDescription" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="4ae6b243-add5-4f5a-bf50-8c8e636e52ba" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="0f432a3b-7716-4523-a651-ad4e73a11e4d" LastKnownName="Label" />
+            </type_NamedElement>
+          </property>
+          <property Id="c426b632-3308-4a49-a697-d110d6fbb1b8" name="lbUOM" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="7bc4f70f-f6e6-42d3-ac95-ab5bbfacd6a2" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="0f432a3b-7716-4523-a651-ad4e73a11e4d" LastKnownName="Label" />
+            </type_NamedElement>
+          </property>
+          <property Id="214efb34-f9d7-4eb3-b3db-01efc006344a" name="lbStockQuantity" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="acb1667c-9080-496b-9d29-fbacd4f3d006" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="0f432a3b-7716-4523-a651-ad4e73a11e4d" LastKnownName="Label" />
+            </type_NamedElement>
+          </property>
+          <property Id="04308493-0dc7-48a4-bbf7-90613ae210ca" name="lbActualQuantity" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="2a543daa-6614-47a2-9190-d4530af04cb0" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="0f432a3b-7716-4523-a651-ad4e73a11e4d" LastKnownName="Label" />
+            </type_NamedElement>
+          </property>
+          <property Id="33496284-7807-4aa5-91e3-b370a16b6c91" name="lbDiscrepancy" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="5cb209d6-5953-4b17-8cf4-44657fa62f31" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="0f432a3b-7716-4523-a651-ad4e73a11e4d" LastKnownName="Label" />
+            </type_NamedElement>
+          </property>
+          <property Id="fe99de0c-56f2-4c70-94fc-f4b2ec766ddb" name="lbRemarks" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="956cce94-6538-4f08-ab48-9712bcdfca34" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="0f432a3b-7716-4523-a651-ad4e73a11e4d" LastKnownName="Label" />
+            </type_NamedElement>
+          </property>
+          <property Id="9083ec1e-edfa-415f-a037-b62513660723" name="txtItemCode" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="4d95e44e-e942-4d29-89bf-f9a58b2d23f9" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="b1e5ff6a-c39e-4ddd-b124-c266bfd3add6" LastKnownName="String" />
+            </type_NamedElement>
+          </property>
+          <property Id="776cf42c-1955-45c2-b3b0-d1a391c8d272" name="txtDescription" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="3682e4a7-3625-441c-b589-f308af57faee" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="b1e5ff6a-c39e-4ddd-b124-c266bfd3add6" LastKnownName="String" />
+            </type_NamedElement>
+          </property>
+          <property Id="60806c01-f3a1-4660-87b2-9e11a2d865bf" name="txtUOM" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="3ac243ae-1b3e-4a75-937d-3ebed580cde9" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="b1e5ff6a-c39e-4ddd-b124-c266bfd3add6" LastKnownName="String" />
+            </type_NamedElement>
+          </property>
+          <property Id="2f06a55e-0eec-405f-a444-abf83fc425af" name="txtStockQuantity" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="0092fe95-1a8f-4140-805b-c805635492b3" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="b1e5ff6a-c39e-4ddd-b124-c266bfd3add6" LastKnownName="String" />
+            </type_NamedElement>
+          </property>
+          <property Id="aaae30c6-f106-4383-8c60-5567c049552c" name="txtActualQuantity" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="d8e0df1a-d6b7-42f0-a407-aca18af01b5a" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="b1e5ff6a-c39e-4ddd-b124-c266bfd3add6" LastKnownName="String" />
+            </type_NamedElement>
+          </property>
+          <property Id="45a94cb3-bf1a-4082-8b1d-392229b04ad9" name="txtDiscrepancy" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="6534e193-d84e-4789-bb94-6f86387d28cc" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="b1e5ff6a-c39e-4ddd-b124-c266bfd3add6" LastKnownName="String" />
+            </type_NamedElement>
+          </property>
+          <property Id="ae8ee17d-86d9-4b06-bcfd-392f23eda596" name="txtRemarks" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="9344e53c-8b87-45e0-b96b-bd154d2041b8" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="b1e5ff6a-c39e-4ddd-b124-c266bfd3add6" LastKnownName="String" />
+            </type_NamedElement>
+          </property>
+          <property Id="2c42d407-b19f-4366-b625-1ab9112252a0" name="btnBackToList" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="a90f7e14-47b0-4ada-a9d5-693c150a6e84" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="d59eaa06-3e71-4a85-b116-ade6d86be77e" LastKnownName="Button" />
+            </type_NamedElement>
+          </property>
+        </ownedAttributesInternal>
+      </class>
+    </logicalClassDesignerModelHasTypes>
+    <packageHasNamedElement>
+      <referencedType Id="d59eaa06-3e71-4a85-b116-ade6d86be77e" name="Button" isAbstract="false" isLeaf="false" cachedFullName="Button">
+        <elementDefinition Id="ff2fcf6a-02f1-4982-b039-b6a415fcd8f0" />
+      </referencedType>
+    </packageHasNamedElement>
+    <logicalClassDesignerModelHasTypes>
+      <class Id="fc2abf8b-b1b7-4272-899f-71e812f35496" name="ShortfallListUI" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="5bb62a98-11bf-4009-b9c3-c3b497cc33c3" />
+        <ownedAttributesInternal>
+          <property Id="404ff43b-df14-45a9-907a-aab37010e184" name="lbTitle" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="c585b867-765f-40d8-934f-d00106d00061" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="0f432a3b-7716-4523-a651-ad4e73a11e4d" LastKnownName="Label" />
+            </type_NamedElement>
+          </property>
+          <property Id="b3bb84cf-cd58-48e9-9b7d-f620af116c66" name="lbItemCode" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="41e8ec21-c048-40f5-9363-3f2c9176cdd9" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="0f432a3b-7716-4523-a651-ad4e73a11e4d" LastKnownName="Label" />
+            </type_NamedElement>
+          </property>
+          <property Id="d8bea522-5807-482c-a373-87b093c0c020" name="lbDescription" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="972f096c-8d05-4d36-99bc-670b560ae24f" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="0f432a3b-7716-4523-a651-ad4e73a11e4d" LastKnownName="Label" />
+            </type_NamedElement>
+          </property>
+          <property Id="70982d7e-adba-4613-be03-1501d9f599ce" name="lbMinimumReorder" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="f477b3c5-9e2c-45ad-ade6-fa313589edbd" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="0f432a3b-7716-4523-a651-ad4e73a11e4d" LastKnownName="Label" />
+            </type_NamedElement>
+          </property>
+          <property Id="7f8becdc-0767-45ee-b3e8-457bfb11908b" name="lbReorderLevel" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="4cdab2b3-be2c-4549-820e-493b0b55203f" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="0f432a3b-7716-4523-a651-ad4e73a11e4d" LastKnownName="Label" />
+            </type_NamedElement>
+          </property>
+          <property Id="40c746db-34f1-4c87-a572-5d155a62d5ec" name="lbRequestedQty" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="da7a3389-bf02-4a2d-960f-d71fd8669550" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="0f432a3b-7716-4523-a651-ad4e73a11e4d" LastKnownName="Label" />
+            </type_NamedElement>
+          </property>
+          <property Id="211043f9-a951-44d1-a250-147a0c297b67" name="lbStockQty" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="427c25c2-900d-408a-92ca-986a8c46e573" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="0f432a3b-7716-4523-a651-ad4e73a11e4d" LastKnownName="Label" />
+            </type_NamedElement>
+          </property>
+          <property Id="5672f313-b208-4317-ab6e-b822928aaa98" name="lbPendingRestockQty" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="06f166be-a5fa-4141-b14b-cb49f800c133" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="0f432a3b-7716-4523-a651-ad4e73a11e4d" LastKnownName="Label" />
+            </type_NamedElement>
+          </property>
+          <property Id="e32d5ded-d96c-4218-b5f5-f9c9ca59743b" name="lbSuggestedQty" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="912041d4-01da-4f59-8832-0b334123793d" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="0f432a3b-7716-4523-a651-ad4e73a11e4d" LastKnownName="Label" />
+            </type_NamedElement>
+          </property>
+          <property Id="88d4d7a5-842f-46ac-8b23-5c89d004dcf9" name="txtItemCode" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="0434c4ed-408f-478f-a117-e39cb09ea2e8" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="b1e5ff6a-c39e-4ddd-b124-c266bfd3add6" LastKnownName="String" />
+            </type_NamedElement>
+          </property>
+          <property Id="75d2528e-0bda-4003-853d-b46a6f65d81b" name="txtDescription" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="f9e7c8d0-f36c-40cb-973f-5f97c34f7644" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="b1e5ff6a-c39e-4ddd-b124-c266bfd3add6" LastKnownName="String" />
+            </type_NamedElement>
+          </property>
+          <property Id="6efd80c6-b365-4704-9a49-fb88f1ef180b" name="txtMinimumReorder" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="5d16e9f2-7f08-42c9-85ba-7495e27acdda" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="b1e5ff6a-c39e-4ddd-b124-c266bfd3add6" LastKnownName="String" />
+            </type_NamedElement>
+          </property>
+          <property Id="5bc0c6be-bdd0-4571-a091-780ae87bfa7d" name="txtReorderLevel" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="60dbde13-ffbc-431d-9b29-3cb952dd42ca" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="b1e5ff6a-c39e-4ddd-b124-c266bfd3add6" LastKnownName="String" />
+            </type_NamedElement>
+          </property>
+          <property Id="72374079-dd92-4649-b369-3050c082dad6" name="txtRequestedQty" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="fb6199c2-757d-44fe-b014-de19dae560f7" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="b1e5ff6a-c39e-4ddd-b124-c266bfd3add6" LastKnownName="String" />
+            </type_NamedElement>
+          </property>
+          <property Id="a2e18d31-de85-49b0-b131-9e141e394b20" name="txtStockQty" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="d612e162-53d0-4db7-ac71-4e2a4229497d" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="b1e5ff6a-c39e-4ddd-b124-c266bfd3add6" LastKnownName="String" />
+            </type_NamedElement>
+          </property>
+          <property Id="354a0232-3694-4bae-92cf-d1b19c62f33e" name="txtPendingRestockQty" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="80504871-e4c3-431a-9856-5b2779271d75" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="b1e5ff6a-c39e-4ddd-b124-c266bfd3add6" LastKnownName="String" />
+            </type_NamedElement>
+          </property>
+          <property Id="7b806299-2bf0-4af8-a0c3-aaf643484b25" name="txtSuggestedQty" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="4c06537e-72d3-465a-8e60-8f11f6d2b69a" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="6394a044-b0b0-466e-a02c-0ebddcff10ee" LastKnownName="Textbox" />
+            </type_NamedElement>
+          </property>
+          <property Id="0e769548-5a10-499c-8ffb-05336c8ac7ce" name="checkbox" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="364868ce-07c7-4ae6-92f3-0ea4501e5de4" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="ee643a7a-0972-4578-9dfa-ab3bbaa8e26a" LastKnownName="Checkbox" />
+            </type_NamedElement>
+          </property>
+          <property Id="7951319f-eb7e-4ddd-9a38-475538b1e7da" name="btnPagination" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="8dae3687-5765-4528-b480-7a86e7afcd92" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="58118404-27fd-4088-8e74-0da69aa61ac7" LastKnownName="Button" />
+            </type_NamedElement>
+          </property>
+          <property Id="f86ea1ef-9f56-4800-a7a4-8d4ffc3f3d9c" name="btnGeneratePO" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="6736e2b6-a7b1-4208-b6b1-eb026670a0a8" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="58118404-27fd-4088-8e74-0da69aa61ac7" LastKnownName="Button" />
+            </type_NamedElement>
+          </property>
+          <property Id="8e684f6c-e0f3-4352-8d3a-19703b411dcf" name="btnGeneratePOForAllItems" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="0090b3a8-6253-4dba-82a8-1bef0c980555" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="58118404-27fd-4088-8e74-0da69aa61ac7" LastKnownName="Button" />
+            </type_NamedElement>
+          </property>
+        </ownedAttributesInternal>
+      </class>
+    </logicalClassDesignerModelHasTypes>
+    <packageHasNamedElement>
+      <referencedType Id="6394a044-b0b0-466e-a02c-0ebddcff10ee" name="Textbox" isAbstract="false" isLeaf="false" cachedFullName="Textbox">
+        <elementDefinition Id="400974d6-3daa-462f-adbc-8a337bccddc7" />
+      </referencedType>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <referencedType Id="ee643a7a-0972-4578-9dfa-ab3bbaa8e26a" name="Checkbox" isAbstract="false" isLeaf="false" cachedFullName="Checkbox">
+        <elementDefinition Id="12d0a321-2a7f-4027-8eb3-4016fcd51bce" />
+      </referencedType>
+    </packageHasNamedElement>
+    <logicalClassDesignerModelHasTypes>
+      <class Id="e33a31b3-ee88-4159-afef-7d5c2c16dc1b" name="PurchaseOrderGenerationListUI" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="74ded8f3-3a7b-438a-ae88-53b109992086" />
+        <ownedAttributesInternal>
+          <property Id="cf846c90-ad5d-4b5a-a630-aeb78efc06e9" name="lbTitle" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="a4c7eeac-6f41-4a38-87f0-7619c60cf334" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="0f432a3b-7716-4523-a651-ad4e73a11e4d" LastKnownName="Label" />
+            </type_NamedElement>
+          </property>
+          <property Id="3176f96b-75a7-4395-8e8c-4c21ab1453b2" name="lbItemName" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="5eca96e7-0dbb-4c8d-af08-14194a580973" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="0f432a3b-7716-4523-a651-ad4e73a11e4d" LastKnownName="Label" />
+            </type_NamedElement>
+          </property>
+          <property Id="2ae4642c-eae5-461f-98e1-72f7e03578a6" name="lbItemCode" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="ea812a0f-b74c-4477-ab6e-2ae1467115f3" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="0f432a3b-7716-4523-a651-ad4e73a11e4d" LastKnownName="Label" />
+            </type_NamedElement>
+          </property>
+          <property Id="baf6cbb8-edee-40af-bfbf-09e867a4adc5" name="lbQuantity" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="a4c1d48c-f97b-4b63-b0fb-c01bd7e6949f" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="0f432a3b-7716-4523-a651-ad4e73a11e4d" LastKnownName="Label" />
+            </type_NamedElement>
+          </property>
+          <property Id="aee033ee-2d7e-4ecb-a0b0-e5dbb63d24b7" name="lbPrice" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="9ba07687-5c3b-4f2c-82e7-613f8c8887e4" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="0f432a3b-7716-4523-a651-ad4e73a11e4d" LastKnownName="Label" />
+            </type_NamedElement>
+          </property>
+          <property Id="377f5c56-cfa2-4d16-9e49-260588383545" name="lbSupplier" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="ca63cb18-5d31-4277-9024-8617d16a892b" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="0f432a3b-7716-4523-a651-ad4e73a11e4d" LastKnownName="Label" />
+            </type_NamedElement>
+          </property>
+          <property Id="7a5a2760-f99f-4fef-b3fc-5caad3de2119" name="lbRemarks" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="c4c9e7fe-811e-43b5-b864-591d12163384" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="0f432a3b-7716-4523-a651-ad4e73a11e4d" LastKnownName="Label" />
+            </type_NamedElement>
+          </property>
+          <property Id="0f09872c-43f3-4beb-9f9f-29267909f169" name="lbItemList" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="eb3b716a-eb4f-4d15-a241-9465f7c07172" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="0f432a3b-7716-4523-a651-ad4e73a11e4d" LastKnownName="Label" />
+            </type_NamedElement>
+          </property>
+          <property Id="2b661942-5465-4be1-84c7-9aa75d9611b7" name="lbDescription" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="8a9c512d-faeb-44f7-97e7-f9ac1f571326" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="0f432a3b-7716-4523-a651-ad4e73a11e4d" LastKnownName="Label" />
+            </type_NamedElement>
+          </property>
+          <property Id="d6bb5e6f-a604-4421-81fc-dd21e7e8cd3c" name="lbTotalPrice" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="34b5a0c1-5358-4221-823f-b70c0f52d281" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="0f432a3b-7716-4523-a651-ad4e73a11e4d" LastKnownName="Label" />
+            </type_NamedElement>
+          </property>
+          <property Id="9be67327-c67e-4358-9aef-5dcc4b301b19" name="ddlItemName" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="e1c0fb1b-d5e3-4924-83b6-f99dbc3fcac9" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="2278e9b5-433d-4b7b-a99c-9034349ce7a6" LastKnownName="DropdownList" />
+            </type_NamedElement>
+          </property>
+          <property Id="92a38704-8189-4485-8ebd-c4a213182472" name="txtItemCode" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="984db9f8-e394-431e-b128-de0a8f69c371" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="56ea6068-1795-47b7-9a6f-ea8ea7c644a0" LastKnownName="Textbox" />
+            </type_NamedElement>
+          </property>
+          <property Id="5906005f-7d4e-4b61-b191-f5ac05d63390" name="txtQuantity" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="9528b3bc-157b-4bb7-b106-c7a1c8f5c49f" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="56ea6068-1795-47b7-9a6f-ea8ea7c644a0" LastKnownName="Textbox" />
+            </type_NamedElement>
+          </property>
+          <property Id="e0751217-8010-4b41-8e61-47e74e2acba5" name="txtPrice" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="07677940-f8bb-478e-a8ae-20428d837cd8" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="56ea6068-1795-47b7-9a6f-ea8ea7c644a0" LastKnownName="Textbox" />
+            </type_NamedElement>
+          </property>
+          <property Id="0d6648d4-6602-4e2d-84f5-2f019d37e808" name="txtSupplier" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="9f2a8868-6434-4d0e-a846-33b3425ea38b" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="56ea6068-1795-47b7-9a6f-ea8ea7c644a0" LastKnownName="Textbox" />
+            </type_NamedElement>
+          </property>
+          <property Id="f5505c67-47bc-4555-9285-d8d1bd54729e" name="txtRemarks" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="80a02c40-aff7-4ced-8d75-5d650b0a9c7e" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="56ea6068-1795-47b7-9a6f-ea8ea7c644a0" LastKnownName="Textbox" />
+            </type_NamedElement>
+          </property>
+          <property Id="e2308c9a-849b-4c6c-9a40-c2cdd84e66b7" name="btnAdd" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="c24ce158-1025-4157-aefc-3892c07114de" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="58118404-27fd-4088-8e74-0da69aa61ac7" LastKnownName="Button" />
+            </type_NamedElement>
+          </property>
+          <property Id="c4d2623d-9148-465e-abdf-e3aef305b842" name="txtItemCodeDisplay" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="f38f2058-d77c-4bf0-ad97-c015d50236b2" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="b1e5ff6a-c39e-4ddd-b124-c266bfd3add6" LastKnownName="String" />
+            </type_NamedElement>
+          </property>
+          <property Id="293b9fcb-88df-4120-ae6e-ac6cc2dcbd6a" name="txtDescriptionDisplay" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="2e9215f5-9919-4830-ad7c-e33d4b8d1a1a" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="b1e5ff6a-c39e-4ddd-b124-c266bfd3add6" LastKnownName="String" />
+            </type_NamedElement>
+          </property>
+          <property Id="a55b152b-3455-4e64-a8f0-c0bac58dcdda" name="txtPriceDisplay" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="32b0384d-bc82-4607-b21f-a5e22636e01d" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="b1e5ff6a-c39e-4ddd-b124-c266bfd3add6" LastKnownName="String" />
+            </type_NamedElement>
+          </property>
+          <property Id="858953ba-c012-4197-81e3-e765ec6f9b27" name="txtQuantityDisplay" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="bb8b2292-92da-4cce-ae2e-90106a0a38c4" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="b1e5ff6a-c39e-4ddd-b124-c266bfd3add6" LastKnownName="String" />
+            </type_NamedElement>
+          </property>
+          <property Id="3395e8d8-c6c1-4e57-bc8a-7ab8c3ba9e0e" name="txtTotalPriceDisplay" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="ac996979-8e81-40e8-a6a3-e01241245122" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="b1e5ff6a-c39e-4ddd-b124-c266bfd3add6" LastKnownName="String" />
+            </type_NamedElement>
+          </property>
+          <property Id="8dcb5bdf-7a02-4ce5-b38c-874ea3448fb7" name="txtRemarksDisplay" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="f93591d2-91a1-436a-ab81-e03833f949a7" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="b1e5ff6a-c39e-4ddd-b124-c266bfd3add6" LastKnownName="String" />
+            </type_NamedElement>
+          </property>
+          <property Id="5ed14646-abfe-4400-84bc-7b8001c9cd79" name="btnEdit" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="4070f76a-521a-4bcf-b637-34ff23eebc69" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="58118404-27fd-4088-8e74-0da69aa61ac7" LastKnownName="Button" />
+            </type_NamedElement>
+          </property>
+          <property Id="02e14b24-7c6f-4359-9f9a-3d22d6ff6273" name="btnDelete" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="d217a089-38cf-4b60-b230-11c3cf10f141" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="58118404-27fd-4088-8e74-0da69aa61ac7" LastKnownName="Button" />
+            </type_NamedElement>
+          </property>
+          <property Id="4b2229fb-6c18-4478-a1c3-d741df6080f3" name="btnGeneratePO" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="53837d18-1541-47dc-bbd7-2cb4036d8f41" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="58118404-27fd-4088-8e74-0da69aa61ac7" LastKnownName="Button" />
+            </type_NamedElement>
+          </property>
+          <property Id="add851c7-32d2-4449-9025-f0db8bed9ddd" name="btnClear" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="34f0ca6e-42bf-4acb-8cd8-86ba0d9be2ea" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="58118404-27fd-4088-8e74-0da69aa61ac7" LastKnownName="Button" />
+            </type_NamedElement>
+          </property>
+          <property Id="eb0a59a2-2adc-4d4b-bb32-f853da9ba4f9" name="btnUpdate" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="71e9e9e2-e2aa-42dc-bf66-34cc2d176a72" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="58118404-27fd-4088-8e74-0da69aa61ac7" LastKnownName="Button" />
+            </type_NamedElement>
+          </property>
+          <property Id="e33a6bbd-f8be-46e8-a311-317602faf808" name="btnBackToList" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="99d2069f-b422-4912-9ee8-34007ddb5ec5" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="58118404-27fd-4088-8e74-0da69aa61ac7" LastKnownName="Button" />
+            </type_NamedElement>
+          </property>
+        </ownedAttributesInternal>
+      </class>
+    </logicalClassDesignerModelHasTypes>
+    <logicalClassDesignerModelHasTypes>
+      <class Id="d3b2ec20-dd4c-4cd7-b932-a1dfbab3da09" name="PurchaseOrderRecordsUI" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="975ece80-9462-40c4-9e75-c10d51660717" />
+        <ownedAttributesInternal>
+          <property Id="929fa294-0e4d-422d-bcd2-37b1fb633f05" name="lbTitle" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="30a3b16c-4d2d-491e-9409-c1d055574862" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="0f432a3b-7716-4523-a651-ad4e73a11e4d" LastKnownName="Label" />
+            </type_NamedElement>
+          </property>
+          <property Id="83f3c41f-bea8-46a1-8224-dcdda98908d4" name="lbOrderNumber" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="3cf8d692-8e5f-46ad-a0de-751fecadda68" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="0f432a3b-7716-4523-a651-ad4e73a11e4d" LastKnownName="Label" />
+            </type_NamedElement>
+          </property>
+          <property Id="a8683b57-a9d2-4805-9e1a-3d3d08443834" name="lbSupplierCode" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="4680c310-cb0d-4661-add8-693b84e14a06" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="0f432a3b-7716-4523-a651-ad4e73a11e4d" LastKnownName="Label" />
+            </type_NamedElement>
+          </property>
+          <property Id="d6c1b41c-895d-4dac-a0f4-98f992142e1e" name="lbDateOrdered" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="94de33de-0a21-46b5-b9ea-1ec431bca42c" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="0f432a3b-7716-4523-a651-ad4e73a11e4d" LastKnownName="Label" />
+            </type_NamedElement>
+          </property>
+          <property Id="c010e0c0-867a-49d4-8e04-58d12ac0df3d" name="lbStatus" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="6d5ca5ae-043a-45bf-828d-7effff098393" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="0f432a3b-7716-4523-a651-ad4e73a11e4d" LastKnownName="Label" />
+            </type_NamedElement>
+          </property>
+          <property Id="c69017d4-4c81-4132-8f1a-745a72f56ffe" name="lbExpectedDelivery" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="953c806e-aa25-4c40-815b-c7348a10f83c" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="0f432a3b-7716-4523-a651-ad4e73a11e4d" LastKnownName="Label" />
+            </type_NamedElement>
+          </property>
+          <property Id="d2bb3cb9-3295-4eed-a35a-3c7c43b72021" name="btnCreateNew" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="daa310bd-d25e-4dac-b183-528bd249b34b" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="58118404-27fd-4088-8e74-0da69aa61ac7" LastKnownName="Button" />
+            </type_NamedElement>
+          </property>
+          <property Id="1bdaeba1-4f2b-48d6-b7dd-85fe8d94e41e" name="ddlFilter" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="f8234c1e-f318-4dba-91ee-e6929301625f" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="2278e9b5-433d-4b7b-a99c-9034349ce7a6" LastKnownName="DropdownList" />
+            </type_NamedElement>
+          </property>
+          <property Id="19f513f3-8ab8-43ce-ae74-ce4a9678b454" name="txtSearch" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="7511e4ce-08de-4326-b3f1-c472f84d1812" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="56ea6068-1795-47b7-9a6f-ea8ea7c644a0" LastKnownName="Textbox" />
+            </type_NamedElement>
+          </property>
+          <property Id="61547d34-46ce-42af-8880-830204899b28" name="btnSearch" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="da3a7136-e216-4816-9a1a-3ecf3ed91fe5" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="58118404-27fd-4088-8e74-0da69aa61ac7" LastKnownName="Button" />
+            </type_NamedElement>
+          </property>
+          <property Id="a78c1c90-0921-4ae4-892e-1e9c967a2690" name="txtOrderNumber" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="236a3fc4-f691-4c86-9a0f-4cc1b510b4b4" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="b1e5ff6a-c39e-4ddd-b124-c266bfd3add6" LastKnownName="String" />
+            </type_NamedElement>
+          </property>
+          <property Id="3f2f85a8-6e25-4c21-9041-192024b59cb8" name="txtSupplierCode" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="8d2b9bde-66ec-4974-b59c-51de41a6f80e" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="b1e5ff6a-c39e-4ddd-b124-c266bfd3add6" LastKnownName="String" />
+            </type_NamedElement>
+          </property>
+          <property Id="8155aa76-6a5a-40ca-b16b-9b041aa25447" name="txtDateOrdered" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="82e27c56-9f00-4c67-97b0-5e9b310fa69b" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="b1e5ff6a-c39e-4ddd-b124-c266bfd3add6" LastKnownName="String" />
+            </type_NamedElement>
+          </property>
+          <property Id="18b04742-f995-40e8-a04c-110595d4af0c" name="txtStatus" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="ea48d1b9-1466-4d06-beee-6f2636e47993" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="b1e5ff6a-c39e-4ddd-b124-c266bfd3add6" LastKnownName="String" />
+            </type_NamedElement>
+          </property>
+          <property Id="a3c0684a-7166-400a-9e86-b524e2e03d36" name="txtExpectedDelivery" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="94e60235-e207-4dcb-9b1d-973ef8fb5a32" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="b1e5ff6a-c39e-4ddd-b124-c266bfd3add6" LastKnownName="String" />
+            </type_NamedElement>
+          </property>
+          <property Id="6245ba6d-7dea-448f-858c-fa92bf03d53d" name="btnPagination" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="59f070c4-5af1-411d-96dc-fe8ff90912e2" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="58118404-27fd-4088-8e74-0da69aa61ac7" LastKnownName="Button" />
+            </type_NamedElement>
+          </property>
+          <property Id="2bbe1d65-80f9-4eb0-beab-c5fab0389167" name="btnDetails" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="fe8bd587-7bf4-44e6-9d8a-9f28446f2152" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="58118404-27fd-4088-8e74-0da69aa61ac7" LastKnownName="Button" />
+            </type_NamedElement>
+          </property>
+          <property Id="306e69a9-54f3-4a45-84a1-207cc2829122" name="btnPDF" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="836b7f71-33f6-49ca-b638-e399e0299fb2" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="58118404-27fd-4088-8e74-0da69aa61ac7" LastKnownName="Button" />
+            </type_NamedElement>
+          </property>
+        </ownedAttributesInternal>
+      </class>
+    </logicalClassDesignerModelHasTypes>
+    <logicalClassDesignerModelHasTypes>
+      <class Id="f8c79929-ac70-4a80-b91d-f5f1f70ed923" name="PurchaseOrderDetailUI" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="e835422b-5ba8-4fa3-811d-b38d340623a4" />
+        <ownedAttributesInternal>
+          <property Id="10842c9f-08f2-4c0a-bc43-78e43520b9a8" name="lbHeader" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="de4d9b71-0fcd-4aef-a08b-f57d2b474d0c" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="0f432a3b-7716-4523-a651-ad4e73a11e4d" LastKnownName="Label" />
+            </type_NamedElement>
+          </property>
+          <property Id="929e6488-193b-4fad-8223-dc7b36b77a47" name="lbPONumber" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="1fc0bb55-b6fd-4ff6-8242-023e5394e46a" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="0f432a3b-7716-4523-a651-ad4e73a11e4d" LastKnownName="Label" />
+            </type_NamedElement>
+          </property>
+          <property Id="04345a66-18f5-4842-a6ac-20e1b16916aa" name="lbSupplier" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="9e01e037-f4b6-4e9a-9be8-55fb9c986b0a" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="0f432a3b-7716-4523-a651-ad4e73a11e4d" LastKnownName="Label" />
+            </type_NamedElement>
+          </property>
+          <property Id="931244d0-4257-437f-adce-5d05c1a3959e" name="lbDeliverTo" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="239d30e7-124b-45d3-befd-664805543223" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="0f432a3b-7716-4523-a651-ad4e73a11e4d" LastKnownName="Label" />
+            </type_NamedElement>
+          </property>
+          <property Id="75f72c7f-586b-4cb8-a5e7-a54967aed96e" name="lbAttn" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="6b1f3cf4-ec77-4c2c-97a8-eb2f02f19801" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="0f432a3b-7716-4523-a651-ad4e73a11e4d" LastKnownName="Label" />
+            </type_NamedElement>
+          </property>
+          <property Id="7bf216f8-d697-4bcf-a781-df98807e6ff2" name="lbItemCode" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="6f196c36-7ffd-4457-a50c-912dc2305a6e" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="0f432a3b-7716-4523-a651-ad4e73a11e4d" LastKnownName="Label" />
+            </type_NamedElement>
+          </property>
+          <property Id="68ad7d1f-e71a-4c5f-a811-7002f10de6db" name="lbDescription" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="93e01aca-d6df-40bf-9611-8fd6765cbe81" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="0f432a3b-7716-4523-a651-ad4e73a11e4d" LastKnownName="Label" />
+            </type_NamedElement>
+          </property>
+          <property Id="e025965e-2284-414b-9c3a-662e526b5188" name="lbQuantity" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="460fcbbc-c51a-4f86-892a-597c5a19cbec" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="0f432a3b-7716-4523-a651-ad4e73a11e4d" LastKnownName="Label" />
+            </type_NamedElement>
+          </property>
+          <property Id="878c1d06-821d-4079-9fa0-c767734fa985" name="lbUnitofMeasure" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="17879d36-b942-4695-a3ae-052451fd31b9" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="0f432a3b-7716-4523-a651-ad4e73a11e4d" LastKnownName="Label" />
+            </type_NamedElement>
+          </property>
+          <property Id="e1aa4759-6bdc-4f8c-ae29-e8219d96d34a" name="lbPrice" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="2c6c00c3-207b-4404-b47c-08c56061d31a" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="0f432a3b-7716-4523-a651-ad4e73a11e4d" LastKnownName="Label" />
+            </type_NamedElement>
+          </property>
+          <property Id="eaaad3d5-e8ef-4251-9525-217ddc416e36" name="lbTotalAmount" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="9fcbe599-6ac0-459f-bfb5-16a4474ef957" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="0f432a3b-7716-4523-a651-ad4e73a11e4d" LastKnownName="Label" />
+            </type_NamedElement>
+          </property>
+          <property Id="ba801d6b-840b-4fd7-a1e4-f718cf695add" name="txtPONumber" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="71dce98d-5fec-413e-a580-ef668316d321" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="b1e5ff6a-c39e-4ddd-b124-c266bfd3add6" LastKnownName="String" />
+            </type_NamedElement>
+          </property>
+          <property Id="92cc7ec1-4f2c-4134-b122-2a383cbf04d8" name="txtSupplier" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="59d41b7c-9f28-437f-b6c6-c0269066aa73" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="b1e5ff6a-c39e-4ddd-b124-c266bfd3add6" LastKnownName="String" />
+            </type_NamedElement>
+          </property>
+          <property Id="957c3db3-134d-4aee-abe0-4eaae6580537" name="txtDeliverTo" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="ad63dcca-086a-4473-9cc8-587b7251bba1" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="b1e5ff6a-c39e-4ddd-b124-c266bfd3add6" LastKnownName="String" />
+            </type_NamedElement>
+          </property>
+          <property Id="8f53df99-b4ce-4ea7-881d-d9a21d9fa25e" name="txtAttn" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="84d1917f-cde5-4ad4-9074-f5244b63e672" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="b1e5ff6a-c39e-4ddd-b124-c266bfd3add6" LastKnownName="String" />
+            </type_NamedElement>
+          </property>
+          <property Id="d0caf30d-200e-493f-8574-b191c71034ae" name="txtDeliveryDate" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="6943a097-f211-44f3-aeba-fee2b1104805" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="b1e5ff6a-c39e-4ddd-b124-c266bfd3add6" LastKnownName="String" />
+            </type_NamedElement>
+          </property>
+          <property Id="8c1db430-da8b-4235-a1c7-f26c2c4e6128" name="txtItemCode" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="ae398251-9cc4-4a52-9c8d-f8efc5600d39" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="3761379a-9c38-4272-9e70-9c1c7f051ec6" LastKnownName="Strng" />
+            </type_NamedElement>
+          </property>
+          <property Id="c005e0e0-294c-4f26-b806-7bc3d5792d20" name="txtDescription" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="b24fe8b5-4f24-4706-9b25-71f1ff53629f" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="b1e5ff6a-c39e-4ddd-b124-c266bfd3add6" LastKnownName="String" />
+            </type_NamedElement>
+          </property>
+          <property Id="28b6e4e9-833e-4749-bb40-08d312d3da65" name="txtQuantity" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="19249260-c207-44f8-9f8e-ef7d284ca0d1" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="b1e5ff6a-c39e-4ddd-b124-c266bfd3add6" LastKnownName="String" />
+            </type_NamedElement>
+          </property>
+          <property Id="3d6b35ef-797c-4ff0-8170-03ac1e7922a2" name="txtUnitofMeasure" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="b56f534b-cf72-4df5-9ba8-f2e487ed703b" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="b1e5ff6a-c39e-4ddd-b124-c266bfd3add6" LastKnownName="String" />
+            </type_NamedElement>
+          </property>
+          <property Id="b9ac6e79-60ea-4d0f-bc26-25366b08e092" name="txtPrice" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="5e705611-3312-4e76-a677-0e2cb4033707" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="b1e5ff6a-c39e-4ddd-b124-c266bfd3add6" LastKnownName="String" />
+            </type_NamedElement>
+          </property>
+          <property Id="ce30f388-ec44-433f-b26f-3d16e1d971b0" name="txtTotalAmount" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="0b2e5a95-d311-4e87-bd3b-197ddacf2e2e" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="8af89301-01c9-421c-8628-ed9c15a47a0c" LastKnownName="String" />
+            </type_NamedElement>
+          </property>
+          <property Id="178a4814-b916-4961-866f-54f9672972e8" name="txtSignature" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="f729a328-2fbe-4b78-a08f-d918e2eb5f7b" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="b1e5ff6a-c39e-4ddd-b124-c266bfd3add6" LastKnownName="String" />
+            </type_NamedElement>
+          </property>
+        </ownedAttributesInternal>
+      </class>
+    </logicalClassDesignerModelHasTypes>
+    <packageHasNamedElement>
+      <referencedType Id="8af89301-01c9-421c-8628-ed9c15a47a0c" name="String" isAbstract="false" isLeaf="false" cachedFullName="String">
+        <elementDefinition Id="59259974-6d55-42c6-b7bd-763d77ac8ef9" />
+      </referencedType>
+    </packageHasNamedElement>
+    <logicalClassDesignerModelHasTypes>
+      <class Id="94ac2da0-f5c5-469c-b2c9-4a6b35a3d4f2" name="StockReceiveUI" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="5b874d53-2cbc-4947-8b10-20895a1f42f1" />
+        <ownedAttributesInternal>
+          <property Id="476a7482-061c-4d40-b335-bec8ecd5d523" name="lbTitle" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="c591c4bc-208e-4edb-aaec-5029f7ba9653" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="0f432a3b-7716-4523-a651-ad4e73a11e4d" LastKnownName="Label" />
+            </type_NamedElement>
+          </property>
+          <property Id="c7fd03a8-eef1-4ce6-a9b6-3574d8c8c738" name="lbPONumber" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="66e90aa0-8882-44c9-98d8-e56ea1801c8e" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="0f432a3b-7716-4523-a651-ad4e73a11e4d" LastKnownName="Label" />
+            </type_NamedElement>
+          </property>
+          <property Id="66f1195a-07db-40d8-8af4-d207905e8e63" name="lbSupplier" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="5acaedb7-085c-4328-b308-6c3021c0fd3b" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="0f432a3b-7716-4523-a651-ad4e73a11e4d" LastKnownName="Label" />
+            </type_NamedElement>
+          </property>
+          <property Id="aedcdb63-b8f4-4f96-961d-ff7e5e28a16f" name="lbDONumber" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="72770b81-3b2b-48ea-a615-c3022b1e40a9" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="0f432a3b-7716-4523-a651-ad4e73a11e4d" LastKnownName="Label" />
+            </type_NamedElement>
+          </property>
+          <property Id="b22f1686-c52e-48b5-bfac-a78437af4c63" name="lbReceivedDate" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="a43d1012-8fd3-41bf-a829-61d9195c03e3" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="0f432a3b-7716-4523-a651-ad4e73a11e4d" LastKnownName="Label" />
+            </type_NamedElement>
+          </property>
+          <property Id="11cbd418-80da-44be-920f-e7b289b4b66f" name="lbItemCode" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="9d8583e3-4d98-4a12-924f-8adec6f9d6e3" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="0f432a3b-7716-4523-a651-ad4e73a11e4d" LastKnownName="Label" />
+            </type_NamedElement>
+          </property>
+          <property Id="fb52fcd0-2e19-4ea3-b130-dcceb0ce4915" name="lbDescription" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="eaee5d07-d040-4cce-bbf7-c3785c675562" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="0f432a3b-7716-4523-a651-ad4e73a11e4d" LastKnownName="Label" />
+            </type_NamedElement>
+          </property>
+          <property Id="3fe5bfb3-6c0c-4e4c-bc31-897e8986f132" name="lbOrdered" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="acc2d296-1495-4c43-88d9-1da72d41ae5f" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="0f432a3b-7716-4523-a651-ad4e73a11e4d" LastKnownName="Label" />
+            </type_NamedElement>
+          </property>
+          <property Id="db55172b-787b-40bc-b94c-05a24c6d23b3" name="lbUnreceived" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="dc00b7b2-823a-467b-b4ff-72b6ada3ffa0" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="0f432a3b-7716-4523-a651-ad4e73a11e4d" LastKnownName="Label" />
+            </type_NamedElement>
+          </property>
+          <property Id="6c289799-770e-41dd-8e78-2213a332c655" name="lbReceived" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="72f32128-ffb9-484f-8b8f-062d91cc2069" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="0f432a3b-7716-4523-a651-ad4e73a11e4d" LastKnownName="Label" />
+            </type_NamedElement>
+          </property>
+          <property Id="5b46e9cc-c181-4b36-a8b9-59e52f5cf87d" name="lbUOM" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="07e38002-61cb-49c5-a077-73da268d87e8" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="0f432a3b-7716-4523-a651-ad4e73a11e4d" LastKnownName="Label" />
+            </type_NamedElement>
+          </property>
+          <property Id="3d7046b3-6762-4d15-9ef1-ebf1413c0376" name="lbRemarks" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="2b030f59-4657-4792-9144-08a52cc87ffc" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="0f432a3b-7716-4523-a651-ad4e73a11e4d" LastKnownName="Label" />
+            </type_NamedElement>
+          </property>
+          <property Id="453313d0-5e7a-424d-8f02-eb09988ae399" name="txtPONumber" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="07ef383e-539e-4d8d-a9f1-7b59c6b49ef4" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="56ea6068-1795-47b7-9a6f-ea8ea7c644a0" LastKnownName="Textbox" />
+            </type_NamedElement>
+          </property>
+          <property Id="2e54fe2e-2816-4eae-8889-66caaf9ec6ec" name="txtSupplier" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="5e923042-f1d3-47e1-9117-1558f3b94a84" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="56ea6068-1795-47b7-9a6f-ea8ea7c644a0" LastKnownName="Textbox" />
+            </type_NamedElement>
+          </property>
+          <property Id="b3cf8615-2422-44cc-852d-2bb608fa71d0" name="txtDONumber" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="49731c54-2fb2-4808-910d-43c8008f46f3" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="56ea6068-1795-47b7-9a6f-ea8ea7c644a0" LastKnownName="Textbox" />
+            </type_NamedElement>
+          </property>
+          <property Id="761a089a-7f6a-41f6-8897-ed36bfc7b3a8" name="txtReceivedDate" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="2e4966c2-1bbb-442b-8190-66364ed17f36" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="56ea6068-1795-47b7-9a6f-ea8ea7c644a0" LastKnownName="Textbox" />
+            </type_NamedElement>
+          </property>
+          <property Id="0ef08748-45fc-49a9-b56e-5031a22ce6b0" name="btnSearch" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="1ade32dc-5665-4812-b406-fad99814244f" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="58118404-27fd-4088-8e74-0da69aa61ac7" LastKnownName="Button" />
+            </type_NamedElement>
+          </property>
+          <property Id="22ef54c0-099d-476b-9056-da6fabfd389e" name="btnSubmitAll" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="6be93761-e31e-4e35-80e2-9bc1d318adbb" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="58118404-27fd-4088-8e74-0da69aa61ac7" LastKnownName="Button" />
+            </type_NamedElement>
+          </property>
+          <property Id="8b832a3b-213b-4a41-bfa7-2fa6cc37406c" name="btnSubmit" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="9e18093f-3d89-4bca-b69e-a16e4d10cee6" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="58118404-27fd-4088-8e74-0da69aa61ac7" LastKnownName="Button" />
+            </type_NamedElement>
+          </property>
+          <property Id="cdec32df-27a7-494f-b839-96ee5ac5c9a4" name="txtItemCode" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="7af7ca0d-2176-4116-be24-d45080211246" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="b1e5ff6a-c39e-4ddd-b124-c266bfd3add6" LastKnownName="String" />
+            </type_NamedElement>
+          </property>
+          <property Id="b70eb7ef-3291-45d3-9d1d-ff25337a0f8c" name="txtDescription" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="cf08a43e-8e6a-4aa9-950e-fac85fd30dd2" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="b1e5ff6a-c39e-4ddd-b124-c266bfd3add6" LastKnownName="String" />
+            </type_NamedElement>
+          </property>
+          <property Id="572ea4b8-d7a7-4556-82d4-c5d9014a5b86" name="txtOrdered" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="52c1531b-72ee-4dc0-98a3-bf2cea5311dc" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="b1e5ff6a-c39e-4ddd-b124-c266bfd3add6" LastKnownName="String" />
+            </type_NamedElement>
+          </property>
+          <property Id="de1cbdd2-701b-4570-8959-34d2012889bb" name="txtUnreceived" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="7f5c0aa1-9897-44c6-adf5-0ab5df27b9ec" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="b1e5ff6a-c39e-4ddd-b124-c266bfd3add6" LastKnownName="String" />
+            </type_NamedElement>
+          </property>
+          <property Id="3c436482-d55a-4600-8077-4884b5b4a59b" name="txtReceived" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="5600bc52-dadf-4a1e-b11b-64c495240c99" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="56ea6068-1795-47b7-9a6f-ea8ea7c644a0" LastKnownName="Textbox" />
+            </type_NamedElement>
+          </property>
+          <property Id="eb23e210-fa3b-4471-85a2-e4ed01b403d0" name="txtUOM" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="13d7b50b-ad1a-44ea-8537-0566b2173232" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="b1e5ff6a-c39e-4ddd-b124-c266bfd3add6" LastKnownName="String" />
+            </type_NamedElement>
+          </property>
+          <property Id="552cb711-205e-47dc-967e-c646a95690fe" name="txtRemarks" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="3fcc91fa-53a8-4586-97f8-967444487787" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="56ea6068-1795-47b7-9a6f-ea8ea7c644a0" LastKnownName="Textbox" />
+            </type_NamedElement>
+          </property>
+        </ownedAttributesInternal>
+      </class>
+    </logicalClassDesignerModelHasTypes>
+    <logicalClassDesignerModelHasTypes>
+      <class Id="ffce77a3-d154-4b47-b649-03e95f7c112d" name="AndroidLoginUI" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="84f9372f-f98a-4b88-987e-9eb3ef9b579f" />
+        <ownedAttributesInternal>
+          <property Id="ea6bf09c-ccca-43e3-a506-310b881681c9" name="loginProgress" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="85bd2c47-12a9-4fec-8302-040f22e1987b" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="98e9d4e6-2c6a-424d-9153-c775d9a40b96" LastKnownName="ProgressBar" />
+            </type_NamedElement>
+          </property>
+          <property Id="77af1d75-20ab-4456-befd-65826d71b6b9" name="backgroundLogo" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="4f5f3497-2445-4459-8f75-35d28c17ceed" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="262f9cc3-e7dc-433c-ba60-16b2561a7cb0" LastKnownName="ImageView" />
+            </type_NamedElement>
+          </property>
+          <property Id="f63138f7-f674-439d-9813-32c18490a594" name="tvEmail" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="137542d8-7503-4f37-b941-b4e3abfffd49" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="bf5d92cc-b483-43d6-800b-4ce9a43d85d3" LastKnownName="TextView" />
+            </type_NamedElement>
+          </property>
+          <property Id="0fb5be53-ddc6-47b5-9de3-59b69580984f" name="tvPassword" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="c58ac2dc-b5d6-4869-adda-f01a0be6f77d" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="bf5d92cc-b483-43d6-800b-4ce9a43d85d3" LastKnownName="TextView" />
+            </type_NamedElement>
+          </property>
+          <property Id="fd151df1-8746-4f15-8bae-ffa1018f9b0f" name="etPassword" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="7a2fb55c-d8c0-4e60-885b-0126d75c35fd" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="445a7df5-e7db-4e35-9341-825b2d54fe8f" LastKnownName="EditText" />
+            </type_NamedElement>
+          </property>
+          <property Id="e05e0e63-e40f-4230-8098-5d0f0e64ed50" name="etEmail" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="a02322c1-e14b-4270-a34f-2c362b14111b" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="445a7df5-e7db-4e35-9341-825b2d54fe8f" LastKnownName="EditText" />
+            </type_NamedElement>
+          </property>
+          <property Id="44748221-770f-4727-8db6-9c07d70bdc41" name="btnSignIn" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="e4213673-7d6f-474e-b6e7-49df56176435" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="58118404-27fd-4088-8e74-0da69aa61ac7" LastKnownName="Button" />
+            </type_NamedElement>
+          </property>
+        </ownedAttributesInternal>
+      </class>
+    </logicalClassDesignerModelHasTypes>
+    <packageHasNamedElement>
+      <referencedType Id="98e9d4e6-2c6a-424d-9153-c775d9a40b96" name="ProgressBar" isAbstract="false" isLeaf="false" cachedFullName="ProgressBar">
+        <elementDefinition Id="4c1999d2-4834-4c4f-b647-1da2e0e0723a" />
+      </referencedType>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <referencedType Id="262f9cc3-e7dc-433c-ba60-16b2561a7cb0" name="ImageView" isAbstract="false" isLeaf="false" cachedFullName="ImageView">
+        <elementDefinition Id="a8a6447f-b5e3-4d89-8539-5fed5b5f2212" />
+      </referencedType>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <referencedType Id="bf5d92cc-b483-43d6-800b-4ce9a43d85d3" name="TextView" isAbstract="false" isLeaf="false" cachedFullName="TextView">
+        <elementDefinition Id="0b44f3b4-60fa-413a-a155-282bae18507d" />
+      </referencedType>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <referencedType Id="445a7df5-e7db-4e35-9341-825b2d54fe8f" name="EditText" isAbstract="false" isLeaf="false" cachedFullName="EditText">
+        <elementDefinition Id="e5b1486d-1bd0-4fa3-b311-c82b524c14a2" />
+      </referencedType>
+    </packageHasNamedElement>
+    <logicalClassDesignerModelHasTypes>
+      <class Id="63b0da3b-8a5d-42a9-8119-e8c19c6c08bf" name="AndroidWelcomeUI" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="7942387c-e47c-4b49-bf51-af85f2441359" />
+        <ownedAttributesInternal>
+          <property Id="3ac59699-df56-438b-8371-24cabada0390" name="menu" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="9f6c74b9-849a-4866-89fc-680ade93cb05" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="4e236f92-53cd-4fa3-a149-87ffae2b4f58" LastKnownName="Toolbar" />
+            </type_NamedElement>
+          </property>
+          <property Id="193b8942-0889-4318-9f0f-da0cd2c87c15" name="backgroundLogo" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="10bb60af-a1ad-4939-b223-d1a34edbb338" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="262f9cc3-e7dc-433c-ba60-16b2561a7cb0" LastKnownName="ImageView" />
+            </type_NamedElement>
+          </property>
+          <property Id="7020bc41-5bc3-4e3e-b4b3-640cc040adc8" name="tvWelcome" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="2dfd6be4-e2f2-4db9-8d89-7487a010881c" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="bf5d92cc-b483-43d6-800b-4ce9a43d85d3" LastKnownName="TextView" />
+            </type_NamedElement>
+          </property>
+        </ownedAttributesInternal>
+      </class>
+    </logicalClassDesignerModelHasTypes>
+    <packageHasNamedElement>
+      <referencedType Id="4e236f92-53cd-4fa3-a149-87ffae2b4f58" name="Toolbar" isAbstract="false" isLeaf="false" cachedFullName="Toolbar">
+        <elementDefinition Id="87d41381-a793-443a-98f5-05cc1e063de8" />
+      </referencedType>
+    </packageHasNamedElement>
+    <logicalClassDesignerModelHasTypes>
+      <class Id="820baa20-9357-4be2-a580-5677a83e3f33" name="AndroidRequisitionRecordsUI" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="7964c7c1-1960-4258-87c0-9e95ed1c275b" />
+        <ownedAttributesInternal>
+          <property Id="0092aa20-e5d2-4b77-a764-d1ec65f1a26f" name="requisitionRecords" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="cf041ccb-e88d-4a0c-916f-cd1a8e1e6124" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="15b29639-7792-4a59-83a8-183d01069cd5" LastKnownName="ListView" />
+            </type_NamedElement>
+          </property>
+          <property Id="2e18e07d-3cbf-4bda-96fa-4f574c01c8db" name="tvEmpty" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="841fb2f7-3595-4c83-ba4d-9615be2faf6a" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="bf5d92cc-b483-43d6-800b-4ce9a43d85d3" LastKnownName="TextView" />
+            </type_NamedElement>
+          </property>
+        </ownedAttributesInternal>
+      </class>
+    </logicalClassDesignerModelHasTypes>
+    <packageHasNamedElement>
+      <referencedType Id="15b29639-7792-4a59-83a8-183d01069cd5" name="ListView" isAbstract="false" isLeaf="false" cachedFullName="ListView">
+        <elementDefinition Id="50c6a0c1-49bb-461d-a474-72e4c5f0d4a7" />
+      </referencedType>
+    </packageHasNamedElement>
+    <logicalClassDesignerModelHasTypes>
+      <class Id="43fc21a5-3b06-4901-8ace-1d2e4c1da68c" name="AndroidRequisitionDetailsUI" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="45ad67de-c316-42d6-9ee7-bbd940721faa" />
+        <ownedAttributesInternal>
+          <property Id="570606c2-76bc-428d-8aca-40c3b51b28b4" name="lvRequisitionDetails" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="baf2e00b-e746-45dd-89a7-4b12774a5031" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="15b29639-7792-4a59-83a8-183d01069cd5" LastKnownName="ListView" />
+            </type_NamedElement>
+          </property>
+          <property Id="ba6533a4-cfef-4425-bd47-67f170812ae0" name="btnRemove" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="b82ed7e0-d7bc-489e-8ffa-17a020ea4da3" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="58118404-27fd-4088-8e74-0da69aa61ac7" LastKnownName="Button" />
+            </type_NamedElement>
+          </property>
+        </ownedAttributesInternal>
+      </class>
+    </logicalClassDesignerModelHasTypes>
+    <logicalClassDesignerModelHasTypes>
+      <class Id="7142c0b3-85bf-4cc0-81ef-10e31a8425f3" name="AndroidRequisitionFormUI" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="541156f8-5100-4d7b-890b-b25c5900e26d" />
+        <ownedAttributesInternal>
+          <property Id="12fbcf6b-6031-4188-8687-2f1557151ce6" name="lvItemList" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="63323f9a-46ab-46cf-8c4d-01eb1d1a8723" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="15b29639-7792-4a59-83a8-183d01069cd5" LastKnownName="ListView" />
+            </type_NamedElement>
+          </property>
+          <property Id="4ccb6f48-8860-4f6c-b15b-099e3e623819" name="btnSubmit" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="5e6d8e66-545b-4ab6-a0b8-8f93496a7092" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="58118404-27fd-4088-8e74-0da69aa61ac7" LastKnownName="Button" />
+            </type_NamedElement>
+          </property>
+          <property Id="917af467-118f-4e11-8111-a03c855ab625" name="btnClearAll" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="acdc6533-eb99-4c37-9e74-fc485f370877" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="c8dbc4d4-2ffc-47e0-a8dd-48ff4e06e8a7" LastKnownName="Button" />
+            </type_NamedElement>
+          </property>
+          <property Id="7cd24ff2-fd0a-4ef9-bf81-58dee5c59edd" name="btnGoToCatalogue" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="bae2b290-5c4a-47cd-b008-4cb4eeb1324c" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="58118404-27fd-4088-8e74-0da69aa61ac7" LastKnownName="Button" />
+            </type_NamedElement>
+          </property>
+        </ownedAttributesInternal>
+      </class>
+    </logicalClassDesignerModelHasTypes>
+    <packageHasNamedElement>
+      <referencedType Id="cd3bc4e3-e6cc-42c9-b2c6-d13203958064" name="Button" isAbstract="false" isLeaf="false" cachedFullName="Button">
+        <elementDefinition Id="ff2fcf6a-02f1-4982-b039-b6a415fcd8f0" />
+      </referencedType>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <referencedType Id="a876108d-c18d-4ce3-8d78-36c31f61d49d" name="TextView" isAbstract="false" isLeaf="false" cachedFullName="TextView">
+        <elementDefinition Id="0b44f3b4-60fa-413a-a155-282bae18507d" />
+      </referencedType>
+    </packageHasNamedElement>
+    <logicalClassDesignerModelHasTypes>
+      <class Id="c4839ca8-d95b-41fd-ae47-510717f499b3" name="AndroidRequisitionDetailRowUI" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="eae63494-412a-48e6-bcfa-045224d6803f" />
+        <ownedAttributesInternal>
+          <property Id="7681e74a-a7e2-43cb-be99-03364141272e" name="tvItemDescription" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="181c67bd-3362-40ed-9c88-e563a44c76a0" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="a876108d-c18d-4ce3-8d78-36c31f61d49d" LastKnownName="TextView" />
+            </type_NamedElement>
+          </property>
+          <property Id="a76c7f57-7073-4eed-bff8-e09fc060725b" name="tvItemDescriptionLabel" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="afbafbe8-98ce-468b-8649-93e2db6ef1ce" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="a876108d-c18d-4ce3-8d78-36c31f61d49d" LastKnownName="TextView" />
+            </type_NamedElement>
+          </property>
+          <property Id="75d934e2-4c50-45e0-8411-41f44fb093a6" name="tvUOMLabel" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="fa152eb4-6e91-4fc9-9eac-139bfbe45c09" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="a876108d-c18d-4ce3-8d78-36c31f61d49d" LastKnownName="TextView" />
+            </type_NamedElement>
+          </property>
+          <property Id="760e2a05-8c15-42d1-80c6-a9f38365a0c7" name="tvUOM" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="4576388f-fc1e-4c3f-bc05-12e79ba35cb9" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="a876108d-c18d-4ce3-8d78-36c31f61d49d" LastKnownName="TextView" />
+            </type_NamedElement>
+          </property>
+          <property Id="308bb377-aac5-497b-8962-eb14094cd64a" name="tvRequestedQty" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="1fb51271-38db-471c-a56f-aeed5e1dd66c" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="a876108d-c18d-4ce3-8d78-36c31f61d49d" LastKnownName="TextView" />
+            </type_NamedElement>
+          </property>
+          <property Id="82ab357e-94ba-4ad3-80fe-56fa5602eecd" name="tvRequestedQtyLabel" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="89a51cfa-dd3c-4a9b-bd8c-f395d25ae280" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="a876108d-c18d-4ce3-8d78-36c31f61d49d" LastKnownName="TextView" />
+            </type_NamedElement>
+          </property>
+          <property Id="8131985d-e367-4d2e-83ee-dddf85e66c0b" name="btnConfirmChange" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="900d0e5e-609b-4d70-96a4-e848295ed676" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="cd3bc4e3-e6cc-42c9-b2c6-d13203958064" LastKnownName="Button" />
+            </type_NamedElement>
+          </property>
+          <property Id="e04e3b54-d1cf-419d-9c8c-ef14f5e52536" name="tvReceivedQty" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="d342f05a-52f6-4c8c-bb35-57d723ec7648" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="a876108d-c18d-4ce3-8d78-36c31f61d49d" LastKnownName="TextView" />
+            </type_NamedElement>
+          </property>
+          <property Id="4c83914a-6843-40d7-a0e8-20ed3f89c598" name="tvReceivedQtyLabel" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="64d1dad5-95f2-4d3b-a85b-2c9489904d78" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="a876108d-c18d-4ce3-8d78-36c31f61d49d" LastKnownName="TextView" />
+            </type_NamedElement>
+          </property>
+        </ownedAttributesInternal>
+      </class>
+    </logicalClassDesignerModelHasTypes>
+    <packageHasNamedElement>
+      <referencedType Id="c8dbc4d4-2ffc-47e0-a8dd-48ff4e06e8a7" name="Button" isAbstract="false" isLeaf="false" cachedFullName="Button">
+        <elementDefinition Id="ff2fcf6a-02f1-4982-b039-b6a415fcd8f0" />
+      </referencedType>
+    </packageHasNamedElement>
+    <logicalClassDesignerModelHasTypes>
+      <class Id="e24abbfc-d4d5-4273-a7e4-d9ce5f211fb8" name="AndroidRequisitionFormItemRowUI" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="8eb0d956-192f-47ef-81cb-b25e73fb1975" />
+        <ownedAttributesInternal>
+          <property Id="06322761-4c11-43ee-a9df-e0aab60a4336" name="tvItemDescription" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="806419e7-df48-4f70-8862-dbfd263b204d" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="bf5d92cc-b483-43d6-800b-4ce9a43d85d3" LastKnownName="TextView" />
+            </type_NamedElement>
+          </property>
+          <property Id="1d884922-bdfe-473d-b81a-83098f347a51" name="tvUOMLabel" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="bb92b4ab-c6c8-411b-9284-cd2522e7d42b" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="bf5d92cc-b483-43d6-800b-4ce9a43d85d3" LastKnownName="TextView" />
+            </type_NamedElement>
+          </property>
+          <property Id="bc166d2f-c179-44c1-9272-cbc60645c625" name="tvUOM" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="9a48c2f4-60a0-4bb8-90ab-0ec1edb5ee01" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="bf5d92cc-b483-43d6-800b-4ce9a43d85d3" LastKnownName="TextView" />
+            </type_NamedElement>
+          </property>
+          <property Id="8cc4dde3-0bbb-4f66-9be5-bea797cd820c" name="btnPlus" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="7159f14a-f096-4595-93d5-dbc024c2bd72" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="58118404-27fd-4088-8e74-0da69aa61ac7" LastKnownName="Button" />
+            </type_NamedElement>
+          </property>
+          <property Id="3fe28b03-1758-4419-b928-40b62348d64a" name="btnMinus" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="b91c08fe-d7cb-4391-b4f2-9e56b80dd4c6" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="58118404-27fd-4088-8e74-0da69aa61ac7" LastKnownName="Button" />
+            </type_NamedElement>
+          </property>
+          <property Id="56191e84-e198-4d56-ac89-b1643d7acb37" name="etQuantity" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="9278bc8e-1b85-435a-b8f2-674c963d6786" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="445a7df5-e7db-4e35-9341-825b2d54fe8f" LastKnownName="EditText" />
+            </type_NamedElement>
+          </property>
+        </ownedAttributesInternal>
+      </class>
+    </logicalClassDesignerModelHasTypes>
+    <logicalClassDesignerModelHasTypes>
+      <class Id="d77e7b1f-8c32-40e8-be24-8d5a86a88382" name="AndroidBrowseCatalogueUI" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="774b0317-0139-440d-a3f8-68249dca48a2" />
+        <ownedAttributesInternal>
+          <property Id="2c4afcbc-b826-4fba-9eeb-a31db74471e0" name="searchToolbar" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="0c225a89-d708-4073-9d00-bcf33b07b4e3" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="4e236f92-53cd-4fa3-a149-87ffae2b4f58" LastKnownName="Toolbar" />
+            </type_NamedElement>
+          </property>
+          <property Id="5da1e6ec-fcb8-45cf-a621-ddf54763a139" name="tvFilterByCategory" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="efa79a75-7b5d-4997-affa-eb13346a2112" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="bf5d92cc-b483-43d6-800b-4ce9a43d85d3" LastKnownName="TextView" />
+            </type_NamedElement>
+          </property>
+          <property Id="1e2b4323-91a3-4d12-af72-ff6b1ccabc12" name="tvStationeryList" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="106b4f94-e96c-4c82-80ff-ee0be00b6a79" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="bf5d92cc-b483-43d6-800b-4ce9a43d85d3" LastKnownName="TextView" />
+            </type_NamedElement>
+          </property>
+          <property Id="38280ccc-eaf0-470a-a0e2-23d68cefc021" name="spinnerCategory" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="c9948f36-6d00-4eff-8040-e39593f2d7ea" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="8eb80efb-7a86-4de8-ab54-ff838fff7acb" LastKnownName="Spinner" />
+            </type_NamedElement>
+          </property>
+          <property Id="3bc0bd5a-e732-41ad-83f8-79811865f9b1" name="btnGoToForm" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="93864dcf-6dca-4c29-9f51-76de77930f2e" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="58118404-27fd-4088-8e74-0da69aa61ac7" LastKnownName="Button" />
+            </type_NamedElement>
+          </property>
+          <property Id="67bb90d5-066f-455f-9968-e930c71ffd14" name="lvStationeryList" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="72eb870d-d7d6-4530-a32a-a27cd9025cb6" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="15b29639-7792-4a59-83a8-183d01069cd5" LastKnownName="ListView" />
+            </type_NamedElement>
+          </property>
+        </ownedAttributesInternal>
+      </class>
+    </logicalClassDesignerModelHasTypes>
+    <packageHasNamedElement>
+      <referencedType Id="8eb80efb-7a86-4de8-ab54-ff838fff7acb" name="Spinner" isAbstract="false" isLeaf="false" cachedFullName="Spinner">
+        <elementDefinition Id="e77cd054-4484-492e-afee-66ff4a7055a7" />
+      </referencedType>
+    </packageHasNamedElement>
+    <logicalClassDesignerModelHasTypes>
+      <class Id="7abbd7a7-2d40-4434-9ae0-30dc908fff72" name="AndroidAddRequisitionUI" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="75feab98-abc5-497b-bb3c-4ca088fad0c1" />
+        <ownedAttributesInternal>
+          <property Id="78ad4064-5c30-4f91-89a0-7d655638fea0" name="tvCategoryLabel" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="aca4adaa-9e30-41ce-8ebc-805df1e5f78b" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="bf5d92cc-b483-43d6-800b-4ce9a43d85d3" LastKnownName="TextView" />
+            </type_NamedElement>
+          </property>
+          <property Id="dec1550a-2ed2-425a-8452-5402a9ca0745" name="tvCategory" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="83321d70-6823-47c8-ad9a-01a290e2d68b" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="bf5d92cc-b483-43d6-800b-4ce9a43d85d3" LastKnownName="TextView" />
+            </type_NamedElement>
+          </property>
+          <property Id="ff7fd768-22d7-4fdc-88c6-c4255c14bbd5" name="tvDescription" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="68e16240-bfbe-4966-9faa-26643c12eca3" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="bf5d92cc-b483-43d6-800b-4ce9a43d85d3" LastKnownName="TextView" />
+            </type_NamedElement>
+          </property>
+          <property Id="00271ab3-0cab-4ab1-806d-2b4b9be9ab61" name="tvDescriptionLabel" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="51931b39-c619-467f-ac6f-267a85ae37ae" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="bf5d92cc-b483-43d6-800b-4ce9a43d85d3" LastKnownName="TextView" />
+            </type_NamedElement>
+          </property>
+          <property Id="2006ec09-3f61-4f95-a9fb-13f2d3065082" name="tvUOMLabel" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="acab3792-457b-4829-8196-39bf0158758c" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="bf5d92cc-b483-43d6-800b-4ce9a43d85d3" LastKnownName="TextView" />
+            </type_NamedElement>
+          </property>
+          <property Id="7b1e37ad-83ac-4523-afe0-3ecb67cf362e" name="tvUOM" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="068112f6-0a0a-4ef5-8bb6-9c624717cb6d" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="bf5d92cc-b483-43d6-800b-4ce9a43d85d3" LastKnownName="TextView" />
+            </type_NamedElement>
+          </property>
+          <property Id="bfdd11a6-c6d0-4017-9b21-82050cb2259f" name="tvQtyLabel" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="14f50ff8-fd25-4850-914e-442e606d1455" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="bf5d92cc-b483-43d6-800b-4ce9a43d85d3" LastKnownName="TextView" />
+            </type_NamedElement>
+          </property>
+          <property Id="a51adfc4-594e-4240-a1d9-17048e48b36c" name="etQty" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="c5b13154-10c4-496f-b316-6b4a0547da45" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="621cfbb6-4537-426c-a694-0d56a9bf0a59" LastKnownName="EditText" />
+            </type_NamedElement>
+          </property>
+          <property Id="acdc8d60-cfb0-406d-a83c-cf5e4bcbe9c7" name="btnAdd" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="f6f0bc2d-9742-455e-ba9f-24e3828b3a66" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="58118404-27fd-4088-8e74-0da69aa61ac7" LastKnownName="Button" />
+            </type_NamedElement>
+          </property>
+          <property Id="e59aae9f-ddff-4b5a-babd-eab51a13d746" name="btnBackToCatalogue" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="33d82a58-5562-41da-8c6b-d7b529a5d3c3" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="58118404-27fd-4088-8e74-0da69aa61ac7" LastKnownName="Button" />
+            </type_NamedElement>
+          </property>
+          <property Id="5ffcbbc7-697f-4126-b708-394da5b18013" name="btnGoToForm" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="ddb8ee56-a6fc-4d79-aa29-043125f66e6d" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="58118404-27fd-4088-8e74-0da69aa61ac7" LastKnownName="Button" />
+            </type_NamedElement>
+          </property>
+        </ownedAttributesInternal>
+      </class>
+    </logicalClassDesignerModelHasTypes>
+    <packageHasNamedElement>
+      <referencedType Id="621cfbb6-4537-426c-a694-0d56a9bf0a59" name="EditText" isAbstract="false" isLeaf="false" cachedFullName="EditText">
+        <elementDefinition Id="e5b1486d-1bd0-4fa3-b311-c82b524c14a2" />
+      </referencedType>
+    </packageHasNamedElement>
+    <logicalClassDesignerModelHasTypes>
+      <class Id="d29656f8-bc37-449d-a4db-405f21b86f5d" name="AndroidChangeCollectionPointUI" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="52786f47-710b-4477-99a4-b32ddc885cdf" />
+        <ownedAttributesInternal>
+          <property Id="afebd5ce-e37b-4d95-8d95-a00e9f64f48a" name="tvCollectionPointTitle" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="26fb2997-12fe-4705-ba2d-7da50bddcfdc" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="bf5d92cc-b483-43d6-800b-4ce9a43d85d3" LastKnownName="TextView" />
+            </type_NamedElement>
+          </property>
+          <property Id="08019608-d7bc-4589-b331-2a5fd7e51456" name="tvCollectionPointDepartment" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="13569b2f-7eb2-4480-8c14-0f6d807f7a74" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="bf5d92cc-b483-43d6-800b-4ce9a43d85d3" LastKnownName="TextView" />
+            </type_NamedElement>
+          </property>
+          <property Id="41e2e605-e07e-4543-b612-324980650fbf" name="tvCurrentCollectionPoint" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="c809a15c-daa2-41c2-be2a-acdd99c1697d" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="bf5d92cc-b483-43d6-800b-4ce9a43d85d3" LastKnownName="TextView" />
+            </type_NamedElement>
+          </property>
+          <property Id="e540d6ca-f85d-4679-b4e9-6cb8343e78cd" name="tvSpinnerLabel" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="816a8309-08ba-4175-8be7-669f80da28f3" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="bf5d92cc-b483-43d6-800b-4ce9a43d85d3" LastKnownName="TextView" />
+            </type_NamedElement>
+          </property>
+          <property Id="f7992803-cdde-4ce0-a94d-e680cab3cbb3" name="spinnerCollectionPoint" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="2819a192-da6f-4f01-b89e-e664c2bf41f3" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="8eb80efb-7a86-4de8-ab54-ff838fff7acb" LastKnownName="Spinner" />
+            </type_NamedElement>
+          </property>
+          <property Id="2a9b480e-3561-4f0f-822f-35e32dcfe565" name="btnChange" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="cfd97bab-7c6d-47ba-bba8-57e93f36d159" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="58118404-27fd-4088-8e74-0da69aa61ac7" LastKnownName="Button" />
+            </type_NamedElement>
+          </property>
+        </ownedAttributesInternal>
+      </class>
+    </logicalClassDesignerModelHasTypes>
+    <logicalClassDesignerModelHasTypes>
+      <class Id="364c2c17-3f8c-4bf0-b2d7-96a226d8f64f" name="AndroidItemReadyForCollectionUI" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="b6bbd0ed-b6ad-49a5-a17c-d0d5c2786aab" />
+        <ownedAttributesInternal>
+          <property Id="13da076f-0235-4660-8622-f67ab7e4dfc5" name="tvDepartment" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="f2079b2c-703a-4fac-bfe2-44dfe29f8ec2" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="bf5d92cc-b483-43d6-800b-4ce9a43d85d3" LastKnownName="TextView" />
+            </type_NamedElement>
+          </property>
+          <property Id="804d52de-158f-4c06-b413-b2b178ce8201" name="tvTitle" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="93d23c35-3a16-4a0c-96fe-b55bacc2fd41" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="bf5d92cc-b483-43d6-800b-4ce9a43d85d3" LastKnownName="TextView" />
+            </type_NamedElement>
+          </property>
+          <property Id="3e7d83fb-4efa-41a3-a284-2d2384c3b407" name="tvCollectionPoint" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="a8d3db30-6fc8-405f-8f03-5f57b0002dc8" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="bf5d92cc-b483-43d6-800b-4ce9a43d85d3" LastKnownName="TextView" />
+            </type_NamedElement>
+          </property>
+          <property Id="a0ee4f7c-a06f-42a2-9d1c-1e46984c7792" name="lvItemList" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="bf098429-292a-44a0-9b05-3be94fed4a02" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="15b29639-7792-4a59-83a8-183d01069cd5" LastKnownName="ListView" />
+            </type_NamedElement>
+          </property>
+        </ownedAttributesInternal>
+      </class>
+    </logicalClassDesignerModelHasTypes>
+    <logicalClassDesignerModelHasTypes>
+      <class Id="90b3ca7d-dab1-41d2-b797-2a784879d323" name="AndroidItemReadyForCollectionRowUI" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="79df5565-c694-4f8e-91b3-fcd33e06b169" />
+        <ownedAttributesInternal>
+          <property Id="fcd60594-a8e9-47e1-8c26-818c2c29c069" name="tvItemCode" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="d181a11a-c397-4509-80b8-a5902fd19020" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="bf5d92cc-b483-43d6-800b-4ce9a43d85d3" LastKnownName="TextView" />
+            </type_NamedElement>
+          </property>
+          <property Id="e39e0e3c-0c30-4f24-8fd2-94f39504ca39" name="tvDescription" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="95df618f-f189-4d04-90e9-83ef3d76e69b" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="bf5d92cc-b483-43d6-800b-4ce9a43d85d3" LastKnownName="TextView" />
+            </type_NamedElement>
+          </property>
+          <property Id="2d5a36f4-7147-415e-ae04-2583da252ef4" name="tvQuantity" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="69ccf9b6-e905-4d22-9183-b4bb750e1489" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="bf5d92cc-b483-43d6-800b-4ce9a43d85d3" LastKnownName="TextView" />
+            </type_NamedElement>
+          </property>
+        </ownedAttributesInternal>
+      </class>
+    </logicalClassDesignerModelHasTypes>
+    <logicalClassDesignerModelHasTypes>
+      <class Id="ec87a715-6780-4d13-aef0-d68421b1625a" name="AndroidItemPendingUI" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="58c9ccf0-73a8-4d7a-a353-dc0d662aa62a" />
+        <ownedAttributesInternal>
+          <property Id="e974fb82-6758-46f9-a828-350083d53125" name="tvTitle" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="6610a841-2ee2-45a5-bfe1-065509db5da1" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="bf5d92cc-b483-43d6-800b-4ce9a43d85d3" LastKnownName="TextView" />
+            </type_NamedElement>
+          </property>
+          <property Id="e0228a5d-f66f-4634-9483-057957a91f77" name="tvDepartment" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="2ac5cda6-c106-4365-a0a3-daa21d08cec0" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="bf5d92cc-b483-43d6-800b-4ce9a43d85d3" LastKnownName="TextView" />
+            </type_NamedElement>
+          </property>
+          <property Id="6a0de1c1-30ed-4a2a-9c96-e60daa3005fe" name="lvItemList" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="83e1e988-27d3-4e37-89c9-7db810acbb8a" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="15b29639-7792-4a59-83a8-183d01069cd5" LastKnownName="ListView" />
+            </type_NamedElement>
+          </property>
+        </ownedAttributesInternal>
+      </class>
+    </logicalClassDesignerModelHasTypes>
+    <packageHasNamedElement>
+      <referencedType Id="562c1b60-7ee9-4708-9b9e-10fd3630be30" name="TextView" isAbstract="false" isLeaf="false" cachedFullName="TextView">
+        <elementDefinition Id="0b44f3b4-60fa-413a-a155-282bae18507d" />
+      </referencedType>
+    </packageHasNamedElement>
+    <logicalClassDesignerModelHasTypes>
+      <class Id="9ee92f94-9738-4c8f-a254-136848d1b515" name="AndroidItemPendingRowUI" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="82c47400-baf0-423a-8850-de94053f11f5" />
+        <ownedAttributesInternal>
+          <property Id="e0bc52a5-da99-4afb-9ab9-a0c26909b49a" name="tvItemCode" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="300d50c3-b29c-4b9a-a3d0-72ee586e5db6" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="562c1b60-7ee9-4708-9b9e-10fd3630be30" LastKnownName="TextView" />
+            </type_NamedElement>
+          </property>
+          <property Id="b60884fb-490d-4d69-a055-db8cfc889e82" name="tvDescription" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="b51d65a6-57a7-4ee0-8a28-09f63fc83580" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="562c1b60-7ee9-4708-9b9e-10fd3630be30" LastKnownName="TextView" />
+            </type_NamedElement>
+          </property>
+          <property Id="de951805-64c6-4e6d-bc4c-562beb1ce22d" name="tvQuantity" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="02f8c6b9-d127-43e3-92cc-e7d90fa9e9ff" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="562c1b60-7ee9-4708-9b9e-10fd3630be30" LastKnownName="TextView" />
+            </type_NamedElement>
+          </property>
+        </ownedAttributesInternal>
+      </class>
+    </logicalClassDesignerModelHasTypes>
+    <logicalClassDesignerModelHasTypes>
+      <class Id="1b26ba92-8149-474f-aaee-8cc4297dfdc8" name="AndroidManageRequisitionUI" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="55713714-cd07-4d65-8bb4-e53d467bad1c" />
+        <ownedAttributesInternal>
+          <property Id="d6bfa61b-3d50-409e-b1fd-bf34cea9876b" name="lvRequisitions" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="56e25ac4-f3fe-4efb-b862-30e1a4a19f22" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="15b29639-7792-4a59-83a8-183d01069cd5" LastKnownName="ListView" />
+            </type_NamedElement>
+          </property>
+          <property Id="f9421991-b426-4f3d-82a7-2de4dc85d2b6" name="tvEmpty" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="db72913b-6bd6-4e42-a0f4-4859c83fc79f" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="bf5d92cc-b483-43d6-800b-4ce9a43d85d3" LastKnownName="TextView" />
+            </type_NamedElement>
+          </property>
+        </ownedAttributesInternal>
+      </class>
+    </logicalClassDesignerModelHasTypes>
+    <logicalClassDesignerModelHasTypes>
+      <class Id="bee9719b-112b-4d4c-a43e-c3e728362355" name="AndroidApproveRequisitionUI" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="cb8b4d14-074e-4947-a7fe-16b13175cd42" />
+        <ownedAttributesInternal>
+          <property Id="3af70f47-30af-4cbc-9216-0a3c6850cda6" name="tvRequisitionNo" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="912b5704-d8c5-4cce-bf3e-6abc87ef4d47" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="bf5d92cc-b483-43d6-800b-4ce9a43d85d3" LastKnownName="TextView" />
+            </type_NamedElement>
+          </property>
+          <property Id="662eccfd-ccc8-4443-9255-499791f99475" name="tvRequisitionNoLabel" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="412168e5-ea59-49b4-87db-8e8e2239c095" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="bf5d92cc-b483-43d6-800b-4ce9a43d85d3" LastKnownName="TextView" />
+            </type_NamedElement>
+          </property>
+          <property Id="9f0a3112-96ff-4847-a458-16c84b9e6895" name="tvRequesterNameLabel" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="f75fa057-f9d7-4967-9a2d-095ee71e81c1" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="bf5d92cc-b483-43d6-800b-4ce9a43d85d3" LastKnownName="TextView" />
+            </type_NamedElement>
+          </property>
+          <property Id="d424c8a6-2b7b-4e5c-81e4-550697f253cc" name="tvRequesterName" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="1f378f58-47ad-4c24-a732-172469c9be54" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="bf5d92cc-b483-43d6-800b-4ce9a43d85d3" LastKnownName="TextView" />
+            </type_NamedElement>
+          </property>
+          <property Id="e9e38802-c056-4f0e-b913-41012adffbc8" name="tvRequestedDate" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="39e948b5-637d-4b76-bfb4-3837044b6e72" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="bf5d92cc-b483-43d6-800b-4ce9a43d85d3" LastKnownName="TextView" />
+            </type_NamedElement>
+          </property>
+          <property Id="431bc2df-4abb-445c-a979-4b3bb27d64be" name="tvRequestedDateLabel" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="be4149a4-3e8b-44d5-99dc-91da8615bfd3" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="bf5d92cc-b483-43d6-800b-4ce9a43d85d3" LastKnownName="TextView" />
+            </type_NamedElement>
+          </property>
+          <property Id="962aa271-9aee-4340-bfa8-fbb2961d7685" name="lvItemList" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="fd2617c5-90cc-4022-b847-55a468ed9232" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="15b29639-7792-4a59-83a8-183d01069cd5" LastKnownName="ListView" />
+            </type_NamedElement>
+          </property>
+          <property Id="6ccf9344-c303-41fa-81c3-d7df51914053" name="btnApprove" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="44707bfe-0a28-452e-bf79-0620c7989c99" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="58118404-27fd-4088-8e74-0da69aa61ac7" LastKnownName="Button" />
+            </type_NamedElement>
+          </property>
+          <property Id="ca043217-c414-4bc8-954d-689c68b8547b" name="btnReject" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="dfdcf959-04b7-46a2-8d65-f5e07e855b86" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="58118404-27fd-4088-8e74-0da69aa61ac7" LastKnownName="Button" />
+            </type_NamedElement>
+          </property>
+        </ownedAttributesInternal>
+      </class>
+    </logicalClassDesignerModelHasTypes>
+    <logicalClassDesignerModelHasTypes>
+      <class Id="1dbf67a4-ac77-48f4-aad4-b1e77b205440" name="AndroidApproveRequisitionItemRowUI" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="2ac54ec3-0f27-40ed-87ba-d78e5b73876b" />
+        <ownedAttributesInternal>
+          <property Id="c67b1c5f-bf48-46ec-8822-986ee3527e25" name="tvDescription" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="adc1926e-ccee-4aee-9903-5717f85a2178" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="bf5d92cc-b483-43d6-800b-4ce9a43d85d3" LastKnownName="TextView" />
+            </type_NamedElement>
+          </property>
+          <property Id="f22294e9-c0bb-4f69-bf6f-ed7feaa0e89c" name="tvRequestedQty" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="03c9fcf4-98d9-4890-bd11-2873ba3b7fd2" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="bf5d92cc-b483-43d6-800b-4ce9a43d85d3" LastKnownName="TextView" />
+            </type_NamedElement>
+          </property>
+        </ownedAttributesInternal>
+      </class>
+    </logicalClassDesignerModelHasTypes>
+    <logicalClassDesignerModelHasTypes>
+      <class Id="199d8f7a-1aef-42f6-b50e-9da0d1fbd3e2" name="AndroidDisbursementListUI" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="31b45286-aea5-46cc-8471-0656fafd75c6" />
+        <ownedAttributesInternal>
+          <property Id="4990059d-f419-491a-a129-55676be0e426" name="lvDepartmentList" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="caeee9fb-d646-41cc-949e-70aceb26ba36" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="15b29639-7792-4a59-83a8-183d01069cd5" LastKnownName="ListView" />
+            </type_NamedElement>
+          </property>
+        </ownedAttributesInternal>
+      </class>
+    </logicalClassDesignerModelHasTypes>
+    <logicalClassDesignerModelHasTypes>
+      <class Id="b0aebaac-08c9-4123-b922-fbd184bf6cbb" name="AndroidDepartmentRowUI" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="820a8ab2-0f54-465d-80fe-016c48f9d08d" />
+        <ownedAttributesInternal>
+          <property Id="bfe4aad7-2a7c-4041-ba8f-94522f96966e" name="tvDepartmentName" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="4dda8abe-edf4-407a-8d58-d21420a4b3b5" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="bf5d92cc-b483-43d6-800b-4ce9a43d85d3" LastKnownName="TextView" />
+            </type_NamedElement>
+          </property>
+          <property Id="5eae790a-92d0-48d6-b70e-9d22f85976a5" name="tvDepartmentCode" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="771bcdae-3cb2-499a-b9c4-85668cb0ee9c" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="bf5d92cc-b483-43d6-800b-4ce9a43d85d3" LastKnownName="TextView" />
+            </type_NamedElement>
+          </property>
+        </ownedAttributesInternal>
+      </class>
+    </logicalClassDesignerModelHasTypes>
+    <logicalClassDesignerModelHasTypes>
+      <class Id="b8fd2abf-12b0-4b2a-903a-3187c2d3391b" name="AndroidDeptDisbursementListUI" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="7ad1dba6-3d29-4d2b-858b-056b398ab1a3" />
+        <ownedAttributesInternal>
+          <property Id="e8a46ebb-4c7b-4f82-bbd5-6392eb435b9b" name="tvDepartmentName" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="63fc0cdd-34f7-4e1c-9111-d0ef94ab8f6c" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="bf0f124b-ece9-44db-924c-f628672f9489" LastKnownName="TextVIew" />
+            </type_NamedElement>
+          </property>
+          <property Id="21fbfd08-0a76-4b04-a1a0-b47016d8ead2" name="tvDepartmentNameLabel" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="e6aa7248-07b9-4d18-a783-5dfee4c24e22" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="bf5d92cc-b483-43d6-800b-4ce9a43d85d3" LastKnownName="TextView" />
+            </type_NamedElement>
+          </property>
+          <property Id="c321ed13-4ad5-46e0-90cc-ab539f06fabe" name="tvCollectionPointLabel" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="a8de0613-e636-4a5f-bd5c-717f75a8398e" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="bf5d92cc-b483-43d6-800b-4ce9a43d85d3" LastKnownName="TextView" />
+            </type_NamedElement>
+          </property>
+          <property Id="10e1a23b-31b5-4690-a711-18f28caadc2b" name="tvCollectionPoint" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="ed784b37-0a5f-4a71-ba9b-e4f17a5625d7" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="bf5d92cc-b483-43d6-800b-4ce9a43d85d3" LastKnownName="TextView" />
+            </type_NamedElement>
+          </property>
+          <property Id="5860d985-9e29-4dd6-afc3-6fbd7c76324e" name="btnConfirm" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="44a2df5a-5d9c-4818-b26c-63b3e66bb2b1" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="58118404-27fd-4088-8e74-0da69aa61ac7" LastKnownName="Button" />
+            </type_NamedElement>
+          </property>
+        </ownedAttributesInternal>
+      </class>
+    </logicalClassDesignerModelHasTypes>
+    <packageHasNamedElement>
+      <referencedType Id="bf0f124b-ece9-44db-924c-f628672f9489" name="TextVIew" isAbstract="false" isLeaf="false" cachedFullName="TextVIew">
+        <elementDefinition Id="8a4ea7c6-e515-4188-9e44-ead18b9139b8" />
+      </referencedType>
+    </packageHasNamedElement>
+    <logicalClassDesignerModelHasTypes>
+      <class Id="daf5f075-f0ec-446a-8222-1e0a9c00865d" name="AndroidConfirmDisbursementUI" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="8a1496b8-2d03-4a7d-85ef-7c1726465182" />
+        <ownedAttributesInternal>
+          <property Id="e521a730-c8bf-4d43-8310-8d29039ccd39" name="tvTitle" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="657c3979-c362-4c88-86ca-239bdd0117ee" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="bf5d92cc-b483-43d6-800b-4ce9a43d85d3" LastKnownName="TextView" />
+            </type_NamedElement>
+          </property>
+          <property Id="a469c728-13a4-47f5-a3af-c269ebf3f142" name="tvDepartmentName" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="f338ff64-5ada-4662-a4f1-3678e1fe0166" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="bf5d92cc-b483-43d6-800b-4ce9a43d85d3" LastKnownName="TextView" />
+            </type_NamedElement>
+          </property>
+          <property Id="28c59839-5287-46e3-9ad2-6185815b7e8d" name="tvDepartmentNameLabel" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="b280b75d-1a2c-4f67-ad37-4893cd3a2e4e" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="bf5d92cc-b483-43d6-800b-4ce9a43d85d3" LastKnownName="TextView" />
+            </type_NamedElement>
+          </property>
+          <property Id="e2c02034-09b4-4086-bf9f-dfdabb8bf60e" name="tvCollectionPoint" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="27b2abb9-9638-4772-807b-ef3c2b0d6f14" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="0775cbe4-8409-4791-8d13-63ed5867906c" LastKnownName="TextView" />
+            </type_NamedElement>
+          </property>
+          <property Id="3e9b9c60-94c7-4d21-b0c2-5ed7b04ca873" name="tvCollectionPointLabel" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="db6666f8-91b2-4a86-b6e5-de87163d4bb0" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="0775cbe4-8409-4791-8d13-63ed5867906c" LastKnownName="TextView" />
+            </type_NamedElement>
+          </property>
+          <property Id="3e2f6777-1493-48d1-ae07-dc83314e89a9" name="signaturePad" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="5151dd84-706b-4fc7-83f9-20e15c33eaa8" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="d0f3f5ff-fdc6-47d9-8043-d9d25eb4743f" LastKnownName="SignaturePad" />
+            </type_NamedElement>
+          </property>
+          <property Id="2a266754-0624-4b06-8842-e1a3ce26b9ca" name="btnSaveSignature" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="7cb96619-28fa-4a08-8208-6f55bf315c16" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="58118404-27fd-4088-8e74-0da69aa61ac7" LastKnownName="Button" />
+            </type_NamedElement>
+          </property>
+        </ownedAttributesInternal>
+      </class>
+    </logicalClassDesignerModelHasTypes>
+    <packageHasNamedElement>
+      <referencedType Id="0775cbe4-8409-4791-8d13-63ed5867906c" name="TextView" isAbstract="false" isLeaf="false" cachedFullName="TextView">
+        <elementDefinition Id="0b44f3b4-60fa-413a-a155-282bae18507d" />
+      </referencedType>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <referencedType Id="d0f3f5ff-fdc6-47d9-8043-d9d25eb4743f" name="SignaturePad" isAbstract="false" isLeaf="false" cachedFullName="SignaturePad">
+        <elementDefinition Id="2ae63e9e-ebed-4c6e-8969-1b2923fe8ec5" />
+      </referencedType>
+    </packageHasNamedElement>
   </packagedElements>
   <package Id="c5399720-16a7-4c0b-8a76-1dd6f75f1aec" name="ModelingProject">
     <elementDefinition Id="a075f9dd-8a02-4ded-b5b5-4365e2819543" />
