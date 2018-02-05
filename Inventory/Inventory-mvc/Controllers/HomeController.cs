@@ -84,6 +84,7 @@ namespace Inventory_mvc.Controllers
             //HttpContext.Application.Clear();
             Session["role"] = null;
             Session["RequestList"] = null;
+            Session["NewVoucher"] = null;
             FormsAuthentication.SignOut();
             return RedirectToAction("Login", "Home");
         }

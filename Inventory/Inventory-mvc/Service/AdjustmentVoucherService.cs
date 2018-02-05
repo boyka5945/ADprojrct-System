@@ -60,6 +60,12 @@ namespace Inventory_mvc.Service
                     errorMessage = String.Format("Negative adjustment quantity of {0} is greater than current stock.", item.ItemCode);
                     return false;
                 }
+
+                if(item.Quantity == 0)
+                {
+                    errorMessage = String.Format("Quantity of {0} is 0.", item.ItemCode);
+                    return false;
+                }
             }
             return true;
         }

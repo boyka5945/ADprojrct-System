@@ -120,7 +120,7 @@ namespace Inventory_mvc.Controllers
                 }
                 HttpContext.Application["BigModel"] = blist;
             }
-            int pageSize = 13;
+            int pageSize = 100;
             int pageNumber = (page ?? 1);
 
             Session["page"] = (page ?? 1);
@@ -184,7 +184,7 @@ namespace Inventory_mvc.Controllers
                     rs.UpdateDetails(l2[i].itemCode, l2[i].requisitionRecord.requisitionNo, l2[i].allocateQty);
                 }
             }
-            int pageSize = 8;
+            int pageSize = 100;
             int pageNumber = (page ?? 1);
             TempData["Successful"] = " Allocated quantity successful";
             //return View(model.ToPagedList(pageNumber, pageSize));
