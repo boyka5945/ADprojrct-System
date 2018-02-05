@@ -263,6 +263,7 @@ namespace InventoryWCF
             try
             {
                 requisitionRecordService.SubmitNewRequisition(newRecord, requesterID);
+
                 return true;
             }
             catch (EmailException e)
@@ -324,21 +325,44 @@ namespace InventoryWCF
             StationeryModel entity = new StationeryModel();
             List<RetrieveForm> list = new List<RetrieveForm>();
              DateTime date = DateTime.Now;
-            if (HttpContext.Current.Application["retrieveForm"] != null)
+            List<RetrieveForm> model = requisitionRecordService.GetRetrieveFormByDateTime(date);
+            if (HttpContext.Current.Application["retrieveForm"] == null)
             {
-                list = (List<RetrieveForm>)HttpContext.Current.Application["retrieveForm"];
+                HttpContext.Current.Application["retrieveForm"] = model;
             }
-            else
+            else if (HttpContext.Current.Application["retrieveForm"] != null)
             {
-                list = requisitionRecordService.GetRetrieveFormByDateTime(date); //newly generated list
-                HttpContext.Current.Application["retrieveForm"] = list;
+                List<RetrieveForm> list2 = (List<RetrieveForm>)HttpContext.Current.Application["retrieveForm"];
+                
+                foreach (var item in model)
+                {
+                    foreach (var i in list2)
+                    {
+                        if (i.ItemCode == item.ItemCode)
+                        {
+                            item.retrieveQty = i.retrieveQty;
+                        }
+                    }
+                }
+                HttpContext.Current.Application["retrieveForm"] = model;
+
             }
+
+            //if (HttpContext.Current.Application["retrieveForm"] != null)
+            //{
+            //    list = (List<RetrieveForm>)HttpContext.Current.Application["retrieveForm"];
+            //}
+            //else
+            //{
+            //    list = requisitionRecordService.GetRetrieveFormByDateTime(date); //newly generated list
+            //    HttpContext.Current.Application["retrieveForm"] = list;
+            //}
 
             //generate list of requisition records for allocation at the same time
             List<Requisition_Record> rr = entity.Requisition_Records.Where(x => x.status == RequisitionStatus.APPROVED_PROCESSING || x.status == RequisitionStatus.PARTIALLY_FULFILLED).ToList();
             HttpContext.Current.Application["requisitionRecordList_allocation"] = rr;
 
-            return WCFModelConvertUtility.ConvertToWCFRetrievalList(list);
+            return WCFModelConvertUtility.ConvertToWCFRetrievalList(model);
             
         }
 

@@ -355,15 +355,21 @@ namespace Inventory_mvc.Service
 
             if (count == 0)
             {
+                if (needQty - actualTmp > 0)
+                {
+                    using (StationeryModel model = new StationeryModel())
+                    {
+                        Adjustment_Voucher_Record adjustment = new Adjustment_Voucher_Record();
+                        adjustment.issueDate = DateTime.Now;
+                        adjustment.status = AdjustmentVoucherStatus.PENDING;
+                        adjustment.remarks = "NA";
+                        adjustment.handlingStaffID = staffID;
+                        model.Adjustment_Voucher_Records.Add(adjustment);
+                        model.SaveChanges();
+                    }
+                }
                 using (StationeryModel model = new StationeryModel())
                 {
-                    Adjustment_Voucher_Record adjustment = new Adjustment_Voucher_Record();
-                    adjustment.issueDate = DateTime.Now;
-                    adjustment.status = AdjustmentVoucherStatus.PENDING;
-                    adjustment.remarks = "NA";
-                    adjustment.handlingStaffID = staffID;
-                    model.Adjustment_Voucher_Records.Add(adjustment);
-
                     Transaction_Record tr = new Transaction_Record();
                     tr.clerkID = staffID;
                     tr.date = DateTime.Now;
