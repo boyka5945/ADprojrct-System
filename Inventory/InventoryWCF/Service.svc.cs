@@ -109,21 +109,6 @@ namespace InventoryWCF
         }
 
 
-        //public List<string> GetAllItemCode()
-        //{
-        //    
-        //    //return BusinessLogic.getAllItemCode();
-        //    try
-        //    {
-                
-        //    }
-        //    catch (Exception e)
-        //    {
-
-        //    }
-
-        //}
-
         public List<WCFRequisitionDetail> GetRequisitionDetailsByItemCode(string itemCode)
         {
             using(StationeryModel entity = new StationeryModel())
@@ -347,16 +332,6 @@ namespace InventoryWCF
                 HttpContext.Current.Application["retrieveForm"] = model;
 
             }
-
-            //if (HttpContext.Current.Application["retrieveForm"] != null)
-            //{
-            //    list = (List<RetrieveForm>)HttpContext.Current.Application["retrieveForm"];
-            //}
-            //else
-            //{
-            //    list = requisitionRecordService.GetRetrieveFormByDateTime(date); //newly generated list
-            //    HttpContext.Current.Application["retrieveForm"] = list;
-            //}
 
             //generate list of requisition records for allocation at the same time
             List<Requisition_Record> rr = entity.Requisition_Records.Where(x => x.status == RequisitionStatus.APPROVED_PROCESSING || x.status == RequisitionStatus.PARTIALLY_FULFILLED).ToList();
@@ -614,12 +589,7 @@ namespace InventoryWCF
 
             }
 
-            ////all allocation records
-            //List<Requisition_Record> records = (List<Requisition_Record>)HttpContext.Current.Application["requisitionRecordList_allocation"];
-            //List<WCFRequisitionRecord> allocationRecords = WCFModelConvertUtility.ConvertToWCFRequisitionRecord(records).Where(x => x)
-
-            
-
+       
             return allRRForItem;
             
    

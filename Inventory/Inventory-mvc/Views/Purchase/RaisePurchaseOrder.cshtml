@@ -15,14 +15,6 @@
     var exceptionMessage = TempData["ExceptionMessage"];
     var duplicateMessage = TempData["DuplicateEntryMessage"];
 
-
-
-    //List<Inventory_mvc.ViewModel.StationeryViewModel> itemCodeLists = ViewBag.itemCodeList;
-    //List<Inventory_mvc.ViewModel.SupplierViewModel> supplierLists = ViewBag.supplierList;
-
-
-    //List<Inventory_mvc.Models.Purchase_Order_Record> Model = ViewBag.model;
-    //List<Inventory_mvc.ViewModel.Purchase_Order_RecordViewModel> Model = ViewBag.model;
 }
 
 @if (errorMessage != null)
@@ -38,12 +30,7 @@
         @duplicateMessage.ToString()
     </div>
 }
-@*@if (qtyErrorMessage != null)
-{
-    <div class="alert alert-danger">
-        @qtyErrorMessage.ToString()
-    </div>
-}*@
+
 
 
 
@@ -171,7 +158,7 @@
                         {
                             <input name="price" type="text" value=@ViewBag.price class="form-control" required/>
                         }
-                        @*@Html.Editor("price", new {@id="defaultPrice" })*@
+                      
                         @Html.ValidationMessage("price", "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -199,7 +186,7 @@
                     <div class="col-xs-4">
 
                         <input type="text" value="" placeholder="Input remark here" name="remarks" class="form-control"/>
-                        @*@Html.ValidationMessage("remarks")*@
+                     
                     </div>
                 </div>
 
@@ -235,9 +222,7 @@
                     @Html.Label("Total Price")
                 </th>
 
-                @*<th>
-                    @Html.Label("Supplier")
-                </th>*@
+             
 
                 <th>
                     @Html.Label("Remarks")
@@ -287,12 +272,10 @@
                         @Html.DisplayFor(modelItem => item.remarks)
                     </td>
 
-                    @*<td>
-                        @Html.DisplayFor(modelItem => item.su)
-                    </td>*@
+                
 
                     <td>
-                        @*@Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |*@
+                      
                         <button name="@item.itemCode" onclick="showModal(self)" class="btn btn-primary" style="margin-right: 5px;">Edit</button>
 
                         @Html.ActionLink("Delete", "DeletePD",  new { delItemCode = item.itemCode }, new{ @class = "btn btn-danger" })
@@ -362,16 +345,6 @@
 
         <script>
 
-            //window.onload = function () {
-            //    if (window.jQuery) {
-            //        // jQuery is loaded
-            //        alert("Yeah!");
-            //    } else {
-            //        // jQuery is not loaded
-            //        alert("Doesn't Work");
-            //    }
-            //}
-
             // Get the modal
             var modal = document.getElementById('myModal');
 
@@ -381,8 +354,6 @@
             var pricetbox = document.getElementById('itcode');
 
             var descriptiontbox = document.getElementById('defaultPrice');
-
-        //var modalSubmitButton = document.getElementById('modalSubmit');
 
         var modalPrice = document.getElementById('dprice');
 
@@ -397,23 +368,6 @@
             $("[name='dqty']").val();
 
         });
-
-            //function showModal(obj) {
-
-            //    modal.style.display = "block";
-            //    var source = obj;
-
-            //   alert(source)
-
-
-            //}
-
-            //btn.onclick(function () {
-            //    alert("beee");
-            //        modal.style.display = "block";
-            //        icodeLabel = $(this).prop.name;
-
-            //    })
 
             function close() {
                 modal.style.display = "none";
@@ -441,30 +395,15 @@
             function valueSelected() {
 
             var ddlist = $("#ddlist").val();
-            //var destination = "GetDescrpAndPrice?itemcode=" + ddlist;
+          
             window.location.href = '@Url.Action("GetDescrpAndPrice", "Purchase")?itemcode=' + ddlist;
 
             }
 
 
 
-        //function modalSubmitButtonClick () {
-        //    alert("clicked");
-
-        //    var modalPriceF = parseFloat(modalPrice.val());
-        //    if (modalPriceF <= 0) {
-        //        alert("activated");
-        //        return false;
-        //    }
-        //    else {
-        //        alert("passed");
-        //    }
-        //}
-
         </script>
 
     </body>
-    @*@section Scripts {
-            @Scripts.Render("~/bundles/jqueryval")
-        }*@
+
 </html>

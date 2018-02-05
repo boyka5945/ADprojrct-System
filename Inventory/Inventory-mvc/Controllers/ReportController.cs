@@ -810,19 +810,5 @@ namespace Inventory_mvc.Controllers
             return Json(options, JsonRequestBehavior.AllowGet);
         }
 
-
-        // TODO - REMOVE THIS METHOD 
-        //public ActionResult GenerateRandomDataForRequisitionRecords()
-        //{
-        //    reportService.GenerateRandomDataForRequisitionRecords();
-        //    return RedirectToAction("Login", "Home");
-        //}
-
-        // TODO - REMOVE THIS METHOD 
-        //public ActionResult GenerateRandomDataForPurchaseRecords()
-        //{
-        //    reportService.GenerateRandomDataForPurchaseRecords();
-        //    return RedirectToAction("Login", "Home");
-        //}
     }
 }

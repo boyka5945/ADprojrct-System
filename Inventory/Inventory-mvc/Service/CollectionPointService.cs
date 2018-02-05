@@ -12,12 +12,6 @@ namespace Inventory_mvc.Service
     {
         private ICollectionPointDAO collectionPointDAO = new CollectionPointDAO();
 
-        //public List<Collection_Point> GetAllCollectionPoint()
-        //{
-        //    CollectionPointDAO cDAO = new CollectionPointDAO();
-        //    return cDAO.GetAllCollectionPoints();
-        //}
-
         List<CollectionPointViewModel> ICollectionPointService.GetAllCollectionPoints()
         {
             List<Collection_Point> collectionPointList = collectionPointDAO.GetAllCollectionPoint();
@@ -73,11 +67,6 @@ namespace Inventory_mvc.Service
         {
             int code = collectionPointID;
             Collection_Point collectionPoint = collectionPointDAO.FindByCollectionPointID(code);
-
-            //if (collectionPoint.Department.Count != 0)
-            //{
-            //    return false;
-            //}
 
             return collectionPointDAO.DeleteCollectionPoint(code);
         }

@@ -305,6 +305,13 @@
     <Compile Include="ViewModel\Purchase_Order_RecordViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\ADproject.mdf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="App_Data\ADproject_log.ldf">
+      <DependentUpon>ADproject.mdf</DependentUpon>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Content\select2.min.css" />
     <Content Include="Images\dribble_1x.jpg" />
     <Content Include="Images\pinyin.txt" />
@@ -498,7 +505,6 @@
     <Content Include="Views\ManageRequisitions\_GenerateRetrieveFormPDF.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\" />
     <Folder Include="Views\AdjustmentVoucherRecord\" />
     <Folder Include="Views\ChangePassword\" />
     <Folder Include="Views\Employee\" />

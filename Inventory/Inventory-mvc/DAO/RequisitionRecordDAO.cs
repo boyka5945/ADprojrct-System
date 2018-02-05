@@ -104,19 +104,7 @@ namespace Inventory_mvc.DAO
                 rd = entity.Requisition_Detail.Where(x => x.itemCode == itemcode && x.requisitionNo == requisitionNo).First();
                 //start of code added by alex//
                 //deduct retrieve qty after doing allocation
-                //int difference = rd.allocatedQty.Value - allocateQty.Value;
                 List<RetrieveForm> retrievalList = (List<RetrieveForm>)HttpContext.Current.Application["retrieveForm"];
-                //List<RetrieveForm> temp = (List<RetrieveForm>)HttpContext.Current.Application["retrieveList"];
-                //foreach (var item in temp)
-                //{
-                //    RetrieveForm newR = new RetrieveForm();
-                //    newR.ItemCode = item.ItemCode;
-                //    newR.Qty = item.Qty;
-                //    newR.retrieveQty = item.retrieveQty;
-                //    newR.StockQty = item.StockQty;
-                //    newR.description = item.description;
-                //    retrievalList.Add(newR);
-                //}
                 int index = retrievalList.FindIndex(x => x.ItemCode == itemcode);
                 retrievalList[index].retrieveQty -= allocateQty;
 
@@ -463,7 +451,6 @@ namespace Inventory_mvc.DAO
                 rf.description = entity.Stationeries.Where(x => x.itemCode == rf.ItemCode).First().description;
                 rf.Qty = Qty[i];
                 rf.retrieveQty = 0;
-                //rf.allocatedQty = entity.Requisition_Detail.Where(x => x.itemCode == rf.ItemCode).Sum(x => x.allocatedQty);//added by alex
                 rf.StockQty = entity.Stationeries.Where(x => x.itemCode == rf.ItemCode).First().stockQty;
                 retrieveList.Add(rf);
             

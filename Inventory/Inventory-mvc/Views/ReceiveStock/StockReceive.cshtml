@@ -3,8 +3,7 @@
 @{
     ViewBag.Title = "StockReceive";
     var errorMessage = TempData["Items updated"];
-    //var fulfilledItemError = TempData["icodesFilled"];
-    //List<string> fulfilledItemList = (List<string>)fulfilledItemError;
+  
 
 }
 
@@ -46,13 +45,9 @@
                             </div>
                             <div class="col-md-10">
                                 <input type="text" value="@ViewBag.PONumber" name="searchPONumber" class="form-control" style="width: 200px; display: inline;" required/>
-                                @*@Html.TextBox("searchPONumber", ViewBag.PONumber as string)*@
+                               
                                 <input type="submit" value="Search" class="btn btn-primary" style=" margin-left:10px;" />
-                                @*@if (errorMessage != null)
-                                {
-                                    <p id="ponumValidation">@errorMessage</p>
 
-                                }*@
                             </div>
                         </div>
 
@@ -78,7 +73,7 @@
                                     </div>
                                     <div class="col-md-10">
                                         <input type="text" name="DONumber" value="@ViewBag.DOnumber"  class="form-control" style="width: 200px; display: inline;" required />
-                                        @*@Html.TextBox("DONumber")*@
+                                      
                                     </div>
                                 </div>
 
@@ -86,7 +81,7 @@
                                 <div class="col-md-2">
                                     @Html.Label("Received Date", htmlAttributes: new { @class = "control-label" })
                                     </div>
-                                    @*@Html.TextBox("ReceivedDate")*@
+                                
                                     <div class="col-md-10">
                                         <input type="text" id="datepicker" name="ReceivedDate" value="@ViewBag.ReceivedDate"  class="form-control" style="width: 200px; display: inline; margin-bottom:30px;" required />
                                     </div>
@@ -174,10 +169,8 @@
 
                             </table>
                             <div class="form-group">
-                        
-                                    @*@Html.ActionLink("Submit All as Received", "UpdateReceived", "ReceiveStock", new { @class = "all", checker = "allReceived" }, null)*@
+                       
                                     <input type="submit" name="sbutton" value="Submit All" class="btn btn-primary" />
-                                    @*<input type="submit" value="Fill in all unreceived quantity"  class="btn btn-default" />*@
                                     <input type="submit" name="sbutton" value="Submit" class="btn btn-primary" style="margin-left: 10px" />
                                
                             </div>
@@ -195,31 +188,4 @@
 </html>
 
 <script>
-
-    //function ponumValidate() {
-     
-    //    var field = $("#searchPONumber").val();
-    //    if (field == "") {
-            
-    //        $("#ponumValidation").css("display", "inline");
-    //        $("#ponumValidation").css("color", "red");
-    //        $("#ponumValidation").text("Required");
-
-    //        $('#searchBtn').submit(function (event) {
-    //            event.preventDefault();
-    //        });
-            
-    //        return false;
-           
-    //    }
-    //    return true;
-    
-    //}
-
-    //function returnToPreviousPage() {
-    //    window.history.back();
-    //}
-
-
-
 </script>

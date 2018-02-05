@@ -72,12 +72,5 @@ namespace Inventory_mvc.Service
         {
             return dao.UpdatePurchaseDetailsInfo(pd);
         }
-
-        //public void AddPurchaseDetail(int deliveryOrderNo, string itemCode, int qty, string remarks)
-        //{
-        //    dao.AddPurchaseDetail(deliveryOrderNo, itemCode, qty, remarks);
-
-
-        //}
     }
 }

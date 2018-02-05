@@ -87,10 +87,7 @@ namespace Inventory_mvc.Controllers
                 HttpContext.Application["EndDate"] = end;
 
                 User user = userService.FindByUserID(userID);
-                //if (user.departmentCode=="STORE")
-                //{
-                //    return RedirectToAction("SMUserList");
-                //}      
+    
             }
 
             return RedirectToAction("UserList");
@@ -112,11 +109,6 @@ namespace Inventory_mvc.Controllers
                 TempData["RmvDelMessage"] = String.Format("Employee is not delegated");
             }
 
-           // User user = userService.FindByUserID(id);
-            //if (user.departmentCode == "STORE")
-            //{
-            //    return RedirectToAction("SMUserList");
-            //}
             return RedirectToAction("UserList");
 
         }
@@ -125,10 +117,6 @@ namespace Inventory_mvc.Controllers
         public ActionResult Edit()   //AllUsers
         {
             string name = HttpContext.User.Identity.Name;
-            //if(name=="")
-            //{
-            //    return RedirectToAction("Login", "Home");
-            //}
             User user = userService.FindByUserID(name);
             return View(user);
         }
@@ -217,7 +205,6 @@ namespace Inventory_mvc.Controllers
                     TempData["AssignRepErrorMessage"] = String.Format("Cannot assign two representative");
                 }
            
-            //string uid = Request["userID"].ToString();
 
             return RedirectToAction("UserList");
         }
@@ -254,9 +241,6 @@ namespace Inventory_mvc.Controllers
                 bool cond1 = userService.isSame(Encrypt.DecryptMethod(password), oldPassword);
                 if (cond1)
                 {
-                    //string errorMessage = String.Format("{0} Incorrect", oldPassword);
-                    //ModelState.AddModelError("Incorrect", errorMessage);
-
                     TempData["IncorrectPassword"] = String.Format("Incorrect Password.");
                 }
                 bool cond2 = userService.isSame(Encrypt.DecryptMethod(password), newPassword);
@@ -296,12 +280,10 @@ namespace Inventory_mvc.Controllers
                 //else
                 //{ }
                 return View(changePasswordVM); ;
-                //return RedirectToAction("Edit");
             }
            
             
             return View(changePasswordVM);
-           // return RedirectToAction("Edit");
             
         }
 

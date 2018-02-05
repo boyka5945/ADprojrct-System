@@ -34,6 +34,7 @@ namespace Inventory_mvc.Controllers
         [RoleAuthorize]
         //DEPTHEAD
         [HttpGet]
+        //get all requisition list
         public ActionResult ManagerRequisition(int? page)
         {
             string name = HttpContext.User.Identity.Name;
@@ -75,7 +76,7 @@ namespace Inventory_mvc.Controllers
             List<BigModelView> blist = new List<BigModelView>();
             List<string> itemCodes = rs.GetItemCodeList();
 
-
+            //control the following retrieval item have not itemcode ..
             foreach (var itemCode in itemCodes)
             {
                 BigModelView bigModel;
@@ -131,6 +132,7 @@ namespace Inventory_mvc.Controllers
         [RoleAuthorize]
         //Clerk
         [HttpPost]
+        
         public ActionResult AllocateRequisition(IEnumerable<BigModelView> model, int? page)
         {
             var page1 = (int)Session["page"];
@@ -506,6 +508,7 @@ namespace Inventory_mvc.Controllers
         [HttpGet]
         public ActionResult updateRetrieve()
         {
+            
             StationeryModel entity = new StationeryModel();
             if (Request.QueryString["ErrorMessage"] != null)
             {
@@ -529,16 +532,11 @@ namespace Inventory_mvc.Controllers
                 entity.SaveChanges();
 
             }
-            //StationeryViewModel stationery = ss.FindStationeryViewModelByItemCode(itemCode);
-
-            //stationery.StockQty -= RetrieveQty;
-            //ss.UpdateStationeryInfo(stationery);
             var rlist = (List<RetrieveForm>)HttpContext.Application["retrieveList"];
             rlist.Where(x => x.ItemCode == itemCode).First().retrieveQty = RetrieveQty;
             HttpContext.Application["retrieveList"] = rlist;
             TempData["Successful"] = "Retrieve successfully.";
-            //Session["pagee"] = page;
-            //return RedirectToAction("GenerateRetrieveForm");
+
             return RedirectToAction("GenerateRetrieveForm", new { pagenumber = page });
         }
 
@@ -547,6 +545,7 @@ namespace Inventory_mvc.Controllers
         [HttpGet]
         public ActionResult UpdateDisbursement()
         {
+            //update disbursement one by one.
             if (HttpContext.Application["tempDisbursement"] != null)
             {
                 List<Disbursement> l = (List<Disbursement>)HttpContext.Application["tempDisbursement"];
@@ -677,15 +676,6 @@ namespace Inventory_mvc.Controllers
         [HttpPost]
         public ActionResult GenerateRetrieveForm(FormCollection form, int? page)
         {
-            //DateTime s = new DateTime();
-            //if (form["from"] == null)
-            //{
-            //    return View("GenerateRetrieveForm");
-            //}
-            //if (!DateTime.TryParse(form["from"], out s))
-            //{
-            //    return View();
-            //}
             DateTime? from = DateTime.Now;
             RetrieveForm rf = new RetrieveForm();
             List<RetrieveForm> model = new List<RetrieveForm>();

@@ -61,8 +61,6 @@ tr td:first-child:before
 {
     <div class="container" style="text-align:right;position:relative;right:37%">
         @Html.Label("View by: ")
-
-        @*@Html.DropDownList("ddl", new SelectList(list, "Value", "Text"), new { @onchange = "SelectedIndexChanged()", @id = "ddl1" })*@
         <select name="ddl" id="ddl1" onchange="SelectedIndexChanged()">
             @foreach (var i in new SelectList(list, "Value", "Text"))
             {
@@ -81,7 +79,7 @@ tr td:first-child:before
     function SelectedIndexChanged() {
 
       var selectedID = ($('#ddl1 option:selected').val());
-      //alert(selectedID);
+
       $.get('@Url.Action("Pending_Item2", "CollectionPoint")/' + selectedID, function (data) {
 
           /* data is the pure html returned from action method, load it to your page */
@@ -93,9 +91,3 @@ tr td:first-child:before
     };
     </script>
 
-
-@*<div style="position:relative;left:25%">
-    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
-    @Html.PagedListPager(Model, page => Url.Action("ViewItemCollection",
-                     new { page }))
-</div>*@

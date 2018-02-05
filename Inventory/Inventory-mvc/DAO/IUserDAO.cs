@@ -30,11 +30,7 @@ namespace Inventory_mvc.DAO
         
         bool FindRole(int role);
 
-        //List<string> RoleForEditAndCreate(string userID);
-
         bool AlrDelegated(string id);
-
-        //  bool DeleteUser(string userID);
 
         string[] FindApprovingStaffsEmailByRequesterID(string requesterID, int[] approvingRoleID);
 

@@ -37,8 +37,6 @@ namespace Inventory_mvc.Service
         string FindNameByID(string userid);
         bool FindRole(int role);
 
-        //List<string> RoleForEditAndCreate(string userid);
-
         bool AlrDelegated(string id);
 
         bool IsStoreManager(string userID);

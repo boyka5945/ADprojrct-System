@@ -16,27 +16,7 @@
     List<Inventory_mvc.Models.Category> categoryList = ViewBag.CategoryList;
 }
 
-            @*@if (editMessage != null)
-            {
-                @Html.Label(editMessage.ToString(), new { @class = "alert alert-success" });
-            }
 
-            @if (editErrorMessage != null)
-            {
-                @Html.Label(editErrorMessage.ToString(), new { @class = "alert alert-danger" });
-            }
-
-            @if (deleteErrorMessage != null)
-            {
-                @Html.Label(deleteErrorMessage.ToString(), new { @class = "alert alert-danger" });
-            }
-
-            @if (deleteMessage != null)
-            {
-                @Html.Label(deleteMessage.ToString(), new { @class = "alert alert-success" });
-            }
-        </p>
-    </div>*@
 
     @using (Html.BeginForm("Index", "Stationery", FormMethod.Get, new { @class = "form-group" }))
     {
@@ -114,12 +94,7 @@
         <th>
             @Html.Label("Description")
         </th>
-        @*<th>
-                @Html.DisplayNameFor(model => model.ReorderLevel)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ReorderQty)
-            </th>*@
+     
         <th>
             @Html.Label("UOM")
         </th>
@@ -159,12 +134,7 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Description)
             </td>
-            @*<td>
-                    @Html.DisplayFor(modelItem => item.ReorderLevel)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ReorderQty)
-                </td>*@
+      
             <td>
                 @Html.DisplayFor(modelItem => item.UnitOfMeasure)
             </td>

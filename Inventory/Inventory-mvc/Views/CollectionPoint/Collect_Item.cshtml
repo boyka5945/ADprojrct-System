@@ -96,7 +96,7 @@
     function SelectedIndexChanged() {
 
       var selectedID = ($('#ddl1 option:selected').val());
-      //alert(selectedID);
+
       $.get('@Url.Action("Collect_Item2", "CollectionPoint")/' + selectedID, function (data) {
 
           /* data is the pure html returned from action method, load it to your page */
@@ -108,71 +108,4 @@
     };
     </script>
 
-    @*if (Session["status"] != null)
-    {
-        if (Session["status"].ToString() == "1")
-        {
-            <div id="partialDiv">
-                @Html.Partial("Collect_ItemByItem")
-            </div>
-
-        }
-
-        else if (Session["status"].ToString() == "2")
-        {
-            <div id = "partialDiv1" >
-            @Html.Partial("Collect_ItemByRequest")
-            </div>
-        }
-    }*@
-
 }
-@*<script>*@
-
-@*$(document).ready(function () {
-            $("#form").on("change", function () {
-                $.ajax(
-                {
-                    url: '/CollectionPoint/Collect_Item',
-                    type: 'GET',
-                    data: "",
-                    contentType: 'application/json; charset=utf-8',
-                    success: function (data) {
-                        $("#partialDiv").html(data);
-                    },
-                    error: function () {
-                        alert("error");
-                    }
-                });
-            });
-        });
-    </script>*@
-
-
-
-
-
-    @*$(document).ready(function () {
-        $('#RES_VID').change(function (){
-
-            debugger;
-
-            $.ajax(
-
-                {
-                    url: '@Url.Action("UpdatePartialViewList")',
-                    type: 'GET',
-                    data: { VID: $('#RES_VID').val() },
-
-                    success: function (partialView)
-                    {
-                        $('#PV_WidgetList').html(partialView);
-                        $('#PV_WidgetList').show();
-                    }
-                }
-                );
-        }
-        });
-</script>*@
-
-

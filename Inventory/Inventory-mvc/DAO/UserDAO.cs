@@ -53,39 +53,15 @@ namespace Inventory_mvc.DAO
 
         public int UpdateUserInfo(User user)
         {
-            //using (StationeryModel context = new StationeryModel())
-            //{
-            //    User u = (from x in context.Users
-            //                    where x.userID == user.userID
-            //                    select x).FirstOrDefault();
 
-            //    //u.userID = user.userID;
-            //    //u.password = user.password;
-            //    u.address = user.address;
-            //    //u.role = user.role;
-            //    u.userEmail = user.userEmail;
-            //    u.name = user.name;
-            //    u.contactNo = user.contactNo;
-            //    //u.delegationStart = user.delegationStart;
-            //    //u.delegationEnd = user.delegationEnd;
-            //    //u.departmentCode = user.departmentCode;
-            //    int rowAffected = context.SaveChanges();
-            //    return rowAffected;
-            //}
             StationeryModel entity = new StationeryModel();
             try
             {
                 User u = (from a in entity.Users where a.userID == user.userID select a).FirstOrDefault();
-                //u.userID = user.userID;
-                //u.password = user.password;
                 u.address = user.address;
-                //u.role = user.role;
                 u.userEmail = user.userEmail;
                 u.name = user.name;
                 u.contactNo = user.contactNo;
-                //u.delegationStart = user.delegationStart;
-                //u.delegationEnd = user.delegationEnd;
-                //u.departmentCode = user.departmentCode;
                 int rowAffected = entity.SaveChanges();
                 return rowAffected;
             }
@@ -142,7 +118,6 @@ namespace Inventory_mvc.DAO
                     rep.role = (int)UserRoles.RoleID.Employee;
                 }
 
-                //User user = (from u in entity.Users where u.userID == userID select u).First();
                 if (user.role != (int)UserRoles.RoleID.ActingDepartmentHead)
                 {
                     user.role = (int)UserRoles.RoleID.UserRepresentative;
@@ -167,7 +142,6 @@ namespace Inventory_mvc.DAO
             using (StationeryModel entity = new StationeryModel())
             {
                 int UR = 0;
-               // int supervisor = 0;
                 User user = (from u in entity.Users where u.userID == userID select u).First();
                 List<User> emplist = (from emps in entity.Users where (emps.userID != userID && emps.departmentCode == user.departmentCode) select emps).ToList<User>();
                 foreach (User u in emplist)
@@ -176,10 +150,6 @@ namespace Inventory_mvc.DAO
                     {
                        UR++;
                     }
-                    //else if(u.role==(int )UserRoles.RoleID.StoreSupervisor)
-                    //{
-                    //    supervisor++;
-                    //}
                 }
                 if (UR < 1) // no userrepresentative in list
                 {
@@ -187,13 +157,6 @@ namespace Inventory_mvc.DAO
                 }
                 else
                     user.role = 3; //assign as employee
-
-                //if (supervisor < 1)
-                //{
-                //    user.role = 6;
-                //}
-                //else
-                //    user.role = 7;
 
                 user.delegationStart = null;
                 user.delegationEnd = null;
@@ -305,30 +268,15 @@ namespace Inventory_mvc.DAO
                                 case (int)UserRoles.RoleID.UserRepresentative:
                                     UR++;
                                     break;
-                                //case 6:
-                                //    supervisor++;
-                                //    break;
                             }
                         }
 
-                        //if (user.role == 2) // if otherdepts
-                        //{
                         if (UR < 1) // no userrepresentative in list
                         {
                             actDeptHead.role = (int) UserRoles.RoleID.UserRepresentative; //assign as ur
                         }
                         else
                             actDeptHead.role = (int) UserRoles.RoleID.Employee; //assign as employee
-                        //}
-                        //else        // if store
-                        //{
-                        //    if (supervisor < 1)
-                        //    {
-                        //        actDeptHead.role = 6;
-                        //    }
-                        //    else
-                        //        actDeptHead.role = 7;
-                        //}
 
                         actDeptHead.delegationStart = null;
                         actDeptHead.delegationEnd = null;

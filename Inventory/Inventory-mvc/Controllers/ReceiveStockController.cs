@@ -76,13 +76,6 @@ namespace Inventory_mvc.Controllers
             return View(model);
         }
 
-        //UpdateReceived action must write to the following tables; 
-
-        //update qty in stationery table
-        //update POR status
-        //update PD fulfilled qty, remarks,deliveryNo
-        //update transaction table
-
         [RoleAuthorize]
         //CLERK
         [HttpGet]
@@ -109,29 +102,6 @@ namespace Inventory_mvc.Controllers
             List<string> filledItems = new List<string>();
             List<string> unfilledItems = new List<string>();
 
-            ////validation - fulfilled items cannot be filled beyond requested limit
-            //foreach (Purchase_Detail pd in model)
-            //{
-            //    if (pd.fulfilledQty == pd.qty)
-            //    {
-            //        filledItems.Add(pd.Stationery.description);
-
-            //    }
-
-            //}
-            ////confirm that the form is invalid
-            //if (filledItems.Count > 0)
-            //{
-            //    TempData["icodesFilled"] = filledItems;
-            //    //return the existing form values back to the view
-            //    TempData["DOnumRedirect"] = DONumber;
-            //    TempData["PONumRedirect"] = PONumber;
-            //    TempData["SupplierRedirect"] = supplier;
-            //    TempData["ReceivedDateRedirect"] = ReceivedDate;
-
-            //    return RedirectToAction("StockReceive");
-
-            //}
 
             //total number of rows updated
             int totalItemsUpdated = 0;
@@ -158,12 +128,6 @@ namespace Inventory_mvc.Controllers
 
                 if (receivedNum != 0)
                 {
-
-
-                    //else
-                    //{
-                    //    receivedNum = Int32.Parse(received);
-                    //}
                     string remarks = Request.QueryString.GetValues("rem-" + ic).First();
                     pd.fulfilledQty += receivedNum;
 
@@ -191,26 +155,7 @@ namespace Inventory_mvc.Controllers
                     //update purchase details table
                     pos.UpdatePurchaseDetailsInfo(pd);
 
-
-
-
-                    //if (pd.deliveryOrderNo.HasValue) //append to existing DO numbers
-                    //{
-                    //    pd.deliveryOrderNo = pd.deliveryOrderNo 
-
-                    //}
-                    //else 
-                    //{
-                    //    pd.deliveryOrderNo = Int32.Parse(DONumber);
-
-                    //}
-
                     pd.deliveryOrderNo = DONumber; //need to update this code once DB is altered
-
-                    //need to validate, to ensure that qty received is not higher than qty ordered
-
-
-
                     //update purchase order record to partially fulfilled
                     por.status = "partially fulfilled";
                     pos.UpdatePurchaseOrderInfo(por);

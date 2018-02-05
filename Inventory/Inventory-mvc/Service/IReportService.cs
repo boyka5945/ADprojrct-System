@@ -53,11 +53,5 @@ namespace Inventory_mvc.Service
 
         int GetEarliestYear();
 
-
-        // TODO - REMOVE THIS METHOD
-        void GenerateRandomDataForRequisitionRecords();
-        // TODO - REMOVE THIS METHOD
-        void GenerateRandomDataForPurchaseRecords();
-
     }
 }

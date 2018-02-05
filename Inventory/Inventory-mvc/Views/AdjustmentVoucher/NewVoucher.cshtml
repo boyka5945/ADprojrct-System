@@ -159,11 +159,6 @@ else
                 url: '@Url.Action("GetStationeryListJSON", "AdjustmentVoucher")',
                 delay: 250,
                 dataType: 'json',
-                //data: function (params) {
-                //    return {
-                //        q: params.term, // additional parameters
-                //    };
-                //},
                 processResults: function (data) {
                     return {
                         results: data
@@ -203,9 +198,6 @@ else
                 type: "POST",
                 url: '@Url.Action("SaveTemporaryValue", "AdjustmentVoucher")',
                 data: $.param(myformdata), // convert to url-encoded form
-                //success: function () {
-                //    alert("success");
-                //}
             });
         });
 

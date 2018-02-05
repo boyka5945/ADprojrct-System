@@ -18,12 +18,6 @@ smoothness/jquery-ui.css" />
 
 <h2>Delegate</h2>
 <script>
-    //$(function () {
-    //    $("#delstart").datepicker({ dateFormat: 'dd-mm-yy' });
-    //});
-    //$(function () {
-    //    $("#delend").datepicker({ dateFormat: 'dd-mm-yy' });
-    //});
 
    
     $(document).ready(function(){
@@ -51,12 +45,10 @@ $("#delend").attr("disabled", "disable");// add end date to disable
       $("#delend").datepicker(
       {
           beforeShowDay: $.datepicker.noWeekends,
-        //  changeMonth:true,
-        //  maxDate: "+2W",
-        defaultDate: "+1w",
+      
         beforeShow: function () {
             $(this).datepicker('option', 'minDate', $('#delstart').val());
-          //  if ($('#delstart').val() === '') $(this).datepicker('option', 'minDate', 0 , 'maxDate' , '+10D');
+         
         },
         dateFormat: 'dd-mm-yy'
     });
@@ -93,9 +85,7 @@ $("#delend").attr("disabled", "disable");// add end date to disable
     <div>
         
         <input type="hidden" name="userID" value = "@Model.userID"/>
-        @*<p>From: <input type="text" id="delstart" name="from"> |
-           To:   <input type="text" id="delend" name="toto">
-        </p>*@
+    
         <p>From: <input type="text" id="delstart" name="from">  
            To: <input type="text" id="delend" name="toto"></p>
         <div class="form-group">

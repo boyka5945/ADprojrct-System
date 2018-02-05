@@ -123,33 +123,5 @@ else
         function SaveData(i) {
             var ActualQty = document.getElementById("ActualQty[" + i + "]").value; // convert form to array
             var itemCode = document.getElementById(i).value; // convert form to array
-            var AllocateQty = document.getElementById("AllocateQty[" + i + "]").value;
-            if (parseInt(ActualQty) < 0) {
-                window.location.href = '@Url.Action("SaveDisbursementList", "ManageRequisitions")?ErrorMessage=' + "the ActualQty can not less than 0." + "&dept=" + document.getElementById("deptCode").value;
-            }
-            else if (parseInt(ActualQty) > parseInt(AllocateQty)) {
-                window.location.href = '@Url.Action("SaveDisbursementList", "ManageRequisitions")?ErrorMessage=' + "the ActualQty can not more than AllocateQty." + "&dept=" + document.getElementById("deptCode").value;
-            }
-            else if (parseInt(ActualQty) > 0 || parseInt(ActualQty) <= 0) {
-                if (parseInt(ActualQty) < parseInt(AllocateQty)) {
-                    var remarks = prompt("discrepancy reason:");
-                    window.location.href = '@Url.Action("SaveDisbursementList", "ManageRequisitions")?key1=' + ActualQty + "&key2=" + itemCode + "&key3=" + AllocateQty + "&key4=" + remarks + "&dept=" + document.getElementById("deptCode").value;
-                } else {
-                    window.location.href = '@Url.Action("SaveDisbursementList", "ManageRequisitions")?key1=' + ActualQty + "&key2=" + itemCode + "&key3=" + AllocateQty + "&dept=" + document.getElementById("deptCode").value;
-                }
-            }
-            else {
-                alert("please input a number.");
-            }
 
-            //}
-            // convert to url-encoded form
-            //success: function () {
-            //alert("success");
-            //}
-        }
-
-        function update() {
-            window.location.href = '@Url.Action("UpdateDisbursement", "ManageRequisitions")';
-        }
     </script>

@@ -72,14 +72,6 @@ namespace Inventory_mvc.Service
 
             user.userID = userVM.UserID;
             user.password = Encrypt.EncryptMethod(userVM.ConfirmPassword);
-            //user.userEmail = userVM.UserEmail;
-            //user.role = userVM.Role;
-            //user.name = userVM.Name;
-            //user.departmentCode = userVM.DepartmentCode;
-            //user.contactNo = userVM.ContactNo;
-            //user.address = userVM.Address;
-            //user.delegationStart = userVM.DelegationStart;
-            //user.delegationEnd = userVM.DelegationEnd;
             return user;
 
         }
@@ -91,15 +83,6 @@ namespace Inventory_mvc.Service
             ChangePasswordViewModel userVM = new ChangePasswordViewModel();
 
             userVM.UserID = u.userID;
-            //userVM.UserEmail = u.userEmail;
-           // userVM.OldPassword = u.password;
-            //userVM.Name = u.name;
-            //userVM.Role = u.role;
-            //userVM.DepartmentCode = u.departmentCode;
-            //userVM.Address = u.address;
-            //userVM.ContactNo = u.contactNo;
-            //userVM.DelegationStart = (DateTime?)u.delegationStart;
-            //userVM.DelegationEnd = (DateTime?)u.delegationEnd;
             return userVM;
         }
 
@@ -150,13 +133,6 @@ namespace Inventory_mvc.Service
         {
             return userDAO.FindByUserID(userid).name;
         }
-
-
-        //List<string> IUserService.RoleForEditAndCreate(string userid)
-        //{
-        //    return userDAO.RoleForEditAndCreate(userid);
-        //}
-
 
         public bool AlrDelegated(string userid)
         {
@@ -228,9 +204,6 @@ namespace Inventory_mvc.Service
             {
                 return false;
             }
-
-            //User user = ConvertFromViewModel(vm);
-            //return userDAO.changePassword(user);
         }
 
         public List<User> FindUsersByRole(int roleID)

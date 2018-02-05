@@ -61,7 +61,7 @@
 {
     if (item.roleInfo.roleID == (int)UserRoles.RoleID.Employee || item.roleInfo.roleID == (int)UserRoles.RoleID.UserRepresentative)
     {
-        @*@Html.ActionLink("Edit", "Edit", new { id = item.userID }) |*@
+       
         @Html.ActionLink("Delegate", "Delegate", new { id = item.userID })
     }<p> </p>
     if (item.roleInfo.roleID == (int)UserRoles.RoleID.ActingDepartmentHead || item.roleInfo.roleID == (int)UserRoles.RoleID.Employee)

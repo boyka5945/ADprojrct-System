@@ -154,32 +154,6 @@ namespace Inventory_mvc.Controllers
             }
         }
 
-        //[HttpPost]
-        //public ActionResult EditRecord(int id, string itemCode, string description, int quantity)
-        //{
-        //    Requisition_Detail requisitionDetail = requisitionService.FindDetailsBy2Key(itemCode, id);
-
-        //    if(quantity < 1)
-        //    {
-        //        TempData["ErrorMessage"] = String.Format("Quantity must be greater than or equal to 1.");
-        //    }
-        //    else
-        //    {
-        //        requisitionDetail.qty = quantity;
-
-        //        if (requisitionService.UpdateDetails(requisitionDetail))
-        //        {
-        //            TempData["SuccessMessage"] = String.Format("Quantity of {0} was updated.", description);
-        //        }
-        //        else
-        //        {
-        //            TempData["ErrorMessage"] = String.Format("Error Writing to Database");
-        //        }
-        //    }
-
-        //    return RedirectToAction("EditRecord", new { id = id });
-        //}
-
         [RoleAuthorize]
         // CK - Employee | User Representative | Store Clerk | Store Supervisor
         public ActionResult ShowDetail(int? id)

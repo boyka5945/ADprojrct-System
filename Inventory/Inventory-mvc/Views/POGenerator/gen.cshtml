@@ -36,27 +36,7 @@
 
         <table class="table">
             <tr>
-                @*<th>
-                        @Html.DisplayNameFor(model => model.Purchase_Order_Record.supplierCode)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Stationery.description)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.remarks)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.qty)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.fulfilledQty)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.price)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.deliveryOrderNo)
-                    </th>*@
+           
 
                 <th>@Html.Label("Item Code")</th>
                 <th>@Html.Label("Description")</th>
@@ -67,18 +47,6 @@
                 <th></th>
             </tr>
 
-            @*
-
-
-                    item code
-                description
-                    qty
-                    uom
-                    unit price
-                    amount
-
-
-            *@
             @foreach (var item in Model)
             {
                 <tr>
@@ -102,14 +70,10 @@
                             int totalPrice = (int)item.price * item.qty;
                         }
                         @Html.Label(totalPrice.ToString())
-                        @*@Html.DisplayFor(modelItem => item.qty)*@
+
                     </td>
 
-                    @*<td>
-                            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-                        </td>*@
+             
                 </tr>
                             }
 

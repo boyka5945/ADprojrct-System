@@ -78,13 +78,6 @@ namespace Inventory_mvc.Controllers
             //return View(model);
         }
 
-        //[HttpGet]
-        //public ActionResult ObtainPurchaseDetails(string id)
-        //{
-        //    return View();
-
-        //}
-
         [RoleAuthorize]
         //CLERK
         [HttpGet]
@@ -235,8 +228,6 @@ namespace Inventory_mvc.Controllers
 
             pos.DeletePurchaseOrder(Int32.Parse(id));
             List<Purchase_Order_Record> model = pos.GetAllPurchaseOrder();
-
-            //return View("ListPurchaseOrders");
             int pageSize = 6;
             int pageNumber = (page ?? 1);
 
@@ -331,9 +322,6 @@ namespace Inventory_mvc.Controllers
             if (price <= 0)
             {
                 TempData["dPriceErrorMessage"] = "Price cannot be 0 or less than 0.";
-
-
-                //return View("UpdatePD", "Purchase", FormMethod.Post);
 
             }
             else

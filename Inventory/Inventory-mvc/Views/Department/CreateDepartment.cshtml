@@ -67,8 +67,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.collectionPointID, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @*@Html.HiddenFor(model => model.collectionPointID, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.DropDownListFor(x => Model.collectionPointID, new SelectList(Model.CollPointID, "Value", "Text"), htmlAttributes: new { @class = "form-control", id = "collectionPointID" })*@
+      
                 <select name="PointID" class="form-control">
                     <option value="--Select--" selected="selected">--Select--</option>
                     

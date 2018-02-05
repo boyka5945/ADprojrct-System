@@ -25,9 +25,6 @@ namespace Inventory_mvc.Controllers
         [AllowAnonymous]
         public ActionResult Login(AccountLoginModels model, string returnUrl)
         {
-            //var check = Request["checkV"].ToString();
-            //if (check == "BBB")
-            //{
             if (String.IsNullOrEmpty(model.UserName) || !UserService.isExistingID(model.UserName))
             {
                 ViewBag.errorMessage = "UserName or Password is not correct.";
@@ -58,8 +55,7 @@ namespace Inventory_mvc.Controllers
                 {
                     ViewBag.errorMessage = "UserName or Password is not correct.";
 
-                }
-                //}   
+                } 
             }
 
             return View(model);

@@ -48,7 +48,6 @@ namespace Inventory_mvc.Service
         bool IDepartmentService.isExistingCode(string departmentCode)
         {
             string code = departmentCode.ToUpper().Trim();
-            //string code = departmentCode.Trim();
 
             return departmentDAO.GetAllDepartmentCode().Contains(code);
         }

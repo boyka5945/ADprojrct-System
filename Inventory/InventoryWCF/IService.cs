@@ -25,11 +25,6 @@ namespace InventoryWCF
         [WebGet(UriTemplate = "/GetUser/{userid}/{password}", ResponseFormat = WebMessageFormat.Json)]
         WCFUser GetUser(string userid, string password);
 
-
-        //[OperationContract]
-        //[WebGet(UriTemplate = "/All", ResponseFormat = WebMessageFormat.Json)]
-        //List<string> GetAllItemCode();
-
         [OperationContract]
         [WebGet(UriTemplate = "/GetRequisitionByItemCode/{itemCode}", ResponseFormat = WebMessageFormat.Json)]
         List<WCFRequisitionDetail> GetRequisitionDetailsByItemCode(string itemCode);
@@ -108,12 +103,6 @@ namespace InventoryWCF
             ResponseFormat = WebMessageFormat.Json)]
         string UpdateRetrieval(WCFRetrievalForm wcfr);
 
-       
-
-        //[OperationContract]
-        //[WebGet(UriTemplate = "/GetRetrievalItemByName", ResponseFormat = WebMessageFormat.Json)]
-        //List<WCFRetrievalForm> getRetrievalItemByName();
-
         [OperationContract]
         [WebGet(UriTemplate = "/GetAllDepartments", ResponseFormat = WebMessageFormat.Json)]
         List<WCFDepartment> GetAllDepartments();
@@ -188,30 +177,12 @@ namespace InventoryWCF
         [WebGet(UriTemplate = "/GetConsolidatedRequisitionDetailsforAllocation", ResponseFormat = WebMessageFormat.Json)]
         List<WCFRequisitionDetail> GetConsolidatedRequisitionDetailsforAllocation();
         
-
-
-
-        //[OperationContract]
-        //[WebGet(UriTemplate = "/GetCodeFromName/{name}", ResponseFormat = WebMessageFormat.Json)]
-        //List<WCFDisbursement> GetCodeFromName(string name);
         [OperationContract]
         [WebGet(UriTemplate = "/GetRequisitionRecordByDept/{deptCode}", ResponseFormat = WebMessageFormat.Json)]
         List<WCFRequisitionRecord> GetRequsitionRecordByDept(string deptCode);
 
-        //[OperationContract]
-        //[WebGet(UriTemplate = "/GetAllRequisitionforAllocation", ResponseFormat = WebMessageFormat.Json)]
-        //List<WCFRequisitionDetail> GetAllRequisitionforAllocation();
+      
     }
-
-    //[OperationContract]
-    //List<Disbursement> getDisbursementList();
-    ////the follwing is for employee
-    //[OperationContract]
-    //List<RequisitionRecord> getRequisitionListByUserID(string UserID);
-
-    //[OperationContract]
-    //List<RequisitionDetails> getrequisitionDetailsByNO(int requisitionNo);
-
 
 
 

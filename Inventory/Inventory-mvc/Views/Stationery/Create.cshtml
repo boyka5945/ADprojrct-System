@@ -28,13 +28,6 @@
             @Html.LabelFor(model => model.CategoryID, htmlAttributes: new { @class = "control-label col-md-2 font-weight-bold" })
 
             <div class="col-md-5">
-                @*<select name="CategoryID" class="custom-select my-1 mr-sm-2">
-                    @foreach (var category in categoryIDList)
-                    {
-                        <option value="@category"> @category </option>
-                    }
-                </select>*@
-
 
                 @Html.DropDownListFor(model => model.CategoryID, ViewBag.selectListofCategory as SelectList, new { @class = "form-control" })
 
@@ -69,9 +62,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.UnitOfMeasure, htmlAttributes: new { @class = "control-label col-md-2 font-weight-bold" })
             <div class="col-md-5">
-                @*@Html.EditorFor(model => model.UnitOfMeasure, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.UnitOfMeasure, "", new { @class = "text-danger" })*@
-
+             
                 <select name="unitOfMeasure" class="form-control">
                     @foreach (var unitOfMea in unitOfMeasure)
                     {
@@ -93,8 +84,6 @@
         <div class="form-group">
             @Html.LabelFor(model => model.FirstSupplierCode, htmlAttributes: new { @class = "control-label col-md-2 font-weight-bold" })
             <div class="col-md-5">
-                @*@Html.EditorFor(model => model.FirstSupplierCode, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.FirstSupplierCode, "", new { @class = "text-danger" })*@
 
                 @Html.DropDownListFor(model => model.FirstSupplierCode, ViewBag.selectList as SelectList, new { @class = "form-control" })
                 
@@ -104,8 +93,6 @@
         <div class="form-group">
             @Html.LabelFor(model => model.SecondSupplierCode, htmlAttributes: new { @class = "control-label col-md-2 font-weight-bold" })
             <div class="col-md-5">
-                @*@Html.EditorFor(model => model.SecondSupplierCode, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.SecondSupplierCode, "", new { @class = "text-danger" })*@
 
                 @Html.DropDownListFor(model => model.SecondSupplierCode, ViewBag.selectList as SelectList, new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.SecondSupplierCode, "", new { @class = "text-danger" })
@@ -115,9 +102,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.ThirdSupplierCode, htmlAttributes: new { @class = "control-label col-md-2 font-weight-bold" })
             <div class="col-md-5">
-                @*@Html.EditorFor(model => model.ThirdSupplierCode, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.ThirdSupplierCode, "", new { @class = "text-danger" })*@
-
+             
                 @Html.DropDownListFor(model => model.ThirdSupplierCode, ViewBag.selectList as SelectList, new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.ThirdSupplierCode, "", new { @class = "text-danger" })
             </div>

@@ -30,7 +30,6 @@ namespace Inventory_mvc.Service
 
         public int[] GetSelectableTransactionMonth(int month)
         {
-            //int baseMonth = 1;
 
             List<int> months = new List<int>();
 
@@ -39,12 +38,6 @@ namespace Inventory_mvc.Service
                 months.Add(i);
             }
 
-            //for (int i = baseMonth; i <= month; i++)
-            //{
-            //    months.Add(i);
-            //}
-
-            //months.Reverse();
 
             return months.ToArray();
         }

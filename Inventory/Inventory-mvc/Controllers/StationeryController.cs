@@ -309,13 +309,6 @@ namespace Inventory_mvc.Controllers
             return RedirectToAction("Index", new { searchString = "", categoryID = "-1" });
         }
 
-        // GET: Stationery/Browse
-        //public ActionResult Browse()
-        //{            
-        //    ViewBag.CategoryList = stationeryService.GetAllCategory();
-
-        //    return View();
-        //}
         [RoleAuthorize]
         //Manager
         [HttpPost]

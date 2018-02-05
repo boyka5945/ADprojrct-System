@@ -28,13 +28,6 @@ namespace Inventory_mvc.Controllers
             return View(collectionPointService.GetAllCollectionPoints());
         }
 
-        //public ActionResult ListCollectionPoint()
-        //{
-        //    CollectionPointService ds = new CollectionPointService();
-        //    List<Collection_Point> model = ds.GetAllCollectionPoint();
-        //    return View(model);
-        //}
-
         [RoleAuthorize]
         // GET: CollectionPoint/Create
         // *********ACCESS LEVEL: Store Manager********
@@ -152,9 +145,6 @@ namespace Inventory_mvc.Controllers
             DepartmentService ds = new DepartmentService();
             TempData["CollectionPointList"] = collectionPointService.GetAllCollectionPoints();
             Department uVM = ds.GetDepartmentByCode(us.FindByUserID(userID).departmentCode);
-            //string FindDeptCode = uVM.DepartmentCode;
-            //DepartmentService ds = new DepartmentService();
-            //Department d = ds.GetDepartmentByCode(FindDeptCode);
             return View(uVM);
         }
 
